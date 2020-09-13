@@ -9,6 +9,7 @@ set(sources ${sources}
 	include/RE/Bethesda/Actor.cpp
 	include/RE/Bethesda/BGSInventoryItem.cpp
 	include/RE/Bethesda/BSExtraData.cpp
+	include/RE/Bethesda/BSResource.cpp
 	include/RE/Bethesda/BSScaleformManager.cpp
 	include/RE/Bethesda/BSScript.cpp
 	include/RE/Bethesda/Calendar.cpp

@@ -842,7 +842,7 @@ namespace RE
 		virtual ~IKeywordFormBase() = default;  // 00
 
 		// add
-		virtual bool HasKeyword(const BGSKeyword* a_keyword, const TBO_InstanceData* a_data) const = 0;                             // 01
+		virtual bool HasKeyword(const BGSKeyword* a_keyword, const TBO_InstanceData* a_data = nullptr) const = 0;                   // 01
 		virtual void CollectAllKeywords(BSScrapArray<const BGSKeyword*>& a_outKeywords, const TBO_InstanceData* a_data) const = 0;  // 02
 	};
 	static_assert(sizeof(IKeywordFormBase) == 0x8);
@@ -862,8 +862,8 @@ namespace RE
 		void CopyComponent(BaseFormComponent*) override;     // 06
 
 		// override (IKeywordFormBase)
-		bool HasKeyword(const BGSKeyword*, const TBO_InstanceData*) const override;                         // 01
-		void CollectAllKeywords(BSScrapArray<const BGSKeyword*>&, const TBO_InstanceData*) const override;  // 02
+		bool HasKeyword(const BGSKeyword* a_keyword, const TBO_InstanceData* a_data = nullptr) const override;  // 01
+		void CollectAllKeywords(BSScrapArray<const BGSKeyword*>&, const TBO_InstanceData*) const override;      // 02
 
 		// add
 		virtual BGSKeyword* GetDefaultKeyword() const { return nullptr; }  // 07
@@ -1120,6 +1120,13 @@ namespace RE
 		void ClearDataComponent() override { return; }    // 03
 		void CopyComponent(BaseFormComponent*) override;  // 06
 
+		void GetDescription(BSStringT<char>& a_outString, const TESForm* a_form = nullptr)
+		{
+			using func_t = decltype(&TESDescription::GetDescription);
+			REL::Relocation<func_t> func{ REL::ID(523613) };
+			return func(this, a_outString, a_form);
+		}
+
 		// members
 		std::uint32_t fileOffset;              // 08
 		std::uint32_t chunkOffset;             // 0C
@@ -1174,6 +1181,30 @@ namespace RE
 		BGSLocalizedString fullName;  // 08
 	};
 	static_assert(sizeof(TESFullName) == 0x10);
+
+	class __declspec(novtable) TESHealthForm :
+		public BaseFormComponent  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TESHealthForm };
+		static constexpr auto VTABLE{ VTABLE::TESHealthForm };
+
+		// override (BaseFormComponent)
+		void InitializeDataComponent() override;          // 02
+		void ClearDataComponent() override;               // 03
+		void CopyComponent(BaseFormComponent*) override;  // 06
+
+		[[nodiscard]] static std::uint32_t GetFormHealth(const TESForm* a_form, const TBO_InstanceData* a_data)
+		{
+			using func_t = decltype(&TESHealthForm::GetFormHealth);
+			REL::Relocation<func_t> func{ REL::ID(1515099) };
+			return func(a_form, a_data);
+		}
+
+		// members
+		std::uint32_t health;  // 08
+	};
+	static_assert(sizeof(TESHealthForm) == 0x10);
 
 	class __declspec(novtable) TESModel :
 		public BaseFormComponent  // 00
@@ -1509,6 +1540,14 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESValueForm };
 		static constexpr auto VTABLE{ VTABLE::TESValueForm };
 
+		[[nodiscard]] static std::uint32_t GetFormValue(const TESForm* a_form, const TBO_InstanceData* a_data)
+		{
+			using func_t = std::int32_t (*)(const TESForm*, const TBO_InstanceData*);
+			REL::Relocation<func_t> func{ REL::ID(885783) };
+			return func(a_form, a_data);
+		}
+
+		[[nodiscard]] std::int32_t GetFormValue() const noexcept { return value; }
 		static void SetFormValue(TESForm& a_form, std::int32_t a_value);
 
 		// members
@@ -1522,6 +1561,13 @@ namespace RE
 	public:
 		static constexpr auto RTTI{ RTTI::TESWeightForm };
 		static constexpr auto VTABLE{ VTABLE::TESWeightForm };
+
+		[[nodiscard]] static float GetFormWeight(const TESForm* a_form, const TBO_InstanceData* a_data)
+		{
+			using func_t = float (*)(const TESForm*, const TBO_InstanceData*);
+			REL::Relocation<func_t> func{ REL::ID(1321341) };
+			return func(a_form, a_data);
+		}
 
 		[[nodiscard]] float GetFormWeight() const noexcept { return weight; }
 		void SetFormWeight(float a_weight) noexcept { weight = a_weight; }

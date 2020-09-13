@@ -6,12 +6,15 @@
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/UserEvents.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
+#include "RE/Scaleform/GFx/GFx_Player.h"
 
 namespace RE
 {
 	class BGSMessage;
 	class TESObjectCELL;
 	class TESObjectREFR;
+
+	struct InventoryUserUIInterfaceEntry;
 
 	struct BSThreadEvent
 	{
@@ -43,6 +46,33 @@ namespace RE
 		kStealingPowerArmor
 	};
 
+	struct ApplyColorUpdateEvent
+	{
+	public:
+		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<ApplyColorUpdateEvent>* GetEventSource()
+		{
+			REL::Relocation<RE::BSTGlobalEvent::EventSource<ApplyColorUpdateEvent>**> singleton{ REL::ID(421543) };
+			return *singleton;
+		}
+	};
+	static_assert(std::is_empty_v<ApplyColorUpdateEvent>);
+
+	class CanDisplayNextHUDMessage :
+		public BSTValueEvent<bool>
+	{
+	public:
+		CanDisplayNextHUDMessage(bool a_value)
+		{
+			optionalValue = a_value;
+		}
+
+		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<CanDisplayNextHUDMessage>* GetEventSource()
+		{
+			REL::Relocation<RE::BSTGlobalEvent::EventSource<CanDisplayNextHUDMessage>**> singleton{ REL::ID(344866) };
+			return *singleton;
+		}
+	};
+
 	struct CellAttachDetachEvent
 	{
 	public:
@@ -60,18 +90,84 @@ namespace RE
 	};
 	static_assert(sizeof(CellAttachDetachEvent) == 0x10);
 
+	class CurrentRadiationSourceCount :
+		public BSTValueEvent<std::uint32_t>
+	{
+	public:
+		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<CurrentRadiationSourceCount>* GetEventSource()
+		{
+			REL::Relocation<RE::BSTGlobalEvent::EventSource<CurrentRadiationSourceCount>**> singleton{ REL::ID(696410) };
+			return *singleton;
+		}
+	};
+	static_assert(sizeof(CurrentRadiationSourceCount) == 0x08);
+
+	class CurrentRadsDisplayMagnitude :
+		public BSTValueEvent<float>
+	{
+	public:
+	};
+	static_assert(sizeof(CurrentRadsDisplayMagnitude) == 0x08);
+
+	class CurrentRadsPercentOfLethal :
+		public BSTValueEvent<float>
+	{
+	public:
+	};
+	static_assert(sizeof(CurrentRadsPercentOfLethal) == 0x08);
+
+	struct DoBeforeNewOrLoadCompletedEvent
+	{
+	public:
+		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<DoBeforeNewOrLoadCompletedEvent>* GetEventSource()
+		{
+			REL::Relocation<RE::BSTGlobalEvent::EventSource<DoBeforeNewOrLoadCompletedEvent>**> singleton{ REL::ID(787908) };
+			return *singleton;
+		}
+	};
+	static_assert(sizeof(DoBeforeNewOrLoadCompletedEvent) == 0x01);
+
 	struct InventoryItemDisplayData
 	{
 	public:
+		InventoryItemDisplayData(
+			const ObjectRefHandle a_inventoryRef,
+			const InventoryUserUIInterfaceEntry& a_entry)
+		{
+			ctor(a_inventoryRef, a_entry);
+		}
+
+		void PopulateFlashObject(Scaleform::GFx::Value& a_flashObject)
+		{
+			a_flashObject.SetMember("text"sv, itemName.c_str());
+			a_flashObject.SetMember("count"sv, itemCount);
+			a_flashObject.SetMember("equipState"sv, equipState);
+			a_flashObject.SetMember("filterFlag"sv, filterFlag);
+			a_flashObject.SetMember("isLegendary"sv, isLegendary);
+			a_flashObject.SetMember("favorite"sv, isFavorite);
+			a_flashObject.SetMember("taggedForSearch"sv, isTaggedForSearch);
+			a_flashObject.SetMember("isBetterThanEquippedItem"sv, isBetterThanEquippedItem);
+		}
+
 		// members
-		BSFixedStringCS itemName;       // 00
-		std::uint32_t itemCount;        // 08
-		std::uint32_t equipState;       // 0C
-		std::uint32_t filterFlag;       // 10
-		bool isLegendary;               // 14
-		bool isFavorite;                // 15
-		bool isTaggedForSearch;         // 16
-		bool isBetterThanEquippedItem;  // 17
+		BSFixedStringCS itemName;                // 00
+		std::uint32_t itemCount{ 0 };            // 08
+		std::uint32_t equipState{ 0 };           // 0C
+		std::uint32_t filterFlag{ 0 };           // 10
+		bool isLegendary{ false };               // 14
+		bool isFavorite{ false };                // 15
+		bool isTaggedForSearch{ false };         // 16
+		bool isBetterThanEquippedItem{ false };  // 17
+
+	private:
+		InventoryItemDisplayData* ctor(
+			const ObjectRefHandle a_inventoryRef,
+			const InventoryUserUIInterfaceEntry& a_entry)
+		{
+			using func_t = decltype(&InventoryItemDisplayData::ctor);
+			REL::Relocation<func_t> func{ REL::ID(679373) };
+			return func(this, a_inventoryRef, a_entry);
+		}
 	};
 	static_assert(sizeof(InventoryItemDisplayData) == 0x18);
 
@@ -102,6 +198,41 @@ namespace RE
 	};
 	static_assert(sizeof(MenuOpenCloseEvent) == 0x10);
 
+	class PipboyLightEvent :
+		public RE::BSTValueEvent<bool>
+	{
+	public:
+		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<PipboyLightEvent>* GetEventSource()
+		{
+			REL::Relocation<RE::BSTGlobalEvent::EventSource<PipboyLightEvent>**> singleton{ REL::ID(1140080) };
+			return *singleton;
+		}
+	};
+	static_assert(sizeof(PipboyLightEvent) == 0x02);
+
+	struct PlayerAmmoCounts
+	{
+	public:
+		// members
+		std::uint32_t clipAmmo;     // 00
+		std::uint32_t reserveAmmo;  // 04
+	};
+	static_assert(sizeof(PlayerAmmoCounts) == 0x08);
+
+	class PlayerAmmoCountEvent :
+		public RE::BSTValueEvent<PlayerAmmoCounts>
+	{
+	public:
+	};
+	static_assert(sizeof(PlayerAmmoCountEvent) == 0x0C);
+
+	class PlayerWeaponReloadEvent :
+		public BSTValueEvent<bool>
+	{
+	public:
+	};
+	static_assert(sizeof(PlayerWeaponReloadEvent) == 0x02);
+
 	struct QuickContainerStateData
 	{
 	public:
@@ -131,6 +262,27 @@ namespace RE
 	public:
 	};
 	static_assert(sizeof(QuickContainerStateEvent) == 0xC0);
+
+	struct TESContainerChangedEvent
+	{
+	public:
+		[[nodiscard]] static RE::BSTEventSource<TESContainerChangedEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESContainerChangedEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(242538) };
+			return func();
+		}
+
+		// members
+		std::uint32_t oldContainerFormID;  // 00
+		std::uint32_t newContainerFormID;  // 04
+		std::uint32_t baseObjectFormID;	   // 08
+		std::int32_t itemCount;			   // 0C
+		std::uint32_t referenceFormID;	   // 10
+		std::uint16_t uniqueID;			   // 14
+		std::uint16_t pad16{ 0 };		   // 16
+	};
+	static_assert(sizeof(TESContainerChangedEvent) == 0x18);
 
 	struct TESFurnitureEvent
 	{

@@ -385,7 +385,60 @@ namespace RE
 
 	namespace EffectArchetypes
 	{
-		enum class ArchetypeID;
+		enum class ArchetypeID : std::int32_t
+		{
+			kNone = -1,
+			kValueModifier = 0,
+			kScript = 1,
+			kDispel = 2,
+			kCureDisease = 3,
+			kAbsorb = 4,
+			kDualValueModifier = 5,
+			kCalm = 6,
+			kDemoralize = 7,
+			kFrenzy = 8,
+			kDisarm = 9,
+			kCommandSummoned = 10,
+			kInvisibility = 11,
+			kLight = 12,
+			kDarkness = 13,
+			kNightEye = 14,
+			kLock = 15,
+			kOpen = 16,
+			kBoundWeapon = 17,
+			kSummonCreature = 18,
+			kDetectLife = 19,
+			kTelekinesis = 20,
+			kParalyze = 21,
+			kReanimate = 22,
+			kSoulTrap = 23,
+			kTurnUndead = 24,
+			kGuide = 25,
+			kUnused01 = 26,
+			kCureParalysis = 27,
+			kCureAddiction = 28,
+			kCurePoison = 29,
+			kConcussion = 30,
+			kStimpak = 31,
+			kAccumulatingMagnitude = 32,
+			kStagger = 33,
+			kPeakValueModifier = 34,
+			kCloak = 35,
+			kUnused02 = 36,
+			kSlowTime = 37,
+			kRally = 38,
+			kEnhanceWeapon = 39,
+			kSpawnHazard = 40,
+			kEtherealize = 41,
+			kBanish = 42,
+			kSpawnScriptedRef = 43,
+			kDisguise = 44,
+			kDamage = 45,
+			kImmunity = 46,
+			kPermanentReanimate = 47,
+			kJetpack = 48,
+			kChameleon = 49,
+		};
 	}
 
 	namespace MagicSystem
@@ -961,8 +1014,31 @@ namespace RE
 		struct EffectSettingData
 		{
 		public:
+			enum class Flag
+			{
+				kNone = 0,
+				kHostile = 1 << 0,
+				kRecover = 1 << 1,
+				kDetrimental = 1 << 2,
+				kSnapToNavMesh = 1 << 3,
+				kNoHitEvent = 1 << 4,
+				kDispelWithKeywords = 1 << 8,
+				kNoDuration = 1 << 9,
+				kNoMagnitude = 1 << 10,
+				kNoArea = 1 << 11,
+				kFXPersist = 1 << 12,
+				kGoryVisuals = 1 << 14,
+				kHideInUI = 1 << 15,
+				kNoRecast = 1 << 17,
+				kPowerAffectsMagnitude = 1 << 21,
+				kPowerAffectsDuration = 1 << 22,
+				kPainless = 1 << 26,
+				kNoHitEffect = 1 << 27,
+				kNoDeathDispel = 1 << 28
+			};
+
 			// members
-			std::uint32_t flags;                                                      // 000
+			stl::enumeration<Flag, std::uint32_t> flags;                              // 000
 			float baseCost;                                                           // 004
 			TESForm* associatedForm;                                                  // 008
 			ActorValueInfo* associatedSkill;                                          // 010
@@ -1298,6 +1374,20 @@ namespace RE
 			kInterior = 1u << 0,
 			kHasWater = 1u << 1
 		};
+
+		[[nodiscard]] std::int32_t GetDataX()
+		{
+			using func_t = decltype(&TESObjectCELL::GetDataX);
+			REL::Relocation<func_t> func{ REL::ID(445210) };
+			return func(this);
+		}
+
+		[[nodiscard]] std::int32_t GetDataY()
+		{
+			using func_t = decltype(&TESObjectCELL::GetDataY);
+			REL::Relocation<func_t> func{ REL::ID(1322816) };
+			return func(this);
+		}
 
 		[[nodiscard]] BGSEncounterZone* GetEncounterZone() const
 		{
@@ -1693,6 +1783,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSListForm };
 		static constexpr auto VTABLE{ VTABLE::BGSListForm };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kFLST };
+
+		[[nodiscard]] bool ContainsItem(const TESForm* a_form)
+		{
+			using func_t = decltype(&BGSListForm::ContainsItem);
+			REL::Relocation<func_t> func{ REL::ID(688500) };
+			return func(this, a_form);
+		}
 
 		[[nodiscard]] std::optional<std::uint32_t> GetItemIndex(const TESForm& a_item) const noexcept
 		{

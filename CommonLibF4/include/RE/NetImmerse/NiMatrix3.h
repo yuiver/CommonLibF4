@@ -14,6 +14,13 @@ namespace RE
 			entry[2].v = { 0.0F, 0.0F, 1.0F, 0.0F };
 		}
 
+		bool ToEulerAnglesXYZ(float* angleX, float* angleY, float* angleZ)
+		{
+			using func_t = decltype(&NiMatrix3::ToEulerAnglesXYZ);
+			REL::Relocation<func_t> func{ REL::ID(34114) };
+			return func(this, angleX, angleY, angleZ);
+		}
+
 		// members
 		NiPoint4 entry[3];  // 00
 	};

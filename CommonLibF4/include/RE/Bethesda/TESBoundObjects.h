@@ -202,7 +202,7 @@ namespace RE
 		static_assert(sizeof(ArmorAddon) == 0x10);
 
 		// members
-		InstanceData data;                   // 250
+		InstanceData armorData;              // 250
 		BSTArray<ArmorAddon> modelArray;     // 2A8
 		TESObjectARMO* armorTemplate;        // 2C0
 		BGSAttachParentArray attachParents;  // 2C8
@@ -222,9 +222,9 @@ namespace RE
 
 		// members
 		std::int8_t flags;          // 00
-		Teaches teaches;            // 08
-		std::uint32_t textOffsetX;  // 10
-		std::uint32_t textOffsetY;  // 14
+		Teaches teaches;                            // 08
+		std::uint32_t textOffsetX;                  // 10
+		std::uint32_t textOffsetY;                  // 14
 	};
 	static_assert(sizeof(OBJ_BOOK) == 0x18);
 
@@ -275,6 +275,11 @@ namespace RE
 		// add
 		virtual void SaveImpl() { return; }                    // 67
 		virtual void LoadImpl(TESFile*, CHUNK_ID) { return; }  // 68
+
+		[[nodiscard]] bool IsLooseMod() const noexcept
+		{
+			return ((formFlags & 0x80) != 0);
+		}
 
 		// members
 		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* componentData;  // 158
@@ -458,6 +463,32 @@ namespace RE
 	};
 	static_assert(sizeof(TESObjectTREE) == 0x118);
 
+	enum class MELEE_ATTACK_SPEED : std::int32_t
+	{
+		kVerySlow = 0,
+		kSlow = 1,
+		kMedium = 2,
+		kFast = 3,
+		kVeryFast = 4
+	};
+
+	enum class WEAPON_TYPE : std::uint8_t
+	{
+		kNone = 0xFF,
+		kHandToHand = 0,
+		kOneHandSword = 1,
+		kOneHandDagger = 2,
+		kOneHandAxe = 3,
+		kOneHandMace = 4,
+		kTwoHandSword = 5,
+		kTwoHandAxe = 6,
+		kBow = 7,
+		kStaff  = 8,
+		kGun = 9,
+		kGrenade = 10,
+		kMine = 11,
+	};
+
 	class __declspec(novtable) TESObjectWEAP :
 		public TESBoundObject,             // 000
 		public TESFullName,                // 068
@@ -556,7 +587,7 @@ namespace RE
 			std::uint16_t attackDamage;                                                   // 132
 			std::uint16_t rank;                                                           // 134
 			std::int8_t accuracyBonus;                                                    // 136
-			std::int8_t type;                                                             // 137
+			stl::enumeration<WEAPON_TYPE, std::uint8_t> type;                             // 137
 		};
 		static_assert(sizeof(InstanceData) == 0x138);
 
@@ -568,6 +599,20 @@ namespace RE
 			static constexpr auto VTABLE{ VTABLE::TESObjectWEAP__Data };
 		};
 		static_assert(sizeof(Data) == 0x138);
+
+		[[nodiscard]] MELEE_ATTACK_SPEED GetMeleeAttackSpeed()
+		{
+			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeed);
+			REL::Relocation<func_t> func{ REL::ID(817670) };
+			return func(this);
+		}
+
+		[[nodiscard]] static const char* GetMeleeAttackSpeedLabel(MELEE_ATTACK_SPEED a_speed)
+		{
+			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeedLabel);
+			REL::Relocation<func_t> func{ REL::ID(178784) };
+			return func(a_speed);
+		}
 
 		// members
 		TESObjectWEAP::Data weaponData;              // 198
@@ -606,6 +651,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESAmmo };
 		static constexpr auto VTABLE{ VTABLE::TESAmmo };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kAMMO };
+
+		[[nodiscard]] static bool GetReloadsWithAmmoRef(const TESAmmo* a_ammo)
+		{
+			using func_t = decltype(&TESAmmo::GetReloadsWithAmmoRef);
+			REL::Relocation<func_t> func{ REL::ID(1035622) };
+			return func(a_ammo);
+		}
 
 		// members
 		AMMO_DATA data;                // 160

@@ -61,7 +61,7 @@ namespace RE
 		kGlobal,
 		kRank,
 		kCount,
-		kHealth,
+		kHealth,  // ExtraHealth
 		kRangeDistOverride,
 		kTimeLeft,
 		kCharge,
@@ -97,7 +97,7 @@ namespace RE
 		kBoundArmor,
 		kRefractionProperty,
 		kStartingWorldOrCell,
-		kFavorite,
+		kFavorite,  //ExtraFavorite
 		kEditorRef3DData,
 		kEditorRefMoveData,
 		kInfoGeneralTopic,
@@ -339,6 +339,19 @@ namespace RE
 	};
 	static_assert(sizeof(ExtraReferenceHandles) == 0x20);
 
+	class __declspec(novtable) ExtraHealth :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraHealth };
+		static constexpr auto VTABLE{ VTABLE::ExtraHealth };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kHealth };
+
+		// members
+		float health;  // 18
+	};
+	static_assert(sizeof(ExtraHealth) == 0x20);
+
 	class __declspec(novtable) ExtraInstanceData :
 		public BSExtraData  // 00
 	{
@@ -413,6 +426,19 @@ namespace RE
 		}
 	};
 	static_assert(sizeof(BGSObjectInstanceExtra) == 0x28);
+
+	class __declspec(novtable) ExtraFavorite :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraFavorite };
+		static constexpr auto VTABLE{ VTABLE::ExtraFavorite };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kFavorite };
+
+		// members
+		std::int8_t quickkeyIndex;  //18
+	};
+	static_assert(sizeof(ExtraFavorite) == 0x20);
 
 	struct BGSRefAliasInstanceData
 	{
@@ -695,6 +721,13 @@ namespace RE
 		[[nodiscard]] T* GetByType() const noexcept
 		{
 			return static_cast<T*>(GetByType(T::TYPE));
+		}
+
+		[[nodiscard]] BGSMod::Attachment::Mod* GetLegendaryMod()
+		{
+			using func_t = decltype(&ExtraDataList::GetLegendaryMod);
+			REL::Relocation<func_t> func{ REL::ID(178075) };
+			return func(this);
 		}
 
 		[[nodiscard]] bool HasType(EXTRA_DATA_TYPE a_type) const noexcept

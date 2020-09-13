@@ -221,6 +221,13 @@ namespace RE
 			return singleton->get();
 		}
 
+		void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
+		{
+			using func_t = decltype(&PlayerCharacter::SelectPerk);
+			REL::Relocation<func_t> func{ REL::ID(1397326) };
+			return func(this, a_formID, a_rank);
+		}
+
 		// members
 		BSSpinLock actorToDisplayOnHUDLock;                                                     // 628
 		BSSpinLock questTargetLock;                                                             // 630

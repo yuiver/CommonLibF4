@@ -18,7 +18,6 @@ namespace RE
 {
 	enum class BIPED_OBJECT;
 	enum class IO_TASK_PRIORITY;
-	enum class ITEM_REMOVE_REASON;
 
 	namespace MagicSystem
 	{
@@ -50,6 +49,7 @@ namespace RE
 	class NiNode;
 	class NiTransform;
 	class NonActorMagicCaster;
+	class SimpleAnimationGraphManagerLoadingTask;
 	class TargetEntry;
 	class TBO_InstanceData;
 	class TrapData;
@@ -90,6 +90,16 @@ namespace RE
 		};
 		static_assert(sizeof(Event) == 0x18);
 	}
+
+	enum class ITEM_REMOVE_REASON
+	{
+		kNone = 0,
+		kStealing = 1,
+		kSelling = 2,
+		KDropping = 3,
+		kStoreContainer = 4,
+		kStoreTeammate = 5
+	};
 
 	enum class RESET_3D_FLAGS
 	{
@@ -171,6 +181,24 @@ namespace RE
 	};
 	static_assert(sizeof(IAnimationGraphManagerHolder) == 0x8);
 
+	class __declspec(novtable) SimpleAnimationGraphManagerHolder :
+		public IAnimationGraphManagerHolder
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::SimpleAnimationGraphManagerHolder };
+		static constexpr auto VTABLE{ VTABLE::SimpleAnimationGraphManagerHolder };
+
+		virtual ~SimpleAnimationGraphManagerHolder() = default;  // 00
+
+		// add
+		virtual void BackgroundTaskFinishedLoading() { return; }  // 01
+
+		// members
+		BSTSmartPointer<BSAnimationGraphManager> animationGraphManager;  // 08
+		NiPointer<SimpleAnimationGraphManagerLoadingTask> loadingTask;   // 10
+	};
+	static_assert(sizeof(SimpleAnimationGraphManagerHolder) == 0x18);
+
 	class BGSEquipIndex
 	{
 	public:
@@ -203,9 +231,22 @@ namespace RE
 	class BGSObjectInstance
 	{
 	public:
+		BGSObjectInstance(TESForm* a_object, TBO_InstanceData* a_instanceData)
+		{
+			ctor(a_object, a_instanceData);
+		}
+
 		// members
 		TESForm* object{ nullptr };                      // 00
 		BSTSmartPointer<TBO_InstanceData> instanceData;  // 08
+
+	private:
+		BGSObjectInstance* ctor(TESForm* a_object, TBO_InstanceData* a_instanceData)
+		{
+			using func_t = decltype(&BGSObjectInstance::ctor);
+			REL::Relocation<func_t> func{ REL::ID(1095748) };
+			return func(this, a_object, a_instanceData);
+		}
 	};
 	static_assert(sizeof(BGSObjectInstance) == 0x10);
 
@@ -214,6 +255,10 @@ namespace RE
 		public BGSObjectInstance
 	{
 	public:
+		BGSObjectInstanceT(T* a_object, TBO_InstanceData* a_instanceData) :
+			BGSObjectInstance(a_object, a_instanceData)
+		{
+		}
 	};
 
 	struct OBJ_REFR
@@ -501,6 +546,13 @@ namespace RE
 
 		[[nodiscard]] TESBoundObject* GetObjectReference() const noexcept { return data.objectReference; }
 		[[nodiscard]] TESObjectCELL* GetParentCell() const noexcept { return parentCell; }
+
+		[[nodiscard]] std::uint32_t GetInventoryObjectCount(const TESBoundObject* a_object)
+		{
+			using func_t = decltype(&TESObjectREFR::GetInventoryObjectCount);
+			REL::Relocation<func_t> func{ REL::ID(333415) };
+			return func(this, a_object);
+		}
 
 		[[nodiscard]] float GetWeightInContainer()
 		{

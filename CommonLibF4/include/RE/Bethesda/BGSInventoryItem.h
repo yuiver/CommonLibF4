@@ -138,6 +138,13 @@ namespace RE
 			return iter;
 		}
 
+		[[nodiscard]] std::int32_t GetInventoryValue(std::uint32_t a_stackID, bool a_scale) const
+		{
+			using func_t = decltype(&BGSInventoryItem::GetInventoryValue);
+			REL::Relocation<func_t> func{ REL::ID(430292) };
+			return func(this, a_stackID, a_scale);
+		}
+
 		// members
 		TESBoundObject* object;            // 00
 		BSTSmartPointer<Stack> stackData;  // 08

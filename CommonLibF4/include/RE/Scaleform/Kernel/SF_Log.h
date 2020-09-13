@@ -24,7 +24,10 @@ namespace RE::Scaleform
 		static constexpr auto RTTI{ RTTI::Scaleform__Log };
 		static constexpr auto VTABLE{ VTABLE::Scaleform__Log };
 
-		virtual ~Log();
+		virtual ~Log()
+		{
+			Release();
+		}
 
 		// add
 		virtual void LogMessageVarg(LogMessageId a_messageID, const char* a_fmt, std::va_list a_argList);

@@ -549,6 +549,9 @@ namespace RE::Scaleform::GFx
 		[[nodiscard]] bool IsDisplayObject() const noexcept { return GetType() == ValueType::kDisplayObject; }
 		[[nodiscard]] bool IsInt() const noexcept { return GetType() == ValueType::kInt; }
 		[[nodiscard]] bool IsNumber() const noexcept { return GetType() == ValueType::kNumber; }
+		[[nodiscard]] bool IsString() const noexcept { return GetType() == ValueType::kString; }
+		[[nodiscard]] bool IsUndefined() const noexcept { return GetType() == ValueType::kUndefined; }
+		[[nodiscard]] bool IsUInt() const noexcept { return GetType() == ValueType::kUInt; }
 
 		[[nodiscard]] bool IsObject() const noexcept
 		{
@@ -562,9 +565,17 @@ namespace RE::Scaleform::GFx
 			}
 		}
 
-		[[nodiscard]] bool IsString() const noexcept { return GetType() == ValueType::kString; }
-		[[nodiscard]] bool IsUndefined() const noexcept { return GetType() == ValueType::kUndefined; }
-		[[nodiscard]] bool IsUInt() const noexcept { return GetType() == ValueType::kUInt; }
+		[[nodiscard]] bool GetBoolean() const
+		{
+			assert(IsBoolean());
+			return _value.boolean;
+		}
+
+		[[nodiscard]] std::int32_t GetInt() const
+		{
+			assert(IsInt());
+			return _value.int32;
+		}
 
 		[[nodiscard]] double GetNumber() const
 		{
@@ -572,12 +583,16 @@ namespace RE::Scaleform::GFx
 			return _value.number;
 		}
 
-		[[nodiscard]] std::string_view GetString() const
+		[[nodiscard]] const char* GetString() const
 		{
 			assert(IsString());
-			return IsManagedValue() ?
-                       *_value.mstring :
-                       _value.string;
+			return IsManagedValue() ? *_value.mstring : _value.string;
+		}
+
+		[[nodiscard]] std::uint32_t GetUInt() const
+		{
+			assert(IsUInt());
+			return _value.uint32;
 		}
 
 		bool HasMember(stl::zstring a_name) const
@@ -613,6 +628,12 @@ namespace RE::Scaleform::GFx
 		{
 			assert(IsArray());
 			return _objectInterface->PushBack(_value.data, a_val);
+		}
+
+		[[nodiscard]] Movie* GetMovie() const
+		{
+			assert(_objectInterface && _objectInterface->movieRoot);
+			return reinterpret_cast<Movie*>(_objectInterface->movieRoot);
 		}
 
 	private:
@@ -821,7 +842,9 @@ namespace RE::Scaleform::GFx
 		virtual void MakeAreaVisible(const Render::RectF& a_screenRect, const Render::RectF& a_box, MakeAllVisibleFlags a_flags = MakeAllVisibleFlags::kNone) = 0;       // 42
 		virtual void RestoreViewport() = 0;                                                                                                                              // 43
 
+		void CreateArray(Value* a_value);
 		void CreateFunction(Value* a_value, FunctionHandler* a_function, void* a_userData = nullptr);
+		void CreateObject(Value* a_value, const char* a_className = nullptr, const GFx::Value* a_args = nullptr, std::uint32_t a_numArgs = 0);
 		bool GetVariable(Value* a_val, const char* a_pathToVar) const;
 
 		void Release()

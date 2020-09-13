@@ -76,6 +76,7 @@ set(headers ${headers}
 	include/RE/Bethesda/BSTTuple.h
 	include/RE/Bethesda/Calendar.h
 	include/RE/Bethesda/CELLJobs.h
+	include/RE/Bethesda/CombatFormulas.h
 	include/RE/Bethesda/Console.h
 	include/RE/Bethesda/ControlMap.h
 	include/RE/Bethesda/CRC.h
@@ -85,20 +86,30 @@ set(headers ${headers}
 	include/RE/Bethesda/FormFactory.h
 	include/RE/Bethesda/FormUtil.h
 	include/RE/Bethesda/GameScript.h
+	include/RE/Bethesda/HUDModes.h
 	include/RE/Bethesda/IMenu.h
 	include/RE/Bethesda/IMovementInterface.h
 	include/RE/Bethesda/InputDevice.h
 	include/RE/Bethesda/InputEvent.h
+	include/RE/Bethesda/Interface3D.h
+	include/RE/Bethesda/InventoryUserUIUtils.h
 	include/RE/Bethesda/MagicItems.h
+	include/RE/Bethesda/Main.h
 	include/RE/Bethesda/MemoryManager.h
+	include/RE/Bethesda/MenuCursor.h
+	include/RE/Bethesda/MessageMenuManager.h
 	include/RE/Bethesda/Movement.h
 	include/RE/Bethesda/NavMesh.h
 	include/RE/Bethesda/NavMeshInfoMap.h
+	include/RE/Bethesda/PipboyInventoryUtils.h
+	include/RE/Bethesda/PipboyManager.h
 	include/RE/Bethesda/PlayerCharacter.h
 	include/RE/Bethesda/PlayerControls.h
+	include/RE/Bethesda/PowerArmor.h
 	include/RE/Bethesda/PowerUtils.h
 	include/RE/Bethesda/Projectiles.h
 	include/RE/Bethesda/Script.h
+	include/RE/Bethesda/SCRIPT_OUTPUT.h
 	include/RE/Bethesda/SendHUDMessage.h
 	include/RE/Bethesda/Settings.h
 	include/RE/Bethesda/SplineUtils.h
@@ -121,6 +132,7 @@ set(headers ${headers}
 	include/RE/Bethesda/UIMessage.h
 	include/RE/Bethesda/UIMessageQueue.h
 	include/RE/Bethesda/UserEvents.h
+	include/RE/Bethesda/VATS.h
 	include/RE/Bethesda/Workshop.h
 	include/RE/Havok/hkArray.h
 	include/RE/Havok/hkBaseObject.h
@@ -153,11 +165,13 @@ set(headers ${headers}
 	include/RE/NetImmerse/NiAVObject.h
 	include/RE/NetImmerse/NiBinaryStream.h
 	include/RE/NetImmerse/NiBound.h
+	include/RE/NetImmerse/NiCamera.h
 	include/RE/NetImmerse/NiCollisionObject.h
 	include/RE/NetImmerse/NiColor.h
 	include/RE/NetImmerse/NiExtraData.h
 	include/RE/NetImmerse/NiFile.h
 	include/RE/NetImmerse/NiFlags.h
+	include/RE/NetImmerse/NiFrustum.h
 	include/RE/NetImmerse/NiMatrix3.h
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
@@ -187,7 +201,9 @@ set(headers ${headers}
 	include/RE/NetImmerse/NiTPointerListBase.h
 	include/RE/NetImmerse/NiTPointerMap.h
 	include/RE/NetImmerse/NiTransform.h
+	include/RE/Scaleform/GFx/GFx_AS3.h
 	include/RE/Scaleform/GFx/GFx_ASMovieRootBase.h
+	include/RE/Scaleform/GFx/GFx_ASString.h
 	include/RE/Scaleform/GFx/GFx_Loader.h
 	include/RE/Scaleform/GFx/GFx_Log.h
 	include/RE/Scaleform/GFx/GFx_Player.h

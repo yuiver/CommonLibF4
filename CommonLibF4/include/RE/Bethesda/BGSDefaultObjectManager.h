@@ -482,10 +482,35 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSDefaultObject };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kDFOB };
 
+		BGSDefaultObject(const char* a_name, ENUM_FORM_ID a_formType, const char* a_description)
+		{
+			ctor(a_name, a_formType, a_description);
+		}
+
+		[[nodiscard]] static BSTArray<BGSDefaultObject*>* GetSingleton()
+		{
+			REL::Relocation<BSTArray<BGSDefaultObject*>**> singleton{ REL::ID(561749) };
+			return *singleton;
+		}
+
+		template <class T = TESForm>
+		[[nodiscard]] T* GetForm()
+		{
+			return form ? form->As<T>() : nullptr;
+		}
+
 		// members
-		TESForm* form;               // 20
-		std::int8_t type;            // 28
-		BSFixedString formEditorID;  // 30
+		TESForm* form;										// 20
+		stl::enumeration<ENUM_FORM_ID, std::uint8_t> type;	// 28
+		BSFixedString formEditorID;							// 30
+
+	private:
+		BGSDefaultObject* ctor(const char* a_name, ENUM_FORM_ID a_formType, const char* a_description)
+		{
+			using func_t = decltype(&BGSDefaultObject::ctor);
+			REL::Relocation<func_t> func{ REL::ID(1144014) };
+			return func(this, a_name, a_formType, a_description);
+		}
 	};
 	static_assert(sizeof(BGSDefaultObject) == 0x38);
 }

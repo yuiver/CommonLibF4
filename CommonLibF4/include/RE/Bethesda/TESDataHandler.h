@@ -36,6 +36,13 @@ namespace RE
 			return *singleton;
 		}
 
+		[[nodiscard]] bool AddFormToDataHandler(TESForm* a_form)
+		{
+			using func_t = decltype(&TESDataHandler::AddFormToDataHandler);
+			REL::Relocation<func_t> func{ REL::ID(350112) };
+			return func(this, a_form);
+		}
+
 		[[nodiscard]] bool CheckModsLoaded(bool a_everModded)
 		{
 			using func_t = decltype(&TESDataHandler::CheckModsLoaded);

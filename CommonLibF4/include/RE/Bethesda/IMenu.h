@@ -2,6 +2,7 @@
 
 #include "RE/Bethesda/Atomic.h"
 #include "RE/Bethesda/BGSCreatedObjectManager.h"
+#include "RE/Bethesda/BGSInventoryInterface.h"
 #include "RE/Bethesda/BGSInventoryItem.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSInputEventUser.h"
@@ -12,6 +13,9 @@
 #include "RE/Bethesda/BSTOptional.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
+#include "RE/Bethesda/Events.h"
+#include "RE/Bethesda/InventoryUserUIUtils.h"
+#include "RE/Bethesda/SendHUDMessage.h"
 #include "RE/Bethesda/SWFToCodeFunctionHandler.h"
 #include "RE/Bethesda/TESForms.h"
 #include "RE/Bethesda/UIMessage.h"
@@ -22,18 +26,23 @@
 #include "RE/NetImmerse/NiPoint3.h"
 #include "RE/NetImmerse/NiQuaternion.h"
 #include "RE/NetImmerse/NiRect.h"
+#include "RE/NetImmerse/NiSmartPointer.h"
+#include "RE/NetImmerse/NiTexture.h"
 
 namespace RE
 {
+	enum class ContainerMenuMode;
+
 	namespace Workshop
 	{
 		struct BuildableAreaEvent;
 		struct PlacementStatusEvent;
 	}
 
+	class BSGFxFunctionBase;
 	class BSGFxShaderFXTarget;
-	class ButtonHintBar;
 	class ExtraDataList;
+	class MessageBoxData;
 	class NiAVObject;
 	class TESBoundObject;
 	class TESForm;
@@ -41,8 +50,21 @@ namespace RE
 	class UserEventEnabledEvent;
 	class WorkshopMenuGeometry;
 
+	struct InvInterfaceStateChangeEvent;
 	struct LoadedInventoryModel;
 	struct PickRefUpdateEvent;
+
+	enum class HUDColorTypes
+	{
+		kNoColorMultiplier = 0,
+		kMenuNoColorBackground = 1,
+		kGameplayHUDColor = 2,
+		kPlayerSetColor = 3,
+		kPowerArmorColorOnly = 4,
+		kWarningColor = 5,
+		kAltWarningColor = 6,
+		kCustomColor = 7
+	};
 
 	enum class MENU_RENDER_CONTEXT : std::int32_t
 	{
@@ -123,9 +145,19 @@ namespace RE
 		void HandleEvent(const ButtonEvent* a_event) override  // 08
 		{
 			if (menuObj.IsObject()) {
-				using func_t = decltype(&IMenu::HandleEvent);
-				REL::Relocation<func_t> func{ REL::ID(1414130) };
-				return func(this, a_event);
+				auto strUserEvent = a_event->QUserEvent();
+				if (a_event->disabled && CanHandleWhenDisabled(a_event))
+				{
+					strUserEvent = a_event->QRawUserEvent();
+				}
+
+				if (inputEventHandlingEnabled && menuObj.HasMember("ProcessUserEvent"))
+				{
+					Scaleform::GFx::Value args[2];
+					args[0] = strUserEvent.c_str();
+					args[1] = a_event->QJustPressed();
+					menuObj.Invoke("ProcessUserEvent", nullptr, args, 2);
+				}
 			}
 		}
 
@@ -208,14 +240,9 @@ namespace RE
 			uiMovie->Advance(a_timeDelta);
 		}
 
-		[[nodiscard]] bool IsMenuDisplayEnabled() const noexcept
-		{
-			return passesTopMenuTest && menuCanBeVisible;
-		}
-
 		void OnSetSafeRect()
 		{
-			using func_t = decltype(&IMenu::RefreshPlatform);
+			using func_t = decltype(&IMenu::OnSetSafeRect);
 			REL::Relocation<func_t> func{ REL::ID(964859) };
 			return func(this);
 		}
@@ -237,6 +264,8 @@ namespace RE
 		}
 
 		[[nodiscard]] constexpr bool RendersUnderPauseMenu() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kRendersUnderPauseMenu); }
+
+		[[nodiscard]] constexpr bool IsMenuDisplayEnabled() const noexcept { return passesTopMenuTest && menuCanBeVisible; }
 
 		void SetMenuCodeObject(Scaleform::GFx::Movie& a_movie, stl::zstring a_menuObjPath)
 		{
@@ -264,8 +293,11 @@ namespace RE
 		bool menuCanBeVisible{ true };                                                                                     // 61
 		bool hasQuadsForCumstomRenderer{ false };                                                                          // 62
 		bool hasDoneFirstAdvanceMovie{ false };                                                                            // 63
-		std::int8_t depthPriority{ 6 };                                                                                    // 64
+		std::uint8_t depthPriority{ 6 };                                                                                   // 64
+		std::uint8_t pad65{ 0 };                                                                                           // 65
+		std::uint16_t pad66{ 0 };                                                                                          // 66
 		stl::enumeration<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
+		std::uint32_t pad6C{ 0 };                                                                                          // 6C
 	};
 	static_assert(sizeof(IMenu) == 0x70);
 
@@ -301,12 +333,248 @@ namespace RE
 	class HUDModeType
 	{
 	public:
+		HUDModeType(const char* a_modeString) :
+			modeString(a_modeString)
+		{}
+
 		// members
 		BSFixedString modeString;  // 0
 	};
 	static_assert(sizeof(HUDModeType) == 0x8);
 
-	// TODO
+	class UsesBSGFXFunctionHandler
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::UsesBSGFXFunctionHandler };
+
+		// members
+		BSTArray<msvc::unique_ptr<BSGFxFunctionBase>> functions;  // 00
+	};
+	static_assert(sizeof(UsesBSGFXFunctionHandler) == 0x18);
+
+	class BSGFxObject :
+		public Scaleform::GFx::Value,    // 00
+		public UsesBSGFXFunctionHandler  // 20
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::BSGFxObject };
+
+		BSGFxObject(const Scaleform::GFx::Value& a_flashObject) :
+			Scaleform::GFx::Value(a_flashObject)
+		{}
+
+		BSGFxObject(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember)
+		{
+			AcquireFlashObjectByMemberName(a_flashObject, a_relativePathToMember);
+		}
+
+		BSGFxObject(const Scaleform::GFx::Movie& a_parentMovie, const char* a_pathToObject)
+		{
+			AcquireFlashObjectByPath(a_parentMovie, a_pathToObject);
+		}
+
+		Scaleform::GFx::Value* AcquireFlashObjectByMemberName(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember)
+		{
+			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByMemberName);
+			REL::Relocation<func_t> func{ REL::ID(1172680) };
+			return func(this, a_flashObject, a_relativePathToMember);
+		}
+
+		Scaleform::GFx::Value* AcquireFlashObjectByPath(const Scaleform::GFx::Movie& a_parentMovie, const char* a_absolutePathToMember)
+		{
+			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByPath);
+			REL::Relocation<func_t> func{ REL::ID(1065592) };
+			return func(this, a_parentMovie, a_absolutePathToMember);
+		}
+	};
+	static_assert(sizeof(BSGFxObject) == 0x38);
+
+	class BSGFxDisplayObject :
+		public BSGFxObject  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::BSGFxDisplayObject };
+		static constexpr auto VTABLE{ VTABLE::BSGFxDisplayObject };
+
+		struct InitialDisplayState
+		{
+		public:
+			// members
+			float originalWidth;   // 00
+			float originalHeight;  // 04
+		};
+		static_assert(sizeof(InitialDisplayState) == 0x08);
+
+		BSGFxDisplayObject(const Scaleform::GFx::Value& a_flashObject) :
+			BSGFxObject(a_flashObject)
+		{
+			ctor_shared();
+		}
+
+		BSGFxDisplayObject(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember) :
+			BSGFxObject(a_flashObject, a_relativePathToMember)
+		{
+			ctor_shared();
+		}
+
+		BSGFxDisplayObject(const Scaleform::GFx::Movie& a_parentMovie, const char* a_pathToObject) :
+			BSGFxObject(a_parentMovie, a_pathToObject)
+		{
+			ctor_shared();
+		}
+
+		virtual ~BSGFxDisplayObject()
+		{
+			if (parentDisplayObject) {
+				parentDisplayObject->RemoveChild(*this);
+			}
+		}
+
+		void RemoveChild(const BSGFxDisplayObject& a_child) const
+		{
+			using func_t = decltype(&BSGFxDisplayObject::RemoveChild);
+			REL::Relocation<func_t> func{ REL::ID(1229383) };
+			return func(this, a_child);
+		}
+
+		// members
+		const BSGFxDisplayObject* parentDisplayObject{ nullptr };  // 40
+		InitialDisplayState initialState;                          // 48
+
+	private:
+		void ctor_shared()
+		{
+			if (HasMember("height")) {
+				Scaleform::GFx::Value height;
+				if (GetMember("height", &height)) {
+					if (height.IsNumber()) {
+						initialState.originalHeight = static_cast<float>(height.GetNumber());
+					}
+				}
+			}
+
+			if (HasMember("width")) {
+				Scaleform::GFx::Value width;
+				if (GetMember("width", &width)) {
+					if (width.IsNumber()) {
+						initialState.originalWidth = static_cast<float>(width.GetNumber());
+					}
+				}
+			}
+		}
+	};
+	static_assert(sizeof(BSGFxDisplayObject) == 0x50);
+
+	class BSGFxShaderFXTarget :
+		public BSGFxDisplayObject,                  // 00
+		public BSTEventSink<ApplyColorUpdateEvent>  // 50
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::BSGFxShaderFXTarget };
+		static constexpr auto VTABLE{ VTABLE::BSGFxShaderFXTarget };
+
+		BSGFxShaderFXTarget(const Scaleform::GFx::Value& a_flashObject) :
+			BSGFxDisplayObject(a_flashObject)
+		{
+			ctor_shared();
+		}
+
+		BSGFxShaderFXTarget(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember) :
+			BSGFxDisplayObject(a_flashObject, a_relativePathToMember)
+		{
+			ctor_shared();
+		}
+
+		BSGFxShaderFXTarget(const Scaleform::GFx::Movie& a_parentMovie, const char* a_pathToObject) :
+			BSGFxDisplayObject(a_parentMovie, a_pathToObject)
+		{
+			ctor_shared();
+		}
+
+		virtual ~BSGFxShaderFXTarget()
+		{
+			if (auto source = ApplyColorUpdateEvent::GetEventSource(); source) {
+				source->UnregisterSink(this);
+			}
+		}
+
+		// override
+		virtual BSEventNotifyControl ProcessEvent(const ApplyColorUpdateEvent& a_event, BSTEventSource<ApplyColorUpdateEvent>* a_source) override  // 01
+		{
+			using func_t = decltype(&BSGFxShaderFXTarget::ProcessEvent);
+			REL::Relocation<func_t> func{ REL::ID(848563) };
+			return func(this, a_event, a_source);
+		}
+
+		// add
+		virtual void AppendShaderFXInfos(BSTArray<UIShaderFXInfo>& a_colorFXInfo, BSTArray<UIShaderFXInfo>& a_backgroundFXInfo)  // 02
+		{
+			using func_t = decltype(&BSGFxShaderFXTarget::AppendShaderFXInfos);
+			REL::Relocation<func_t> func{ REL::ID(544646) };
+			return func(this, a_colorFXInfo, a_backgroundFXInfo);
+		}
+
+		void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
+		{
+			using func_t = decltype(&BSGFxShaderFXTarget::CreateAndSetFiltersToHUD);
+			REL::Relocation<func_t> func{ REL::ID(876001) };
+			func(this, a_colorType, a_scale);
+		}
+
+		void EnableShadedBackground(HUDColorTypes a_colorType, float a_scale = 1.0)
+		{
+			using func_t = decltype(&BSGFxShaderFXTarget::EnableShadedBackground);
+			REL::Relocation<func_t> func{ REL::ID(278402) };
+			func(this, a_colorType, a_scale);
+		}
+
+		void SetToHUDColor(bool a_useWarningColor)
+		{
+			auto colorType = (a_useWarningColor) ? RE::HUDColorTypes::kWarningColor : RE::HUDColorTypes::kGameplayHUDColor;
+			CreateAndSetFiltersToHUD(colorType, 1.0);
+		}
+
+		// members
+		UIShaderColors shaderFX;                                             // 58
+		BSTArray<BSGFxShaderFXTarget*> shaderFXObjects;                      // 90
+		stl::enumeration<HUDColorTypes, std::uint32_t> HUDColorType;         // A8
+		stl::enumeration<HUDColorTypes, std::uint32_t> backgroundColorType;  // AC
+
+	private:
+		void ctor_shared()
+		{
+			if (HasMember("bUseShadedBackground")) {
+				Scaleform::GFx::Value bUseShadedBackground;
+				if (GetMember("bUseShadedBackground", &bUseShadedBackground)) {
+					if (bUseShadedBackground.IsBoolean()) {
+						if (bUseShadedBackground.GetBoolean()) {
+							EnableShadedBackground(HUDColorTypes::kMenuNoColorBackground);
+						}
+					}
+				}
+			}
+
+			if (auto source = ApplyColorUpdateEvent::GetEventSource(); source) {
+				source->RegisterSink(this);
+			}
+		}
+	};
+	static_assert(sizeof(BSGFxShaderFXTarget) == 0xB0);
+
+	class __declspec(novtable) ButtonHintBar :
+		public BSGFxShaderFXTarget  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ButtonHintBar };
+		static constexpr auto VTABLE{ VTABLE::ButtonHintBar };
+
+		// members
+		Scaleform::GFx::Value sourceButtons;  // B0
+		bool redirectToButtonBarMenu;         // D0
+		bool isTopButtonBar;                  // D1
+	};
+	static_assert(sizeof(ButtonHintBar) == 0xD8);
+
 	class GameMenuBase :
 		public IMenu  // 00
 	{
@@ -314,52 +582,61 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::GameMenuBase };
 		static constexpr auto VTABLE{ VTABLE::GameMenuBase };
 
-		// override (IMenu)
-		void SetIsTopButtonBar(bool a_isTopButtonBar) override  // 08
+		GameMenuBase()
 		{
-			using func_t = decltype(&IMenu::SetIsTopButtonBar);
+			customRendererName = "FlatScreenModel";
+		}
+
+		virtual ~GameMenuBase() = default;
+
+		// override
+		virtual void SetIsTopButtonBar(bool a_isTopButtonBar) override  // 08
+		{
+			using func_t = decltype(&GameMenuBase::SetIsTopButtonBar);
 			REL::Relocation<func_t> func{ REL::ID(1367353) };
 			return func(this, a_isTopButtonBar);
 		}
 
-		void OnMenuDisplayStateChanged() override  // 0A
+		virtual void OnMenuDisplayStateChanged() override  // 0A
 		{
-			using func_t = decltype(&IMenu::OnMenuDisplayStateChanged);
+			using func_t = decltype(&GameMenuBase::OnMenuDisplayStateChanged);
 			REL::Relocation<func_t> func{ REL::ID(1274450) };
 			return func(this);
 		}
 
-		void OnAddedToMenuStack() override  // 0B
+		virtual void OnAddedToMenuStack() override  // 0B
 		{
-			using func_t = decltype(&IMenu::OnAddedToMenuStack);
-			REL::Relocation<func_t> func{ REL::ID(210529) };
-			return func(this);
+			IMenu::OnAddedToMenuStack();
+			if (this->menuHUDMode.has_value()) {
+				SendHUDMessage::PushHUDMode(this->menuHUDMode.value());
+			}
 		}
 
-		void OnRemovedFromMenuStack() override  // 0C
+		virtual void OnRemovedFromMenuStack() override  // 0C
 		{
-			using func_t = decltype(&IMenu::OnRemovedFromMenuStack);
-			REL::Relocation<func_t> func{ REL::ID(383045) };
-			return func(this);
+			IMenu::OnRemovedFromMenuStack();
+			if (this->menuHUDMode.has_value()) {
+				SendHUDMessage::PopHUDMode(this->menuHUDMode.value());
+			}
 		}
 
-		bool CacheShaderFXQuadsForRenderer_Impl() override  // 10
+		virtual bool CacheShaderFXQuadsForRenderer_Impl() override  // 10
 		{
-			using func_t = decltype(&IMenu::CacheShaderFXQuadsForRenderer_Impl);
+			using func_t = decltype(&GameMenuBase::CacheShaderFXQuadsForRenderer_Impl);
 			REL::Relocation<func_t> func{ REL::ID(863029) };
 			return func(this);
 		}
 
-		void TransferCachedShaderFXQuadsForRenderer(const BSFixedString& a_rendererName) override  // 11
+		virtual void TransferCachedShaderFXQuadsForRenderer(const BSFixedString& a_rendererName) override  // 11
 		{
-			using func_t = decltype(&IMenu::TransferCachedShaderFXQuadsForRenderer);
+			using func_t = decltype(&GameMenuBase::TransferCachedShaderFXQuadsForRenderer);
 			REL::Relocation<func_t> func{ REL::ID(65166) };
 			return func(this, a_rendererName);
 		}
 
-		void SetViewportRect(const NiRect<float>& a_viewportRect) override  // 12
+		virtual void SetViewportRect(const NiRect<float>& a_viewportRect) override  // 12
 		{
-			using func_t = decltype(&IMenu::SetViewportRect);
+			using func_t = decltype(&GameMenuBase::SetViewportRect);
 			REL::Relocation<func_t> func{ REL::ID(1554334) };
 			return func(this, a_viewportRect);
 		}
@@ -370,6 +647,13 @@ namespace RE
 			using func_t = decltype(&GameMenuBase::AppendShaderFXInfos);
 			REL::Relocation<func_t> func{ REL::ID(583584) };
 			return func(this, a_colorFXInfos, a_backgroundFXInfos);
+		}
+
+		void SetUpButtonBar(BSGFxShaderFXTarget& a_parentObject, const char* a_buttonBarPath, HUDColorTypes a_colorType)
+		{
+			using func_t = decltype(&GameMenuBase::SetUpButtonBar);
+			REL::Relocation<func_t> func{ REL::ID(531584) };
+			func(this, a_parentObject, a_buttonBarPath, a_colorType);
 		}
 
 		// members
@@ -484,6 +768,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::Inventory3DManager };
 		static constexpr auto VTABLE{ VTABLE::Inventory3DManager };
 
+		void ClearModel()
+		{
+			using func_t = decltype(&Inventory3DManager::ClearModel);
+			REL::Relocation<func_t> func{ REL::ID(63218) };
+			return func(this);
+		}
+
 		// members
 		bool useBoundForScale: 1;                                                // 010:0
 		bool startedZoomThisFrame: 1;                                            // 010:1
@@ -571,4 +862,239 @@ namespace RE
 		msvc::unique_ptr<FXWorkshopMenu> workshopMenuBase;                                                              // 438
 	};
 	static_assert(sizeof(WorkshopMenu) == 0x440);
+
+	struct DisableHeavyItemsFunc
+	{
+	public:
+		// members
+		float playerCurrEncumbrance;     // 00
+		float playerMaxEncumbrance;      // 04
+		float containerCurrEncumbrance;  // 08
+		float containerMaxEncumbrance;   // 0C
+	};
+	static_assert(sizeof(DisableHeavyItemsFunc) == 0x10);
+
+	struct InventoryUserUIInterfaceEntry
+	{
+	public:
+		// members
+		InventoryInterface::Handle invHandle;       // 00
+		BSTSmallArray<std::uint8_t, 4> stackIndex;  // 08
+	};
+	static_assert(sizeof(InventoryUserUIInterfaceEntry) == 0x20);
+
+	class __declspec(novtable) InventoryUserUIInterface :
+		public BSTEventSource<InvInterfaceStateChangeEvent>  // 00
+	{
+	public:
+		// members
+		ObjectRefHandle inventoryRef;                            // 58
+		BSTArray<InventoryUserUIInterfaceEntry> stackedEntries;  // 60
+		bool entriesInvalid;                                     // 78
+	};
+	static_assert(sizeof(InventoryUserUIInterface) == 0x80);
+
+	class __declspec(novtable) ContainerMenuBase :
+		public GameMenuBase,                                // 000
+		public BSTEventSink<InvInterfaceStateChangeEvent>,  // 0E0
+		public BSTEventSink<MenuOpenCloseEvent>             // 0E8
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ContainerMenuBase };
+		static constexpr auto VTABLE{ VTABLE::ContainerMenuBase };
+
+		class __declspec(novtable) FXQuantityMenu :
+			public BSGFxShaderFXTarget  // 000
+		{
+		public:
+			// members
+			BSGFxShaderFXTarget label;                  // 0B0
+			BSGFxShaderFXTarget value;                  // 160
+			BSGFxShaderFXTarget quantityBracketHolder;  // 210
+		};
+		static_assert(sizeof(FXQuantityMenu) == 0x2C0);
+
+		struct ItemSorter
+		{
+		public:
+			enum class SORT_ON_FIELD
+			{
+				kAlphabetical = 0,
+				kDamage = 1,
+				kRateOfFire = 2,
+				kRange = 3,
+				kAccuracy = 4,
+				kValue = 5,
+				kWeight = 6,
+			};
+
+			void IncrementSort()
+			{
+				using func_t = decltype(&ItemSorter::IncrementSort);
+				REL::Relocation<func_t> func{ REL::ID(1307263) };
+				return func(this);
+			}
+
+			void SetTab(std::uint32_t a_tab)
+			{
+				currentTab = a_tab;
+			}
+
+			// members
+			stl::enumeration<SORT_ON_FIELD, std::uint32_t> currentSort[14];  // 00
+			std::uint32_t currentTab;                                        // 38
+		};
+		static_assert(sizeof(ItemSorter) == 0x3C);
+
+		// override
+		virtual void Call(const Params&) override;                                    // 01
+		virtual void MapCodeObjectFunctions() override;                               // 02
+		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;  // 04
+		virtual void PreDisplay() override;                                           // 05
+
+		// add
+		virtual void ConfirmInvestment() { return; }                                                                                                                          // 14
+		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) = 0;                                                              // 15
+		virtual bool GetDisplayBarterValues() { return false; }                                                                                                               // 16
+		virtual bool GetCanEquipItem([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return false; }                                       // 17
+		virtual bool GetIsItemEquipped([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return false; }                                     // 18
+		virtual void ToggleItemEquipped([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return; }                                          // 19
+		virtual std::uint32_t GetItemValue(std::uint32_t a_itemIndex, bool a_inContainer);                                                                                    // 1A
+		virtual const InventoryUserUIInterfaceEntry* GetInventoryItemByListIndex(bool a_inContainer, std::uint32_t a_index);                                                  // 1B
+		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) = 0;                     // 1C
+		virtual void SetMenuSuppressed(bool a_suppressed);                                                                                                                    // 1D
+		virtual void UpdateEncumbranceAndCaps(bool a_inContainer, std::int32_t a_capsDifferential);                                                                           // 1E
+		virtual void UpdateItemPickpocketInfo([[maybe_unused]] std::int32_t a_index, [[maybe_unused]] bool a_inContainer, [[maybe_unused]] std::int32_t a_count) { return; }  // 1F
+		virtual void UpdateList(bool a_inContainer) = 0;                                                                                                                      // 20
+
+		void SetMessageBoxMode(bool a_messageBoxMode)
+		{
+			if (menuObj.IsObject() && menuObj.HasMember("messageBoxIsActive"sv))
+			{
+				menuObj.SetMember("messageBoxIsActive"sv, a_messageBoxMode);
+			}
+		}
+
+		// members
+		ItemSorter containerItemSorter;                                       // 0F0
+		ItemSorter playerItemSorter;                                          // 12C
+		msvc::unique_ptr<BSGFxShaderFXTarget> playerBracketBackground_mc;     // 168
+		msvc::unique_ptr<BSGFxShaderFXTarget> containerBracketBackground_mc;  // 170
+		msvc::unique_ptr<BSGFxShaderFXTarget> containerList_mc;               // 178
+		msvc::unique_ptr<BSGFxShaderFXTarget> playerInventory_mc;             // 180
+		msvc::unique_ptr<BSGFxShaderFXTarget> containerInventory_mc;          // 188
+		msvc::unique_ptr<BSGFxShaderFXTarget> itemCard_mc;                    // 190
+		msvc::unique_ptr<FXQuantityMenu> quantityMenu_mc;                     // 198
+		InventoryUserUIInterface playerInv;                                   // 1A0
+		InventoryUserUIInterface containerInv;                                // 220
+		Inventory3DManager inv3DModelManager;                                 // 2A0
+		BSTArray<const TESBoundObject*> partialPlayerUpdateList;              // 3E0
+		BSTArray<const TESBoundObject*> partialContainerUpdateList;           // 3F8
+		stl::enumeration<ContainerMenuMode, std::uint32_t> menuMode;          // 410
+		Rumble::AutoRumblePause autoRumblePause;                              // 414
+		DisableHeavyItemsFunc disableHeavyFunc;                               // 418
+		ObjectRefHandle containerRef;                                         // 428
+		bool suppressed;                                                      // 42C
+		bool menuOpening;                                                     // 42D
+	};
+	static_assert(sizeof(ContainerMenuBase) == 0x430);
+
+	class __declspec(novtable) BarterMenuTentativeInventoryUIInterface :
+		public InventoryUserUIInterface  // 00
+	{
+	public:
+	};
+	static_assert(sizeof(BarterMenuTentativeInventoryUIInterface) == 0x80);
+
+	/*
+	class __declspec(novtable) BarterMenu :
+		public ContainerMenuBase  // 000
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::BarterMenu };
+		static constexpr auto VTABLE{ VTABLE::BarterMenu };
+		static constexpr auto MENU_NAME{ "BarterMenu"sv };
+
+		struct ItemBarterData
+		{
+		public:
+			// members
+			BSTHashMap<std::uint32_t, std::int32_t> stackQuantityMap;  // 00
+			std::uint32_t capsOwedByPlayer;                            // 30
+		};
+		static_assert(sizeof(ItemBarterData) == 0x38);
+
+		// members
+		BSTHashMap<const InventoryInterface::Handle, ItemBarterData*> barteredItems;  // 430
+		std::unique_ptr<BSGFxShaderFXTarget> capsTransferInfo_mc;                     // 460
+		std::unique_ptr<BSGFxShaderFXTarget> capsTransferBackground_mc;               // 468
+		ObjectRefHandle vendorChestRef;                                               // 470
+		ObjectRefHandle vendorActor;                                                  // 474
+		BarterMenuTentativeInventoryUIInterface PlayerTentativeInv;                   // 478
+		BarterMenuTentativeInventoryUIInterface ContainerTentativeInv;                // 4F8
+		bool confirmingTrade;                                                         // 578
+	};
+	static_assert(sizeof(BarterMenu) == 0x580);
+	*/
+
+	class __declspec(novtable) ContainerMenu :
+		public ContainerMenuBase  // 000
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ContainerMenu };
+		static constexpr auto VTABLE{ VTABLE::ContainerMenu };
+		static constexpr auto MENU_NAME{ "ContainerMenu"sv };
+
+		// override
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                                                               // 03
+		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
+		virtual bool GetCanEquipItem(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                   // 17
+		virtual bool GetIsItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                 // 18
+		virtual void ToggleItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                // 19
+		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 22
+		virtual void UpdateItemPickpocketInfo(std::int32_t a_index, bool a_inContainer, std::int32_t a_count) override;                                         // 25
+		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 26
+
+		void TakeAllItems()
+		{
+			using func_t = decltype(&ContainerMenu::TakeAllItems);
+			REL::Relocation<func_t> func{ REL::ID(1323703) };
+			return func(this);
+		}
+
+		// members
+		std::unique_ptr<BSGFxShaderFXTarget> pickpocketInfo_mc;  // 430
+		std::uint32_t valueStolenFromContainer;                  // 438
+		bool containerAccessed;                                  // 43C
+		bool addedTempItems;                                     // 43D
+		bool plantedExplosiveWeapon;                             // 43E
+		bool containerIsAnimatingOpen;                           // 43F
+	};
+	static_assert(sizeof(ContainerMenu) == 0x440);
+
+	class _declspec(novtable) MessageBoxMenu :
+		public GameMenuBase,                      // 00
+		public BSTEventSink<MenuModeChangeEvent>  // E0
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::MessageBoxMenu };
+		static constexpr auto VTABLE{ VTABLE::MessageBoxMenu };
+		static constexpr auto MENU_NAME{ "MessageBoxMenu"sv };
+
+		// override
+		virtual void Call(const Params&) override;                           // 01
+		virtual void MapCodeObjectFunctions() override;                      // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage&) override;  // 03
+
+		void ShowMessage()
+		{
+			using func_t = decltype(&MessageBoxMenu::ShowMessage);
+			REL::Relocation<func_t> func{ REL::ID(442479) };
+			return func(this);
+		}
+
+		// members
+		MessageBoxData* currentMessage;  // E8
+	};
+	static_assert(sizeof(MessageBoxMenu) == 0xF0);
 }

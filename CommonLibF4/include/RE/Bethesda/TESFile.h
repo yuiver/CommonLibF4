@@ -81,6 +81,7 @@ namespace RE
 		[[nodiscard]] std::uint8_t GetCompileIndex() const noexcept { return compileIndex; }
 		[[nodiscard]] std::string_view GetFilename() const noexcept { return { filename }; }
 		[[nodiscard]] std::uint16_t GetSmallFileCompileIndex() const noexcept { return smallFileCompileIndex; }
+		[[nodiscard]] bool IsActive() const noexcept { return GetCompileIndex() != 0xFF; }
 
 		[[nodiscard]] std::uint32_t GetTESChunk()
 		{

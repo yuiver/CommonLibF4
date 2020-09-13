@@ -733,6 +733,13 @@ namespace RE
 		virtual float CheckClampDamageModifier(ActorValueInfo& a_info, float a_delta);                                                                                                                   // 131
 		virtual void ValidateNewPath([[maybe_unused]] const MovementMessageNewPath& a_newPathMessage) { return; }                                                                                        // 132
 
+		void AddPerk(BGSPerk* a_perk, std::uint8_t a_rank = 0)
+		{
+			using func_t = decltype(&Actor::AddPerk);
+			REL::Relocation<func_t> func{ REL::ID(187096) };
+			return func(this, a_perk, a_rank);
+		}
+
 		[[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
 		{
 			return currentProcess ? currentProcess->GetCurrentAmmo(a_equipIndex) : nullptr;
@@ -745,7 +752,21 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		[[nodiscard]] std::int16_t GetLevel()
+		{
+			using func_t = decltype(&Actor::GetLevel);
+			REL::Relocation<func_t> func{ REL::ID(661617) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESNPC* GetNPC() const noexcept;
+
+		[[nodiscard]] std::uint8_t GetPerkRank(BGSPerk* a_perk)
+		{
+			using func_t = decltype(&Actor::GetPerkRank);
+			REL::Relocation<func_t> func{ REL::ID(1368313) };
+			return func(this, a_perk);
+		}
 
 		void Reset3D(bool a_reloadAll, std::uint32_t a_additionalFlags, bool a_queueReset, std::uint32_t a_excludeFlags)
 		{

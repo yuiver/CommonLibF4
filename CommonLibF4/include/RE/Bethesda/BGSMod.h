@@ -6,6 +6,11 @@
 #include "RE/Bethesda/FormComponents.h"
 #include "RE/Bethesda/TESForms.h"
 
+namespace RE
+{
+	struct INSTANCE_FILTER;
+}
+
 namespace RE::BGSMod
 {
 	namespace Attachment
@@ -158,6 +163,13 @@ namespace RE::BGSMod
 			};
 			static_assert(sizeof(Data) == 0x20);
 
+			static void FindModsForLooseMod(TESObjectMISC* a_looseMod, BSScrapArray<BGSMod::Attachment::Mod*>& a_result)
+			{
+				using func_t = decltype(&Mod::FindModsForLooseMod);
+				REL::Relocation<func_t> func{ REL::ID(410363) };
+				return func(a_looseMod, a_result);
+			}
+
 			// members
 			BGSAttachParentArray attachParents;                                           // 98
 			BGSTypedKeywordValueArray<KeywordType::kInstantiationFilter> filterKeywords;  // B0
@@ -213,6 +225,13 @@ namespace RE::BGSMod
 		public:
 			static constexpr auto RTTI{ RTTI::BGSMod__Template__Items };
 			static constexpr auto VTABLE{ VTABLE::BGSMod__Template__Items };
+
+			static void CreateInstanceDataForObjectAndExtra(TESBoundObject& a_object, ExtraDataList& a_extra, const INSTANCE_FILTER* a_filter, bool a_useDefault)
+			{
+				using func_t = decltype(&Items::CreateInstanceDataForObjectAndExtra);
+				REL::Relocation<func_t> func{ REL::ID(147297) };
+				return func(a_object, a_extra, a_filter, a_useDefault);
+			}
 
 			// override (BaseFormComponent)
 			std::uint32_t GetFormComponentType() const override { return 'TJBO'; }  // 01
