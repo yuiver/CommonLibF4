@@ -198,6 +198,24 @@ namespace RE
 	};
 	static_assert(sizeof(MenuOpenCloseEvent) == 0x10);
 
+	class PerkPointIncreaseEvent
+	{
+	public:
+		PerkPointIncreaseEvent(std::uint8_t a_perkCount) :
+			perkCount(a_perkCount)
+		{}
+
+		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<PerkPointIncreaseEvent>* GetEventSource()
+		{
+			REL::Relocation<RE::BSTGlobalEvent::EventSource<PerkPointIncreaseEvent>**> singleton{ REL::ID(685859) };
+			return *singleton;
+		}
+
+		// members
+		std::uint8_t perkCount;  // 00
+	};
+	static_assert(sizeof(PerkPointIncreaseEvent) == 0x1);
+
 	class PipboyLightEvent :
 		public RE::BSTValueEvent<bool>
 	{
