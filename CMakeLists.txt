@@ -1,14 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
-
-# ---- Options ----
-
-option(COPY_BUILD "Copy the build output to the Fallout 4 directory." ON)
+include(cmake/common.cmake)
 
 # ---- Cache build vars ----
 
-if (NOT DEFINED VCPKG_ROOT AND DEFINED ENV{VCPKG_ROOT})
-	set(VCPKG_ROOT $ENV{VCPKG_ROOT})
-endif ()
+set_from_environment(VCPKG_ROOT)
 
 if (DEFINED VCPKG_ROOT)
 	set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
@@ -38,18 +33,13 @@ endif ()
 
 # ---- Globals ----
 
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_DEBUG OFF)
-
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_DEBUG_RUNTIME ON)
-
-if (MSVC)
+if (MSVC AND NOT ${CMAKE_GENERATOR} STREQUAL "Ninja")
 	add_compile_options(
 		/MP	# Build with Multiple Processes
 	)
 endif()
+
+set(Boost_USE_STATIC_LIBS ON)
 
 # ---- Add source files ----
 
