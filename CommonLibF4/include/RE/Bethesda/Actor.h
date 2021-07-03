@@ -24,7 +24,6 @@ namespace RE
 	enum class ATTACK_STATE_ENUM;
 	enum class PACKAGE_OBJECT_TYPE;
 	enum class POWER_ATTACK_TYPE;
-	enum class PTYPE;
 	enum class RESET_3D_FLAGS;
 	enum class SIT_SLEEP_STATE;
 
@@ -115,6 +114,55 @@ namespace RE
 		kWaitingToInteract,
 		kInteracting,
 		kWaitingToStopInteracting
+	};
+
+	enum class PTYPE : std::int32_t
+	{
+		kExplore = 0,
+		kFollow = 1,
+		kEscore = 2,
+		kEat = 3,
+		kSleep = 4,
+		kWander = 5,
+		kTravel = 6,
+		kAccompany = 7,
+		kUseItemAt = 8,
+		kAmbush = 9,
+		kFleeNonCombat = 10,
+		kCastMagic = 11,
+		kSandbox = 12,
+		kPatrol = 13,
+		kGuard = 14,
+		kDialogue = 15,
+		kUseWeapon = 16,
+		kFind = 17,
+		kCustom = 18,
+		kTemplate = 19,
+		kActivate = 20,
+		kAlarm = 21,
+		kFlee = 22,
+		kTrespass = 23,
+		kSpectator = 24,
+		kGreet = 25,
+		kGetUp = 26,
+		kDoNothing = 27,
+		kInGameDialogue = 28,
+		kSurface = 29,
+		kSearchForAttacker = 30,
+		kAvoidReference = 31,
+		kBumpReaction = 32,
+		kGrenadeMineReaction = 33,
+		kStealWarning = 34,
+		kPickpocketWarning = 35,
+		kMovementBlocked = 36,
+		kVampireFeed = 37,
+		kCannibal = 38,
+		kLand = 39,
+		kUnused = 40,
+		kMountActor = 41,
+		kDismountActor = 42,
+		kClearMountPosition = 43,
+		kClearPowerArmorExit = 44,
 	};
 
 	struct MiddleLowProcessData
@@ -511,6 +559,20 @@ namespace RE
 		virtual void EffectActiveStatusChanged([[maybe_unused]] ActiveEffect* a_effect) { return; }                                                                                  // 0B
 		virtual bool CheckAbsorb([[maybe_unused]] Actor* a_caster, [[maybe_unused]] MagicItem* a_spell, [[maybe_unused]] const EffectItem* a_effectItem) { return false; }           // 0C
 
+		[[nodiscard]] bool IsTakingHealthDamageFromActiveEffect()
+		{
+			using func_t = decltype(&MagicTarget::IsTakingHealthDamageFromActiveEffect);
+			REL::Relocation<func_t> func{ REL::ID(999442) };
+			return func(this);
+		}
+
+		[[nodiscard]] bool IsTakingRadDamageFromActiveEffect()
+		{
+			using func_t = decltype(&MagicTarget::IsTakingRadDamageFromActiveEffect);
+			REL::Relocation<func_t> func{ REL::ID(1079111) };
+			return func(this);
+		}
+
 		// members
 		SpellDispelData* postUpdateDispelList;  // 08
 		std::int8_t flags;                      // 10
@@ -621,6 +683,43 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::Actor };
 		static constexpr auto VTABLE{ VTABLE::Actor };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kACHR };
+
+		enum class BOOL_FLAGS
+		{
+			kNone = 0,
+			kScenePackage = 1 << 0,
+			kIsAMount = 1 << 1,
+			kIsMountPointClear = 1 << 2,
+			kIsGettingOnOffMount = 1 << 3,
+			kInRandomScene = 1 << 4,
+			kNoBleedoutRecovery = 1 << 5,
+			kInBleedoutAnimation = 1 << 6,
+			kCanDoFavor = 1 << 7,
+			kShouldAnimGraphUpdate = 1 << 8,
+			kCanSpeakToEssentialDown = 1 << 9,
+			kBribedByPlayer = 1 << 10,
+			kAngryWithPlayer = 1 << 11,
+			kIsTresspassing = 1 << 12,
+			kCanSpeak = 1 << 13,
+			kIsInKillMove = 1 << 14,
+			kAttackOnSight = 1 << 15,
+			kIsCommandedActor = 1 << 16,
+			kForceOneAnimGraphUpdate = 1 << 17,
+			kEssential = 1 << 18,
+			kProtected = 1 << 19,
+			kAttackingDisabled = 1 << 20,
+			kCastingDisabled = 1 << 21,
+			kSceneHeadtrackRotation = 1 << 22,
+			kForceIncMinBoneUpdate = 1 << 23,
+			kCrimeSearch = 1 << 24,
+			kMovingIntoLoadedArea = 1 << 25,
+			kDoNotShowOnStealthMeter = 1 << 26,
+			kMovementBlocked = 1 << 27,
+			kAllowInstantFurniturePopInPlayerCell = 1 << 28,
+			kForceAnimGraphUpdate = 1 << 29,
+			kCheckAddEffectDualCast = 1 << 30,
+			kUnderwater = 1 << 31,
+		};
 
 		// add
 		virtual void PlayPickUpSound(TESBoundObject* a_boundObj, bool a_pickUp, bool a_use);                                                                                                             // 0C6
@@ -768,6 +867,13 @@ namespace RE
 			return func(this, a_perk);
 		}
 
+		[[nodiscard]] bool IsJumping()
+		{
+			using func_t = decltype(&Actor::IsJumping);
+			REL::Relocation<func_t> func{ REL::ID(1041558) };
+			return func(this);
+		}
+
 		void Reset3D(bool a_reloadAll, std::uint32_t a_additionalFlags, bool a_queueReset, std::uint32_t a_excludeFlags)
 		{
 			using func_t = decltype(&Actor::Reset3D);
@@ -822,7 +928,7 @@ namespace RE
 		BSTSmartPointer<BipedAnim> biped;                                    // 428
 		BSNonReentrantSpinLock addingToOrRemovingFromScene;                  // 430
 		BSReadWriteLock perkArrayLock;                                       // 434
-		std::uint32_t flags;                                                 // 43C
+		stl::enumeration<BOOL_FLAGS, std::uint32_t> boolFlags;               // 43C
 		std::uint32_t moreFlags;                                             // 440
 		Modifiers healthModifiers;                                           // 444
 		Modifiers actionPointsModifiers;                                     // 450

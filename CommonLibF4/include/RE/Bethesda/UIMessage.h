@@ -95,6 +95,13 @@ namespace RE
 			return func(a_menuName, a_messageType, a_value);
 		}
 
+		static void SendUIPtrMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_messageType, void* a_data)
+		{
+			using func_t = decltype(&BSUIMessageData::SendUIPtrMessage);
+			REL::Relocation<func_t> func{ REL::ID(1374542) };
+			return func(a_menuName, a_messageType, a_data);
+		}
+
 		// members
 		BSStringT<char>* string;    // 18
 		BSFixedString fixedString;  // 20

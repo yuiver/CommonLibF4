@@ -29,6 +29,7 @@ set(HEADERS
 	include/RE/Bethesda/BGSPrimitive.h
 	include/RE/Bethesda/BGSSaveLoad.h
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
+	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
 	include/RE/Bethesda/bhkCharacterController.h
 	include/RE/Bethesda/BSBound.h
@@ -48,6 +49,7 @@ set(HEADERS
 	include/RE/Bethesda/BSScaleformManager.h
 	include/RE/Bethesda/BSScript.h
 	include/RE/Bethesda/BSScriptUtil.h
+	include/RE/Bethesda/BSSemaphore.h
 	include/RE/Bethesda/BSShader.h
 	include/RE/Bethesda/BSSoundHandle.h
 	include/RE/Bethesda/BSSpring.h
@@ -107,6 +109,7 @@ set(HEADERS
 	include/RE/Bethesda/PlayerControls.h
 	include/RE/Bethesda/PowerArmor.h
 	include/RE/Bethesda/PowerUtils.h
+	include/RE/Bethesda/ProcessLists.h
 	include/RE/Bethesda/Projectiles.h
 	include/RE/Bethesda/Script.h
 	include/RE/Bethesda/SCRIPT_OUTPUT.h

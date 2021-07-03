@@ -547,6 +547,13 @@ namespace RE
 		[[nodiscard]] TESBoundObject* GetObjectReference() const noexcept { return data.objectReference; }
 		[[nodiscard]] TESObjectCELL* GetParentCell() const noexcept { return parentCell; }
 
+		[[nodiscard]] ObjectRefHandle GetHandle()
+		{
+			using func_t = decltype(&TESObjectREFR::GetHandle);
+			REL::Relocation<func_t> func{ REL::ID(1573130) };
+			return func(this);
+		}
+
 		[[nodiscard]] std::uint32_t GetInventoryObjectCount(const TESBoundObject* a_object)
 		{
 			using func_t = decltype(&TESObjectREFR::GetInventoryObjectCount);

@@ -1372,8 +1372,16 @@ namespace RE
 		enum class Flag
 		{
 			kInterior = 1u << 0,
-			kHasWater = 1u << 1
+			kHasWater = 1u << 1,
+			kWarnToLeave = 1u << 9,
 		};
+
+		[[nodiscard]] bool GetCantWaitHere()
+		{
+			using func_t = decltype(&TESObjectCELL::GetCantWaitHere);
+			REL::Relocation<func_t> func{ REL::ID(376940) };
+			return func(this);
+		}
 
 		[[nodiscard]] std::int32_t GetDataX()
 		{
