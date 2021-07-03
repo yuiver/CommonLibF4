@@ -13,6 +13,7 @@ set(SOURCES
 	include/RE/Bethesda/BSScaleformManager.cpp
 	include/RE/Bethesda/BSScript.cpp
 	include/RE/Bethesda/Calendar.cpp
+	include/RE/Bethesda/CRC.cpp
 	include/RE/Bethesda/FormComponents.cpp
 	include/RE/Bethesda/TESBoundAnimObjects.cpp
 	include/RE/Bethesda/TESForms.cpp
