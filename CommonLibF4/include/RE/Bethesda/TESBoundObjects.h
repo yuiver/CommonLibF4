@@ -222,9 +222,9 @@ namespace RE
 
 		// members
 		std::int8_t flags;          // 00
-		Teaches teaches;                            // 08
-		std::uint32_t textOffsetX;                  // 10
-		std::uint32_t textOffsetY;                  // 14
+		Teaches teaches;            // 08
+		std::uint32_t textOffsetX;  // 10
+		std::uint32_t textOffsetY;  // 14
 	};
 	static_assert(sizeof(OBJ_BOOK) == 0x18);
 
@@ -483,7 +483,7 @@ namespace RE
 		kTwoHandSword = 5,
 		kTwoHandAxe = 6,
 		kBow = 7,
-		kStaff  = 8,
+		kStaff = 8,
 		kGun = 9,
 		kGrenade = 10,
 		kMine = 11,

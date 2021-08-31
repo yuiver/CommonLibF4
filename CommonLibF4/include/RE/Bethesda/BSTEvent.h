@@ -209,15 +209,14 @@ namespace RE
 			public BSTEventSource<Event>
 		{
 		public:
-			virtual ~EventSource();	 // 00
+			virtual ~EventSource();  // 00
 
 			// override
 			virtual BSEventNotifyControl ProcessEvent(const KillSDMEvent& a_event, BSTEventSource<KillSDMEvent>* a_source) override;  // 01
 		};
 		static_assert(sizeof(EventSource<void*>) == 0x68);
 
-
-		virtual ~BSTGlobalEvent();	// 00
+		virtual ~BSTGlobalEvent();  // 00
 
 		[[nodiscard]] static BSTGlobalEvent* GetSingleton()
 		{

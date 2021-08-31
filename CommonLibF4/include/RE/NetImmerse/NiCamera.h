@@ -4,7 +4,6 @@
 #include "RE/NetImmerse/NiFrustum.h"
 #include "RE/NetImmerse/NiRect.h"
 
-
 namespace RE
 {
 	class __declspec(novtable) NiCamera :
@@ -29,13 +28,13 @@ namespace RE
 		virtual void UpdateWorldData(NiUpdateData* a_data) override;            // 34
 
 		// members
-		float worldToCam[4][4];		// 120
-		NiFrustum viewFrustum;		// 160
-		float minNearPlaneDist;		// 17C
-		float maxFarNearRatio;		// 180
-		NiRect<float> port;			// 184
-		float lodAdjust;			// 194
-		std::uint64_t pad198{ 0 };	// 198
+		float worldToCam[4][4];     // 120
+		NiFrustum viewFrustum;      // 160
+		float minNearPlaneDist;     // 17C
+		float maxFarNearRatio;      // 180
+		NiRect<float> port;         // 184
+		float lodAdjust;            // 194
+		std::uint64_t pad198{ 0 };  // 198
 	};
 	static_assert(sizeof(NiCamera) == 0x1A0);
 }

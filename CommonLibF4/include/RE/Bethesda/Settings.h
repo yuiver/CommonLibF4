@@ -82,7 +82,7 @@ namespace RE
 			_value.u = a_value;
 		}
 
-		virtual ~Setting()	// 00
+		virtual ~Setting()  // 00
 		{
 			if (_key && _key[0] == 'S') {
 				free(const_cast<char*>(_key));

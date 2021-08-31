@@ -82,7 +82,7 @@ namespace RE
 	static_assert(sizeof(BSUIScaleformData) == 0x20);
 
 	class __declspec(novtable) BSUIMessageData :
-		public IUIMessageData // 00
+		public IUIMessageData  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::BSUIMessageData };

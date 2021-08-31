@@ -22,7 +22,7 @@ namespace RE
 		virtual ~BGSSynchronizedAnimationManager();  // 00
 
 		// override
-		virtual BSEventNotifyControl ProcessEvent(const AnimationDataSetupEvent&, BSTEventSource<AnimationDataSetupEvent>*) override;  // 01
+		virtual BSEventNotifyControl ProcessEvent(const AnimationDataSetupEvent&, BSTEventSource<AnimationDataSetupEvent>*) override;      // 01
 		virtual BSEventNotifyControl ProcessEvent(const AnimationDataCleanupEvent&, BSTEventSource<AnimationDataCleanupEvent>*) override;  // 02
 
 		[[nodiscard]] static BGSSynchronizedAnimationManager* GetSingleton()

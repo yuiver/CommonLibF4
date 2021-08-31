@@ -500,9 +500,9 @@ namespace RE
 		}
 
 		// members
-		TESForm* form;										// 20
-		stl::enumeration<ENUM_FORM_ID, std::uint8_t> type;	// 28
-		BSFixedString formEditorID;							// 30
+		TESForm* form;                                      // 20
+		stl::enumeration<ENUM_FORM_ID, std::uint8_t> type;  // 28
+		BSFixedString formEditorID;                         // 30
 
 	private:
 		BGSDefaultObject* ctor(const char* a_name, ENUM_FORM_ID a_formType, const char* a_description)

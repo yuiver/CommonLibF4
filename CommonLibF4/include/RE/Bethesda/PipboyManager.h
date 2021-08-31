@@ -5,9 +5,9 @@
 #include "RE/Bethesda/BSInputEventUser.h"
 #include "RE/Bethesda/BSPointerHandle.h"
 #include "RE/Bethesda/BSSoundHandle.h"
+#include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTPoint.h"
 #include "RE/Bethesda/BSTSingleton.h"
-#include "RE/Bethesda/BSTEvent.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE

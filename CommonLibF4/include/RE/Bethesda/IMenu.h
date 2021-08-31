@@ -15,8 +15,8 @@
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/Events.h"
 #include "RE/Bethesda/InventoryUserUIUtils.h"
-#include "RE/Bethesda/SendHUDMessage.h"
 #include "RE/Bethesda/SWFToCodeFunctionHandler.h"
+#include "RE/Bethesda/SendHUDMessage.h"
 #include "RE/Bethesda/TESForms.h"
 #include "RE/Bethesda/UIMessage.h"
 #include "RE/Bethesda/UserEvents.h"
@@ -146,13 +146,11 @@ namespace RE
 		{
 			if (menuObj.IsObject()) {
 				auto strUserEvent = a_event->QUserEvent();
-				if (a_event->disabled && CanHandleWhenDisabled(a_event))
-				{
+				if (a_event->disabled && CanHandleWhenDisabled(a_event)) {
 					strUserEvent = a_event->QRawUserEvent();
 				}
 
-				if (inputEventHandlingEnabled && menuObj.HasMember("ProcessUserEvent"))
-				{
+				if (inputEventHandlingEnabled && menuObj.HasMember("ProcessUserEvent")) {
 					Scaleform::GFx::Value args[2];
 					args[0] = strUserEvent.c_str();
 					args[1] = a_event->QJustPressed();
@@ -976,8 +974,7 @@ namespace RE
 
 		void SetMessageBoxMode(bool a_messageBoxMode)
 		{
-			if (menuObj.IsObject() && menuObj.HasMember("messageBoxIsActive"sv))
-			{
+			if (menuObj.IsObject() && menuObj.HasMember("messageBoxIsActive"sv)) {
 				menuObj.SetMember("messageBoxIsActive"sv, a_messageBoxMode);
 			}
 		}

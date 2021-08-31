@@ -17,8 +17,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSTCommonScrapHeapMessageQueue<BSPackedTask> queue;	 // 00
-		void (*UnpackFunc_t)(const BSPackedTask&);			 // 28
+		BSTCommonScrapHeapMessageQueue<BSPackedTask> queue;  // 00
+		void (*UnpackFunc_t)(const BSPackedTask&);           // 28
 	};
 	static_assert(sizeof(BSPackedTaskQueue) == 0x30);
 
@@ -26,11 +26,11 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t size;		   // 00
-		std::uint32_t width;	   // 04
-		std::uint32_t height;	   // 08
+		std::uint32_t size;        // 00
+		std::uint32_t width;       // 04
+		std::uint32_t height;      // 08
 		std::uint32_t pad0C{ 0 };  // 0C
-		char* buffer;			   // 10
+		char* buffer;              // 10
 	};
 	static_assert(sizeof(BSSaveDataSystemUtilityImage) == 0x18);
 
@@ -41,7 +41,7 @@ namespace RE
 		virtual ~Main();  // 00
 
 		// override
-		virtual BSEventNotifyControl ProcessEvent(const PositionPlayerEvent& a_event, BSTEventSource<PositionPlayerEvent>* a_source) override;	// 01
+		virtual BSEventNotifyControl ProcessEvent(const PositionPlayerEvent& a_event, BSTEventSource<PositionPlayerEvent>* a_source) override;  // 01
 
 		[[nodiscard]] static Main* GetSingleton()
 		{
@@ -57,33 +57,33 @@ namespace RE
 		}
 
 		// members
-		BSTArray<BSTTuple<float, BSPointerHandle<Actor>>> sortedVisibleHighActors;	// 08
-		std::uint32_t localMapRenderDelay;											// 20
-		bool quitGame;																// 24
-		bool resetGame;																// 25
-		bool fullReset;																// 26
-		bool gameActive;															// 27
-		bool onIdle;																// 28
-		bool reloadContent;															// 29
-		bool freezeTime;															// 2A
-		bool freezeNextFrame;														// 2B
-		std::uint32_t pad2C{ 0 };													// 2C
-		void* wnd;																	// 30
-		void* instance;																// 38
-		std::uint32_t threadID;														// 40
-		std::uint32_t pad44{ 0 };													// 44
-		ScrapHeap packedTaskHeap;													// 48
-		BSPackedTaskQueue taskQueue;												// D8
-		ScrapHeap secondaryPackedTaskHeap;											// 108
-		BSPackedTaskQueue secondaryTaskQueue;										// 198
-		TESPageCache* pageCache;													// 1C8
-		bool inMenuMode;															// 1D0
-		bool inDialog;																// 1D1
-		bool renderingMenuBG;														// 1D2
-		bool signOutPending;														// 1D3
-		std::uint32_t pad1D4{ 0 };													// 1D4
-		BSSaveDataSystemUtilityImage saveDataBackgroundImages[3];					// 1D8
-		BSSaveDataSystemUtilityImage saveDataIconImages[3];							// 220
+		BSTArray<BSTTuple<float, BSPointerHandle<Actor>>> sortedVisibleHighActors;  // 08
+		std::uint32_t localMapRenderDelay;                                          // 20
+		bool quitGame;                                                              // 24
+		bool resetGame;                                                             // 25
+		bool fullReset;                                                             // 26
+		bool gameActive;                                                            // 27
+		bool onIdle;                                                                // 28
+		bool reloadContent;                                                         // 29
+		bool freezeTime;                                                            // 2A
+		bool freezeNextFrame;                                                       // 2B
+		std::uint32_t pad2C{ 0 };                                                   // 2C
+		void* wnd;                                                                  // 30
+		void* instance;                                                             // 38
+		std::uint32_t threadID;                                                     // 40
+		std::uint32_t pad44{ 0 };                                                   // 44
+		ScrapHeap packedTaskHeap;                                                   // 48
+		BSPackedTaskQueue taskQueue;                                                // D8
+		ScrapHeap secondaryPackedTaskHeap;                                          // 108
+		BSPackedTaskQueue secondaryTaskQueue;                                       // 198
+		TESPageCache* pageCache;                                                    // 1C8
+		bool inMenuMode;                                                            // 1D0
+		bool inDialog;                                                              // 1D1
+		bool renderingMenuBG;                                                       // 1D2
+		bool signOutPending;                                                        // 1D3
+		std::uint32_t pad1D4{ 0 };                                                  // 1D4
+		BSSaveDataSystemUtilityImage saveDataBackgroundImages[3];                   // 1D8
+		BSSaveDataSystemUtilityImage saveDataIconImages[3];                         // 220
 	};
 	static_assert(sizeof(Main) == 0x268);
 }

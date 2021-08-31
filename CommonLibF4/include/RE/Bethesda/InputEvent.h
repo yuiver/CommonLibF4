@@ -268,12 +268,11 @@ namespace RE
 		virtual ~IDEvent() = default;  // 00
 
 		// override (InputEvent)
-		bool HasIDCode() const override { return true; }                           // 02
+		bool HasIDCode() const override { return true; }  // 02
 
 		const BSFixedString& QUserEvent() const override  // 03
 		{
-			if (!disabled)
-			{
+			if (!disabled) {
 				return strUserEvent;
 			}
 
