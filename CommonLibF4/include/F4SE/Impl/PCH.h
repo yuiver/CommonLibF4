@@ -22,7 +22,6 @@
 #include <memory>
 #include <new>
 #include <optional>
-#include <ranges>
 #include <source_location>
 #include <span>
 #include <sstream>
@@ -39,13 +38,11 @@ static_assert(
 	std::is_integral_v<std::time_t> && sizeof(std::time_t) == sizeof(std::size_t),
 	"wrap std::time_t instead");
 
-#pragma warning(push)
-#include <boost/iostreams/device/mapped_file.hpp>
-#include <boost/iterator/function_input_iterator.hpp>
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/predef.h>
+#pragma warning(push, 0)
 #include <boost/stl_interfaces/iterator_interface.hpp>
 #include <boost/stl_interfaces/sequence_container_interface.hpp>
+#include <fmt/format.h>
+#include <mmio/mmio.hpp>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
@@ -208,6 +205,63 @@ namespace F4SE
 
 		template <class EF>
 		scope_exit(EF) -> scope_exit<EF>;
+
+		template <class F>
+		class counted_function_iterator :
+			public boost::stl_interfaces::iterator_interface<
+				counted_function_iterator<F>,
+				std::input_iterator_tag,
+				std::remove_reference_t<decltype(std::declval<F>()())>>
+		{
+		private:
+			using super =
+				boost::stl_interfaces::iterator_interface<
+					counted_function_iterator<F>,
+					std::input_iterator_tag,
+					std::remove_reference_t<decltype(std::declval<F>()())>>;
+
+		public:
+			using difference_type = typename super::difference_type;
+			using value_type = typename super::value_type;
+			using pointer = typename super::pointer;
+			using reference = typename super::reference;
+			using iterator_category = typename super::iterator_category;
+
+			counted_function_iterator() noexcept = default;
+
+			counted_function_iterator(
+				F a_fn,
+				std::size_t a_count) noexcept :
+				_fn(std::move(a_fn)),
+				_left(a_count)
+			{}
+
+			[[nodiscard]] reference operator*() const  //
+				noexcept(noexcept(std::declval<F>()()))
+			{
+				assert(_fn != std::nullopt);
+				return (*_fn)();
+			}
+
+			[[nodiscard]] friend bool operator==(
+				const counted_function_iterator& a_lhs,
+				const counted_function_iterator& a_rhs) noexcept
+			{
+				return a_lhs._left == a_rhs._left;
+			}
+
+			using super::operator++;
+
+			void operator++() noexcept
+			{
+				assert(_left > 0);
+				_left -= 1;
+			}
+
+		private:
+			std::optional<F> _fn;
+			std::size_t _left{ 0 };
+		};
 
 		template <
 			class Enum,

@@ -1,34 +1,28 @@
-cmake_minimum_required(VERSION 3.20)
-
-include(../cmake/common.cmake)
 add_project(
 	TARGET_TYPE EXECUTABLE
 	PROJECT Tests
 	COMPILE_DEFINITIONS
 		F4SE_TEST_SUITE
 	INCLUDE_DIRECTORIES
-		../CommonLibF4/include
+		"../CommonLibF4/include"
 		src
 	GROUPED_FILES
-		src/BSTHashMap.cpp
-		src/pch.h
-		.clang-format
+		"src/BSTHashMap.cpp"
+		"src/main.cpp"
+		"src/pch.h"
 	PRECOMPILED_HEADERS
-		src/pch.h
+		"src/pch.h"
 )
 
-set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost MODULE REQUIRED)
+find_package(Catch2 REQUIRED CONFIG)
 
-find_package(Boost
-	MODULE
-	REQUIRED
-	COMPONENTS
-		unit_test_framework
-)
+include(Catch)
+catch_discover_tests("${PROJECT_NAME}")
 
 target_link_libraries(
-	${PROJECT_NAME}
+	"${PROJECT_NAME}"
 	PRIVATE
 		Boost::headers
-		Boost::unit_test_framework
+		Catch2::Catch2
 )

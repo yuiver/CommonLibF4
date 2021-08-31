@@ -643,7 +643,6 @@ namespace RE::BSScript
 	void PackVariable(Variable& a_var, T&& a_val)  //
 		requires(detail::array<std::remove_reference_t<T>>)
 	{
-		using size_type = typename std::remove_cvref_t<T>::size_type;
 		using value_type = detail::decay_t<typename std::remove_cvref_t<T>::value_type>;
 		using reference_type =
 			std::conditional_t<
@@ -664,7 +663,7 @@ namespace RE::BSScript
 				return false;
 			}
 
-			size_type i = 0;
+			std::uint32_t i = 0;
 			for (auto&& elem : std::forward<T>(a_val)) {
 				detail::PackVariable(out->elements[i++], static_cast<reference_type>(elem));
 			}
@@ -813,7 +812,8 @@ namespace RE::BSScript
 					  std::same_as<T, BSFixedStringCS>) {
 			return get<BSFixedString>(a_var);
 		} else {
-			return T(static_cast<std::string_view>(get<BSFixedString>(a_var)));
+			const auto str = get<BSFixedString>(a_var);
+			return T(static_cast<std::string_view>(str));
 		}
 	}
 
@@ -1030,7 +1030,16 @@ namespace RE::BSScript
 			const auto pframe = std::addressof(a_stackFrame);
 			const auto page = a_stack.GetPageForFrame(pframe);
 			const auto args = [&]<class T>(std::in_place_type_t<T>, std::size_t a_index) {
-				return UnpackVariable<detail::decay_t<T>>(a_stack.GetStackFrameVariable(pframe, a_index, page));
+				if (a_stackFrame.size > a_index) {
+					return UnpackVariable<detail::decay_t<T>>(
+						a_stack.GetStackFrameVariable(
+							pframe,
+							static_cast<std::uint32_t>(a_index),
+							page));
+				} else {
+					assert(false);
+					return T();
+				}
 			};
 
 			if constexpr (LONG) {

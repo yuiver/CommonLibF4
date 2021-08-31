@@ -87,6 +87,7 @@
 #include "RE/Bethesda/MagicItems.h"
 #include "RE/Bethesda/Main.h"
 #include "RE/Bethesda/MemoryManager.h"
+#include "RE/Bethesda/MenuControls.h"
 #include "RE/Bethesda/MenuCursor.h"
 #include "RE/Bethesda/MessageMenuManager.h"
 #include "RE/Bethesda/Movement.h"

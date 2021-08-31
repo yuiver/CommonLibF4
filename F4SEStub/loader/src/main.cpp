@@ -87,17 +87,18 @@ namespace win32
 
 namespace unicode
 {
-	using boost::nowide::narrow;
-	using boost::nowide::widen;
+	using nowide::cerr;
+	using nowide::narrow;
+	using nowide::widen;
 
 	[[nodiscard]] std::string narrow(std::wstring_view a_str)
 	{
-		return boost::nowide::narrow(a_str.data(), a_str.size());
+		return nowide::narrow(a_str.data(), a_str.size());
 	}
 
 	[[nodiscard]] std::wstring widen(std::string_view a_str)
 	{
-		return boost::nowide::widen(a_str.data(), a_str.size());
+		return nowide::widen(a_str.data(), a_str.size());
 	}
 }
 
@@ -181,7 +182,7 @@ namespace cli
 
 		struct priority
 		{
-			[[nodiscard]] bool operator()(const std::string& a_name, const std::string& a_value, DWORD& a_dst)
+			bool operator()(const std::string& a_name, const std::string& a_value, DWORD& a_dst)
 			{
 				constexpr frozen::map<std::string_view, ::DWORD, 6> map = {
 					std::make_pair("realtime"sv, REALTIME_PRIORITY_CLASS),
@@ -426,7 +427,7 @@ namespace win32
 		std::optional<::DWORD> a_prio)
 		-> std::pair<unique_module, unique_thread>
 	{
-		const auto proc = boost::nowide::widen(a_proc.data(), a_proc.size());
+		const auto proc = unicode::widen(a_proc.data(), a_proc.size());
 		unique_process_information pi;
 		unique_startup_info si;
 		si->cb = sizeof(decltype(si)::value_type);
@@ -674,7 +675,7 @@ namespace win32
 
 		const ::DWORD time =
 			a_time == std::chrono::milliseconds::max() ?
-				INFINITE :
+                INFINITE :
                 static_cast<::DWORD>(a_time.count());
 
 		if (::WaitForSingleObject(
@@ -839,9 +840,9 @@ void augment_environment(
 {
 	auto exe =
 		a_options.altexe ?
-			*a_options.altexe :
+            *a_options.altexe :
 		a_options.editor ?
-			"CreationKit.exe"s :
+            "CreationKit.exe"s :
             "Fallout4.exe"s;
 	auto dll = [&]() {
 		if (a_options.altdll) {
@@ -851,7 +852,7 @@ void augment_environment(
 			return fmt::format(
 				FMT_STRING("{}_{}_{}_{}.dll"),
 				(a_options.editor ?
-						"f4se_editor"s :
+                        "f4se_editor"s :
                         "f4se"s),
 				version[0],
 				version[1],
@@ -919,7 +920,7 @@ void initialize_log()
 
 	args.libFileName = reinterpret_cast<::LPCWSTR>(mem.get() + calc.offset_of(type_t::kLibFileName));
 	args.procName = !a_init.empty() ?
-	                    reinterpret_cast<::LPCSTR>(mem.get() + calc.offset_of(type_t::kProcName)) :
+                        reinterpret_cast<::LPCSTR>(mem.get() + calc.offset_of(type_t::kProcName)) :
                         nullptr;
 
 	const auto write = [&](type_t a_type, const void* a_src) {
@@ -983,7 +984,7 @@ void do_main(std::span<const wchar_t*> a_args)
 int wmain(int a_argc, wchar_t* a_argv[])
 {
 	const auto cerr = [](std::string_view a_err) {
-		boost::nowide::cerr
+		unicode::cerr
 			<< "failed to initialize log with error:\n"
 			<< "\t" << a_err << '\n';
 	};

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #define REL_MAKE_MEMBER_FUNCTION_POD_TYPE_HELPER_IMPL(a_nopropQual, a_propQual, ...)              \
 	template <                                                                                    \
 		class R,                                                                                  \
@@ -409,7 +410,7 @@ namespace REL
 				return WinAPI::GetEnvironmentVariable(
 					ENVIRONMENT.data(),
 					_filename.data(),
-					_filename.size());
+					static_cast<std::uint32_t>(_filename.size()));
 			};
 
 			_filename.resize(getFilename());
@@ -592,18 +593,19 @@ namespace REL
 		void load()
 		{
 			const auto version = Module::get().version();
-			auto path = "Data/F4SE/Plugins/version-"s;
-			path += version.string();
-			path += ".bin"sv;
-
-			_mmap.open(path);
+			const auto path = fmt::format(
+				"Data/F4SE/Plugins/version-{}.bin",
+				version.string());
+			if (!_mmap.open(path)) {
+				stl::report_and_fail(fmt::format("failed to open: {}", path));
+			}
 			_id2offset = std::span{
 				reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
 				*reinterpret_cast<const std::uint64_t*>(_mmap.data())
 			};
 		}
 
-		boost::iostreams::mapped_file_source _mmap;
+		mmio::mapped_file_source _mmap;
 		std::span<const mapping_t> _id2offset;
 	};
 

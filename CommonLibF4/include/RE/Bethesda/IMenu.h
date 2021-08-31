@@ -686,6 +686,13 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::Console };
 		static constexpr auto MENU_NAME{ "Console"sv };
 
+		static void ExecuteCommand(const char* a_command)
+		{
+			using func_t = decltype(&Console::ExecuteCommand);
+			REL::Relocation<func_t> func{ REL::ID(1061864) };
+			return func(a_command);
+		}
+
 		[[nodiscard]] static decltype(auto) GetCurrentPickIndex()
 		{
 			REL::Relocation<std::int32_t*> currentPickIndex{ REL::ID(1407033) };
@@ -709,7 +716,7 @@ namespace RE
 			const auto idx = GetCurrentPickIndex();
 			const auto& refs = GetPickRefs();
 			return 0 <= idx && static_cast<std::size_t>(idx) < refs.size() ?
-			           refs[static_cast<std::size_t>(idx)] :
+                       refs[static_cast<std::size_t>(idx)] :
                        ObjectRefHandle{};
 		}
 
