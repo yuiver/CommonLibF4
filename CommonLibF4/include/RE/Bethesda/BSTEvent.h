@@ -209,10 +209,21 @@ namespace RE
 			public BSTEventSource<Event>
 		{
 		public:
-			virtual ~EventSource();  // 00
+			EventSource(KillSDMEventSource* a_source)
+			{
+				a_source->RegisterSink(this);
+			}
+
+			virtual ~EventSource() = default;  // 00
 
 			// override
-			virtual BSEventNotifyControl ProcessEvent(const KillSDMEvent& a_event, BSTEventSource<KillSDMEvent>* a_source) override;  // 01
+			virtual BSEventNotifyControl ProcessEvent([[maybe_unused]] const KillSDMEvent& a_event, BSTEventSource<KillSDMEvent>* a_source) override  // 01
+			{
+				a_source->UnregisterSink(this);
+				delete this;
+
+				return BSEventNotifyControl::kContinue;
+			}
 		};
 		static_assert(sizeof(EventSource<void*>) == 0x68);
 

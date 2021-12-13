@@ -48,10 +48,16 @@ namespace RE
 
 	struct ApplyColorUpdateEvent
 	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<ApplyColorUpdateEvent>;
+
 	public:
-		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<ApplyColorUpdateEvent>* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<RE::BSTGlobalEvent::EventSource<ApplyColorUpdateEvent>**> singleton{ REL::ID(421543) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(421543) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
 			return *singleton;
 		}
 	};
@@ -60,15 +66,21 @@ namespace RE
 	class CanDisplayNextHUDMessage :
 		public BSTValueEvent<bool>
 	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<CanDisplayNextHUDMessage>;
+
 	public:
 		CanDisplayNextHUDMessage(bool a_value)
 		{
 			optionalValue = a_value;
 		}
 
-		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<CanDisplayNextHUDMessage>* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<RE::BSTGlobalEvent::EventSource<CanDisplayNextHUDMessage>**> singleton{ REL::ID(344866) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(344866) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
 			return *singleton;
 		}
 	};
@@ -93,10 +105,16 @@ namespace RE
 	class CurrentRadiationSourceCount :
 		public BSTValueEvent<std::uint32_t>
 	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<CurrentRadiationSourceCount>;
+
 	public:
-		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<CurrentRadiationSourceCount>* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<RE::BSTGlobalEvent::EventSource<CurrentRadiationSourceCount>**> singleton{ REL::ID(696410) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(696410) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
 			return *singleton;
 		}
 	};
@@ -118,10 +136,16 @@ namespace RE
 
 	struct DoBeforeNewOrLoadCompletedEvent
 	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<DoBeforeNewOrLoadCompletedEvent>;
+
 	public:
-		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<DoBeforeNewOrLoadCompletedEvent>* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<RE::BSTGlobalEvent::EventSource<DoBeforeNewOrLoadCompletedEvent>**> singleton{ REL::ID(787908) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(787908) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
 			return *singleton;
 		}
 	};
@@ -200,29 +224,41 @@ namespace RE
 
 	class PerkPointIncreaseEvent
 	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<PerkPointIncreaseEvent>;
+
 	public:
 		PerkPointIncreaseEvent(std::uint8_t a_perkCount) :
 			perkCount(a_perkCount)
 		{}
 
-		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<PerkPointIncreaseEvent>* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<RE::BSTGlobalEvent::EventSource<PerkPointIncreaseEvent>**> singleton{ REL::ID(685859) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(685859) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
 			return *singleton;
 		}
 
 		// members
-		std::uint8_t perkCount;  // 00
+		std::uint8_t perkCount{ 0 };  // 00
 	};
 	static_assert(sizeof(PerkPointIncreaseEvent) == 0x1);
 
 	class PipboyLightEvent :
-		public RE::BSTValueEvent<bool>
+		public BSTValueEvent<bool>
 	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<PipboyLightEvent>;
+
 	public:
-		[[nodiscard]] static RE::BSTGlobalEvent::EventSource<PipboyLightEvent>* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<RE::BSTGlobalEvent::EventSource<PipboyLightEvent>**> singleton{ REL::ID(1140080) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(1140080) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
 			return *singleton;
 		}
 	};
@@ -238,7 +274,7 @@ namespace RE
 	static_assert(sizeof(PlayerAmmoCounts) == 0x08);
 
 	class PlayerAmmoCountEvent :
-		public RE::BSTValueEvent<PlayerAmmoCounts>
+		public BSTValueEvent<PlayerAmmoCounts>
 	{
 	public:
 	};
@@ -284,7 +320,7 @@ namespace RE
 	struct TESContainerChangedEvent
 	{
 	public:
-		[[nodiscard]] static RE::BSTEventSource<TESContainerChangedEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESContainerChangedEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESContainerChangedEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(242538) };
