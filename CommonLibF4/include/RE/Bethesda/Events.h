@@ -298,7 +298,6 @@ namespace RE
 		std::int32_t itemCount;            // 0C
 		std::uint32_t referenceFormID;     // 10
 		std::uint16_t uniqueID;            // 14
-		std::uint16_t pad16{ 0 };          // 16
 	};
 	static_assert(sizeof(TESContainerChangedEvent) == 0x18);
 

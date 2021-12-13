@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/Bethesda/BSInputEventSingleUser.h"
 #include "RE/Bethesda/BSTSingleton.h"
 
 namespace RE
@@ -18,18 +19,43 @@ namespace RE
 			return *singleton;
 		}
 
-		void ClearConstraints()
+		void CenterCursor()
 		{
-			using func_t = decltype(&MenuCursor::ClearConstraints);
-			REL::Relocation<func_t> func{ REL::ID(1425074) };
+			using func_t = decltype(&MenuCursor::CenterCursor);
+			REL::Relocation<func_t> func{ REL::ID(1107298) };
 			return func(this);
 		}
 
-		void SetCursorConstraintsRaw(std::uint32_t a_TLX, std::uint32_t a_TLY, std::uint32_t a_width, std::uint32_t a_height)
+		void ClearConstraints() noexcept
+		{
+			leftConstraintPct = 0.0f;
+			rightConstraintPct = 0.0f;
+			topConstraintPct = 0.0f;
+			bottomConstraintPct = 0.0f;
+		}
+
+		void ConstrainForPipboy();
+		void ConstrainForPipboyPA();
+
+		void RegisterCursor()
+		{
+			using func_t = decltype(&MenuCursor::RegisterCursor);
+			REL::Relocation<func_t> func{ REL::ID(1318193) };
+			return func(this);
+		}
+
+		void SetCursorConstraintsRaw(std::uint32_t a_tlx, std::uint32_t a_tly, std::uint32_t a_width, std::uint32_t a_height)
 		{
 			using func_t = decltype(&MenuCursor::SetCursorConstraintsRaw);
 			REL::Relocation<func_t> func{ REL::ID(907092) };
-			return func(this, a_TLX, a_TLY, a_width, a_height);
+			return func(this, a_tlx, a_tly, a_width, a_height);
+		}
+
+		void UnregisterCursor()
+		{
+			using func_t = decltype(&MenuCursor::UnregisterCursor);
+			REL::Relocation<func_t> func{ REL::ID(1225249) };
+			return func(this);
 		}
 
 		// members
@@ -47,7 +73,6 @@ namespace RE
 		std::uint32_t registeredCursors;  // 50
 		bool forceOSCursorPos;            // 54
 		bool allowGamepadCursorOverride;  // 55
-		std::uint16_t pad56{ 0 };         // 56
 	};
 	static_assert(sizeof(MenuCursor) == 0x58);
 }

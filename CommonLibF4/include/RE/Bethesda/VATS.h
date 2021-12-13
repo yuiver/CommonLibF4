@@ -55,20 +55,16 @@ namespace RE
 		// members
 		BSTArray<BSTSmartPointer<VATSCommand>> commands;       // 28
 		stl::enumeration<VATS_MODE_ENUM, std::uint32_t> mode;  // 40
-		std::uint32_t pad44{ 0 };                              // 44
 		VATSCameraContext* cameraContext;                      // 48
 		float castingAfterKillDelay;                           // 50
-		std::uint32_t pad54{ 0 };                              // 54
 		NiPointer<Projectile> firstProjectile;                 // 58
 		NiPointer<Projectile> lastProjectile;                  // 60
 		float fakeShotCounter;                                 // 68
-		std::uint32_t pad6C{ 0 };                              // 6C
 		TESIdleForm* meleeAttack;                              // 70
 		NiPointer<BSLight> VATSLight;                          // 78
 		std::int32_t killCount;                                // 80
 		float magicTimeSlowdown;                               // 84
 		float playerMagicTimeSlowdown;                         // 88
-		std::uint32_t pad8C{ 0 };                              // 8C
 		NiPointer<TESObjectREFR> VATSTarget;                   // 90
 		NiPointer<Actor> VATSAttacker;                         // 98
 		NiPointer<Actor> stranger;                             // A0
@@ -83,7 +79,6 @@ namespace RE
 		bool firstAttackFired;                                 // CB
 		bool readyForShutdown;                                 // CC
 		bool wantsStranger;                                    // CD
-		std::uint16_t padCE{ 0 };                              // CE
 		BSSpinLock spinLock;                                   // D0
 	};
 	static_assert(sizeof(VATS) == 0xD8);

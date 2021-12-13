@@ -80,19 +80,32 @@ namespace RE
 			return func(this);
 		}
 
+		void RefreshPipboyRenderSurface()
+		{
+			using func_t = decltype(&PipboyManager::RefreshPipboyRenderSurface);
+			REL::Relocation<func_t> func{ REL::ID(81339) };
+			return func(this);
+		}
+
+		void UpdateCursorConstraint(bool a_enable)
+		{
+			using func_t = decltype(&PipboyManager::UpdateCursorConstraint);
+			REL::Relocation<func_t> func{ REL::ID(900802) };
+			return func(this, a_enable);
+		}
+
 		// members
 		BSSoundHandle pipboyHumSound;                                  // 01C
 		BSTPoint2<float> inputVector;                                  // 024
 		BSTPoint2<float> newInput;                                     // 02C
-		std::uint32_t pad34{ 0 };                                      // 034
 		NiPointer<BSTriShape> debugModeGeom;                           // 038
 		Inventory3DManager inv3DModelManager;                          // 040
 		BGSNote* holotapeToLoad;                                       // 180
 		BGSTerminal* terminalToLoad;                                   // 188
-		BSFixedString strMenuToOpen;                                   // 190
-		BSFixedString strOpenAnimEvent;                                // 198
-		BSFixedString strCloseAnimEvent;                               // 1A0
-		stl::enumeration<LOWER_REASON, std::uint32_t> loweringReason;  // 1A8
+		BSFixedString menuToOpen;                                      // 190
+		BSFixedString openAnimEvent;                                   // 198
+		BSFixedString closeAnimEvent;                                  // 1A0
+		stl::enumeration<LOWER_REASON, std::int32_t> loweringReason;   // 1A8
 		PipboyRadioController radioController;                         // 1AC
 		TESBoundObject* itemAnimOnClose;                               // 1B0
 		ObjectRefHandle fastTravelLocation;                            // 1B8
@@ -109,8 +122,6 @@ namespace RE
 		bool pipboyRaising;                                            // 1E3
 		bool wasMotionBlurActive;                                      // 1E4
 		bool wasPipboyLightActive;                                     // 1E5
-		std::uint16_t pad1E6{ 0 };                                     // 1E6
-		std::uint64_t pad1E8{ 0 };                                     // 1E8
 	};
 	static_assert(sizeof(PipboyManager) == 0x1F0);
 }

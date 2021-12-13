@@ -7,10 +7,13 @@
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSInputEventUser.h"
 #include "RE/Bethesda/BSPointerHandle.h"
+#include "RE/Bethesda/BSSoundHandle.h"
 #include "RE/Bethesda/BSTArray.h"
+#include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/Bethesda/BSTInterpolator.h"
 #include "RE/Bethesda/BSTOptional.h"
+#include "RE/Bethesda/BSTSingleton.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/Events.h"
@@ -19,8 +22,8 @@
 #include "RE/Bethesda/SendHUDMessage.h"
 #include "RE/Bethesda/TESForms.h"
 #include "RE/Bethesda/UIMessage.h"
+#include "RE/Bethesda/UIShaderFXInfo.h"
 #include "RE/Bethesda/UserEvents.h"
-#include "RE/NetImmerse/NiColor.h"
 #include "RE/NetImmerse/NiMatrix3.h"
 #include "RE/NetImmerse/NiPoint2.h"
 #include "RE/NetImmerse/NiPoint3.h"
@@ -42,8 +45,10 @@ namespace RE
 	class BSGFxFunctionBase;
 	class BSGFxShaderFXTarget;
 	class ExtraDataList;
+	class MenuOpenCloseEvent;
 	class MessageBoxData;
 	class NiAVObject;
+	class NiTexture;
 	class TESBoundObject;
 	class TESForm;
 	class TESObjectREFR;
@@ -51,9 +56,12 @@ namespace RE
 	class UsesBSGFXFunctionHandler;
 	class WorkshopMenuGeometry;
 
+	struct IdleInputEvent;
 	struct InvInterfaceStateChangeEvent;
 	struct LoadedInventoryModel;
 	struct PickRefUpdateEvent;
+	struct PipboyValueChangedEvent;
+	struct UIAdvanceMenusFunctionCompleteEvent;
 
 	enum class HUDColorTypes
 	{
@@ -76,6 +84,40 @@ namespace RE
 		kRenderImagespace,
 		kEnsureDisplayMenuCalled,
 		kPostDisplay
+	};
+
+	enum class PIPBOY_PAGES : std::uint32_t
+	{
+		kStat,
+		kInv,
+		kData,
+		kMap,
+		kRadio
+	};
+
+	enum class UI_DEPTH_PRIORITY
+	{
+		kUndefined,
+		k3DUnderHUD,
+		kBook,
+		kScope,
+		kSWFLoader,
+		kHUD,
+		kStandard,
+		kStandard3DModel,
+		kPipboy,
+		kTerminal,
+		kGameMessage,
+		kPauseMenu,
+		kLoadingFader,
+		kLoading3DModel,
+		kLoadingMenu,
+		kMessage,
+		kButtonBarMenu,
+		kButtonBarSupressingMenu,
+		kDebug,
+		kConsole,
+		kCursor
 	};
 
 	enum class UI_MENU_FLAGS : std::uint32_t
@@ -109,6 +151,26 @@ namespace RE
 		kLargeScaleformRenderCacheMode = 1 << 26,
 		kUsesMovementToDirection = 1 << 27
 	};
+
+	class __declspec(novtable) FlatScreenModel :
+		public BSTSingletonSDM<FlatScreenModel>,                  // 08
+		public BSTEventSink<UIAdvanceMenusFunctionCompleteEvent>  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::FlatScreenModel };
+		static constexpr auto VTABLE{ VTABLE::FlatScreenModel };
+
+		[[nodiscard]] static FlatScreenModel* GetSingleton()
+		{
+			REL::Relocation<FlatScreenModel**> singleton{ REL::ID(847741) };
+			return *singleton;
+		}
+
+		// members
+		BSFixedString customRendererName;  // 10
+		void* model;                       // 18 - TODO
+	};
+	static_assert(sizeof(FlatScreenModel) == 0x20);
 
 	class IMenu :
 		public SWFToCodeFunctionHandler,  // 00
@@ -222,7 +284,7 @@ namespace RE
 
 		virtual bool CanAdvanceMovie(bool a_pauseMenuShowing)  // 0D
 		{
-			return !a_pauseMenuShowing || depthPriority > 10 || AdvancesUnderPauseMenu();
+			return !a_pauseMenuShowing || depthPriority > UI_DEPTH_PRIORITY::kGameMessage || AdvancesUnderPauseMenu();
 		}
 
 		virtual bool CanHandleWhenDisabled([[maybe_unused]] const ButtonEvent* a_event) { return false; }                      // 0E
@@ -231,7 +293,8 @@ namespace RE
 		virtual void TransferCachedShaderFXQuadsForRenderer([[maybe_unused]] const BSFixedString& a_rendererName) { return; }  // 11
 		virtual void SetViewportRect([[maybe_unused]] const NiRect<float>& a_viewportRect) { return; }                         // 12
 
-		[[nodiscard]] constexpr bool AdvancesUnderPauseMenu() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kAdvancesUnderPauseMenu); }
+		[[nodiscard]] bool AdvancesUnderPauseMenu() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kAdvancesUnderPauseMenu); }
+		[[nodiscard]] bool AssignsCursorToRenderer() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kAssignCursorToRenderer); }
 
 		void DoAdvanceMovie(float a_timeDelta)
 		{
@@ -262,7 +325,7 @@ namespace RE
 			return func(this);
 		}
 
-		[[nodiscard]] constexpr bool RendersUnderPauseMenu() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kRendersUnderPauseMenu); }
+		[[nodiscard]] bool RendersUnderPauseMenu() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kRendersUnderPauseMenu); }
 
 		[[nodiscard]] constexpr bool IsMenuDisplayEnabled() const noexcept { return passesTopMenuTest && menuCanBeVisible; }
 
@@ -281,6 +344,8 @@ namespace RE
 			}
 		}
 
+		[[nodiscard]] bool UsesCursor() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kUsesCursor); }
+
 		// members
 		Scaleform::GFx::Value menuObj;                                                                                     // 20
 		Scaleform::Ptr<Scaleform::GFx::Movie> uiMovie;                                                                     // 40
@@ -292,42 +357,10 @@ namespace RE
 		bool menuCanBeVisible{ true };                                                                                     // 61
 		bool hasQuadsForCumstomRenderer{ false };                                                                          // 62
 		bool hasDoneFirstAdvanceMovie{ false };                                                                            // 63
-		std::uint8_t depthPriority{ 6 };                                                                                   // 64
-		std::uint8_t pad65{ 0 };                                                                                           // 65
-		std::uint16_t pad66{ 0 };                                                                                          // 66
+		stl::enumeration<UI_DEPTH_PRIORITY, std::uint8_t> depthPriority{ UI_DEPTH_PRIORITY::kStandard };                   // 64
 		stl::enumeration<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
-		std::uint32_t pad6C{ 0 };                                                                                          // 6C
 	};
 	static_assert(sizeof(IMenu) == 0x70);
-
-	struct UIShaderColors
-	{
-	public:
-		enum class Flags
-		{
-			kBackgroundQuad = 1u << 0,
-			kColorMultiplier = 1u << 1,
-			kVerticalGradient = 1u << 2,
-			kUseAlphaForDropshadow = 1u << 3
-		};
-
-		// members
-		NiRect<float> backgroundQuad;                          // 00
-		NiColorA backgroundColor;                              // 10
-		NiColorA colorMultipliers;                             // 20
-		float colorBrightness;                                 // 30
-		stl::enumeration<Flags, std::uint32_t> enabledStates;  // 34
-	};
-	static_assert(sizeof(UIShaderColors) == 0x38);
-
-	struct alignas(0x10) UIShaderFXInfo
-	{
-	public:
-		// members
-		NiRect<float> renderQuad;  // 00
-		UIShaderColors shaderFX;   // 10
-	};
-	static_assert(sizeof(UIShaderFXInfo) == 0x50);
 
 	class HUDModeType
 	{
@@ -907,6 +940,267 @@ namespace RE
 	};
 	static_assert(sizeof(WorkshopMenu) == 0x440);
 
+	class __declspec(novtable) PipboySubMenu :
+		public BSTEventSink<PipboyValueChangedEvent>  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboySubMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboySubMenu };
+
+		// override (BSTEventSink<PipboyValueChangedEvent>)
+		BSEventNotifyControl ProcessEvent(const PipboyValueChangedEvent& a_event, BSTEventSource<PipboyValueChangedEvent>* a_source) override
+		{
+			using func_t = decltype(&PipboySubMenu::ProcessEvent);
+			REL::Relocation<func_t> func{ REL::ID(893703) };
+			return func(this, a_event, a_source);
+		}
+
+		// add
+		virtual void UpdateData() = 0;  // 02
+
+		// members
+		Scaleform::GFx::Value& dataObj;  // 08
+		Scaleform::GFx::Value& menuObj;  // 10
+	};
+	static_assert(sizeof(PipboySubMenu) == 0x18);
+
+	class __declspec(novtable) PipboyStatsMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyStatsMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyStatsMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyStatsMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(332518) };
+			return func(this);
+		}
+
+		// members
+		BSSoundHandle perkSound;  // 18
+	};
+	static_assert(sizeof(PipboyStatsMenu) == 0x20);
+
+	class __declspec(novtable) PipboySpecialMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboySpecialMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboySpecialMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboySpecialMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(1426810) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboySpecialMenu) == 0x18);
+
+	class __declspec(novtable) PipboyPerksMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyPerksMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyPerksMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyPerksMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(783380) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboyPerksMenu) == 0x18);
+
+	class __declspec(novtable) PipboyInventoryMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyInventoryMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyInventoryMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyInventoryMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(762897) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboyInventoryMenu) == 0x18);
+
+	class __declspec(novtable) PipboyQuestMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyQuestMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyQuestMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyQuestMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(1495929) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboyQuestMenu) == 0x18);
+
+	class __declspec(novtable) PipboyWorkshopMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyWorkshopMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyWorkshopMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyWorkshopMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(1370368) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboyWorkshopMenu) == 0x18);
+
+	class __declspec(novtable) PipboyLogMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyLogMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyLogMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyLogMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(672256) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboyLogMenu) == 0x18);
+
+	class BSScaleformExternalTexture
+	{
+	public:
+		// members
+		NiPointer<NiTexture> gamebryoTexture;  // 00
+		std::uint32_t renderTarget;            // 08
+		BSFixedString texturePath;             // 10
+	};
+	static_assert(sizeof(BSScaleformExternalTexture) == 0x18);
+
+	class __declspec(novtable) PipboyMapMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyMapMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyMapMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyMapMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(92696) };
+			return func(this);
+		}
+
+		// members
+		BSScaleformExternalTexture worldMapTexture;  // 18
+		Scaleform::GFx::Value mapPageObj;            // 30
+		std::uint32_t centeredQuestMarkerID;         // 50
+		std::uint32_t centeredMapMarkerID;           // 54
+		std::uint32_t queuedFastTravelId;            // 58
+		bool mapTexturesSentToMenu;                  // 5C
+		bool requestedDelayedLocalMapRender;         // 5D
+	};
+	static_assert(sizeof(PipboyMapMenu) == 0x60);
+
+	class __declspec(novtable) PipboyRadioMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyRadioMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyRadioMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyRadioMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(713423) };
+			return func(this);
+		}
+
+		bool radioModeOn;  // 18
+	};
+	static_assert(sizeof(PipboyRadioMenu) == 0x20);
+
+	class __declspec(novtable) PipboyPlayerInfoMenu :
+		public PipboySubMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyPlayerInfoMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyPlayerInfoMenu };
+
+		// override (PipboySubMenu)
+		void UpdateData() override
+		{
+			using func_t = decltype(&PipboyPlayerInfoMenu::UpdateData);
+			REL::Relocation<func_t> func{ REL::ID(426990) };
+			return func(this);
+		}
+	};
+	static_assert(sizeof(PipboyPlayerInfoMenu) == 0x18);
+
+	class __declspec(novtable) PipboyMenu :
+		public GameMenuBase,                      // 000
+		public BSTEventSink<MenuOpenCloseEvent>,  // 0E0
+		public BSTEventSink<IdleInputEvent>       // 0E8
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyMenu };
+		static constexpr auto MENU_NAME{ "PipboyMenu"sv };
+
+		// members
+		Scaleform::GFx::Value dataObj;           // 0F0
+		PipboyStatsMenu statsMenuObj;            // 110
+		PipboySpecialMenu specialMenuObj;        // 130
+		PipboyPerksMenu perksMenuObj;            // 148
+		PipboyInventoryMenu inventoryMenuObj;    // 160
+		PipboyQuestMenu questMenuObj;            // 178
+		PipboyWorkshopMenu workshopMenuObj;      // 190
+		PipboyLogMenu logMenuObj;                // 1A8
+		PipboyMapMenu mapMenuObj;                // 1C0
+		PipboyRadioMenu radioMenuObj;            // 220
+		PipboyPlayerInfoMenu playerInfoMenuObj;  // 240
+		std::int8_t disableInputCounter;         // 258
+		bool pipboyCursorEnabled;                // 259
+		bool showingModalMessage;                // 25A
+		bool pipboyHiddenByAnotherMenu;          // 25B
+		bool performFastTravelCheck;             // 25C
+	};
+	static_assert(sizeof(PipboyMenu) == 0x260);
+
+	class __declspec(novtable) CursorMenu :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::CursorMenu };
+		static constexpr auto VTABLE{ VTABLE::CursorMenu };
+		static constexpr auto MENU_NAME{ "CursorMenu"sv };
+
+		// members
+		msvc::unique_ptr<BSGFxShaderFXTarget> cursor;  // E0
+	};
+	static_assert(sizeof(CursorMenu) == 0xE8);
+
 	struct DisableHeavyItemsFunc
 	{
 	public:
@@ -1042,6 +1336,41 @@ namespace RE
 	};
 	static_assert(sizeof(ContainerMenuBase) == 0x430);
 
+	class __declspec(novtable) ContainerMenu :
+		public ContainerMenuBase  // 000
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ContainerMenu };
+		static constexpr auto VTABLE{ VTABLE::ContainerMenu };
+		static constexpr auto MENU_NAME{ "ContainerMenu"sv };
+
+		// override
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                                                               // 03
+		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
+		virtual bool GetCanEquipItem(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                   // 17
+		virtual bool GetIsItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                 // 18
+		virtual void ToggleItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                // 19
+		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 22
+		virtual void UpdateItemPickpocketInfo(std::int32_t a_index, bool a_inContainer, std::int32_t a_count) override;                                         // 25
+		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 26
+
+		void TakeAllItems()
+		{
+			using func_t = decltype(&ContainerMenu::TakeAllItems);
+			REL::Relocation<func_t> func{ REL::ID(1323703) };
+			return func(this);
+		}
+
+		// members
+		std::unique_ptr<BSGFxShaderFXTarget> pickpocketInfo_mc;  // 430
+		std::uint32_t valueStolenFromContainer;                  // 438
+		bool containerAccessed;                                  // 43C
+		bool addedTempItems;                                     // 43D
+		bool plantedExplosiveWeapon;                             // 43E
+		bool containerIsAnimatingOpen;                           // 43F
+	};
+	static_assert(sizeof(ContainerMenu) == 0x440);
+
 	class __declspec(novtable) BarterMenuTentativeInventoryUIInterface :
 		public InventoryUserUIInterface  // 00
 	{
@@ -1111,41 +1440,6 @@ namespace RE
 		bool confirmingTrade;                                                   // 578
 	};
 	static_assert(sizeof(BarterMenu) == 0x580);
-
-	class __declspec(novtable) ContainerMenu :
-		public ContainerMenuBase  // 000
-	{
-	public:
-		static constexpr auto RTTI{ RTTI::ContainerMenu };
-		static constexpr auto VTABLE{ VTABLE::ContainerMenu };
-		static constexpr auto MENU_NAME{ "ContainerMenu"sv };
-
-		// override
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                                                               // 03
-		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
-		virtual bool GetCanEquipItem(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                   // 17
-		virtual bool GetIsItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                 // 18
-		virtual void ToggleItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                // 19
-		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 22
-		virtual void UpdateItemPickpocketInfo(std::int32_t a_index, bool a_inContainer, std::int32_t a_count) override;                                         // 25
-		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 26
-
-		void TakeAllItems()
-		{
-			using func_t = decltype(&ContainerMenu::TakeAllItems);
-			REL::Relocation<func_t> func{ REL::ID(1323703) };
-			return func(this);
-		}
-
-		// members
-		std::unique_ptr<BSGFxShaderFXTarget> pickpocketInfo_mc;  // 430
-		std::uint32_t valueStolenFromContainer;                  // 438
-		bool containerAccessed;                                  // 43C
-		bool addedTempItems;                                     // 43D
-		bool plantedExplosiveWeapon;                             // 43E
-		bool containerIsAnimatingOpen;                           // 43F
-	};
-	static_assert(sizeof(ContainerMenu) == 0x440);
 
 	class _declspec(novtable) MessageBoxMenu :
 		public GameMenuBase,                      // 00

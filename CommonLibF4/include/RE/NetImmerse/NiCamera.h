@@ -34,7 +34,6 @@ namespace RE
 		float maxFarNearRatio;      // 180
 		NiRect<float> port;         // 184
 		float lodAdjust;            // 194
-		std::uint64_t pad198{ 0 };  // 198
 	};
 	static_assert(sizeof(NiCamera) == 0x1A0);
 }

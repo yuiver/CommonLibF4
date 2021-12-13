@@ -34,6 +34,7 @@ set(SOURCES
 	include/RE/Bethesda/BSHavok.h
 	include/RE/Bethesda/BSInputDeviceManager.h
 	include/RE/Bethesda/BSInputEventReceiver.h
+	include/RE/Bethesda/BSInputEventSingleUser.h
 	include/RE/Bethesda/BSInputEventUser.h
 	include/RE/Bethesda/BSLock.h
 	include/RE/Bethesda/BSMTAManager.h
@@ -131,6 +132,7 @@ set(SOURCES
 	include/RE/Bethesda/UI.h
 	include/RE/Bethesda/UIMessage.h
 	include/RE/Bethesda/UIMessageQueue.h
+	include/RE/Bethesda/UIShaderFXInfo.h
 	include/RE/Bethesda/UserEvents.h
 	include/RE/Bethesda/VATS.h
 	include/RE/Bethesda/Workshop.h
@@ -253,6 +255,7 @@ set(SOURCES
 	src/RE/Bethesda/BSScript.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp
+	src/RE/Bethesda/MenuCursor.cpp
 	src/RE/Bethesda/TESBoundAnimObjects.cpp
 	src/RE/Bethesda/TESForms.cpp
 	src/RE/Bethesda/TESObjectREFRs.cpp

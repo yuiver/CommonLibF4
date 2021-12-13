@@ -13,15 +13,15 @@ macro(set_from_environment VARIABLE)
 endmacro()
 
 set_from_environment(Fallout4Path)
-set_from_environment(VCPKG_ROOT)
+set_from_environment(VCPKG_INSTALLATION_ROOT)
 
-if (DEFINED VCPKG_ROOT)
-	set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+if (DEFINED VCPKG_INSTALLATION_ROOT)
+	set(CMAKE_TOOLCHAIN_FILE "${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 	set(VCPKG_TARGET_TRIPLET "x64-windows-static-md" CACHE STRING "")
 else ()
 	message(
 		WARNING
-		"Variable VCPKG_ROOT is not set. Continuing without vcpkg."
+		"Variable VCPKG_INSTALLATION_ROOT is not set. Continuing without vcpkg."
 	)
 endif ()
 

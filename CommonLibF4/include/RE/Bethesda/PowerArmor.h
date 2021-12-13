@@ -97,7 +97,6 @@ namespace RE
 		BSTArray<void*> queued3D;                                             // 128
 		HUDModes validHUDModes;                                               // 140
 		float radiationSmoother;                                              // 160
-		std::uint32_t pad164{ 0 };                                            // 164
 		NiPointer<NiNode> dbHUDRain;                                          // 168
 		bool hudRain;                                                         // 170
 		bool prevShouldBeVisible;                                             // 171
@@ -106,7 +105,6 @@ namespace RE
 		bool prevIsFirstPerson;                                               // 174
 		bool ammoDirty;                                                       // 175
 		bool initialized;                                                     // 176
-		std::uint8_t pad177{ 0 };                                             // 177
 	};
 	static_assert(sizeof(PowerArmorGeometry) == 0x178);
 }

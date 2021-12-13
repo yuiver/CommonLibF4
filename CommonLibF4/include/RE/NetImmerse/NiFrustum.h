@@ -12,8 +12,6 @@ namespace RE
 		float near;                // 10
 		float far;                 // 14
 		bool ortho;                // 18
-		std::uint8_t pad19{ 0 };   // 19
-		std::uint16_t pad1A{ 0 };  // 1A
 	};
 	static_assert(sizeof(NiFrustum) == 0x1C);
 }
