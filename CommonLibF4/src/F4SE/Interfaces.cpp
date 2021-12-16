@@ -45,7 +45,7 @@ namespace F4SE
 		return success;
 	}
 
-	void SerializationInterface::SetUniqueID(std::uint32_t a_uid)
+	void SerializationInterface::SetUniqueID(std::uint32_t a_uid) const
 	{
 		GetProxy().SetUniqueID(
 			GetPluginHandle(),

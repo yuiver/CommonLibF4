@@ -239,7 +239,7 @@ namespace F4SE
 
 		[[nodiscard]] std::uint32_t Version() const noexcept { return GetProxy().version; }
 
-		void SetUniqueID(std::uint32_t a_uid);
+		void SetUniqueID(std::uint32_t a_uid) const;
 		void SetRevertCallback(EventCallback* a_callback) const;
 		void SetSaveCallback(EventCallback* a_callback) const;
 		void SetLoadCallback(EventCallback* a_callback) const;
