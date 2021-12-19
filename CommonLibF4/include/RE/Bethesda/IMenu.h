@@ -1499,7 +1499,7 @@ namespace RE
 		};
 		static_assert(sizeof(ModChoiceData) == 0x38);
 
-		virtual ~WorkbenchMenuBase();//00
+		virtual ~WorkbenchMenuBase();  //00
 
 		// override (GameMenuBase)
 		virtual void Call(const Params&) override;                                                               // 01
@@ -1508,11 +1508,11 @@ namespace RE
 		virtual void OnMenuStackChanged(const BSFixedString& a_topMenuName, bool a_passesTopMenuTest) override;  // 09
 
 		// override (BSInputEventUser)
-		virtual bool ShouldHandleEvent(const InputEvent*) override;          // 01
-		virtual void HandleEvent(const ThumbstickEvent*) override;           // 04
-		virtual void HandleEvent(const CursorMoveEvent*) override;           // 05
-		virtual void HandleEvent(const ButtonEvent*) override;               // 08
-		
+		virtual bool ShouldHandleEvent(const InputEvent*) override;  // 01
+		virtual void HandleEvent(const ThumbstickEvent*) override;   // 04
+		virtual void HandleEvent(const CursorMoveEvent*) override;   // 05
+		virtual void HandleEvent(const ButtonEvent*) override;       // 08
+
 		// add
 		virtual void OnHideMenu();                                 // 14
 		virtual void UpdateMenu();                                 // 15
