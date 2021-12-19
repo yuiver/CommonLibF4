@@ -1404,6 +1404,13 @@ namespace RE
 			return func(this);
 		}
 
+		[[nodiscard]] BGSLocation* GetLocation() const
+		{
+			using func_t = decltype(&TESObjectCELL::GetLocation);
+			REL::Relocation<func_t> func{ REL::ID(868663) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESWaterForm* GetWaterType() const noexcept;
 		[[nodiscard]] bool HasWater() const noexcept { return cellFlags.all(Flag::kHasWater); }
 		[[nodiscard]] bool IsExterior() const noexcept { return !IsInterior(); }

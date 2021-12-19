@@ -230,7 +230,19 @@ namespace RE
 	struct WorkbenchData
 	{
 	public:
-		enum class Type;
+		enum class Type
+		{
+			kNone,
+			kCreateObject,
+			kWeapons,
+			kEnchanting,
+			kEnchantingExperiment,
+			kAlchemy,
+			kAlchemyExperiment,
+			kArmor,
+			kPowerArmor,
+			kRobotMod
+		};
 
 		// members
 		stl::enumeration<Type, std::int8_t> type;  // 0

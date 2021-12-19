@@ -346,6 +346,13 @@ namespace RE
 			kExit
 		};
 
+		[[nodiscard]] static BSTEventSource<TESFurnitureEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESFurnitureEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(678665) };
+			return func();
+		}
+
 		// members
 		NiPointer<TESObjectREFR> actor;                           // 00
 		NiPointer<TESObjectREFR> targetFurniture;                 // 08

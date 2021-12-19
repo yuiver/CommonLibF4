@@ -575,6 +575,8 @@ namespace RE
 			return func(this);
 		}
 
+		[[nodiscard]] bool IsFurniture();
+
 		// members
 		TESObjectCELL* parentCell;                 // 0B8
 		OBJ_REFR data;                             // 0C0

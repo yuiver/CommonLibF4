@@ -1441,7 +1441,7 @@ namespace RE
 	};
 	static_assert(sizeof(BarterMenu) == 0x580);
 
-	class _declspec(novtable) MessageBoxMenu :
+	class __declspec(novtable) MessageBoxMenu :
 		public GameMenuBase,                      // 00
 		public BSTEventSink<MenuModeChangeEvent>  // E0
 	{

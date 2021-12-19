@@ -8,7 +8,7 @@ namespace RE::Scaleform::GFx
 	using Log = Scaleform::Log;
 
 	template <class T>
-	class _declspec(novtable) LogBase
+	class __declspec(novtable) LogBase
 	{
 	public:
 		virtual ~LogBase();  // 00
