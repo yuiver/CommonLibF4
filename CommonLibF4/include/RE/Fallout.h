@@ -85,6 +85,7 @@
 #include "RE/Bethesda/InputEvent.h"
 #include "RE/Bethesda/Interface3D.h"
 #include "RE/Bethesda/InventoryUserUIUtils.h"
+#include "RE/Bethesda/ItemCrafted.h"
 #include "RE/Bethesda/MagicItems.h"
 #include "RE/Bethesda/Main.h"
 #include "RE/Bethesda/MemoryManager.h"
