@@ -1,10 +1,387 @@
 #pragma once
 
+#include "RE/Scaleform/GFx/GFx_ASMovieRootBase.h"
 #include "RE/Scaleform/GFx/GFx_ASString.h"
 #include "RE/Scaleform/Kernel/SF_Memory.h"
 
+namespace RE::Scaleform
+{
+	template <class T>
+	class ConstructorPagedMovCC :
+		public ConstructorMov<T>
+	{
+	public:
+	};
+	static_assert(std::is_empty_v<ConstructorPagedMovCC<void*>>);
+
+	template <std::int32_t>
+	class AllocatorBaseLH
+	{
+	public:
+	};
+	static_assert(std::is_empty_v<AllocatorBaseLH<0>>);
+
+	template <class T, std::int32_t STAT>
+	class AllocatorPagedCC :
+		public AllocatorBaseLH<STAT>,
+		public ConstructorPagedMovCC<T>
+	{
+	public:
+		std::uint8_t gap;
+	};
+	// static_assert(sizeof(AllocatorPagedCC<void*, 0>) == 0x01);
+
+	template <class T, std::int32_t, std::int32_t, class Alloc>
+	class ArrayPagedBase :
+		public Alloc
+	{
+	public:
+		// members
+		std::uint64_t size;      // 08
+		std::uint64_t numPages;  // 10
+		std::uint64_t maxPages;  // 18
+		T** pages;               // 20
+	};
+	static_assert(sizeof(ArrayPagedBase<void*, 0, 0, AllocatorPagedCC<void*, 0>>) == 0x28);
+
+	template <class T, std::int32_t a1, std::int32_t a2, std::int32_t a3>
+	class ArrayPagedCC :
+		public ArrayPagedBase<T, a1, a2, AllocatorPagedCC<T, a3>>
+	{
+	public:
+		T defaultValue;  // 28
+	};
+	static_assert(sizeof(ArrayPagedCC<void*, 0, 0, 0>) == 0x30);
+
+	template <class T>
+	class AutoPtr
+	{
+	public:
+		// members
+		T* object;   // 00
+		bool owner;  // 08
+	};
+	static_assert(sizeof(AutoPtr<void>) == 0x10);
+
+	class String
+	{
+	public:
+		struct DataDesc
+		{
+		public:
+			// members
+			std::uint64_t size;              // 00
+			volatile std::int32_t refCount;  // 08
+			char data[1];                    // 0C
+		};
+		static_assert(sizeof(DataDesc) == 0x10);
+
+		const char* c_str()
+		{
+			return (const char*)((heapTypeBits & 0xFFFFFFFFFFFFFFFC) + 12);
+		}
+
+		bool empty()
+		{
+			return (((heapTypeBits & 0xFFFFFFFFFFFFFFFC) & 0x7FFFFFFFFFFFFFFF) == 0);
+		}
+
+		// members
+		union
+		{
+			DataDesc* data;
+			std::uint64_t heapTypeBits;
+		};  // 00
+	};
+	static_assert(sizeof(String) == 0x08);
+
+	class StringDataPtr
+	{
+	public:
+		// members
+		const char* str;     // 00
+		std::uint64_t size;  // 08
+	};
+	static_assert(sizeof(StringDataPtr) == 0x10);
+}
+
 namespace RE::Scaleform::GFx::AS3
 {
+	namespace ClassTraits
+	{
+		class Traits;
+	}
+
+	namespace Instances
+	{
+		class Function;
+		class ThunkFunction;
+	}
+
+	namespace InstanceTraits
+	{
+		class Traits;
+	}
+
+	class ASVM;
+	class Class;
+	class MemoryContextImpl;
+	class Object;
+	// class Stage;
+	class ThunkInfo;
+	class Traits;
+	// class Value;
+	class ValueRegisterFile;
+	class VMAbcFile;
+	class WeakProxy;
+
+	namespace Abc
+	{
+		enum class NamespaceKind : std::int32_t
+		{
+			kUndefined = -1,
+			kPublic,
+			kProtected,
+			kStaticProtected,
+			kPrivate,
+			kExplicit,
+			kPackageInternal
+		};
+
+		struct MbiInd
+		{
+		public:
+			// members
+			std::int32_t ind;  // 00
+		};
+		static_assert(sizeof(MbiInd) == 0x04);
+
+		class NamespaceInfo
+		{
+		public:
+			// members
+			NamespaceKind kind;     // 00
+			StringDataPtr NameURI;  // 08
+		};
+		static_assert(sizeof(NamespaceInfo) == 0x18);
+
+		class ClassTable :
+			public NewOverrideBase<338>
+		{
+		public:
+			// members
+			std::byte pad[0x18 - 0x00];  // 00
+		};
+		static_assert(sizeof(ClassTable) == 0x18);
+
+		class ConstPool :
+			public NewOverrideBase<339>
+		{
+		public:
+			// members
+			std::uint32_t doubleCount;         // 00
+			const std::uint8_t* doubles;       // 08
+			std::byte pad10[0xA0 - 0x10];      // 10
+			const NamespaceInfo anyNamespace;  // A0
+		};
+		static_assert(sizeof(ConstPool) == 0xB8);
+
+		class MethodBodyTable :
+			public NewOverrideBase<338>
+		{
+		public:
+			// members
+			std::byte pad[0x18];  // 00
+		};
+		static_assert(sizeof(MethodBodyTable) == 0x18);
+
+		class MethodTable :
+			public NewOverrideBase<338>
+		{
+		public:
+			// members
+			std::byte pad[0x18];  // 00
+		};
+		static_assert(sizeof(MethodTable) == 0x18);
+
+		class MetadataTable :
+			public NewOverrideBase<338>
+		{
+		public:
+			// members
+			std::byte pad[0x18];  // 00
+		};
+		static_assert(sizeof(MetadataTable) == 0x18);
+
+		class ScriptTable :
+			public NewOverrideBase<338>
+		{
+		public:
+			// members
+			std::byte pad[0x18];  // 00
+		};
+		static_assert(sizeof(ScriptTable) == 0x18);
+
+		class TraitTable :
+			public NewOverrideBase<338>
+		{
+		public:
+			// members
+			std::byte pad[0x18];  // 00
+		};
+		static_assert(sizeof(TraitTable) == 0x18);
+
+		class __declspec(novtable) alignas(0x10) File :
+			public RefCountImpl,  // 00
+			public NewOverrideBase<338>
+		{
+		public:
+			virtual ~File();  // 00
+
+			// members
+			std::uint32_t dataSize;        // 010
+			Scaleform::String source;      // 018
+			std::uint16_t minorVersion;    // 020
+			std::uint16_t majorVersion;    // 022
+			ConstPool constPool;           // 028
+			MethodTable methods;           // 0E0
+			MetadataTable metadata;        // 0F8
+			TraitTable traits;             // 110
+			ClassTable classes;            // 128
+			ScriptTable scripts;           // 140
+			MethodBodyTable methodBodies;  // 158
+		};
+		static_assert(sizeof(File) == 0x170);
+	}
+
+	class Value
+	{
+	public:
+		struct Extra
+		{
+		public:
+			// members
+			WeakProxy* weakProxy;  // 00
+		};
+		static_assert(sizeof(Extra) == 0x08);
+
+		union V1U
+		{
+			bool vbool;
+			std::int32_t vint;
+			std::uint32_t vuint;
+			ASStringNode* vstr;
+			Object* vobj;
+			Class* vclass;
+			Instances::Function* vfunct;
+			const ThunkInfo* vthunk;
+			Instances::ThunkFunction* vthunkfunct;
+			InstanceTraits::Traits* instanceTraits;
+			ClassTraits::Traits* classTraits;
+		};
+
+		union V2U
+		{
+			Object* vobj;
+			const Traits* traits;
+		};
+
+		struct VStruct
+		{
+		public:
+			// members
+			V1U _1;  // 00
+			V2U _2;  // 08
+		};
+		static_assert(sizeof(VStruct) == 0x10);
+
+		union VU
+		{
+			long double number;
+			VStruct VS;
+		};
+
+		// members
+		std::uint32_t flags;  // 00
+		Extra bonus;          // 08
+		VU value;             // 10
+	};
+	static_assert(sizeof(Value) == 0x20);
+
+	class __declspec(novtable) CallFrame :
+		public Scaleform::NewOverrideBase<330>
+	{
+	public:
+		// members
+		bool discardResult;                // 00
+		bool aCopy;                        // 01
+		std::uint64_t scopeStackBaseInd;   // 08
+		const std::uint64_t* cp;           // 10
+		ValueRegisterFile* registerValue;  // 18
+		MemoryHeap* heap;                  // 20
+		VMAbcFile* file;                   // 28
+		Abc::MbiInd MBIIndex;              // 30
+		const void* savedScope;            // 38 - TODO
+		const Traits* originationTraits;   // 40
+		void* scopeStack;                  // 48 - TODO
+		Value* prevInitialStackPos;        // 50
+		void* defXMLNamespace;             // 58 - TODO
+		Value* prevFirstStackPos;          // 60
+		Value Invoker;                     // 68
+	};
+	static_assert(sizeof(CallFrame) == 0x88);
+
+	class __declspec(novtable) FlashUI
+	{
+	public:
+		enum class OutputMessageType : std::int32_t
+		{
+			kMessage,
+			kError,
+			kWarning,
+			kAction
+		};
+
+		enum class StateType : std::int32_t
+		{
+			kError,
+			kBreakpoint,
+			kPreStep,
+			kStep
+		};
+		
+		virtual ~FlashUI();  // 00
+
+		// add
+		virtual void Output(OutputMessageType a_type, const char* a_msg) = 0;  // 01
+		virtual bool OnOpCode(std::uint64_t a_opCode) = 0;                     // 02
+
+		// members
+		StateType state;   // 08
+		bool needToCheck;  // 0C
+	};
+	static_assert(sizeof(FlashUI) == 0x10);
+
+	class __declspec(novtable) MovieRoot :
+		public Scaleform::GFx::ASMovieRootBase,          // 00
+		public Scaleform::GFx::AS3::FlashUI,             // 28
+		public Scaleform::GFx::KeyboardState::IListener  // 38
+	{
+	public:
+		class MemContextPtr :
+			Ptr<MemoryContextImpl>
+		{
+		public:
+		};
+		static_assert(sizeof(MemContextPtr) == 0x08);
+
+		// members
+		MemContextPtr memContext;        // 040
+		AutoPtr<ASVM> asVM;              // 048
+		std::byte pad058[0x4A8 - 0x58];  // 058 - TODO
+	};
+	static_assert(sizeof(MovieRoot) == 0x4A8);
+
 	class TypeInfo
 	{
 	public:
@@ -22,7 +399,7 @@ namespace RE::Scaleform::GFx::AS3
 	};
 	static_assert(sizeof(TypeInfo) == 0x30);
 
-	class VM :
+	class __declspec(novtable) VM :
 		public Scaleform::NewOverrideBase<329>
 	{
 	public:
@@ -197,7 +574,78 @@ namespace RE::Scaleform::GFx::AS3
 
 		virtual ~VM();
 
+		CallFrame* GetCurrCallFrame()
+		{
+			return &callStack.pages[(callStack.size - 1) >> 6][(callStack.size - 1) & 0x3F];
+		}
+
 		// members
-		// ...
+		std::byte pad008[0xE8 - 0x08];                  // 008 - TODO
+		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;  // E8
+		std::byte pad198[0x2D0 - 0x198];                // 198 - TODO
 	};
+	static_assert(sizeof(VM) == 0x2D0);
+
+	class __declspec(novtable) ASVM :
+		public VM  // 00
+	{
+	public:
+		// members
+		std::byte pad2D0[0x3C8 - 0x2D0];  // 2D0
+	};
+	static_assert(sizeof(ASVM) == 0x3C8);
+
+	template<std::int32_t STAT>
+	class __declspec(novtable) RefCountBaseGC :
+		public NewOverrideBase<STAT>  // 00
+	{
+	public:
+		virtual ~RefCountBaseGC();  // 00
+
+		// members
+		union
+		{
+			void* rcc;
+			std::uint64_t rccRaw;
+		};  // 08
+		union
+		{
+			const RefCountBaseGC<STAT>* next;
+			const RefCountBaseGC<STAT>* nextRoot;
+		};  // 10
+		union
+		{
+			const RefCountBaseGC<STAT>* prev;
+			const RefCountBaseGC<STAT>* prevRoot;
+		};                       // 18
+		std::uint32_t refCount;  // 20
+	};
+	static_assert(sizeof(RefCountBaseGC<328>) == 0x28);
+
+	class __declspec(novtable) GASRefCountBase :
+		public RefCountBaseGC<328>
+	{
+	public:
+	};
+	static_assert(sizeof(GASRefCountBase) == 0x28);
+
+	class __declspec(novtable) VMFile :
+		public GASRefCountBase
+	{
+	public:
+		// members
+		VM* vmRef;                     // 28
+		std::byte pad30[0x98 - 0x30];  // 30
+	};
+	static_assert(sizeof(VMFile) == 0x98);
+
+	class __declspec(novtable) VMAbcFile :
+		public VMFile
+	{
+	public:
+		// members
+		Ptr<Abc::File> file;           // 98
+		std::byte padA0[0xE8 - 0xA0];  // A0
+	};
+	static_assert(sizeof(VMAbcFile) == 0xE8);
 }

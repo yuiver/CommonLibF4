@@ -10,6 +10,10 @@ namespace RE::Scaleform
 	class LogMessageId
 	{
 	public:
+		LogMessageId(std::int32_t a_id) :
+			id(a_id)
+		{}
+
 		~LogMessageId() noexcept {}  // NOLINT(modernize-use-equals-default)
 
 		// members
@@ -17,7 +21,7 @@ namespace RE::Scaleform
 	};
 	static_assert(sizeof(LogMessageId) == 0x4);
 
-	class __declspec(novtable) Log :
+	class __declspec(novtable) alignas(0x08) Log :
 		public RefCountBase<Log, 2>  // 00
 	{
 	public:

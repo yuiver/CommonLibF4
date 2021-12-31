@@ -12,6 +12,8 @@
 namespace RE::Scaleform::GFx
 {
 	class ASMovieRootBase;
+	class InteractiveObject;
+	class EventId;
 	class FunctionHandler;
 	class MemoryContext;
 	class Movie;
@@ -32,7 +34,7 @@ namespace RE::Scaleform::GFx
 	};
 	static_assert(sizeof(Viewport) == 0x34);
 
-	class __declspec(novtable) MemoryContext :
+	class __declspec(novtable) alignas(0x08) MemoryContext :
 		public RefCountBase<MemoryContext, 2>  // 00
 	{
 	public:
@@ -666,7 +668,7 @@ namespace RE::Scaleform::GFx
 	};
 	static_assert(sizeof(Value) == 0x20);
 
-	class __declspec(novtable) FunctionHandler :
+	class __declspec(novtable) alignas(0x08) FunctionHandler :
 		public RefCountBase<FunctionHandler, 2>  // 00
 	{
 	public:
@@ -858,4 +860,34 @@ namespace RE::Scaleform::GFx
 		Ptr<ASMovieRootBase> asMovieRoot;  // 18
 	};
 	static_assert(sizeof(Movie) == 0x20);
+
+	class __declspec(novtable) MovieImpl :
+		public Movie  // 00
+	{
+	public:
+		// members
+		std::byte pad[0x3140 - 0x20];  // 20
+	};
+	static_assert(sizeof(MovieImpl) == 0x3140);
+
+	class __declspec(novtable) alignas(0x08) KeyboardState :
+		public RefCountBase<KeyboardState, 2>  // 00
+	{
+	public:
+		class __declspec(novtable) IListener
+		{
+		public:
+			virtual ~IListener();  // 00
+
+			// add
+			virtual void OnKeyDown(InteractiveObject* a_movie, const EventId& a_eventID, std::int32_t a_keyMask) = 0;  // 01
+			virtual void OnKeyUp(InteractiveObject* a_movie, const EventId& a_eventID, std::int32_t a_keyMask) = 0;    // 02
+			virtual void Update(const EventId& a_eventID) = 0;                                                         // 03
+		};
+		static_assert(sizeof(IListener) == 0x08);
+
+		// members
+		std::byte pad[0x688 - 0x10];  // 10 - TODO
+	};
+	static_assert(sizeof(KeyboardState) == 0x688);
 }
