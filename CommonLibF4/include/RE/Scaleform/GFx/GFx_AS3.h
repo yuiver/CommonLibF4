@@ -349,7 +349,7 @@ namespace RE::Scaleform::GFx::AS3
 			kPreStep,
 			kStep
 		};
-		
+
 		virtual ~FlashUI();  // 00
 
 		// add
@@ -595,7 +595,7 @@ namespace RE::Scaleform::GFx::AS3
 	};
 	static_assert(sizeof(ASVM) == 0x3C8);
 
-	template<std::int32_t STAT>
+	template <std::int32_t STAT>
 	class __declspec(novtable) RefCountBaseGC :
 		public NewOverrideBase<STAT>  // 00
 	{
