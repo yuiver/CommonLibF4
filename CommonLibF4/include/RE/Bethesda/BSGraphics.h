@@ -205,7 +205,7 @@ namespace RE
 		class Renderer
 		{
 		public:
-			using ResetRenderTargets_t = void(*)();
+			using ResetRenderTargets_t = void (*)();
 
 			// members
 			bool skipNextPresent;                     // 00
