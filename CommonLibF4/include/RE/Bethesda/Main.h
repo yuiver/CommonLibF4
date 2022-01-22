@@ -66,7 +66,7 @@ namespace RE
 		bool reloadContent;                                                         // 29
 		bool freezeTime;                                                            // 2A
 		bool freezeNextFrame;                                                       // 2B
-		void* wnd;                                                                  // 30
+		void* hwnd;                                                                 // 30
 		void* instance;                                                             // 38
 		std::uint32_t threadID;                                                     // 40
 		ScrapHeap packedTaskHeap;                                                   // 48
