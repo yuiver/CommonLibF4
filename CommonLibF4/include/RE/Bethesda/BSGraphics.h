@@ -2,26 +2,27 @@
 
 #include "RE/Bethesda/BSTHashMap.h"
 
+struct ID3D11Buffer;
+struct ID3D11ComputeShader;
+struct ID3D11DepthStencilView;
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+struct ID3D11DomainShader;
+struct ID3D11HullShader;
+struct ID3D11PixelShader;
+struct ID3D11RenderTargetView;
+struct ID3D11ShaderResourceView;
+struct ID3D11Texture2D;
+struct ID3D11UnorderedAccessView;
+struct ID3D11VertexShader;
+struct IDXGISwapChain;
+
 namespace RE
 {
 	enum class DXGI_MODE_SCALING;
 	enum class DXGI_MODE_SCANLINE_ORDER;
 
 	class BSD3DResourceCreator;
-	struct ID3D11Buffer;
-	struct ID3D11ComputeShader;
-	struct ID3D11DepthStencilView;
-	struct ID3D11Device;
-	struct ID3D11DeviceContext;
-	struct ID3D11DomainShader;
-	struct ID3D11HullShader;
-	struct ID3D11PixelShader;
-	struct ID3D11RenderTargetView;
-	struct ID3D11ShaderResourceView;
-	struct ID3D11Texture2D;
-	struct ID3D11UnorderedAccessView;
-	struct ID3D11VertexShader;
-	struct IDXGISwapChain;
 
 	struct DXGI_RATIONAL
 	{
@@ -200,6 +201,18 @@ namespace RE
 			bool nvapiEnabled;                            // 25B8
 		};
 		static_assert(sizeof(RendererData) == 0x25C0);
+
+		class Renderer
+		{
+		public:
+			using ResetRenderTargets_t = void(*)();
+
+			// members
+			bool skipNextPresent;                     // 00
+			ResetRenderTargets_t resetRenderTargets;  // 08
+			RendererData data;                        // 10
+		};
+		static_assert(sizeof(Renderer) == 0x25D0);
 	};
 	static_assert(std::is_empty_v<BSGraphics>);
 
