@@ -65,7 +65,7 @@ namespace RE::Scaleform::GFx
 	};
 	static_assert(sizeof(ASString) == 0x08);
 
-	template <class T, std::int32_t STAT> 
+	template <class T, std::int32_t STAT>
 	class ASStringBuiltinManagerT
 	{
 	public:

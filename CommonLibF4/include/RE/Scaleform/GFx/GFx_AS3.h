@@ -590,13 +590,13 @@ namespace RE::Scaleform::GFx::AS3
 		}
 
 		// members
-		bool initialized;                                   // 008
-		bool inDestructor;                                  // 009
-		bool loadingAbcFile;                                // 00A
-		StringManager* stringManagerRef;                    // 010
-		std::byte pad008[0xE8 - 0x18];                      // 018 - TODO
-		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;      // 0E8
-		std::byte pad198[0x2D0 - 0x198];                    // 198 - TODO
+		bool initialized;                               // 008
+		bool inDestructor;                              // 009
+		bool loadingAbcFile;                            // 00A
+		StringManager* stringManagerRef;                // 010
+		std::byte pad008[0xE8 - 0x18];                  // 018 - TODO
+		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;  // 0E8
+		std::byte pad198[0x2D0 - 0x198];                // 198 - TODO
 	};
 	static_assert(sizeof(VM) == 0x2D0);
 
