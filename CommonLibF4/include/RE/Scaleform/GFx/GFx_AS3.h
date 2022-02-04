@@ -2,57 +2,12 @@
 
 #include "RE/Scaleform/GFx/GFx_ASMovieRootBase.h"
 #include "RE/Scaleform/GFx/GFx_ASString.h"
+#include "RE/Scaleform/Kernel/SF_Allocator.h"
+#include "RE/Scaleform/Kernel/SF_Array.h"
 #include "RE/Scaleform/Kernel/SF_Memory.h"
 
 namespace RE::Scaleform
 {
-	template <class T>
-	class ConstructorPagedMovCC :
-		public ConstructorMov<T>
-	{
-	public:
-	};
-	static_assert(std::is_empty_v<ConstructorPagedMovCC<void*>>);
-
-	template <std::int32_t>
-	class AllocatorBaseLH
-	{
-	public:
-	};
-	static_assert(std::is_empty_v<AllocatorBaseLH<0>>);
-
-	template <class T, std::int32_t STAT>
-	class AllocatorPagedCC :
-		public AllocatorBaseLH<STAT>,
-		public ConstructorPagedMovCC<T>
-	{
-	public:
-		std::uint8_t gap;
-	};
-	// static_assert(sizeof(AllocatorPagedCC<void*, 0>) == 0x01);
-
-	template <class T, std::int32_t, std::int32_t, class Alloc>
-	class ArrayPagedBase :
-		public Alloc
-	{
-	public:
-		// members
-		std::uint64_t size;      // 08
-		std::uint64_t numPages;  // 10
-		std::uint64_t maxPages;  // 18
-		T** pages;               // 20
-	};
-	static_assert(sizeof(ArrayPagedBase<void*, 0, 0, AllocatorPagedCC<void*, 0>>) == 0x28);
-
-	template <class T, std::int32_t a1, std::int32_t a2, std::int32_t a3>
-	class ArrayPagedCC :
-		public ArrayPagedBase<T, a1, a2, AllocatorPagedCC<T, a3>>
-	{
-	public:
-		T defaultValue;  // 28
-	};
-	static_assert(sizeof(ArrayPagedCC<void*, 0, 0, 0>) == 0x30);
-
 	template <class T>
 	class AutoPtr
 	{
@@ -107,30 +62,14 @@ namespace RE::Scaleform
 
 namespace RE::Scaleform::GFx::AS3
 {
-	namespace ClassTraits
-	{
-		class Traits;
-	}
-
-	namespace Instances
-	{
-		class Function;
-		class ThunkFunction;
-	}
-
-	namespace InstanceTraits
-	{
-		class Traits;
-	}
+	enum class BuiltinType;
 
 	class ASVM;
 	class Class;
 	class MemoryContextImpl;
 	class Object;
-	// class Stage;
 	class ThunkInfo;
 	class Traits;
-	// class Value;
 	class ValueRegisterFile;
 	class VMAbcFile;
 	class WeakProxy;
@@ -148,7 +87,7 @@ namespace RE::Scaleform::GFx::AS3
 			kPackageInternal
 		};
 
-		struct MbiInd
+		class MbiInd
 		{
 		public:
 			// members
@@ -253,6 +192,65 @@ namespace RE::Scaleform::GFx::AS3
 		};
 		static_assert(sizeof(File) == 0x170);
 	}
+
+	namespace ClassTraits
+	{
+		class Traits;
+	}
+
+	namespace Instances
+	{
+		class Function;
+		class ThunkFunction;
+	}
+
+	namespace InstanceTraits
+	{
+		class Traits;
+	}
+
+	template <std::int32_t STAT>
+	class __declspec(novtable) RefCountBaseGC :
+		public NewOverrideBase<STAT>  // 00
+	{
+	public:
+		virtual ~RefCountBaseGC();  // 00
+
+		// members
+		union
+		{
+			void* rcc;
+			std::uint64_t rccRaw;
+		};  // 08
+		union
+		{
+			const RefCountBaseGC<STAT>* next;
+			const RefCountBaseGC<STAT>* nextRoot;
+		};  // 10
+		union
+		{
+			const RefCountBaseGC<STAT>* prev;
+			const RefCountBaseGC<STAT>* prevRoot;
+		};                       // 18
+		std::uint32_t refCount;  // 20
+	};
+	static_assert(sizeof(RefCountBaseGC<328>) == 0x28);
+
+	class __declspec(novtable) GASRefCountBase :
+		public RefCountBaseGC<328>  // 00
+	{
+	public:
+	};
+	static_assert(sizeof(GASRefCountBase) == 0x28);
+
+	template <typename T>
+	class SPtr
+	{
+	public:
+		// members
+		T* object;  // 00
+	};
+	static_assert(sizeof(SPtr<void>) == 0x08);
 
 	class Value
 	{
@@ -381,6 +379,13 @@ namespace RE::Scaleform::GFx::AS3
 		std::byte pad058[0x4A8 - 0x58];  // 058 - TODO
 	};
 	static_assert(sizeof(MovieRoot) == 0x4A8);
+
+	class StringManager :
+		public ASStringBuiltinManagerT<BuiltinType, 65>
+	{
+	public:
+	};
+	static_assert(sizeof(StringManager) == 0x218);
 
 	class TypeInfo
 	{
@@ -576,13 +581,22 @@ namespace RE::Scaleform::GFx::AS3
 
 		CallFrame* GetCurrCallFrame()
 		{
-			return &callStack.pages[(callStack.size - 1) >> 6][(callStack.size - 1) & 0x3F];
+			if (callStack.size > 0) {
+				auto idx = callStack.size - 1;
+				return &callStack.pages[idx >> 6][idx & 0x3F];
+			}
+
+			return nullptr;
 		}
 
 		// members
-		std::byte pad008[0xE8 - 0x08];                  // 008 - TODO
-		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;  // E8
-		std::byte pad198[0x2D0 - 0x198];                // 198 - TODO
+		bool initialized;                                   // 008
+		bool inDestructor;                                  // 009
+		bool loadingAbcFile;                                // 00A
+		StringManager* stringManagerRef;                    // 010
+		std::byte pad008[0xE8 - 0x18];                      // 018 - TODO
+		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;      // 0E8
+		std::byte pad198[0x2D0 - 0x198];                    // 198 - TODO
 	};
 	static_assert(sizeof(VM) == 0x2D0);
 
@@ -594,40 +608,6 @@ namespace RE::Scaleform::GFx::AS3
 		std::byte pad2D0[0x3C8 - 0x2D0];  // 2D0
 	};
 	static_assert(sizeof(ASVM) == 0x3C8);
-
-	template <std::int32_t STAT>
-	class __declspec(novtable) RefCountBaseGC :
-		public NewOverrideBase<STAT>  // 00
-	{
-	public:
-		virtual ~RefCountBaseGC();  // 00
-
-		// members
-		union
-		{
-			void* rcc;
-			std::uint64_t rccRaw;
-		};  // 08
-		union
-		{
-			const RefCountBaseGC<STAT>* next;
-			const RefCountBaseGC<STAT>* nextRoot;
-		};  // 10
-		union
-		{
-			const RefCountBaseGC<STAT>* prev;
-			const RefCountBaseGC<STAT>* prevRoot;
-		};                       // 18
-		std::uint32_t refCount;  // 20
-	};
-	static_assert(sizeof(RefCountBaseGC<328>) == 0x28);
-
-	class __declspec(novtable) GASRefCountBase :
-		public RefCountBaseGC<328>
-	{
-	public:
-	};
-	static_assert(sizeof(GASRefCountBase) == 0x28);
 
 	class __declspec(novtable) VMFile :
 		public GASRefCountBase

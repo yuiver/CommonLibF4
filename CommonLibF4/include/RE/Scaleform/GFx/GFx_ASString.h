@@ -1,8 +1,26 @@
 #pragma once
 
+#include "RE/Scaleform/Kernel/SF_RefCount.h"
+
 namespace RE::Scaleform::GFx
 {
-	class ASStringManager;
+	class ASStringNode;
+
+	class __declspec(novtable) alignas(0x08) ASStringManager :
+		public RefCountBase<ASStringManager, 324>  // 00
+	{
+	public:
+		[[nodiscard]] ASStringNode* CreateStringNode(const char* a_str)
+		{
+			using func_t = decltype(&ASStringManager::CreateStringNode);
+			REL::Relocation<func_t> func{ REL::ID(419974) };
+			return func(this, a_str);
+		}
+
+		// members
+		std::byte pad10[0xA0 - 0x10];  // 10
+	};
+	static_assert(sizeof(ASStringManager) == 0xA0);
 
 	class ASStringNode
 	{
@@ -46,4 +64,15 @@ namespace RE::Scaleform::GFx
 	public:
 	};
 	static_assert(sizeof(ASString) == 0x08);
+
+	template <class T, std::int32_t STAT> 
+	class ASStringBuiltinManagerT
+	{
+	public:
+		// members
+		Scaleform::GFx::ASStringNodeHolder builtins[STAT];  // 00
+		Scaleform::GFx::ASStringManager* stringManager;     // ??
+		const char** staticStrings;                         // ??+08
+	};
+	static_assert(sizeof(ASStringBuiltinManagerT<void, 65>) == 0x218);
 }
