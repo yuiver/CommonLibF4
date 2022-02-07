@@ -275,6 +275,14 @@ namespace RE
 		public BSTEventSource<BGSInventoryListEvent::Event>  // 00
 	{
 	public:
+		BGSInventoryList(const TESContainer* a_container, ObjectRefHandle a_owner)
+		{
+			auto native_handle = a_owner.native_handle();
+			ctor(a_container, &native_handle);
+		}
+
+		F4_HEAP_REDEFINE_NEW(BGSInventoryList)
+
 		[[nodiscard]] static bool StandardObjectCompareCallbackFn(TESBoundObject* a_lhs, TESBoundObject* a_rhs)
 		{
 			return a_lhs == a_rhs;
@@ -314,6 +322,14 @@ namespace RE
 		float cachedWeight;               // 70
 		ObjectRefHandle owner;            // 74
 		BSReadWriteLock rwLock;           // 78
+
+	private:
+		void ctor(const TESContainer* a_container, std::uint32_t* a_owner)
+		{
+			using func_t = decltype(&BGSInventoryList::ctor);
+			REL::Relocation<func_t> func{ REL::ID(845050) };
+			return func(this, a_container, a_owner);
+		}
 	};
 	static_assert(sizeof(BGSInventoryList) == 0x80);
 
