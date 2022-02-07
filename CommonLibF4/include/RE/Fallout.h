@@ -12,6 +12,7 @@
 #include "RE/Bethesda/BGSCharacterTint.h"
 #include "RE/Bethesda/BGSCreatedObjectManager.h"
 #include "RE/Bethesda/BGSDefaultObjectManager.h"
+#include "RE/Bethesda/BGSDynamicPersistenceManager.h"
 #include "RE/Bethesda/BGSHeadPart.h"
 #include "RE/Bethesda/BGSInventoryInterface.h"
 #include "RE/Bethesda/BGSInventoryItem.h"
