@@ -277,6 +277,13 @@ namespace RE
 		};
 		static_assert(sizeof(EntryPointData) == 0x8);
 
+		[[nodiscard]] TESContainer* GetContainer()
+		{
+			using func_t = decltype(&TESFurniture::GetContainer);
+			REL::Relocation<func_t> func{ REL::ID(1049933) };
+			return func(this);
+		}
+
 		// members
 		BSTArray<EntryPointData> entryPointDataArray;  // 148
 		BGSAttachParentArray attachParents;            // 160
@@ -358,6 +365,23 @@ namespace RE
 		};
 		static_assert(sizeof(HeadRelatedData) == 0x18);
 
+		bool AddPerk(BGSPerk* a_perk, std::int8_t a_rank)
+		{
+			if (!GetPerkIndex(a_perk)) {
+				std::vector<PerkRankData> storage{ &perks[0], &perks[perkCount] };
+
+				auto perk = new PerkRankData(a_perk, a_rank);
+				storage.push_back(*perk);
+
+				AllocatePerkRankArray(static_cast<std::uint32_t>(storage.size()));
+				std::ranges::copy(storage, perks);
+
+				return true;
+			}
+
+			return false;
+		}
+
 		[[nodiscard]] static BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>& GetAlternateHeadPartListMap()
 		{
 			REL::Relocation<BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>*> map{ REL::ID(1306546), -0x8 };
@@ -377,6 +401,19 @@ namespace RE
 			} else {
 				return { headParts, static_cast<std::size_t>(numHeadParts) };
 			}
+		}
+
+		[[nodiscard]] std::optional<std::uint32_t> GetPerkIndex(BGSPerk* a_perk) const
+		{
+			if (perks) {
+				for (std::uint32_t i = 0; i < perkCount; i++) {
+					if (perks[i].perk == a_perk) {
+						return i;
+					}
+				}
+			}
+
+			return std::nullopt;
 		}
 
 		[[nodiscard]] TESNPC* GetRootFaceNPC() noexcept

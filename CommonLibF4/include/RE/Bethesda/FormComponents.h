@@ -938,6 +938,12 @@ namespace RE
 	struct PerkRankData
 	{
 	public:
+		PerkRankData(BGSPerk* a_perk, std::int8_t a_rank) :
+			perk(a_perk), currentRank(a_rank)
+		{}
+
+		F4_HEAP_REDEFINE_NEW(PerkRankData);
+
 		// members
 		BGSPerk* perk;            // 00
 		std::int8_t currentRank;  // 08
@@ -950,6 +956,31 @@ namespace RE
 	public:
 		static constexpr auto RTTI{ RTTI::BGSPerkRankArray };
 		static constexpr auto VTABLE{ VTABLE::BGSPerkRankArray };
+
+		virtual ~BGSPerkRankArray()  // 00
+		{
+			ClearPerks(false);
+		}
+
+		// override
+		virtual void InitializeDataComponent() override;                 // 02
+		virtual void ClearDataComponent() override;                      // 03
+		virtual void InitComponent() override;                           // 04
+		virtual void CopyComponent(BaseFormComponent* a_copy) override;  // 06
+
+		void AllocatePerkRankArray(std::uint32_t a_count)
+		{
+			using func_t = decltype(&BGSPerkRankArray::AllocatePerkRankArray);
+			REL::Relocation<func_t> func{ REL::ID(888419) };
+			return func(this, a_count);
+		}
+
+		void ClearPerks(bool a_removeFormUser)
+		{
+			using func_t = decltype(&BGSPerkRankArray::ClearPerks);
+			REL::Relocation<func_t> func{ REL::ID(1247917) };
+			return func(this, a_removeFormUser);
+		}
 
 		// members
 		PerkRankData* perks;      // 08

@@ -548,6 +548,20 @@ namespace RE
 		virtual void InitDefaultWornImpl(bool a_weapon, bool a_allowChanges);                                                                                                                                                                         // C4
 		virtual bool HasKeywordHelper(const BGSKeyword* a_keyword, const TBO_InstanceData* a_data) const;                                                                                                                                             // C5
 
+		void AddInventoryItem(TESBoundObject* a_object, BSTSmartPointer<ExtraDataList> a_extra, std::uint32_t a_count, TESObjectREFR* a_oldContainer, const INSTANCE_FILTER* a_filter, TESObjectREFR* a_overrideRef)
+		{
+			using func_t = decltype(&TESObjectREFR::AddInventoryItem);
+			REL::Relocation<func_t> func{ REL::ID(78185) };
+			return func(this, a_object, a_extra, a_count, a_oldContainer, a_filter, a_overrideRef);
+		}
+
+		void Enable(bool a_resetInventory)
+		{
+			using func_t = decltype(&TESObjectREFR::Enable);
+			REL::Relocation<func_t> func{ REL::ID(1396707) };
+			return func(this, a_resetInventory);
+		}
+
 		void FindAndWriteStackDataForInventoryItem(
 			TESBoundObject* a_object,
 			BGSInventoryItem::StackDataCompareFunctor& a_compareFunc,
@@ -592,6 +606,13 @@ namespace RE
 		}
 
 		[[nodiscard]] bool IsFurniture();
+
+		void SetWantsDelete(bool a_delete)
+		{
+			using func_t = decltype(&TESObjectREFR::SetWantsDelete);
+			REL::Relocation<func_t> func{ REL::ID(761346) };
+			return func(this, a_delete);
+		}
 
 		// members
 		TESObjectCELL* parentCell;                 // 0B8

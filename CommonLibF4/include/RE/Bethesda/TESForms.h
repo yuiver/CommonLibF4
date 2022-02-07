@@ -717,6 +717,11 @@ namespace RE
 			return { *allFormsByEditorID, *allFormsEditorIDMapLock };
 		}
 
+		[[nodiscard]] bool GetDelete()
+		{
+			return (formFlags & 0x20);
+		}
+
 		[[nodiscard]] TESFile* GetFile(std::int32_t a_index = -1) const
 		{
 			using func_t = decltype(&TESForm::GetFile);
@@ -783,6 +788,17 @@ namespace RE
 		[[nodiscard]] bool IsPlayer() const noexcept { return GetFormID() == 0x00000007; }
 		[[nodiscard]] bool IsPlayerRef() const noexcept { return GetFormID() == 0x00000014; }
 		[[nodiscard]] bool IsWeapon() const noexcept { return Is(ENUM_FORM_ID::kWEAP); }
+
+		void SetInGameFormFlags(std::uint16_t a_flags, bool a_value)
+		{
+			if (a_value) {
+				inGameFormFlags |= a_flags;
+				AddChange(1);
+			} else {
+				inGameFormFlags &= ~a_flags;
+				AddChange(1);
+			}
+		}
 
 		void SetTemporary()
 		{
