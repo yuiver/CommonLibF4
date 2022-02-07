@@ -874,6 +874,13 @@ namespace RE
 			return func(this);
 		}
 
+		void RemovePerk(BGSPerk* a_perk)
+		{
+			using func_t = decltype(&Actor::RemovePerk);
+			REL::Relocation<func_t> func{ REL::ID(1316475) };
+			return func(this, a_perk);
+		}
+
 		void Reset3D(bool a_reloadAll, std::uint32_t a_additionalFlags, bool a_queueReset, std::uint32_t a_excludeFlags)
 		{
 			using func_t = decltype(&Actor::Reset3D);
