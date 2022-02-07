@@ -209,6 +209,41 @@ namespace RE
 		};
 		static_assert(sizeof(PlayerActionObject) == 0xC);
 
+		struct ScopedInventoryChangeMessageContext
+		{
+		public:
+			ScopedInventoryChangeMessageContext(bool a_suppressMessages, bool a_suppressAudio) :
+				suppressMessages(a_suppressMessages), suppressAudio(a_suppressAudio)
+			{
+				ctor(suppressMessages, suppressAudio);
+			}
+
+			~ScopedInventoryChangeMessageContext()
+			{
+				dtor();
+			}
+
+			// members
+			const bool suppressMessages{ false };  // 00
+			const bool suppressAudio{ false };     // 01
+
+		private:
+			void ctor(bool a_suppressMessages, bool a_suppressAudio)
+			{
+				using func_t = decltype(&ScopedInventoryChangeMessageContext::ctor);
+				REL::Relocation<func_t> func{ REL::ID(1512872) };
+				return func(this, a_suppressMessages, a_suppressAudio);
+			}
+
+			void dtor()
+			{
+				using func_t = decltype(&ScopedInventoryChangeMessageContext::dtor);
+				REL::Relocation<func_t> func{ REL::ID(542100) };
+				return func(this);
+			}
+		};
+		static_assert(sizeof(ScopedInventoryChangeMessageContext) == 0x2);
+
 		// add
 		virtual void InitiateSpectator(Actor*) { return; }                               // 133
 		virtual std::uint32_t GetViolentCrimeGoldValue(const TESFaction* a_faction);     // 134
