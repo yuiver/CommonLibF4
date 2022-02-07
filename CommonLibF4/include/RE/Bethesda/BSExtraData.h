@@ -96,8 +96,8 @@ namespace RE
 		kHeadTrackTarget,
 		kBoundArmor,
 		kRefractionProperty,
-		kStartingWorldOrCell,
-		kFavorite,  //ExtraFavorite
+		kStartingWorldOrCell,  // ExtraStartingWorldOrCell
+		kFavorite,             // ExtraFavorite
 		kEditorRef3DData,
 		kEditorRefMoveData,
 		kInfoGeneralTopic,
@@ -220,7 +220,7 @@ namespace RE
 		kCulledBone,
 		kActorValueStorage,
 		kDirectAtTarget,
-		kActivateNext,
+		kActivateText,
 		kCellCombinedRefs,
 		kObjectBreakable,
 		kSavedDynamicIdles,
@@ -426,6 +426,30 @@ namespace RE
 		}
 	};
 	static_assert(sizeof(BGSObjectInstanceExtra) == 0x28);
+
+	class __declspec(novtable) ExtraStartingWorldOrCell :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraStartingWorldOrCell };
+		static constexpr auto VTABLE{ VTABLE::ExtraStartingWorldOrCell };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kStartingWorldOrCell };
+
+		ExtraStartingWorldOrCell() :
+			ExtraStartingWorldOrCell(nullptr)
+		{}
+
+		ExtraStartingWorldOrCell(TESForm* a_form) :
+			BSExtraData(TYPE),
+			startingWorldOrCell(a_form)
+		{
+			stl::emplace_vtable(this);
+		}
+
+		// members
+		TESForm* startingWorldOrCell;  // 18
+	};
+	static_assert(sizeof(ExtraStartingWorldOrCell) == 0x20);
 
 	class __declspec(novtable) ExtraFavorite :
 		public BSExtraData  // 00
@@ -698,6 +722,8 @@ namespace RE
 		public BSIntrusiveRefCounted  // 00
 	{
 	public:
+		F4_HEAP_REDEFINE_NEW(ExtraDataList);
+
 		void AddExtra(BSExtraData* a_extra)
 		{
 			const BSAutoWriteLock l{ extraRWLock };
@@ -759,6 +785,13 @@ namespace RE
 			using func_t = decltype(&ExtraDataList::SetDisplayNameFromInstanceData);
 			REL::Relocation<func_t> func{ REL::ID(457340) };
 			return func(this, a_instExtra, a_object, a_data);
+		}
+
+		void SetStartingWorldOrCell(TESForm* a_form)
+		{
+			using func_t = decltype(&ExtraDataList::SetStartingWorldOrCell);
+			REL::Relocation<func_t> func{ REL::ID(603621) };
+			return func(this, a_form);
 		}
 
 		// members
