@@ -31,6 +31,7 @@ set(SOURCES
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
 	include/RE/Bethesda/BSExtraData.h
+	include/RE/Bethesda/BSFadeNode.h
 	include/RE/Bethesda/BSFixedString.h
 	include/RE/Bethesda/BSGraphics.h
 	include/RE/Bethesda/BSHavok.h
@@ -172,6 +173,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiCamera.h
 	include/RE/NetImmerse/NiCollisionObject.h
 	include/RE/NetImmerse/NiColor.h
+	include/RE/NetImmerse/NiController.h
 	include/RE/NetImmerse/NiExtraData.h
 	include/RE/NetImmerse/NiFile.h
 	include/RE/NetImmerse/NiFlags.h

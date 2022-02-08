@@ -51,6 +51,13 @@ namespace RE
 			return func();
 		}
 
+		inline void SyncFurnitureVisualsToInventory(TESObjectREFR* a_furniture, bool a_force3DUpdate, BGSInventoryItem* a_tempItemToAdd, bool a_hideCore)
+		{
+			using func_t = decltype(&SyncFurnitureVisualsToInventory);
+			REL::Relocation<func_t> func{ REL::ID(1078979) };
+			return func(a_furniture, a_force3DUpdate, a_tempItemToAdd, a_hideCore);
+		}
+
 		inline REL::Relocation<SettingT<GameSettingCollection>*> fNewBatteryCapacity{ REL::ID(1134204) };
 	}
 

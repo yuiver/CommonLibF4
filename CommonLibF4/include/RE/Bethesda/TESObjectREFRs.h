@@ -59,7 +59,6 @@ namespace RE
 	struct BSActiveGraphIfInactiveEvent;
 	struct BSAnimationGraphEvent;
 	struct BSAnimationUpdateData;
-	struct LOADED_REF_DATA;
 
 	namespace ActorValueEvents
 	{
@@ -270,6 +269,20 @@ namespace RE
 		TESBoundObject* objectReference;  // 20
 	};
 	static_assert(sizeof(OBJ_REFR) == 0x30);
+
+	struct LOADED_REF_DATA
+	{
+	public:
+		// members
+		void* handleList;                // 00 - TODO
+		NiPointer<NiAVObject> data3D;    // 08
+		TESWaterForm* currentWaterType;  // 10
+		float relevantWaterHeight;       // 18
+		float cachedRadius;              // 1C
+		std::uint16_t flags;             // 20
+		std::int16_t underwaterCount;    // 22
+	};
+	static_assert(sizeof(LOADED_REF_DATA) == 0x28);
 
 	class BGSInventoryList :
 		public BSTEventSource<BGSInventoryListEvent::Event>  // 00
@@ -603,6 +616,27 @@ namespace RE
 			using func_t = decltype(&TESObjectREFR::GetWeightInContainer);
 			REL::Relocation<func_t> func{ REL::ID(1377567) };
 			return func(this);
+		}
+
+		void MoveRefToNewSpace(TESObjectCELL* a_interior, TESWorldSpace* a_world)
+		{
+			using func_t = decltype(&TESObjectREFR::MoveRefToNewSpace);
+			REL::Relocation<func_t> func{ REL::ID(629658) };
+			return func(this, a_interior, a_world);
+		}
+
+		void SetAngleOnReference(const NiPoint3& a_point)
+		{
+			using func_t = decltype(&TESObjectREFR::SetAngleOnReference);
+			REL::Relocation<func_t> func{ REL::ID(1049748) };
+			return func(this, a_point);
+		}
+
+		void SetLocationOnReference(const NiPoint3& a_point)
+		{
+			using func_t = decltype(&TESObjectREFR::SetLocationOnReference);
+			REL::Relocation<func_t> func{ REL::ID(1101832) };
+			return func(this, a_point);
 		}
 
 		void SetWantsDelete(bool a_delete)

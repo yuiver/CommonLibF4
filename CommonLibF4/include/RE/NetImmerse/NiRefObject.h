@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	class __declspec(novtable) NiRefObject
+	class __declspec(novtable) alignas(0x08) NiRefObject
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::NiRefObject };
