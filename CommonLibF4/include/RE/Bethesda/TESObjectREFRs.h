@@ -605,8 +605,6 @@ namespace RE
 			return func(this);
 		}
 
-		[[nodiscard]] bool IsFurniture();
-
 		void SetWantsDelete(bool a_delete)
 		{
 			using func_t = decltype(&TESObjectREFR::SetWantsDelete);
