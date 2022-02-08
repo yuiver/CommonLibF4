@@ -1,9 +1,9 @@
 #pragma once
 
 #include "RE/Bethesda/BSTHashMap.h"
+#include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTArray.h"
 #include "RE/NetImmerse/NiTimeController.h"
-#include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE
 {
