@@ -256,6 +256,13 @@ namespace RE
 			return singleton->get();
 		}
 
+		void RemoveLastUsedPowerArmor()
+		{
+			using func_t = decltype(&PlayerCharacter::RemoveLastUsedPowerArmor);
+			REL::Relocation<func_t> func{ REL::ID(1488486) };
+			return func(this);
+		}
+
 		void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
 		{
 			using func_t = decltype(&PlayerCharacter::SelectPerk);

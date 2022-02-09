@@ -611,6 +611,13 @@ namespace RE
 			return func(this, a_object);
 		}
 
+		[[nodiscard]] TESObjectREFR* GetLinkedRef(BGSKeyword* a_keyword)
+		{
+			using func_t = decltype(&TESObjectREFR::GetLinkedRef);
+			REL::Relocation<func_t> func{ REL::ID(897287) };
+			return func(this, a_keyword);
+		}
+
 		[[nodiscard]] float GetWeightInContainer()
 		{
 			using func_t = decltype(&TESObjectREFR::GetWeightInContainer);
@@ -630,6 +637,13 @@ namespace RE
 			using func_t = decltype(&TESObjectREFR::SetAngleOnReference);
 			REL::Relocation<func_t> func{ REL::ID(1049748) };
 			return func(this, a_point);
+		}
+
+		void SetLinkedRef(Actor* a_actor, BGSKeyword* a_keyword)
+		{
+			using func_t = decltype(&TESObjectREFR::SetLinkedRef);
+			REL::Relocation<func_t> func{ REL::ID(192840) };
+			return func(this, a_actor, a_keyword);
 		}
 
 		void SetLocationOnReference(const NiPoint3& a_point)
