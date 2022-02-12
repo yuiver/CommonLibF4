@@ -170,6 +170,13 @@ namespace RE::BGSMod
 				return func(a_looseMod, a_result);
 			}
 
+			void GetData(Data& a_data) const
+			{
+				using func_t = decltype(&Mod::GetData);
+				REL::Relocation<func_t> func{ REL::ID(33658) };
+				return func(this, a_data);
+			}
+
 			// members
 			BGSAttachParentArray attachParents;                                           // 98
 			BGSTypedKeywordValueArray<KeywordType::kInstantiationFilter> filterKeywords;  // B0

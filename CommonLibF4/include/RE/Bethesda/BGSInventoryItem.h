@@ -61,7 +61,7 @@ namespace RE
 		};
 		static_assert(sizeof(StackDataCompareFunctor) == 0x8);
 
-		class CheckStackIDFunctor :
+		class alignas(0x08) CheckStackIDFunctor :
 			public StackDataCompareFunctor  // 00
 		{
 		public:
@@ -80,7 +80,7 @@ namespace RE
 		};
 		static_assert(sizeof(CheckStackIDFunctor) == 0x10);
 
-		class __declspec(novtable) StackDataWriteFunctor
+		class __declspec(novtable) alignas(0x08) StackDataWriteFunctor
 		{
 		public:
 			static constexpr auto RTTI{ RTTI::BGSInventoryItem__StackDataWriteFunctor };
@@ -150,4 +150,30 @@ namespace RE
 		BSTSmartPointer<Stack> stackData;  // 08
 	};
 	static_assert(sizeof(BGSInventoryItem) == 0x10);
+
+	class __declspec(novtable) ApplyChangesFunctor :
+		public BGSInventoryItem::StackDataWriteFunctor  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::__ApplyChangesFunctor };
+		static constexpr auto VTABLE{ VTABLE::__ApplyChangesFunctor };
+
+		// override
+		virtual void WriteDataImpl(TESBoundObject& a_baseObj, BGSInventoryItem::Stack& a_stack) override  // 01
+		{
+			using func_t = decltype(&ApplyChangesFunctor::WriteDataImpl);
+			REL::Relocation<func_t> func{ REL::ID(1291190) };
+			return func(this, a_baseObj, a_stack);
+		}
+
+		// members
+		BGSObjectInstanceExtra* extra;       // 10
+		TESBoundObject* object;              // 18
+		const BGSMod::Attachment::Mod* mod;  // 20
+		std::uint8_t rank;                   // 28
+		bool remove;                         // 29
+		bool excludeTemporary;               // 2A
+		std::int8_t favoriteIndex;           // 2B
+	};
+	static_assert(sizeof(ApplyChangesFunctor) == 0x30);
 }
