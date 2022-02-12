@@ -127,6 +127,13 @@ namespace RE
 		};
 		static_assert(sizeof(ModifyModDataFunctor) == 0x30);
 
+		bool FindAndWriteStackData(StackDataCompareFunctor& a_compareFunc, StackDataWriteFunctor& a_writeFunc, bool a_manualMerge, ObjectRefHandle a_owner)
+		{
+			using func_t = decltype(&BGSInventoryItem::FindAndWriteStackData);
+			REL::Relocation<func_t> func{ REL::ID(770140) };
+			return func(this, a_compareFunc, a_writeFunc, a_manualMerge, a_owner);
+		}
+
 		[[nodiscard]] std::uint32_t GetCount() const noexcept;
 		[[nodiscard]] Stack* GetStackByID(std::uint32_t a_stackID) const
 		{
@@ -136,6 +143,20 @@ namespace RE
 			}
 
 			return iter;
+		}
+
+		[[nodiscard]] const char* GetDisplayFullName(std::uint32_t a_stackID)
+		{
+			using func_t = decltype(&BGSInventoryItem::GetDisplayFullName);
+			REL::Relocation<func_t> func{ REL::ID(277641) };
+			return func(this, a_stackID);
+		}
+
+		[[nodiscard]] TBO_InstanceData* GetInstanceData(std::uint32_t a_stackID)
+		{
+			using func_t = decltype(&BGSInventoryItem::GetInstanceData);
+			REL::Relocation<func_t> func{ REL::ID(491493) };
+			return func(this, a_stackID);
 		}
 
 		[[nodiscard]] std::int32_t GetInventoryValue(std::uint32_t a_stackID, bool a_scale) const

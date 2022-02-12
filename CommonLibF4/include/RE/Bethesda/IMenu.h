@@ -36,6 +36,7 @@
 namespace RE
 {
 	enum class ContainerMenuMode;
+	enum class EQUIP_TYPE;
 
 	namespace Workshop
 	{
@@ -43,8 +44,10 @@ namespace RE
 		struct PlacementStatusEvent;
 	}
 
+	class BSInputEnableLayer;
 	class BSGFxFunctionBase;
 	class BSGFxShaderFXTarget;
+	class ExamineMenu;
 	class ExtraDataList;
 	class MenuOpenCloseEvent;
 	class MessageBoxData;
@@ -1558,7 +1561,7 @@ namespace RE
 		};
 		static_assert(sizeof(ModChoiceData) == 0x38);
 
-		virtual ~WorkbenchMenuBase();  //00
+		virtual ~WorkbenchMenuBase();  // 00
 
 		// override (GameMenuBase)
 		virtual void Call(const Params&) override;                                                               // 01
@@ -1606,4 +1609,276 @@ namespace RE
 		bool soundsQueued;                                             // 336
 	};
 	static_assert(sizeof(WorkbenchMenuBase) == 0x340);
+
+	class __declspec(novtable) ExamineConfirmMenu :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExamineConfirmMenu };
+		static constexpr auto VTABLE{ VTABLE::ExamineConfirmMenu };
+		static constexpr auto MENU_NAME{ "ExamineConfirmMenu"sv };
+
+		enum class CONFIRM_TYPE
+		{
+			kSimple,
+			kBuild,
+			kScrap,
+			kRepairFailure
+		};
+
+		class __declspec(novtable) ICallback
+		{
+		public:
+			static constexpr auto RTTI{ RTTI::ExamineConfirmMenu__ICallback };
+			static constexpr auto VTABLE{ VTABLE::ExamineConfirmMenu__ICallback };
+
+			ICallback(ExamineMenu* a_thisMenu) :
+				thisMenu(a_thisMenu)
+			{
+				stl::emplace_vtable(this);
+			}
+
+			virtual ~ICallback() = default;  // 00
+
+			// add
+			virtual void OnAccept() = 0;  // 01
+
+			F4_HEAP_REDEFINE_NEW(ICallback);
+
+			// members
+			ExamineMenu* thisMenu;  // 08
+		};
+		static_assert(sizeof(ICallback) == 0x10);
+
+		class __declspec(novtable) InitData
+		{
+		public:
+			static constexpr auto RTTI{ RTTI::ExamineConfirmMenu__InitData };
+			static constexpr auto VTABLE{ VTABLE::ExamineConfirmMenu__InitData };
+
+			InitData(BSFixedString a_confirmQuestion, BSFixedStringCS a_buttonLabel, CONFIRM_TYPE a_confirmType) :
+				confirmQuestion(a_confirmQuestion),
+				buttonLabel(a_buttonLabel),
+				confirmType(a_confirmType)
+			{
+				stl::emplace_vtable(this);
+			}
+
+			virtual ~InitData() = default;  // 00
+
+			F4_HEAP_REDEFINE_NEW(InitData);
+
+			// members
+			BSFixedString confirmQuestion;                                                      // 08
+			BSFixedStringCS buttonLabel;                                                        // 10
+			stl::enumeration<CONFIRM_TYPE, std::int32_t> confirmType{ CONFIRM_TYPE::kSimple };  // 18
+			bool hasCancelButton{ true };                                                       // 1C
+		};
+		static_assert(sizeof(InitData) == 0x20);
+
+		class __declspec(novtable) InitDataScrap :
+			public InitData  // 00
+		{
+		public:
+			static constexpr auto RTTI{ RTTI::ExamineConfirmMenu__InitDataScrap };
+			static constexpr auto VTABLE{ VTABLE::ExamineConfirmMenu__InitDataScrap };
+
+			InitDataScrap(const char* a_confirmQuestion,const char* a_buttonLabel,const char* a_scrapSourceName,BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> a_scrapResults) :
+				InitData(a_confirmQuestion, a_buttonLabel, CONFIRM_TYPE::kScrap),
+				scrapSourceName(a_scrapSourceName),
+				scrapResults(a_scrapResults)
+			{
+				stl::emplace_vtable(this);
+			}
+
+			virtual ~InitDataScrap() = default;  // 00
+
+			F4_HEAP_REDEFINE_NEW(InitDataScrap);
+
+			// members
+			BSFixedStringCS scrapSourceName;                                  // 20
+			BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrapResults;  // 28
+		};
+		static_assert(sizeof(InitDataScrap) == 0x40);
+
+		// members
+		Scaleform::GFx::Value confirmObj;  // E0
+	};
+	static_assert(sizeof(ExamineConfirmMenu) == 0x100);
+
+	class __declspec(novtable) ScrapItemCallback :
+		public ExamineConfirmMenu::ICallback  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::__ScrapItemCallback };
+		static constexpr auto VTABLE{ VTABLE::__ScrapItemCallback };
+
+		ScrapItemCallback(ExamineMenu* a_thisMenu, std::uint32_t a_itemIndex) :
+			ExamineConfirmMenu::ICallback(a_thisMenu),
+			itemIndex(a_itemIndex)
+		{
+			stl::emplace_vtable(this);
+		}
+
+		virtual ~ScrapItemCallback() = default;  // 00
+
+		// override
+		virtual void OnAccept() override;  // 01
+
+		F4_HEAP_REDEFINE_NEW(ScrapItemCallback);
+
+		// members
+		std::uint32_t itemIndex;  // 10
+	};
+	static_assert(sizeof(ScrapItemCallback) == 0x18);
+
+	class __declspec(novtable) ExamineMenu :
+		public WorkbenchMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExamineMenu };
+		static constexpr auto VTABLE{ VTABLE::ExamineMenu };
+		static constexpr auto MENU_NAME{ "ExamineMenu"sv };
+
+		enum class INSPECT_MODE_STATE;
+
+		struct ComponentBuilderFunctor
+		{
+		public:
+			// members
+			BSTArray<BSTTuple<BGSComponent*, std::uint8_t>> components;  // 00
+			TESObjectMISC* a_object;                                     // 18
+			std::uint32_t a_index;                                       // 20
+		};
+		static_assert(sizeof(ComponentBuilderFunctor) == 0x28);
+
+		virtual ~ExamineMenu();  // 00
+
+		// override (WorkbenchMenuBase)
+		virtual void Call(const Params&) override;                                    // 01
+		virtual void MapCodeObjectFunctions() override;                               // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;     // 03
+		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;  // 04
+		virtual void OnHideMenu() override;                                           // 14
+		virtual void BuildConfirmed(bool a_ownerIsWorkbench) override;                // 17
+		virtual bool TryCreate() override;                                            // 1B
+
+		// override (BSInputEventUser)
+		virtual bool ShouldHandleEvent(const InputEvent*) override;  // 01
+		virtual void HandleEvent(const ThumbstickEvent*) override;   // 04
+		virtual void HandleEvent(const CursorMoveEvent*) override;   // 05
+		virtual void HandleEvent(const ButtonEvent*) override;       // 08
+
+		// add
+		virtual EQUIP_TYPE GetInventoryEntryEquipState(const InventoryUserUIInterfaceEntry& a_entry);                                                    // 1C
+		virtual void ShowCurrent3D();                                                                                                                    // 1D
+		virtual TESBoundObject* GetCurrentObj();                                                                                                         // 1E
+		virtual void FindWeaponMods(TESBoundObject* a_object, Scaleform::GFx::Value& a_modList);                                                         // 1F
+		virtual void BuildPossibleModList(TESBoundObject* a_object);                                                                                     // 20
+		virtual void SwitchMod(std::int32_t a_index, Scaleform::GFx::Value& a_entryList);                                                                // 21
+		virtual void NextItemPart();                                                                                                                     // 22
+		virtual void PreviousItemPart();                                                                                                                 // 23
+		virtual void AttachModToPreview(bool a_storeModelPosition);                                                                                      // 24
+		virtual BGSObjectInstanceExtra* GetInitialObjectInstanceExtra();                                                                                 // 25
+		virtual BGSObjectInstanceExtra* GetObjectInstanceExtra();                                                                                        // 26
+		virtual const ExtraDataList* GetItemExtraDataList();                                                                                             // 27
+		virtual void HighlightWeaponPart();                                                                                                              // 28
+		virtual void ResetHighlight();                                                                                                                   // 29
+		virtual void CreateModdedInventoryItem();                                                                                                        // 2A
+		virtual void RevertToInventoryItem();                                                                                                            // 2B
+		virtual const char* GetCurrentName();                                                                                                            // 2C
+		virtual void RenameCurrent(const char* a_newName);                                                                                               // 2D
+		virtual void UpdateItemCard(bool a_compare);                                                                                                     // 2E
+		virtual void UpdateItemList(std::int32_t a_indexToSelect);                                                                                       // 2F
+		virtual const char* GetBuildConfirmButtonLabel();                                                                                                // 30
+		virtual void GetBuildConfirmQuestion(char* a_buffer, std::uint32_t a_bufferLength);                                                              // 31
+		virtual bool GetCanRepairSelectedItem();                                                                                                         // 32
+		virtual NiAVObject* GetCurrent3D();                                                                                                              // 33
+		virtual bool GetCurrent3DLoaded();                                                                                                               // 34
+		virtual bool GetIsValidInventoryItem(const BGSInventoryItem& a_item, std::uint32_t a_stackID);                                                   // 35
+		virtual const char* GetMenuName();                                                                                                               // 36
+		virtual void OnSwitchBaseItem();                                                                                                                 // 37
+		virtual void PopulateInventoryItemObj(ObjectRefHandle a_owner, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_itemObj);  // 38
+		virtual void RegisterMenuComponents(const Scaleform::GFx::FunctionHandler::Params& a_params);                                                    // 39
+		virtual void RepairSelectedItem();                                                                                                               // 3A
+		virtual void SetFilter();                                                                                                                        // 3B
+		virtual void SetMouseRotation(bool a_rotation);                                                                                                  // 3C
+		virtual void ToggleItemEquipped();                                                                                                               // 3D
+		virtual void UpdateModSlotList();                                                                                                                // 3E
+		virtual void UpdateModChoiceList();                                                                                                              // 3F
+		virtual const char* GetRankSuffix(std::uint32_t a_rank);                                                                                         // 40
+		virtual bool QIgnoreRank();                                                                                                                      // 41
+		virtual bool ShouldInitToFirstMod();                                                                                                             // 42
+		virtual void SetDataForConditionCheck();                                                                                                         // 43
+		virtual bool AddLooseModToModChoiceArray(BGSMod::Attachment::Mod* a_mod, std::uint8_t a_rank);                                                   // 44
+		virtual bool ShouldShowModSlot(const BGSKeyword* a_keyword);                                                                                     // 45
+
+		void BuildWeaponScrappingArray()
+		{
+			using func_t = decltype(&ExamineMenu::BuildWeaponScrappingArray);
+			REL::Relocation<func_t> func{ REL::ID(646841) };
+			return func(this);
+		}
+
+		[[nodiscard]] std::uint32_t GetSelectedIndex()
+		{
+			using func_t = decltype(&ExamineMenu::GetSelectedIndex);
+			REL::Relocation<func_t> func{ REL::ID(776503) };
+			return func(this);
+		}
+
+		void ShowConfirmMenu(ExamineConfirmMenu::InitData* a_data, ExamineConfirmMenu::ICallback* a_callback)
+		{
+			using func_t = decltype(&ExamineMenu::ShowConfirmMenu);
+			REL::Relocation<func_t> func{ REL::ID(443081) };
+			return func(this, a_data, a_callback);
+		}
+
+		// members
+		ComponentBuilderFunctor componentFunctor;                              // 340
+		stl::enumeration<INSPECT_MODE_STATE, std::uint32_t> inspectModeState;  // 368
+		ObjectRefHandle inventorySource;                                       // 36C
+		InventoryUserUIInterface invInterface;                                 // 370
+		InventoryInterface::Handle modItem;                                    // 3F0
+		std::uint32_t modStack;                                                // 3F4
+		BSTHashMap<std::uint32_t, std::uint32_t> scrappableItemsMap;           // 3F8
+		BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrappingArray;     // 420
+		BSTArray<BSTTuple<NiAVObject*, BGSKeyword const*>> slotObjects;        // 440
+		BSTSmartPointer<ExtraDataList> extraDataList;                          // 458
+		std::uint32_t slotObjectIndex;                                         // 460
+		Scaleform::GFx::Value buttonAnimBase;                                  // 468
+		Scaleform::GFx::Value itemList;                                        // 488
+		Scaleform::GFx::Value itemNameTextField;                               // 4A8
+		Scaleform::GFx::Value itemInfoList;                                    // 4C8
+		Scaleform::GFx::Value modChoiceList;                                   // 4E8
+		Scaleform::GFx::Value modSlotList;                                     // 508
+		Scaleform::GFx::Value currentModsList;                                 // 528
+		BGSInventoryItem moddedInventoryItem;                                  // 548
+		bool queueItemHighlight;                                               // 558
+		float zoomDistance;                                                    // 55C
+		float lastFrameDelta;                                                  // 560
+		float menuCursorLeftPct;                                               // 564
+		float menuCursorRightPct;                                              // 568
+		float menuCursorTopPct;                                                // 56C
+		float menuCursorBottomPct;                                             // 570
+		BSTArray<BGSComponent*> queuedSoundArray;                              // 578
+		std::byte attachPointSource3D[0x598 - 0x590];                          // 590 - TODO
+		const BGSMod::Attachment::Mod* nullMod;                                // 598
+		Scaleform::GFx::Value requirementsList;                                // 5A0
+		Scaleform::GFx::Value itemSelectList;                                  // 5C0
+		const BGSKeyword* keyword;                                             // 5E0
+		bool queueChangeCameraPosition;                                        // 5E8
+		bool returnToInspect;                                                  // 5E9
+		bool highlightStoredItem;                                              // 5EA
+		bool textEntry;                                                        // 5EB
+		bool virtualKeyboardPendingEvt;                                        // 5EC
+		bool inspectMode;                                                      // 5ED
+		bool inspectingSingleItem;                                             // 5EE
+		bool inspectingFeaturedItem;                                           // 5EF
+		bool showFeaturedItemMessage;                                          // 5F0
+		char renameItemTo[260];                                                // 5F1
+		char renameItemCancelState[260];                                       // 6F5
+		BSTSmartPointer<BSInputEnableLayer> inputLayer;                        // 800
+	};
+	static_assert(sizeof(ExamineMenu) == 0x810);
 }
