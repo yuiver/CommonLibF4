@@ -1683,7 +1683,7 @@ namespace RE
 			static constexpr auto RTTI{ RTTI::ExamineConfirmMenu__InitDataScrap };
 			static constexpr auto VTABLE{ VTABLE::ExamineConfirmMenu__InitDataScrap };
 
-			InitDataScrap(const char* a_confirmQuestion,const char* a_buttonLabel,const char* a_scrapSourceName,BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> a_scrapResults) :
+			InitDataScrap(const char* a_confirmQuestion, const char* a_buttonLabel, const char* a_scrapSourceName, BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> a_scrapResults) :
 				InitData(a_confirmQuestion, a_buttonLabel, CONFIRM_TYPE::kScrap),
 				scrapSourceName(a_scrapSourceName),
 				scrapResults(a_scrapResults)
