@@ -924,6 +924,8 @@ namespace RE
 				return func(this, a_toCopy, a_vm);
 			}
 
+			F4_HEAP_REDEFINE_NEW(ArrayWrapper<T>);
+
 		private:
 			// members
 			Variable wrappedVar;  // 00

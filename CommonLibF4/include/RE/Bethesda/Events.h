@@ -337,6 +337,16 @@ namespace RE
 	};
 	static_assert(sizeof(TESContainerChangedEvent) == 0x18);
 
+	struct TESDeathEvent
+	{
+	public:
+		// members
+		NiPointer<TESObjectREFR> actorDying;   // 00
+		NiPointer<TESObjectREFR> actorKiller;  // 08
+		bool dead;                             // 10
+	};
+	static_assert(sizeof(TESDeathEvent) == 0x18);
+
 	struct TESFurnitureEvent
 	{
 	public:
