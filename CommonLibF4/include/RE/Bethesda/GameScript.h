@@ -244,7 +244,7 @@ namespace RE
 			void ReleaseHandle(std::size_t a_handle) override;                                          // 0E
 			void ConvertHandleToString(std::size_t a_handle, BSFixedString& a_string) const override;   // 0F
 
-			[[nodiscard]] static std::uint64_t GetHandleForInventoryID(std::uint16_t a_uniqueID, ENUM_FORM_ID a_containerFormID) noexcept
+			[[nodiscard]] static std::uint64_t GetHandleForInventoryID(std::uint16_t a_uniqueID, std::uint32_t a_containerFormID) noexcept
 			{
 				return static_cast<std::uint64_t>(static_cast<std::uint32_t>(a_containerFormID)) |
 				       (static_cast<std::uint64_t>(a_uniqueID) << 32ull) |

@@ -527,7 +527,7 @@ namespace RE::BSScript
 			}
 
 			BSTSmartPointer<Object> object;
-			if (!vm->FindBoundObject(handle, typeInfo->name.c_str(), false, object, false) &&
+			if (!vm->FindBoundObject(handle, typeInfo->name.c_str(), false, object, false) ||
 				vm->CreateObject(typeInfo->name, object) &&
 				object) {
 				auto& binding = vm->GetObjectBindPolicy();
@@ -555,7 +555,7 @@ namespace RE::BSScript
 		const auto success = [&]() {
 			if (a_val.Reference()) {
 				detail::PackVariable(a_var, a_val.Reference());
-				return success;
+				return true;
 			} else if (!a_val.Container() || !a_val.UniqueID()) {
 				return false;
 			}
@@ -566,7 +566,7 @@ namespace RE::BSScript
 			if (!typeInfo || !typeInfo->IsObject()) {
 				return false;
 			}
-			const auto& objInfo = static_cast<const ObjectTypeInfo&>(*typeInfo);
+			const auto& objInfo = static_cast<const ObjectTypeInfo&>(*typeInfo->data.complexTypeInfo);
 
 			const auto game = GameVM::GetSingleton();
 			const auto vm = game ? game->GetVM() : nullptr;
@@ -576,7 +576,7 @@ namespace RE::BSScript
 
 			const auto handle = GameScript::HandlePolicy::GetHandleForInventoryID(uniqueID, container.GetFormID());
 			BSTSmartPointer<Object> object;
-			if (!vm->FindBoundObject(handle, objInfo.name.c_str(), false, object, false) &&
+			if (!vm->FindBoundObject(handle, objInfo.name.c_str(), false, object, false) ||
 				vm->CreateObject(objInfo.name, object)) {
 				GameScript::BindCObject(object, a_val, *vm);
 			}
