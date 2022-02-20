@@ -529,7 +529,7 @@ namespace RE::BSScript
 			BSTSmartPointer<Object> object;
 			if (!vm->FindBoundObject(handle, typeInfo->name.c_str(), false, object, false) &&
 				vm->CreateObject(typeInfo->name, object) &&
-					object) {
+				object) {
 				auto& binding = vm->GetObjectBindPolicy();
 				binding.BindObject(object, handle);
 			}

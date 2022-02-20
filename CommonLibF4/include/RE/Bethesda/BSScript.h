@@ -912,7 +912,7 @@ namespace RE
 		{
 		public:
 			ArrayWrapper() = delete;
-			
+
 			F4_HEAP_REDEFINE_NEW(ArrayWrapper<T>);
 
 		private:
@@ -921,7 +921,7 @@ namespace RE
 		};
 		static_assert(sizeof(ArrayWrapper<void*>) == 0x10);
 
-		template<>
+		template <>
 		class ArrayWrapper<BSScript::Variable>
 		{
 		public:
