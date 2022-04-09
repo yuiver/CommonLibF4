@@ -527,9 +527,9 @@ namespace RE::BSScript
 			}
 
 			BSTSmartPointer<Object> object;
-			if (!vm->FindBoundObject(handle, typeInfo->name.c_str(), false, object, false) ||
+			if (!vm->FindBoundObject(handle, typeInfo->name.c_str(), false, object, false) &&
 				vm->CreateObject(typeInfo->name, object) &&
-					object) {
+				object) {
 				auto& binding = vm->GetObjectBindPolicy();
 				binding.BindObject(object, handle);
 			}
@@ -576,7 +576,7 @@ namespace RE::BSScript
 
 			const auto handle = GameScript::HandlePolicy::GetHandleForInventoryID(uniqueID, container.GetFormID());
 			BSTSmartPointer<Object> object;
-			if (!vm->FindBoundObject(handle, objInfo.name.c_str(), false, object, false) ||
+			if (!vm->FindBoundObject(handle, objInfo.name.c_str(), false, object, false) &&
 				vm->CreateObject(objInfo.name, object)) {
 				GameScript::BindCObject(object, a_val, *vm);
 			}
