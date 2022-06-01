@@ -317,6 +317,22 @@ namespace RE
 	};
 	static_assert(sizeof(QuickContainerStateEvent) == 0xC0);
 
+	struct TESActivateEvent
+	{
+	public:
+		[[nodiscard]] static BSTEventSource<TESActivateEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESActivateEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(166230) };
+			return func();
+		}
+
+		// members
+		NiPointer<TESObjectREFR> objectActivated;  // 00
+		NiPointer<TESObjectREFR> actionRef;        // 08
+	};
+	static_assert(sizeof(TESActivateEvent) == 0x10);
+
 	struct TESContainerChangedEvent
 	{
 	public:

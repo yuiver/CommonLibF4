@@ -625,6 +625,13 @@ namespace RE
 			return func(this);
 		}
 
+		[[nodiscard]] bool IsInWater()
+		{
+			using func_t = decltype(&TESObjectREFR::IsInWater);
+			REL::Relocation<func_t> func{ REL::ID(315318) };
+			return func(this);
+		}
+
 		void MoveRefToNewSpace(TESObjectCELL* a_interior, TESWorldSpace* a_world)
 		{
 			using func_t = decltype(&TESObjectREFR::MoveRefToNewSpace);

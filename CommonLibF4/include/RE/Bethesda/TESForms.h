@@ -16,6 +16,7 @@
 #include "RE/Bethesda/Movement.h"
 #include "RE/Bethesda/Settings.h"
 #include "RE/Bethesda/TESCondition.h"
+#include "RE/Bethesda/TESFile.h"
 #include "RE/NetImmerse/NiColor.h"
 #include "RE/NetImmerse/NiFlags.h"
 #include "RE/NetImmerse/NiPoint2.h"
@@ -473,7 +474,6 @@ namespace RE
 	class QueuedFile;
 	class QueuedPromoteLocationReferencesTask;
 	class TBO_InstanceData;
-	class TESFile;
 	class TESPackageData;
 	class TESRegionDataList;
 	class TESRegionPointList;
@@ -770,7 +770,25 @@ namespace RE
 		[[nodiscard]] std::uint32_t GetFormFlags() const noexcept { return formFlags; }
 		[[nodiscard]] std::uint32_t GetFormID() const noexcept { return formID; }
 		[[nodiscard]] ENUM_FORM_ID GetFormType() const noexcept { return *formType; }
+
+		[[nodiscard]] std::uint32_t GetLocalFormID()
+		{
+			auto file = GetFile(0);
+
+			std::uint32_t fileIndex = file->compileIndex << (3 * 8);
+			fileIndex += file->smallFileCompileIndex << ((1 * 8) + 4);
+
+			return formID & ~fileIndex;
+		}
+
 		[[nodiscard]] bool Is(ENUM_FORM_ID a_type) const noexcept { return GetFormType() == a_type; }
+		template <class... Args>
+		
+		[[nodiscard]] bool Is(Args... a_args) const noexcept  //
+			requires(std::same_as<Args, ENUM_FORM_ID>&&...)
+		{
+			return (Is(a_args) || ...);
+		}
 
 		template <class T>
 		[[nodiscard]] bool Is() const noexcept  //
@@ -785,6 +803,16 @@ namespace RE
 		[[nodiscard]] bool IsCreated() const noexcept { return (formID >> (8 * 3)) == 0xFF; }
 		[[nodiscard]] bool IsDeleted() noexcept { return (formFlags & (1u << 5)) != 0; }
 		[[nodiscard]] bool IsInitialized() const noexcept { return (formFlags & (1u << 3)) != 0; }
+		
+		[[nodiscard]] bool IsNot(ENUM_FORM_ID a_type) const noexcept { return !Is(a_type); }
+		template <class... Args>
+		
+		[[nodiscard]] bool IsNot(Args... a_args) const noexcept  //
+			requires(std::same_as<Args, ENUM_FORM_ID>&&...)
+		{
+			return (IsNot(a_args) && ...);
+		}
+		
 		[[nodiscard]] bool IsPlayer() const noexcept { return GetFormID() == 0x00000007; }
 		[[nodiscard]] bool IsPlayerRef() const noexcept { return GetFormID() == 0x00000014; }
 		[[nodiscard]] bool IsWeapon() const noexcept { return Is(ENUM_FORM_ID::kWEAP); }

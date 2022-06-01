@@ -3,13 +3,13 @@
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTList.h"
 #include "RE/Bethesda/BSTSingleton.h"
+#include "RE/Bethesda/TESFile.h"
 #include "RE/Bethesda/TESForms.h"
 #include "RE/NetImmerse/NiTArray.h"
 #include "RE/NetImmerse/NiTList.h"
 
 namespace RE
 {
-	class TESFile;
 	class TESRegionDataManager;
 
 	struct BGSHotloadCompletedEvent;
@@ -98,6 +98,37 @@ namespace RE
 		{
 			assert(T::FORM_ID < ENUM_FORM_ID::kTotal);
 			return reinterpret_cast<BSTArray<T*>&>(formArrays[stl::to_underlying(T::FORM_ID)]);
+		}
+
+		[[nodiscard]] std::uint32_t GetFormID(std::uint32_t a_rawFormID, std::string_view a_modName)
+		{
+			auto file = GetModByName(a_modName);
+			if (!file || file->compileIndex == 0xFF) {
+				return 0;
+			}
+
+			std::uint32_t formID = file->compileIndex << (3 * 8);
+			formID += file->smallFileCompileIndex << ((1 * 8) + 4);
+			formID += a_rawFormID;
+
+			return formID;
+		}
+
+		[[nodiscard]] TESForm* GetForm(std::uint32_t a_rawFormID, std::string_view a_modName)
+		{
+			const std::uint32_t formID = GetFormID(a_rawFormID, a_modName);
+
+		    return TESForm::GetFormByID(formID);
+		}
+
+		[[nodiscard]] const TESFile* GetModByName(std::string_view a_modName)
+		{
+			for (auto& file : files) {
+				if (_stricmp(file->filename, a_modName.data()) == 0) {
+					return file;
+				}
+			}
+			return nullptr;
 		}
 
 		// members

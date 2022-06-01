@@ -42,7 +42,10 @@
 #define NODEFERWINDOWPOS
 #define NOMCX
 
+#pragma warning(push)
+#pragma warning(disable: 5105)
 #include <Windows.h>
+#pragma warning(pop)
 
 #undef GetEnvironmentVariable
 #undef GetFileVersionInfo
