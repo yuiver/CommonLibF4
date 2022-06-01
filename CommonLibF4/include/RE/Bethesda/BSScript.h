@@ -912,19 +912,40 @@ namespace RE
 		{
 		public:
 			ArrayWrapper() = delete;
-			ArrayWrapper(BSScrapArray<Variable>& a_toCopy, IVirtualMachine& a_vm)
+
+			F4_HEAP_REDEFINE_NEW(ArrayWrapper<T>);
+
+		private:
+			// members
+			Variable wrappedVar;  // 00
+		};
+		static_assert(sizeof(ArrayWrapper<void*>) == 0x10);
+
+		template <>
+		class ArrayWrapper<BSScript::Variable>
+		{
+		public:
+			ArrayWrapper() = delete;
+			ArrayWrapper(BSScrapArray<Variable>& a_copy, IVirtualMachine& a_vm)
 			{
-				ReplaceArray(a_toCopy, a_vm);
+				ReplaceArray(a_copy, a_vm);
 			}
 
-			void ReplaceArray(BSScrapArray<Variable>& a_toCopy, IVirtualMachine& a_vm)
+			F4_HEAP_REDEFINE_NEW(ArrayWrapper<BSScript::Variable>);
+
+			void GetArrayCopy(BSScrapArray<Variable>& a_copy, IVirtualMachine& a_vm)
+			{
+				using func_t = decltype(&ArrayWrapper::GetArrayCopy);
+				REL::Relocation<func_t> func{ REL::ID(445184) };
+				return func(this, a_copy, a_vm);
+			}
+
+			void ReplaceArray(BSScrapArray<Variable>& a_copy, IVirtualMachine& a_vm)
 			{
 				using func_t = decltype(&ArrayWrapper::ReplaceArray);
 				REL::Relocation<func_t> func{ REL::ID(445184) };
-				return func(this, a_toCopy, a_vm);
+				return func(this, a_copy, a_vm);
 			}
-
-			F4_HEAP_REDEFINE_NEW(ArrayWrapper<T>);
 
 		private:
 			// members
