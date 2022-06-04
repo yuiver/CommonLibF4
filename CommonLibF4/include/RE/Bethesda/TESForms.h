@@ -1843,7 +1843,14 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSListForm };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kFLST };
 
-		[[nodiscard]] bool ContainsItem(const TESForm* a_form)
+		void AddScriptAddedForm(TESForm* a_form)
+		{
+			using func_t = decltype(&BGSListForm::AddScriptAddedForm);
+			REL::Relocation<func_t> func{ REL::ID(1064874) };
+			return func(this, a_form);
+		}
+
+	    [[nodiscard]] bool ContainsItem(const TESForm* a_form)
 		{
 			using func_t = decltype(&BGSListForm::ContainsItem);
 			REL::Relocation<func_t> func{ REL::ID(688500) };

@@ -868,6 +868,40 @@ namespace RE
 		// add
 		virtual BGSKeyword* GetDefaultKeyword() const { return nullptr; }  // 07
 
+		void AddKeyword(BGSKeyword* a_keyword)
+		{
+			using func_t = decltype(&BGSKeywordForm::AddKeyword);
+			REL::Relocation<func_t> func{ REL::ID(762999) };
+			return func(this, a_keyword);
+		}
+		
+		[[nodiscard]] bool ContainsKeywordString(std::string_view a_editorID) const;
+		[[nodiscard]] bool HasKeywordID(std::uint32_t a_formID) const;
+		[[nodiscard]] bool HasKeywordString(std::string_view a_editorID) const;
+
+		[[nodiscard]] std::optional<BGSKeyword*> GetKeywordAt(std::uint32_t a_idx) const
+		{
+			if (a_idx < numKeywords) {
+				return std::make_optional(keywords[a_idx]);
+			} else {
+				return std::nullopt;
+			}
+		}
+
+		[[nodiscard]] std::optional<std::uint32_t> GetKeywordIndex(BGSKeyword* a_keyword) const
+		{
+			if (keywords) {
+				for (std::uint32_t i = 0; i < numKeywords; ++i) {
+					if (keywords[i] == a_keyword) {
+						return i;
+					}
+				}
+			}
+			return std::nullopt;
+		}
+
+		[[nodiscard]] std::uint32_t GetNumKeywords() const { return numKeywords; };
+
 		// members
 		BGSKeyword** keywords;      // 10
 		std::uint32_t numKeywords;  // 18
@@ -1077,21 +1111,48 @@ namespace RE
 	class ContainerItemExtra
 	{
 	public:
-		// members
-		TESForm* ownerForm;  // 00
-		union
+		union Conditional
 		{
+			Conditional() :
+				ownerGlobal(nullptr)
+			{}
+			~Conditional() = default;
+
+			F4_HEAP_REDEFINE_NEW(Conditional);
+
 			TESGlobal* ownerGlobal;
 			std::int32_t ownerRank;
 			void* u;
-		};                 // 08
-		float healthMult;  // 10
+		};
+		static_assert(sizeof(Conditional) == 0x8);
+
+		ContainerItemExtra() :
+			ownerForm(nullptr),
+			conditional(),
+			healthMult(100.0f)
+		{}
+
+		F4_HEAP_REDEFINE_NEW(ContainerItemExtra);
+
+		// members
+		TESForm* ownerForm;       // 00
+		Conditional conditional;  // 08
+		float healthMult;         // 10
 	};
 	static_assert(sizeof(ContainerItemExtra) == 0x18);
 
 	class ContainerObject
 	{
 	public:
+		ContainerObject(TESBoundObject* a_obj, std::int32_t a_count) :
+			count(a_count),
+			obj(a_obj),
+			itemExtra()
+		{}
+		~ContainerObject() = default;
+
+		F4_HEAP_REDEFINE_NEW(ContainerObject);
+
 		// members
 		std::int32_t count;             // 00
 		TESBoundObject* obj;            // 08
@@ -1105,6 +1166,57 @@ namespace RE
 	public:
 		static constexpr auto RTTI{ RTTI::TESContainer };
 		static constexpr auto VTABLE{ VTABLE::TESContainer };
+
+		void ForEachContainerObject(std::function<bool(ContainerObject&)> a_fn) const
+		{
+			for (std::uint32_t i = 0; i < numContainerObjects; ++i) {
+				auto entry = containerObjects[i];
+				if (entry) {
+					if (!a_fn(*entry)) {
+						break;
+					}
+				}
+			}
+		}
+
+		bool AddObject(TESBoundObject* a_object, std::int32_t a_count, TESForm* a_owner)
+		{
+			bool added = false;
+			ForEachContainerObject([&](ContainerObject& a_contObj) {
+				if (a_contObj.obj == a_object) {
+					a_contObj.count += a_count;
+					added = true;
+					return false;
+				}
+				return true;
+			});
+			if (!added) {
+				std::vector<ContainerObject*> copiedData{ containerObjects, containerObjects + numContainerObjects };
+
+				auto newObj = new ContainerObject(a_object, a_count);
+				if (newObj) {
+					const auto itemExtra = newObj->itemExtra;
+					if (itemExtra && a_owner) {
+						itemExtra->ownerForm = a_owner;
+					}
+					copiedData.push_back(newObj);
+
+					auto newNum = static_cast<std::uint32_t>(copiedData.size());
+					auto newData = calloc<ContainerObject*>(newNum);
+					std::ranges::copy(copiedData, newData);
+
+					auto oldData = containerObjects;
+
+					numContainerObjects = newNum;
+					containerObjects = newData;
+
+					free(oldData);
+
+					added = true;
+				}
+			}
+			return added;
+		}
 
 		// members
 		ContainerObject** containerObjects;  // 08
@@ -1310,15 +1422,57 @@ namespace RE
 	struct ACTOR_BASE_DATA
 	{
 	public:
+		enum class Flag
+		{
+			kNone = 0,
+			kFemale = 1 << 0,
+			kEssential = 1 << 1,
+			kIsChargenFacePreset = 1 << 2,
+			kRespawn = 1 << 3,
+			kAutoCalcStats = 1 << 4,
+			kUnique = 1 << 5,
+			kDoesntAffectStealthMeter = 1 << 6,
+			kPCLevelMult = 1 << 7,
+			kUsesTemplate = 1 << 8,
+			kProtected = 1 << 11,
+			kSummonable = 1 << 14,
+			kDoesntBleed = 1 << 16,
+			kBleedoutOverride = 1 << 18,
+			kOppositeGenderanims = 1 << 19,
+			kSimpleActor = 1 << 20,
+			kLoopedScript = 1 << 21,  // ?
+			kLoopedAudio = 1 << 28,   // ?
+			kIsGhost = 1 << 29,
+			kInvulnerable = 1 << 31
+		};
+
+		enum class TEMPLATE_USE_FLAG
+		{
+			kNone = 0,
+			kTraits = 1 << 0,
+			kStats = 1 << 1,
+			kFactions = 1 << 2,
+			kSpells = 1 << 3,
+			kAIData = 1 << 4,
+			kAIPackages = 1 << 5,
+			kUnused = 1 << 6,
+			kBaseData = 1 << 7,
+			kInventory = 1 << 8,
+			kScript = 1 << 9,
+			kAIDefPackList = 1 << 10,
+			kAttackData = 1 << 11,
+			kKeywords = 1 << 12
+		};
+
 		// members
-		std::uint32_t actorBaseFlags;    // 00
-		std::int16_t xpValueOffset;      // 04
-		std::uint16_t level;             // 06
-		std::uint16_t calcLevelMin;      // 08
-		std::uint16_t calcLevelMax;      // 0A
-		std::uint16_t baseDisposition;   // 0C
-		std::uint16_t templateUseFlags;  // 0E
-		std::int16_t bleedoutOverride;   // 10
+		stl::enumeration<Flag, std::uint32_t> actorBaseFlags;                 // 00
+		std::int16_t xpValueOffset;                                           // 04
+		std::uint16_t level;                                                  // 06
+		std::uint16_t calcLevelMin;                                           // 08
+		std::uint16_t calcLevelMax;                                           // 0A
+		std::uint16_t baseDisposition;                                        // 0C
+		stl::enumeration<TEMPLATE_USE_FLAG, std::uint16_t> templateUseFlags;  // 0E
+		std::int16_t bleedoutOverride;                                        // 10
 	};
 	static_assert(sizeof(ACTOR_BASE_DATA) == 0x14);
 
@@ -1342,6 +1496,24 @@ namespace RE
 		virtual void CopyFromTemplateForms([[maybe_unused]] TESActorBase** a_forceTemplates) { return; }  // 07
 		virtual bool GetIsGhost() const;                                                                  // 08
 		virtual bool GetInvulnerable() const;                                                             // 09
+
+		[[nodiscard]] constexpr bool AffectsStealthMeter() const noexcept { return actorData.actorBaseFlags.none(ACTOR_BASE_DATA::Flag::kDoesntAffectStealthMeter); }
+		[[nodiscard]] constexpr bool Bleeds() const noexcept { return actorData.actorBaseFlags.none(ACTOR_BASE_DATA::Flag::kDoesntBleed); }
+		[[nodiscard]] constexpr bool IsEssential() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kEssential); }
+		[[nodiscard]] constexpr bool IsFemale() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kFemale); }
+		[[nodiscard]] inline bool IsGhost() const { return GetIsGhost(); }
+		[[nodiscard]] constexpr bool IsPreset() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kIsChargenFacePreset); }
+		[[nodiscard]] constexpr bool IsProtected() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kProtected); }
+		[[nodiscard]] constexpr bool IsSimpleActor() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kSimpleActor); }
+		[[nodiscard]] constexpr bool IsSummonable() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kSummonable); }
+		[[nodiscard]] constexpr bool IsUnique() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kUnique); }
+		[[nodiscard]] inline bool IsInvulnerable() const { return GetInvulnerable(); }
+		[[nodiscard]] constexpr bool HasAutoCalcStats() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kAutoCalcStats); }
+		[[nodiscard]] constexpr bool HasBleedoutOverride() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kBleedoutOverride); }
+		[[nodiscard]] constexpr bool HasPCLevelMult() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kPCLevelMult); }
+		[[nodiscard]] constexpr bool Respawns() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kRespawn); }
+		[[nodiscard]] constexpr bool UsesOppositeGenderAnims() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kOppositeGenderanims); }
+		[[nodiscard]] constexpr bool UsesTemplate() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kUsesTemplate); }
 
 		// members
 		ACTOR_BASE_DATA actorData;        // 08
@@ -1537,6 +1709,18 @@ namespace RE
 		struct SpellData
 		{
 		public:
+			SpellData() :
+				spells(nullptr),
+				levSpells(nullptr),
+				shouts(nullptr),
+				numSpells(0),
+				numLevSpells(0),
+				numShouts(0)
+			{}
+			~SpellData() = default;
+
+			F4_HEAP_REDEFINE_NEW(SpellData);
+
 			// members
 			SpellItem** spells;          // 00
 			TESLevSpell** levSpells;     // 08
@@ -1546,6 +1730,13 @@ namespace RE
 			std::uint32_t numShouts;     // 20
 		};
 		static_assert(sizeof(SpellData) == 0x28);
+
+		bool AddSpell(TESForm* a_spell)
+		{
+			using func_t = decltype(&TESSpellList::AddSpell);
+			REL::Relocation<func_t> func{ REL::ID(1312083) };
+			return func(this, a_spell);
+		}
 
 		// members
 		SpellData* spellData;  // 08

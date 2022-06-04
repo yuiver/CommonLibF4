@@ -121,6 +121,13 @@ namespace RE
 		    return TESForm::GetFormByID(formID);
 		}
 
+		template <class T>
+		T* GetForm(std::uint32_t a_rawFormID, std::string_view a_modName)
+		{
+			auto form = GetForm(a_rawFormID, a_modName);
+			return form ? form->As<T>() : 0;
+		}
+
 		[[nodiscard]] const TESFile* GetModByName(std::string_view a_modName)
 		{
 			for (auto& file : files) {
