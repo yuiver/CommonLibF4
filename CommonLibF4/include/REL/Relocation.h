@@ -655,7 +655,7 @@ namespace REL
 	private:
 		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
 
-		std::uint64_t _id{ 0 };
+		std::uint64_t _id{ static_cast<std::uint64_t>(-1) };
 	};
 
 	template <class T>
