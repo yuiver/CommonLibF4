@@ -32,14 +32,21 @@ namespace RE
 		{
 			using func_t = decltype(&ProcessLists::AreHostileActorsNear);
 			REL::Relocation<func_t> func{ REL::ID(1053584) };
-			return (this, a_hostileActorArray);
+			return func(this, a_hostileActorArray);
 		}
 
 		[[nodiscard]] bool IsActorTargetingREFinPackage(const TESObjectREFR* a_actor, PTYPE a_type, bool a_onlyHigh)
 		{
 			using func_t = decltype(&ProcessLists::IsActorTargetingREFinPackage);
 			REL::Relocation<func_t> func{ REL::ID(559542) };
-			return (this, a_actor, a_type, a_onlyHigh);
+			return func(this, a_actor, a_type, a_onlyHigh);
+		}
+
+		[[nodiscard]] std::int16_t RequestHighestDetectionLevelAgainstActor(Actor* a_actor, std::uint32_t& a_LOSCount)
+		{
+			using func_t = decltype(&ProcessLists::RequestHighestDetectionLevelAgainstActor);
+			REL::Relocation<func_t> func{ REL::ID(1036693) };
+			return func(this, a_actor, a_LOSCount);
 		}
 
 		// members

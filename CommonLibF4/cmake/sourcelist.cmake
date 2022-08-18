@@ -18,6 +18,7 @@ set(SOURCES
 	include/RE/Bethesda/BGSCreatedObjectManager.h
 	include/RE/Bethesda/BGSDefaultObjectManager.h
 	include/RE/Bethesda/BGSDynamicPersistenceManager.h
+	include/RE/Bethesda/BGSEntryPoint.h
 	include/RE/Bethesda/BGSHeadPart.h
 	include/RE/Bethesda/BGSInventoryInterface.h
 	include/RE/Bethesda/BGSInventoryItem.h
@@ -87,6 +88,7 @@ set(SOURCES
 	include/RE/Bethesda/FormComponents.h
 	include/RE/Bethesda/FormFactory.h
 	include/RE/Bethesda/FormUtil.h
+	include/RE/Bethesda/GamePlayFormulas.h
 	include/RE/Bethesda/GameScript.h
 	include/RE/Bethesda/HUDModes.h
 	include/RE/Bethesda/IMenu.h

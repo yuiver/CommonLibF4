@@ -486,6 +486,20 @@ namespace RE
 			return func(this, a_equipIndex);
 		}
 
+		void KnockExplosion(Actor* a_actor, const NiPoint3& a_location, float a_magnitude)
+		{
+			using func_t = decltype(&AIProcess::KnockExplosion);
+			REL::Relocation<func_t> func{ REL::ID(533106) };
+			return func(this, a_actor, a_location, a_magnitude);
+		}
+
+		void SetActorsDetectionEvent(Actor* a_actor, const NiPoint3& a_location, std::int32_t a_soundLevel, TESObjectREFR* a_refr)
+		{
+			using func_t = decltype(&AIProcess::SetActorsDetectionEvent);
+			REL::Relocation<func_t> func{ REL::ID(1376336) };
+			return func(this, a_actor, a_location, a_soundLevel, a_refr);
+		}
+
 		void SetCurrentAmmo(BGSEquipIndex a_equipIndex, TESAmmo* a_ammo)
 		{
 			using func_t = decltype(&AIProcess::SetCurrentAmmo);
@@ -888,11 +902,25 @@ namespace RE
 			return func(this, a_reloadAll, a_additionalFlags, a_queueReset, a_excludeFlags);
 		}
 
+		void RewardExperience(float a_amount, bool a_direct, TESObjectREFR* a_actionTarget, TESObjectREFR* a_killWeapon)
+		{
+			using func_t = decltype(&Actor::RewardExperience);
+			REL::Relocation<func_t> func{ REL::ID(262786) };
+			return func(this, a_amount, a_direct, a_actionTarget, a_killWeapon);
+		}
+
 		void SetCurrentAmmo(BGSEquipIndex a_equipIndex, TESAmmo* a_ammo)
 		{
 			if (currentProcess) {
 				currentProcess->SetCurrentAmmo(a_equipIndex, a_ammo);
 			}
+		}
+
+		void TrespassAlarm(TESObjectREFR* a_refr, TESForm* a_owner, std::int32_t a_crime)
+		{
+			using func_t = decltype(&Actor::TrespassAlarm);
+			REL::Relocation<func_t> func{ REL::ID(1109888) };
+			return func(this, a_refr, a_owner, a_crime);
 		}
 
 		// members

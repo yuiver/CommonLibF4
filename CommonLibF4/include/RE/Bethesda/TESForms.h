@@ -1427,6 +1427,13 @@ namespace RE
 			return func(this);
 		}
 
+		[[nodiscard]] TESForm* GetOwner()
+		{
+			using func_t = decltype(&TESObjectCELL::GetOwner);
+			REL::Relocation<func_t> func{ REL::ID(910422) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESWaterForm* GetWaterType() const noexcept;
 		[[nodiscard]] bool HasWater() const noexcept { return cellFlags.all(Flag::kHasWater); }
 		[[nodiscard]] bool IsExterior() const noexcept { return !IsInterior(); }

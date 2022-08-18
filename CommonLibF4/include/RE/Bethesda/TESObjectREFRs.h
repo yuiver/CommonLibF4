@@ -415,6 +415,45 @@ namespace RE
 	};
 	static_assert(sizeof(BipedAnim) == 0x1E58);
 
+	enum class LOCK_LEVEL
+	{
+		kUnlocked = static_cast<std::underlying_type_t<BIPED_OBJECT>>(-1),
+		kEasy = 0,
+		kAverage = 1,
+		kHard = 2,
+		kVeryHard = 3,
+		kRequiresKey = 4,
+		kInaccessible = 5,
+		kTerminal = 6,
+		kBarred = 7,
+		kChained = 8,
+	};
+
+	struct REFR_LOCK
+	{
+	public:
+		[[nodiscard]] LOCK_LEVEL GetLockLevel(TESObjectREFR* a_owner)
+		{
+			using func_t = decltype(&REFR_LOCK::GetLockLevel);
+			REL::Relocation<func_t> func{ REL::ID(782953) };
+			return func(this, a_owner);
+		}
+
+		void SetLocked(bool a_locked)
+		{
+			using func_t = decltype(&REFR_LOCK::SetLocked);
+			REL::Relocation<func_t> func{ REL::ID(157617) };
+			return func(this, a_locked);
+		}
+
+		// members
+		std::uint8_t baseLevel;  // 00
+		TESKey* key;             // 08
+		std::uint8_t flags;      // 10
+		std::uint32_t numTries;  // 14
+	};
+	static_assert(sizeof(REFR_LOCK) == 0x18);
+
 	class __declspec(novtable) TESObjectREFR :
 		public TESForm,                                                  // 000
 		public BSHandleRefObject,                                        // 020
@@ -431,7 +470,27 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESObjectREFR };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kREFR };
 
-		struct RemoveItemData;
+		struct RemoveItemData
+		{
+		public:
+			RemoveItemData(TESForm* a_form, std::int32_t a_count) :
+				RemoveItemData(a_form->As<TESBoundObject>(), a_count)
+			{}
+
+			RemoveItemData(TESBoundObject* a_object, std::int32_t a_count) :
+				object(a_object), count(a_count)
+			{}
+
+			// members
+			BSTSmallArray<std::uint32_t, 4> stackData;               // 00
+			TESBoundObject* object{ nullptr };                       // 20
+			std::int32_t count{ 0 };                                 // 28
+			ITEM_REMOVE_REASON reason{ ITEM_REMOVE_REASON::kNone };  // 2C
+			TESObjectREFR* a_otherContainer{ nullptr };              // 30
+			const NiPoint3* dropLoc{ nullptr };                      // 38
+			const NiPoint3* rotate{ nullptr };                       // 40
+		};
+		static_assert(sizeof(RemoveItemData) == 0x48);
 
 		F4_HEAP_REDEFINE_NEW(TESObjectREFR);
 
@@ -561,11 +620,25 @@ namespace RE
 		virtual void InitDefaultWornImpl(bool a_weapon, bool a_allowChanges);                                                                                                                                                                         // C4
 		virtual bool HasKeywordHelper(const BGSKeyword* a_keyword, const TBO_InstanceData* a_data) const;                                                                                                                                             // C5
 
+		bool ActivateRef(TESObjectREFR* a_actionRef, TESBoundObject* a_objectToGet, std::int32_t a_count, bool a_defaultProcessingOnly, bool a_fromScript, bool a_looping)
+		{
+			using func_t = decltype(&TESObjectREFR::ActivateRef);
+			REL::Relocation<func_t> func{ REL::ID(753531) };
+			return func(this, a_actionRef, a_objectToGet, a_count, a_defaultProcessingOnly, a_fromScript, a_looping);
+		}
+
 		void AddInventoryItem(TESBoundObject* a_object, BSTSmartPointer<ExtraDataList> a_extra, std::uint32_t a_count, TESObjectREFR* a_oldContainer, const INSTANCE_FILTER* a_filter, TESObjectREFR* a_overrideRef)
 		{
 			using func_t = decltype(&TESObjectREFR::AddInventoryItem);
 			REL::Relocation<func_t> func{ REL::ID(78185) };
 			return func(this, a_object, a_extra, a_count, a_oldContainer, a_filter, a_overrideRef);
+		}
+
+		void AddLockChange()
+		{
+			using func_t = decltype(&TESObjectREFR::AddLockChange);
+			REL::Relocation<func_t> func{ REL::ID(1578706) };
+			return func(this);
 		}
 
 		void Enable(bool a_resetInventory)
@@ -588,6 +661,14 @@ namespace RE
 		}
 
 		[[nodiscard]] TESBoundObject* GetObjectReference() const noexcept { return data.objectReference; }
+
+		[[nodiscard]] TESForm* GetOwner()
+		{
+			using func_t = decltype(&TESObjectREFR::GetOwner);
+			REL::Relocation<func_t> func{ REL::ID(1323437) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESObjectCELL* GetParentCell() const noexcept { return parentCell; }
 
 		[[nodiscard]] std::int64_t GetGoldAmount()
@@ -618,10 +699,24 @@ namespace RE
 			return func(this, a_keyword);
 		}
 
+		[[nodiscard]] REFR_LOCK* GetLock()
+		{
+			using func_t = decltype(&TESObjectREFR::GetLock);
+			REL::Relocation<func_t> func{ REL::ID(930785) };
+			return func(this);
+		}
+
 		[[nodiscard]] float GetWeightInContainer()
 		{
 			using func_t = decltype(&TESObjectREFR::GetWeightInContainer);
 			REL::Relocation<func_t> func{ REL::ID(1377567) };
+			return func(this);
+		}
+
+		[[nodiscard]] bool IsCrimeToActivate()
+		{
+			using func_t = decltype(&TESObjectREFR::IsCrimeToActivate);
+			REL::Relocation<func_t> func{ REL::ID(836011) };
 			return func(this);
 		}
 
