@@ -92,7 +92,7 @@ namespace RE
 
 		bool GetChunkData(void* a_data, std::uint32_t a_maxSize)
 		{
-			using func_t = bool(RE::TESFile::*)(void*, uint32_t);
+			using func_t = bool (RE::TESFile::*)(void*, uint32_t);
 			REL::Relocation<func_t> func{ REL::ID(188910) };
 			return func(this, a_data, a_maxSize);
 		}
@@ -132,7 +132,7 @@ namespace RE
 
 		bool OpenTES(char* a_path, const char* a_filename, NiFile::OpenMode a_accessMode, bool a_lock)
 		{
-			using func_t = bool(TESFile::*)(char*, const char*, NiFile::OpenMode, bool);
+			using func_t = bool (TESFile::*)(char*, const char*, NiFile::OpenMode, bool);
 			REL::Relocation<func_t> func{ REL::ID(728465) };
 			return func(this, a_path, a_filename, a_accessMode, a_lock);
 		}
