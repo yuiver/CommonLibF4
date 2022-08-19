@@ -593,6 +593,16 @@ namespace RE
 	};
 	using CHANGE_TYPE = CHANGE_TYPES::CHANGE_TYPE;
 
+	struct FORM_ENUM_STRING
+	{
+	public:
+		// members
+		ENUM_FORM_ID formID;     // 00
+		const char* formString;  // 08 - "GRUP"
+		std::uint32_t formCode;  // 10 - 'PURG'
+	};
+	static_assert(sizeof(FORM_ENUM_STRING) == 0x18);
+
 	class TESFileArray :
 		public BSStaticArray<TESFile*>  // 00
 	{
@@ -615,6 +625,18 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESForm };
 		static constexpr auto VTABLE{ VTABLE::TESForm };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kNONE };
+
+		struct FormSortFunc
+		{
+		public:
+			std::int32_t operator()(const TESForm* a_arg1, const TESForm* a_arg2)
+			{
+				using func_t = decltype(&FormSortFunc::operator());
+				REL::Relocation<func_t> func{ REL::ID(705530) };
+				return func(this, a_arg1, a_arg2);
+			}
+		};
+		static_assert(std::is_empty_v<FormSortFunc>);
 
 		// override (BaseFormComponent)
 		void InitializeDataComponent() override { return; }          // 02
@@ -765,6 +787,19 @@ namespace RE
 		{
 			const auto form = GetFormByEditorID(a_editorID);
 			return form ? form->As<T>() : nullptr;
+		}
+
+		[[nodiscard]] static std::span<FORM_ENUM_STRING, 159> GetFormEnumString()
+		{
+			REL::Relocation<FORM_ENUM_STRING(*)[159]> functions{ REL::ID(1309967) };
+			return { *functions };
+		}
+
+		[[nodiscard]] static ENUM_FORM_ID GetFormTypeFromString(const char* a_formTypeString)
+		{
+			using func_t = decltype(&TESForm::GetFormTypeFromString);
+			REL::Relocation<func_t> func{ REL::ID(565203) };
+			return func(a_formTypeString);
 		}
 
 		[[nodiscard]] std::uint32_t GetFormFlags() const noexcept { return formFlags; }
