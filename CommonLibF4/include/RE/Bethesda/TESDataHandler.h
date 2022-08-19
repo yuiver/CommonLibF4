@@ -107,8 +107,8 @@ namespace RE
 				return nullptr;
 			}
 
-			std::uint32_t formID = file->compileIndex << (3 * 8);
-			formID += file->smallFileCompileIndex << ((1 * 8) + 4);
+			std::uint32_t formID = file->compileIndex << 24;
+			formID += file->smallFileCompileIndex << 12;
 			formID += a_rawFormID;
 
 			return TESForm::GetFormByID(formID);
