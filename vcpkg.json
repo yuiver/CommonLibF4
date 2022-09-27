@@ -1,6 +1,7 @@
 {
   "name": "umbrella",
   "version-string": "1",
+  "supports": "windows & x64",
   "dependencies": [
     "args",
     "boost-stl-interfaces",

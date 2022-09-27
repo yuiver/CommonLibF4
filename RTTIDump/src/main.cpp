@@ -192,7 +192,7 @@ private:
 void dump_rtti()
 {
 	std::vector<std::tuple<std::string, std::uint64_t, std::vector<std::uint64_t>>> results;  // [ demangled name, rtti id, vtable ids ]
-
+	logger::debug("Dumping RTTI...");
 	VTable typeInfo(".?AVtype_info@@"sv);
 	const auto& mod = REL::Module::get();
 	const auto baseAddr = mod.base();
@@ -216,6 +216,7 @@ void dump_rtti()
 					[&](auto&& a_elem) { return iddb(a_elem.offset()); });
 
 				results.emplace_back(sanitize_name(std::move(name)), rid, std::move(vids));
+				logger::debug("{} (id: {}) (address: {:16X})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter));
 			} catch (const std::exception&) {
 				logger::error("{}"sv, decode_name(typeDescriptor));
 				continue;
@@ -373,11 +374,12 @@ void dump_nirtti()
 
 void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 {
+	logger::trace("Message type {} was dispatched!", a_message->type);
 	switch (a_message->type) {
-	case F4SE::MessagingInterface::kGameDataReady:
+	case F4SE::MessagingInterface::kGameLoaded:
 		try {
 			dump_rtti();
-			dump_nirtti();
+			//dump_nirtti();
 		} catch (const std::exception& e) {
 			logger::error("{}"sv, e.what());
 		}
@@ -406,8 +408,8 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a
 #ifndef NDEBUG
 	log->set_level(spdlog::level::trace);
 #else
-	log->set_level(spdlog::level::info);
-	log->flush_on(spdlog::level::warn);
+	log->set_level(spdlog::level::trace);
+	log->flush_on(spdlog::level::trace);
 #endif
 
 	spdlog::set_default_logger(std::move(log));
@@ -423,10 +425,12 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a
 	}
 
 	const auto ver = a_f4se->RuntimeVersion();
-	if (ver < F4SE::RUNTIME_1_10_130) {
+	if (/*ver < F4SE::RUNTIME_1_10_130*/ false) { // todo
 		logger::critical("unsupported runtime v{}", ver.string());
 		return false;
 	}
+
+	logger::info("RTTIDump Loaded!");
 
 	return true;
 }

@@ -41,7 +41,7 @@ namespace Papyrus
 		{
 			const auto obj = "F4SE"sv;
 
-			if (::F4SE::GetF4SEVersion() >= REL::Version{ 0, 6, 22 }) {
+			if (::F4SE::GetF4SEVersion() >= REL::Version{ 0, 6, 20 }) {
 				BIND(GetPluginVersion, true);
 			}
 

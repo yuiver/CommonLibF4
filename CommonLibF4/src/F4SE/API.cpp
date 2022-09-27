@@ -68,7 +68,7 @@ namespace F4SE
 		storage.pluginHandle = intfc.GetPluginHandle();
 		storage.releaseIndex = intfc.GetReleaseIndex();
 		storage.pluginInfoAccessor = [&]() -> decltype(storage.pluginInfoAccessor) {
-			if (storage.f4seVersion >= REL::Version{ 0, 6, 22 }) {
+			if (storage.f4seVersion >= REL::Version{ 0, 6, 20 }) {
 				return reinterpret_cast<const detail::F4SEInterface&>(intfc).GetPluginInfo;
 			} else {
 				return nullptr;
@@ -81,7 +81,7 @@ namespace F4SE
 		storage.serializationInterface = detail::QueryInterface<SerializationInterface>(a_intfc, LoadInterface::kSerialization);
 		storage.taskInterface = detail::QueryInterface<TaskInterface>(a_intfc, LoadInterface::kTask);
 		storage.objectInterface = detail::QueryInterface<ObjectInterface>(a_intfc, LoadInterface::kObject);
-		storage.trampolineInterface = detail::QueryInterface<TrampolineInterface>(a_intfc, LoadInterface::kTrampoline);
+		//storage.trampolineInterface = detail::QueryInterface<TrampolineInterface>(a_intfc, LoadInterface::kTrampoline); //f4sevr doesn't recognize this for some reason
 	}
 
 	REL::Version GetF4SEVersion() noexcept

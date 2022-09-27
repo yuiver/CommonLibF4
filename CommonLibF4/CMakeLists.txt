@@ -1,11 +1,16 @@
 cmake_minimum_required(VERSION 3.21)
 
 option(F4SE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
+option(BUILD_FALLOUTVR "Build for Fallout 4 VR" OFF)
 
 project(
 	CommonLibF4
 	LANGUAGES CXX
 )
+if (NOT BUILD_FALLOUTVR)
+else()
+	add_compile_definitions(FALLOUTVR)
+endif()
 
 include(GNUInstallDirs)
 

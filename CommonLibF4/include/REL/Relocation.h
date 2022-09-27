@@ -417,7 +417,11 @@ namespace REL
 			if (const auto result = getFilename();
 				result != _filename.size() - 1 ||
 				result == 0) {
-				_filename = L"Fallout4.exe"sv;
+//#ifndef FALLOUTVR
+//				_filename = L"Fallout4.exe"sv; // todo: for some reason, it's ignoring the FALLOUTVR preprocessor variable???
+//#else
+				_filename = L"Fallout4VR.exe"sv;
+//#endif
 			}
 
 			load();
