@@ -9,7 +9,7 @@ project(
 )
 if (NOT BUILD_FALLOUTVR)
 else()
-	add_compile_definitions(FALLOUTVR)
+	add_compile_definitions(FALLOUTVR=1)
 endif()
 
 include(GNUInstallDirs)
