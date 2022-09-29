@@ -684,7 +684,7 @@ namespace REL
 #include "REL/Relocation.h"
 
 #include "RE/NiRTTI_IDs.h"
-#ifndef FALLOUTVR
+#if/*ndef FALLOUTVR*/ 1
 #include "RE/RTTI_IDs.h"
 #include "RE/VTABLE_IDs.h"
 #else

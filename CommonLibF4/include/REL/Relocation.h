@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include "csv.h"
 #define REL_MAKE_MEMBER_FUNCTION_POD_TYPE_HELPER_IMPL(a_nopropQual, a_propQual, ...)              \
 	template <                                                                                    \
 		class R,                                                                                  \
@@ -71,6 +72,47 @@ namespace REL
 
 	namespace detail
 	{
+		class memory_map
+		{
+		public:
+			memory_map() noexcept = default;
+			memory_map(const memory_map&) = delete;
+
+			memory_map(memory_map&& a_rhs) noexcept :
+				_mapping(a_rhs._mapping),
+				_view(a_rhs._view)
+			{
+				a_rhs._mapping = nullptr;
+				a_rhs._view = nullptr;
+			}
+
+			~memory_map() { close(); }
+
+			memory_map& operator=(const memory_map&) = delete;
+
+			memory_map& operator=(memory_map&& a_rhs) noexcept
+			{
+				if (this != std::addressof(a_rhs)) {
+					_mapping = a_rhs._mapping;
+					a_rhs._mapping = nullptr;
+
+					_view = a_rhs._view;
+					a_rhs._view = nullptr;
+				}
+				return *this;
+			}
+
+			[[nodiscard]] void* data() noexcept { return _view; }
+
+			bool open(std::string a_name, std::size_t a_size);
+			bool create(std::string a_name, std::size_t a_size);
+			void close();
+
+		private:
+			void* _mapping{ nullptr };
+			void* _view{ nullptr };
+		};
+
 		template <class>
 		struct member_function_pod_type;
 
@@ -598,19 +640,75 @@ namespace REL
 		{
 			const auto version = Module::get().version();
 			const auto path = fmt::format(
+#ifndef FALLOUTVR
 				"Data/F4SE/Plugins/version-{}.bin",
+#else
+				"Data/F4SE/Plugins/version-{}.csv",
+#endif
 				version.string());
-			if (!_mmap.open(path)) {
+#ifndef FALLOUTVR
+			/*if (!_mmap.open(path)) {
 				stl::report_and_fail(fmt::format("failed to open: {}", path));
 			}
 			_id2offset = std::span{
-				reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
+				reinterpret_cast<mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
 				*reinterpret_cast<const std::uint64_t*>(_mmap.data())
-			};
+			};*/
+#	error "Use non-VR CommonLibF4 instead if not compiling for VR!"
+#else
+			load_csv(path, version);
+#endif  // !FALLOUTVR
+
 		}
 
-		mmio::mapped_file_source _mmap;
-		std::span<const mapping_t> _id2offset;
+		bool load_csv(std::string a_filename, Version a_version)
+		{
+			// conversion code from https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-170
+			if (!std::filesystem::exists(a_filename))
+				stl::report_and_fail(fmt::format("Required VR Address Library file {} does not exist", a_filename));
+			io::CSVReader<5, io::trim_chars<>, io::no_quote_escape<','>> in(a_filename);
+			in.read_header(io::ignore_missing_column, "id", "fo4", "vr", "status", "name");
+			std::size_t id, address_count;
+			std::string version, offset;
+			std::string fo4, status, name;
+			auto mapname = "CommonLibF4Offsets-v2-"s;
+			mapname += a_version.string();
+			in.read_row(address_count, fo4, version, status, name);
+			const auto byteSize = static_cast<std::size_t>(address_count * sizeof(mapping_t));
+			if (!_mmap.open(mapname, byteSize) && !_mmap.create(mapname, byteSize)) {
+				stl::report_and_fail("failed to create shared mapping"sv);
+			}
+			FILE* tmpLog = fopen("tmp.log", "w");
+			_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
+			int index = 0;
+			try {
+				while (in.read_row(id, fo4, offset, status, name)) {
+					if (index >= address_count)
+						stl::report_and_fail(fmt::format("VR Address Library {} tried to exceed {} allocated entries.", version, address_count));
+					_id2offset[index++] = { static_cast<std::uint64_t>(id),
+						static_cast<std::uint64_t>(std::stoul(offset, 0, 16)) };
+					fprintf(tmpLog, "%d:%d,0x%08X\n", index, id, static_cast<std::uint64_t>(std::stoul(offset, 0, 16)));
+					fflush(tmpLog);
+				}
+			} catch (std::exception& e) {
+				stl::report_and_fail(e.what());
+			}
+			fprintf(tmpLog, "csv loading done\n");
+			fflush(tmpLog);
+			if (index != address_count)
+				stl::report_and_fail(fmt::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload.", version, index, address_count));
+			std::sort(
+				_id2offset.begin(),
+				_id2offset.end(),
+				[](auto&& a_lhs, auto&& a_rhs) {
+					return a_lhs.id < a_rhs.id;
+				});
+			//			_natvis = _id2offset.data();
+			return true;
+		}
+
+		detail::memory_map _mmap;
+		std::span<mapping_t> _id2offset;
 	};
 
 	class Offset

@@ -69,3 +69,83 @@ namespace REL
 		}
 	}
 }
+
+bool REL::detail::memory_map::open(std::string a_name, std::size_t a_size)
+{
+	close();
+
+	::ULARGE_INTEGER bytes;
+	bytes.QuadPart = a_size;
+
+	_mapping = ::OpenFileMappingA(
+		FILE_MAP_READ | FILE_MAP_WRITE,
+		false,
+		a_name.data());
+	if (!_mapping) {
+		close();
+		return false;
+	}
+
+	_view = ::MapViewOfFile(
+		_mapping,
+		FILE_MAP_READ | FILE_MAP_WRITE,
+		0,
+		0,
+		bytes.QuadPart);
+	if (!_view) {
+		close();
+		return false;
+	}
+
+	return true;
+}
+
+bool REL::detail::memory_map::create(std::string a_name, std::size_t a_size)
+{
+	close();
+
+	::ULARGE_INTEGER bytes;
+	bytes.QuadPart = a_size;
+
+	_mapping = ::OpenFileMappingA(
+		FILE_MAP_READ | FILE_MAP_WRITE,
+		false,
+		a_name.data());
+	if (!_mapping) {
+		_mapping = ::CreateFileMappingA(
+			INVALID_HANDLE_VALUE,
+			nullptr,
+			PAGE_READWRITE,
+			bytes.HighPart,
+			bytes.LowPart,
+			a_name.data());
+		if (!_mapping) {
+			return false;
+		}
+	}
+
+	_view = ::MapViewOfFile(
+		_mapping,
+		FILE_MAP_READ | FILE_MAP_WRITE,
+		0,
+		0,
+		bytes.QuadPart);
+	if (!_view) {
+		return false;
+	}
+
+	return true;
+}
+
+void REL::detail::memory_map::close()
+{
+	if (_view) {
+		::UnmapViewOfFile(static_cast<const void*>(_view));
+		_view = nullptr;
+	}
+
+	if (_mapping) {
+		::CloseHandle(_mapping);
+		_mapping = nullptr;
+	}
+}
