@@ -3,33 +3,52 @@
 #include <algorithm>
 #include <array>
 #include <bit>
+#include <bitset>
 #include <cassert>
 #include <cmath>
-#include <compare>
 #include <concepts>
 #include <cstdarg>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <cwchar>
+#include <cwctype>
+#include <exception>
 #include <execution>
 #include <filesystem>
+#include <format>
+#include <fstream>
 #include <functional>
-#include <initializer_list>
+#include <iomanip>
+#include <ios>
+#include <istream>
 #include <iterator>
 #include <limits>
+#include <locale>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <new>
+#include <numeric>
 #include <optional>
+#include <random>
+#include <regex>
+#include <set>
 #include <source_location>
 #include <span>
 #include <sstream>
 #include <stack>
+#include <stdexcept>
 #include <string>
 #include <string_view>
+#include <system_error>
+#include <thread>
 #include <tuple>
 #include <type_traits>
+#include <typeinfo>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -39,6 +58,7 @@ static_assert(
 	"wrap std::time_t instead");
 
 #pragma warning(push, 0)
+#include <binary_io/file_stream.hpp>
 #include <boost/stl_interfaces/iterator_interface.hpp>
 #include <boost/stl_interfaces/sequence_container_interface.hpp>
 #include <fmt/format.h>
@@ -116,6 +136,8 @@ namespace F4SE
 				using const_reference = const char_type&;
 				using size_type = std::size_t;
 
+				static constexpr auto npos = static_cast<std::size_t>(-1);
+
 				consteval string(const_pointer a_string) noexcept
 				{
 					for (size_type i = 0; i < N; ++i) {
@@ -131,15 +153,22 @@ namespace F4SE
 
 				[[nodiscard]] consteval const_reference back() const noexcept { return (*this)[size() - 1]; }
 				[[nodiscard]] consteval const_pointer data() const noexcept { return c; }
+				[[nodiscard]] consteval bool empty() const noexcept { return this->size() == 0; }
 				[[nodiscard]] consteval const_reference front() const noexcept { return (*this)[0]; }
 				[[nodiscard]] consteval size_type length() const noexcept { return N; }
 				[[nodiscard]] consteval size_type size() const noexcept { return length(); }
 
-				char_type c[N]{ static_cast<char_type>('\0') };
+				template <std::size_t POS = 0, std::size_t COUNT = npos>
+				[[nodiscard]] consteval auto substr() const noexcept
+				{
+					return string < CharT, COUNT != npos ? COUNT : N - POS > (this->data() + POS);
+				}
+
+				char_type c[N] = {};
 			};
 
 			template <class CharT, std::size_t N>
-			string(const CharT(&)[N]) -> string<CharT, N - 1>;
+			string(const CharT (&)[N]) -> string<CharT, N - 1>;
 		}
 
 		template <class EF>                                    //
@@ -151,14 +180,14 @@ namespace F4SE
 			template <class Fn>
 			explicit scope_exit(Fn&& a_fn)  //
 				noexcept(std::is_nothrow_constructible_v<EF, Fn> ||
-						 std::is_nothrow_constructible_v<EF, Fn&>)  //
+							std::is_nothrow_constructible_v<EF, Fn&>)  //
 				requires(!std::is_same_v<std::remove_cvref_t<Fn>, scope_exit> &&
-						 std::is_constructible_v<EF, Fn>)
+							std::is_constructible_v<EF, Fn>)
 			{
 				static_assert(std::invocable<Fn>);
 
 				if constexpr (!std::is_lvalue_reference_v<Fn> &&
-							  std::is_nothrow_constructible_v<EF, Fn>) {
+								std::is_nothrow_constructible_v<EF, Fn>) {
 					_fn.emplace(std::forward<Fn>(a_fn));
 				} else {
 					_fn.emplace(a_fn);
@@ -168,9 +197,9 @@ namespace F4SE
 			// 2)
 			scope_exit(scope_exit&& a_rhs)  //
 				noexcept(std::is_nothrow_move_constructible_v<EF> ||
-						 std::is_nothrow_copy_constructible_v<EF>)  //
+							std::is_nothrow_copy_constructible_v<EF>)  //
 				requires(std::is_nothrow_move_constructible_v<EF> ||
-						 std::is_copy_constructible_v<EF>)
+							std::is_copy_constructible_v<EF>)
 			{
 				static_assert(!(std::is_nothrow_move_constructible_v<EF> && !std::is_move_constructible_v<EF>));
 				static_assert(!(!std::is_nothrow_move_constructible_v<EF> && !std::is_copy_constructible_v<EF>));
@@ -352,7 +381,7 @@ namespace F4SE
 				return (_impl & (static_cast<underlying_type>(a_args) | ...)) == static_cast<underlying_type>(0);
 			}
 
-		private :
+		private:
 			underlying_type _impl{ 0 };
 		};
 
@@ -522,6 +551,19 @@ namespace F4SE
 		static_assert(atomic_ref<std::int64_t>::is_always_lock_free);
 		static_assert(atomic_ref<std::uint64_t>::is_always_lock_free);
 
+		template <class T>
+		struct ssizeof
+		{
+			[[nodiscard]] constexpr operator std::ptrdiff_t() const noexcept { return value; }
+
+			[[nodiscard]] constexpr std::ptrdiff_t operator()() const noexcept { return value; }
+
+			static constexpr auto value = static_cast<std::ptrdiff_t>(sizeof(T));
+		};
+
+		template <class T>
+		inline constexpr auto ssizeof_v = ssizeof<T>::value;
+
 		template <class T, class U>
 		[[nodiscard]] auto adjust_pointer(U* a_ptr, std::ptrdiff_t a_adjust) noexcept
 		{
@@ -549,6 +591,79 @@ namespace F4SE
 			const auto begin = reinterpret_cast<volatile char*>(a_ptr);
 			constexpr char val{ 0 };
 			std::fill_n(begin, a_size, val);
+		}
+
+		template <class... Args>
+		[[nodiscard]] inline auto pun_bits(Args... a_args)  //
+			requires(std::same_as<std::remove_cv_t<Args>, bool>&&...)
+		{
+			constexpr auto ARGC = sizeof...(Args);
+
+			std::bitset<ARGC> bits;
+			std::size_t i = 0;
+			((bits[i++] = a_args), ...);
+
+			if constexpr (ARGC <= std::numeric_limits<unsigned long>::digits) {
+				return bits.to_ulong();
+			} else if constexpr (ARGC <= std::numeric_limits<unsigned long long>::digits) {
+				return bits.to_ullong();
+			} else {
+				static_assert(false && sizeof...(Args));
+			}
+		}
+
+		[[nodiscard]] inline auto utf8_to_utf16(std::string_view a_in) noexcept
+			-> std::optional<std::wstring>
+		{
+			const auto cvt = [&](wchar_t* a_dst, std::size_t a_length) {
+				return WinAPI::MultiByteToWideChar(
+					WinAPI::CP_UTF8,
+					0,
+					a_in.data(),
+					static_cast<int>(a_in.length()),
+					a_dst,
+					static_cast<int>(a_length));
+			};
+
+			const auto len = cvt(nullptr, 0);
+			if (len == 0) {
+				return std::nullopt;
+			}
+
+			std::wstring out(len, '\0');
+			if (cvt(out.data(), out.length()) == 0) {
+				return std::nullopt;
+			}
+
+			return out;
+		}
+
+		[[nodiscard]] inline auto utf16_to_utf8(std::wstring_view a_in) noexcept
+			-> std::optional<std::string>
+		{
+			const auto cvt = [&](char* a_dst, std::size_t a_length) {
+				return WinAPI::WideCharToMultiByte(
+					WinAPI::CP_UTF8,
+					0,
+					a_in.data(),
+					static_cast<int>(a_in.length()),
+					a_dst,
+					static_cast<int>(a_length),
+					nullptr,
+					nullptr);
+			};
+
+			const auto len = cvt(nullptr, 0);
+			if (len == 0) {
+				return std::nullopt;
+			}
+
+			std::string out(len, '\0');
+			if (cvt(out.data(), out.length()) == 0) {
+				return std::nullopt;
+			}
+
+			return out;
 		}
 
 		[[noreturn]] inline void report_and_fail(std::string_view a_msg, std::source_location a_loc = std::source_location::current())
@@ -684,13 +799,8 @@ namespace REL
 #include "REL/Relocation.h"
 
 #include "RE/NiRTTI_IDs.h"
-#if/*ndef FALLOUTVR*/ 1
 #include "RE/RTTI_IDs.h"
 #include "RE/VTABLE_IDs.h"
-#else
-#include "RE/RTTI_IDs_VR.h"
-#include "RE/VTABLE_IDs_VR.h"
-#endif
 
 #include "RE/msvc/functional.h"
 #include "RE/msvc/memory.h"

@@ -199,13 +199,20 @@ void dump_rtti()
 	const auto data = mod.segment(REL::Segment::data);
 	const auto beg = data.pointer<const std::uintptr_t>();
 	const auto end = reinterpret_cast<const std::uintptr_t*>(data.address() + data.size());
+#ifndef FALLOUTVR
 	const auto& iddb = get_iddb();
+#endif
 	for (auto iter = beg; iter < end; ++iter) {
 		if (*iter == typeInfo[0].address()) {
 			const auto typeDescriptor = reinterpret_cast<const RE::RTTI::TypeDescriptor*>(iter);
 			try {
 				auto name = decode_name(typeDescriptor);
+#ifndef FALLOUTVR
 				const auto rid = iddb(reinterpret_cast<std::uintptr_t>(iter) - baseAddr);
+
+#else
+				const auto offset = reinterpret_cast<std::uintptr_t>(iter) - baseAddr;
+#endif
 
 				VTable vtable{ typeDescriptor };
 				std::vector<std::uint64_t> vids(vtable.size());
@@ -213,10 +220,29 @@ void dump_rtti()
 					vtable.begin(),
 					vtable.end(),
 					vids.begin(),
-					[&](auto&& a_elem) { return iddb(a_elem.offset()); });
+					[&](auto&& a_elem) {
+						return
+#ifndef FALLOUTVR
+							iddb(
+#endif
+								a_elem.offset()
+#ifndef FALLOUTVR
+							)
+#endif
+												 ; });
 
-				results.emplace_back(sanitize_name(std::move(name)), rid, std::move(vids));
+				results.emplace_back(sanitize_name(std::move(name)),
+#ifndef FALLOUTVR
+				rid,
+#else
+				offset,
+#endif
+				std::move(vids));
+#ifndef FALLOUTVR
 				logger::debug("{} (id: {}) (address: {:16X})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter));
+#else
+				logger::debug("{} (id: {}) (address: {:16X}) (offset: {:16x})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter), offset);
+#endif
 			} catch (const std::exception&) {
 				logger::error("{}"sv, decode_name(typeDescriptor));
 				continue;
@@ -266,17 +292,29 @@ void dump_rtti()
 	openf("RTTI"sv);
 	for (const auto& [name, rid, vids] : results) {
 		(void)vids;
+#ifndef FALLOUTVR
 		file << "\t\tinline constexpr REL::ID "sv << name << "{ "sv << rid << " };\n"sv;
+#else
+		file << "\t\tinline constexpr REL::OFFSET "sv << name << "{ 0x"sv << std::hex << rid << " };\n"sv;
+#endif
 	}
 	closef();
 
 	openf("VTABLE"sv);
+#ifndef FALLOUTVR
 	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::ID("sv << a_vid << ")"sv; };
+#else
+	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::OFFSET(0x"sv << std::hex << a_vid << ")"sv; };
+#endif
 	for (const auto& [name, rid, vids] : results) {
 		(void)rid;
 		const std::span svids{ vids.data(), vids.size() };
 		if (!svids.empty()) {
+#ifndef FALLOUTVR
 			file << "\t\tinline constexpr std::array<REL::ID, "sv
+#else
+			file << "\t\tinline constexpr std::array<REL::OFFSET, "sv
+#endif
 				 << vids.size()
 				 << "> "sv
 				 << name
@@ -316,6 +354,7 @@ void dump_nirtti()
 		1359461,  // bhkWorld
 		34089,    // bhkWorldM
 	};
+	logger::debug("Dumping NiRTTI...");
 	robin_hood::unordered_flat_set<std::uintptr_t> results;
 	results.reserve(seeds.size());
 	for (const auto& seed : seeds) {
@@ -341,12 +380,21 @@ void dump_nirtti()
 	} while (found);
 
 	std::vector<std::pair<std::string, std::uint64_t>> toPrint;
+#ifndef FALLOUTVR
 	const auto& iddb = get_iddb();
+#endif
 	for (const auto& result : results) {
 		const auto rtti = reinterpret_cast<const RE::NiRTTI*>(result);
 		try {
-			const auto id = iddb(result - base);
+			const auto offset = result - base;
+#ifndef FALLOUTVR
+			const auto id = iddb(offset);
 			toPrint.emplace_back(sanitize_name(rtti->GetName()), id);
+#else
+			logger::debug("{} (offset: {:16x})"sv, rtti->GetName(), offset);
+			toPrint.emplace_back(sanitize_name(rtti->GetName()), offset);
+#endif
+
 		} catch (const std::exception&) {
 			spdlog::error(rtti->GetName());
 		}
@@ -366,7 +414,11 @@ void dump_nirtti()
 		   << "\tnamespace Ni_RTTI\n"sv
 		   << "\t{\n"sv;
 	for (const auto& elem : toPrint) {
+#ifndef FALLOUTVR
 		output << "\t\tinline constexpr REL::ID "sv << elem.first << "{ "sv << elem.second << " };\n"sv;
+#else
+		output << "\t\tinline constexpr REL::OFFSET "sv << elem.first << "{ 0x"sv << std::hex << elem.second << " };\n"sv;
+#endif
 	}
 	output << "\t}\n"sv
 		   << "}\n"sv;
@@ -379,7 +431,7 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 	case F4SE::MessagingInterface::kGameLoaded:
 		try {
 			dump_rtti();
-			//dump_nirtti();
+			dump_nirtti();
 		} catch (const std::exception& e) {
 			logger::error("{}"sv, e.what());
 		}

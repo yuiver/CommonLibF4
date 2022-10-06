@@ -209,10 +209,13 @@ set(SOURCES
 	include/RE/NetImmerse/NiTexture.h
 	include/RE/NetImmerse/NiTimeController.h
 	include/RE/NetImmerse/NiTransform.h
-	include/RE/NiRTTI_IDs.h
+	include/RE/OFFSET_NiRTTI_IDs.h
+	include/RE/OFFSET_NiRTTI_IDs_VR.h
+	include/RE/OFFSET_RTTI_IDs.h
+	include/RE/OFFSET_RTTI_IDs_VR.h
+	include/RE/OFFSET_VTABLE_IDs.h
+	include/RE/OFFSET_VTABLE_IDs_VR.h
 	include/RE/RTTI.h
-	include/RE/RTTI_IDs.h
-	include/RE/RTTI_IDs_VR.h
 	include/RE/Scaleform/GFx/GFx_AS3.h
 	include/RE/Scaleform/GFx/GFx_ASMovieRootBase.h
 	include/RE/Scaleform/GFx/GFx_ASString.h
@@ -245,8 +248,6 @@ set(SOURCES
 	include/RE/Scaleform/Render/Render_TreeNode.h
 	include/RE/Scaleform/Render/Render_Types2D.h
 	include/RE/Scaleform/Render/Render_Viewport.h
-	include/RE/VTABLE_IDs.h
-	include/RE/VTABLE_IDs_VR.h
 	include/RE/msvc/functional.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h

@@ -9,7 +9,7 @@ project(
 )
 if (NOT BUILD_FALLOUTVR)
 else()
-	add_compile_definitions(FALLOUTVR=1)
+	add_compile_definitions(FALLOUTVR)
 endif()
 
 include(GNUInstallDirs)
@@ -19,6 +19,7 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 endif()
 
 find_package(Boost MODULE REQUIRED)
+find_package(binary_io REQUIRED CONFIG)
 find_package(mmio REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 
@@ -99,6 +100,7 @@ target_include_directories(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
+		binary_io::binary_io
 		Boost::headers
 		mmio::mmio
 		spdlog::spdlog

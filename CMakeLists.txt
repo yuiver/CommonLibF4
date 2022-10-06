@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.21)
 include("cmake/common.cmake")
 
 project(umbrella)
+if (NOT BUILD_FALLOUTVR)
+else()
+	add_compile_definitions(FALLOUTVR)
+endif()
 
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(FATAL_ERROR "in-source builds are not allowed")

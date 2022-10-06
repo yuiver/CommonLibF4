@@ -1,7 +1,7 @@
 #pragma once
-
-#include <cstdint>
-#include "csv.h"
+#ifdef FALLOUTVR
+#	include <csv.h>
+#endif
 #define REL_MAKE_MEMBER_FUNCTION_POD_TYPE_HELPER_IMPL(a_nopropQual, a_propQual, ...)              \
 	template <                                                                                    \
 		class R,                                                                                  \
@@ -104,8 +104,8 @@ namespace REL
 
 			[[nodiscard]] void* data() noexcept { return _view; }
 
-			bool open(std::string a_name, std::size_t a_size);
-			bool create(std::string a_name, std::size_t a_size);
+			bool open(stl::zwstring a_name, std::size_t a_size);
+			bool create(stl::zwstring a_name, std::size_t a_size);
 			void close();
 
 		private:
@@ -318,6 +318,15 @@ namespace REL
 			return std::strong_ordering::equal;
 		}
 
+		[[nodiscard]] constexpr std::uint32_t pack() const noexcept
+		{
+			return static_cast<std::uint32_t>(
+				(_impl[0] & 0x0FF) << 24u |
+				(_impl[1] & 0x0FF) << 16u |
+				(_impl[2] & 0xFFF) << 4u |
+				(_impl[3] & 0x00F) << 0u);
+		}
+
 		[[nodiscard]] std::string string() const
 		{
 			std::string result;
@@ -391,17 +400,17 @@ namespace REL
 			total
 		};
 
-		constexpr Segment() noexcept = default;
+		Segment() noexcept = default;
 
-		constexpr Segment(std::uintptr_t a_proxyBase, std::uintptr_t a_address, std::uintptr_t a_size) noexcept :
+		Segment(std::uintptr_t a_proxyBase, std::uintptr_t a_address, std::uintptr_t a_size) noexcept :
 			_proxyBase(a_proxyBase),
 			_address(a_address),
 			_size(a_size)
 		{}
 
-		[[nodiscard]] constexpr std::uintptr_t address() const noexcept { return _address; }
-		[[nodiscard]] constexpr std::size_t offset() const noexcept { return address() - _proxyBase; }
-		[[nodiscard]] constexpr std::size_t size() const noexcept { return _size; }
+		[[nodiscard]] std::uintptr_t address() const noexcept { return _address; }
+		[[nodiscard]] std::size_t offset() const noexcept { return address() - _proxyBase; }
+		[[nodiscard]] std::size_t size() const noexcept { return _size; }
 
 		[[nodiscard]] void* pointer() const noexcept { return reinterpret_cast<void*>(address()); }
 
@@ -420,22 +429,17 @@ namespace REL
 	class Module
 	{
 	public:
-		Module(const Module&) = delete;
-		Module(Module&&) = delete;
-
-		Module& operator=(const Module&) = delete;
-		Module& operator=(Module&&) = delete;
-
 		[[nodiscard]] static Module& get()
 		{
 			static Module singleton;
 			return singleton;
 		}
 
-		[[nodiscard]] constexpr std::uintptr_t base() const noexcept { return _base; }
+		[[nodiscard]] std::uintptr_t base() const noexcept { return _base; }
 		[[nodiscard]] stl::zwstring filename() const noexcept { return _filename; }
-		[[nodiscard]] constexpr Segment segment(Segment::Name a_segment) const noexcept { return _segments[a_segment]; }
-		[[nodiscard]] constexpr Version version() const noexcept { return _version; }
+		[[nodiscard]] Version version() const noexcept { return _version; }
+
+		[[nodiscard]] Segment segment(Segment::Name a_segment) const noexcept { return _segments[a_segment]; }
 
 		[[nodiscard]] void* pointer() const noexcept { return reinterpret_cast<void*>(base()); }
 
@@ -459,26 +463,36 @@ namespace REL
 			if (const auto result = getFilename();
 				result != _filename.size() - 1 ||
 				result == 0) {
-//#ifndef FALLOUTVR
-//				_filename = L"Fallout4.exe"sv; // todo: for some reason, it's ignoring the FALLOUTVR preprocessor variable???
-//#else
+#ifndef FALLOUTVR
+				_filename = L"Fallout4.exe"sv;
+#else
 				_filename = L"Fallout4VR.exe"sv;
-//#endif
+#endif
 			}
 
 			load();
 		}
 
+		Module(const Module&) = delete;
+		Module(Module&&) = delete;
+
 		~Module() noexcept = default;
+
+		Module& operator=(const Module&) = delete;
+		Module& operator=(Module&&) = delete;
 
 		void load()
 		{
 			auto handle = WinAPI::GetModuleHandle(_filename.c_str());
 			if (handle == nullptr) {
-				stl::report_and_fail("failed to obtain module handle"sv);
+				stl::report_and_fail(
+					fmt::format(
+						"Failed to obtain module handle for: \"{0}\".\n"
+						"You have likely renamed the executable to something unexpected. "
+						"Renaming the executable back to \"{0}\" may resolve the issue."sv,
+						stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
 			}
 			_base = reinterpret_cast<std::uintptr_t>(handle);
-			_natvis = _base;
 
 			load_version();
 			load_segments();
@@ -492,23 +506,25 @@ namespace REL
 			if (version) {
 				_version = *version;
 			} else {
-				stl::report_and_fail("failed to obtain file version"sv);
+				stl::report_and_fail(
+					fmt::format(
+						"Failed to obtain file version info for: {}\n"
+						"Please contact the author of this script extender plugin for further assistance."sv,
+						stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
 			}
 		}
 
-		static constexpr auto ENVIRONMENT = L"F4SE_RUNTIME"sv;
-
 		static constexpr std::array SEGMENTS{
-			".text"sv,
-			".interpr"sv,
-			".idata"sv,
-			".rdata"sv,
-			".data"sv,
-			".pdata"sv,
-			".tls"sv
+			std::make_pair(".text"sv, WinAPI::IMAGE_SCN_MEM_EXECUTE),
+			std::make_pair(".interpr"sv, static_cast<std::uint32_t>(0)),
+			std::make_pair(".idata"sv, static_cast<std::uint32_t>(0)),
+			std::make_pair(".rdata"sv, static_cast<std::uint32_t>(0)),
+			std::make_pair(".data"sv, static_cast<std::uint32_t>(0)),
+			std::make_pair(".pdata"sv, static_cast<std::uint32_t>(0)),
+			std::make_pair(".tls"sv, static_cast<std::uint32_t>(0))
 		};
 
-		static inline std::uintptr_t _natvis{ 0 };
+		static constexpr auto ENVIRONMENT = L"F4SE_RUNTIME"sv;
 
 		std::wstring _filename;
 		std::array<Segment, Segment::total> _segments;
@@ -526,12 +542,6 @@ namespace REL
 		};
 
 	public:
-		IDDatabase(const IDDatabase&) = delete;
-		IDDatabase(IDDatabase&&) = delete;
-
-		IDDatabase& operator=(const IDDatabase&) = delete;
-		IDDatabase& operator=(IDDatabase&&) = delete;
-
 		class Offset2ID
 		{
 		public:
@@ -542,10 +552,10 @@ namespace REL
 			using const_reverse_iterator = typename container_type::const_reverse_iterator;
 
 			template <class ExecutionPolicy>
-			explicit Offset2ID(ExecutionPolicy&& a_policy)  // NOLINT(bugprone-forwarding-reference-overload)
+			explicit Offset2ID(ExecutionPolicy&& a_policy)  //
 				requires(std::is_execution_policy_v<std::decay_t<ExecutionPolicy>>)
 			{
-				const auto id2offset = IDDatabase::get().get_id2offset();
+				const std::span<const mapping_t> id2offset = IDDatabase::get()._id2offset;
 				_offset2id.reserve(id2offset.size());
 				_offset2id.insert(_offset2id.begin(), id2offset.begin(), id2offset.end());
 				std::sort(
@@ -563,10 +573,6 @@ namespace REL
 
 			[[nodiscard]] std::uint64_t operator()(std::size_t a_offset) const
 			{
-				if (_offset2id.empty()) {
-					stl::report_and_fail("data is empty"sv);
-				}
-
 				const mapping_t elem{ 0, a_offset };
 				const auto it = std::lower_bound(
 					_offset2id.begin(),
@@ -576,7 +582,10 @@ namespace REL
 						return a_lhs.offset < a_rhs.offset;
 					});
 				if (it == _offset2id.end()) {
-					stl::report_and_fail("offset not found"sv);
+					stl::report_and_fail(
+						fmt::format(
+							"Failed to find the offset within the database: 0x{:08X}"sv,
+							a_offset));
 				}
 
 				return it->id;
@@ -606,13 +615,9 @@ namespace REL
 			return singleton;
 		}
 
-		[[nodiscard]] std::size_t id2offset(std::uint64_t a_id) const
+		[[nodiscard]] inline std::size_t id2offset(std::uint64_t a_id) const
 		{
-			if (_id2offset.empty()) {
-				stl::report_and_fail("data is empty"sv);
-			}
-
-			const mapping_t elem{ a_id, 0 };
+			mapping_t elem{ a_id, 0 };
 			const auto it = std::lower_bound(
 				_id2offset.begin(),
 				_id2offset.end(),
@@ -621,82 +626,123 @@ namespace REL
 					return a_lhs.id < a_rhs.id;
 				});
 			if (it == _id2offset.end()) {
-				stl::report_and_fail("id not found"sv);
+				stl::report_and_fail(
+					fmt::format(
+						"Failed to find the id within the address library: {}\n"
+						"This means this script extender plugin is incompatible with the address "
+						"library for this version of the game, and thus does not support it."sv,
+						a_id));
 			}
 
 			return static_cast<std::size_t>(it->offset);
 		}
 
-	protected:
-		friend class Offset2ID;
-
-		[[nodiscard]] std::span<const mapping_t> get_id2offset() const noexcept { return _id2offset; }
-
 	private:
+		friend Offset2ID;
+
+		class header_t
+		{
+		public:
+			void read(binary_io::file_istream& a_in)
+			{
+				const auto [format] = a_in.read<std::int32_t>();
+				if (format != 1) {
+					stl::report_and_fail(
+						fmt::format(
+							"Unsupported address library format: {}\n"
+							"This means this script extender plugin is incompatible with the address "
+							"library available for this version of the game, and thus does not "
+							"support it."sv,
+							format));
+				}
+
+				const auto [major, minor, patch, revision] =
+					a_in.read<std::int32_t, std::int32_t, std::int32_t, std::int32_t>();
+				_version[0] = static_cast<std::uint16_t>(major);
+				_version[1] = static_cast<std::uint16_t>(minor);
+				_version[2] = static_cast<std::uint16_t>(patch);
+				_version[3] = static_cast<std::uint16_t>(revision);
+
+				const auto [nameLen] = a_in.read<std::int32_t>();
+				a_in.seek_relative(nameLen);
+
+				a_in.read(_pointerSize, _addressCount);
+			}
+
+			[[nodiscard]] std::size_t address_count() const noexcept { return static_cast<std::size_t>(_addressCount); }
+			[[nodiscard]] std::uint64_t pointer_size() const noexcept { return static_cast<std::uint64_t>(_pointerSize); }
+			[[nodiscard]] Version version() const noexcept { return _version; }
+
+		private:
+			Version _version;
+			std::int32_t _pointerSize{ 0 };
+			std::int32_t _addressCount{ 0 };
+		};
+
 		IDDatabase() { load(); }
+
+		IDDatabase(const IDDatabase&) = delete;
+		IDDatabase(IDDatabase&&) = delete;
+
 		~IDDatabase() = default;
+
+		IDDatabase& operator=(const IDDatabase&) = delete;
+		IDDatabase& operator=(IDDatabase&&) = delete;
 
 		void load()
 		{
 			const auto version = Module::get().version();
-			const auto path = fmt::format(
-#ifndef FALLOUTVR
-				"Data/F4SE/Plugins/version-{}.bin",
+			const auto filename =
+				stl::utf8_to_utf16(
+					fmt::format(
+#if FALLOUTVR
+						"Data/F4SE/Plugins/version-{}.csv"sv,
 #else
-				"Data/F4SE/Plugins/version-{}.csv",
+					"Data/F4SE/Plugins/version-{}.bin"sv,
 #endif
-				version.string());
-#ifndef FALLOUTVR
-			/*if (!_mmap.open(path)) {
-				stl::report_and_fail(fmt::format("failed to open: {}", path));
-			}
-			_id2offset = std::span{
-				reinterpret_cast<mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
-				*reinterpret_cast<const std::uint64_t*>(_mmap.data())
-			};*/
-#	error "Use non-VR CommonLibF4 instead if not compiling for VR!"
+						version.string()))
+					.value_or(L"<unknown filename>"s);
+#ifdef FALLOUTVR
+			load_csv(filename, version);
 #else
-			load_csv(path, version);
-#endif  // !FALLOUTVR
-
+			load_file(filename, version);
+#endif  // FALLOUTVR
 		}
 
-		bool load_csv(std::string a_filename, Version a_version)
+#ifdef FALLOUTVR
+		bool load_csv(stl::zwstring a_filename, Version a_version)
 		{
 			// conversion code from https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?view=msvc-170
-			if (!std::filesystem::exists(a_filename))
-				stl::report_and_fail(fmt::format("Required VR Address Library file {} does not exist", a_filename));
-			io::CSVReader<5, io::trim_chars<>, io::no_quote_escape<','>> in(a_filename);
-			in.read_header(io::ignore_missing_column, "id", "fo4", "vr", "status", "name");
+			const wchar_t* orig = a_filename.data();
+			std::size_t origsize = wcslen(orig) + 1;
+			std::size_t convertedChars = 0;
+			const std::size_t newsize = origsize * 2;
+			char* nstring = new char[newsize];
+			wcstombs_s(&convertedChars, nstring, newsize, orig, _TRUNCATE);
+			if (!std::filesystem::exists(nstring))
+				stl::report_and_fail(fmt::format("Required VR Address Library file {} does not exist"sv, nstring));
+			io::CSVReader<2, io::trim_chars<>, io::no_quote_escape<','>> in(nstring);
+			in.read_header(io::ignore_missing_column, "id", "offset");
 			std::size_t id, address_count;
 			std::string version, offset;
-			std::string fo4, status, name;
-			auto mapname = "CommonLibF4Offsets-v2-"s;
-			mapname += a_version.string();
-			in.read_row(address_count, fo4, version, status, name);
+			auto mapname = L"CommonLibF4Offsets-v2-"s;
+			mapname += a_version.wstring();
+			in.read_row(address_count, version);
 			const auto byteSize = static_cast<std::size_t>(address_count * sizeof(mapping_t));
-			if (!_mmap.open(mapname, byteSize) && !_mmap.create(mapname, byteSize)) {
+			if (!_mmap.open(mapname, byteSize) &&
+				!_mmap.create(mapname, byteSize)) {
 				stl::report_and_fail("failed to create shared mapping"sv);
 			}
-			FILE* tmpLog = fopen("tmp.log", "w");
 			_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
 			int index = 0;
-			try {
-				while (in.read_row(id, fo4, offset, status, name)) {
-					if (index >= address_count)
-						stl::report_and_fail(fmt::format("VR Address Library {} tried to exceed {} allocated entries.", version, address_count));
-					_id2offset[index++] = { static_cast<std::uint64_t>(id),
-						static_cast<std::uint64_t>(std::stoul(offset, 0, 16)) };
-					fprintf(tmpLog, "%d:%d,0x%08X\n", index, id, static_cast<std::uint64_t>(std::stoul(offset, 0, 16)));
-					fflush(tmpLog);
-				}
-			} catch (std::exception& e) {
-				stl::report_and_fail(e.what());
+			while (in.read_row(id, offset)) {
+				if (index >= address_count)
+					stl::report_and_fail(fmt::format("VR Address Library {} tried to exceed {} allocated entries."sv, version, address_count));
+				_id2offset[index++] = { static_cast<std::uint64_t>(id),
+					static_cast<std::uint64_t>(std::stoul(offset, 0, 16)) };
 			}
-			fprintf(tmpLog, "csv loading done\n");
-			fflush(tmpLog);
 			if (index != address_count)
-				stl::report_and_fail(fmt::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload.", version, index, address_count));
+				stl::report_and_fail(fmt::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv, version, index, address_count));
 			std::sort(
 				_id2offset.begin(),
 				_id2offset.end(),
@@ -705,6 +751,128 @@ namespace REL
 				});
 			//			_natvis = _id2offset.data();
 			return true;
+		}
+#endif
+		void load_file(stl::zwstring a_filename, Version a_version)
+		{
+			try {
+				binary_io::file_istream in(a_filename);
+				header_t header;
+				header.read(in);
+				if (header.version() != a_version) {
+					stl::report_and_fail("version mismatch"sv);
+				}
+
+				auto mapname = L"CommonLibF4Offsets-v2-"s;
+				mapname += a_version.wstring();
+				const auto byteSize = static_cast<std::size_t>(header.address_count()) * sizeof(mapping_t);
+				if (_mmap.open(mapname, byteSize)) {
+					_id2offset = { static_cast<mapping_t*>(_mmap.data()), header.address_count() };
+				} else if (_mmap.create(mapname, byteSize)) {
+					_id2offset = { static_cast<mapping_t*>(_mmap.data()), header.address_count() };
+					unpack_file(in, header);
+					std::sort(
+						_id2offset.begin(),
+						_id2offset.end(),
+						[](auto&& a_lhs, auto&& a_rhs) {
+							return a_lhs.id < a_rhs.id;
+						});
+				} else {
+					stl::report_and_fail("failed to create shared mapping"sv);
+				}
+			} catch (const std::system_error&) {
+				stl::report_and_fail(
+					fmt::format(
+						"Failed to locate an appropriate address library with the path: {}\n"
+						"This means you are missing the address library for this specific version of "
+						"the game. Please continue to the mod page for address library to download "
+						"an appropriate version. If one is not available, then it is likely that "
+						"address library has not yet added support for this version of the game."sv,
+						stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)));
+			}
+		}
+
+		void unpack_file(binary_io::file_istream& a_in, header_t a_header)
+		{
+			std::uint8_t type = 0;
+			std::uint64_t id = 0;
+			std::uint64_t offset = 0;
+			std::uint64_t prevID = 0;
+			std::uint64_t prevOffset = 0;
+			for (auto& mapping : _id2offset) {
+				a_in.read(type);
+				const auto lo = static_cast<std::uint8_t>(type & 0xF);
+				const auto hi = static_cast<std::uint8_t>(type >> 4);
+
+				switch (lo) {
+				case 0:
+					a_in.read(id);
+					break;
+				case 1:
+					id = prevID + 1;
+					break;
+				case 2:
+					id = prevID + std::get<0>(a_in.read<std::uint8_t>());
+					break;
+				case 3:
+					id = prevID - std::get<0>(a_in.read<std::uint8_t>());
+					break;
+				case 4:
+					id = prevID + std::get<0>(a_in.read<std::uint16_t>());
+					break;
+				case 5:
+					id = prevID - std::get<0>(a_in.read<std::uint16_t>());
+					break;
+				case 6:
+					std::tie(id) = a_in.read<std::uint16_t>();
+					break;
+				case 7:
+					std::tie(id) = a_in.read<std::uint32_t>();
+					break;
+				default:
+					stl::report_and_fail("unhandled type"sv);
+				}
+
+				const std::uint64_t tmp = (hi & 8) != 0 ? (prevOffset / a_header.pointer_size()) : prevOffset;
+
+				switch (hi & 7) {
+				case 0:
+					a_in.read(offset);
+					break;
+				case 1:
+					offset = tmp + 1;
+					break;
+				case 2:
+					offset = tmp + std::get<0>(a_in.read<std::uint8_t>());
+					break;
+				case 3:
+					offset = tmp - std::get<0>(a_in.read<std::uint8_t>());
+					break;
+				case 4:
+					offset = tmp + std::get<0>(a_in.read<std::uint16_t>());
+					break;
+				case 5:
+					offset = tmp - std::get<0>(a_in.read<std::uint16_t>());
+					break;
+				case 6:
+					std::tie(offset) = a_in.read<std::uint16_t>();
+					break;
+				case 7:
+					std::tie(offset) = a_in.read<std::uint32_t>();
+					break;
+				default:
+					stl::report_and_fail("unhandled type"sv);
+				}
+
+				if ((hi & 8) != 0) {
+					offset *= a_header.pointer_size();
+				}
+
+				mapping = { id, offset };
+
+				prevOffset = offset;
+				prevID = id;
+			}
 		}
 
 		detail::memory_map _mmap;
@@ -718,6 +886,10 @@ namespace REL
 
 		explicit constexpr Offset(std::size_t a_offset) noexcept :
 			_offset(a_offset)
+		{}
+
+		constexpr Offset(std::uintptr_t a_offset, std::size_t a_mod) noexcept :
+			_offset(a_offset + a_mod)
 		{}
 
 		constexpr Offset& operator=(std::size_t a_offset) noexcept
@@ -757,7 +929,7 @@ namespace REL
 	private:
 		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
 
-		std::uint64_t _id{ static_cast<std::uint64_t>(-1) };
+		std::uint64_t _id{ 0 };
 	};
 
 	template <class T>
@@ -855,13 +1027,196 @@ namespace REL
 			return write_vfunc(a_idx, stl::unrestricted_cast<std::uintptr_t>(a_newFunc));
 		}
 
-	private :
+	private:
 		// clang-format off
 		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
 		// clang-format on
 
 		std::uintptr_t _impl{ 0 };
 	};
+
+	namespace detail
+	{
+		namespace characters
+		{
+			[[nodiscard]] constexpr bool hexadecimal(char a_ch) noexcept
+			{
+				return ('0' <= a_ch && a_ch <= '9') ||
+				       ('A' <= a_ch && a_ch <= 'F') ||
+				       ('a' <= a_ch && a_ch <= 'f');
+			}
+
+			[[nodiscard]] constexpr bool space(char a_ch) noexcept
+			{
+				return a_ch == ' ';
+			}
+
+			[[nodiscard]] constexpr bool wildcard(char a_ch) noexcept
+			{
+				return a_ch == '?';
+			}
+		}
+
+		namespace rules
+		{
+			namespace detail
+			{
+				[[nodiscard]] consteval std::byte hexacharacters_to_hexadecimal(char a_hi, char a_lo) noexcept
+				{
+					constexpr auto lut = []() noexcept {
+						std::array<std::uint8_t, std::numeric_limits<unsigned char>::max() + 1> a = {};
+
+						const auto iterate = [&](std::uint8_t a_iFirst, unsigned char a_cFirst, unsigned char a_cLast) noexcept {
+							for (; a_cFirst <= a_cLast; ++a_cFirst, ++a_iFirst) {
+								a[a_cFirst] = a_iFirst;
+							}
+						};
+
+						iterate(0, '0', '9');
+						iterate(0xA, 'A', 'F');
+						iterate(0xa, 'a', 'f');
+
+						return a;
+					}();
+
+					return static_cast<std::byte>(
+						lut[static_cast<unsigned char>(a_hi)] * 0x10u +
+						lut[static_cast<unsigned char>(a_lo)]);
+				}
+			}
+
+			template <char HI, char LO>
+			class Hexadecimal
+			{
+			public:
+				[[nodiscard]] static constexpr bool match(std::byte a_byte) noexcept
+				{
+					constexpr auto expected = detail::hexacharacters_to_hexadecimal(HI, LO);
+					return a_byte == expected;
+				}
+			};
+
+			static_assert(Hexadecimal<'5', '7'>::match(std::byte{ 0x57 }));
+			static_assert(Hexadecimal<'6', '5'>::match(std::byte{ 0x65 }));
+			static_assert(Hexadecimal<'B', 'D'>::match(std::byte{ 0xBD }));
+			static_assert(Hexadecimal<'1', 'C'>::match(std::byte{ 0x1C }));
+			static_assert(Hexadecimal<'F', '2'>::match(std::byte{ 0xF2 }));
+			static_assert(Hexadecimal<'9', 'f'>::match(std::byte{ 0x9f }));
+
+			static_assert(!Hexadecimal<'D', '4'>::match(std::byte{ 0xF8 }));
+			static_assert(!Hexadecimal<'6', '7'>::match(std::byte{ 0xAA }));
+			static_assert(!Hexadecimal<'7', '8'>::match(std::byte{ 0xE3 }));
+			static_assert(!Hexadecimal<'6', 'E'>::match(std::byte{ 0x61 }));
+
+			class Wildcard
+			{
+			public:
+				[[nodiscard]] static constexpr bool match(std::byte) noexcept
+				{
+					return true;
+				}
+			};
+
+			static_assert(Wildcard::match(std::byte{ 0xB9 }));
+			static_assert(Wildcard::match(std::byte{ 0x96 }));
+			static_assert(Wildcard::match(std::byte{ 0x35 }));
+			static_assert(Wildcard::match(std::byte{ 0xE4 }));
+
+			template <char, char>
+			void rule_for() noexcept;
+
+			template <char C1, char C2>
+			Hexadecimal<C1, C2> rule_for() noexcept
+				requires(characters::hexadecimal(C1) && characters::hexadecimal(C2));
+
+			template <char C1, char C2>
+			Wildcard rule_for() noexcept
+				requires(characters::wildcard(C1) && characters::wildcard(C2));
+		}
+
+		template <class... Rules>
+		class PatternMatcher
+		{
+		public:
+			static_assert(sizeof...(Rules) >= 1, "must provide at least 1 rule for the pattern matcher");
+
+			[[nodiscard]] constexpr bool match(std::span<const std::byte, sizeof...(Rules)> a_bytes) const noexcept
+			{
+				std::size_t i = 0;
+				return (Rules::match(a_bytes[i++]) && ...);
+			}
+
+			[[nodiscard]] bool match(std::uintptr_t a_address) const noexcept
+			{
+				return this->match(*reinterpret_cast<const std::byte(*)[sizeof...(Rules)]>(a_address));
+			}
+
+			void match_or_fail(std::uintptr_t a_address, std::source_location a_loc = std::source_location::current()) const noexcept
+			{
+				if (!this->match(a_address)) {
+					const auto version = Module::get().version();
+					stl::report_and_fail(
+						fmt::format(
+							"A pattern has failed to match.\n"
+							"This means the plugin is incompatible with the current version of the game ({}.{}.{}). "
+							"Head to the mod page of this plugin to see if an update is available."sv,
+							version[0],
+							version[1],
+							version[2]),
+						a_loc);
+				}
+			}
+		};
+
+		void consteval_error(const char* a_error);
+
+		template <stl::nttp::string S, class... Rules>
+		[[nodiscard]] constexpr auto do_make_pattern() noexcept
+		{
+			if constexpr (S.length() == 0) {
+				return PatternMatcher<Rules...>();
+			} else if constexpr (S.length() == 1) {
+				constexpr char c = S[0];
+				if constexpr (characters::hexadecimal(c) || characters::wildcard(c)) {
+					consteval_error("the given pattern has an unpaired rule (rules are required to be written in pairs of 2)");
+				} else {
+					consteval_error("the given pattern has trailing characters at the end (which is not allowed)");
+				}
+			} else {
+				using rule_t = decltype(rules::rule_for<S[0], S[1]>());
+				if constexpr (std::same_as<rule_t, void>) {
+					consteval_error("the given pattern failed to match any known rules");
+				} else {
+					if constexpr (S.length() <= 3) {
+						return do_make_pattern<S.template substr<2>(), Rules..., rule_t>();
+					} else if constexpr (characters::space(S[2])) {
+						return do_make_pattern<S.template substr<3>(), Rules..., rule_t>();
+					} else {
+						consteval_error("a space character is required to split byte patterns");
+					}
+				}
+			}
+		}
+
+		template <class... Bytes>
+		[[nodiscard]] consteval auto make_byte_array(Bytes... a_bytes) noexcept
+			-> std::array<std::byte, sizeof...(Bytes)>
+		{
+			static_assert((std::integral<Bytes> && ...), "all bytes must be an integral type");
+			return { static_cast<std::byte>(a_bytes)... };
+		}
+	}
+
+	template <stl::nttp::string S>
+	[[nodiscard]] constexpr auto make_pattern() noexcept
+	{
+		return detail::do_make_pattern<S>();
+	}
+
+	static_assert(make_pattern<"40 10 F2 ??">().match(
+		detail::make_byte_array(0x40, 0x10, 0xF2, 0x41)));
+	static_assert(make_pattern<"B8 D0 ?? ?? D4 6E">().match(
+		detail::make_byte_array(0xB8, 0xD0, 0x35, 0x2A, 0xD4, 0x6E)));
 }
 
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE

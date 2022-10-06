@@ -11,6 +11,7 @@
     "mmio",
     "nowide",
     "robin-hood-hashing",
+    "rsm-binary-io",
     "spdlog",
     "srell",
     "xbyak"
