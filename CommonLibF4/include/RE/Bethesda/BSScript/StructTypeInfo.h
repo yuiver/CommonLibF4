@@ -53,6 +53,8 @@ namespace RE
 			{
 				return name.c_str();
 			}
+			virtual TypeInfo::RawType GetRawType() const override;
+
 			// members
 			BSFixedString name;                                          // 10
 			BSTSmartPointer<ObjectTypeInfo> containingObjTypeInfo;       // 18

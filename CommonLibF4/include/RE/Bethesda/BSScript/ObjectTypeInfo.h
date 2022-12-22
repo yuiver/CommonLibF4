@@ -151,7 +151,7 @@ namespace RE
 			const char* GetName() const;
 			ObjectTypeInfo* GetParent();
 			const ObjectTypeInfo* GetParent() const;
-			TypeInfo::RawType GetRawType() const;
+			virtual TypeInfo::RawType GetRawType() const override;
 
 			[[nodiscard]] constexpr bool IsLinked() const noexcept
 			{

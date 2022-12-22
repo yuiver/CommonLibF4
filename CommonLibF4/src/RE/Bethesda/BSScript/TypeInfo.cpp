@@ -12,7 +12,11 @@ namespace RE::BSScript
 				reinterpret_cast<IComplexType*>(
 					reinterpret_cast<std::uintptr_t>(data.complexTypeInfo) &
 					~static_cast<std::uintptr_t>(1));
-			return complex->GetRawType();
+			uint32_t rtype = (uint32_t)complex->GetRawType();
+			if (IsArray()) {
+				rtype += 10;
+			}
+			return (RawType)rtype;
 		} else {
 			return *data.rawType;
 		}

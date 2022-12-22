@@ -88,7 +88,21 @@ namespace RE
 			}
 
 			[[nodiscard]] bool IsComplex() const noexcept { return data.rawType >= RawType::kArrayEnd; }
+
+			[[nodiscard]] bool IsObjectArray() const noexcept
+			{
+				return GetRawType() == RawType::kArrayObject;
+			}
+			[[nodiscard]] bool IsStructArray() const noexcept
+			{
+				return GetRawType() == RawType::kArrayStruct;
+			}
+			[[nodiscard]] bool IsComplexTypeArray() const noexcept
+			{
+				return (IsComplex() && IsArray());
+			}
 			[[nodiscard]] bool IsObject() const { return GetRawType() == RawType::kObject; }
+			[[nodiscard]] bool IsStruct() const { return GetRawType() == RawType::kStruct; }
 
 			void SetArray(bool a_set) noexcept
 			{

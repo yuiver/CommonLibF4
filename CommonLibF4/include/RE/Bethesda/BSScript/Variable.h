@@ -19,10 +19,29 @@ namespace RE
 		class Object;
 		class Struct;
 		class TypeInfo;
+		class Variable;
 		namespace UnlinkedTypes
 		{
 			struct Object;  // stub
 		}
+        template <class T>
+        [[nodiscard]] BSTSmartPointer<Object> get(const Variable& a_var) requires(std::same_as<T, Object>);
+        template <class T>
+        [[nodiscard]] BSFixedString get(const Variable& a_var) requires(std::same_as<T, BSFixedString>);
+        template <class T>
+        [[nodiscard]] std::uint32_t get(const Variable& a_var) requires(std::same_as<T, std::uint32_t>);
+        template <class T>
+        [[nodiscard]] std::int32_t get(const Variable& a_var) requires(std::same_as<T, std::int32_t>);
+        template <class T>
+        [[nodiscard]] float get(const Variable& a_var) requires(std::same_as<T, float>);
+        template <class T>
+        [[nodiscard]] bool get(const Variable& a_var) requires(std::same_as<T, bool>);
+        template <class T>
+        [[nodiscard]] stl::observer<Variable*> get(const Variable& a_var) requires(std::same_as<T, Variable>);
+        template <class T>
+        [[nodiscard]] BSTSmartPointer<Struct> get(const Variable& a_var) requires(std::same_as<T, Struct>);
+        template <class T>
+        [[nodiscard]] BSTSmartPointer<Array> get(const Variable& a_var) requires(std::same_as<T, Array>);
 
 		class Variable
 		{
@@ -253,6 +272,11 @@ namespace RE
 				requires(std::same_as<T, Array>)
 			{
 				return varType.IsArray();
+			}
+
+			TypeInfo GetType() const
+			{
+				return varType;
 			}
 
 			void reset();
