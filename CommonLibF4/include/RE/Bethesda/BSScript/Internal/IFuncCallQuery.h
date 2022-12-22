@@ -2,7 +2,7 @@
 
 
 
-#include "RE/Bethesda/BSTSmartPointer.h"  // BSIntrusiveRefCounted
+#include "RE/Bethesda/BSTSmartPointer.h" 
 
 
 namespace RE
@@ -27,9 +27,12 @@ namespace RE
 				virtual ~IFuncCallQuery();		// 00
 
 				// add
-				// TODO: Possibly GetFunctionCallInfo? look at CommonLibSSE-NG
-				virtual void Unk_01(void) = 0;	// 01
-
+				virtual bool GetFunctionCallInfo(
+					CallType & a_callType, 
+					BSTSmartPointer<ObjectTypeInfo> &a_objectTypeInfo, 
+					BSFixedString &a_name, 
+					Variable& a_self,
+					BSScrapArray<Variable> & a_args) const = 0;	// 01
 
 				// members
 				std::uint32_t pad0C;	// 0C

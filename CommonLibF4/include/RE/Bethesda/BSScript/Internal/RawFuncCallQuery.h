@@ -27,11 +27,14 @@ namespace RE
 
 
 				virtual ~RawFuncCallQuery();		// 00
-				// TODO: possibly GetFunctionCallInfo?
 				// override (IFuncCallQuery)
-				virtual void Unk_01(void) override;	// 01
+				virtual bool GetFunctionCallInfo(
+					CallType & a_callType, 
+					BSTSmartPointer<ObjectTypeInfo> &a_objectTypeInfo, 
+					BSFixedString &a_name, 
+					Variable& a_self,
+					BSScrapArray<Variable> & a_args) const override;	// 01
 
-				// TODO: verify if accurate
 				// members
 				CallType                        callType;  // 10
 				std::uint32_t                   pad14;     // 14

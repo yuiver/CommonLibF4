@@ -2,7 +2,7 @@
 
 
 
-#include "RE/Bethesda/BSScript/Internal/IFuncCallQuery.h"  // BSScript::Internal::IFuncCallQuery
+#include "RE/Bethesda/BSScript/Internal/IFuncCallQuery.h"
 
 
 namespace RE
@@ -91,9 +91,13 @@ namespace RE
 				virtual ~CodeTasklet();				// 00
 
 				// override (IFuncCallQuery)
-				virtual void Unk_01(void) override;	// 01
+				virtual bool GetFunctionCallInfo(
+					CallType & a_callType, 
+					BSTSmartPointer<ObjectTypeInfo> &a_objectTypeInfo, 
+					BSFixedString &a_name, 
+					Variable& a_self,
+					BSScrapArray<Variable> & a_args) const override;	// 01
 
-				//TODO: verify if accurate
 				// members
 				Stack*                                        stack;                    // 10
 				VirtualMachine*                               vm;                       // 18
