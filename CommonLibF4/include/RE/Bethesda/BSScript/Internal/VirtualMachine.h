@@ -188,7 +188,6 @@ namespace RE
 
 				static VirtualMachine* GetSingleton();
 
-			private:
 				//bool StackExists(std::uint32_t stack_id);
 
 				// members

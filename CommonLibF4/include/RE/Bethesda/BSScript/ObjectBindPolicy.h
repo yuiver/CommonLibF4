@@ -10,18 +10,15 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
-#include "RE/Bethesda/BSScript/IVirtualMachine.h"
-#include "RE/Bethesda/BSScript/MergedBoundScript.h"
-#include "RE/Bethesda/BSScript/Object.h"
-#include "RE/Bethesda/BSScript/Variable.h"
+
 namespace RE
 {
 	class BSStorage;  // stub
 	namespace BSScript
 	{
 		class BoundScript;  // stub
-		struct IHandleReaderWriter;  // stub
-		struct IVMObjectBindInterface;  // stub
+		struct IHandleReaderWriter; 
+		struct IVMObjectBindInterface;
 		class IVirtualMachine;
 		class MergedBoundScript;
 		class Object;
