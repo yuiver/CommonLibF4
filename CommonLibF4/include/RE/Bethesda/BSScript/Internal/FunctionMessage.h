@@ -25,7 +25,6 @@ namespace RE
 				};
 
 				// members
-				// TODO: Verify if accurate
 				Type                            type;       // 00
 				std::uint32_t                   pad04;      // 04
 				BSTSmartPointer<Stack>          stack;      // 08

@@ -65,7 +65,7 @@ namespace RE
 		BSScrapHeapQueueElem<T>** tail;  // 20
 	};
 
-	// This isn't accurate, this is contains a statically allocated BSTLocklessQueue, figure out how to do this
+	// TODO: This isn't accurate, this is contains a statically allocated BSTLocklessQueue, figure out how to do this
 	template <class T, std::size_t SIZE>
 	class __declspec(novtable) BSTCommonStaticMessageQueue :
 		public BSTMessageQueue<T>  // 00

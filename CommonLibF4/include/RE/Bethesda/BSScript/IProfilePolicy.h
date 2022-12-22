@@ -18,7 +18,7 @@ namespace RE
 		class Variable;
 		namespace Internal
 		{
-			class IFuncCallQuery;  // stub
+			class IFuncCallQuery;
 		}
 
 		class __declspec(novtable) IProfilePolicy
