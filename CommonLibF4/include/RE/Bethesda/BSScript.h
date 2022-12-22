@@ -20,6 +20,7 @@
 #include "RE/Bethesda/BSScript/IClientVM.h"
 #include "RE/Bethesda/BSScript/IComplexType.h"
 #include "RE/Bethesda/BSScript/IFunction.h"
+#include "RE/Bethesda/BSScript/IHandleReaderWriter.h"
 #include "RE/Bethesda/BSScript/ILoader.h"
 #include "RE/Bethesda/BSScript/IMemoryPagePolicy.h"
 #include "RE/Bethesda/BSScript/IObjectHandlePolicy.h"
