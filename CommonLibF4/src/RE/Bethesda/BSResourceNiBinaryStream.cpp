@@ -56,11 +56,11 @@ namespace RE
 		return func(this, a_buf);
 	}
 
-	BSResourceNiBinaryStream* BSResourceNiBinaryStream::ctor(const char* a_name, bool a_writeable, BSResource::Location* a_optionalStart)
+	BSResourceNiBinaryStream* BSResourceNiBinaryStream::ctor(const char* a_name, bool a_writeable, BSResource::Location* a_optionalStart, bool a_fullReadHint)
 	{
 		using func_t = decltype(&BSResourceNiBinaryStream::ctor);
 		REL::Relocation<func_t> func{ REL::ID(1198116) }; //1B93740
-		return func(this, a_name, a_writeable, a_optionalStart);
+		return func(this, a_name, a_writeable, a_optionalStart, a_fullReadHint);
 	}
 
 	void BSResourceNiBinaryStream::dtor()

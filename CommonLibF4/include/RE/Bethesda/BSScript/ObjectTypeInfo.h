@@ -79,8 +79,9 @@ namespace RE
 				// members
 				BSFixedString name;  // 00
 				TypeInfo type;       // 08
+				std::uint64_t unk10; // 10 - Not sure what this is, maybe a hash
 			};
-			static_assert(sizeof(VariableInfo) == 0x10);
+			static_assert(sizeof(VariableInfo) == 0x18);
 
 			struct InitialValueInfo
 			{

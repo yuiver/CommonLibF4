@@ -10,10 +10,11 @@ namespace RE
 		struct LogEvent
 		{
 		public:
-			const char* const           errorMsg;  // 00
+			const ICachedErrorMessage&   errorMsg; // 00
 			const ErrorLogger::Severity severity;  // 08
-			std::uint32_t               pad0C;     // 0C
+			std::uint32_t                  pad0C;  // 0C
+			BSFixedString            ownerModule;  // 10
 		};
-		static_assert(sizeof(LogEvent) == 0x10);
+		static_assert(sizeof(LogEvent) == 0x18);
 	}
 }

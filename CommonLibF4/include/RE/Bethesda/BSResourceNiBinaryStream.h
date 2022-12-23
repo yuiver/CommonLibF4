@@ -49,7 +49,7 @@ namespace RE
 		std::size_t                         pos;        // 20
 		BSResource::ErrorCode               lastError;  // 28
 	private:
-		BSResourceNiBinaryStream* ctor(const char* a_name, bool a_writeable = false, BSResource::Location* a_optionalStart = 0);
+		BSResourceNiBinaryStream* ctor(const char* a_name, bool a_writeable = false, BSResource::Location* a_optionalStart = 0, bool a_fullReadHint = false);
 		void                      dtor();
 	};
 	
