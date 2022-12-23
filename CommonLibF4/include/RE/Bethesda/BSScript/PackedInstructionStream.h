@@ -10,7 +10,12 @@ namespace RE
 			{
 			public:
 				PackedInstructionStream();
-
+				PackedInstructionStream(
+					void* a_instructions,
+					std::uint32_t a_numInstrBits,
+					std::uint16_t a_jumpTargetBitCount,
+					std::int8_t a_localVariableBitCount,
+					std::int8_t a_memberVariableBitCount);
 				// members
 				std::uint32_t numInstructionBits;      // 00
 				std::uint16_t jumpTargetBitCount;      // 04
