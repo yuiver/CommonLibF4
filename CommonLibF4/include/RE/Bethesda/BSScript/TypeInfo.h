@@ -16,7 +16,8 @@ namespace RE
 	namespace BSScript
 	{
 		class IComplexType;
-
+		class ObjectTypeInfo;
+		class StructTypeInfo;
 		class TypeInfo
 		{
 		public:
@@ -103,6 +104,9 @@ namespace RE
 			}
 			[[nodiscard]] bool IsObject() const { return GetRawType() == RawType::kObject; }
 			[[nodiscard]] bool IsStruct() const { return GetRawType() == RawType::kStruct; }
+			IComplexType* GetComplexType() const;
+			StructTypeInfo* GetStructTypeInfo() const;
+			ObjectTypeInfo* GetObjectTypeInfo() const;
 
 			void SetArray(bool a_set) noexcept
 			{
