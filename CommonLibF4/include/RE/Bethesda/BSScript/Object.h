@@ -57,7 +57,8 @@ namespace RE
 			Variable* GetProperty(const BSFixedString& a_name);
 			[[nodiscard]] const Variable* GetProperty(const BSFixedString& a_name) const;
 
-			F4_HEAP_REDEFINE_NEW();
+// TODO: Figure out if F4_HEAP_REDEFINE_NEW is necessary here
+//			F4_HEAP_REDEFINE_NEW(Object);
 
 			// members
 			std::uint32_t constructed: 1;            // 00:00

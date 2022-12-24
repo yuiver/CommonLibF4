@@ -38,7 +38,7 @@ namespace RE
 			[[nodiscard]] virtual std::uint64_t DoGetKey() const;        // 03 - { return 0; }
 			virtual ErrorCode                   DoGetInfo(Info& a_info); // 04 - { return ErrorCode::kUnsupported; }
 
-			F4_HEAP_REDEFINE_NEW();
+			F4_HEAP_REDEFINE_NEW(StreamBase);
 
 			std::uint32_t      DecRef();
 			std::uint32_t      IncRef();
