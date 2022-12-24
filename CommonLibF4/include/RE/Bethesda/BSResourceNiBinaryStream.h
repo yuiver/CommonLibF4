@@ -43,6 +43,8 @@ namespace RE
 		std::size_t   DoWrite(const void* a_buf, std::size_t a_toWrite) override;  // 05
 
 		bool good(){return static_cast<bool>(stream);};
+
+		[[nodiscard]] static BSResourceNiBinaryStream * BinaryStreamWithRescan(const char * a_fileName);
 		// members
 		BSTSmartPointer<BSResource::Stream> stream;     // 10
 		BufferType*                         buffer;     // 18

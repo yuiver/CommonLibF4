@@ -69,4 +69,10 @@ namespace RE
 		REL::Relocation<func_t> func{ REL::ID(1516202) }; //1B93A00
 		return func(this);
 	}
+
+	[[nodiscard]] BSResourceNiBinaryStream * BSResourceNiBinaryStream::BinaryStreamWithRescan(const char * a_fileName) {
+		using func_t = decltype(&BSResourceNiBinaryStream::BinaryStreamWithRescan);
+		REL::Relocation<func_t> func{ REL::ID(543595) };
+		return func(a_fileName);
+	}
 }
