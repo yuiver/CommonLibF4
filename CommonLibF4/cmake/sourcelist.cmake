@@ -309,7 +309,12 @@ set(SOURCES
 	src/RE/Bethesda/BSExtraData.cpp
 	src/RE/Bethesda/BSScaleformManager.cpp
 	src/RE/Bethesda/BSScript.cpp
+	src/RE/Bethesda/BSScript/Array.cpp
+	src/RE/Bethesda/BSScript/Internal/VirtualMachine.cpp
 	src/RE/Bethesda/BSScript/Object.cpp
+	src/RE/Bethesda/BSScript/ObjectTypeInfo.cpp
+	src/RE/Bethesda/BSScript/PackedInstructionStream.cpp
+	src/RE/Bethesda/BSScript/StackFrame.cpp
 	src/RE/Bethesda/BSScript/Struct.cpp
 	src/RE/Bethesda/BSScript/TypeInfo.cpp
 	src/RE/Bethesda/BSScript/Variable.cpp

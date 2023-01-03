@@ -24,7 +24,8 @@ namespace RE
 			static constexpr auto RTTI{ RTTI::BSScript__IComplexType };
 			static constexpr auto VTABLE{ VTABLE::BSScript__IComplexType };
 
-			virtual ~IComplexType() = 0;  // 00
+			// TODO: Verify that setting this to default doesn't fuck everything up
+			virtual ~IComplexType() = default;  // 00
 
 			// add
 			virtual TypeInfo::RawType GetRawType() const = 0;  // 01

@@ -3,6 +3,10 @@
 #include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
+#include "RE/Bethesda/BSScript/IComplexType.h"
+#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
+#include "RE/Bethesda/BSScript/TypeInfo.h"
+#include "RE/Bethesda/BSScript/Variable.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -10,9 +14,6 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
-#include "RE/Bethesda/BSScript/IComplexType.h"
-#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
-#include "RE/Bethesda/BSScript/Variable.h"
 namespace RE
 {
 	namespace BSScript
@@ -48,7 +49,10 @@ namespace RE
 				bool isConst;             // 24
 			};
 			static_assert(sizeof(StructVar) == 0x28);
-
+			const char* GetName() const
+			{
+				return name.c_str();
+			}
 			// members
 			BSFixedString name;                                          // 10
 			BSTSmartPointer<ObjectTypeInfo> containingObjTypeInfo;       // 18

@@ -3,6 +3,10 @@
 #include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
+#include "RE/Bethesda/BSScript/IFunction.h"
+#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
+#include "RE/Bethesda/BSScript/Stack.h"
+#include "RE/Bethesda/BSScript/Variable.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -10,9 +14,6 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
-#include "RE/Bethesda/BSScript/IFunction.h"
-#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
-#include "RE/Bethesda/BSScript/Stack.h"
 namespace RE
 {
 	namespace BSScript
@@ -25,6 +26,9 @@ namespace RE
 		class StackFrame
 		{
 		public:
+			[[nodiscard]] std::uint32_t GetPageForFrame() const;
+			[[nodiscard]] Variable& GetStackFrameVariable(std::uint32_t a_index, std::uint32_t a_pageHint) const;
+
 			// members
 			Stack* parent;                                     // 00
 			StackFrame* previousFrame;                         // 08

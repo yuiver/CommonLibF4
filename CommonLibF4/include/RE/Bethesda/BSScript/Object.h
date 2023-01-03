@@ -3,6 +3,8 @@
 #include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
+#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
+#include "RE/Bethesda/BSScript/Variable.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -10,8 +12,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
-#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
-#include "RE/Bethesda/BSScript/Variable.h"
+
 namespace RE
 {
 	namespace BSScript
@@ -24,7 +25,13 @@ namespace RE
 		public:
 			~Object();
 
-			[[nodiscard]] bool Constructed() const noexcept { return constructed; }
+			ObjectTypeInfo* GetTypeInfo();
+			[[nodiscard]] const ObjectTypeInfo* GetTypeInfo() const;
+			[[nodiscard]] constexpr bool IsConstructed() const noexcept { return static_cast<bool>(constructed); }
+			[[nodiscard]] constexpr bool IsInitialized() const noexcept { return static_cast<bool>(initialized); }
+			[[nodiscard]] constexpr bool IsValid() const noexcept { return static_cast<bool>(valid); }
+
+			[[nodiscard]] void* Resolve(std::uint32_t a_typeID) const;
 
 			[[nodiscard]] std::uint32_t DecRef() const
 			{
@@ -46,6 +53,11 @@ namespace RE
 				REL::Relocation<func_t> func{ REL::ID(461710) };
 				return func(this);
 			}
+
+			Variable* GetProperty(const BSFixedString& a_name);
+			[[nodiscard]] const Variable* GetProperty(const BSFixedString& a_name) const;
+
+			F4_HEAP_REDEFINE_NEW();
 
 			// members
 			std::uint32_t constructed: 1;            // 00:00
