@@ -5,7 +5,6 @@
 #include "RE/Bethesda/BSLock.h"
 #include "RE/Bethesda/BSScript/IFunction.h"
 #include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
-#include "RE/Bethesda/BSScript/Stack.h"
 #include "RE/Bethesda/BSScript/Variable.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
@@ -14,6 +13,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
