@@ -17,6 +17,9 @@
 
 namespace RE
 {
+	template <class F>
+	using BSTThreadScrapFunction = msvc::function<F>;
+
 	namespace BSScript
 	{
 		class IStore;
