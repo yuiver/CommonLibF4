@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RE/Bethesda/ErrorCodes.h"
+#include "RE/Bethesda/BSResource/BSResourceEnums.h"
 #include "RE/NetImmerse/NiBinaryStream.h"
-#include "RE/Bethesda/Stream.h"
+#include "RE/Bethesda/BSResource/Stream.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 
 namespace RE

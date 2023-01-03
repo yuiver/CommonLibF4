@@ -1,4 +1,4 @@
-#include "RE/Bethesda/Stream.h"
+#include "RE/Bethesda/BSResource/Stream.h"
 
 namespace RE
 {
@@ -61,9 +61,9 @@ namespace RE
 		{
 			return false;
 		}
-		ErrorCode Stream::DoWaitTags([[maybe_unused]] std::uint32_t volatile* a_v,
-			[[maybe_unused]] std::uint32_t b_v,
-			[[maybe_unused]] BSEventFlag* event_flag) const
+		ErrorCode Stream::DoWaitTags( [[maybe_unused]] volatile std::uint32_t* a_completionTag,
+									  [[maybe_unused]] std::uint32_t a_completionTagWaitValue,
+									  [[maybe_unused]] BSEventFlag* a_eventFlag) const
 		{
 			return ErrorCode::kUnsupported;
 		}

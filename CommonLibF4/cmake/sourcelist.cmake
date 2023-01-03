@@ -45,8 +45,11 @@ set(SOURCES
 	include/RE/Bethesda/BSMemStorage.h
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
-	include/RE/Bethesda/BSResource.cpp
 	include/RE/Bethesda/BSResource.h
+	include/RE/Bethesda/BSResource/BSResourceEnums.h
+	include/RE/Bethesda/BSResource/LooseFileStreamBase.h
+	include/RE/Bethesda/BSResource/Stream.h
+	include/RE/Bethesda/BSResource/StreamBase.h
 	include/RE/Bethesda/BSResourceNiBinaryStream.h
 	include/RE/Bethesda/BSScaleformManager.h
 	include/RE/Bethesda/BSScript.h
@@ -130,13 +133,11 @@ set(SOURCES
 	include/RE/Bethesda/BSTextureStreamer.h
 	include/RE/Bethesda/BSTimer.h
 	include/RE/Bethesda/CELLJobs.h
-	include/RE/Bethesda/CRC.cpp
 	include/RE/Bethesda/CRC.h
 	include/RE/Bethesda/Calendar.h
 	include/RE/Bethesda/CombatFormulas.h
 	include/RE/Bethesda/Console.h
 	include/RE/Bethesda/ControlMap.h
-	include/RE/Bethesda/ErrorCodes.h
 	include/RE/Bethesda/Events.h
 	include/RE/Bethesda/FavoritesManager.h
 	include/RE/Bethesda/FormComponents.h
@@ -175,8 +176,6 @@ set(SOURCES
 	include/RE/Bethesda/SendHUDMessage.h
 	include/RE/Bethesda/Settings.h
 	include/RE/Bethesda/SplineUtils.h
-	include/RE/Bethesda/Stream.h
-	include/RE/Bethesda/StreamBase.h
 	include/RE/Bethesda/TESBoundAnimObjects.h
 	include/RE/Bethesda/TESBoundObjects.h
 	include/RE/Bethesda/TESCamera.h
@@ -315,6 +314,9 @@ set(SOURCES
 	src/RE/Bethesda/Actor.cpp
 	src/RE/Bethesda/BGSInventoryItem.cpp
 	src/RE/Bethesda/BSExtraData.cpp
+	src/RE/Bethesda/BSResource.cpp
+	src/RE/Bethesda/BSResource/Stream.cpp
+	src/RE/Bethesda/BSResource/StreamBase.cpp
 	src/RE/Bethesda/BSResourceNiBinaryStream.cpp
 	src/RE/Bethesda/BSScaleformManager.cpp
 	src/RE/Bethesda/BSScript.cpp
@@ -328,11 +330,10 @@ set(SOURCES
 	src/RE/Bethesda/BSScript/StructTypeInfo.cpp
 	src/RE/Bethesda/BSScript/TypeInfo.cpp
 	src/RE/Bethesda/BSScript/Variable.cpp
+	src/RE/Bethesda/CRC.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp
 	src/RE/Bethesda/MenuCursor.cpp
-	src/RE/Bethesda/Stream.cpp
-	src/RE/Bethesda/StreamBase.cpp
 	src/RE/Bethesda/TESBoundAnimObjects.cpp
 	src/RE/Bethesda/TESForms.cpp
 	src/RE/Bethesda/TESObjectREFRs.cpp

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RE/Bethesda/ErrorCodes.h"
 #include "RE/Bethesda/MemoryManager.h"
+#include "RE/Bethesda/BSResource/BSResourceEnums.h"
 
 namespace RE
 {

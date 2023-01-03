@@ -1,3 +1,6 @@
+#include "RE/Bethesda/BSResource/BSResourceEnums.h"
+#include "RE/Bethesda/BSScript/TypeInfo.h"
+#include "RE/Bethesda/BSScript/Variable.h"
 #include "RE/Bethesda/BSScript/StackFrame.h"
 #include "RE/Bethesda/BSScript/Stack.h"
 
