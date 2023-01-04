@@ -14,8 +14,7 @@ namespace RE
 		{
 		public:
 			enum class Permissions
-			{
-			};
+			{};
 
 			// members
 			BSFixedString parentObjName;                               // 00

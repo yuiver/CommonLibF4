@@ -9,10 +9,9 @@ namespace RE
 	{
 		namespace Internal
 		{
-			class AttachedScript : public BSTPointerAndFlags<BSTSmartPointer<Object>, 1>
-			{
-			public:
-			};
+			class AttachedScript :
+				public BSTPointerAndFlags<BSTSmartPointer<Object>, 1>  // 00
+			{};
 			static_assert(sizeof(AttachedScript) == 0x8);
 		}
 	}

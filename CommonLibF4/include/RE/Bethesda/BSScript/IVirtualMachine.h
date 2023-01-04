@@ -25,6 +25,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	template <class F>
@@ -37,21 +38,23 @@ namespace RE
 		class ErrorLogger;
 		class ICachedErrorMessage;
 		class IFunction;
-		struct ILoader;
-		struct IObjectHandlePolicy;
 		class ISavePatcherInterface;
 		class IStackCallbackFunctor;
 		class ITypeLinkedCallback;  // stub
 		class JobList;              // stub
-		struct LogEvent;            // stub
 		class Object;
 		class ObjectBindPolicy;
 		class ObjectTypeInfo;
-		struct StatsEvent;  // stub
 		class Struct;
 		class StructTypeInfo;
 		class TypeInfo;
 		class Variable;
+
+		struct ILoader;
+		struct IObjectHandlePolicy;
+		struct LogEvent;
+		struct StatsEvent;
+
 		namespace UnlinkedTypes
 		{
 			struct Object;  // stub

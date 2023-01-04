@@ -20,6 +20,7 @@ namespace RE
 
 		struct BufferType
 		{
+		public:
 			// BSResource::Stream &stream; //00
 			// std::uint64_t unk10;
 			// std::uint64_t unk18;
@@ -27,8 +28,8 @@ namespace RE
 			// std::uint32_t gap24;
 			// std::uint64_t unk28;
 			// std::uint32_t unk30;
-		public:
 		};
+
 		BSResourceNiBinaryStream();
 		BSResourceNiBinaryStream(const char* a_fileName);
 		BSResourceNiBinaryStream(const std::string& a_fileName);
@@ -45,11 +46,13 @@ namespace RE
 		bool good() { return static_cast<bool>(stream); };
 
 		[[nodiscard]] static BSResourceNiBinaryStream* BinaryStreamWithRescan(const char* a_fileName);
+
 		// members
 		BSTSmartPointer<BSResource::Stream> stream;  // 10
 		BufferType* buffer;                          // 18
 		std::size_t pos;                             // 20
 		BSResource::ErrorCode lastError;             // 28
+
 	private:
 		BSResourceNiBinaryStream* ctor(const char* a_name, bool a_writeable = false, BSResource::Location* a_optionalStart = 0, bool a_fullReadHint = false);
 		void dtor();

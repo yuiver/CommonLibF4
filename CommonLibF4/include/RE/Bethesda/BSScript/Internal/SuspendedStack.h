@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RE/Bethesda/BSScript/Stack.h"  // BSScript::Stack
+#include "RE/Bethesda/BSScript/Stack.h"
 
 namespace RE
 {
@@ -15,6 +15,7 @@ namespace RE
 			struct SuspendedStack
 			{
 			public:
+				// members
 				BSTSmartPointer<Stack> stack;                   // 00
 				BSTSmartPointer<IFuncCallQuery> funcCallQuery;  // 08
 			};

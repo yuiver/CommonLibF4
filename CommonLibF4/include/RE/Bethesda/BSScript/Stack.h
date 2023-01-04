@@ -16,22 +16,25 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
 	{
-		struct IMemoryPagePolicy;
 		class IProfilePolicy;
 		class IStackCallbackFunctor;
 		class MemoryPage;  // stub
 		class Object;
 		class StackFrame;
 		class Variable;
+
+		struct IMemoryPagePolicy;
+
 		namespace Internal
 		{
-			class CodeTasklet;  // stub
-
+			class CodeTasklet;
 		}
+
 		namespace UnlinkedTypes
 		{
 			struct Object;  // stub

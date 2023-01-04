@@ -199,6 +199,7 @@ namespace RE
 			[[nodiscard]] const BSFixedString* GetInitialState() const;
 			std::uint32_t GetPropertyIndex(const BSFixedString& a_name) const;
 			[[nodiscard]] constexpr bool HasPropertyGroups() const;
+
 			// members
 			BSFixedString name;                                           // 10
 			BSTSmartPointer<ObjectTypeInfo> parentTypeInfo;               // 18
@@ -216,6 +217,7 @@ namespace RE
 			std::uint32_t namedStateCount: 7;                             // 48:11
 			std::uint32_t initialState: 7;                                // 48:18
 			void* data;                                                   // 50
+
 		private:
 			void Dtor();
 		};

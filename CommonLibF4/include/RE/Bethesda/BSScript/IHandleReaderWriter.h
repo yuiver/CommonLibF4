@@ -4,6 +4,7 @@
 namespace RE
 {
 	class BSStorage;
+
 	namespace BSScript
 	{
 		struct __declspec(novtable) IHandleReaderWriter

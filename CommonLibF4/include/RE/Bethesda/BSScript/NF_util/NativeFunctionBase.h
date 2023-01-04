@@ -17,6 +17,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
@@ -27,6 +28,7 @@ namespace RE
 		class StackFrame;
 		class TypeInfo;
 		class Variable;
+
 		namespace NF_util
 		{
 			class __declspec(novtable) NativeFunctionBase :

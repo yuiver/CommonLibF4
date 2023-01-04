@@ -1,11 +1,11 @@
 #pragma once
 
-#include "RE/Bethesda/BSFixedString.h"                     // BSFixedString
-#include "RE/Bethesda/BSScript/Internal/IFuncCallQuery.h"  // BSScript::Internal::IFuncCallQuery
-#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"           // ObjectTypeInfo
-#include "RE/Bethesda/BSScript/Variable.h"                 // BSScript::Variable
-#include "RE/Bethesda/BSTArray.h"                          // BSTArray
-#include "RE/Bethesda/BSTSmartPointer.h"                   // BSTSmartPointer
+#include "RE/Bethesda/BSFixedString.h"
+#include "RE/Bethesda/BSScript/Internal/IFuncCallQuery.h"
+#include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
+#include "RE/Bethesda/BSScript/Variable.h"
+#include "RE/Bethesda/BSTArray.h"
+#include "RE/Bethesda/BSTSmartPointer.h"
 
 namespace RE
 {
@@ -16,13 +16,14 @@ namespace RE
 		namespace Internal
 		{
 			class __declspec(novtable) RawFuncCallQuery :
-				public IFuncCallQuery
+				public IFuncCallQuery  // 00
 			{
 			public:
 				static constexpr auto RTTI{ RTTI::BSScript__Internal__RawFuncCallQuery };
 				static constexpr auto VTABLE{ VTABLE::BSScript__Internal__RawFuncCallQuery };
 
 				virtual ~RawFuncCallQuery();  // 00
+
 				// override (IFuncCallQuery)
 				virtual bool GetFunctionCallInfo(
 					CallType& a_callType,

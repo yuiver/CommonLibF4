@@ -15,20 +15,11 @@ namespace RE
 			class VirtualMachine;
 
 			class __declspec(novtable) CodeTasklet :
-				public IFuncCallQuery
+				public IFuncCallQuery  // 00
 			{
 			public:
 				static constexpr auto RTTI{ RTTI::BSScript__Internal__CodeTasklet };
 				static constexpr auto VTABLE{ VTABLE::BSScript__Internal__CodeTasklet };
-				enum class ResumeReason
-				{
-					kNotResuming = 0,
-					kNotResumingNoIncrement = 1,
-					kInitialStart = 2,
-					kFunctionReturn = 3,
-					kRetryInstruction = 4,
-					kFunctionCall = 5
-				};
 
 				enum class OpCode : std::uint32_t
 				{
@@ -79,6 +70,16 @@ namespace RE
 					kARRAY_REMOVELAST,
 					kARRAY_REMOVE,
 					kARRAY_CLEAR
+				};
+
+				enum class ResumeReason
+				{
+					kNotResuming = 0,
+					kNotResumingNoIncrement = 1,
+					kInitialStart = 2,
+					kFunctionReturn = 3,
+					kRetryInstruction = 4,
+					kFunctionCall = 5
 				};
 
 				virtual ~CodeTasklet();  // 00

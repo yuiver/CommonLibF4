@@ -1,5 +1,6 @@
 #pragma once
-#include "RE/Bethesda/BSTSmartPointer.h"  // BSIntrusiveRefCounted
+
+#include "RE/Bethesda/BSTSmartPointer.h"
 
 namespace RE
 {

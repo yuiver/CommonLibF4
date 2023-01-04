@@ -7,6 +7,7 @@ namespace RE
 		struct StatsEvent
 		{
 		public:
+			// members
 			std::uint32_t runningStacksCount;    // 00
 			std::uint32_t suspendedStacksCount;  // 04
 			std::uint32_t functionMsgCount;      // 08

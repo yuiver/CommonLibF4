@@ -1,25 +1,28 @@
 #pragma once
 
-#include "RE/Bethesda/BSFixedString.h"                 // BSFixedString
-#include "RE/Bethesda/BSScript/IFunction.h"            // BSScript::IFunction
-#include "RE/Bethesda/BSScript/Internal/VDescTable.h"  // BSScript::VariableInfo
+#include "RE/Bethesda/BSFixedString.h"
+#include "RE/Bethesda/BSScript/IFunction.h"
+#include "RE/Bethesda/BSScript/Internal/VDescTable.h"
 #include "RE/Bethesda/BSScript/PackedInstructionStream.h"
-#include "RE/Bethesda/BSScript/TypeInfo.h"  // BSScript::TypeInfo
+#include "RE/Bethesda/BSScript/TypeInfo.h"
 
 namespace RE
 {
 	namespace BSScript
 	{
 		class TypeInfo;
+
 		namespace Internal
 		{
-			class __declspec(novtable) ScriptFunction : public IFunction
+			class __declspec(novtable) ScriptFunction
+				: public IFunction  // 00
 			{
 			public:
 				static constexpr auto RTTI{ RTTI::BSScript__Internal__ScriptFunction };
 				static constexpr auto VTABLE{ VTABLE::BSScript__Internal__ScriptFunction };
 
 				virtual ~ScriptFunction();  // 00
+
 				// override (IFunction)
 				virtual const BSFixedString& GetName() const override;                                                                                                              // 01 - { return functionName; }
 				virtual const BSFixedString& GetObjectTypeName() const override;                                                                                                    // 02 - { return scriptName; }

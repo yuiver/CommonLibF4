@@ -4,24 +4,27 @@
 
 namespace RE
 {
-	class BSStorage;  // stub
+	class BSStorage;
+
 	namespace BSScript
 	{
-		struct IHandleReaderWriter;
 		class Object;
 		class Array;
 		class TypeInfo;
 		class Stack;
 		class Struct;
 
+		struct IHandleReaderWriter;
+
 		namespace Internal
 		{
 			class ReadableStringTable;
 			class ReadableTypeTable;
-			class WritableStringTable;  // stub
-			class WritableTypeTable;    // stub
-			class CodeTasklet;          //stub
+			class WritableStringTable;
+			class WritableTypeTable;
+			class CodeTasklet;
 		}
+
 		class __declspec(novtable) IVMSaveLoadInterface
 		{
 		public:

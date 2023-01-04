@@ -13,16 +13,19 @@
 
 namespace RE
 {
-	class BSStorage;  // stub
+	class BSStorage;
+
 	namespace BSScript
 	{
 		class BoundScript;  // stub
-		struct IHandleReaderWriter;
-		struct IVMObjectBindInterface;
 		class IVirtualMachine;
 		class MergedBoundScript;
 		class Object;
 		class Variable;
+
+		struct IHandleReaderWriter;
+		struct IVMObjectBindInterface;
+
 		namespace UnlinkedTypes
 		{
 			struct Object;  // stub

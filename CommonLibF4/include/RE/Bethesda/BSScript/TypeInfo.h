@@ -18,6 +18,7 @@ namespace RE
 		class IComplexType;
 		class ObjectTypeInfo;
 		class StructTypeInfo;
+
 		class TypeInfo
 		{
 		public:

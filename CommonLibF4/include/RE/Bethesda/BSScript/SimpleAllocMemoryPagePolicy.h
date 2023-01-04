@@ -11,12 +11,14 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
 	{
-		struct IMemoryPagePolicy;
 		class MemoryPage;  // stub
+
+		struct IMemoryPagePolicy;
 
 		class __declspec(novtable) SimpleAllocMemoryPagePolicy :
 			public IMemoryPagePolicy

@@ -14,14 +14,17 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
 	{
 		class ErrorLogger;
-		struct ILoader;
 		class IStore;  // stub
 		class Object;
+
+		struct ILoader;
+
 		namespace Internal
 		{
 			class ReadableStringTable;

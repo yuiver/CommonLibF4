@@ -14,6 +14,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
@@ -49,10 +50,12 @@ namespace RE
 				bool isConst;             // 24
 			};
 			static_assert(sizeof(StructVar) == 0x28);
+
 			const char* GetName() const
 			{
 				return name.c_str();
 			}
+
 			virtual TypeInfo::RawType GetRawType() const override;
 
 			// members

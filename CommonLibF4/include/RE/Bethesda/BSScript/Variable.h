@@ -3,6 +3,7 @@
 #include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
+#include "RE/Bethesda/BSScript/TypeInfo.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -20,10 +21,12 @@ namespace RE
 		class Struct;
 		class TypeInfo;
 		class Variable;
+
 		namespace UnlinkedTypes
 		{
 			struct Object;  // stub
 		}
+
 		template <class T>
 		[[nodiscard]] BSTSmartPointer<Object> get(const Variable& a_var) requires(std::same_as<T, Object>);
 		template <class T>

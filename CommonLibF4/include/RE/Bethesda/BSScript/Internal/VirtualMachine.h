@@ -31,6 +31,7 @@ namespace RE
 		class IStackCallbackSaveInterface;
 		class ObjectBindPolicy;
 		class Stack;
+
 		struct IMemoryPagePolicy;
 		struct IObjectHandlePolicy;
 		struct StatsEvent;
@@ -38,8 +39,7 @@ namespace RE
 		namespace Internal
 		{
 			class CodeTasklet;
-			class UnkKey;
-			class UnkValue;
+
 			class VirtualMachine :
 				public IVirtualMachine,  // 0000
 				//IVM -> public BSIntrusiveRefCounted  // 0008
@@ -52,6 +52,12 @@ namespace RE
 				static constexpr auto RTTI{ RTTI::BSScript__Internal__VirtualMachine };
 				static constexpr auto VTABLE{ VTABLE::BSScript__Internal__VirtualMachine };
 
+				enum class FreezeState
+				{
+					kNotFrozen = 0,
+					kFreezing,
+					kFrozen
+				};
 				struct QueuedUnbindRefs
 				{
 				public:
@@ -61,13 +67,6 @@ namespace RE
 					std::uint32_t pad0C;          // 0C
 				};
 				static_assert(sizeof(QueuedUnbindRefs) == 0x10);
-
-				enum class FreezeState
-				{
-					kNotFrozen = 0,
-					kFreezing,
-					kFrozen
-				};
 
 				~VirtualMachine() override;  // 00
 
@@ -178,6 +177,7 @@ namespace RE
 				virtual BSScript::Internal::WritableTypeTable& GetWritableTypeTable() override;                                                                                                                 //14307D9F0 	// 17
 				virtual const BSScript::Internal::ReadableTypeTable& GetReadableTypeTable() const override;                                                                                                     //14307D9F8 	// 18
 				virtual bool CreateEmptyTasklet(BSScript::Stack* a_Stack, BSTSmartPointer<BSScript::Internal::CodeTasklet, BSTSmartPointerIntrusiveRefCount>& a_tasklet_pointer) override;                      //14307DA00 	// 19
+				
 				// override (IVMDebugInterface)
 				virtual void DumpRunningStacksToLog() override;                                                                                // 01   // 14307DA18
 				virtual void DumpStackFrameToLog(unsigned int a_v, unsigned int b_v, bool a_flag) override;                                    // 02   // 14307DA20

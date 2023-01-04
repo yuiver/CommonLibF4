@@ -1,17 +1,14 @@
 #pragma once
 
-#include "RE/Bethesda/BSFixedString.h"              // BSFixedString
-#include "RE/Bethesda/BSScript/IObjectProcessor.h"  // BSScript::IObjectProcessor
-#include "RE/Bethesda/BSTArray.h"                   // BSScrapArray
-
-// #include "RE/Bethesda/BSTHashMap.h"  // BSTHashMap
-#include "RE/Bethesda/BSTSmartPointer.h"  // BSTSmartPointer
+#include "RE/Bethesda/BSFixedString.h"
+#include "RE/Bethesda/BSScript/IObjectProcessor.h"
+#include "RE/Bethesda/BSTArray.h"
+#include "RE/Bethesda/BSTSmartPointer.h"
 
 namespace RE
 {
 	namespace BSScript
 	{
-		// class Class;
 		class ErrorLogger;
 
 		namespace Internal

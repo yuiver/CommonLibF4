@@ -11,12 +11,14 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
 	{
 		class IStore;  // stub
 		class Object;
+
 		namespace UnlinkedTypes
 		{
 			struct Object;  // stub

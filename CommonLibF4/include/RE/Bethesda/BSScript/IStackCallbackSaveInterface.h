@@ -11,9 +11,11 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
-	class BSStorage;  // stub
+	class BSStorage;
+
 	namespace BSScript
 	{
 		class IStackCallbackFunctor;

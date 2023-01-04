@@ -14,6 +14,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+
 namespace RE
 {
 	namespace BSScript
@@ -22,9 +23,10 @@ namespace RE
 		class Stack;
 		class StackFrame;
 		class TypeInfo;
+
 		namespace Internal
 		{
-			class VirtualMachine;  // stub
+			class VirtualMachine;
 		}
 
 		class __declspec(novtable) IFunction :

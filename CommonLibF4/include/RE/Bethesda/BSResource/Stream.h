@@ -21,6 +21,7 @@ namespace RE
 			virtual void OnPacketWrite(BSResource::CacheDrive& p_cache_drive, std::uint64_t a_v) = 0;  // 142D39FB0
 			virtual void OnComplete(BSResource::CacheDrive& p_cache_drive) = 0;                        // 142D39FB8
 			virtual void OnError(BSResource::CacheDrive& p_cache_drive) = 0;                           // 142D39FC0
+
 			// members
 			// align 4
 			std::uint32_t unk08;  // 08

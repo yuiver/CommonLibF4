@@ -25,6 +25,7 @@ namespace RE
 		{
 		private:
 			// Array * Ctor(const TypeInfo *type_info, std::uint32_t initial_size = 0);
+
 		public:
 			using value_type = Variable;
 			using size_type = std::uint32_t;
@@ -37,6 +38,7 @@ namespace RE
 			using const_iterator = const value_type*;
 			using reverse_iterator = std::reverse_iterator<iterator>;
 			using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
 			// Array(const TypeInfo *type_info, std::uint32_t initial_size = 0);
 			~Array();
 
