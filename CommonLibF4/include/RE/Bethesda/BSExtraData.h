@@ -7,6 +7,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
+#include "RE/NetImmerse/NiPoint3.h"
 
 namespace RE
 {
@@ -66,8 +67,8 @@ namespace RE
 		kTimeLeft,
 		kCharge,
 		kLight,
-		kLock,
-		kTeleport,
+		kLock,      // ExtraLock
+		kTeleport,  // ExtraTeleport
 		kMapMarker,
 		kLeveledCreature,
 		kLevelItem,
@@ -250,11 +251,13 @@ namespace RE
 	class TBO_InstanceData;
 	class TESBoundObject;
 	class TESForm;
+	class TESObjectCELL;
 	class TESPackage;
 	class TESQuest;
 	class TESWaterForm;
 
 	struct INSTANCE_FILTER;
+	struct REFR_LOCK;
 
 	namespace BGSMod
 	{
@@ -351,6 +354,44 @@ namespace RE
 		float health;  // 18
 	};
 	static_assert(sizeof(ExtraHealth) == 0x20);
+
+	class __declspec(novtable) ExtraLock :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraLock };
+		static constexpr auto VTABLE{ VTABLE::ExtraLock };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kLock };
+
+		// members
+		REFR_LOCK* lock;  // 18
+	};
+	static_assert(sizeof(ExtraLock) == 0x20);
+
+	class DoorTeleportData
+	{
+	public:
+		// members
+		TESObjectCELL* transitionCell;  // 00
+		ObjectRefHandle linkedDoor;     // 08
+		NiPoint3 position;              // 0C
+		NiPoint3 rotation;              // 18
+		std::uint8_t flags;             // 24
+	};
+	static_assert(sizeof(DoorTeleportData) == 0x28);
+
+	class __declspec(novtable) ExtraTeleport :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraTeleport };
+		static constexpr auto VTABLE{ VTABLE::ExtraTeleport };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kTeleport };
+
+		// members
+		DoorTeleportData* teleportData;  // 18
+	};
+	static_assert(sizeof(ExtraTeleport) == 0x20);
 
 	class __declspec(novtable) ExtraInstanceData :
 		public BSExtraData  // 00

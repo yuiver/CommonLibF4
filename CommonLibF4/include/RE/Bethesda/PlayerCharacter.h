@@ -270,6 +270,13 @@ namespace RE
 			return func(this, a_formID, a_rank);
 		}
 
+		void SetEscaping(bool a_flag, bool a_escaped)
+		{
+			using func_t = decltype(&PlayerCharacter::SetEscaping);
+			REL::Relocation<func_t> func{ REL::ID(25528) };
+			return func(this, a_flag, a_escaped);
+		}
+
 		// members
 		BSSpinLock actorToDisplayOnHUDLock;                                                     // 628
 		BSSpinLock questTargetLock;                                                             // 630

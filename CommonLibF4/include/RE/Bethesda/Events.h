@@ -195,6 +195,24 @@ namespace RE
 	};
 	static_assert(sizeof(InventoryItemDisplayData) == 0x18);
 
+	class LocksPicked
+	{
+	public:
+		struct Event
+		{
+		public:
+		};
+
+		[[nodiscard]] static BSTEventSource<LocksPicked::Event>* GetEventSource()
+		{
+			using func_t = decltype(&LocksPicked::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(594991) };
+			return func();
+		}
+	};
+	static_assert(std::is_empty_v<LocksPicked>);
+	static_assert(std::is_empty_v<LocksPicked::Event>);
+
 	class MenuModeChangeEvent
 	{
 	public:

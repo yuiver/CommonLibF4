@@ -97,6 +97,25 @@ namespace RE
 		[[nodiscard]] std::uint16_t GetSmallFileCompileIndex() const noexcept { return smallFileCompileIndex; }
 		[[nodiscard]] bool IsActive() const noexcept { return GetCompileIndex() != 0xFF; }
 
+		[[nodiscard]] bool CloseTES(bool a_forceClose)
+		{
+			using func_t = decltype(&TESFile::CloseTES);
+			REL::Relocation<func_t> func{ REL::ID(766555) };
+			return func(this, a_forceClose);
+		}
+
+		[[nodiscard]] bool GetChunkData(void* a_data, std::uint32_t a_maxSize)
+		{
+			using func_t = bool (RE::TESFile::*)(void*, uint32_t);
+			REL::Relocation<func_t> func{ REL::ID(188910) };
+			return func(this, a_data, a_maxSize);
+		}
+
+		[[nodiscard]] bool GetChunkData(char* a_data)
+		{
+			return GetChunkData(a_data, 0);
+		}
+
 		[[nodiscard]] bool IsFormInMod(std::uint32_t a_formID) const
 		{
 			if (!IsLight() && (a_formID >> 24) == compileIndex) {
@@ -115,7 +134,38 @@ namespace RE
 			return func(this);
 		}
 
-		[[nodiscard]] constexpr bool IsLight() const noexcept { return flags.all(RecordFlag::kSmallFile); };
+		[[nodiscard]] bool NextChunk()
+		{
+			using func_t = decltype(&TESFile::NextChunk);
+			REL::Relocation<func_t> func{ REL::ID(1252764) };
+			return func(this);
+		}
+
+		[[nodiscard]] bool NextForm(bool a_skipIgnored)
+		{
+			using func_t = decltype(&TESFile::NextForm);
+			REL::Relocation<func_t> func{ REL::ID(644374) };
+			return func(this, a_skipIgnored);
+		}
+
+		[[nodiscard]] bool NextGroup()
+		{
+			using func_t = decltype(&TESFile::NextGroup);
+			REL::Relocation<func_t> func{ REL::ID(339855) };
+			return func(this);
+		}
+
+		[[nodiscard]] bool OpenTES(char* a_path, const char* a_filename, NiFile::OpenMode a_accessMode, bool a_lock)
+		{
+			using func_t = bool (TESFile::*)(char*, const char*, NiFile::OpenMode, bool);
+			REL::Relocation<func_t> func{ REL::ID(728465) };
+			return func(this, a_path, a_filename, a_accessMode, a_lock);
+		}
+
+		[[nodiscard]] bool OpenTES(NiFile::OpenMode a_accessMode, bool a_lock)
+		{
+			return OpenTES(path, filename, a_accessMode, a_lock);
+		}
 
 		// members
 		stl::enumeration<TES_RETURN_CODE, std::int32_t> lastError;       // 000
