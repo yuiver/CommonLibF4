@@ -114,6 +114,7 @@ namespace RE
 	class TESObjectREFR;
 	class TESPackage;
 	class TESRace;
+	class TESRegion;
 	class TESShout;
 
 	namespace BSISoundCategoryUtils
@@ -1204,13 +1205,13 @@ namespace RE
 				const auto newObj = new ContainerObject(a_object, a_count, a_owner);
 				copiedData.push_back(newObj);
 
-			    const auto oldData = containerObjects;
+				const auto oldData = containerObjects;
 
 				const auto newSize = copiedData.size();
 				const auto newData = calloc<ContainerObject*>(newSize);
 				std::ranges::copy(copiedData, newData);
 
-			    numContainerObjects = static_cast<std::uint32_t>(newSize);
+				numContainerObjects = static_cast<std::uint32_t>(newSize);
 				containerObjects = newData;
 				free(oldData);
 
@@ -1699,6 +1700,23 @@ namespace RE
 		std::int8_t groupFormType;                   // 18
 	};
 	static_assert(sizeof(TESReactionForm) == 0x20);
+
+	struct __declspec(novtable) TESRegionList : 
+		public BSSimpleList<TESRegion*>
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TESRegionList };
+		static constexpr auto VTABLE{ VTABLE::TESRegionList };
+
+		virtual ~TESRegionList();  // 00
+
+		// members
+		bool ownsRegionMemory;  // 18
+		std::uint8_t pad19;     // 19
+		std::uint16_t pad1A;    // 1A
+		std::uint32_t pad1C;    // 1C
+	};
+	static_assert(sizeof(TESRegionList) == 0x20);
 
 	class __declspec(novtable) TESSpellList :
 		public BaseFormComponent  // 00

@@ -25,7 +25,8 @@
 
 namespace RE
 {
-	class TESForm;
+	struct TESRegionList;
+    class TESForm;
 	class TESObject;
 	class TESBoundObject;
 	class MagicItem;
@@ -1497,6 +1498,13 @@ namespace RE
 			return func(this);
 		}
 
+		[[nodiscard]] TESRegionList* GetRegionList(bool a_createIfMissing)
+		{
+			using func_t = decltype(&TESObjectCELL::GetRegionList);
+			REL::Relocation<func_t> func{ REL::ID(1565031) };
+			return func(this, a_createIfMissing);
+		}
+
 		[[nodiscard]] TESWaterForm* GetWaterType() const noexcept;
 		[[nodiscard]] bool HasWater() const noexcept { return cellFlags.all(Flag::kHasWater); }
 		[[nodiscard]] bool IsExterior() const noexcept { return !IsInterior(); }
@@ -2269,7 +2277,10 @@ namespace RE
 		};
 		static_assert(sizeof(KEYWORD_DATA) == 0x10);
 
-		// members
+		bool IsChild(const BGSLocation* a_possibleChild) const;
+        bool IsParent(const BGSLocation* a_possibleParent) const;
+
+        // members
 		BGSLocation* parentLoc;                                                 // 050
 		TESFaction* unreportedCrimeFaction;                                     // 058
 		BGSMusicType* musicType;                                                // 060

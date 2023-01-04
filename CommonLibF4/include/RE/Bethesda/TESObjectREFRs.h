@@ -660,6 +660,13 @@ namespace RE
 			}
 		}
 
+		[[nodiscard]] BGSLocation* GetCurrentLocation() const
+		{
+			using func_t = decltype(&TESObjectREFR::GetCurrentLocation);
+			REL::Relocation<func_t> func{ REL::ID(1135470) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESBoundObject* GetObjectReference() const noexcept { return data.objectReference; }
 
 		[[nodiscard]] TESForm* GetOwner()
