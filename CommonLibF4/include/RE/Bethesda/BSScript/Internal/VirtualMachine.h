@@ -8,9 +8,13 @@
 #include "RE/Bethesda/BSScript/IVMSaveLoadInterface.h"
 #include "RE/Bethesda/BSScript/IVirtualMachine.h"
 #include "RE/Bethesda/BSScript/Internal/AttachedScript.h"
+#include "RE/Bethesda/BSScript/Internal/EventRelay.h"
 #include "RE/Bethesda/BSScript/Internal/FunctionMessage.h"
 #include "RE/Bethesda/BSScript/Internal/ReadableStringTable.h"
+#include "RE/Bethesda/BSScript/Internal/ReadableTypeTable.h"
 #include "RE/Bethesda/BSScript/Internal/SuspendedStack.h"
+#include "RE/Bethesda/BSScript/Internal/WritableStringTable.h"
+#include "RE/Bethesda/BSScript/Internal/WritableTypeTable.h"
 #include "RE/Bethesda/BSScript/LinkerProcessor.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTFreeList.h"
@@ -20,6 +24,29 @@
 
 namespace RE
 {
+	namespace
+	{
+		class __declspec(novtable) alignas(0x80) BSTCommonStaticMessageQueue_SuspendedStack_128 :
+			public BSTMessageQueue<BSScript::Internal::SuspendedStack>  //00
+		{
+		public:
+			virtual ~BSTCommonStaticMessageQueue_SuspendedStack_128();  // 00
+
+			// override (BSTMessageQueue<T>)
+			bool Push(const BSScript::Internal::SuspendedStack& a_message) override;     // 01
+			bool TryPush(const BSScript::Internal::SuspendedStack& a_message) override;  // 02
+			bool Pop(BSScript::Internal::SuspendedStack& a_message) override;            // 03
+			bool TryPop(BSScript::Internal::SuspendedStack& a_message) override;         // 04
+
+			// members
+			alignas(0x80) char queueBuffer[7168];                                                           // 0010
+			BSTLocklessQueue::ObjMultiProdCons<BSScript::Internal::SuspendedStack, 128, 0>* locklessQueue;  // 1C80
+		};
+		static_assert(sizeof(BSTCommonStaticMessageQueue_SuspendedStack_128) == 0x1D00);
+		static_assert(offsetof(BSTCommonStaticMessageQueue_SuspendedStack_128, queueBuffer) == 0x80);
+		static_assert(offsetof(BSTCommonStaticMessageQueue_SuspendedStack_128, locklessQueue) == 0x1C80);
+	}
+
 	namespace BSScript
 	{
 		class Array;
@@ -58,6 +85,25 @@ namespace RE
 					kFreezing,
 					kFrozen
 				};
+
+				struct LoadedArrayEntry
+				{
+				public:
+					// members
+					BSTSmartPointer<Array> array;  // 00
+					std::uint32_t arraySize;       // 08
+				};
+				static_assert(sizeof(LoadedArrayEntry) == 0x10);
+
+				struct PendingLatentReturn
+				{
+				public:
+					// members
+					std::uint32_t stackID;  // 00
+					Variable returnValue;   // 08
+				};
+				static_assert(sizeof(PendingLatentReturn) == 0x18);
+
 				struct QueuedUnbindRefs
 				{
 				public:
@@ -190,124 +236,86 @@ namespace RE
 				//bool StackExists(std::uint32_t stack_id);
 
 				// members
-				ErrorLogger* errorLogger;             // 0080
-				IMemoryPagePolicy* memoryPagePolicy;  // 0088
-				IObjectHandlePolicy* handlePolicy;    // 0090
-				ObjectBindPolicy* objectBindPolicy;   // 0098
-				//IFreezeQuery*                                              freezeQuery;                 // 00A0
-				IClientVM* clientVM;                                                       // 00A0
-				IStackCallbackSaveInterface* stackCallbackSaveInterface;                   // 00A8
-				IProfilePolicy* profilePolicy;                                             // 00B0
-				ISavePatcherInterface* savePatcherInterface;                               // 00B8
-				mutable BSSpinLock typeInfoLock;                                           // 00C0
-				LinkerProcessor linker;                                                    // 00C8
-				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>> objectTypeMap;  // 0168     0158
-				BSTHashMap<BSFixedString, BSTSmartPointer<StructTypeInfo>> structTypeMap;  // 0198
-				BSTHashMap<std::uint32_t, BSFixedString> typeIDToObjectType;               // 01C8     0188
-				BSTHashMap<BSFixedString, std::uint32_t> objectTypeToTypeID;               // 01F8     01B8
-				BSTArray<BSTSmartPointer<ObjectTypeInfo>> typesToUnload;                   // 0228     01E8
-				mutable BSSpinLock funcQueueLock;                                          // 0240     0200
-				BSTStaticFreeList<FunctionMessage, 1024> funcMsgPool;                      // 0248     size == 0x8018
-
-				BSTCommonLLMessageQueue<FunctionMessage> funcMsgQueue;  // 8260 8220
-				BSTArray<FunctionMessage> overflowFuncMsgs;             // 8288     8248
-				BSTArray<CodeTasklet*> vmTasks;                         // 82A0     8260
-				std::uint32_t uiWaitingFunctionMessages;                // 82B8     8278
-				bool overstressed;                                      // 82BC     827C
-				bool initialized;                                       // 82BD     827D
-				char pad82BE[0x42];                                     // 82BE
-				// TODO: what's between here and overflowsuspencd array
-				char gap8300[0x3A00];
-				// BSTCommonSTaticMessageQueue changed between Skyrim and Fallout4, it contains a statically allocated lockless queue now,
-				// need to figure out how BSTLocklessQueue is structured
-				// BSTCommonStaticMessageQueue<SuspendedStack, 128>           suspendQueue1;               // 8300 size??? vftable (0x80 + 80C)
-				//	 A bunch of stuff here
-				// start pointer 8330
-				// BSTLocklessQueue::ObjQueueBase
-
-				// BSTCommonStaticMessageQueue<SuspendedStack, 128>           suspendQueue2;               // A000
-				// objqueue A080
-
-				BSTArray<SuspendedStack> overflowSuspendArray1;                          // BD00
-				BSTArray<SuspendedStack> overflowSuspendArray2;                          // BD18
-				mutable BSSpinLock suspendQueueLock;                                     // BD30
-				BSTCommonStaticMessageQueue<SuspendedStack, 128>* stacksToResume;        // BD38 - ref to suspendQueue2 @ 8300
-				BSTArray<SuspendedStack>* stacksToResumeOverflow;                        // BD40 - ref to overflowSuspendArray2 @BD00
-				BSTCommonStaticMessageQueue<SuspendedStack, 128>* stacksToSuspend;       // BD48 - ref to suspendQueue1 @A000
-				BSTArray<SuspendedStack>* stacksToSuspendOverflow;                       // BD50 - ref to overflowSuspendArray1 @BD18
-				mutable BSSpinLock runningStacksLock;                                    // BD58
-				BSTHashMap<std::uint32_t, BSTSmartPointer<Stack>> allRunningStacks;      // BD60
-				BSTHashMap<std::uint32_t, BSTSmartPointer<Stack>> waitingLatentReturns;  // BD90
-				std::uint32_t nextStackID;                                               // BDC0
-				mutable BSSpinLock frozenStacksLock;                                     // BDC4
-				std::uint32_t pad938C;                                                   // BDCC
-				mutable BSSpinLock someLockBDC8;                                         // BDC8
-				BSTArray<void*> SomeArrayBD00;                                           // BDD0
-
-				BSScript::Stack* frozenStacks;                             // BDE8
-				std::uint32_t frozenStacksCount;                           // BDF0
-				stl::enumeration<FreezeState, std::uint32_t> freezeState;  // BDF4
-
+				ErrorLogger* errorLogger;                                                   // 0080
+				IMemoryPagePolicy* memoryPagePolicy;                                        // 0088
+				IObjectHandlePolicy* handlePolicy;                                          // 0090
+				ObjectBindPolicy* objectBindPolicy;                                         // 0098
+				IClientVM* clientVM;                                                        // 00A0
+				IStackCallbackSaveInterface* stackCallbackSaveInterface;                    // 00A8
+				IProfilePolicy* profilePolicy;                                              // 00B0
+				ISavePatcherInterface* savePatcherInterface;                                // 00B8
+				mutable BSSpinLock typeInfoLock;                                            // 00C0
+				LinkerProcessor linker;                                                     // 00C8
+				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>> objectTypeMap;   // 0168
+				BSTHashMap<BSFixedString, BSTSmartPointer<StructTypeInfo>> structTypeMap;   // 0198
+				BSTHashMap<std::uint32_t, BSFixedString> typeIDToObjectType;                // 01C8
+				BSTHashMap<BSFixedString, std::uint32_t> objectTypeToTypeID;                // 01F8
+				BSTArray<BSTSmartPointer<ObjectTypeInfo>> typesToUnload;                    // 0228
+				mutable BSSpinLock funcQueueLock;                                           // 0240
+				BSTStaticFreeList<FunctionMessage, 1024> funcMsgPool;                       // 0248
+				BSTCommonLLMessageQueue<FunctionMessage> funcMsgQueue;                      // 8260
+				BSTArray<FunctionMessage> overflowFuncMsgs;                                 // 8288
+				BSTArray<CodeTasklet*> vmTasks;                                             // 82A0
+				std::uint32_t uiWaitingFunctionMessages;                                    // 82B8
+				bool overstressed;                                                          // 82BC
+				bool initialized;                                                           // 82BD
+				std::byte pad82BE[0x8300 - 0x82BE];                                         // 82BE
+				BSTCommonStaticMessageQueue_SuspendedStack_128 suspendQueue1;               // 8300
+				BSTCommonStaticMessageQueue_SuspendedStack_128 suspendQueue2;               // A000
+				BSTArray<SuspendedStack> overflowSuspendArray1;                             // BD00
+				BSTArray<SuspendedStack> overflowSuspendArray2;                             // BD18
+				mutable BSSpinLock suspendQueueLock;                                        // BD30
+				BSTCommonStaticMessageQueue_SuspendedStack_128* stacksToResume;             // BD38 - ref to suspendQueue2 @ 8300
+				BSTArray<SuspendedStack>* stacksToResumeOverflow;                           // BD40 - ref to overflowSuspendArray2 @BD00
+				BSTCommonStaticMessageQueue_SuspendedStack_128* stacksToSuspend;            // BD48 - ref to suspendQueue1 @A000
+				BSTArray<SuspendedStack>* stacksToSuspendOverflow;                          // BD50 - ref to overflowSuspendArray1 @BD18
+				mutable BSSpinLock runningStacksLock;                                       // BD58
+				BSTHashMap<std::uint32_t, BSTSmartPointer<Stack>> allRunningStacks;         // BD60
+				BSTHashMap<std::uint32_t, BSTSmartPointer<Stack>> waitingLatentReturns;     // BD90
+				std::uint32_t nextStackID;                                                  // BDC0
+				mutable BSSpinLock frozenStacksLock;                                        // BDC4
+				std::byte padBDCC[0xBDD0 - 0xBDCC];                                         // BDCC
+				BSTArray<msvc::unique_ptr<PendingLatentReturn>> pendingLatentReturns;       // BDD0
+				BSTSmartPointer<BSScript::Stack> frozenStacksHead;                          // BDE8
+				std::uint32_t frozenStacksCount;                                            // BDF0
+				stl::enumeration<FreezeState, std::uint32_t> freezeState;                   // BDF4
 				mutable BSSpinLock attachedScriptsLock;                                     // BDF8
 				BSTHashMap<uint64_t, BSTSmallSharedArray<AttachedScript>> attachedScripts;  // BE00
-				std::uint32_t unknownBE30;                                                  // BE30
-				std::uint32_t padBE34;                                                      // BE34
-				std::uint64_t _somethingToDoWithIObjectHandlePolicy;                        // BE38
-				// TODO: The rest of this
-				char gapBE40[0x1FC];
-
-				// BSTArray<BSTSmartPointer<Struct>>						   structsAwatingReset;     	// BE40
-				// // Don't know where this is??
-				// mutable BSSpinLock										   structResetLock;				// ???? BE58???
-
-				//32 BE58
-				//32 BE5C
-				//32 BE60
-				//pad32 BE64
-
-				// mutable BSSpinLock                                         arraysLock;                  //          BE58
-				// std::uint32_t                                              nextArrayToClean;            //          BE5C
-				// std::uint32_t                                              padBE60;                     //          BE60
-				// BSTArray<BSTSmartPointer<Array>>                           arrays;                      // BE68
-
-				//ARRAY BE68
-				//32 BE80
-				//32 BE84
-				//32 BE88
-				//pad32 BE8C
-				//ARRAY BE90
-				//32 BEA8
-				//32 BEAC
-				//ARRAY BE90
-
-				// // std::uint64_t                                              unk93D8;                  //          93D8
-				// // BSTArray<void*>                                            unk93E0;                  //          93E0
-				// mutable BSSpinLock                                         arraysLock;                  //          93F8
-				// std::uint32_t                                              nextArrayToClean;            //          9400
-				// std::uint32_t                                              pad9404;                     //          9404
-				// BSTArray<BSTSmartPointer<Array>>                           arrays;                      // BE68
-				// mutable BSSpinLock                                         objectResetLock;             //          9420
-				// BSTArray<BSTSmartPointer<Object>>                          objectsAwaitingReset;        //          9428
-				// std::uint64_t                                              unk9440;                     //          9440
-				// BSTHashMap<UnkKey, UnkValue>                               unk9448;                     //          9448
-				// BSTHashMap<UnkKey, UnkValue>                               unk9478;                     //          9478
-				// mutable BSSpinLock                                         queuedUnbindLock;            //          94A8
-				// BSTArray<QueuedUnbindRefs>                                 queuedUnbinds;               //          94B0
-				// std::uint64_t                                              unk94C8;                     //          94C8
-				// std::uint64_t                                              unk94D0;                     //          94D0
-				// std::uint64_t                                              unk94D8;                     //          94D8
-				// std::uint64_t                                              unk94E0;                     //          94E0
-				// std::uint64_t                                              unk94E8;                     //          94E8
-				// std::uint64_t                                              unk94F0;                     //          94F0
-				// std::uint64_t                                              unk94F8;                     //          94F8
-				// std::uint64_t                                              unk9500;                     //          9500
-				// std::uint64_t                                              unk9508;                     //          9508
-				// std::uint64_t                                              unk9518;                     //          9510
+				std::uint32_t nextObjectToClean;                                            // BE30
+				std::byte padBE34[0xBE38 - 0xBE34];                                         // BE34
+				std::uint64_t nextAttachedObjectToClean;                                    // BE38
+				BSTArray<BSTSmartPointer<Object>> detachedScripts;                          // BE40
+				mutable BSSpinLock structsLock;                                             // BE58
+				std::uint32_t nextStructToClean;                                            // BE60
+				std::byte padBE64[0xBE68 - 0xBE64];                                         // BE64
+				BSTArray<BSTSmartPointer<Struct>> allStructs;                               // BE68
+				mutable BSSpinLock arraysLock;                                              // BE80
+				std::uint32_t nextArrayToClean;                                             // BE88
+				std::byte padBE8C[0xBE90 - 0xBE8C];                                         // BE8C
+				BSTArray<BSTSmartPointer<Array>> arrays;                                    // BE90
+				mutable BSSpinLock objectResetLock;                                         // BEA8
+				BSTArray<BSTSmartPointer<Object>> objectsAwaitingReset;                     // BEB0
+				mutable BSSpinLock loadTableLock;                                           // BEC8
+				BSTHashMap<std::uint64_t, BSTSmartPointer<Object>> loadTable;               // BED0
+				BSTHashMap<std::uint64_t, std::uint64_t> loadHandlesTable;                  // BF00
+				BSTHashMap<std::uint64_t, BSTSmartPointer<Struct>> structLoadTable;         // BF30
+				BSTHashMap<std::uint64_t, LoadedArrayEntry> arrayLoadTable;                 // BF60
+				mutable BSSpinLock queuedUnbindLock;                                        // BF90
+				BSTArray<QueuedUnbindRefs> queuedUnbinds;                                   // BF98
+				mutable BSSpinLock eventRelayLock;                                          // BFB0
+				BSTHashMap<std::uint64_t, BSTSmartPointer<EventRelay>> eventRelays;         // BFB8
+				std::uint16_t currentSaveGameVersion;                                       // BFE8
+				std::byte padBFEA[0xBFEC - 0xBFEA];                                         // BFEA
+				std::uint32_t saveObjectCount;                                              // BFEC
+				std::uint32_t saveStructCount;                                              // BFF0
+				std::uint32_t saveArrayCount;                                               // BFF4
+				WritableStringTable writableStringTable;                                    // BFF8
+				ReadableStringTable readableStringTable;                                    // C010
+				WritableTypeTable writableTypeTable;                                        // C028
+				ReadableTypeTable readableTypeTable;                                        // C038
+				std::byte padC040[0xC080 - 0xC040];                                         // C040
 			};
-			// Size == C03C
-			// #pragma message("sizeof(VirtualMachine is ")
-			// #pragma message(sizeof(VirtualMachine))
-			//static_assert(sizeof(VirtualMachine) == C03C);
+			static_assert(sizeof(VirtualMachine) == 0xC080);
 		}
 	}
 }
