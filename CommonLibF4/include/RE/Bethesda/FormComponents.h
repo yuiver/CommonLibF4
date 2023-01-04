@@ -874,7 +874,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(762999) };
 			return func(this, a_keyword);
 		}
-		
+
 		[[nodiscard]] bool ContainsKeywordString(std::string_view a_editorID) const;
 		[[nodiscard]] bool HasKeywordID(std::uint32_t a_formID) const;
 		[[nodiscard]] bool HasKeywordString(std::string_view a_editorID) const;
@@ -1131,6 +1131,11 @@ namespace RE
 			conditional(),
 			healthMult(100.0f)
 		{}
+		ContainerItemExtra(TESForm* a_owner) :
+			ownerForm(a_owner),
+			conditional(),
+			healthMult(100.0f)
+		{}
 
 		F4_HEAP_REDEFINE_NEW(ContainerItemExtra);
 
@@ -1148,6 +1153,11 @@ namespace RE
 			count(a_count),
 			obj(a_obj),
 			itemExtra()
+		{}
+		ContainerObject(TESBoundObject* a_obj, std::int32_t a_count, TESForm* a_ownerForm) :
+			count(a_count),
+			obj(a_obj),
+			itemExtra(new ContainerItemExtra(a_ownerForm))
 		{}
 		~ContainerObject() = default;
 
@@ -1182,38 +1192,29 @@ namespace RE
 		bool AddObject(TESBoundObject* a_object, std::int32_t a_count, TESForm* a_owner)
 		{
 			bool added = false;
-			ForEachContainerObject([&](ContainerObject& a_contObj) {
-				if (a_contObj.obj == a_object) {
-					a_contObj.count += a_count;
+			for (std::uint32_t i = 0; i < numContainerObjects; ++i) {
+				if (const auto entry = containerObjects[i]; entry && entry->obj == a_object) {
+					entry->count += a_count;
 					added = true;
-					return false;
+					break;
 				}
-				return true;
-			});
+			}
 			if (!added) {
 				std::vector<ContainerObject*> copiedData{ containerObjects, containerObjects + numContainerObjects };
+				const auto newObj = new ContainerObject(a_object, a_count, a_owner);
+				copiedData.push_back(newObj);
 
-				auto newObj = new ContainerObject(a_object, a_count);
-				if (newObj) {
-					const auto itemExtra = newObj->itemExtra;
-					if (itemExtra && a_owner) {
-						itemExtra->ownerForm = a_owner;
-					}
-					copiedData.push_back(newObj);
+			    const auto oldData = containerObjects;
 
-					auto newNum = static_cast<std::uint32_t>(copiedData.size());
-					auto newData = calloc<ContainerObject*>(newNum);
-					std::ranges::copy(copiedData, newData);
+				const auto newSize = copiedData.size();
+				const auto newData = calloc<ContainerObject*>(newSize);
+				std::ranges::copy(copiedData, newData);
 
-					auto oldData = containerObjects;
+			    numContainerObjects = static_cast<std::uint32_t>(newSize);
+				containerObjects = newData;
+				free(oldData);
 
-					numContainerObjects = newNum;
-					containerObjects = newData;
-
-					free(oldData);
-
-					added = true;
-				}
+				return true;
 			}
 			return added;
 		}

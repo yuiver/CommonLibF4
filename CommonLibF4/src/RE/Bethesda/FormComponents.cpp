@@ -19,7 +19,7 @@ namespace RE
     {
 		if (keywords) {
 			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
-				if (keywords[idx] && stl::string::icontains(keywords[idx]->formEditorID, a_editorID)) {
+				if (keywords[idx] && keywords[idx]->formEditorID.contains(a_editorID)) {
 					return true;
 				}
 			}
