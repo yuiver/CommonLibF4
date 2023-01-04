@@ -76,14 +76,18 @@ set(SOURCES
 	include/RE/Bethesda/BSScript/IVirtualMachine.h
 	include/RE/Bethesda/BSScript/Internal/AttachedScript.h
 	include/RE/Bethesda/BSScript/Internal/CodeTasklet.h
+	include/RE/Bethesda/BSScript/Internal/EventRelay.h
 	include/RE/Bethesda/BSScript/Internal/FunctionMessage.h
 	include/RE/Bethesda/BSScript/Internal/IFuncCallQuery.h
 	include/RE/Bethesda/BSScript/Internal/RawFuncCallQuery.h
 	include/RE/Bethesda/BSScript/Internal/ReadableStringTable.h
+	include/RE/Bethesda/BSScript/Internal/ReadableTypeTable.h
 	include/RE/Bethesda/BSScript/Internal/ScriptFunction.h
 	include/RE/Bethesda/BSScript/Internal/SuspendedStack.h
 	include/RE/Bethesda/BSScript/Internal/VDescTable.h
 	include/RE/Bethesda/BSScript/Internal/VirtualMachine.h
+	include/RE/Bethesda/BSScript/Internal/WritableStringTable.h
+	include/RE/Bethesda/BSScript/Internal/WritableTypeTable.h
 	include/RE/Bethesda/BSScript/LinkerProcessor.h
 	include/RE/Bethesda/BSScript/LogEvent.h
 	include/RE/Bethesda/BSScript/MergedBoundScript.h

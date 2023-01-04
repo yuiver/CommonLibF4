@@ -223,7 +223,7 @@ namespace RE
 				virtual BSScript::Internal::WritableTypeTable& GetWritableTypeTable() override;                                                                                                                 //14307D9F0 	// 17
 				virtual const BSScript::Internal::ReadableTypeTable& GetReadableTypeTable() const override;                                                                                                     //14307D9F8 	// 18
 				virtual bool CreateEmptyTasklet(BSScript::Stack* a_Stack, BSTSmartPointer<BSScript::Internal::CodeTasklet, BSTSmartPointerIntrusiveRefCount>& a_tasklet_pointer) override;                      //14307DA00 	// 19
-				
+
 				// override (IVMDebugInterface)
 				virtual void DumpRunningStacksToLog() override;                                                                                // 01   // 14307DA18
 				virtual void DumpStackFrameToLog(unsigned int a_v, unsigned int b_v, bool a_flag) override;                                    // 02   // 14307DA20
