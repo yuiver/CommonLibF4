@@ -64,4 +64,51 @@ namespace RE
 		BSScrapHeapQueueElem<T>* head;   // 18
 		BSScrapHeapQueueElem<T>** tail;  // 20
 	};
+
+	// TODO: This isn't accurate, this is contains a statically allocated BSTLocklessQueue, figure out how to do this
+	template <class T, std::size_t SIZE>
+	class __declspec(novtable) BSTCommonStaticMessageQueue :
+		public BSTMessageQueue<T>  // 00
+	{
+	public:
+		virtual ~BSTCommonStaticMessageQueue();  // 00
+		// override (BSTMessageQueue<T>)
+		bool Push(const T& a_message) override;     // 01
+		bool TryPush(const T& a_message) override;  // 02
+		bool Pop(T& a_message) override;            // 03
+		bool TryPop(T& a_message) override;         // 04
+
+	public:
+		char queueBuffer[sizeof(T) * SIZE];  // 10
+		std::uint32_t numEntries;            // ??
+		std::uint32_t pushIdx;               // ??
+		std::uint32_t popIdx;                // ??
+	};
+
+	struct BSTLocklessQueue
+	{
+		template <class T, std::uint32_t SIZE, std::uint32_t UNKNOWN>
+		class PtrMultiProdCons
+		{
+			T* data[SIZE];                     // 00
+			volatile std::uint32_t start;      // 08
+			volatile std::uint32_t fetched;    // 0C
+			volatile std::uint32_t end;        // 10
+			volatile std::uint32_t allocated;  // 14
+		};
+		static_assert(sizeof(PtrMultiProdCons<void*, 1, 1>) == 0x18);
+
+		template <class QueueContainer, class T, std::uint32_t SIZE, std::uint32_t UNKNOWN>
+		struct ObjQueueBase
+		{
+			T data[SIZE];           // 00
+			QueueContainer queued;  // ??
+			QueueContainer free;    // ??
+		};
+
+		template <class T, std::uint32_t SIZE, std::uint32_t UNKNOWN>
+		class ObjMultiProdCons : public ObjQueueBase<PtrMultiProdCons<T, SIZE * 2, UNKNOWN>, T, SIZE, UNKNOWN>
+		{};
+	};
+
 }

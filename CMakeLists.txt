@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 include("cmake/common.cmake")
+option(F4SE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
 
 project(umbrella)
 

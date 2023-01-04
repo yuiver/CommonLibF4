@@ -1495,7 +1495,7 @@ namespace RE
 		}
 
 		// members
-		BSTHashMap<InventoryInterface::Handle, ItemBarterData*> barteredItems;  // 430
+		BSTHashMap<InventoryInterface::Handle*, ItemBarterData*> barteredItems; // 430
 		std::unique_ptr<BSGFxShaderFXTarget> capsTransferInfo_mc;               // 460
 		std::unique_ptr<BSGFxShaderFXTarget> capsTransferBackground_mc;         // 468
 		ObjectRefHandle vendorChestRef;                                         // 470
