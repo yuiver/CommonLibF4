@@ -17,7 +17,7 @@ namespace RE
 	namespace BSScript
 	{
 		class BoundScript;  // stub
-		struct IHandleReaderWriter; 
+		struct IHandleReaderWriter;
 		struct IVMObjectBindInterface;
 		class IVirtualMachine;
 		class MergedBoundScript;

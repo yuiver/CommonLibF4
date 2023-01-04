@@ -1,4 +1,4 @@
-	
+
 #include "RE/Bethesda/BSScript/TypeInfo.h"
 #include "RE/Bethesda/BSScript/IComplexType.h"
 #include "RE/Bethesda/BSScript/ObjectTypeInfo.h"
@@ -6,8 +6,7 @@
 
 namespace RE::BSScript
 {
-
-  auto TypeInfo::GetRawType() const
+	auto TypeInfo::GetRawType() const
 		-> RawType
 	{
 		if (IsComplex()) {
@@ -28,8 +27,9 @@ namespace RE::BSScript
 	IComplexType* TypeInfo::GetComplexType() const
 	{
 		return IsComplex() ? reinterpret_cast<IComplexType*>(
-			reinterpret_cast<std::uintptr_t>(data.complexTypeInfo) &
-			~static_cast<std::uintptr_t>(1)) : nullptr;
+								 reinterpret_cast<std::uintptr_t>(data.complexTypeInfo) &
+								 ~static_cast<std::uintptr_t>(1)) :
+                             nullptr;
 	}
 	ObjectTypeInfo* TypeInfo::GetObjectTypeInfo() const
 	{

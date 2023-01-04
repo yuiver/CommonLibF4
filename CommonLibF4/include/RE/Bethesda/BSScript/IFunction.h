@@ -3,6 +3,10 @@
 #include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
+#include "RE/Bethesda/BSScript/ErrorLogger.h"
+#include "RE/Bethesda/BSScript/Stack.h"
+#include "RE/Bethesda/BSScript/StackFrame.h"
+#include "RE/Bethesda/BSScript/TypeInfo.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -10,10 +14,6 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
-#include "RE/Bethesda/BSScript/ErrorLogger.h"
-#include "RE/Bethesda/BSScript/Stack.h"
-#include "RE/Bethesda/BSScript/StackFrame.h"
-#include "RE/Bethesda/BSScript/TypeInfo.h"
 namespace RE
 {
 	namespace BSScript

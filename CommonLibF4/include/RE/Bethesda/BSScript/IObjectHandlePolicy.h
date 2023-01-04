@@ -14,7 +14,6 @@ namespace RE
 {
 	namespace BSScript
 	{
-
 		struct __declspec(novtable) IObjectHandlePolicy
 		{
 		public:

@@ -1,7 +1,7 @@
-#include "RE/Bethesda/BSScript/TypeInfo.h"
 #include "RE/Bethesda/BSScript/Array.h"
 #include "RE/Bethesda/BSScript/Object.h"
 #include "RE/Bethesda/BSScript/Struct.h"
+#include "RE/Bethesda/BSScript/TypeInfo.h"
 
 #include "RE/Bethesda/BSScript/Variable.h"
 

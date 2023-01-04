@@ -14,7 +14,6 @@ namespace RE
 {
 	namespace BSScript
 	{
-
 		class PropertyGroupInfo :
 			public BSIntrusiveRefCounted  // 00
 		{

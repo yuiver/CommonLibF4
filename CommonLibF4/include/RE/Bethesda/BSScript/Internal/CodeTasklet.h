@@ -1,9 +1,6 @@
 #pragma once
 
-
-
 #include "RE/Bethesda/BSScript/Internal/IFuncCallQuery.h"
-
 
 namespace RE
 {
@@ -13,13 +10,11 @@ namespace RE
 		class Stack;
 		class StackFrame;
 
-
 		namespace Internal
 		{
 			class VirtualMachine;
 
-
-			class __declspec(novtable) CodeTasklet : 
+			class __declspec(novtable) CodeTasklet :
 				public IFuncCallQuery
 			{
 			public:
@@ -34,7 +29,6 @@ namespace RE
 					kRetryInstruction = 4,
 					kFunctionCall = 5
 				};
-
 
 				enum class OpCode : std::uint32_t
 				{
@@ -87,33 +81,31 @@ namespace RE
 					kARRAY_CLEAR
 				};
 
-
-				virtual ~CodeTasklet();				// 00
+				virtual ~CodeTasklet();  // 00
 
 				// override (IFuncCallQuery)
 				virtual bool GetFunctionCallInfo(
-					CallType & a_callType, 
-					BSTSmartPointer<ObjectTypeInfo> &a_objectTypeInfo, 
-					BSFixedString &a_name, 
+					CallType& a_callType,
+					BSTSmartPointer<ObjectTypeInfo>& a_objectTypeInfo,
+					BSFixedString& a_name,
 					Variable& a_self,
-					BSScrapArray<Variable> & a_args) const override;	// 01
+					BSScrapArray<Variable>& a_args) const override;  // 01
 
 				// members
-				Stack*                                        stack;                    // 10
-				VirtualMachine*                               vm;                       // 18
-				ErrorLogger*                                  errorLogger;              // 20
-				stl::enumeration<ResumeReason, std::uint32_t> resumeReason;             // 28
-				std::uint32_t                                 pad2C;                    // 2C
-				StackFrame*                                   topFrame;                 // 30
-				std::uint32_t                                 frameMemoryPage;          // 38
-				std::int8_t                                   jumpBitCount;             // 3C
-				std::int8_t                                   localVarBitCount;         // 3D
-				std::int8_t                                   memberVarBitCount;        // 3E
-				std::uint8_t                                  pad3F;                    // 3F
-				std::uint32_t                                 instructionDataBitCount;  // 40
-				std::uint32_t                                 pad44;                    // 44
-				const void*                                   instructionDataStart;     // 48
-
+				Stack* stack;                                                // 10
+				VirtualMachine* vm;                                          // 18
+				ErrorLogger* errorLogger;                                    // 20
+				stl::enumeration<ResumeReason, std::uint32_t> resumeReason;  // 28
+				std::uint32_t pad2C;                                         // 2C
+				StackFrame* topFrame;                                        // 30
+				std::uint32_t frameMemoryPage;                               // 38
+				std::int8_t jumpBitCount;                                    // 3C
+				std::int8_t localVarBitCount;                                // 3D
+				std::int8_t memberVarBitCount;                               // 3E
+				std::uint8_t pad3F;                                          // 3F
+				std::uint32_t instructionDataBitCount;                       // 40
+				std::uint32_t pad44;                                         // 44
+				const void* instructionDataStart;                            // 48
 			};
 			static_assert(sizeof(CodeTasklet) == 0x50);
 		}

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RE/Bethesda/MemoryManager.h"
 #include "RE/Bethesda/BSResource/BSResourceEnums.h"
+#include "RE/Bethesda/MemoryManager.h"
 
 namespace RE
 {
@@ -12,8 +12,8 @@ namespace RE
 		class __declspec(novtable) StreamBase
 		{
 		public:
-			inline static constexpr auto RTTI = {RTTI::BSResource__StreamBase};
-			inline static constexpr auto VTABLE = {VTABLE::BSResource__StreamBase};
+			inline static constexpr auto RTTI = { RTTI::BSResource__StreamBase };
+			inline static constexpr auto VTABLE = { VTABLE::BSResource__StreamBase };
 
 			enum : std::uint32_t
 			{
@@ -33,15 +33,15 @@ namespace RE
 			virtual ~StreamBase() = default;  // 00
 
 			// add
-			virtual ErrorCode                   DoOpen() = 0;            // 01
-			virtual void                        DoClose() = 0;           // 02
-			[[nodiscard]] virtual std::uint64_t DoGetKey() const;        // 03 - { return 0; }
-			virtual ErrorCode                   DoGetInfo(Info& a_info); // 04 - { return ErrorCode::kUnsupported; }
+			virtual ErrorCode DoOpen() = 0;                        // 01
+			virtual void DoClose() = 0;                            // 02
+			[[nodiscard]] virtual std::uint64_t DoGetKey() const;  // 03 - { return 0; }
+			virtual ErrorCode DoGetInfo(Info& a_info);             // 04 - { return ErrorCode::kUnsupported; }
 
 			F4_HEAP_REDEFINE_NEW(StreamBase);
 
-			std::uint32_t      DecRef();
-			std::uint32_t      IncRef();
+			std::uint32_t DecRef();
+			std::uint32_t IncRef();
 			[[nodiscard]] bool IsWritable() const;
 
 			// members

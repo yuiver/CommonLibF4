@@ -4,7 +4,6 @@
 #include "RE/Bethesda/BSScript/TypeInfo.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 
-
 namespace RE
 {
 	namespace BSScript

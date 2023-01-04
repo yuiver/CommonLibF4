@@ -2,7 +2,6 @@
 
 namespace RE::BSScript
 {
-
 	Struct::~Struct()
 	{
 		if (constructed) {

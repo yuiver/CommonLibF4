@@ -1,8 +1,8 @@
 #pragma once
 
 #include "RE/Bethesda/BSFixedString.h"
-#include "RE/Bethesda/BSSystemFileStreamer.h"
 #include "RE/Bethesda/BSSystemFile.h"
+#include "RE/Bethesda/BSSystemFileStreamer.h"
 
 namespace RE::BSResource
 {

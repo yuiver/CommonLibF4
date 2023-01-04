@@ -1,9 +1,9 @@
 #pragma once
 
-#include "RE/Bethesda/BSSystemFile.h"
 #include "RE/Bethesda/BSResource/BSResourceEnums.h"
 #include "RE/Bethesda/BSResource/LooseFileStreamBase.h"
 #include "RE/Bethesda/BSResource/StreamBase.h"
+#include "RE/Bethesda/BSSystemFile.h"
 
 #include "RE/Bethesda/BSResource/Stream.h"
 

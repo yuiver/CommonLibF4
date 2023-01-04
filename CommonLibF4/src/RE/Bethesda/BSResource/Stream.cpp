@@ -61,9 +61,9 @@ namespace RE
 		{
 			return false;
 		}
-		ErrorCode Stream::DoWaitTags( [[maybe_unused]] volatile std::uint32_t* a_completionTag,
-									  [[maybe_unused]] std::uint32_t a_completionTagWaitValue,
-									  [[maybe_unused]] BSEventFlag* a_eventFlag) const
+		ErrorCode Stream::DoWaitTags([[maybe_unused]] volatile std::uint32_t* a_completionTag,
+			[[maybe_unused]] std::uint32_t a_completionTagWaitValue,
+			[[maybe_unused]] BSEventFlag* a_eventFlag) const
 		{
 			return ErrorCode::kUnsupported;
 		}

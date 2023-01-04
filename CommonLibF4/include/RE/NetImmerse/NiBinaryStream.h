@@ -8,13 +8,14 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::NiBinaryStream };
 		static constexpr auto VTABLE{ VTABLE::NiBinaryStream };
 
-		struct BufferInfo{
-			void * buffer; // 00
-			std::size_t fileSize; // 08
-			std::size_t bufferAllocSize; // 10
-			std::size_t bufferReadSize; // 18
-			std::size_t pos; // 20
-			std::size_t absCurrentPos; // 28
+		struct BufferInfo
+		{
+			void* buffer;                 // 00
+			std::size_t fileSize;         // 08
+			std::size_t bufferAllocSize;  // 10
+			std::size_t bufferReadSize;   // 18
+			std::size_t pos;              // 20
+			std::size_t absCurrentPos;    // 28
 		};
 		static_assert(sizeof(BufferInfo) == 0x30);
 
@@ -45,7 +46,7 @@ namespace RE
 		std::size_t absoluteCurrentPos;  // 08
 	};
 	static_assert(sizeof(NiBinaryStream) == 0x10);
-		template <class CharT>
+	template <class CharT>
 	inline bool NiBinaryStream::get(CharT& a_ch)
 	{
 		return read(&a_ch, 1);
@@ -89,7 +90,7 @@ namespace std
 	{
 		a_str.erase();
 		CharT c;
-		auto  notEOF = a_input.get(c);
+		auto notEOF = a_input.get(c);
 		if (notEOF) {
 			do {
 				if (!std::char_traits<CharT>::eq(c, a_delim)) {

@@ -14,7 +14,6 @@ namespace RE
 {
 	namespace BSScript
 	{
-
 		class __declspec(novtable) ICachedErrorMessage
 		{
 		public:

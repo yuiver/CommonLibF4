@@ -15,7 +15,6 @@
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
 
-
 namespace RE
 {
 	namespace BSScript
@@ -77,9 +76,9 @@ namespace RE
 			{
 			public:
 				// members
-				BSFixedString name;  // 00
-				TypeInfo type;       // 08
-				std::uint64_t unk10; // 10 - Not sure what this is, maybe a hash
+				BSFixedString name;   // 00
+				TypeInfo type;        // 08
+				std::uint64_t unk10;  // 10 - Not sure what this is, maybe a hash
 			};
 			static_assert(sizeof(VariableInfo) == 0x18);
 

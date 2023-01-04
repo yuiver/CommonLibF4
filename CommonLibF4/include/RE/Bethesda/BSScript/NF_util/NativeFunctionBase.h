@@ -3,13 +3,6 @@
 #include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
-#include "RE/Bethesda/BSTArray.h"
-#include "RE/Bethesda/BSTEvent.h"
-#include "RE/Bethesda/BSTHashMap.h"
-#include "RE/Bethesda/BSTObjectArena.h"
-#include "RE/Bethesda/BSTSmartPointer.h"
-#include "RE/Bethesda/BSTTuple.h"
-#include "RE/Bethesda/MemoryManager.h"
 #include "RE/Bethesda/BSScript/ErrorLogger.h"
 #include "RE/Bethesda/BSScript/IFunction.h"
 #include "RE/Bethesda/BSScript/Internal/VDescTable.h"
@@ -17,6 +10,13 @@
 #include "RE/Bethesda/BSScript/StackFrame.h"
 #include "RE/Bethesda/BSScript/TypeInfo.h"
 #include "RE/Bethesda/BSScript/Variable.h"
+#include "RE/Bethesda/BSTArray.h"
+#include "RE/Bethesda/BSTEvent.h"
+#include "RE/Bethesda/BSTHashMap.h"
+#include "RE/Bethesda/BSTObjectArena.h"
+#include "RE/Bethesda/BSTSmartPointer.h"
+#include "RE/Bethesda/BSTTuple.h"
+#include "RE/Bethesda/MemoryManager.h"
 namespace RE
 {
 	namespace BSScript
@@ -29,7 +29,6 @@ namespace RE
 		class Variable;
 		namespace NF_util
 		{
-
 			class __declspec(novtable) NativeFunctionBase :
 				public IFunction  // 00
 			{
