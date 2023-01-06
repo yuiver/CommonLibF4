@@ -42,17 +42,76 @@ set(SOURCES
 	include/RE/Bethesda/BSInputEventUser.h
 	include/RE/Bethesda/BSLock.h
 	include/RE/Bethesda/BSMTAManager.h
+	include/RE/Bethesda/BSMemStorage.h
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
-	include/RE/Bethesda/BSResource.cpp
 	include/RE/Bethesda/BSResource.h
+	include/RE/Bethesda/BSResource/BSResourceEnums.h
+	include/RE/Bethesda/BSResource/LooseFileStreamBase.h
+	include/RE/Bethesda/BSResource/Stream.h
+	include/RE/Bethesda/BSResource/StreamBase.h
+	include/RE/Bethesda/BSResourceNiBinaryStream.h
 	include/RE/Bethesda/BSScaleformManager.h
 	include/RE/Bethesda/BSScript.h
+	include/RE/Bethesda/BSScript/Array.h
+	include/RE/Bethesda/BSScript/ArrayWrapper.h
+	include/RE/Bethesda/BSScript/CompiledScriptLoader.h
+	include/RE/Bethesda/BSScript/ErrorLogger.h
+	include/RE/Bethesda/BSScript/ICachedErrorMessage.h
+	include/RE/Bethesda/BSScript/IClientVM.h
+	include/RE/Bethesda/BSScript/IComplexType.h
+	include/RE/Bethesda/BSScript/IFunction.h
+	include/RE/Bethesda/BSScript/IHandleReaderWriter.h
+	include/RE/Bethesda/BSScript/ILoader.h
+	include/RE/Bethesda/BSScript/IMemoryPagePolicy.h
+	include/RE/Bethesda/BSScript/IObjectHandlePolicy.h
+	include/RE/Bethesda/BSScript/IObjectProcessor.h
+	include/RE/Bethesda/BSScript/IProfilePolicy.h
+	include/RE/Bethesda/BSScript/ISavePatcherInterface.h
+	include/RE/Bethesda/BSScript/IStackCallbackFunctor.h
+	include/RE/Bethesda/BSScript/IStackCallbackSaveInterface.h
+	include/RE/Bethesda/BSScript/IVMDebugInterface.h
+	include/RE/Bethesda/BSScript/IVMObjectBindInterface.h
+	include/RE/Bethesda/BSScript/IVMSaveLoadInterface.h
+	include/RE/Bethesda/BSScript/IVirtualMachine.h
+	include/RE/Bethesda/BSScript/Internal/AttachedScript.h
+	include/RE/Bethesda/BSScript/Internal/CodeTasklet.h
+	include/RE/Bethesda/BSScript/Internal/EventRelay.h
+	include/RE/Bethesda/BSScript/Internal/FunctionMessage.h
+	include/RE/Bethesda/BSScript/Internal/IFuncCallQuery.h
+	include/RE/Bethesda/BSScript/Internal/RawFuncCallQuery.h
+	include/RE/Bethesda/BSScript/Internal/ReadableStringTable.h
+	include/RE/Bethesda/BSScript/Internal/ReadableTypeTable.h
+	include/RE/Bethesda/BSScript/Internal/ScriptFunction.h
+	include/RE/Bethesda/BSScript/Internal/SuspendedStack.h
+	include/RE/Bethesda/BSScript/Internal/VDescTable.h
+	include/RE/Bethesda/BSScript/Internal/VirtualMachine.h
+	include/RE/Bethesda/BSScript/Internal/WritableStringTable.h
+	include/RE/Bethesda/BSScript/Internal/WritableTypeTable.h
+	include/RE/Bethesda/BSScript/LinkerProcessor.h
+	include/RE/Bethesda/BSScript/LogEvent.h
+	include/RE/Bethesda/BSScript/MergedBoundScript.h
+	include/RE/Bethesda/BSScript/NF_util/NativeFunctionBase.h
+	include/RE/Bethesda/BSScript/Object.h
+	include/RE/Bethesda/BSScript/ObjectBindPolicy.h
+	include/RE/Bethesda/BSScript/ObjectTypeInfo.h
+	include/RE/Bethesda/BSScript/PackedInstructionStream.h
+	include/RE/Bethesda/BSScript/PropertyGroupInfo.h
+	include/RE/Bethesda/BSScript/PropertyTypeInfo.h
+	include/RE/Bethesda/BSScript/SimpleAllocMemoryPagePolicy.h
+	include/RE/Bethesda/BSScript/Stack.h
+	include/RE/Bethesda/BSScript/StackFrame.h
+	include/RE/Bethesda/BSScript/StatsEvent.h
+	include/RE/Bethesda/BSScript/Struct.h
+	include/RE/Bethesda/BSScript/StructTypeInfo.h
+	include/RE/Bethesda/BSScript/TypeInfo.h
+	include/RE/Bethesda/BSScript/Variable.h
 	include/RE/Bethesda/BSScriptUtil.h
 	include/RE/Bethesda/BSSemaphore.h
 	include/RE/Bethesda/BSShader.h
 	include/RE/Bethesda/BSSoundHandle.h
 	include/RE/Bethesda/BSSpring.h
+	include/RE/Bethesda/BSStorage.h
 	include/RE/Bethesda/BSStringPool.h
 	include/RE/Bethesda/BSStringT.h
 	include/RE/Bethesda/BSSystemFile.h
@@ -69,6 +128,7 @@ set(SOURCES
 	include/RE/Bethesda/BSTObjectArena.h
 	include/RE/Bethesda/BSTOptional.h
 	include/RE/Bethesda/BSTPoint.h
+	include/RE/Bethesda/BSTPointerAndFlags.h
 	include/RE/Bethesda/BSTSingleton.h
 	include/RE/Bethesda/BSTSmallIndexScatterTable.h
 	include/RE/Bethesda/BSTSmartPointer.h
@@ -77,7 +137,6 @@ set(SOURCES
 	include/RE/Bethesda/BSTextureStreamer.h
 	include/RE/Bethesda/BSTimer.h
 	include/RE/Bethesda/CELLJobs.h
-	include/RE/Bethesda/CRC.cpp
 	include/RE/Bethesda/CRC.h
 	include/RE/Bethesda/Calendar.h
 	include/RE/Bethesda/CombatFormulas.h
@@ -181,6 +240,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiFlags.h
 	include/RE/NetImmerse/NiFrustum.h
 	include/RE/NetImmerse/NiMatrix3.h
+	include/RE/NetImmerse/NiMemStream.h
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
 	include/RE/NetImmerse/NiObjectNET.h
@@ -258,8 +318,23 @@ set(SOURCES
 	src/RE/Bethesda/Actor.cpp
 	src/RE/Bethesda/BGSInventoryItem.cpp
 	src/RE/Bethesda/BSExtraData.cpp
+	src/RE/Bethesda/BSResource.cpp
+	src/RE/Bethesda/BSResource/Stream.cpp
+	src/RE/Bethesda/BSResource/StreamBase.cpp
+	src/RE/Bethesda/BSResourceNiBinaryStream.cpp
 	src/RE/Bethesda/BSScaleformManager.cpp
 	src/RE/Bethesda/BSScript.cpp
+	src/RE/Bethesda/BSScript/Array.cpp
+	src/RE/Bethesda/BSScript/Internal/VirtualMachine.cpp
+	src/RE/Bethesda/BSScript/Object.cpp
+	src/RE/Bethesda/BSScript/ObjectTypeInfo.cpp
+	src/RE/Bethesda/BSScript/PackedInstructionStream.cpp
+	src/RE/Bethesda/BSScript/StackFrame.cpp
+	src/RE/Bethesda/BSScript/Struct.cpp
+	src/RE/Bethesda/BSScript/StructTypeInfo.cpp
+	src/RE/Bethesda/BSScript/TypeInfo.cpp
+	src/RE/Bethesda/BSScript/Variable.cpp
+	src/RE/Bethesda/CRC.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp
 	src/RE/Bethesda/MenuCursor.cpp
@@ -268,6 +343,7 @@ set(SOURCES
 	src/RE/Bethesda/TESObjectREFRs.cpp
 	src/RE/Fallout.cpp
 	src/RE/NetImmerse/NiAVObject.cpp
+	src/RE/NetImmerse/NiBinaryStream.cpp
 	src/RE/NetImmerse/NiObjectNET.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
