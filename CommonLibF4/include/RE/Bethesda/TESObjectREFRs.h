@@ -660,6 +660,13 @@ namespace RE
 			}
 		}
 
+		[[nodiscard]] BGSLocation* GetCurrentLocation() const
+		{
+			using func_t = decltype(&TESObjectREFR::GetCurrentLocation);
+			REL::Relocation<func_t> func{ REL::ID(1135470) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESBoundObject* GetObjectReference() const noexcept { return data.objectReference; }
 
 		[[nodiscard]] TESForm* GetOwner()
@@ -717,6 +724,13 @@ namespace RE
 		{
 			using func_t = decltype(&TESObjectREFR::IsCrimeToActivate);
 			REL::Relocation<func_t> func{ REL::ID(836011) };
+			return func(this);
+		}
+
+		[[nodiscard]] bool IsInWater()
+		{
+			using func_t = decltype(&TESObjectREFR::IsInWater);
+			REL::Relocation<func_t> func{ REL::ID(315318) };
 			return func(this);
 		}
 
