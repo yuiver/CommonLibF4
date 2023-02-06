@@ -1,119 +1,91 @@
 {
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
   "configurePresets": [
     {
-      "binaryDir": "${sourceDir}/build",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": {
-          "type": "STRING",
-          "value": "Release"
-        }
-      },
-      "errors": {
-        "deprecated": true
-      },
+      "name": "common",
       "hidden": true,
-      "name": "cmake-dev",
-      "warnings": {
-        "deprecated": true,
-        "dev": true
+      "cacheVariables": {
+        "SKSE_SUPPORT_XBYAK": "ON",
+        "SKSEPluginAuthor": "$env{SKSEPluginAuthor}"
       }
     },
     {
+      "name": "vcpkg",
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": {
           "type": "STRING",
-          "value": "$env{VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake"
-        }
-      },
+          "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static-md"
+      }
+    },
+    {
+      "name": "win64",
       "hidden": true,
-      "name": "vcpkg"
+      "architecture": "x64",
+      "cacheVariables": {
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+      }
     },
     {
-      "cacheVariables": {
-        "Boost_USE_STATIC_LIBS": {
-          "type": "BOOL",
-          "value": "ON"
-        },
-        "Boost_USE_STATIC_RUNTIME": {
-          "type": "BOOL",
-          "value": "OFF"
-        },
-        "CMAKE_EXE_LINKER_FLAGS_RELEASE": {
-          "type": "STRING",
-          "value": "/DEBUG:FASTLINK"
-        },
-        "CMAKE_MSVC_RUNTIME_LIBRARY": {
-          "type": "STRING",
-          "value": "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
-        },
-        "VCPKG_TARGET_TRIPLET": {
-          "type": "STRING",
-          "value": "x64-windows-static-md"
-        }
-      },
+      "name": "msvc",
       "hidden": true,
-      "name": "windows"
-    },
-    {
-      "binaryDir": "${sourceDir}/buildvr",
       "cacheVariables": {
-        "BUILD_FALLOUTVR": true
-      },
-      "hidden": true,
-      "name": "vr"
-    },
-    {
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX /external:anglebrackets /external:W0"
-      },
-      "generator": "Visual Studio 16 2019",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows"
-      ],
-      "name": "vs2019-windows-vcpkg"
-    },
-    {
-      "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX /external:W0"
+        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX $penv{CXXFLAGS}"
       },
       "generator": "Visual Studio 17 2022",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows"
-      ],
-      "name": "vs2022-windows-vcpkg",
-      "toolset": "v143"
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-msvc-x64",
+          "enableMicrosoftCodeAnalysis": true,
+          "enableClangTidyCodeAnalysis": true
+        }
+      }
     },
     {
+      "name": "f4",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX /external:anglebrackets /external:W0 $penv{CXXFLAGS}"
+        "ENABLE_FALLOUT_F4": "ON",
+        "ENABLE_FALLOUT_VR": "OFF"
       },
-      "generator": "Visual Studio 16 2019",
       "inherits": [
-        "vr",
-        "cmake-dev",
+        "common",
         "vcpkg",
-        "windows"
-      ],
-      "name": "vs2019-windows-vcpkg-vr"
+        "win64",
+        "msvc"
+      ]
     },
     {
+      "name": "vr",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "/EHsc /MP /W4 /WX /external:anglebrackets /external:W0 $penv{CXXFLAGS}"
+        "ENABLE_FALLOUT_F4": "OFF",
+        "ENABLE_FALLOUT_VR": "ON"
       },
-      "generator": "Visual Studio 17 2022",
       "inherits": [
-        "vr",
-        "cmake-dev",
+        "common",
         "vcpkg",
-        "windows"
-      ],
-      "name": "vs2022-windows-vcpkg-vr",
-      "toolset": "v143"
+        "win64",
+        "msvc"
+      ]
+    },
+    {
+      "name": "all",
+      "cacheVariables": {
+        "ENABLE_FALLOUT_F4": "ON",
+        "ENABLE_FALLOUT_VR": "ON"
+      },
+      "inherits": [
+        "common",
+        "vcpkg",
+        "win64",
+        "msvc"
+      ]
     }
-  ],
-  "version": 2
+   ]
 }
