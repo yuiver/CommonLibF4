@@ -1,5 +1,4 @@
 #pragma once
-using namespace F4SE::WinAPI;
 
 namespace RE
 {
@@ -21,9 +20,9 @@ namespace RE
 		{
 		public:
 			// members
-			_FILETIME accessTime;  // 00
-			_FILETIME modifyTime;  // 08
-			_FILETIME createTime;  // 10
+			F4SE::WinAPI::_FILETIME accessTime;  // 00
+			F4SE::WinAPI::_FILETIME modifyTime;  // 08
+			F4SE::WinAPI::_FILETIME createTime;  // 10
 			std::size_t fileSize;  // 18
 		};
 		static_assert(sizeof(Info) == 0x20);
