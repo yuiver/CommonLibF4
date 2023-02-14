@@ -667,7 +667,7 @@ namespace REL
 			Unknown = 0,
 
 			/**
-             * The FALLOUT runtime
+             * The FALLOUT 4 runtime
              */
 			F4 = 1 << 0,
 
@@ -1244,8 +1244,8 @@ namespace REL
 			} else {
 				const auto filename =
 					stl::utf8_to_utf16(
-							fmt::format("Data/F4SE/Plugins/version-{}.bin"sv,
-								version.string()))
+						fmt::format("Data/F4SE/Plugins/version-{}.bin"sv,
+							version.string()))
 						.value_or(L"<unknown filename>"s);
 				load_file(filename, version, 1, true);
 			}
@@ -2020,7 +2020,7 @@ namespace REL
 	template <class T>
 	[[nodiscard]] FALLOUT_ADDR T Relocate([[maybe_unused]] T&& a_f4AndVR) noexcept
 	{
-a_f4AndVR;
+		a_f4AndVR;
 	}
 
 	/**
