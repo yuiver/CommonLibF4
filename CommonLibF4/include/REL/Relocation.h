@@ -926,7 +926,7 @@ namespace REL
 			if (version) {
 				_version = *version;
 				switch (_version[1]) {
-				case 4:
+				case 2: // search for 2 in 1.2.72.0
 					_runtime = Runtime::VR;
 					break;
 				default:
