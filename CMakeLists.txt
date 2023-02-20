@@ -3,10 +3,6 @@ include("cmake/common.cmake")
 option(F4SE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
 
 project(umbrella)
-if (NOT BUILD_FALLOUTVR)
-else()
-	add_compile_definitions(FALLOUTVR)
-endif()
 
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(FATAL_ERROR "in-source builds are not allowed")
