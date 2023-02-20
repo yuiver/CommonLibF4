@@ -16,11 +16,11 @@
     "boost-stl-interfaces",
     "fmt",
     "frozen",
-    "mmio",
     "nowide",
     "rapidcsv",
     "robin-hood-hashing",
     "rsm-binary-io",
+    "rsm-mmio",
     "spdlog",
     "srell",
     "xbyak"
