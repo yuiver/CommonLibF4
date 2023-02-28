@@ -862,20 +862,26 @@ namespace REL
 
 		Module& operator=(Module&&) = delete;
 
+		static inline std::wstring safeGetEnvWstring(const std::wstring_view &envVar, std::size_t maxSize) {
+			if (!maxSize) {
+				return std::wstring();
+			}
+			std::wstring _tempstr;
+			_tempstr.resize(maxSize+1);
+			std::fill(_tempstr.begin(), _tempstr.end(), '\0');
+			const auto result = GetEnvironmentVariable(
+				envVar.data(),
+				_tempstr.data(),
+				static_cast<std::uint32_t>(maxSize));
+			return { _tempstr.c_str() }; // wstring_view(wchar_t*) constructor removes trailing '\0'
+		}
+
 		bool init()
 		{
-			const auto getFilename = [&]() {
-				return GetEnvironmentVariable(
-					ENVIRONMENT.data(),
-					_filename.data(),
-					static_cast<std::uint32_t>(_filename.size()));
-			};
-
-			void* moduleHandle = nullptr;
-			_filename.resize(getFilename());
-			if (const auto result = getFilename();
-				result != _filename.size() - 1 ||
-				result == 0) {
+			auto sz = _filename.size();
+			_filename = safeGetEnvWstring(ENVIRONMENT, sz);
+			void *moduleHandle = nullptr;
+			if (_filename.empty() || _filename.size() != sz) {
 				for (auto runtime : RUNTIMES) {
 					_filename = runtime;
 					moduleHandle = GetModuleHandle(_filename.c_str());
@@ -1247,37 +1253,22 @@ namespace REL
 						fmt::format("Data/F4SE/Plugins/version-{}.bin"sv,
 							version.string()))
 						.value_or(L"<unknown filename>"s);
-				load_file(filename, version, 1, true);
+				load_file(filename, true);
 			}
 		}
 
-		bool load_file(stl::zwstring a_filename, Version a_version, std::uint8_t a_formatVersion, bool a_failOnError)
+		bool load_file(stl::zwstring a_filename, bool a_failOnError)
 		{
 			try {
-				istream_t in(a_filename.data(), std::ios::in | std::ios::binary);
-				header_t header;
-				header.read(in, a_formatVersion);
-				if (header.version() != a_version) {
-					return stl::report_and_error("version mismatch"sv, a_failOnError);
+				if (!_mmiomap.open(a_filename)) {
+					stl::report_and_fail(fmt::format("failed to open: {}", stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)));
 				}
-
-				auto mapname = L"CommonLibF4Offsets-v2-"s;
-				mapname += a_version.wstring();
-				const auto byteSize = static_cast<std::size_t>(header.address_count()) * sizeof(mapping_t);
-				if (_mmap.open(mapname, byteSize)) {
-					_id2offset = { static_cast<mapping_t*>(_mmap.data()), header.address_count() };
-				} else if (_mmap.create(mapname, byteSize)) {
-					_id2offset = { static_cast<mapping_t*>(_mmap.data()), header.address_count() };
-					unpack_file(in, header, a_failOnError);
-					std::sort(
-						_id2offset.begin(),
-						_id2offset.end(),
-						[](auto&& a_lhs, auto&& a_rhs) {
-							return a_lhs.id < a_rhs.id;
-						});
-				} else {
-					return stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
-				}
+				// Add the offset and remove the const qualifer
+				std::byte * _start = const_cast<std::byte*>(_mmiomap.data() + sizeof(std::uint64_t));
+				_id2offset = std::span{
+					reinterpret_cast<mapping_t*>(_start),
+					*reinterpret_cast<const std::uint64_t*>(_mmiomap.data())
+				};
 			} catch (const std::system_error&) {
 				return stl::report_and_error(
 					fmt::format(
@@ -1330,8 +1321,8 @@ namespace REL
 			for (; index < in.GetRowCount(); ++index) {
 				id = in.GetCell<std::size_t>(0, index);
 				offset = in.GetCell<std::string>(1, index);
-				_id2offset[index - 1] = { static_cast<std::uint64_t>(id),
-					static_cast<std::uint64_t>(std::stoul(offset, nullptr, 16)) };
+				_id2offset[index - 1] = { static_cast<const std::uint64_t>(id),
+					static_cast<const std::uint64_t>(std::stoul(offset, nullptr, 16)) };
 			}
 			std::sort(
 				_id2offset.begin(),
@@ -1429,6 +1420,7 @@ namespace REL
 		void clear()
 		{
 			_mmap.close();
+			_mmiomap.close();
 			_id2offset = {};
 		}
 
@@ -1436,6 +1428,7 @@ namespace REL
 		static inline std::atomic_bool _initialized{ false };
 		static inline std::mutex _initLock;
 		detail::memory_map _mmap;
+		mmio::mapped_file_source _mmiomap;
 		std::span<mapping_t> _id2offset;
 	};
 
