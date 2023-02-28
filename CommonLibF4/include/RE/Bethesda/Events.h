@@ -380,7 +380,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(1465690) };
 			return func();
 		}
-		
+
 		// members
 		NiPointer<TESObjectREFR> actorDying;   // 00
 		NiPointer<TESObjectREFR> actorKiller;  // 08

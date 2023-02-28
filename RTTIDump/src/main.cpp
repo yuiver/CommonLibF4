@@ -220,24 +220,23 @@ void dump_rtti()
 					vtable.begin(),
 					vtable.end(),
 					vids.begin(),
-					[&](auto&& a_elem) {
-						return
+					[&](auto&& a_elem) { return
 #ifndef FALLOUTVR
-							iddb(
+											 iddb(
 #endif
-								a_elem.offset()
+												 a_elem.offset()
 #ifndef FALLOUTVR
-							)
+											 )
 #endif
 												 ; });
 
 				results.emplace_back(sanitize_name(std::move(name)),
 #ifndef FALLOUTVR
-				rid,
+					rid,
 #else
-				offset,
+					offset,
 #endif
-				std::move(vids));
+					std::move(vids));
 #ifndef FALLOUTVR
 				logger::debug("{} (id: {}) (address: {:16X})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter));
 #else
@@ -477,7 +476,7 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a
 	}
 
 	const auto ver = a_f4se->RuntimeVersion();
-	if (/*ver < F4SE::RUNTIME_1_10_130*/ false) { // todo
+	if (/*ver < F4SE::RUNTIME_1_10_130*/ false) {  // todo
 		logger::critical("unsupported runtime v{}", ver.string());
 		return false;
 	}

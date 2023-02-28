@@ -1701,7 +1701,7 @@ namespace RE
 	};
 	static_assert(sizeof(TESReactionForm) == 0x20);
 
-	struct __declspec(novtable) TESRegionList : 
+	struct __declspec(novtable) TESRegionList :
 		public BSSimpleList<TESRegion*>
 	{
 	public:

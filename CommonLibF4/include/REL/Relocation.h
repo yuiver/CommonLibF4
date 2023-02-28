@@ -553,8 +553,7 @@ namespace REL
 			}
 
 			template <std::size_t Index, char C, char... Rest>
-				requires(sizeof...(Rest) > 0)
-			constexpr uint8_t read_version(std::array<typename REL::Version::value_type, 4>& result)
+			requires(sizeof...(Rest) > 0) constexpr uint8_t read_version(std::array<typename REL::Version::value_type, 4>& result)
 			{
 				static_assert(C == '.' || (C >= '0' && C <= '9'), "Invalid character in semantic version literal.");
 				static_assert(Index < 4, "Too many components in semantic version literal.");
@@ -733,8 +732,8 @@ namespace REL
 			constexpr std::size_t bufferSize = 4096;  // Max NTFS path length.
 			const wchar_t* subKey =
 				a_runtime == Runtime::VR ?
-					LR"(SOFTWARE\Bethesda Softworks\Fallout 4 VR)" :
-					LR"(SOFTWARE\Bethesda Softworks\Fallout 4)";
+                    LR"(SOFTWARE\Bethesda Softworks\Fallout 4 VR)" :
+                    LR"(SOFTWARE\Bethesda Softworks\Fallout 4)";
 			unsigned long length = bufferSize * sizeof(wchar_t);
 			std::uint8_t value[bufferSize];
 			if (WinAPI::RegGetValueW(WinAPI::HKEY_LOCAL_MACHINE, subKey, L"Installed Path", 0x20002, nullptr, value, &length) !=
@@ -862,25 +861,26 @@ namespace REL
 
 		Module& operator=(Module&&) = delete;
 
-		static inline std::wstring safeGetEnvWstring(const std::wstring_view &envVar, std::size_t maxSize) {
+		static inline std::wstring safeGetEnvWstring(const std::wstring_view& envVar, std::size_t maxSize)
+		{
 			if (!maxSize) {
 				return std::wstring();
 			}
 			std::wstring _tempstr;
-			_tempstr.resize(maxSize+1);
+			_tempstr.resize(maxSize + 1);
 			std::fill(_tempstr.begin(), _tempstr.end(), '\0');
 			const auto result = GetEnvironmentVariable(
 				envVar.data(),
 				_tempstr.data(),
 				static_cast<std::uint32_t>(maxSize));
-			return { _tempstr.c_str() }; // wstring_view(wchar_t*) constructor removes trailing '\0'
+			return { _tempstr.c_str() };  // wstring_view(wchar_t*) constructor removes trailing '\0'
 		}
 
 		bool init()
 		{
 			auto sz = _filename.size();
 			_filename = safeGetEnvWstring(ENVIRONMENT, sz);
-			void *moduleHandle = nullptr;
+			void* moduleHandle = nullptr;
 			if (_filename.empty() || _filename.size() != sz) {
 				for (auto runtime : RUNTIMES) {
 					_filename = runtime;
@@ -932,7 +932,7 @@ namespace REL
 			if (version) {
 				_version = *version;
 				switch (_version[1]) {
-				case 2: // search for 2 in 1.2.72.0
+				case 2:  // search for 2 in 1.2.72.0
 					_runtime = Runtime::VR;
 					break;
 				default:
@@ -1264,7 +1264,7 @@ namespace REL
 					stl::report_and_fail(fmt::format("failed to open: {}", stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)));
 				}
 				// Add the offset and remove the const qualifer
-				std::byte * _start = const_cast<std::byte*>(_mmiomap.data() + sizeof(std::uint64_t));
+				std::byte* _start = const_cast<std::byte*>(_mmiomap.data() + sizeof(std::uint64_t));
 				_id2offset = std::span{
 					reinterpret_cast<mapping_t*>(_start),
 					*reinterpret_cast<const std::uint64_t*>(_mmiomap.data())
@@ -1801,7 +1801,7 @@ namespace REL
 			return write_vfunc(a_idx, stl::unrestricted_cast<std::uintptr_t>(a_newFunc));
 		}
 
-	private:
+	private :
 		// clang-format off
         [[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
 		// clang-format on

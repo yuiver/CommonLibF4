@@ -26,7 +26,7 @@
 namespace RE
 {
 	struct TESRegionList;
-    class TESForm;
+	class TESForm;
 	class TESObject;
 	class TESBoundObject;
 	class MagicItem;
@@ -819,7 +819,7 @@ namespace RE
 
 		[[nodiscard]] bool Is(ENUM_FORM_ID a_type) const noexcept { return GetFormType() == a_type; }
 		template <class... Args>
-		
+
 		[[nodiscard]] bool Is(Args... a_args) const noexcept  //
 			requires(std::same_as<Args, ENUM_FORM_ID>&&...)
 		{
@@ -839,16 +839,16 @@ namespace RE
 		[[nodiscard]] bool IsCreated() const noexcept { return (formID >> (8 * 3)) == 0xFF; }
 		[[nodiscard]] bool IsDeleted() noexcept { return (formFlags & (1u << 5)) != 0; }
 		[[nodiscard]] bool IsInitialized() const noexcept { return (formFlags & (1u << 3)) != 0; }
-		
+
 		[[nodiscard]] bool IsNot(ENUM_FORM_ID a_type) const noexcept { return !Is(a_type); }
 		template <class... Args>
-		
+
 		[[nodiscard]] bool IsNot(Args... a_args) const noexcept  //
 			requires(std::same_as<Args, ENUM_FORM_ID>&&...)
 		{
 			return (IsNot(a_args) && ...);
 		}
-		
+
 		[[nodiscard]] bool IsPlayer() const noexcept { return GetFormID() == 0x00000007; }
 		[[nodiscard]] bool IsPlayerRef() const noexcept { return GetFormID() == 0x00000014; }
 		[[nodiscard]] bool IsWeapon() const noexcept { return Is(ENUM_FORM_ID::kWEAP); }
@@ -1900,7 +1900,7 @@ namespace RE
 			return func(this, a_form);
 		}
 
-	    [[nodiscard]] bool ContainsItem(const TESForm* a_form)
+		[[nodiscard]] bool ContainsItem(const TESForm* a_form)
 		{
 			using func_t = decltype(&BGSListForm::ContainsItem);
 			REL::Relocation<func_t> func{ REL::ID(688500) };
@@ -2278,9 +2278,9 @@ namespace RE
 		static_assert(sizeof(KEYWORD_DATA) == 0x10);
 
 		bool IsChild(const BGSLocation* a_possibleChild) const;
-        bool IsParent(const BGSLocation* a_possibleParent) const;
+		bool IsParent(const BGSLocation* a_possibleParent) const;
 
-        // members
+		// members
 		BGSLocation* parentLoc;                                                 // 050
 		TESFaction* unreportedCrimeFaction;                                     // 058
 		BGSMusicType* musicType;                                                // 060

@@ -15,8 +15,8 @@ namespace RE
 		}
 	}
 
-    bool BGSKeywordForm::ContainsKeywordString(std::string_view a_editorID) const
-    {
+	bool BGSKeywordForm::ContainsKeywordString(std::string_view a_editorID) const
+	{
 		if (keywords) {
 			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
 				if (keywords[idx] && keywords[idx]->formEditorID.contains(a_editorID)) {
@@ -26,10 +26,10 @@ namespace RE
 		}
 
 		return false;
-    }
+	}
 
-    bool BGSKeywordForm::HasKeywordID(std::uint32_t a_formID) const
-    {
+	bool BGSKeywordForm::HasKeywordID(std::uint32_t a_formID) const
+	{
 		if (keywords) {
 			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
 				if (keywords[idx] && keywords[idx]->formID == a_formID) {
@@ -39,10 +39,10 @@ namespace RE
 		}
 
 		return false;
-    }
+	}
 
-    bool BGSKeywordForm::HasKeywordString(std::string_view a_editorID) const
-    {
+	bool BGSKeywordForm::HasKeywordString(std::string_view a_editorID) const
+	{
 		if (keywords) {
 			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
 				if (keywords[idx] && keywords[idx]->formEditorID == a_editorID) {
@@ -52,7 +52,7 @@ namespace RE
 		}
 
 		return false;
-    }
+	}
 
 	std::string_view TESFullName::GetFullName(const TESForm& a_form, bool a_strict)
 	{

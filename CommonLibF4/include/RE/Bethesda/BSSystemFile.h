@@ -23,7 +23,7 @@ namespace RE
 			F4SE::WinAPI::_FILETIME accessTime;  // 00
 			F4SE::WinAPI::_FILETIME modifyTime;  // 08
 			F4SE::WinAPI::_FILETIME createTime;  // 10
-			std::size_t fileSize;  // 18
+			std::size_t fileSize;                // 18
 		};
 		static_assert(sizeof(Info) == 0x20);
 
