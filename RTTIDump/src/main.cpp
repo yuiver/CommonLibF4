@@ -294,7 +294,7 @@ void dump_rtti()
 #ifndef FALLOUTVR
 		file << "\t\tinline constexpr REL::ID "sv << name << "{ "sv << rid << " };\n"sv;
 #else
-		file << "\t\tinline constexpr REL::OFFSET "sv << name << "{ 0x"sv << std::hex << rid << " };\n"sv;
+		file << "\t\tinline constexpr REL::Offset "sv << name << "{ 0x"sv << std::hex << rid << " };\n"sv;
 #endif
 	}
 	closef();
@@ -303,7 +303,7 @@ void dump_rtti()
 #ifndef FALLOUTVR
 	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::ID("sv << a_vid << ")"sv; };
 #else
-	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::OFFSET(0x"sv << std::hex << a_vid << ")"sv; };
+	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::Offset(0x"sv << std::hex << a_vid << ")"sv; };
 #endif
 	for (const auto& [name, rid, vids] : results) {
 		(void)rid;
@@ -312,7 +312,7 @@ void dump_rtti()
 #ifndef FALLOUTVR
 			file << "\t\tinline constexpr std::array<REL::ID, "sv
 #else
-			file << "\t\tinline constexpr std::array<REL::OFFSET, "sv
+			file << "\t\tinline constexpr std::array<REL::Offset, "sv
 #endif
 				 << vids.size()
 				 << "> "sv
@@ -416,7 +416,7 @@ void dump_nirtti()
 #ifndef FALLOUTVR
 		output << "\t\tinline constexpr REL::ID "sv << elem.first << "{ "sv << elem.second << " };\n"sv;
 #else
-		output << "\t\tinline constexpr REL::OFFSET "sv << elem.first << "{ 0x"sv << std::hex << elem.second << " };\n"sv;
+		output << "\t\tinline constexpr REL::Offset "sv << elem.first << "{ 0x"sv << std::hex << elem.second << " };\n"sv;
 #endif
 	}
 	output << "\t}\n"sv
