@@ -15,13 +15,13 @@ namespace RE
 
 		// add
 		virtual bool ShouldHandleEvent(const InputEvent*) { return false; }  // 01
-		virtual void HandleEvent(const KinectEvent*) { return; }
-		virtual void HandleEvent(const DeviceConnectEvent*) { return; }
-		virtual void HandleEvent(const ThumbstickEvent*) { return; }
-		virtual void HandleEvent(const CursorMoveEvent*) { return; }
-		virtual void HandleEvent(const MouseMoveEvent*) { return; }
-		virtual void HandleEvent(const CharacterEvent*) { return; }
-		virtual void HandleEvent(const ButtonEvent*) { return; }
+		virtual void OnKinectEvent(const KinectEvent*) { return; }
+		virtual void OnDeviceConnectEvent(const DeviceConnectEvent*) { return; }
+		virtual void OnThumbstickEvent(const ThumbstickEvent*) { return; }
+		virtual void OnCursorMoveEvent(const CursorMoveEvent*) { return; }
+		virtual void OnMouseMoveEvent(const MouseMoveEvent*) { return; }
+		virtual void OnCharacterEvent(const CharacterEvent*) { return; }
+		virtual void OnButtonEvent(const ButtonEvent*) { return; }
 
 		F4_HEAP_REDEFINE_NEW(BSInputEventUser);
 
