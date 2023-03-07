@@ -68,6 +68,9 @@ namespace RE
 	struct PickRefUpdateEvent;
 	struct PipboyValueChangedEvent;
 	struct UIAdvanceMenusFunctionCompleteEvent;
+	struct RevertPlayerCharacterEvent;
+	struct SaveLoadMessageTypeEvent;
+	struct QueueSurvivalBumpDownMessage;
 
 	enum class HUDColorTypes
 	{
@@ -177,6 +180,23 @@ namespace RE
 		void* model;                       // 18 - TODO
 	};
 	static_assert(sizeof(FlatScreenModel) == 0x20);
+
+	class __declspec(novtable) GameUIModel :
+		public BSTSingletonSDM<GameUIModel>,
+		public BSTEventSink<ApplyColorUpdateEvent>,
+		public BSTEventSink<RevertPlayerCharacterEvent>,
+		public BSTEventSink<DoBeforeNewOrLoadCompletedEvent>,
+		public BSTEventSink<SaveLoadMessageTypeEvent>,
+		public BSTEventSink<QueueSurvivalBumpDownMessage>
+	{
+	public:
+		void UpdateDataModels()
+		{
+			using func_t = decltype(&GameUIModel::UpdateDataModels);
+			REL::Relocation<func_t> func{ REL::ID(1269653) };
+			return func(this);
+		}
+	};
 
 	class IMenu :
 		public SWFToCodeFunctionHandler,  // 00
@@ -792,8 +812,8 @@ namespace RE
 			const auto idx = GetCurrentPickIndex();
 			const auto& refs = GetPickRefs();
 			return 0 <= idx && static_cast<std::size_t>(idx) < refs.size() ?
-                       refs[static_cast<std::size_t>(idx)] :
-                       ObjectRefHandle{};
+			           refs[static_cast<std::size_t>(idx)] :
+			           ObjectRefHandle{};
 		}
 
 		void SetCurrentPickREFR(stl::not_null<ObjectRefHandle*> a_refr)
