@@ -1294,7 +1294,7 @@ namespace RE
 		TESModel aurora;                                                          // F78
 		BGSLensFlare* sunGlareLensFlare;                                          // FA8
 		float volatilityMult;                                                     // FB0
-		float visibilityMult;                                                      // FB4
+		float visibilityMult;                                                     // FB4
 		BGSShaderParticleGeometryData* precipitationData;                         // FB8
 		BGSReferenceEffect* referenceEffect;                                      // FC0
 	};
