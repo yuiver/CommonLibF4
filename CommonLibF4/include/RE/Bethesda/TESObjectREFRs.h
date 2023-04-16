@@ -718,6 +718,14 @@ namespace RE
 
 		[[nodiscard]] TESObjectCELL* GetParentCell() const noexcept { return parentCell; }
 
+		[[nodiscard]] NiPoint3 GetPosition() const noexcept { return data.location; }
+
+		[[nodiscard]] float GetPositionX() const noexcept { return data.location.x; }
+
+		[[nodiscard]] float GetPositionY() const noexcept { return data.location.y; }
+
+		[[nodiscard]] float GetPositionZ() const noexcept { return data.location.z; }
+
 		[[nodiscard]] std::int64_t GetGoldAmount()
 		{
 			using func_t = decltype(&TESObjectREFR::GetGoldAmount);
