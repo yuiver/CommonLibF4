@@ -355,6 +355,7 @@ set(SOURCES
 	src/RE/NetImmerse/NiAVObject.cpp
 	src/RE/NetImmerse/NiBinaryStream.cpp
 	src/RE/NetImmerse/NiObjectNET.cpp
+	src/RE/NetImmerse/NiPoint3.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
 	src/REL/Relocation.cpp
