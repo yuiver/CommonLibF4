@@ -30,14 +30,14 @@ namespace RE
 		[[nodiscard]] NiPoint3& operator/=(float a_scalar);
 
 		[[nodiscard]] NiPoint3 Cross(const NiPoint3& pt) const;
-		[[nodiscard]] float	   Dot(const NiPoint3& pt) const;
-		[[nodiscard]] float	   GetDistance(const NiPoint3& a_pt) const noexcept;
-		[[nodiscard]] float	   GetSquaredDistance(const NiPoint3& a_pt) const noexcept;
-		[[nodiscard]] float	   Length() const;
-		[[nodiscard]] float	   SqrLength() const;
+		[[nodiscard]] float Dot(const NiPoint3& pt) const;
+		[[nodiscard]] float	GetDistance(const NiPoint3& a_pt) const noexcept;
+		[[nodiscard]] float	GetSquaredDistance(const NiPoint3& a_pt) const noexcept;
+		[[nodiscard]] float	Length() const;
+		[[nodiscard]] float	SqrLength() const;
 		[[nodiscard]] NiPoint3 UnitCross(const NiPoint3& a_pt) const;
-		[[nodiscard]] float	   GetZAngleFromVector();
-		float				   Unitize();
+		[[nodiscard]] float	GetZAngleFromVector();
+		float Unitize();
 
 		// members
 		value_type x{ 0.0F };  // 0
