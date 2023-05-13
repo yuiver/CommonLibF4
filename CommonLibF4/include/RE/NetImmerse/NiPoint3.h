@@ -12,49 +12,32 @@ namespace RE
 		using pointer = value_type*;
 		using const_pointer = const value_type*;
 
-		[[nodiscard]] reference operator[](size_type a_pos) noexcept
-		{
-			assert(a_pos < 3);
-			return reinterpret_cast<pointer>(std::addressof(x))[a_pos];
-		}
+		[[nodiscard]] reference operator[](size_type a_pos) noexcept;
+		[[nodiscard]] const_reference operator[](size_type a_pos) const noexcept;
+		[[nodiscard]] bool operator==(const NiPoint3& a_rhs) const;
+		[[nodiscard]] bool operator!=(const NiPoint3& a_rhs) const;
+		[[nodiscard]] NiPoint3 operator+(const NiPoint3& a_rhs) const;
+		[[nodiscard]] NiPoint3 operator-(const NiPoint3& a_rhs) const;
+		[[nodiscard]] float operator*(const NiPoint3& a_rhs) const;
+		[[nodiscard]] NiPoint3 operator*(float a_scalar) const;
+		[[nodiscard]] NiPoint3 operator/(float a_scalar) const;
+		[[nodiscard]] NiPoint3 operator-() const;
+		[[nodiscard]] NiPoint3& operator+=(const NiPoint3& a_rhs);
+		[[nodiscard]] NiPoint3& operator-=(const NiPoint3& a_rhs);
+		[[nodiscard]] NiPoint3& operator*=(const NiPoint3& a_rhs);
+		[[nodiscard]] NiPoint3& operator/=(const NiPoint3& a_rhs);
+		[[nodiscard]] NiPoint3& operator*=(float a_scalar);
+		[[nodiscard]] NiPoint3& operator/=(float a_scalar);
 
-		[[nodiscard]] const_reference operator[](size_type a_pos) const noexcept
-		{
-			assert(a_pos < 3);
-			return reinterpret_cast<const_pointer>(std::addressof(x))[a_pos];
-		}
-
-		[[nodiscard]] bool operator==(const NiPoint3& a_rhs) const
-		{
-			return (x == a_rhs.x && y == a_rhs.y && z == a_rhs.z);
-		}
-
-		[[nodiscard]] NiPoint3 operator+(const NiPoint3& pt) const
-		{
-			return NiPoint3(x + pt.x, y + pt.y, z + pt.z);
-		}
-
-		[[nodiscard]] NiPoint3 operator-(const NiPoint3& pt) const
-		{
-			return NiPoint3(x - pt.x, y - pt.y, z - pt.z);
-		}
-
-		[[nodiscard]] NiPoint3 operator*(float s) const
-		{
-			return NiPoint3(x * s, y * s, z * s);
-		}
-
-		[[nodiscard]] NiPoint3 operator/(float s) const
-		{
-			return NiPoint3(x / s, y / s, z / s);
-		}
-
-		[[nodiscard]] float GetZAngleFromVector()
-		{
-			using func_t = decltype(&NiPoint3::GetZAngleFromVector);
-			REL::Relocation<func_t> func{ REL::ID(1450064) };
-			return func(this);
-		}
+		[[nodiscard]] NiPoint3 Cross(const NiPoint3& pt) const;
+		[[nodiscard]] float Dot(const NiPoint3& pt) const;
+		[[nodiscard]] float	GetDistance(const NiPoint3& a_pt) const noexcept;
+		[[nodiscard]] float	GetSquaredDistance(const NiPoint3& a_pt) const noexcept;
+		[[nodiscard]] float	Length() const;
+		[[nodiscard]] float	SqrLength() const;
+		[[nodiscard]] NiPoint3 UnitCross(const NiPoint3& a_pt) const;
+		[[nodiscard]] float	GetZAngleFromVector();
+		float Unitize();
 
 		// members
 		value_type x{ 0.0F };  // 0
