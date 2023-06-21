@@ -1665,6 +1665,13 @@ namespace RE
 			return func(this, a_level, a_count, a_chanceNone, a_item, a_itemExtra);
 		}
 
+		bool GetUseAll()
+		{
+			using func_t = decltype(&TESLeveledList::GetUseAll);
+			REL::Relocation<func_t> func{ REL::ID(233875) };
+			return func(this);
+		}
+
 		// members
 		TESGlobal* chanceGlobal;                                                         // 08
 		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* keywordChances;  // 10
