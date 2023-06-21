@@ -872,6 +872,13 @@ namespace RE
 			return func(this, a_form);
 		}
 
+		void SetHealthPercent(float a_healthPerc)
+		{
+			using func_t = decltype(&ExtraDataList::SetHealthPercent);
+			REL::Relocation<func_t> func{ REL::ID(1208294) };
+			return func(this, a_healthPerc);
+		}
+
 		// members
 		BaseExtraList extraData;              // 08
 		mutable BSReadWriteLock extraRWLock;  // 20
