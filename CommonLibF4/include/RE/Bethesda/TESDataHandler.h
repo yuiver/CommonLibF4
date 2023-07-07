@@ -202,6 +202,13 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
+		bool IsFormIDInuse(std::uint32_t a_formID)
+		{
+			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
+			REL::Relocation<func_t> func{ REL::ID(1448838) };
+			return func(this, a_formID);
+		}
+
 		// members
 		TESObjectList* objectList;                                                // 0060
 		BSTArray<TESForm*> formArrays[stl::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068

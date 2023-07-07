@@ -879,6 +879,20 @@ namespace RE
 			return func(this, a_healthPerc);
 		}
 
+		bool ClearFavorite()
+		{
+			using func_t = decltype(&ExtraDataList::ClearFavorite);
+			REL::Relocation<func_t> func{ REL::ID(254434) };
+			return func(this);
+		}
+
+		bool IsFavorite()
+		{
+			using func_t = decltype(&ExtraDataList::IsFavorite);
+			REL::Relocation<func_t> func{ REL::ID(786568) };
+			return func(this);
+		}
+
 		// members
 		BaseExtraList extraData;              // 08
 		mutable BSReadWriteLock extraRWLock;  // 20
