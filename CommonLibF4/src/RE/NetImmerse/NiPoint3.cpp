@@ -149,6 +149,8 @@ namespace RE
 		return func(this);
 	}
 
+#pragma warning(push)
+#pragma warning(disable: 4834)
 	float NiPoint3::Unitize()
 	{
 		auto length = Length();
@@ -164,4 +166,5 @@ namespace RE
 		}
 		return length;
 	}
+#pragma warning(pop)
 }
