@@ -8,6 +8,7 @@ set(SOURCES
 	include/F4SE/Trampoline.h
 	include/F4SE/Version.h
 	include/RE/Bethesda/AITimeStamp.h
+	include/RE/Bethesda/ActiveEffect.h
 	include/RE/Bethesda/Actor.h
 	include/RE/Bethesda/ActorValueInfo.h
 	include/RE/Bethesda/Atomic.h
@@ -133,6 +134,8 @@ set(SOURCES
 	include/RE/Bethesda/BSTSmallIndexScatterTable.h
 	include/RE/Bethesda/BSTSmartPointer.h
 	include/RE/Bethesda/BSTTuple.h
+	include/RE/Bethesda/BSTempEffect.h
+	include/RE/Bethesda/BSTempEffectDebris.h
 	include/RE/Bethesda/BSTextureSet.h
 	include/RE/Bethesda/BSTextureStreamer.h
 	include/RE/Bethesda/BSTimer.h
@@ -194,14 +197,17 @@ set(SOURCES
 	include/RE/Bethesda/TESRace.h
 	include/RE/Bethesda/TESWaterForm.h
 	include/RE/Bethesda/TESWorldSpace.h
+	include/RE/Bethesda/TaskQueueInterface.h
 	include/RE/Bethesda/UI.h
 	include/RE/Bethesda/UIMessage.h
 	include/RE/Bethesda/UIMessageQueue.h
 	include/RE/Bethesda/UIShaderFXInfo.h
 	include/RE/Bethesda/UserEvents.h
+	include/RE/Bethesda/Utilities.h
 	include/RE/Bethesda/VATS.h
 	include/RE/Bethesda/Workshop.h
 	include/RE/Bethesda/bhkCharacterController.h
+	include/RE/Bethesda/bhkPickData.h
 	include/RE/Fallout.h
 	include/RE/Havok/hkArray.h
 	include/RE/Havok/hkBaseObject.h
@@ -221,6 +227,7 @@ set(SOURCES
 	include/RE/Havok/hknpCharacterContext.h
 	include/RE/Havok/hknpCharacterState.h
 	include/RE/Havok/hknpCharacterSurfaceInfo.h
+	include/RE/Havok/hknpClosestHitCollector.h
 	include/RE/Havok/hknpClosestUniqueBodyIdHitCollector.h
 	include/RE/Havok/hknpCollisionQueryCollector.h
 	include/RE/Havok/hknpCollisionResult.h
@@ -232,6 +239,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiBinaryStream.h
 	include/RE/NetImmerse/NiBound.h
 	include/RE/NetImmerse/NiCamera.h
+	include/RE/NetImmerse/NiCloningProcess.h
 	include/RE/NetImmerse/NiCollisionObject.h
 	include/RE/NetImmerse/NiColor.h
 	include/RE/NetImmerse/NiController.h
@@ -243,6 +251,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiMemStream.h
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
+	include/RE/NetImmerse/NiObjectNET.cpp
 	include/RE/NetImmerse/NiObjectNET.h
 	include/RE/NetImmerse/NiPoint2.h
 	include/RE/NetImmerse/NiPoint3.h
@@ -255,6 +264,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiShadeProperty.h
 	include/RE/NetImmerse/NiSmartPointer.h
 	include/RE/NetImmerse/NiStream.h
+	include/RE/NetImmerse/NiStringExtraData.h
 	include/RE/NetImmerse/NiTArray.h
 	include/RE/NetImmerse/NiTCollection.h
 	include/RE/NetImmerse/NiTDefaultAllocator.h
@@ -352,6 +362,7 @@ set(SOURCES
 	src/RE/NetImmerse/NiAVObject.cpp
 	src/RE/NetImmerse/NiBinaryStream.cpp
 	src/RE/NetImmerse/NiObjectNET.cpp
+	src/RE/NetImmerse/NiPoint3.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
 	src/REL/Relocation.cpp

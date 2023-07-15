@@ -4,12 +4,15 @@
 #include "RE/Bethesda/BSPointerHandle.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
+#include "RE/Bethesda/TESObjectREFRs.h"
 #include "RE/Bethesda/UserEvents.h"
+#include "RE/NetImmerse/NiMatrix3.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/Scaleform/GFx/GFx_Player.h"
 
 namespace RE
 {
+	class bhkNPCollisionObject;
 	class BGSMessage;
 	class TESObjectCELL;
 	class TESObjectREFR;
@@ -458,4 +461,142 @@ namespace RE
 		};
 		static_assert(sizeof(CellAttachDetachEventSourceSingleton) == 0x58);
 	}
+
+	struct TESObjectLoadedEvent
+	{
+		uint32_t formId;  //00
+		uint8_t loaded;   //08
+	};
+
+	struct TESEquipEvent
+	{
+		Actor* a;
+		uint32_t formId;
+		uint32_t refFormID;
+		uint16_t unk10;
+		bool isEquip;
+	};
+
+	struct BSTransformDeltaEvent
+	{
+		NiMatrix3 deltaRotation;
+		NiPoint4 deltaTranslation;
+		NiPoint4 previousTranslation;
+		NiPoint4 previousRotation;
+		NiPoint4 previousScale;
+		NiPoint4 currentTranslation;
+		NiPoint4 currentRotation;
+		NiPoint4 currentScale;
+	};
+
+	struct DamageImpactData
+	{
+		NiPoint4 hitPos;
+		NiPoint4 hitDirection;
+		NiPoint4 projectileDir;
+		bhkNPCollisionObject* collisionObj;
+	};
+	static_assert(sizeof(DamageImpactData) == 0x38);
+
+	class VATSCommand;
+	class HitData
+	{
+	public:
+		void SetAllDamageToZero()
+		{
+			flags &= 0xFFFFFE07;
+			calculatedBaseDamage = 0.f;
+			blockedDamage = 0.f;
+			reducedDamage = 0.f;
+			blockStaggerMult = 0.f;
+		}
+
+		DamageImpactData impactData;
+		int8_t gap38[8];
+		ObjectRefHandle attackerHandle;
+		ObjectRefHandle victimHandle;
+		ObjectRefHandle sourceHandle;
+		int8_t gap4C[4];
+		BGSAttackData* attackData;
+		BGSObjectInstance source;
+		MagicItem* effect;
+		SpellItem* spellItem;
+		VATSCommand* VATScmd;
+		TESAmmo* ammo;
+		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;
+		float calculatedBaseDamage;
+		float baseDamage;
+		float totalDamage;
+		float blockedDamage;
+		float blockMult;
+		float reducedDamage;
+		float field_A8;
+		float blockStaggerMult;
+		float sneakAttackMult;
+		float field_B4;
+		float field_B8;
+		float field_BC;
+		float criticalDamageMult;
+		uint32_t flags;
+		BGSEquipIndex equipIndex;
+		uint32_t materialType;
+		int32_t bodypartType;
+		int8_t gapD4[4];
+	};
+	static_assert(sizeof(HitData) == 0xD8);
+
+	class TESHitEvent
+	{
+	public:
+		HitData hitdata;
+		int8_t gapD8[8];
+		TESObjectREFR* victim;
+		TESObjectREFR* attacker;
+		BSFixedString matName;
+		uint32_t sourceFormID;
+		uint32_t projFormID;
+		bool hasHitData;
+		int8_t gapD1[7];
+	};
+	static_assert(sizeof(TESHitEvent) == 0x108);
+
+	class HitEventSource : public BSTEventSource<TESHitEvent>
+	{
+	public:
+		[[nodiscard]] static HitEventSource* GetSingleton()
+		{
+			REL::Relocation<HitEventSource*> singleton{ REL::ID(989868) };
+			return singleton.get();
+		}
+	};
+
+	class ObjectLoadedEventSource : public BSTEventSource<TESObjectLoadedEvent>
+	{
+	public:
+		[[nodiscard]] static ObjectLoadedEventSource* GetSingleton()
+		{
+			REL::Relocation<ObjectLoadedEventSource*> singleton{ REL::ID(416662) };
+			return singleton.get();
+		}
+	};
+
+	class EquipEventSource : public BSTEventSource<TESEquipEvent>
+	{
+	public:
+		[[nodiscard]] static EquipEventSource* GetSingleton()
+		{
+			REL::Relocation<EquipEventSource*> singleton{ REL::ID(485633) };
+			return singleton.get();
+		}
+	};
+
+	class MGEFApplyEventSource : public BSTEventSource<TESMagicEffectApplyEvent>
+	{
+	public:
+		[[nodiscard]] static MGEFApplyEventSource* GetSingleton()
+		{
+			REL::Relocation<MGEFApplyEventSource*> singleton{ REL::ID(1481228) };
+			return singleton.get();
+		}
+	};
 }
