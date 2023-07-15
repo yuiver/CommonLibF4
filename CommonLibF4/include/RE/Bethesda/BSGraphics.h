@@ -336,7 +336,6 @@ namespace RE
 			Buffer* buffer08;
 			Buffer* buffer10;
 		};
-
 	};
 	static_assert(std::is_empty_v<BSGraphics>);
 

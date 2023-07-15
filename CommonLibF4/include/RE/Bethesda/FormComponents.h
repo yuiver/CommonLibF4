@@ -593,7 +593,6 @@ namespace RE
 	class BGSTypedKeywordValueArray
 	{
 	public:
-
 		void AddKeyword(RE::BGSKeyword* a_keyword)
 		{
 			if (a_keyword && !HasKeyword(a_keyword)) {

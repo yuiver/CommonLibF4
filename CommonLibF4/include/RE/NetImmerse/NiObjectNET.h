@@ -3,13 +3,14 @@
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
 #include "RE/Bethesda/BSTArray.h"
+#include "RE/NetImmerse/NiExtraData.h"
 #include "RE/NetImmerse/NiObject.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
-#include "RE/NetImmerse/NiExtraData.h"
 
 namespace RE
 {
-	class NiExtraDataContainer : public BSTArray<NiExtraData*> {
+	class NiExtraDataContainer : public BSTArray<NiExtraData*>
+	{
 	public:
 		BSAutoLock<BSSpinLock, BSAutoLockDefaultPolicy> lock;
 	};
