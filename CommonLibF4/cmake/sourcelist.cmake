@@ -280,13 +280,6 @@ set(SOURCES
 	include/RE/NetImmerse/NiTimeController.h
 	include/RE/NetImmerse/NiTransform.h
 	include/RE/NiRTTI_IDs.h
-	include/RE/OFFSET_NiRTTI_IDs.h
-	include/RE/OFFSET_NiRTTI_IDs_VR.h
-	include/RE/OFFSET_RTTI.h
-	include/RE/OFFSET_RTTI_IDs.h
-	include/RE/OFFSET_RTTI_IDs_VR.h
-	include/RE/OFFSET_VTABLE_IDs.h
-	include/RE/OFFSET_VTABLE_IDs_VR.h
 	include/RE/RTTI.h
 	include/RE/RTTI_IDs.h
 	include/RE/Scaleform/GFx/GFx_AS3.h
