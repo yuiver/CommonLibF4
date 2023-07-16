@@ -35,6 +35,9 @@ jobs:
           path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}/*
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('main/**/vcpkg.json', 'vcpkg-version.txt') }}
 
+      - name: Install ninja-build tool
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
       - name: Configure CMake
         working-directory: ${{ github.workspace }}/main
         run: cmake --preset build-release-msvc-vcpkg-all
