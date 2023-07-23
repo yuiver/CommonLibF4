@@ -29,6 +29,7 @@ endif()
 
 find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
 find_package(spdlog REQUIRED CONFIG)
+find_package(mmio REQUIRED CONFIG)
 
 include(cmake/sourcelist.cmake)
 #include(cmake/testlist.cmake)
@@ -126,6 +127,7 @@ target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
 		spdlog::spdlog
+		mmio::mmio
 		Version.lib
 )
 
