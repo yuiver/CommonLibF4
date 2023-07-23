@@ -243,7 +243,7 @@ void dump_rtti()
 				logger::debug("{} (id: {}) (address: {:16X}) (offset: {:16x})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter), offset);
 #endif
 			} catch (const std::exception&) {
-				logger::error("{}"sv, decode_name(typeDescriptor));
+				logger::error("{}", decode_name(typeDescriptor));
 				continue;
 			}
 		}
@@ -432,7 +432,7 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 			dump_rtti();
 			dump_nirtti();
 		} catch (const std::exception& e) {
-			logger::error("{}"sv, e.what());
+			logger::error("{}", e.what());
 		}
 		break;
 	default:

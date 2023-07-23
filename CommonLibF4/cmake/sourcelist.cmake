@@ -11,6 +11,7 @@ set(SOURCES
 	include/RE/Bethesda/ActiveEffect.h
 	include/RE/Bethesda/Actor.h
 	include/RE/Bethesda/ActorValueInfo.h
+	include/RE/Bethesda/Archive2.h
 	include/RE/Bethesda/Atomic.h
 	include/RE/Bethesda/BGSBaseAliases.h
 	include/RE/Bethesda/BGSBodyPartDefs.h
@@ -30,6 +31,7 @@ set(SOURCES
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
+	include/RE/Bethesda/BSBTreeFile.h
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
 	include/RE/Bethesda/BSExtraData.h
@@ -47,7 +49,11 @@ set(SOURCES
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
 	include/RE/Bethesda/BSResource.h
+	include/RE/Bethesda/BSResource/AsyncStream.h
 	include/RE/Bethesda/BSResource/BSResourceEnums.h
+	include/RE/Bethesda/BSResource/GlobalLocations.h
+	include/RE/Bethesda/BSResource/GlobalPaths.h
+	include/RE/Bethesda/BSResource/Location.h
 	include/RE/Bethesda/BSResource/LooseFileStreamBase.h
 	include/RE/Bethesda/BSResource/Stream.h
 	include/RE/Bethesda/BSResource/StreamBase.h
@@ -178,6 +184,7 @@ set(SOURCES
 	include/RE/Bethesda/ProcessLists.h
 	include/RE/Bethesda/Projectiles.h
 	include/RE/Bethesda/SCRIPT_OUTPUT.h
+	include/RE/Bethesda/SDirectory2.h
 	include/RE/Bethesda/SWFToCodeFunctionHandler.h
 	include/RE/Bethesda/Script.h
 	include/RE/Bethesda/SendHUDMessage.h
@@ -251,7 +258,6 @@ set(SOURCES
 	include/RE/NetImmerse/NiMemStream.h
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
-	include/RE/NetImmerse/NiObjectNET.cpp
 	include/RE/NetImmerse/NiObjectNET.h
 	include/RE/NetImmerse/NiPoint2.h
 	include/RE/NetImmerse/NiPoint3.h
