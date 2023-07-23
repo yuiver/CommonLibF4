@@ -678,12 +678,12 @@ namespace REL
 
 		[[nodiscard]] static Module& get()
 		{
-			if (_initialized.load(std::memory_order_relaxed)) {
+			if (_initialized.load(std::memory_order_relaxed) && _instance._filename != L"") {
 				return _instance;
 			}
 			[[maybe_unused]] std::unique_lock lock(_initLock);
 			_instance.init();
-			_initialized = true;
+			_initialized.store(true, std::memory_order_relaxed);
 			return _instance;
 		}
 
@@ -1065,7 +1065,7 @@ namespace REL
 
 		[[nodiscard]] static IDDatabase& get()
 		{
-			if (_initialized.load(std::memory_order_relaxed)) {
+			if (_initialized.load(std::memory_order_relaxed) && _instance.size()) {
 				return _instance;
 			}
 			[[maybe_unused]] std::unique_lock lock(_initLock);
@@ -1130,6 +1130,11 @@ namespace REL
 			}
 
 			return static_cast<std::size_t>(it->offset);
+		}
+
+		[[nodiscard]] inline std::size_t size() const
+		{
+			return _id2offset.size();
 		}
 
 	private:
