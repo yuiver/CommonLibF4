@@ -49,7 +49,11 @@ set(SOURCES
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
 	include/RE/Bethesda/BSResource.h
+	include/RE/Bethesda/BSResource/AsyncStream.h
 	include/RE/Bethesda/BSResource/BSResourceEnums.h
+	include/RE/Bethesda/BSResource/GlobalLocations.h
+	include/RE/Bethesda/BSResource/GlobalPaths.h
+	include/RE/Bethesda/BSResource/Location.h
 	include/RE/Bethesda/BSResource/LooseFileStreamBase.h
 	include/RE/Bethesda/BSResource/Stream.h
 	include/RE/Bethesda/BSResource/StreamBase.h
