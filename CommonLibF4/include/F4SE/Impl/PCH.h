@@ -22,6 +22,7 @@
 #include <memory>
 #include <new>
 #include <optional>
+#include <random>
 #include <source_location>
 #include <span>
 #include <sstream>

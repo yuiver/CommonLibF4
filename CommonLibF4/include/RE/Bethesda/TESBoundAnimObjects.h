@@ -382,10 +382,19 @@ namespace RE
 			return false;
 		}
 
-		[[nodiscard]] static BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>& GetAlternateHeadPartListMap()
+		[[nodiscard]] bool ContainsKeyword(std::string_view a_editorID) const;
+
+        [[nodiscard]] static BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>& GetAlternateHeadPartListMap()
 		{
 			REL::Relocation<BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>*> map{ REL::ID(1306546), -0x8 };
 			return *map;
+		}
+
+		[[nodiscard]] static TESNPC* GetDefaultNPC(TESNPC* npc)
+		{
+			using func_t = decltype(&TESNPC::GetDefaultNPC);
+			REL::Relocation<func_t> func{ REL::ID(1073775) };
+			return func(npc);
 		}
 
 		[[nodiscard]] std::span<BGSHeadPart*> GetHeadParts(bool a_alternate = true) const
@@ -428,6 +437,33 @@ namespace RE
 				root = root->faceNPC;
 			}
 			return root;
+		}
+
+		[[nodiscard]] uint32_t GetSex() noexcept
+		{
+			using func_t = decltype(&TESNPC::GetSex);
+			REL::Relocation<func_t> func{ REL::ID(1257181) };
+			return func(this);
+		}
+
+		[[nodiscard]] TESSpellList::SpellData* GetSpellList()
+		{
+			if (!spellData) {
+				spellData = new TESSpellList::SpellData();
+			}
+			return spellData;
+		}
+
+		[[nodiscard]] bool HasApplicableKeywordString(std::string_view a_editorID) const;
+
+        [[nodiscard]] bool IsInFaction(const TESFaction* a_faction)
+		{
+		    for (const auto& faction : factions) {
+				if (faction.faction == a_faction && faction.rank > -1) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		[[nodiscard]] bool UsingAlternateHeadPartList() const;

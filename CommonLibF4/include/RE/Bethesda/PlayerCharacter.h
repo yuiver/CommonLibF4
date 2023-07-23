@@ -50,7 +50,14 @@ namespace RE
 	class UserEventEnabledEvent;
 
 	struct BGSActorCellEvent;
-	struct BGSActorDeathEvent;
+	struct BGSActorDeathEvent
+	{
+		uint64_t flag;
+		float damageTaken;
+		uint32_t pad08;
+		float lastHealth;
+		uint32_t pad10;
+	};
 	struct ItemChange;
 	struct PickRefUpdateEvent;
 	struct PositionPlayerEvent;
@@ -275,6 +282,55 @@ namespace RE
 			using func_t = decltype(&PlayerCharacter::SetEscaping);
 			REL::Relocation<func_t> func{ REL::ID(25528) };
 			return func(this, a_flag, a_escaped);
+		}
+
+		bool IsGodMode()
+		{
+			using func_t = decltype(&PlayerCharacter::IsGodMode);
+			REL::Relocation<func_t> func{ REL::ID(1032309) };
+			return func(this);
+		}
+
+		bool IsHolotapePlaying(BGSNote* a_holotape)
+		{
+			using func_t = decltype(&PlayerCharacter::IsHolotapePlaying);
+			REL::Relocation<func_t> func{ REL::ID(530826) };
+			return func(this, a_holotape);
+		}
+
+		bool IsImmortal()
+		{
+			using func_t = decltype(&PlayerCharacter::IsImmortal);
+			REL::Relocation<func_t> func{ REL::ID(500346) };
+			return func(this);
+		}
+
+		bool IsPipboyLightOn()
+		{
+			using func_t = decltype(&PlayerCharacter::IsPipboyLightOn);
+			REL::Relocation<func_t> func{ REL::ID(426550) };
+			return func(this);
+		}
+
+		void PauseHolotape(BGSNote* a_holotape)
+		{
+			using func_t = decltype(&PlayerCharacter::PauseHolotape);
+			REL::Relocation<func_t> func{ REL::ID(1567456) };
+			return func(this, a_holotape);
+		}
+
+		void PlayHolotape(BGSNote* a_holotape)
+		{
+			using func_t = decltype(&PlayerCharacter::PlayHolotape);
+			REL::Relocation<func_t> func{ REL::ID(1581042) };
+			return func(this, a_holotape);
+		}
+
+		void SetVATSCriticalCount(uint32_t a_critCount)
+		{
+			using func_t = decltype(&PlayerCharacter::SetVATSCriticalCount);
+			REL::Relocation<func_t> func{ REL::ID(327338) };
+			return func(this, a_critCount);
 		}
 
 		// members
