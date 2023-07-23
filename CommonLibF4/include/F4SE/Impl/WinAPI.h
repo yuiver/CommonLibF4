@@ -236,23 +236,3 @@ namespace RE::DirectX
 	};
 	static_assert(sizeof(XMFLOAT4X4) == 0x40);
 }
-
-#define CP_UTF8 ::F4SE::WinAPI::CP_UTF8
-#define IMAGE_SCN_MEM_EXECUTE ::F4SE::WinAPI::IMAGE_SCN_MEM_EXECUTE
-#define IMAGE_SCN_MEM_WRITE ::F4SE::WinAPI::IMAGE_SCN_MEM_WRITE
-#define INVALID_HANDLE_VALUE ::F4SE::WinAPI::INVALID_HANDLE_VALUE
-#define MAX_PATH ::F4SE::WinAPI::MAX_PATH
-#define MEM_COMMIT ::F4SE::WinAPI::MEM_COMMIT
-#define MEM_RESERVE ::F4SE::WinAPI::MEM_RESERVE
-#define MEM_RELEASE ::F4SE::WinAPI::MEM_RELEASE
-#define PAGE_EXECUTE_READWRITE ::F4SE::WinAPI::PAGE_EXECUTE_READWRITE
-
-#define GetEnvironmentVariable ::F4SE::WinAPI::GetEnvironmentVariable
-#define GetFileVersionInfoSize ::F4SE::WinAPI::GetFileVersionInfoSize
-#define GetModuleFileName ::F4SE::WinAPI::GetModuleFileName
-#define VerQueryValue ::F4SE::WinAPI::VerQueryValue
-#define GetFileVersionInfo ::F4SE::WinAPI::GetFileVersionInfo
-#define GetModuleHandle ::F4SE::WinAPI::GetModuleHandle
-#define LoadLibrary ::F4SE::WinAPI::LoadLibrary
-#define MessageBox ::F4SE::WinAPI::MessageBox
-#define OutputDebugString ::F4SE::WinAPI::OutputDebugString
