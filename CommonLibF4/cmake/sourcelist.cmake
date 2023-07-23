@@ -10,6 +10,7 @@ set(SOURCES
 	include/RE/Bethesda/AITimeStamp.h
 	include/RE/Bethesda/Actor.h
 	include/RE/Bethesda/ActorValueInfo.h
+	include/RE/Bethesda/Archive2.h
 	include/RE/Bethesda/Atomic.h
 	include/RE/Bethesda/BGSBaseAliases.h
 	include/RE/Bethesda/BGSBodyPartDefs.h
@@ -29,6 +30,7 @@ set(SOURCES
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
+	include/RE/Bethesda/BSBTreeFile.h
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
 	include/RE/Bethesda/BSExtraData.h
@@ -175,6 +177,7 @@ set(SOURCES
 	include/RE/Bethesda/ProcessLists.h
 	include/RE/Bethesda/Projectiles.h
 	include/RE/Bethesda/SCRIPT_OUTPUT.h
+	include/RE/Bethesda/SDirectory2.h
 	include/RE/Bethesda/SWFToCodeFunctionHandler.h
 	include/RE/Bethesda/Script.h
 	include/RE/Bethesda/SendHUDMessage.h

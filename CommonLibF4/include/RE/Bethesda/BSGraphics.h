@@ -33,12 +33,25 @@ namespace RE
 	};
 	static_assert(sizeof(DXGI_RATIONAL) == 0x08);
 
-	struct BSGraphics
+	namespace BSGraphics
 	{
 		enum class TextureAddressMode;
 
 		class RendererShadowState;
 		class Texture;
+
+		struct TextureHeader
+		{
+		public:
+			// members
+			std::uint16_t height = 0;   // 0
+			std::uint16_t width = 0;    // 2
+			std::uint8_t mipCount = 0;  // 3
+			std::uint8_t format = 0;    // 5
+			std::uint8_t flags = 0;     // 6
+			std::uint8_t tilemode = 0;  // 7
+		};
+		static_assert(sizeof(TextureHeader) == 0x8);
 
 		class ConstantGroup
 		{
@@ -213,8 +226,7 @@ namespace RE
 			RendererData data;                        // 10
 		};
 		static_assert(sizeof(Renderer) == 0x25D0);
-	};
-	static_assert(std::is_empty_v<BSGraphics>);
+	}
 
 	namespace BSShaderTechniqueIDMap
 	{
