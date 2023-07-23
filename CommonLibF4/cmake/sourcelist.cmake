@@ -258,7 +258,6 @@ set(SOURCES
 	include/RE/NetImmerse/NiMemStream.h
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
-	include/RE/NetImmerse/NiObjectNET.cpp
 	include/RE/NetImmerse/NiObjectNET.h
 	include/RE/NetImmerse/NiPoint2.h
 	include/RE/NetImmerse/NiPoint3.h

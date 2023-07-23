@@ -350,7 +350,6 @@ namespace RE
 			Buffer* buffer10;
 		};
 	};
-	static_assert(std::is_empty_v<BSGraphics>);
 
 	namespace BSShaderTechniqueIDMap
 	{

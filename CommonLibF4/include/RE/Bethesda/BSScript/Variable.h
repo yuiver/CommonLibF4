@@ -32,25 +32,6 @@ namespace RE
 			struct Object;  // stub
 		}
 
-		template <class T>
-		[[nodiscard]] BSTSmartPointer<Object> get(const Variable& a_var) requires(std::same_as<T, Object>);
-		template <class T>
-		[[nodiscard]] BSFixedString get(const Variable& a_var) requires(std::same_as<T, BSFixedString>);
-		template <class T>
-		[[nodiscard]] std::uint32_t get(const Variable& a_var) requires(std::same_as<T, std::uint32_t>);
-		template <class T>
-		[[nodiscard]] std::int32_t get(const Variable& a_var) requires(std::same_as<T, std::int32_t>);
-		template <class T>
-		[[nodiscard]] float get(const Variable& a_var) requires(std::same_as<T, float>);
-		template <class T>
-		[[nodiscard]] bool get(const Variable& a_var) requires(std::same_as<T, bool>);
-		template <class T>
-		[[nodiscard]] stl::observer<Variable*> get(const Variable& a_var) requires(std::same_as<T, Variable>);
-		template <class T>
-		[[nodiscard]] BSTSmartPointer<Struct> get(const Variable& a_var) requires(std::same_as<T, Struct>);
-		template <class T>
-		[[nodiscard]] BSTSmartPointer<Array> get(const Variable& a_var) requires(std::same_as<T, Array>);
-
 		class Variable
 		{
 		public:
@@ -145,78 +126,6 @@ namespace RE
 			Variable& operator=(BSTSmartPointer<Array> a_array);
 
 			F4_HEAP_REDEFINE_NEW(Variable);
-
-			template <class T>
-			[[nodiscard]] friend BSTSmartPointer<Object> get(const Variable& a_var)  //
-				requires(std::same_as<T, Object>)
-			{
-				assert(a_var.is<Object>());
-				return a_var.value.o;
-			}
-
-			template <class T>
-			[[nodiscard]] friend BSFixedString get(const Variable& a_var)  //
-				requires(std::same_as<T, BSFixedString>)
-			{
-				assert(a_var.is<BSFixedString>());
-				return a_var.value.s;
-			}
-
-			template <class T>
-			[[nodiscard]] friend std::uint32_t get(const Variable& a_var)  //
-				requires(std::same_as<T, std::uint32_t>)
-			{
-				assert(a_var.is<std::uint32_t>());
-				return a_var.value.u;
-			}
-
-			template <class T>
-			[[nodiscard]] friend std::int32_t get(const Variable& a_var)  //
-				requires(std::same_as<T, std::int32_t>)
-			{
-				assert(a_var.is<std::int32_t>());
-				return a_var.value.i;
-			}
-
-			template <class T>
-			[[nodiscard]] friend float get(const Variable& a_var)  //
-				requires(std::same_as<T, float>)
-			{
-				assert(a_var.is<float>());
-				return a_var.value.f;
-			}
-
-			template <class T>
-			[[nodiscard]] friend bool get(const Variable& a_var)  //
-				requires(std::same_as<T, bool>)
-			{
-				assert(a_var.is<bool>());
-				return a_var.value.b;
-			}
-
-			template <class T>
-			[[nodiscard]] friend stl::observer<Variable*> get(const Variable& a_var)  //
-				requires(std::same_as<T, Variable>)
-			{
-				assert(a_var.is<Variable>());
-				return a_var.value.v;
-			}
-
-			template <class T>
-			[[nodiscard]] friend BSTSmartPointer<Struct> get(const Variable& a_var)  //
-				requires(std::same_as<T, Struct>)
-			{
-				assert(a_var.is<Struct>());
-				return a_var.value.t;
-			}
-
-			template <class T>
-			[[nodiscard]] friend BSTSmartPointer<Array> get(const Variable& a_var)  //
-				requires(std::same_as<T, Array>)
-			{
-				assert(a_var.is<Array>());
-				return a_var.value.a;
-			}
 
 			template <class T>
 			[[nodiscard]] bool is() const  //
