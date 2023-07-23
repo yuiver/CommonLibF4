@@ -365,7 +365,8 @@ namespace RE::BSScript
 	}
 
 	template <detail::eobject T>
-	[[nodiscard]] constexpr std::uint32_t GetVMTypeID() noexcept {
+	[[nodiscard]] constexpr std::uint32_t GetVMTypeID() noexcept
+	{
 		return static_cast<std::uint32_t>(T::FORM_ID);
 	}
 
@@ -406,7 +407,8 @@ namespace RE::BSScript
 	}
 
 	template <detail::eobject T>
-	[[nodiscard]] std::optional<TypeInfo> GetTypeInfo() {
+	[[nodiscard]] std::optional<TypeInfo> GetTypeInfo()
+	{
 		const auto game = GameVM::GetSingleton();
 		const auto vm = game ? game->GetVM() : nullptr;
 		BSTSmartPointer<ObjectTypeInfo> typeInfo;
@@ -416,8 +418,7 @@ namespace RE::BSScript
 			assert(false);
 			F4SE::log::error("failed to get type info for object"sv);
 			return std::nullopt;
-		}
-		else {
+		} else {
 			return typeInfo.get();
 		}
 	}
@@ -778,7 +779,8 @@ namespace RE::BSScript
 	}
 
 	template <detail::eobject T>
-	[[nodiscard]] T* UnpackVariable(const Variable& a_var) {
+	[[nodiscard]] T* UnpackVariable(const Variable& a_var)
+	{
 		const auto result = [&]() -> void* {
 			const auto game = GameVM::GetSingleton();
 			const auto vm = game ? game->GetVM() : nullptr;

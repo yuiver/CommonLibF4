@@ -29,7 +29,7 @@ namespace RE
 		return false;
 	}
 
-    TESWaterForm* TESObjectCELL::GetWaterType() const noexcept
+	TESWaterForm* TESObjectCELL::GetWaterType() const noexcept
 	{
 		const auto xWater = extraList ? extraList->GetByType<ExtraCellWaterType>() : nullptr;
 		auto water = xWater ? xWater->water : nullptr;

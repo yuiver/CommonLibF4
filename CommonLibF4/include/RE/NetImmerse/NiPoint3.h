@@ -31,12 +31,12 @@ namespace RE
 
 		[[nodiscard]] NiPoint3 Cross(const NiPoint3& pt) const;
 		[[nodiscard]] float Dot(const NiPoint3& pt) const;
-		[[nodiscard]] float	GetDistance(const NiPoint3& a_pt) const noexcept;
-		[[nodiscard]] float	GetSquaredDistance(const NiPoint3& a_pt) const noexcept;
-		[[nodiscard]] float	Length() const;
-		[[nodiscard]] float	SqrLength() const;
+		[[nodiscard]] float GetDistance(const NiPoint3& a_pt) const noexcept;
+		[[nodiscard]] float GetSquaredDistance(const NiPoint3& a_pt) const noexcept;
+		[[nodiscard]] float Length() const;
+		[[nodiscard]] float SqrLength() const;
 		[[nodiscard]] NiPoint3 UnitCross(const NiPoint3& a_pt) const;
-		[[nodiscard]] float	GetZAngleFromVector();
+		[[nodiscard]] float GetZAngleFromVector();
 		float Unitize();
 
 		// members
