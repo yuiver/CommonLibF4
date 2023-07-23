@@ -1,4 +1,6 @@
 /build*
+/vsxmake*
+/.xmake
 CMakeUserPresets.json
 .DS_Store
 vcpkg*

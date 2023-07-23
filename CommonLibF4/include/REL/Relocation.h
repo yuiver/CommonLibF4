@@ -354,7 +354,7 @@ namespace REL
 			WinAPI::VirtualProtect(
 				reinterpret_cast<void*>(a_dst),
 				a_count,
-				(PAGE_EXECUTE_READWRITE),
+				(WinAPI::PAGE_EXECUTE_READWRITE),
 				std::addressof(old));
 		if (success != 0) {
 			std::memcpy(reinterpret_cast<void*>(a_dst), a_src, a_count);
@@ -388,7 +388,7 @@ namespace REL
 			WinAPI::VirtualProtect(
 				reinterpret_cast<void*>(a_dst),
 				a_count,
-				(PAGE_EXECUTE_READWRITE),
+				(WinAPI::PAGE_EXECUTE_READWRITE),
 				std::addressof(old));
 		if (success != 0) {
 			std::fill_n(reinterpret_cast<std::uint8_t*>(a_dst), a_count, a_value);
@@ -585,18 +585,18 @@ namespace REL
 	[[nodiscard]] inline std::optional<Version> get_file_version(stl::zwstring a_filename)
 	{
 		std::uint32_t dummy;
-		std::vector<char> buf(GetFileVersionInfoSize(a_filename.data(), std::addressof(dummy)));
+		std::vector<char> buf(WinAPI::GetFileVersionInfoSize(a_filename.data(), std::addressof(dummy)));
 		if (buf.empty()) {
 			return std::nullopt;
 		}
 
-		if (!GetFileVersionInfo(a_filename.data(), 0, static_cast<std::uint32_t>(buf.size()), buf.data())) {
+		if (!WinAPI::GetFileVersionInfo(a_filename.data(), 0, static_cast<std::uint32_t>(buf.size()), buf.data())) {
 			return std::nullopt;
 		}
 
 		void* verBuf{ nullptr };
 		std::uint32_t verLen{ 0 };
-		if (!VerQueryValue(buf.data(), L"\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
+		if (!WinAPI::VerQueryValue(buf.data(), L"\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
 			return std::nullopt;
 		}
 
@@ -869,7 +869,7 @@ namespace REL
 			std::wstring _tempstr;
 			_tempstr.resize(maxSize + 1);
 			std::fill(_tempstr.begin(), _tempstr.end(), '\0');
-			const auto result = GetEnvironmentVariable(
+			const auto result = WinAPI::GetEnvironmentVariable(
 				envVar.data(),
 				_tempstr.data(),
 				static_cast<std::uint32_t>(maxSize));
@@ -884,7 +884,7 @@ namespace REL
 			if (_filename.empty() || _filename.size() != sz) {
 				for (auto runtime : RUNTIMES) {
 					_filename = runtime;
-					moduleHandle = GetModuleHandle(_filename.c_str());
+					moduleHandle = WinAPI::GetModuleHandle(_filename.c_str());
 					if (moduleHandle) {
 						break;
 					}
@@ -907,7 +907,7 @@ namespace REL
 			std::filesystem::path exePath(a_filePath);
 			_filename = exePath.filename().wstring();
 			_filePath = exePath.wstring();
-			_injectedModule = LoadLibrary(_filePath.c_str());
+			_injectedModule = WinAPI::LoadLibrary(_filePath.c_str());
 			if (_injectedModule) {
 				return load(_injectedModule, false);
 			}
@@ -951,7 +951,7 @@ namespace REL
 		void clear();
 
 		static constexpr std::array SEGMENTS{
-			std::make_pair(".text"sv, IMAGE_SCN_MEM_EXECUTE),
+			std::make_pair(".text"sv, WinAPI::IMAGE_SCN_MEM_EXECUTE),
 			std::make_pair(".interpr"sv, static_cast<std::uint32_t>(0)),
 			std::make_pair(".idata"sv, static_cast<std::uint32_t>(0)),
 			std::make_pair(".rdata"sv, static_cast<std::uint32_t>(0)),
