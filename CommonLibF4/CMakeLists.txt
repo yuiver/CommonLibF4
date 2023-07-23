@@ -31,7 +31,7 @@ find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
 find_package(spdlog REQUIRED CONFIG)
 
 include(cmake/sourcelist.cmake)
-# include(cmake/testlist.cmake)
+include(cmake/testlist.cmake)
 
 source_group(
 	TREE "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -211,8 +211,8 @@ if(BUILD_TESTS)
 	)
 
 	file(COPY
-			tests/REL/version-1-2-72-0.csv
-		 DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Data/F4SE/Plugins/"
+		tests/REL/version-1-2-72-0.csv
+		DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Data/F4SE/Plugins/"
 	)
 
 	catch_discover_tests("${PROJECT_NAME}Tests")
