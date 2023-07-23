@@ -4,7 +4,8 @@
 #include "RE/Havok/hknpCollisionQueryCollector.h"
 #include "RE/Havok/hknpCollisionResult.h"
 
-namespace RE {
+namespace RE
+{
 	class __declspec(novtable) hknpClosestHitCollector :
 		public hknpCollisionQueryCollector  // 000
 	{
@@ -12,7 +13,8 @@ namespace RE {
 		static constexpr auto RTTI{ RTTI::hknpClosestHitCollector };
 		static constexpr auto VTABLE{ VTABLE::hknpClosestHitCollector };
 
-		hknpClosestHitCollector() {
+		hknpClosestHitCollector()
+		{
 			typedef hknpClosestHitCollector* func_t(hknpClosestHitCollector*);
 			REL::Relocation<func_t> func{ REL::ID(951692), 0x10 };
 			func(this);
@@ -26,8 +28,8 @@ namespace RE {
 		const hknpCollisionResult* GetHits() const override;  // 05
 
 		// members
-		hknpCollisionResult result;							//0x20
-		bool hasHit;										//0x80
+		hknpCollisionResult result;  //0x20
+		bool hasHit;                 //0x80
 		int8_t pad[15];
 	};
 	static_assert(sizeof(hknpClosestHitCollector) == 0x90);
