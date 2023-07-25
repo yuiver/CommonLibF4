@@ -1,3 +1,7 @@
+template <>
+struct fmt::formatter<args::ArgumentParser> : fmt::ostream_formatter
+{};
+
 namespace stl
 {
 	template <class EF>                                    //
@@ -78,7 +82,7 @@ namespace win32
 	{
 		throw std::runtime_error{
 			fmt::format(
-				FMT_STRING("{:08X}: {}"),
+				"{:08X}: {}",
 				::GetLastError(),
 				a_error)
 		};
@@ -206,7 +210,7 @@ namespace cli
 				} else {
 					throw args::ParseError(
 						fmt::format(
-							FMT_STRING("Argument \'{}\' received invalid value type \'{}\'"),
+							"Argument \'{}\' received invalid value type \'{}\'",
 							a_name,
 							a_value));
 				}
@@ -268,7 +272,7 @@ namespace cli
 			return std::nullopt;
 		} catch (const args::ParseError& a_err) {
 			spdlog::error(a_err.what());
-			spdlog::trace(""sv);
+			spdlog::trace("");
 			spdlog::trace(p);
 			return std::nullopt;
 		}
@@ -675,8 +679,8 @@ namespace win32
 
 		const ::DWORD time =
 			a_time == std::chrono::milliseconds::max() ?
-                INFINITE :
-                static_cast<::DWORD>(a_time.count());
+				INFINITE :
+				static_cast<::DWORD>(a_time.count());
 
 		if (::WaitForSingleObject(
 				reinterpret_cast<::HANDLE>(a_thread),
@@ -840,20 +844,20 @@ void augment_environment(
 {
 	auto exe =
 		a_options.altexe ?
-            *a_options.altexe :
+			*a_options.altexe :
 		a_options.editor ?
-            "CreationKit.exe"s :
-            "Fallout4.exe"s;
+			"CreationKit.exe"s :
+			"Fallout4.exe"s;
 	auto dll = [&]() {
 		if (a_options.altdll) {
 			return *a_options.altdll;
 		} else {
 			const auto version = win32::get_file_version(exe);
 			return fmt::format(
-				FMT_STRING("{}_{}_{}_{}.dll"),
+				"{}_{}_{}_{}.dll",
 				(a_options.editor ?
-                        "f4se_editor"s :
-                        "f4se"s),
+						"f4se_editor"s :
+						"f4se"s),
 				version[0],
 				version[1],
 				version[2]);
@@ -863,7 +867,7 @@ void augment_environment(
 	const auto error = [](std::string_view a_file) {
 		throw std::runtime_error(
 			fmt::format(
-				FMT_STRING("file does not exist: {}"),
+				"file does not exist: {}",
 				a_file));
 	};
 	if (!std::filesystem::exists(exe)) {
@@ -920,8 +924,8 @@ void initialize_log()
 
 	args.libFileName = reinterpret_cast<::LPCWSTR>(mem.get() + calc.offset_of(type_t::kLibFileName));
 	args.procName = !a_init.empty() ?
-                        reinterpret_cast<::LPCSTR>(mem.get() + calc.offset_of(type_t::kProcName)) :
-                        nullptr;
+	                    reinterpret_cast<::LPCSTR>(mem.get() + calc.offset_of(type_t::kProcName)) :
+	                    nullptr;
 
 	const auto write = [&](type_t a_type, const void* a_src) {
 		std::memcpy(
@@ -1005,7 +1009,7 @@ int wmain(int a_argc, wchar_t* a_argv[])
 		spdlog::error(a_err.what());
 		return EXIT_FAILURE;
 	} catch (...) {
-		spdlog::error("caught unknown exception"sv);
+		spdlog::error("caught unknown exception");
 		return EXIT_FAILURE;
 	}
 
