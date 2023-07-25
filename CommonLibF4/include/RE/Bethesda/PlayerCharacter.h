@@ -333,6 +333,13 @@ namespace RE
 			return func(this, a_critCount);
 		}
 
+		void TogglePipBoyLight()
+		{
+			using func_t = decltype(&PlayerCharacter::TogglePipBoyLight);
+			REL::Relocation<func_t> func{ REL::ID(520007) };
+			return func(this);
+		}
+
 		// members
 		BSSpinLock actorToDisplayOnHUDLock;                                                     // 628
 		BSSpinLock questTargetLock;                                                             // 630
