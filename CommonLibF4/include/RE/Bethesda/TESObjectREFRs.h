@@ -866,6 +866,13 @@ namespace RE
 			return func(this, scale);
 		}
 
+		void UpdateDynamicNavmesh(bool a_active)
+		{
+			using func_t = decltype(&RE::TESObjectREFR::UpdateDynamicNavmesh);
+			REL::Relocation<func_t> func{ REL::ID(1518094) };
+			return func(this, a_active);
+		}
+
 		// members
 		TESObjectCELL* parentCell;                 // 0B8
 		OBJ_REFR data;                             // 0C0
