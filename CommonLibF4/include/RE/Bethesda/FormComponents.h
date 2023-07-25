@@ -1671,6 +1671,13 @@ namespace RE
 			return func(this);
 		}
 
+		void RemoveAllScriptAddedLeveledObjects()
+		{
+			using func_t = decltype(&TESLeveledList::RemoveAllScriptAddedLeveledObjects);
+			REL::Relocation<func_t> func{ REL::ID(1500052) };
+			return func(this);
+		}
+
 		// members
 		TESGlobal* chanceGlobal;                                                         // 08
 		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* keywordChances;  // 10
