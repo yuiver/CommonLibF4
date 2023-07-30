@@ -6,6 +6,13 @@ namespace RE
 
 	namespace GamePlayFormulas
 	{
+		inline bool CanHackGateCheck(LOCK_LEVEL a_lockLevel)
+		{
+			using func_t = decltype(&GamePlayFormulas::CanHackGateCheck);
+			REL::Relocation<func_t> func{ REL::ID(269668) };
+			return func(a_lockLevel);
+		}
+
 		inline bool CanPickLockGateCheck(LOCK_LEVEL a_lockLevel)
 		{
 			using func_t = decltype(&GamePlayFormulas::CanPickLockGateCheck);

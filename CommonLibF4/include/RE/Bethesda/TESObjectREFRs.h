@@ -740,6 +740,13 @@ namespace RE
 			return func(this);
 		}
 
+		[[nodiscard]] bool GetHasOwner()
+		{
+			using func_t = decltype(&TESObjectREFR::GetHasOwner);
+			REL::Relocation<func_t> func{ REL::ID(1016277) };
+			return func(this);
+		}
+
 		[[nodiscard]] std::uint32_t GetInventoryObjectCount(const TESBoundObject* a_object)
 		{
 			using func_t = decltype(&TESObjectREFR::GetInventoryObjectCount);
@@ -766,6 +773,13 @@ namespace RE
 			using func_t = decltype(&TESObjectREFR::GetWeightInContainer);
 			REL::Relocation<func_t> func{ REL::ID(1377567) };
 			return func(this);
+		}
+
+		[[nodiscard]] bool IsAnOwner(Actor* a_testOwner, bool a_useFaction, bool a_requiresOwner)
+		{
+			using func_t = decltype(&TESObjectREFR::IsAnOwner);
+			REL::Relocation<func_t> func{ REL::ID(933798) };
+			return func(this, a_testOwner, a_useFaction, a_requiresOwner);
 		}
 
 		[[nodiscard]] bool IsCrimeToActivate()

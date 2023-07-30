@@ -305,6 +305,13 @@ namespace RE
 			return func(this);
 		}
 
+		bool IsLockedOutOfTerminal(ObjectRefHandle a_handle)
+		{
+			using func_t = decltype(&PlayerCharacter::IsLockedOutOfTerminal);
+			REL::Relocation<func_t> func{ REL::ID(659429) };
+			return func(this, a_handle);
+		}
+
 		bool IsPipboyLightOn()
 		{
 			using func_t = decltype(&PlayerCharacter::IsPipboyLightOn);
