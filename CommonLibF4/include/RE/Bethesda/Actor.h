@@ -270,7 +270,7 @@ namespace RE
 
 		void SetupFireSounds(Actor& a_actor, BGSObjectInstanceT<TESObjectWEAP>& a_weapon)
 		{
-			using func_t = decltype(&RE::EquippedWeaponData::SetupFireSounds);
+			using func_t = decltype(&EquippedWeaponData::SetupFireSounds);
 			REL::Relocation<func_t> func{ REL::ID(1468462) };
 			return func(this, a_actor, a_weapon);
 		}

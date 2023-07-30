@@ -626,7 +626,7 @@ namespace RE
 
 		void SetToHUDColor(bool a_useWarningColor)
 		{
-			auto colorType = (a_useWarningColor) ? RE::HUDColorTypes::kWarningColor : RE::HUDColorTypes::kGameplayHUDColor;
+			auto colorType = (a_useWarningColor) ? HUDColorTypes::kWarningColor : HUDColorTypes::kGameplayHUDColor;
 			CreateAndSetFiltersToHUD(colorType, 1.0);
 		}
 
@@ -1538,7 +1538,7 @@ namespace RE
 		// override
 		virtual void Call(const Params&) override;                           // 01
 		virtual void MapCodeObjectFunctions() override;                      // 02
-		virtual UI_MESSAGE_RESULTS ProcessMessage(RE::UIMessage&) override;  // 03
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage&) override;  // 03
 
 		void ShowMessage()
 		{

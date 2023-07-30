@@ -912,8 +912,6 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSKeyword };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kKYWD };
 
-		using KeywordType = RE::KeywordType;
-
 		[[nodiscard]] static uint16_t GetIndexForTypedKeyword(const BGSKeyword* a_keyword, KeywordType a_type)
 		{
 			assert(a_type < KeywordType::kTotal);
@@ -2898,7 +2896,7 @@ namespace RE
 		};
 		static_assert(sizeof(ConstructibleObjectData) == 0x4);
 
-		[[nodiscard]] RE::TESForm* GetCreatedItem() const noexcept { return createdItem; }
+		[[nodiscard]] TESForm* GetCreatedItem() const noexcept { return createdItem; }
 		[[nodiscard]] std::uint16_t GetWorkshopPriority() const noexcept { return data.workshopPriority; }
 
 		// members

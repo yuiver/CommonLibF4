@@ -669,7 +669,7 @@ namespace RE
 
 		void AddKeyword(BGSKeyword* kwd)
 		{
-			using func_t = decltype(&RE::TESObjectREFR::AddKeyword);
+			using func_t = decltype(&TESObjectREFR::AddKeyword);
 			REL::Relocation<func_t> func{ REL::ID(640674) };
 			return func(this, kwd);
 		}
@@ -798,7 +798,7 @@ namespace RE
 
 		void RemoveKeyword(BGSKeyword* kwd)
 		{
-			using func_t = decltype(&RE::TESObjectREFR::RemoveKeyword);
+			using func_t = decltype(&TESObjectREFR::RemoveKeyword);
 			REL::Relocation<func_t> func{ REL::ID(281170) };
 			return func(this, kwd);
 		}
