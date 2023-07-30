@@ -1536,8 +1536,8 @@ namespace RE
 		static constexpr auto MENU_NAME{ "MessageBoxMenu"sv };
 
 		// override
-		virtual void Call(const Params&) override;                           // 01
-		virtual void MapCodeObjectFunctions() override;                      // 02
+		virtual void Call(const Params&) override;                       // 01
+		virtual void MapCodeObjectFunctions() override;                  // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage&) override;  // 03
 
 		void ShowMessage()
@@ -1977,7 +1977,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::SitWaitMenu };
 		static constexpr auto MENU_NAME{ "SitWaitMenu"sv };
 
-		virtual ~SitWaitMenu();//00
+		virtual ~SitWaitMenu();  //00
 
 		// override (GameMenuBase)
 		virtual void Call(const Params&) override;                                                               // 01
