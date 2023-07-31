@@ -1985,7 +1985,7 @@ namespace RE
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                // 03
 		virtual void OnMenuStackChanged(const BSFixedString& a_topMenuName, bool a_passesTopMenuTest) override;  // 09
 
-		static void OnEnterFurniture(ObjectRefHandle* a_handle)
+		static void OnEnterFurniture(ObjectRefHandle a_handle)
 		{
 			using func_t = decltype(&SitWaitMenu::OnEnterFurniture);
 			REL::Relocation<func_t> func{ REL::ID(562238) };
