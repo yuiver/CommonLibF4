@@ -1248,9 +1248,11 @@ namespace RE::BSScript
 			constexpr auto size = sizeof...(a_args);
 			auto args = std::make_tuple(std::forward<Args>(a_args)...);
 			BSScrapArray<Variable> result{ size };
-			[&]<std::size_t... p>(std::index_sequence<p...>) {
+			[&]<std::size_t... p>(std::index_sequence<p...>)
+			{
 				((BSScript::PackVariable(result.at(p), std::get<p>(args))), ...);
-			}(std::make_index_sequence<size>{});
+			}
+			(std::make_index_sequence<size>{});
 			return result;
 		}
 
