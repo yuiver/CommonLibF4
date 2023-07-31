@@ -345,7 +345,7 @@ namespace RE
 		{
 		public:
 			// members
-			ObjectRefHandle terminal; // 00
+			ObjectRefHandle terminal;  // 00
 		};
 		static_assert(sizeof(Event) == 0x04);
 
