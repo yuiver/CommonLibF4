@@ -1,6 +1,9 @@
 #pragma once
 
 #include "RE/Bethesda/BSTHashMap.h"
+#include "RE/NetImmerse/NiRect.h"
+#include "RE/NetImmerse/NiTexture.h"
+#include "RE/NetImmerse/NiSmartPointer.h"
 
 struct ID3D11Buffer;
 struct ID3D11ComputeShader;
@@ -23,6 +26,7 @@ namespace RE
 	enum class DXGI_MODE_SCANLINE_ORDER;
 
 	class BSD3DResourceCreator;
+	class NiCamera;
 
 	struct DXGI_RATIONAL
 	{
@@ -39,6 +43,20 @@ namespace RE
 
 		class RendererShadowState;
 		class Texture;
+
+		enum class MultiSampleLevel
+		{
+			kNone,
+			kTwo,
+			kFour,
+			kEight
+		};
+
+		enum class TAA_STATE
+		{
+			kDisabled,
+			kEnabled
+		};
 
 		struct Buffer
 		{
@@ -349,6 +367,112 @@ namespace RE
 			Buffer* buffer08;
 			Buffer* buffer10;
 		};
+
+		struct FogStateType
+		{
+		public:
+			// members
+			NiPoint4 rangeData;         // 00
+			NiColor nearLowColor;       // 10
+			float power;                // 1C
+			NiColor nearHighColor;      // 20
+			float clamp;                // 2C
+			NiColor farLowColor;        // 30
+			float highDensityScale;     // 3C
+			NiColor farHighColor;       // 40
+			float padding;              // 4C
+			NiPoint4 highLowRangeData;  // 50
+		};
+		static_assert(sizeof(FogStateType) == 0x60);
+
+		struct ViewData
+		{
+		public:
+			// members
+			NiRect<float> viewPort;                // 000
+			NiPoint2 viewDepthRange;               // 010
+			__m128 viewUp;                         // 020
+			__m128 viewRight;                      // 030
+			__m128 viewDir;                        // 040
+			__m128 viewMat[4];                     // 050
+			__m128 projMat[4];                     // 090
+			__m128 viewProjMat[4];                 // 0D0
+			__m128 viewProjUnjittered[4];          // 110
+			__m128 currentViewProjUnjittered[4];   // 150
+			__m128 previousViewProjUnjittered[4];  // 190
+			__m128 inv1stPersonProjMat[4];         // 1D0
+		};
+		static_assert(sizeof(ViewData) == 0x210);
+
+		struct CameraStateData
+		{
+		public:
+			// members
+			ViewData camViewData;             // 000
+			NiPoint3 posAdjust;               // 210
+			NiPoint3 currentPosAdjust;        // 21C
+			NiPoint3 previousPosAdjust;       // 228
+			const NiCamera* referenceCamera;  // 238
+			bool useJitter;                   // 240
+		};
+		static_assert(sizeof(CameraStateData) == 0x250);
+
+		class State
+		{
+		public:
+			[[nodiscard]] static State GetSingleton()
+			{
+				REL::Relocation<State*> singleton{ REL::ID(600795) };
+				return *singleton;
+			}
+
+			// members
+			std::uint32_t currentFrame;                                     // 000
+			float offsetX;                                                  // 004
+			float offsetY;                                                  // 008
+			std::uint32_t currentFrameOffset;                               // 00C
+			std::uint32_t previousFrameOffset;                              // 010
+			FogStateType fogState;                                          // 014
+			stl::enumeration<MultiSampleLevel, std::uint32_t> multiSample;  // 074
+			std::uint32_t backBufferWidth;                                  // 078
+			std::uint32_t backBufferHeight;                                 // 07C
+			std::uint32_t screenWidth;                                      // 080
+			std::uint32_t screenHeight;                                     // 084
+			NiRect<float> frameBufferViewport;                              // 088
+			std::uint32_t frameCount;                                       // 098
+			std::uint32_t frameID;                                          // 09C
+			bool insideFrame;                                               // 0A0
+			bool letterbox;                                                 // 0A1
+			bool allowDepthBufferAsTexture;                                 // 0A2
+			bool shadows;                                                   // 0A3
+			bool compiledShaderThisFrame;                                   // 0A4
+			stl::enumeration<TAA_STATE, std::uint32_t> taaState;            // 0A8
+			std::uint32_t taaDisableCounter;                                // 0AC
+			std::uint32_t trijuiceState;                                    // 0B0
+			NiPointer<NiTexture> defaultTextureBlack;                       // 0B8
+			NiPointer<NiTexture> defaultTextureWhite;                       // 0C0
+			NiPointer<NiTexture> defaultTextureGrey;                        // 0C8
+			NiPointer<NiTexture> defaultHeightMap;                          // 0D0
+			NiPointer<NiTexture> defaultReflectionCubeMap;                  // 0D8
+			NiPointer<NiTexture> defaultFaceDetailMap;                      // 0E0
+			NiPointer<NiTexture> defaultHighFreqNormalMap;                  // 0E8
+			NiPointer<NiTexture> defaultTexEffectMap;                       // 0F0
+			NiPointer<NiTexture> defaultTextureWhiteNoiseMap;               // 0F8
+			NiPointer<NiTexture> defaultTextureWhiteNoiseMapSmall;          // 100
+			NiPointer<NiTexture> defaultTextureNormalMap;                   // 108
+			NiPointer<NiTexture> defaultTextureDiffuseMap;                  // 110
+			NiPointer<NiTexture> defaultSplineMap;                          // 118
+			NiPointer<NiTexture> defaultTextureDissolvePattern;             // 120
+			Texture* defaultImagespaceLUT;                                  // 128
+			NiPointer<NiTexture> rotatedPoissonDiscLookupMap;               // 130
+			std::uint32_t presentImmediateThreshold;                        // 138
+			std::uint32_t presentFlag;                                      // 13C
+			BSTArray<CameraStateData> cameraDataCache;                      // 140
+			CameraStateData cameraState;                                    // 160
+			bool commitTexturesOnCreation;                                  // 3B0
+			bool immediateTextureLoads;                                     // 3B1
+		};
+		static_assert(sizeof(State) == 0x3C0);
 	};
 
 	namespace BSShaderTechniqueIDMap

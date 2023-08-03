@@ -161,6 +161,7 @@ set(SOURCES
 	include/RE/Bethesda/HUDModes.h
 	include/RE/Bethesda/IMenu.h
 	include/RE/Bethesda/IMovementInterface.h
+	include/RE/Bethesda/ImageSpaceModifier.h
 	include/RE/Bethesda/InputDevice.h
 	include/RE/Bethesda/InputEvent.h
 	include/RE/Bethesda/Interface3D.h
@@ -285,6 +286,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiTexture.h
 	include/RE/NetImmerse/NiTimeController.h
 	include/RE/NetImmerse/NiTransform.h
+	include/RE/NetImmerse/NiUpdateData.h
 	include/RE/NiRTTI_IDs.h
 	include/RE/RTTI.h
 	include/RE/RTTI_IDs.h
