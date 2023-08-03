@@ -57,7 +57,7 @@ namespace RE
 			BSResource::RHandleType<BSResource::Entry<NiPointer<NiNode>, BSResource::EntryDBTraits<BSModelDB::DBTraits, BSResource::EntryDB<BSModelDB::DBTraits>>::CArgs>, BSResource::EntryDB<BSModelDB::DBTraits>>& a_result,
 			const DBTraits::ArgsType& a_args)
 		{
-			using func_t = BSResource::ErrorCode (*)(const char*,BSResource::RHandleType<BSResource::Entry<NiPointer<NiNode>, BSResource::EntryDBTraits<BSModelDB::DBTraits, BSResource::EntryDB<BSModelDB::DBTraits>>::CArgs>, BSResource::EntryDB<BSModelDB::DBTraits>>&,const DBTraits::ArgsType&);
+			using func_t = BSResource::ErrorCode (*)(const char*, BSResource::RHandleType<BSResource::Entry<NiPointer<NiNode>, BSResource::EntryDBTraits<BSModelDB::DBTraits, BSResource::EntryDB<BSModelDB::DBTraits>>::CArgs>, BSResource::EntryDB<BSModelDB::DBTraits>>&, const DBTraits::ArgsType&);
 			REL::Relocation<func_t> func{ REL::ID(1066398) };
 			return func(a_name, a_result, a_args);
 		}
@@ -67,7 +67,7 @@ namespace RE
 			NiPointer<NiNode>* a_result,
 			const DBTraits::ArgsType& a_args)
 		{
-			using func_t = BSResource::ErrorCode (*)(const char*,NiPointer<NiNode>*,const DBTraits::ArgsType&);
+			using func_t = BSResource::ErrorCode (*)(const char*, NiPointer<NiNode>*, const DBTraits::ArgsType&);
 			REL::Relocation<func_t> func{ REL::ID(1225688) };
 			return func(a_name, a_result, a_args);
 		}

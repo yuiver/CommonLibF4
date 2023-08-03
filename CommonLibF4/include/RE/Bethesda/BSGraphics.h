@@ -2,8 +2,8 @@
 
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/NetImmerse/NiRect.h"
-#include "RE/NetImmerse/NiTexture.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
+#include "RE/NetImmerse/NiTexture.h"
 
 struct ID3D11Buffer;
 struct ID3D11ComputeShader;

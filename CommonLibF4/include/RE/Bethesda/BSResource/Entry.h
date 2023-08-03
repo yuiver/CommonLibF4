@@ -3,8 +3,8 @@
 #include "RE/Bethesda/Atomic.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
-#include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTSingleton.h"
+#include "RE/Bethesda/BSTSmartPointer.h"
 
 namespace RE
 {
@@ -13,7 +13,7 @@ namespace RE
 		class Location;
 		class Stream;
 
-		template<class T>
+		template <class T>
 		class EntryDB;
 
 		struct DAP
@@ -167,7 +167,7 @@ namespace RE
 			std::uint32_t misses;                 // 20
 		};
 
-		template<class T_Entry, class T_EntryDB>
+		template <class T_Entry, class T_EntryDB>
 		class RHandleType
 		{
 		public:
@@ -223,22 +223,22 @@ namespace RE
 			using U_RHandleType = T_RHandleType;
 
 			// members
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* table[T_SIZE * 2];                                    // 00
-		//	BSTLocklessQueue::ObjMultiProdCons<StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest, T_SIZE, 0> queue;  // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* table[T_SIZE * 2];  // 00
+																					  //	BSTLocklessQueue::ObjMultiProdCons<StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest, T_SIZE, 0> queue;  // ??
 			std::byte pad10000[0x70400 - 0x10000];
-			typename T_RHandleType::U_Entry::U_EntryDBTraitsCArgs cargs[T_SIZE];                                        // ??
-			BSNonReentrantSpinLock schedProtect;                                                                        // ??
+			typename T_RHandleType::U_Entry::U_EntryDBTraitsCArgs cargs[T_SIZE];  // ??
+			BSNonReentrantSpinLock schedProtect;                                  // ??
 			std::byte pad88404[0x88440 - 0x88404];
-			BSResource::StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest rescheduleSearchRequest;                   // ??
-			BSTAtomicValue<std::uint32_t> IDGen;                                                                        // ??
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* root;                                                 // ??
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* lowest;                                               // ??
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* tombstone;                                            // ??
-			std::uint32_t tableActive;                                                                                  // ??
+			BSResource::StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest rescheduleSearchRequest;  // ??
+			BSTAtomicValue<std::uint32_t> IDGen;                                                       // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* root;                                // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* lowest;                              // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* tombstone;                           // ??
+			std::uint32_t tableActive;                                                                 // ??
 			std::byte pad884A4[0x88500 - 0x884A4];
 		};
 
-		template<class T_EntryDBTraits>
+		template <class T_EntryDBTraits>
 		class EntryDBBase :
 			public EntryDBBaseUtil,
 			public T_EntryDBTraits::U_DBTraits
@@ -250,7 +250,7 @@ namespace RE
 			EntryBucketQueue<Entry<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs>, 512> releaseQueue;                                                   // ??
 		};
 
-		template<class T_DBTraits>
+		template <class T_DBTraits>
 		class EntryDB :
 			public IEntryDB,
 			public EntryDBBase<EntryDBTraits<T_DBTraits, BSResource::EntryDB<T_DBTraits>>>,

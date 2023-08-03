@@ -615,14 +615,14 @@ namespace RE
 
 		void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
 		{
-			using func_t = void(BSGFxShaderFXTarget::*)(const NiColor&, float);
+			using func_t = void (BSGFxShaderFXTarget::*)(const NiColor&, float);
 			REL::Relocation<func_t> func{ REL::ID(1487925) };
 			func(this, a_color, a_brightness);
 		}
 
 		void CreateAndSetFiltersToColor(std::uint8_t a_r, std::uint8_t a_g, std::uint8_t a_b, float a_brightness)
 		{
-			using func_t = void(BSGFxShaderFXTarget::*)(std::uint8_t, std::uint8_t, std::uint8_t, float);
+			using func_t = void (BSGFxShaderFXTarget::*)(std::uint8_t, std::uint8_t, std::uint8_t, float);
 			REL::Relocation<func_t> func{ REL::ID(783104) };
 			func(this, a_r, a_g, a_b, a_brightness);
 		}
@@ -2104,7 +2104,7 @@ namespace RE
 	static_assert(sizeof(TerminalMenu) == 0x268);
 
 	class __declspec(novtable) TerminalMenuButtons :
-		public GameMenuBase // 00
+		public GameMenuBase  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::TerminalMenuButtons };
@@ -2146,7 +2146,7 @@ namespace RE
 		virtual void OnThumbstickEvent(const ThumbstickEvent* a_event) override;  // 04
 
 		// override (BSTEventSink)
-		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;//01
+		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;  //01
 
 		// members
 		BSTArray<BSSoundHandle> registeredSounds;  // 0E8

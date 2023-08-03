@@ -20,8 +20,7 @@ namespace RE
 	void NiAVObject::Update(NiUpdateData& a_data)
 	{
 		UpdateDownwardPass(a_data, 0);
-		if (parent && ((a_data.flags & 0x200) == 0))
-		{
+		if (parent && ((a_data.flags & 0x200) == 0)) {
 			parent->UpdateUpwardPass(a_data);
 		}
 	}

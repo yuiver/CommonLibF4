@@ -50,7 +50,7 @@ namespace RE
 	};
 	static_assert(sizeof(ImageSpaceModifierInstance) == 0x28);
 
-	class ImageSpaceModifierInstanceForm : 
+	class ImageSpaceModifierInstanceForm :
 		public ImageSpaceModifierInstance
 	{
 	public:
