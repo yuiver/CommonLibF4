@@ -2,6 +2,7 @@
 
 #include "RE/Bethesda/BSResource/AsyncStream.h"
 #include "RE/Bethesda/BSResource/BSResourceEnums.h"
+#include "RE/Bethesda/BSResource/Entry.h"
 #include "RE/Bethesda/BSResource/GlobalLocations.h"
 #include "RE/Bethesda/BSResource/GlobalPaths.h"
 #include "RE/Bethesda/BSResource/Location.h"
