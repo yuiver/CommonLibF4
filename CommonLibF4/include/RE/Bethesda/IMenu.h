@@ -8,6 +8,7 @@
 #include "RE/Bethesda/BSInputEventUser.h"
 #include "RE/Bethesda/BSPointerHandle.h"
 #include "RE/Bethesda/BSSoundHandle.h"
+#include "RE/Bethesda/BSStorage.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -25,6 +26,7 @@
 #include "RE/Bethesda/UIMessage.h"
 #include "RE/Bethesda/UIShaderFXInfo.h"
 #include "RE/Bethesda/UserEvents.h"
+#include "RE/NetImmerse/NiColor.h"
 #include "RE/NetImmerse/NiMatrix3.h"
 #include "RE/NetImmerse/NiPoint2.h"
 #include "RE/NetImmerse/NiPoint3.h"
@@ -44,6 +46,7 @@ namespace RE
 		struct PlacementStatusEvent;
 	}
 
+	class BGSTerminal;
 	class BSInputEnableLayer;
 	class BSGFxFunctionBase;
 	class BSGFxShaderFXTarget;
@@ -162,8 +165,8 @@ namespace RE
 	};
 
 	class __declspec(novtable) FlatScreenModel :
-		public BSTSingletonSDM<FlatScreenModel>,                  // 08
-		public BSTEventSink<UIAdvanceMenusFunctionCompleteEvent>  // 00
+		public BSTEventSink<UIAdvanceMenusFunctionCompleteEvent>,  // 00
+		public BSTSingletonSDM<FlatScreenModel>                    // 08
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::FlatScreenModel };
@@ -610,6 +613,20 @@ namespace RE
 			return func(this, a_colorFXInfo, a_backgroundFXInfo);
 		}
 
+		void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
+		{
+			using func_t = void(BSGFxShaderFXTarget::*)(const NiColor&, float);
+			REL::Relocation<func_t> func{ REL::ID(1487925) };
+			func(this, a_color, a_brightness);
+		}
+
+		void CreateAndSetFiltersToColor(std::uint8_t a_r, std::uint8_t a_g, std::uint8_t a_b, float a_brightness)
+		{
+			using func_t = void(BSGFxShaderFXTarget::*)(std::uint8_t, std::uint8_t, std::uint8_t, float);
+			REL::Relocation<func_t> func{ REL::ID(783104) };
+			func(this, a_r, a_g, a_b, a_brightness);
+		}
+
 		void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::CreateAndSetFiltersToHUD);
@@ -759,7 +776,7 @@ namespace RE
 		BSTAlignedArray<UIShaderFXInfo> cachedColorFXInfos;       // 98
 		BSTAlignedArray<UIShaderFXInfo> cachedBackgroundFXInfos;  // B0
 		BSReadWriteLock cachedQuadsLock;                          // C8
-		BSTOptional<HUDModeType> menuHUDMode;                     // D0
+		BSTOptional<HUDModeType> menuHUDMode{ nullptr };          // D0
 	};
 	static_assert(sizeof(GameMenuBase) == 0xE0);
 
@@ -1977,7 +1994,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::SitWaitMenu };
 		static constexpr auto MENU_NAME{ "SitWaitMenu"sv };
 
-		virtual ~SitWaitMenu();  //00
+		virtual ~SitWaitMenu();  // 00
 
 		// override (GameMenuBase)
 		virtual void Call(const Params&) override;                                                               // 01
@@ -2003,4 +2020,172 @@ namespace RE
 		BSTArray<BSFixedString> overridingMenus;  // E0
 	};
 	static_assert(sizeof(SitWaitMenu) == 0xF8);
+
+	namespace REFREventCallbacks
+	{
+		class IEventCallback :
+			public BSIntrusiveRefCounted  // 00
+		{
+		public:
+			static constexpr auto RTTI{ RTTI::REFREventCallbacks__IEventCallback };
+			static constexpr auto VTABLE{ VTABLE::REFREventCallbacks__IEventCallback };
+
+			virtual ~IEventCallback();  // 00
+
+			// add
+			virtual void operator()() = 0;                  // 01
+			virtual bool Save(BSStorage& a_storage);        // 02
+			virtual const BSFixedString* GetType() = 0;     // 03
+			virtual bool Load(const BSStorage& a_storage);  // 04
+		};
+		static_assert(sizeof(IEventCallback) == 0x10);
+	}
+
+	class __declspec(novtable) TerminalMenu :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TerminalMenu };
+		static constexpr auto VTABLE{ VTABLE::TerminalMenu };
+		static constexpr auto MENU_NAME{ "TerminalMenu"sv };
+
+		enum class Mode
+		{
+			kInit = 0x0,
+			kHack = 0x1,
+			kLogin = 0x2,
+			kList = 0x3,
+			kText = 0x4,
+			kImage = 0x5,
+			kHolotape = 0x6,
+			kWaitingForPapyrus = 0x7,
+		};
+
+		struct ListItem
+		{
+		public:
+			// members
+			const void* menuItem;         // 00 - BGSTerminal::MenuItem*
+			const BGSTerminal* terminal;  // 08
+		};
+		static_assert(sizeof(ListItem) == 0x10);
+
+		virtual ~TerminalMenu();  // 00
+
+		// override (GameMenuBase)
+		virtual void Call(const Params&) override;                                     // 01
+		virtual void MapCodeObjectFunctions() override;                                // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;      // 03
+		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
+		virtual bool CanHandleWhenDisabled(const ButtonEvent* a_event) override;       // 0E
+		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+
+		// override (BSInputEventUser)
+		virtual bool ShouldHandleEvent(const InputEvent* a_event) override;  // 01
+		virtual void OnButtonEvent(const ButtonEvent* a_event) override;     // 08
+
+		// members
+		Scaleform::GFx::Value menuElements[6];                                           // 0E0
+		BSTArray<ListItem> menuItemList;                                                 // 1A0
+		BSTArray<NiPointer<NiAVObject>> culledObjects;                                   // 1B8
+		BSTArray<BGSTerminal*> history;                                                  // 1D0
+		BSTHashMap<void*, std::uint32_t> lastSelectionMap;                               // 1E8
+		BSTSmartPointer<REFREventCallbacks::IEventCallback> terminalRunResultsCallback;  // 218
+		BSScaleformExternalTexture displayImage;                                         // 220
+		BSSoundHandle charScrollLoop;                                                    // 238
+		stl::enumeration<Mode, std::uint32_t> mode;                                      // 240
+		std::uint64_t soundMark;                                                         // 248
+		std::uint64_t responseTextTimeout;                                               // 250
+		std::uint64_t loginTextTimeout;                                                  // 258
+		bool autoEjectHolotapeOnExit;                                                    // 260
+		bool cancelPressRegistered;                                                      // 261
+		bool autoLoadHolotape;                                                           // 262
+	};
+	static_assert(sizeof(TerminalMenu) == 0x268);
+
+	class __declspec(novtable) TerminalMenuButtons :
+		public GameMenuBase // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TerminalMenuButtons };
+		static constexpr auto VTABLE{ VTABLE::TerminalMenuButtons };
+		static constexpr auto MENU_NAME{ "TerminalMenuButtons"sv };
+
+		virtual ~TerminalMenuButtons();  // 00
+
+		// override (GameMenuBase)
+		virtual void Call(const Params&) override;                                 // 01
+		virtual void MapCodeObjectFunctions() override;                            // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 03
+	};
+	static_assert(sizeof(TerminalMenuButtons) == 0xE0);
+
+	class __declspec(novtable) HolotapeMenu :
+		public GameMenuBase,                     // 00
+		public BSTEventSink<MenuOpenCloseEvent>  // E0
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::HolotapeMenu };
+		static constexpr auto VTABLE{ VTABLE::HolotapeMenu };
+		static constexpr auto MENU_NAME{ "HolotapeMenu"sv };
+
+		virtual ~HolotapeMenu();  // 00
+
+		// override (GameMenuBase)
+		virtual void Call(const Params&) override;                                     // 01
+		virtual void MapCodeObjectFunctions() override;                                // 02
+		virtual bool CanHandleWhenDisabled(const ButtonEvent* a_event) override;       // 0E
+		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+
+		// add
+		virtual void ProcessCancel() = 0;                // 14
+		virtual void ProcessChatterImpl(const Params&);  // 15
+
+		// override (BSInputEventUser)
+		virtual bool ShouldHandleEvent(const InputEvent* a_event) override;       // 01
+		virtual void OnThumbstickEvent(const ThumbstickEvent* a_event) override;  // 04
+
+		// override (BSTEventSink)
+		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;//01
+
+		// members
+		BSTArray<BSSoundHandle> registeredSounds;  // 0E8
+		bool useOwnCursor;                         // 100
+		bool isMinigame;                           // 101
+	};
+	static_assert(sizeof(HolotapeMenu) == 0x108);
+
+	class __declspec(novtable) PipboyHolotapeMenu :
+		public HolotapeMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyHolotapeMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyHolotapeMenu };
+		static constexpr auto MENU_NAME{ "PipboyHolotapeMenu"sv };
+
+		virtual ~PipboyHolotapeMenu();  // 00
+
+		// override (HolotapeMenu)
+		virtual void ProcessCancel() override;  // 14
+
+		// members
+		bool wasPipboyActive;  // 108
+	};
+	static_assert(sizeof(PipboyHolotapeMenu) == 0x110);
+
+	class __declspec(novtable) TerminalHolotapeMenu :
+		public HolotapeMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TerminalHolotapeMenu };
+		static constexpr auto VTABLE{ VTABLE::TerminalHolotapeMenu };
+		static constexpr auto MENU_NAME{ "TerminalHolotapeMenu"sv };
+
+		virtual ~TerminalHolotapeMenu();  // 00
+
+		// override (HolotapeMenu)
+		virtual void ProcessCancel() override;                    // 14
+		virtual void ProcessChatterImpl(const Params&) override;  // 15
+	};
+	static_assert(sizeof(TerminalHolotapeMenu) == 0x108);
 }
