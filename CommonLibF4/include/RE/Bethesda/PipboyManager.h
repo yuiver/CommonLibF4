@@ -66,6 +66,13 @@ namespace RE
 			return *singleton;
 		}
 
+		void ClosedownPipboy()
+		{
+			using func_t = decltype(&PipboyManager::ClosedownPipboy);
+			REL::Relocation<func_t> func{ REL::ID(731410) };
+			return func(this);
+		}
+
 		void InitPipboy()
 		{
 			using func_t = decltype(&PipboyManager::InitPipboy);
@@ -87,10 +94,31 @@ namespace RE
 			return func(this);
 		}
 
+		void OnPipboyCloseAnimFailed()
+		{
+			using func_t = decltype(&PipboyManager::OnPipboyCloseAnimFailed);
+			REL::Relocation<func_t> func{ REL::ID(1362084) };
+			return func(this);
+		}
+
 		void OnPipboyClosed()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyClosed);
 			REL::Relocation<func_t> func{ REL::ID(592088) };
+			return func(this);
+		}
+
+		void OnPipboyOpenAnim()
+		{
+			using func_t = decltype(&PipboyManager::OnPipboyOpenAnim);
+			REL::Relocation<func_t> func{ REL::ID(1500318) };
+			return func(this);
+		}
+
+		void OnPipboyOpenAnimFailed()
+		{
+			using func_t = decltype(&PipboyManager::OnPipboyOpenAnimFailed);
+			REL::Relocation<func_t> func{ REL::ID(702357) };
 			return func(this);
 		}
 
@@ -108,11 +136,39 @@ namespace RE
 			return func(this, a_noAnim);
 		}
 
+		void PlayPipboyGenericOpenAnim(const BSFixedString& a_menu, const BSFixedString& a_anim, bool a_noAnim)
+		{
+			using func_t = decltype(&PipboyManager::PlayPipboyGenericOpenAnim);
+			REL::Relocation<func_t> func{ REL::ID(809076) };
+			return func(this, a_menu, a_anim, a_noAnim);
+		}
+
+		void PlayPipboyLoadHolotapeAnim(BGSNote* a_holotape, bool a_noAnim)
+		{
+			using func_t = decltype(&PipboyManager::PlayPipboyLoadHolotapeAnim);
+			REL::Relocation<func_t> func{ REL::ID(477096) };
+			return func(this, a_holotape, a_noAnim);
+		}
+
 		void PlayPipboyOpenAnim(const RE::BSFixedString& a_menuName)
 		{
 			using func_t = decltype(&PipboyManager::PlayPipboyOpenAnim);
 			REL::Relocation<func_t> func{ REL::ID(663900) };
 			return func(this, a_menuName);
+		}
+
+		void PlayPipboyTerminalAnim(BGSTerminal* a_terminal)
+		{
+			using func_t = decltype(&PipboyManager::PlayPipboyTerminalAnim);
+			REL::Relocation<func_t> func{ REL::ID(743427) };
+			return func(this, a_terminal);
+		}
+
+		void ProcessLoweringReason()
+		{
+			using func_t = decltype(&PipboyManager::ProcessLoweringReason);
+			REL::Relocation<func_t> func{ REL::ID(302903) };
+			return func(this);
 		}
 
 		bool QPipboyActive()

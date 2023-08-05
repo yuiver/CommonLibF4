@@ -22,6 +22,7 @@ namespace RE
 {
 	enum class COMMAND_TYPE;
 	enum class DEFAULT_OBJECT;
+	enum class DIFFICULTY_LEVEL;
 	enum class PLAYER_ACTION;
 	enum class QUEST_OBJECTIVE_STATE;
 	enum class SCENE_ACTION_PLAYER_RESPONSE_TYPE;
@@ -269,6 +270,13 @@ namespace RE
 			return *singleton;
 		}
 
+		DIFFICULTY_LEVEL GetDifficultyLevel()
+		{
+			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
+			REL::Relocation<func_t> func{ REL::ID(922962) };
+			return func(this);
+		}
+
 		bool IsGodMode()
 		{
 			using func_t = decltype(&PlayerCharacter::IsGodMode);
@@ -341,6 +349,13 @@ namespace RE
 			using func_t = decltype(&PlayerCharacter::SetVATSCriticalCount);
 			REL::Relocation<func_t> func{ REL::ID(327338) };
 			return func(this, a_critCount);
+		}
+
+		void ShowPipboyLight(bool a_show, bool a_skipEffects)
+		{
+			using func_t = decltype(&PlayerCharacter::ShowPipboyLight);
+			REL::Relocation<func_t> func{ REL::ID(1304102) };
+			return func(this, a_show, a_skipEffects);
 		}
 
 		// members

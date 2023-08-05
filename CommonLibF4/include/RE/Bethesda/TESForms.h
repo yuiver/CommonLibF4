@@ -13,6 +13,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/FormComponents.h"
+#include "RE/Bethesda/ImageSpaceData.h"
 #include "RE/Bethesda/Movement.h"
 #include "RE/Bethesda/Settings.h"
 #include "RE/Bethesda/TESCondition.h"
@@ -1826,17 +1827,6 @@ namespace RE
 		BSSimpleList<BGSDebrisData*> dataList;  // 28
 	};
 	static_assert(sizeof(BGSDebris) == 0x38);
-
-	struct ImageSpaceBaseData
-	{
-	public:
-		// members
-		float hdrData[9];        // 00
-		float cinematicData[3];  // 24
-		float tintData[4];       // 30
-		float dofData[6];        // 40
-	};
-	static_assert(sizeof(ImageSpaceBaseData) == 0x58);
 
 	class __declspec(novtable) TESImageSpace :
 		public TESForm  // 00

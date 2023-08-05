@@ -7,13 +7,13 @@
 namespace RE
 {
 	class BSInputEventUser;
+	class PipboyHandler;
 
 	struct CameraZoomHandler;
 	struct ClickHandler;
 	struct DisconnectHandler;
 	struct GFxConvertHandler;
 	struct MenuOpenHandler;
-	struct PipboyHandler;
 	struct QuickSaveLoadHandler;
 	struct ScreenshotHandler;
 

@@ -163,6 +163,9 @@ set(SOURCES
 	include/RE/Bethesda/HUDModes.h
 	include/RE/Bethesda/IMenu.h
 	include/RE/Bethesda/IMovementInterface.h
+	include/RE/Bethesda/ImageSpaceData.h
+	include/RE/Bethesda/ImageSpaceEffect.h
+	include/RE/Bethesda/ImageSpaceManager.h
 	include/RE/Bethesda/ImageSpaceModifier.h
 	include/RE/Bethesda/InputDevice.h
 	include/RE/Bethesda/InputEvent.h

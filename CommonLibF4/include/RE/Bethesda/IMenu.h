@@ -895,6 +895,13 @@ namespace RE
 			return func(this);
 		}
 
+		void End3D()
+		{
+			using func_t = decltype(&Inventory3DManager::End3D);
+			REL::Relocation<func_t> func{ REL::ID(1512675) };
+			return func(this);
+		}
+
 		// members
 		bool useBoundForScale: 1;                                                // 010:0
 		bool startedZoomThisFrame: 1;                                            // 010:1

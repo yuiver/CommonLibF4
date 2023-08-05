@@ -115,14 +115,6 @@ namespace RE
 		struct PerkEntryUpdatedEvent;
 	}
 
-	enum class INTERACTING_STATE : std::uint32_t
-	{
-		kNotInteracting,
-		kWaitingToInteract,
-		kInteracting,
-		kWaitingToStopInteracting
-	};
-
 	enum class PTYPE : std::int32_t
 	{
 		kExplore = 0,
@@ -650,6 +642,19 @@ namespace RE
 	};
 	static_assert(sizeof(MagicTarget) == 0x18);
 
+	enum class LIFE_STATE : std::uint32_t
+	{
+		kAlive,
+		kDying,
+		kDead,
+		kUnconscious,
+		kReanimate,
+		kRecycle,
+		kRestrained,
+		kEssentialDown,
+		kBleedout
+	};
+
 	enum class WEAPON_STATE : std::uint32_t
 	{
 		kSheathed,
@@ -671,6 +676,14 @@ namespace RE
 		kSighted,
 		kFire,
 		kFireSighted
+	};
+
+	enum class INTERACTING_STATE : std::uint32_t
+	{
+		kNotInteracting,
+		kWaitingToInteract,
+		kInteracting,
+		kWaitingToStopInteracting
 	};
 
 	class __declspec(novtable) ActorState :

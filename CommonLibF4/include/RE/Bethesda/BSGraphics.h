@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/Bethesda/Atomic.h"
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/NetImmerse/NiRect.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
@@ -39,6 +40,7 @@ namespace RE
 
 	namespace BSGraphics
 	{
+		enum class Format;
 		enum class TextureAddressMode;
 
 		class RendererShadowState;
@@ -473,6 +475,100 @@ namespace RE
 			bool immediateTextureLoads;                                     // 3B1
 		};
 		static_assert(sizeof(State) == 0x3C0);
+
+		struct RenderTargetProperties
+		{
+		public:
+			// members
+			std::uint32_t width;          // 00
+			std::uint32_t height;         // 04
+			Format format;                // 08
+			std::uint32_t multiSample;    // 0C
+			bool copyable;                // 10
+			bool supportUnorderedAccess;  // 11
+			bool allowMipGeneration;      // 12
+			bool forceLinear;             // 13
+			std::int32_t mipLevel;        // 14
+			std::uint32_t textureTarget;  // 18
+			bool enableFastClear;         // 1C
+		};
+		static_assert(sizeof(RenderTargetProperties) == 0x20);
+
+		struct DepthStencilTargetProperties
+		{
+		public:
+			// members
+			std::uint32_t width;        // 00
+			std::uint32_t height;       // 04
+			std::uint32_t arraySize;    // 08
+			std::uint32_t multiSample;  // 0C
+			std::int32_t alias;         // 10
+			bool sampleable;            // 14
+			bool htile;                 // 15
+			bool stencil;               // 16
+			bool use16BitsDepth;        // 17
+		};
+		static_assert(sizeof(DepthStencilTargetProperties) == 0x18);
+
+		struct CubeMapRenderTargetProperties
+		{
+		public:
+			// members
+			std::uint32_t width;          // 00
+			std::uint32_t height;         // 04
+			Format format;                // 08
+			std::uint32_t multiSample;    // 0C
+			bool sampleable;              // 10
+			std::int32_t alias;           // 14
+			std::int32_t _360Alias;       // 18
+			std::int32_t _360Group;       // 1C
+			std::int32_t _360TileHeight;  // 20
+		};
+		static_assert(sizeof(CubeMapRenderTargetProperties) == 0x24);
+
+		class RenderTargetManager
+		{
+		public:
+			using Create_T = void(*)();
+
+			[[nodiscard]] static RenderTargetManager GetSingleton()
+			{
+				REL::Relocation<RenderTargetManager*> singleton{ REL::ID(1508457) };
+				return *singleton;
+			}
+
+			void SetEnableDynamicResolution(bool a_enableDynamicResolution)
+			{
+				using func_t = decltype(&RenderTargetManager::SetEnableDynamicResolution);
+				REL::Relocation<func_t> func{ REL::ID(116947) };
+				return func(this, a_enableDynamicResolution);
+			}
+
+			// members
+			RenderTargetProperties renderTargetData[100];              // 000
+			DepthStencilTargetProperties depthStencilTargetData[12];   // C80
+			CubeMapRenderTargetProperties cubeMapRenderTargetData[1];  // DA0
+			std::uint32_t renderTargetID[100];                         // DC4
+			std::uint32_t depthStencilTargetID[12];                    // F54
+			std::uint32_t cubeMapRenderTargetID[1];                    // F84
+			float dynamicWidthRatio;                                   // F88
+			float dynamicHeightRatio;                                  // F8C
+			float lowestWidthRatio;                                    // F90
+			float lowestHeightRatio;                                   // F94
+			float ratioIncreasePerSeconds;                             // F98
+			float ratioDecreasePerSeconds;                             // F9C
+			float movementDelta;                                       // FA0
+			bool increaseResolution;                                   // FA4
+			bool freezeResolution;                                     // FA5
+			bool updateResolutionOnlyWhenMoving;                       // FA6
+			bool useDynamicResolutionViewportAsDefaultViewport;        // FA7
+			bool isDynamicResolutionCurrentlyActivated;                // FA8
+			std::uint32_t nbFramePause;                                // FAC
+			std::uint32_t nbFramesSinceLastIncrease;                   // FB0
+			BSTAtomicValue<std::uint32_t> dynamicResolutionDisabled;   // FB4
+			Create_T create;                                           // FB8
+		};
+		static_assert(sizeof(RenderTargetManager) == 0xFC0);
 	};
 
 	namespace BSShaderTechniqueIDMap

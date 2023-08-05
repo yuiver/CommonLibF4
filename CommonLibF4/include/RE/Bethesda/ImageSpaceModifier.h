@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/Bethesda/BSFixedString.h"
+#include "RE/Bethesda/ImageSpaceData.h"
 #include "RE/NetImmerse/NiAVObject.h"
 #include "RE/NetImmerse/NiObject.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
@@ -9,14 +10,6 @@ namespace RE
 {
 	class TESImageSpaceModifier;
 	class TESImageSpaceModifierForm;
-
-	struct ImageSpaceModData
-	{
-	public:
-		// members
-		float data[20];  // 00
-	};
-	static_assert(sizeof(ImageSpaceModData) == 0x50);
 
 	class ImageSpaceModifierFinder
 	{
