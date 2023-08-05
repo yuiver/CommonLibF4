@@ -2146,7 +2146,21 @@ namespace RE
 		virtual void OnThumbstickEvent(const ThumbstickEvent* a_event) override;  // 04
 
 		// override (BSTEventSink)
-		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;  //01
+		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;  // 01
+
+		static void ShowHolotapeInPipboy(const BSFixedString& a_holotapePath)
+		{
+			using func_t = decltype(&HolotapeMenu::ShowHolotapeInPipboy);
+			REL::Relocation<func_t> func{ REL::ID(217953) };
+			return func(a_holotapePath);
+		}
+
+		static void ShowHolotapeInTerminal(const BSFixedString& a_holotapePath)
+		{
+			using func_t = decltype(&HolotapeMenu::ShowHolotapeInTerminal);
+			REL::Relocation<func_t> func{ REL::ID(390509) };
+			return func(a_holotapePath);
+		}
 
 		// members
 		BSTArray<BSSoundHandle> registeredSounds;  // 0E8

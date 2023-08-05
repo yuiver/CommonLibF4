@@ -66,6 +66,13 @@ namespace RE
 			return *singleton;
 		}
 
+		void InitPipboy()
+		{
+			using func_t = decltype(&PipboyManager::InitPipboy);
+			REL::Relocation<func_t> func{ REL::ID(1477369) };
+			return func(this);
+		}
+
 		void LowerPipboy(LOWER_REASON a_reason)
 		{
 			using func_t = decltype(&PipboyManager::LowerPipboy);
@@ -73,10 +80,45 @@ namespace RE
 			return func(this, a_reason);
 		}
 
+		void OnPipboyCloseAnim()
+		{
+			using func_t = decltype(&PipboyManager::OnPipboyCloseAnim);
+			REL::Relocation<func_t> func{ REL::ID(1231000) };
+			return func(this);
+		}
+
+		void OnPipboyClosed()
+		{
+			using func_t = decltype(&PipboyManager::OnPipboyClosed);
+			REL::Relocation<func_t> func{ REL::ID(592088) };
+			return func(this);
+		}
+
 		void OnPipboyOpened()
 		{
-			using func_t = decltype(&PipboyManager::RaisePipboy);
+			using func_t = decltype(&PipboyManager::OnPipboyOpened);
 			REL::Relocation<func_t> func{ REL::ID(1299608) };
+			return func(this);
+		}
+
+		void PlayPipboyCloseAnim(bool a_noAnim)
+		{
+			using func_t = decltype(&PipboyManager::PlayPipboyCloseAnim);
+			REL::Relocation<func_t> func{ REL::ID(273927) };
+			return func(this, a_noAnim);
+		}
+
+		void PlayPipboyOpenAnim(const RE::BSFixedString& a_menuName)
+		{
+			using func_t = decltype(&PipboyManager::PlayPipboyOpenAnim);
+			REL::Relocation<func_t> func{ REL::ID(663900) };
+			return func(this, a_menuName);
+		}
+
+		bool QPipboyActive()
+		{
+			using func_t = decltype(&PipboyManager::QPipboyActive);
+			REL::Relocation<func_t> func{ REL::ID(470886) };
 			return func(this);
 		}
 
