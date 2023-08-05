@@ -263,6 +263,12 @@ namespace RE
 			return singleton->get();
 		}
 
+		[[nodiscard]] static ActorHandle GetPlayerHandle()
+		{
+			REL::Relocation<ActorHandle*> singleton{ REL::ID(522947) };
+			return *singleton;
+		}
+
 		bool IsGodMode()
 		{
 			using func_t = decltype(&PlayerCharacter::IsGodMode);

@@ -935,6 +935,13 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		[[nodiscard]] ActorHandle GetMountHandle()
+		{
+			using func_t = decltype(&Actor::GetMountHandle);
+			REL::Relocation<func_t> func{ REL::ID(313362) };
+			return func(this);
+		}
+
 		[[nodiscard]] std::int16_t GetLevel()
 		{
 			using func_t = decltype(&Actor::GetLevel);

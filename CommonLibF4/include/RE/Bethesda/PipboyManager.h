@@ -73,6 +73,13 @@ namespace RE
 			return func(this, a_reason);
 		}
 
+		void OnPipboyOpened()
+		{
+			using func_t = decltype(&PipboyManager::RaisePipboy);
+			REL::Relocation<func_t> func{ REL::ID(1299608) };
+			return func(this);
+		}
+
 		void RaisePipboy()
 		{
 			using func_t = decltype(&PipboyManager::RaisePipboy);

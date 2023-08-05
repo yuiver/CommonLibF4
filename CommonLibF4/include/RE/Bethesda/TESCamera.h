@@ -191,6 +191,20 @@ namespace RE
 			return BSTSmartPointer{ static_cast<T*>(cameraStates[T::STATE].get()) };
 		}
 
+		TESCameraState* PopState()
+		{
+			using func_t = decltype(&PlayerCamera::PopState);
+			REL::Relocation<func_t> func{ REL::ID(120998) };
+			return func(this);
+		}
+
+		TESCameraState* PushState(CameraState a_state)
+		{
+			using func_t = decltype(&PlayerCamera::PushState);
+			REL::Relocation<func_t> func{ REL::ID(746523) };
+			return func(this, a_state);
+		}
+
 		void SetState(TESCameraState* a_newstate) const
 		{
 			using func_t = decltype(&PlayerCamera::SetState);
