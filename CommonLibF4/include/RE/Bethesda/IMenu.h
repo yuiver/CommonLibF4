@@ -110,22 +110,22 @@ namespace RE
 	enum class UI_DEPTH_PRIORITY
 	{
 		kUndefined,
-		k3DUnderHUD,					// WorkshopMenu3D
-		kBook,							// BookMenu
-		kScope,							// ScopeMenu
+		k3DUnderHUD,  // WorkshopMenu3D
+		kBook,        // BookMenu
+		kScope,       // ScopeMenu
 		kSWFLoader,
 		kHUD,
-		kStandard,						// PipboyMenu, PowerArmorRenderer, HUDRainRenderer, LockpickingMenu3D
-		kStandard3DModel,				// Container3D, WorkbenchItem3D
+		kStandard,         // PipboyMenu, PowerArmorRenderer, HUDRainRenderer, LockpickingMenu3D
+		kStandard3DModel,  // Container3D, WorkbenchItem3D
 		kPipboy,
 		kTerminal,
 		kGameMessage,
 		kPauseMenu,
 		kLoadingFader,
-		kLoading3DModel,				// BackgroundScreenModel
+		kLoading3DModel,  // BackgroundScreenModel
 		kLoadingMenu,
 		kMessage,
-		kButtonBarMenu,					// FlatScreenModel, HUDScreenModel
+		kButtonBarMenu,  // FlatScreenModel, HUDScreenModel
 		kButtonBarSupressingMenu,
 		kDebug,
 		kConsole,
