@@ -112,7 +112,7 @@ namespace RE
 	};
 	static_assert(sizeof(ImageSpaceEffectFullScreenBlur) == 0x128);
 
-	class ImageSpaceEffectGetHit:
+	class ImageSpaceEffectGetHit :
 		public ImageSpaceEffect
 	{
 	public:

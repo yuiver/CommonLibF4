@@ -529,7 +529,7 @@ namespace RE
 		class RenderTargetManager
 		{
 		public:
-			using Create_T = void(*)();
+			using Create_T = void (*)();
 
 			[[nodiscard]] static RenderTargetManager GetSingleton()
 			{
