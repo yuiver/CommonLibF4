@@ -153,7 +153,7 @@ namespace RE
 	};
 	static_assert(sizeof(ImageSpaceEffectMotionBlur) == 0xB0);
 
-	class ImageSpaceEffectPipboyScreen : 
+	class ImageSpaceEffectPipboyScreen :
 		public ImageSpaceEffect
 	{
 	public:

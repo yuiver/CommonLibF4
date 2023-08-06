@@ -56,7 +56,7 @@ namespace RE
 		struct AsyncRequest
 		{
 		public:
-			using TaskFinishedCallback_t = void(*)(bool);
+			using TaskFinishedCallback_t = void (*)(bool);
 
 			// members
 			std::uint32_t taskTypeID;                     // 00
@@ -69,9 +69,9 @@ namespace RE
 		virtual ~BGSSaveLoadThread();  // 00
 
 		// members
-		bool running;                                                              // 50
-		bool busy;                                                                 // 51
-		BSEventFlag haveTask;                                                      // 58
+		bool running;          // 50
+		bool busy;             // 51
+		BSEventFlag haveTask;  // 58
 		// BSTCommonStaticMessageQueue<AsyncRequest, 8> asyncSaveLoadOperationQueue;  // 80
 		std::byte pad80[0x780 - 0x80];
 	};
@@ -88,12 +88,12 @@ namespace RE
 	};
 	static_assert(sizeof(BSSaveDataSystemUtilityImage) == 0x18);
 
-	class BGSSaveLoadManager : 
+	class BGSSaveLoadManager :
 		public BSTEventSink<SPECIALMenuEvent::NameChangedEvent>  // 00
 	{
 	public:
-		using SaveCompleteCallback_t = void(*)(BSSaveDataSystemUtility::RESULT, BSSaveDataSystemUtilityFile**);
-		using LoadCompleteCallback_t = void(*)(BSSaveDataSystemUtility::RESULT, BSSaveDataSystemUtilityFile**);
+		using SaveCompleteCallback_t = void (*)(BSSaveDataSystemUtility::RESULT, BSSaveDataSystemUtilityFile**);
+		using LoadCompleteCallback_t = void (*)(BSSaveDataSystemUtility::RESULT, BSSaveDataSystemUtilityFile**);
 
 		enum class QUEUED_TASK : std::int32_t
 		{
