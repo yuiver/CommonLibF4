@@ -1611,6 +1611,29 @@ namespace RE
 			kWorld
 		};
 
+		struct InitParams
+		{
+		public:
+			InitParams()
+			{
+				workbenchFurniture.reset();
+				inventorySource = RE::PlayerCharacter::GetPlayerHandle();
+			}
+
+			// members
+			ObjectRefHandle workbenchFurniture;             // 00
+			ObjectRefHandle inventorySource;                // 04
+			InventoryInterface::Handle item{ 0xFFFFFFFF };  // 08
+			NiPointer<Actor> actor{ nullptr };              // 10
+			std::uint32_t stack{ 0 };                       // 18
+			bool inspectMode{ true };                       // 1C
+			bool inspectingSingleItem{ false };             // 1D
+			bool inspectingFeaturedItem{ false };           // 1E
+			bool showFeaturedItemMessage{ false };          // 1F
+			bool botCompanion{ false };                     // 20
+		};
+		static_assert(sizeof(InitParams) == 0x28);
+
 		struct ModChoiceData
 		{
 		public:

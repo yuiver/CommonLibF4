@@ -66,6 +66,13 @@ namespace RE
 			return *singleton;
 		}
 
+		void AddMenuToPipboy(IMenu& a_menu, const NiRect<float>& a_standVP, const NiRect<float>& a_powerVP)
+		{
+			using func_t = decltype(&PipboyManager::AddMenuToPipboy);
+			REL::Relocation<func_t> func{ REL::ID(394568) };
+			return func(this, a_menu, a_standVP, a_powerVP);
+		}
+
 		void ClosedownPipboy()
 		{
 			using func_t = decltype(&PipboyManager::ClosedownPipboy);
@@ -178,9 +185,9 @@ namespace RE
 			return func(this, a_menuName);
 		}
 
-		void PlayPipboyTerminalAnim(BGSTerminal* a_terminal)
+		void PlayPipboyOpenTerminalAnim(BGSTerminal* a_terminal)
 		{
-			using func_t = decltype(&PipboyManager::PlayPipboyTerminalAnim);
+			using func_t = decltype(&PipboyManager::PlayPipboyOpenTerminalAnim);
 			REL::Relocation<func_t> func{ REL::ID(743427) };
 			return func(this, a_terminal);
 		}

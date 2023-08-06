@@ -707,6 +707,34 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSNote };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kNOTE };
 
+		enum NOTE_TYPE : std::int8_t
+		{
+			kVoice,
+			kScene,
+			kProgram,
+			kTerminal
+		};
+
+		BGSSoundDescriptorForm* GetNoteSound()
+		{
+			return (type == NOTE_TYPE::kVoice) ? noteSound : nullptr;
+		}
+
+		BGSScene* GetNoteScene()
+		{
+			return (type == NOTE_TYPE::kScene) ? TESForm::GetFormByID<BGSScene>(noteFormID) : nullptr;
+		}
+
+		const BSFixedString GetNoteProgram()
+		{
+			return (type == NOTE_TYPE::kProgram) ? programFile : BSFixedString{ ""sv };
+		}
+
+		BGSTerminal* GetNoteTerminal()
+		{
+			return (type == NOTE_TYPE::kTerminal) ? TESForm::GetFormByID<BGSTerminal>(noteFormID) : nullptr;
+		}
+
 		// members
 		BSFixedString programFile;  // 0F0
 		union
