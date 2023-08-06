@@ -27,7 +27,8 @@ namespace RE
 
 		[[nodiscard]] inline bool PlayerInPowerArmor()
 		{
-			return ActorInPowerArmor(*PlayerCharacter::GetSingleton());
+			auto PlayerCharacter = PlayerCharacter::GetSingleton();
+			return PlayerCharacter ? ActorInPowerArmor(*PlayerCharacter) : false;
 		}
 
 		[[nodiscard]] inline BGSKeyword* GetArmorKeyword()
