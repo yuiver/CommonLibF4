@@ -338,6 +338,18 @@ namespace RE
 	};
 	static_assert(sizeof(QuickContainerStateEvent) == 0xC0);
 
+	namespace SPECIALMenuEvent
+	{
+		struct NameChangedEvent
+		{
+		public:
+			// members
+			const char* fullName;  // 00
+			bool committed;        // 08
+		};
+		static_assert(sizeof(NameChangedEvent) == 0x10);
+	}
+
 	class TerminalHacked
 	{
 	public:

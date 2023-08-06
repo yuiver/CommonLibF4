@@ -888,6 +888,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::Inventory3DManager };
 		static constexpr auto VTABLE{ VTABLE::Inventory3DManager };
 
+		void Begin3D()
+		{
+			using func_t = decltype(&Inventory3DManager::Begin3D);
+			REL::Relocation<func_t> func{ REL::ID(662659) };
+			return func(this);
+		}
+
 		void ClearModel()
 		{
 			using func_t = decltype(&Inventory3DManager::ClearModel);
@@ -900,6 +907,20 @@ namespace RE
 			using func_t = decltype(&Inventory3DManager::End3D);
 			REL::Relocation<func_t> func{ REL::ID(1512675) };
 			return func(this);
+		}
+
+		void SetModelScale(float a_scale)
+		{
+			using func_t = decltype(&Inventory3DManager::SetModelScale);
+			REL::Relocation<func_t> func{ REL::ID(1319701) };
+			return func(this, a_scale);
+		}
+
+		void SetModelScreenPosition(const NiPoint3& a_position, bool a_screenCoords)
+		{
+			using func_t = decltype(&Inventory3DManager::SetModelScreenPosition);
+			REL::Relocation<func_t> func{ REL::ID(2967) };
+			return func(this, a_position, a_screenCoords);
 		}
 
 		// members

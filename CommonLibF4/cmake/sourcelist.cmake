@@ -31,6 +31,8 @@ set(SOURCES
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
+	include/RE/Bethesda/BSAudioManager.h
+	include/RE/Bethesda/BSAudioUtil.h
 	include/RE/Bethesda/BSBTreeFile.h
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
@@ -146,6 +148,7 @@ set(SOURCES
 	include/RE/Bethesda/BSTempEffectDebris.h
 	include/RE/Bethesda/BSTextureSet.h
 	include/RE/Bethesda/BSTextureStreamer.h
+	include/RE/Bethesda/BSThread.h
 	include/RE/Bethesda/BSTimer.h
 	include/RE/Bethesda/CELLJobs.h
 	include/RE/Bethesda/CRC.h

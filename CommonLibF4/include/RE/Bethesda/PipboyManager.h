@@ -73,6 +73,20 @@ namespace RE
 			return func(this);
 		}
 
+		void DisablePipboyShader()
+		{
+			using func_t = decltype(&PipboyManager::DisablePipboyShader);
+			REL::Relocation<func_t> func{ REL::ID(662519) };
+			return func(this);
+		}
+
+		void EnablePipboyShader()
+		{
+			using func_t = decltype(&PipboyManager::EnablePipboyShader);
+			REL::Relocation<func_t> func{ REL::ID(157921) };
+			return func(this);
+		}
+
 		void InitPipboy()
 		{
 			using func_t = decltype(&PipboyManager::InitPipboy);
@@ -126,6 +140,13 @@ namespace RE
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyOpened);
 			REL::Relocation<func_t> func{ REL::ID(1299608) };
+			return func(this);
+		}
+
+		void PlayItemAnimOnClose()
+		{
+			using func_t = decltype(&PipboyManager::PlayItemAnimOnClose);
+			REL::Relocation<func_t> func{ REL::ID(377837) };
 			return func(this);
 		}
 
@@ -189,6 +210,20 @@ namespace RE
 		{
 			using func_t = decltype(&PipboyManager::RefreshPipboyRenderSurface);
 			REL::Relocation<func_t> func{ REL::ID(81339) };
+			return func(this);
+		}
+
+		void StartAnimationGraphListening()
+		{
+			using func_t = decltype(&PipboyManager::StartAnimationGraphListening);
+			REL::Relocation<func_t> func{ REL::ID(714713) };
+			return func(this);
+		}
+
+		void StopAnimationGraphListening()
+		{
+			using func_t = decltype(&PipboyManager::StopAnimationGraphListening);
+			REL::Relocation<func_t> func{ REL::ID(621144) };
 			return func(this);
 		}
 

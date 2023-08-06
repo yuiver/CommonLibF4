@@ -219,6 +219,20 @@ namespace RE
 			return func(this, a_furniture);
 		}
 
+		void StartPipboyMode(bool a_forcePipboyModeCamera)
+		{
+			using func_t = decltype(&PlayerCamera::StartPipboyMode);
+			REL::Relocation<func_t> func{ REL::ID(998069) };
+			return func(this, a_forcePipboyModeCamera);
+		}
+
+		void StopPipboyMode()
+		{
+			using func_t = decltype(&PlayerCamera::StopPipboyMode);
+			REL::Relocation<func_t> func{ REL::ID(811954) };
+			return func(this);
+		}
+
 		// members
 		ActorHandle cameraTarget;                                                               // 064
 		BSTSmallArray<BSTSmartPointer<TESCameraState>, CameraStates::kTotal> tempReturnStates;  // 068
