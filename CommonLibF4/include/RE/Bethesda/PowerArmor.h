@@ -92,6 +92,13 @@ namespace RE
 			return func(this);
 		}
 
+		void ShowPipboyPAGeometry()
+		{
+			using func_t = decltype(&PowerArmorGeometry::ShowPipboyPAGeometry);
+			REL::Relocation<func_t> func{ REL::ID(19066) };
+			return func(this);
+		}
+
 		// members
 		BSTValueEventSink<PipboyLightEvent> pipboySpotLightEvent;             // 030
 		BSTValueEventSink<PlayerAmmoCountEvent> nextAmmoCount;                // 048

@@ -1614,11 +1614,7 @@ namespace RE
 		struct InitParams
 		{
 		public:
-			InitParams()
-			{
-				workbenchFurniture.reset();
-				inventorySource = RE::PlayerCharacter::GetPlayerHandle();
-			}
+			InitParams();
 
 			// members
 			ObjectRefHandle workbenchFurniture;             // 00

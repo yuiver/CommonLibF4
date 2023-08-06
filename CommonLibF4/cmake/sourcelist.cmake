@@ -363,6 +363,7 @@ set(SOURCES
 	src/RE/Bethesda/CRC.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp
+	src/RE/Bethesda/IMenu.cpp
 	src/RE/Bethesda/MenuCursor.cpp
 	src/RE/Bethesda/PlayerCharacter.cpp
 	src/RE/Bethesda/TESBoundAnimObjects.cpp

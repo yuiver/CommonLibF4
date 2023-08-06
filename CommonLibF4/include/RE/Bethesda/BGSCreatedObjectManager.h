@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/Bethesda/Atomic.h"
+#include "RE/Bethesda/BSLock.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/Bethesda/BSTSingleton.h"

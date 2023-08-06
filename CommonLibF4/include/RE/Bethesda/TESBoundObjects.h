@@ -722,7 +722,7 @@ namespace RE
 
 		BGSScene* GetNoteScene()
 		{
-			return (type == NOTE_TYPE::kScene) ? TESForm::GetFormByID<BGSScene>(noteFormID) : nullptr;
+			return (type == NOTE_TYPE::kScene) ? TESForm::GetFormByID<BGSScene>(static_cast<std::uint32_t>(noteFormID)) : nullptr;
 		}
 
 		const BSFixedString GetNoteProgram()
@@ -732,7 +732,7 @@ namespace RE
 
 		BGSTerminal* GetNoteTerminal()
 		{
-			return (type == NOTE_TYPE::kTerminal) ? TESForm::GetFormByID<BGSTerminal>(noteFormID) : nullptr;
+			return (type == NOTE_TYPE::kTerminal) ? TESForm::GetFormByID<BGSTerminal>(static_cast<std::uint32_t>(noteFormID)) : nullptr;
 		}
 
 		// members
