@@ -57,12 +57,7 @@ namespace RE
 	class WeaponAnimationGraphManagerHolder;
 
 	struct BSActiveGraphIfInactiveEvent;
-	struct BSAnimationGraphEvent
-	{
-		TESObjectREFR* refr;
-		BSFixedString animEvent;
-		BSFixedString argument;  //Something like SoundPlay.>>Descriptorname<<
-	};
+	struct BSAnimationGraphEvent;
 	struct BSAnimationUpdateData;
 
 	namespace ActorValueEvents

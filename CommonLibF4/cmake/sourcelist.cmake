@@ -31,6 +31,7 @@ set(SOURCES
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
+	include/RE/Bethesda/BSAnimationGraph.h
 	include/RE/Bethesda/BSAudioManager.h
 	include/RE/Bethesda/BSAudioUtil.h
 	include/RE/Bethesda/BSBTreeFile.h
