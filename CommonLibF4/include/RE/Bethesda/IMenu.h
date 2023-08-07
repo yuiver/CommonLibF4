@@ -776,7 +776,7 @@ namespace RE
 		BSTAlignedArray<UIShaderFXInfo> cachedColorFXInfos;       // 98
 		BSTAlignedArray<UIShaderFXInfo> cachedBackgroundFXInfos;  // B0
 		BSReadWriteLock cachedQuadsLock;                          // C8
-		BSTOptional<HUDModeType> menuHUDMode{ nullptr };          // D0
+		BSTOptional<HUDModeType> menuHUDMode{ "All" };            // D0
 	};
 	static_assert(sizeof(GameMenuBase) == 0xE0);
 
@@ -900,6 +900,20 @@ namespace RE
 			using func_t = decltype(&Inventory3DManager::ClearModel);
 			REL::Relocation<func_t> func{ REL::ID(63218) };
 			return func(this);
+		}
+
+		void DisableRendering(const BSFixedString& a_userID)
+		{
+			using func_t = decltype(&Inventory3DManager::DisableRendering);
+			REL::Relocation<func_t> func{ REL::ID(255893) };
+			return func(this, a_userID);
+		}
+
+		void EnableRendering(const BSFixedString& a_userID)
+		{
+			using func_t = decltype(&Inventory3DManager::EnableRendering);
+			REL::Relocation<func_t> func{ REL::ID(176578) };
+			return func(this, a_userID);
 		}
 
 		void End3D()
