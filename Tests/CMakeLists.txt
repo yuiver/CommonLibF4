@@ -7,7 +7,7 @@ add_project(
 		"../CommonLibF4/include"
 		src
 	GROUPED_FILES
-		"src/BSTHashMap.cpp"
+		"src/RE/B/BSTHashMap.cpp"
 		"src/pch.h"
 	PRECOMPILED_HEADERS
 		"src/pch.h"
