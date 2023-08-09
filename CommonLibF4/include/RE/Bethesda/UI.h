@@ -99,6 +99,13 @@ namespace RE
 			return menu ? menu->OnStack() : false;
 		}
 
+		template <class T>
+		[[nodiscard]] bool GetMenuOpen() const  //
+			requires(requires { T::MENU_NAME; })
+		{
+			return GetMenuOpen(T::MENU_NAME);
+		}
+
 		void RefreshCursor()
 		{
 			using func_t = decltype(&UI::RefreshCursor);
