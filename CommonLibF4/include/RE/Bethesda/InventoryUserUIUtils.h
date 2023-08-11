@@ -67,6 +67,13 @@ namespace RE
 			return func(a_object, a_comparisonItems);
 		}
 
+		inline void PlayPipboySound(const char* a_soundName)
+		{
+			using func_t = decltype(&PlayPipboySound);
+			REL::Relocation<func_t> func{ REL::ID(1320952) };
+			return func(a_soundName);
+		}
+
 		inline void PlayMenuSound(const char* a_soundName)
 		{
 			using func_t = decltype(&PlayMenuSound);

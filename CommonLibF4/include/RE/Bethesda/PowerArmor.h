@@ -27,7 +27,8 @@ namespace RE
 
 		[[nodiscard]] inline bool PlayerInPowerArmor()
 		{
-			return ActorInPowerArmor(*PlayerCharacter::GetSingleton());
+			auto PlayerCharacter = PlayerCharacter::GetSingleton();
+			return PlayerCharacter ? ActorInPowerArmor(*PlayerCharacter) : false;
 		}
 
 		[[nodiscard]] inline BGSKeyword* GetArmorKeyword()
@@ -83,6 +84,20 @@ namespace RE
 		{
 			REL::Relocation<PowerArmorGeometry**> singleton{ REL::ID(1365745) };
 			return *singleton;
+		}
+
+		void HidePipboyPAGeometry()
+		{
+			using func_t = decltype(&PowerArmorGeometry::HidePipboyPAGeometry);
+			REL::Relocation<func_t> func{ REL::ID(976332) };
+			return func(this);
+		}
+
+		void ShowPipboyPAGeometry()
+		{
+			using func_t = decltype(&PowerArmorGeometry::ShowPipboyPAGeometry);
+			REL::Relocation<func_t> func{ REL::ID(19066) };
+			return func(this);
 		}
 
 		// members

@@ -1300,7 +1300,7 @@ namespace RE::BSScript
 	}
 
 	template <class... Args>
-	void IVirtualMachine::DispatchMethodCall(
+	bool IVirtualMachine::DispatchMethodCall(
 		std::uint64_t a_objHandle,
 		const BSFixedString& a_objName,
 		const BSFixedString& a_funcName,
@@ -1308,7 +1308,7 @@ namespace RE::BSScript
 		Args... a_args)
 	{
 		auto args = detail::FunctionArgs{ this, a_args... };
-		DispatchMethodCall(
+		return DispatchMethodCall(
 			a_objHandle,
 			a_objName,
 			a_funcName,

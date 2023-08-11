@@ -8,6 +8,7 @@
 #include "RE/Bethesda/BSInputEventUser.h"
 #include "RE/Bethesda/BSPointerHandle.h"
 #include "RE/Bethesda/BSSoundHandle.h"
+#include "RE/Bethesda/BSStorage.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTHashMap.h"
@@ -25,6 +26,7 @@
 #include "RE/Bethesda/UIMessage.h"
 #include "RE/Bethesda/UIShaderFXInfo.h"
 #include "RE/Bethesda/UserEvents.h"
+#include "RE/NetImmerse/NiColor.h"
 #include "RE/NetImmerse/NiMatrix3.h"
 #include "RE/NetImmerse/NiPoint2.h"
 #include "RE/NetImmerse/NiPoint3.h"
@@ -44,6 +46,7 @@ namespace RE
 		struct PlacementStatusEvent;
 	}
 
+	class BGSTerminal;
 	class BSInputEnableLayer;
 	class BSGFxFunctionBase;
 	class BSGFxShaderFXTarget;
@@ -107,22 +110,22 @@ namespace RE
 	enum class UI_DEPTH_PRIORITY
 	{
 		kUndefined,
-		k3DUnderHUD,
-		kBook,
-		kScope,
+		k3DUnderHUD,  // WorkshopMenu3D
+		kBook,        // BookMenu
+		kScope,       // ScopeMenu
 		kSWFLoader,
 		kHUD,
-		kStandard,
-		kStandard3DModel,
+		kStandard,         // PipboyMenu, PowerArmorRenderer, HUDRainRenderer, LockpickingMenu3D
+		kStandard3DModel,  // Container3D, WorkbenchItem3D
 		kPipboy,
 		kTerminal,
 		kGameMessage,
 		kPauseMenu,
 		kLoadingFader,
-		kLoading3DModel,
+		kLoading3DModel,  // BackgroundScreenModel
 		kLoadingMenu,
 		kMessage,
-		kButtonBarMenu,
+		kButtonBarMenu,  // FlatScreenModel, HUDScreenModel
 		kButtonBarSupressingMenu,
 		kDebug,
 		kConsole,
@@ -162,8 +165,8 @@ namespace RE
 	};
 
 	class __declspec(novtable) FlatScreenModel :
-		public BSTSingletonSDM<FlatScreenModel>,                  // 08
-		public BSTEventSink<UIAdvanceMenusFunctionCompleteEvent>  // 00
+		public BSTEventSink<UIAdvanceMenusFunctionCompleteEvent>,  // 00
+		public BSTSingletonSDM<FlatScreenModel>                    // 08
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::FlatScreenModel };
@@ -610,6 +613,20 @@ namespace RE
 			return func(this, a_colorFXInfo, a_backgroundFXInfo);
 		}
 
+		void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
+		{
+			using func_t = void (BSGFxShaderFXTarget::*)(const NiColor&, float);
+			REL::Relocation<func_t> func{ REL::ID(1487925) };
+			func(this, a_color, a_brightness);
+		}
+
+		void CreateAndSetFiltersToColor(std::uint8_t a_r, std::uint8_t a_g, std::uint8_t a_b, float a_brightness)
+		{
+			using func_t = void (BSGFxShaderFXTarget::*)(std::uint8_t, std::uint8_t, std::uint8_t, float);
+			REL::Relocation<func_t> func{ REL::ID(783104) };
+			func(this, a_r, a_g, a_b, a_brightness);
+		}
+
 		void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::CreateAndSetFiltersToHUD);
@@ -759,7 +776,7 @@ namespace RE
 		BSTAlignedArray<UIShaderFXInfo> cachedColorFXInfos;       // 98
 		BSTAlignedArray<UIShaderFXInfo> cachedBackgroundFXInfos;  // B0
 		BSReadWriteLock cachedQuadsLock;                          // C8
-		BSTOptional<HUDModeType> menuHUDMode;                     // D0
+		BSTOptional<HUDModeType> menuHUDMode{ "All" };            // D0
 	};
 	static_assert(sizeof(GameMenuBase) == 0xE0);
 
@@ -871,11 +888,53 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::Inventory3DManager };
 		static constexpr auto VTABLE{ VTABLE::Inventory3DManager };
 
+		void Begin3D()
+		{
+			using func_t = decltype(&Inventory3DManager::Begin3D);
+			REL::Relocation<func_t> func{ REL::ID(662659) };
+			return func(this);
+		}
+
 		void ClearModel()
 		{
 			using func_t = decltype(&Inventory3DManager::ClearModel);
 			REL::Relocation<func_t> func{ REL::ID(63218) };
 			return func(this);
+		}
+
+		void DisableRendering(const BSFixedString& a_userID)
+		{
+			using func_t = decltype(&Inventory3DManager::DisableRendering);
+			REL::Relocation<func_t> func{ REL::ID(255893) };
+			return func(this, a_userID);
+		}
+
+		void EnableRendering(const BSFixedString& a_userID)
+		{
+			using func_t = decltype(&Inventory3DManager::EnableRendering);
+			REL::Relocation<func_t> func{ REL::ID(176578) };
+			return func(this, a_userID);
+		}
+
+		void End3D()
+		{
+			using func_t = decltype(&Inventory3DManager::End3D);
+			REL::Relocation<func_t> func{ REL::ID(1512675) };
+			return func(this);
+		}
+
+		void SetModelScale(float a_scale)
+		{
+			using func_t = decltype(&Inventory3DManager::SetModelScale);
+			REL::Relocation<func_t> func{ REL::ID(1319701) };
+			return func(this, a_scale);
+		}
+
+		void SetModelScreenPosition(const NiPoint3& a_position, bool a_screenCoords)
+		{
+			using func_t = decltype(&Inventory3DManager::SetModelScreenPosition);
+			REL::Relocation<func_t> func{ REL::ID(2967) };
+			return func(this, a_position, a_screenCoords);
 		}
 
 		// members
@@ -1566,6 +1625,25 @@ namespace RE
 			kWorld
 		};
 
+		struct InitParams
+		{
+		public:
+			InitParams();
+
+			// members
+			ObjectRefHandle workbenchFurniture;             // 00
+			ObjectRefHandle inventorySource;                // 04
+			InventoryInterface::Handle item{ 0xFFFFFFFF };  // 08
+			NiPointer<Actor> actor{ nullptr };              // 10
+			std::uint32_t stack{ 0 };                       // 18
+			bool inspectMode{ true };                       // 1C
+			bool inspectingSingleItem{ false };             // 1D
+			bool inspectingFeaturedItem{ false };           // 1E
+			bool showFeaturedItemMessage{ false };          // 1F
+			bool botCompanion{ false };                     // 20
+		};
+		static_assert(sizeof(InitParams) == 0x28);
+
 		struct ModChoiceData
 		{
 		public:
@@ -1977,7 +2055,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::SitWaitMenu };
 		static constexpr auto MENU_NAME{ "SitWaitMenu"sv };
 
-		virtual ~SitWaitMenu();  //00
+		virtual ~SitWaitMenu();  // 00
 
 		// override (GameMenuBase)
 		virtual void Call(const Params&) override;                                                               // 01
@@ -2003,4 +2081,229 @@ namespace RE
 		BSTArray<BSFixedString> overridingMenus;  // E0
 	};
 	static_assert(sizeof(SitWaitMenu) == 0xF8);
+
+	namespace REFREventCallbacks
+	{
+		class IEventCallback :
+			public BSIntrusiveRefCounted  // 00
+		{
+		public:
+			static constexpr auto RTTI{ RTTI::REFREventCallbacks__IEventCallback };
+			static constexpr auto VTABLE{ VTABLE::REFREventCallbacks__IEventCallback };
+
+			virtual ~IEventCallback();  // 00
+
+			// add
+			virtual void operator()() = 0;                  // 01
+			virtual bool Save(BSStorage& a_storage);        // 02
+			virtual const BSFixedString* GetType() = 0;     // 03
+			virtual bool Load(const BSStorage& a_storage);  // 04
+		};
+		static_assert(sizeof(IEventCallback) == 0x10);
+	}
+
+	class __declspec(novtable) TerminalMenu :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TerminalMenu };
+		static constexpr auto VTABLE{ VTABLE::TerminalMenu };
+		static constexpr auto MENU_NAME{ "TerminalMenu"sv };
+
+		enum class Mode
+		{
+			kInit = 0x0,
+			kHack = 0x1,
+			kLogin = 0x2,
+			kList = 0x3,
+			kText = 0x4,
+			kImage = 0x5,
+			kHolotape = 0x6,
+			kWaitingForPapyrus = 0x7,
+		};
+
+		struct ListItem
+		{
+		public:
+			// members
+			const void* menuItem;         // 00 - BGSTerminal::MenuItem*
+			const BGSTerminal* terminal;  // 08
+		};
+		static_assert(sizeof(ListItem) == 0x10);
+
+		virtual ~TerminalMenu();  // 00
+
+		// override (GameMenuBase)
+		virtual void Call(const Params&) override;                                     // 01
+		virtual void MapCodeObjectFunctions() override;                                // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;      // 03
+		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
+		virtual bool CanHandleWhenDisabled(const ButtonEvent* a_event) override;       // 0E
+		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+
+		// override (BSInputEventUser)
+		virtual bool ShouldHandleEvent(const InputEvent* a_event) override;  // 01
+		virtual void OnButtonEvent(const ButtonEvent* a_event) override;     // 08
+
+		// members
+		Scaleform::GFx::Value menuElements[6];                                           // 0E0
+		BSTArray<ListItem> menuItemList;                                                 // 1A0
+		BSTArray<NiPointer<NiAVObject>> culledObjects;                                   // 1B8
+		BSTArray<BGSTerminal*> history;                                                  // 1D0
+		BSTHashMap<void*, std::uint32_t> lastSelectionMap;                               // 1E8
+		BSTSmartPointer<REFREventCallbacks::IEventCallback> terminalRunResultsCallback;  // 218
+		BSScaleformExternalTexture displayImage;                                         // 220
+		BSSoundHandle charScrollLoop;                                                    // 238
+		stl::enumeration<Mode, std::uint32_t> mode;                                      // 240
+		std::uint64_t soundMark;                                                         // 248
+		std::uint64_t responseTextTimeout;                                               // 250
+		std::uint64_t loginTextTimeout;                                                  // 258
+		bool autoEjectHolotapeOnExit;                                                    // 260
+		bool cancelPressRegistered;                                                      // 261
+		bool autoLoadHolotape;                                                           // 262
+	};
+	static_assert(sizeof(TerminalMenu) == 0x268);
+
+	class __declspec(novtable) TerminalMenuButtons :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TerminalMenuButtons };
+		static constexpr auto VTABLE{ VTABLE::TerminalMenuButtons };
+		static constexpr auto MENU_NAME{ "TerminalMenuButtons"sv };
+
+		virtual ~TerminalMenuButtons();  // 00
+
+		// override (GameMenuBase)
+		virtual void Call(const Params&) override;                                 // 01
+		virtual void MapCodeObjectFunctions() override;                            // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 03
+	};
+	static_assert(sizeof(TerminalMenuButtons) == 0xE0);
+
+	class __declspec(novtable) HolotapeMenu :
+		public GameMenuBase,                     // 00
+		public BSTEventSink<MenuOpenCloseEvent>  // E0
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::HolotapeMenu };
+		static constexpr auto VTABLE{ VTABLE::HolotapeMenu };
+		static constexpr auto MENU_NAME{ "HolotapeMenu"sv };
+
+		virtual ~HolotapeMenu();  // 00
+
+		// override (GameMenuBase)
+		virtual void Call(const Params&) override;                                     // 01
+		virtual void MapCodeObjectFunctions() override;                                // 02
+		virtual bool CanHandleWhenDisabled(const ButtonEvent* a_event) override;       // 0E
+		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+
+		// add
+		virtual void ProcessCancel() = 0;                // 14
+		virtual void ProcessChatterImpl(const Params&);  // 15
+
+		// override (BSInputEventUser)
+		virtual bool ShouldHandleEvent(const InputEvent* a_event) override;       // 01
+		virtual void OnThumbstickEvent(const ThumbstickEvent* a_event) override;  // 04
+
+		// override (BSTEventSink)
+		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;  // 01
+
+		static void ShowHolotapeInPipboy(const BSFixedString& a_holotapePath)
+		{
+			using func_t = decltype(&HolotapeMenu::ShowHolotapeInPipboy);
+			REL::Relocation<func_t> func{ REL::ID(217953) };
+			return func(a_holotapePath);
+		}
+
+		static void ShowHolotapeInTerminal(const BSFixedString& a_holotapePath)
+		{
+			using func_t = decltype(&HolotapeMenu::ShowHolotapeInTerminal);
+			REL::Relocation<func_t> func{ REL::ID(390509) };
+			return func(a_holotapePath);
+		}
+
+		// members
+		BSTArray<BSSoundHandle> registeredSounds;  // 0E8
+		bool useOwnCursor;                         // 100
+		bool isMinigame;                           // 101
+	};
+	static_assert(sizeof(HolotapeMenu) == 0x108);
+
+	class __declspec(novtable) PipboyHolotapeMenu :
+		public HolotapeMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PipboyHolotapeMenu };
+		static constexpr auto VTABLE{ VTABLE::PipboyHolotapeMenu };
+		static constexpr auto MENU_NAME{ "PipboyHolotapeMenu"sv };
+
+		virtual ~PipboyHolotapeMenu();  // 00
+
+		// override (HolotapeMenu)
+		virtual void ProcessCancel() override;  // 14
+
+		// members
+		bool wasPipboyActive;  // 108
+	};
+	static_assert(sizeof(PipboyHolotapeMenu) == 0x110);
+
+	class __declspec(novtable) TerminalHolotapeMenu :
+		public HolotapeMenu  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::TerminalHolotapeMenu };
+		static constexpr auto VTABLE{ VTABLE::TerminalHolotapeMenu };
+		static constexpr auto MENU_NAME{ "TerminalHolotapeMenu"sv };
+
+		virtual ~TerminalHolotapeMenu();  // 00
+
+		// override (HolotapeMenu)
+		virtual void ProcessCancel() override;                    // 14
+		virtual void ProcessChatterImpl(const Params&) override;  // 15
+	};
+	static_assert(sizeof(TerminalHolotapeMenu) == 0x108);
+
+	class __declspec(novtable) PowerArmorModMenu :
+		public ExamineMenu
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::PowerArmorModMenu };
+		static constexpr auto VTABLE{ VTABLE::PowerArmorModMenu };
+		static constexpr auto MENU_NAME{ "PowerArmorModMenu"sv };
+
+		virtual ~PowerArmorModMenu();  // 00
+
+		// override (ExamineMenu)
+		virtual void PreDisplay() override;
+		virtual void BuildCanceled() override;                                                                                                                    // 16
+		virtual void BuildConfirmed(bool a_ownerIsWorkbench) override;                                                                                            // 17
+		virtual bool GetWorkbenchHasInventory() override;                                                                                                         // 18
+		virtual const ModChoiceData* QCurrentModChoiceData() override;                                                                                            // 19
+		virtual void ShowBuildFailureMessage() override;                                                                                                          // 1A
+		virtual EQUIP_TYPE GetInventoryEntryEquipState(const InventoryUserUIInterfaceEntry& a_entry) override;                                                    // 1C
+		virtual void ShowCurrent3D() override;                                                                                                                    // 1D
+		virtual void HighlightWeaponPart() override;                                                                                                              // 28
+		virtual void ResetHighlight() override;                                                                                                                   // 29
+		virtual void CreateModdedInventoryItem() override;                                                                                                        // 2A
+		virtual const char* GetBuildConfirmButtonLabel() override;                                                                                                // 30
+		virtual void GetBuildConfirmQuestion(char* a_buffer, std::uint32_t a_bufferLength) override;                                                              // 31
+		virtual bool GetCanRepairSelectedItem() override;                                                                                                         // 32
+		virtual NiAVObject* GetCurrent3D() override;                                                                                                              // 33
+		virtual bool GetCurrent3DLoaded() override;                                                                                                               // 34
+		virtual bool GetIsValidInventoryItem(const BGSInventoryItem& a_item, std::uint32_t a_stackID) override;                                                   // 35
+		virtual const char* GetMenuName() override;                                                                                                               // 36
+		virtual void OnSwitchBaseItem() override;                                                                                                                 // 37
+		virtual void PopulateInventoryItemObj(ObjectRefHandle a_owner, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_itemObj) override;  // 38
+		virtual void RegisterMenuComponents(const Scaleform::GFx::FunctionHandler::Params& a_params) override;                                                    // 39
+		virtual void RepairSelectedItem() override;                                                                                                               // 3A
+		virtual void SetFilter() override;                                                                                                                        // 3B
+		virtual void ToggleItemEquipped() override;                                                                                                               // 3D
+		virtual void UpdateModChoiceList() override;                                                                                                              // 3F
+
+		// members
+		WorkbenchMenuBase::ModChoiceData repairData;  // 810
+		bool queuePreviewedPieceAttatch;              // 848
+	};
+	static_assert(sizeof(PowerArmorModMenu) == 0x850);
 }

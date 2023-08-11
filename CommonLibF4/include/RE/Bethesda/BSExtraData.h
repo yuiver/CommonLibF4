@@ -864,6 +864,13 @@ namespace RE
 			return func(this, a_instExtra, a_object, a_data);
 		}
 
+		void SetOverrideName(const char* a_name)
+		{
+			using func_t = decltype(&ExtraDataList::SetOverrideName);
+			REL::Relocation<func_t> func{ REL::ID(222303) };
+			return func(this, a_name);
+		}
+
 		void SetStartingWorldOrCell(TESForm* a_form)
 		{
 			using func_t = decltype(&ExtraDataList::SetStartingWorldOrCell);

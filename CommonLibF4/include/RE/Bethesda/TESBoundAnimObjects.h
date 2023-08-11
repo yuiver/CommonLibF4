@@ -574,6 +574,13 @@ namespace RE
 			return func(a_refr);
 		}
 
+		static void Show(TESObjectREFR* a_refr)
+		{
+			using func_t = decltype(&BGSTerminal::Show);
+			REL::Relocation<func_t> func{ REL::ID(1069012) };
+			return func(a_refr);
+		}
+
 		// members
 		BSTArray<BodyTextItem> bodyTextItems;   // 1A0
 		BSTArray<MenuItem> menuItems;           // 1B8

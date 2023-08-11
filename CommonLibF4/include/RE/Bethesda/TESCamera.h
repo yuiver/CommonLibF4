@@ -191,6 +191,20 @@ namespace RE
 			return BSTSmartPointer{ static_cast<T*>(cameraStates[T::STATE].get()) };
 		}
 
+		TESCameraState* PopState()
+		{
+			using func_t = decltype(&PlayerCamera::PopState);
+			REL::Relocation<func_t> func{ REL::ID(120998) };
+			return func(this);
+		}
+
+		TESCameraState* PushState(CameraState a_state)
+		{
+			using func_t = decltype(&PlayerCamera::PushState);
+			REL::Relocation<func_t> func{ REL::ID(746523) };
+			return func(this, a_state);
+		}
+
 		void SetState(TESCameraState* a_newstate) const
 		{
 			using func_t = decltype(&PlayerCamera::SetState);
@@ -203,6 +217,20 @@ namespace RE
 			using func_t = decltype(&PlayerCamera::StartFurnitureMode);
 			REL::Relocation<func_t> func{ REL::ID(10202) };
 			return func(this, a_furniture);
+		}
+
+		void StartPipboyMode(bool a_forcePipboyModeCamera)
+		{
+			using func_t = decltype(&PlayerCamera::StartPipboyMode);
+			REL::Relocation<func_t> func{ REL::ID(998069) };
+			return func(this, a_forcePipboyModeCamera);
+		}
+
+		void StopPipboyMode()
+		{
+			using func_t = decltype(&PlayerCamera::StopPipboyMode);
+			REL::Relocation<func_t> func{ REL::ID(811954) };
+			return func(this);
 		}
 
 		// members

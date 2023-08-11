@@ -51,6 +51,7 @@ namespace RE
 		[[nodiscard]] bool GetAppCulled() const noexcept { return flags.flags & 1; }
 		[[nodiscard]] std::uint64_t GetFlags() const noexcept { return flags.flags; }
 		[[nodiscard]] bool ShadowCaster() const noexcept { return ~(flags.flags >> 40) & 1; }
+		void Update(NiUpdateData& a_data);
 
 		// members
 		NiNode* parent{ nullptr };                     // 027
