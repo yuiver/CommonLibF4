@@ -67,6 +67,7 @@ static_assert(
 #pragma warning(pop)
 
 #include "F4SE/Impl/WinAPI.h"
+#include "F4SE/Impl/WinSTL.h"
 
 namespace F4SE
 {
@@ -787,7 +788,7 @@ namespace F4SE
 				a_msg);
 
 			if (a_fail) {
-#ifdef ENABLE_COMMONLIBF4_TESTING
+#ifdef COMMONLIBF4_ENABLE_TESTING
 				throw std::runtime_error(utf16_to_utf8(caption.empty() ? body.c_str() : caption.c_str())->c_str());
 #else
 				WinAPI::MessageBox(nullptr, body.c_str(), (caption.empty() ? nullptr : caption.c_str()), 0);
@@ -861,6 +862,7 @@ namespace RE
 	using namespace std::literals;
 	namespace stl = F4SE::stl;
 	namespace WinAPI = F4SE::WinAPI;
+	namespace WinSTL = F4SE::WinSTL;
 }
 
 namespace REL
@@ -868,6 +870,7 @@ namespace REL
 	using namespace std::literals;
 	namespace stl = F4SE::stl;
 	namespace WinAPI = F4SE::WinAPI;
+	namespace WinSTL = F4SE::WinSTL;
 }
 
 #include "REL/Relocation.h"
