@@ -123,6 +123,23 @@ namespace RE
 	};
 	static_assert(sizeof(CurrentRadiationSourceCount) == 0x08);
 
+	struct ColorUpdateEvent
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<ColorUpdateEvent>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(1226590) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+	};
+	static_assert(std::is_empty_v<ColorUpdateEvent>);
+
 	class CurrentRadsDisplayMagnitude :
 		public BSTValueEvent<float>
 	{
@@ -307,6 +324,26 @@ namespace RE
 	public:
 	};
 	static_assert(sizeof(PlayerWeaponReloadEvent) == 0x02);
+
+	struct PowerArmorLightData
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<PowerArmorLightData>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(120809) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+
+		// members
+		bool lightOn;  // 00
+	};
+	static_assert(sizeof(PowerArmorLightData) == 0x01);
 
 	struct QuickContainerStateData
 	{
