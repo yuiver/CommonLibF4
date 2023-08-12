@@ -63,6 +63,13 @@ namespace RE
 				return func(this, a_obj, a_objHandle);
 			}
 
+			void UnbindObject(const BSTSmartPointer<Object>& a_obj)
+			{
+				using func_t = decltype(&ObjectBindPolicy::UnbindObject);
+				REL::Relocation<func_t> func{ REL::ID(522763) };
+				return func(this, a_obj);
+			}
+
 			// members
 			IVirtualMachine* vm;                                                                         // 10
 			IVMObjectBindInterface* bindInterface;                                                       // 18

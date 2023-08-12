@@ -141,7 +141,7 @@ namespace RE
 				bool a_isLatent = false);
 
 			template <class... Args>
-			void DispatchMethodCall(
+			bool DispatchMethodCall(
 				std::uint64_t a_objHandle,
 				const BSFixedString& a_objName,
 				const BSFixedString& a_funcName,

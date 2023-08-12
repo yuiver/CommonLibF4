@@ -1,7 +1,6 @@
 #pragma once
 
 #include "RE/Bethesda/BSFixedString.h"
-#include "RE/Bethesda/BSGraphics.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/NetImmerse/NiObject.h"
 
@@ -10,6 +9,11 @@ namespace RE
 	namespace BSResource
 	{
 		class Stream;
+	}
+
+	namespace BSGraphics
+	{
+		class Texture;
 	}
 
 	struct BSTextureArray
@@ -28,6 +32,13 @@ namespace RE
 
 		// add
 		virtual BSTextureArray::Texture* IsBSTextureArray() { return nullptr; }  // 28
+
+		static void SetAllowDegrade(bool a_allow)
+		{
+			using func_t = decltype(&NiTexture::SetAllowDegrade);
+			REL::Relocation<func_t> func{ REL::ID(948181) };
+			return func(a_allow);
+		}
 
 		[[nodiscard]] std::string_view GetName() const { return name; }
 

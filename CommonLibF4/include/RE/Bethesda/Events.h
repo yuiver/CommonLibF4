@@ -338,6 +338,18 @@ namespace RE
 	};
 	static_assert(sizeof(QuickContainerStateEvent) == 0xC0);
 
+	namespace SPECIALMenuEvent
+	{
+		struct NameChangedEvent
+		{
+		public:
+			// members
+			const char* fullName;  // 00
+			bool committed;        // 08
+		};
+		static_assert(sizeof(NameChangedEvent) == 0x10);
+	}
+
 	class TerminalHacked
 	{
 	public:
@@ -452,6 +464,23 @@ namespace RE
 		const BGSMessage* assocMsg;  // 08
 	};
 	static_assert(sizeof(TutorialEvent) == 0x10);
+
+	struct UIAdvanceMenusFunctionCompleteEvent
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<UIAdvanceMenusFunctionCompleteEvent>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(1067039) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+	};
+	static_assert(std::is_empty_v<UIAdvanceMenusFunctionCompleteEvent>);
 
 	class UserEventEnabledEvent
 	{

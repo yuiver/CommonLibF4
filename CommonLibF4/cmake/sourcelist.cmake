@@ -32,6 +32,9 @@ set(SOURCES
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
+	include/RE/Bethesda/BSAnimationGraph.h
+	include/RE/Bethesda/BSAudioManager.h
+	include/RE/Bethesda/BSAudioUtil.h
 	include/RE/Bethesda/BSBTreeFile.h
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
@@ -47,11 +50,13 @@ set(SOURCES
 	include/RE/Bethesda/BSLock.h
 	include/RE/Bethesda/BSMTAManager.h
 	include/RE/Bethesda/BSMemStorage.h
+	include/RE/Bethesda/BSModelDB.h
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
 	include/RE/Bethesda/BSResource.h
 	include/RE/Bethesda/BSResource/AsyncStream.h
 	include/RE/Bethesda/BSResource/BSResourceEnums.h
+	include/RE/Bethesda/BSResource/Entry.h
 	include/RE/Bethesda/BSResource/GlobalLocations.h
 	include/RE/Bethesda/BSResource/GlobalPaths.h
 	include/RE/Bethesda/BSResource/Location.h
@@ -145,6 +150,7 @@ set(SOURCES
 	include/RE/Bethesda/BSTempEffectDebris.h
 	include/RE/Bethesda/BSTextureSet.h
 	include/RE/Bethesda/BSTextureStreamer.h
+	include/RE/Bethesda/BSThread.h
 	include/RE/Bethesda/BSTimer.h
 	include/RE/Bethesda/CELLJobs.h
 	include/RE/Bethesda/CRC.h
@@ -162,6 +168,10 @@ set(SOURCES
 	include/RE/Bethesda/HUDModes.h
 	include/RE/Bethesda/IMenu.h
 	include/RE/Bethesda/IMovementInterface.h
+	include/RE/Bethesda/ImageSpaceData.h
+	include/RE/Bethesda/ImageSpaceEffect.h
+	include/RE/Bethesda/ImageSpaceManager.h
+	include/RE/Bethesda/ImageSpaceModifier.h
 	include/RE/Bethesda/InputDevice.h
 	include/RE/Bethesda/InputEvent.h
 	include/RE/Bethesda/Interface3D.h
@@ -286,6 +296,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiTexture.h
 	include/RE/NetImmerse/NiTimeController.h
 	include/RE/NetImmerse/NiTransform.h
+	include/RE/NetImmerse/NiUpdateData.h
 	include/RE/NiRTTI_IDs.h
 	include/RE/RTTI.h
 	include/RE/RTTI_IDs.h
@@ -354,6 +365,7 @@ set(SOURCES
 	src/RE/Bethesda/CRC.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp
+	src/RE/Bethesda/IMenu.cpp
 	src/RE/Bethesda/MenuCursor.cpp
 	src/RE/Bethesda/PlayerCharacter.cpp
 	src/RE/Bethesda/TESBoundAnimObjects.cpp
