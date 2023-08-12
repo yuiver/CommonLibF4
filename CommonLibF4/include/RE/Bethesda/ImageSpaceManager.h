@@ -13,6 +13,8 @@ namespace RE
 	class ImageSpaceManager
 	{
 	public:
+		enum class ImageSpaceEffectEnum;
+
 		[[nodiscard]] static ImageSpaceManager* GetSingleton()
 		{
 			REL::Relocation<ImageSpaceManager**> singleton{ REL::ID(161743) };
