@@ -14,6 +14,7 @@ namespace RE
 {
 	class bhkNPCollisionObject;
 	class BGSMessage;
+	class HUDModeType;
 	class TESObjectCELL;
 	class TESObjectREFR;
 
@@ -170,6 +171,26 @@ namespace RE
 		}
 	};
 	static_assert(sizeof(DoBeforeNewOrLoadCompletedEvent) == 0x01);
+
+	struct HUDModeEvent
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<HUDModeEvent>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(683142) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+
+		// members
+		const BSTArray<HUDModeType>* currentHUDModes;
+	};
+	static_assert(sizeof(HUDModeEvent) == 0x08);
 
 	struct InventoryItemDisplayData
 	{

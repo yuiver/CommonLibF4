@@ -592,7 +592,7 @@ namespace RE
 
 		virtual ~BSGFxShaderFXTarget()
 		{
-			if (auto source = ApplyColorUpdateEvent::GetEventSource(); source) {
+			if (auto source = ApplyColorUpdateEvent::GetEventSource()) {
 				source->UnregisterSink(this);
 			}
 		}
@@ -667,7 +667,7 @@ namespace RE
 				}
 			}
 
-			if (auto source = ApplyColorUpdateEvent::GetEventSource(); source) {
+			if (auto source = ApplyColorUpdateEvent::GetEventSource()) {
 				source->RegisterSink(this);
 			}
 		}
