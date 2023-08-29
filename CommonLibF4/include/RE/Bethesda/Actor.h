@@ -550,6 +550,13 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		TESPackage* GetPackageThatIsRunning()
+		{
+			using func_t = decltype(&AIProcess::GetPackageThatIsRunning);
+			REL::Relocation<func_t> func{ REL::ID(148295) };
+			return func(this);
+		}
+
 		// members
 		MiddleLowProcessData* middleLow;                    // 00
 		MiddleHighProcessData* middleHigh;                  // 08
@@ -789,6 +796,16 @@ namespace RE
 			kForceAnimGraphUpdate = 1 << 29,
 			kCheckAddEffectDualCast = 1 << 30,
 			kUnderwater = 1 << 31,
+		};
+
+		enum class DETECTION_PRIORITY
+		{
+			kNone = 0,
+			kVeryLow = 1,
+			kLow = 2,
+			kNormal = 3,
+			kHigh = 4,
+			kCritical = 5
 		};
 
 		// add
@@ -1110,6 +1127,20 @@ namespace RE
 			using func_t = decltype(&Actor::IsQuadruped);
 			REL::Relocation<func_t> func{ REL::ID(1552322) };
 			return func(this);
+		}
+
+		float GetHealthPercent()
+		{
+			using func_t = decltype(&Actor::GetHealthPercent);
+			REL::Relocation<func_t> func{ REL::ID(260817) };
+			return func(this);
+		}
+
+		int32_t RequestDetectionLevel(Actor* a_target, DETECTION_PRIORITY a_priority = DETECTION_PRIORITY::kNormal)
+		{
+			using func_t = decltype(&Actor::RequestDetectionLevel);
+			REL::Relocation<func_t> func{ REL::ID(943772) };
+			return func(this, a_target, a_priority);
 		}
 
 		// members
