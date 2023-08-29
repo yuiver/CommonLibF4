@@ -871,6 +871,13 @@ namespace RE
 			return func(this, a_form);
 		}
 
+		float GetHealthPercent()
+		{
+			using func_t = decltype(&ExtraDataList::GetHealthPercent);
+			REL::Relocation<func_t> func{ REL::ID(196530) };
+			return func(this);
+		}
+
 		void SetHealthPercent(float a_healthPerc)
 		{
 			using func_t = decltype(&ExtraDataList::SetHealthPercent);
