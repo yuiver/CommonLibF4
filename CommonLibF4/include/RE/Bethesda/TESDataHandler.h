@@ -202,9 +202,9 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
-		bool IsFormIDInuse(std::uint32_t a_formID)
+		bool IsFormIDInUse(std::uint32_t a_formID)
 		{
-			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
+			using func_t = decltype(&TESDataHandler::IsFormIDInUse);
 			REL::Relocation<func_t> func{ REL::ID(1448838) };
 			return func(this, a_formID);
 		}
