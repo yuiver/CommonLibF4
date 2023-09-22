@@ -1143,6 +1143,19 @@ namespace RE
 			return func(this, a_target, a_priority);
 		}
 
+		bool GetOfferBarter() {
+			using func_t = decltype(&Actor::GetOfferBarter);
+			REL::Relocation<func_t> func{ REL::ID(1482717) };
+			return func(this);
+		}
+
+		ActorHandle GetActorHandle()
+		{
+			using func_t = decltype(&Actor::GetActorHandle);
+			REL::Relocation<func_t> func{ REL::ID(1145222) };
+			return func(this);
+		}
+
 		// members
 		NiTFlags<std::uint32_t, Actor> niFlags;                              // 2D0
 		float updateTargetTimer;                                             // 2D4
