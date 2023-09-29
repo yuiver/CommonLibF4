@@ -794,7 +794,7 @@ namespace RE
 			kAlignToNormal = 1 << 2,
 			kInheritRadius = 1 << 3,
 			kDropToGround = 1 << 4,
-			kTaperEffectiveness = 1 <<5
+			kTaperEffectiveness = 1 << 5
 		};
 
 		// members
