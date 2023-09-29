@@ -514,8 +514,8 @@ namespace RE
 		virtual void InitializeDataComponent() = 0;                                                                            // 02
 		virtual void ClearDataComponent() = 0;                                                                                 // 03
 		virtual void InitComponent() { return; }                                                                               // 04
-		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy) { return; }                                     // 06
 		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy, [[maybe_unused]] TESForm* a_owner) { return; }  // 05
+		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy) { return; }                                     // 06
 	};
 	static_assert(sizeof(BaseFormComponent) == 0x8);
 
