@@ -621,6 +621,13 @@ namespace RE
 			return func(a_speed);
 		}
 
+		float GetShotsPerSecond(InstanceData* a_instanceData)
+		{
+			using func_t = decltype(&TESObjectWEAP::GetShotsPerSecond);
+			REL::Relocation<func_t> func{ REL::ID(752116) };
+			return func(this, a_instanceData);
+		}
+
 		// members
 		TESObjectWEAP::Data weaponData;              // 198
 		BGSModelMaterialSwap* firstPersonModel;      // 2D0

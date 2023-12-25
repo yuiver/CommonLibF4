@@ -1156,6 +1156,13 @@ namespace RE
 			return func(this);
 		}
 
+		bool IsSneaking()
+		{
+			using func_t = decltype(&Actor::IsSneaking);
+			REL::Relocation<func_t> func{ REL::ID(1173627) };
+			return func(this);
+		}
+
 		// members
 		NiTFlags<std::uint32_t, Actor> niFlags;                              // 2D0
 		float updateTargetTimer;                                             // 2D4

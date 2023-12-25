@@ -782,6 +782,13 @@ namespace RE
 			return func(this);
 		}
 
+		float GetRelevantWaterHeight()
+		{
+			using func_t = decltype(&TESObjectREFR::GetRelevantWaterHeight);
+			REL::Relocation<func_t> func{ REL::ID(6866) };
+			return func(this);
+		}
+
 		void MarkAsDeleted()
 		{
 			using func_t = decltype(&TESObjectREFR::MarkAsDeleted);
