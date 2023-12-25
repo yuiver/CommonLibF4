@@ -348,6 +348,13 @@ namespace RE
 			REL::Relocation<GameSettingCollection**> singleton{ REL::ID(8308) };
 			return *singleton;
 		}
+
+		Setting* GetSetting(const char* a_name)
+		{
+			auto it = settings.find(a_name);
+			return it != settings.end() ? it->second : nullptr;
+		}
+
 	};
 	static_assert(sizeof(GameSettingCollection) == 0x138);
 
