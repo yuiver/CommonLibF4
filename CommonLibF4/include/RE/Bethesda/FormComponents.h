@@ -1736,13 +1736,21 @@ namespace RE
 	};
 	static_assert(sizeof(TESRaceForm) == 0x10);
 
+	enum class FIGHT_REACTION
+	{
+		kNeutral = 0,
+		kEnemy = 1,
+		kAlly = 2,
+		kFriend = 3
+	};
+
 	struct GROUP_REACTION
 	{
 	public:
 		// members
-		TESForm* form;               // 00
-		std::int32_t reaction;       // 08
-		std::int32_t fightReaction;  // 0C
+		TESForm* form;                 // 00
+		std::int32_t reaction;         // 08
+		FIGHT_REACTION fightReaction;  // 0C
 	};
 	static_assert(sizeof(GROUP_REACTION) == 0x10);
 
