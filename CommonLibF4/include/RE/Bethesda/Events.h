@@ -14,6 +14,7 @@ namespace RE
 {
 	class bhkNPCollisionObject;
 	class BGSMessage;
+	class HUDModeType;
 	class TESObjectCELL;
 	class TESObjectREFR;
 
@@ -123,6 +124,23 @@ namespace RE
 	};
 	static_assert(sizeof(CurrentRadiationSourceCount) == 0x08);
 
+	struct ColorUpdateEvent
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<ColorUpdateEvent>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(1226590) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+	};
+	static_assert(std::is_empty_v<ColorUpdateEvent>);
+
 	class CurrentRadsDisplayMagnitude :
 		public BSTValueEvent<float>
 	{
@@ -153,6 +171,26 @@ namespace RE
 		}
 	};
 	static_assert(sizeof(DoBeforeNewOrLoadCompletedEvent) == 0x01);
+
+	struct HUDModeEvent
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<HUDModeEvent>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(683142) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+
+		// members
+		const BSTArray<HUDModeType>* currentHUDModes;
+	};
+	static_assert(sizeof(HUDModeEvent) == 0x08);
 
 	struct InventoryItemDisplayData
 	{
@@ -205,6 +243,7 @@ namespace RE
 		{
 		public:
 		};
+		static_assert(std::is_empty_v<LocksPicked::Event>);
 
 		[[nodiscard]] static BSTEventSource<LocksPicked::Event>* GetEventSource()
 		{
@@ -214,7 +253,6 @@ namespace RE
 		}
 	};
 	static_assert(std::is_empty_v<LocksPicked>);
-	static_assert(std::is_empty_v<LocksPicked::Event>);
 
 	class MenuModeChangeEvent
 	{
@@ -308,6 +346,26 @@ namespace RE
 	};
 	static_assert(sizeof(PlayerWeaponReloadEvent) == 0x02);
 
+	struct PowerArmorLightData
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<PowerArmorLightData>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(120809) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+
+		// members
+		bool lightOn;  // 00
+	};
+	static_assert(sizeof(PowerArmorLightData) == 0x01);
+
 	struct QuickContainerStateData
 	{
 	public:
@@ -337,6 +395,38 @@ namespace RE
 	public:
 	};
 	static_assert(sizeof(QuickContainerStateEvent) == 0xC0);
+
+	namespace SPECIALMenuEvent
+	{
+		struct NameChangedEvent
+		{
+		public:
+			// members
+			const char* fullName;  // 00
+			bool committed;        // 08
+		};
+		static_assert(sizeof(NameChangedEvent) == 0x10);
+	}
+
+	class TerminalHacked
+	{
+	public:
+		struct Event
+		{
+		public:
+			// members
+			ObjectRefHandle terminal;  // 00
+		};
+		static_assert(sizeof(Event) == 0x04);
+
+		[[nodiscard]] static BSTEventSource<TerminalHacked::Event>* GetEventSource()
+		{
+			using func_t = decltype(&TerminalHacked::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(425579) };
+			return func();
+		}
+	};
+	static_assert(std::is_empty_v<TerminalHacked>);
 
 	struct TESActivateEvent
 	{
@@ -432,6 +522,23 @@ namespace RE
 		const BGSMessage* assocMsg;  // 08
 	};
 	static_assert(sizeof(TutorialEvent) == 0x10);
+
+	struct UIAdvanceMenusFunctionCompleteEvent
+	{
+	private:
+		using EventSource_t = BSTGlobalEvent::EventSource<UIAdvanceMenusFunctionCompleteEvent>;
+
+	public:
+		[[nodiscard]] static EventSource_t* GetEventSource()
+		{
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(1067039) };
+			if (!*singleton) {
+				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
+			}
+			return *singleton;
+		}
+	};
+	static_assert(std::is_empty_v<UIAdvanceMenusFunctionCompleteEvent>);
 
 	class UserEventEnabledEvent
 	{

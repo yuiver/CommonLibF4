@@ -22,6 +22,8 @@ namespace RE
 	enum class ACTOR_LIFE_STATE;
 	enum class ACTOR_LOS_LOCATION;
 	enum class ATTACK_STATE_ENUM;
+	enum class COMMAND_TYPE;
+	enum class DEFAULT_OBJECT;
 	enum class PACKAGE_OBJECT_TYPE;
 	enum class POWER_ATTACK_TYPE;
 	enum class RESET_3D_FLAGS;
@@ -114,14 +116,6 @@ namespace RE
 		struct PerkValueChangedEvent;
 		struct PerkEntryUpdatedEvent;
 	}
-
-	enum class INTERACTING_STATE : std::uint32_t
-	{
-		kNotInteracting,
-		kWaitingToInteract,
-		kInteracting,
-		kWaitingToStopInteracting
-	};
 
 	enum class PTYPE : std::int32_t
 	{
@@ -270,7 +264,7 @@ namespace RE
 
 		void SetupFireSounds(Actor& a_actor, BGSObjectInstanceT<TESObjectWEAP>& a_weapon)
 		{
-			using func_t = decltype(&RE::EquippedWeaponData::SetupFireSounds);
+			using func_t = decltype(&EquippedWeaponData::SetupFireSounds);
 			REL::Relocation<func_t> func{ REL::ID(1468462) };
 			return func(this, a_actor, a_weapon);
 		}
@@ -482,6 +476,13 @@ namespace RE
 	};
 	static_assert(sizeof(CachedValues) == 0x60);
 
+	enum class WEAPON_CULL_TYPE
+	{
+		kGeneral,
+		kAnimation,
+		kWeaponSwitch,
+	};
+
 	class AITimer
 	{
 	public:
@@ -500,11 +501,53 @@ namespace RE
 			return func(this, a_equipIndex);
 		}
 
+		COMMAND_TYPE GetCommandType()
+		{
+			using func_t = decltype(&AIProcess::GetCommandType);
+			REL::Relocation<func_t> func{ REL::ID(678523) };
+			return func(this);
+		}
+
+		[[nodiscard]] ObjectRefHandle GetOccupiedFurniture()
+		{
+			using func_t = decltype(&AIProcess::GetOccupiedFurniture);
+			REL::Relocation<func_t> func{ REL::ID(1162965) };
+			return func(this);
+		}
+
+		bool IsWeaponSubgraphFinishedLoading(const Actor& a_actor)
+		{
+			using func_t = decltype(&AIProcess::IsWeaponSubgraphFinishedLoading);
+			REL::Relocation<func_t> func{ REL::ID(320183) };
+			return func(this, a_actor);
+		}
+
 		void KnockExplosion(Actor* a_actor, const NiPoint3& a_location, float a_magnitude)
 		{
 			using func_t = decltype(&AIProcess::KnockExplosion);
 			REL::Relocation<func_t> func{ REL::ID(533106) };
 			return func(this, a_actor, a_location, a_magnitude);
+		}
+
+		void SetupSpecialIdle(Actor& a_actor, RE::DEFAULT_OBJECT a_defaultObject, TESIdleForm* a_idle, bool a_testConditions, TESObjectREFR* a_targetOverride)
+		{
+			using func_t = decltype(&AIProcess::SetupSpecialIdle);
+			REL::Relocation<func_t> func{ REL::ID(1446774) };
+			return func(this, a_actor, a_defaultObject, a_idle, a_testConditions, a_targetOverride);
+		}
+
+		bool ProcessGreet(Actor* a_actor, DIALOGUE_TYPE a_type, DIALOGUE_SUBTYPE a_subType, TESObjectREFR* a_target, BGSDialogueBranch* a_branch, bool a_forceSub, bool a_stop, bool a_que, bool a_sayCallback)
+		{
+			using func_t = decltype(&AIProcess::ProcessGreet);
+			REL::Relocation<func_t> func{ REL::ID(1174935) };
+			return func(this, a_actor, a_type, a_subType, a_target, a_branch, a_forceSub, a_stop, a_que, a_sayCallback);
+		}
+
+		bool RequestLoadAnimationsForWeaponChange(Actor& a_actor)
+		{
+			using func_t = decltype(&AIProcess::RequestLoadAnimationsForWeaponChange);
+			REL::Relocation<func_t> func{ REL::ID(666002) };
+			return func(this, a_actor);
 		}
 
 		void SetActorsDetectionEvent(Actor* a_actor, const NiPoint3& a_location, std::int32_t a_soundLevel, TESObjectREFR* a_refr)
@@ -521,33 +564,25 @@ namespace RE
 			return func(this, a_equipIndex, a_ammo);
 		}
 
-		void SetEquippedItem(Actor* a, BGSObjectInstance& instance, const BGSEquipSlot* slot)
+		void SetCommandType(COMMAND_TYPE a_type)
+		{
+			using func_t = decltype(&AIProcess::SetCommandType);
+			REL::Relocation<func_t> func{ REL::ID(1555789) };
+			return func(this, a_type);
+		}
+
+		void SetEquippedItem(Actor* a_actor, const BGSObjectInstance& a_instance, const BGSEquipSlot* a_slot)
 		{
 			using func_t = decltype(&AIProcess::SetEquippedItem);
 			REL::Relocation<func_t> func{ REL::ID(1200276) };
-			return func(this, a, instance, slot);
+			return func(this, a_actor, a_instance, a_slot);
 		}
 
-		//Flag should be 0x35
-		void PlayIdle(Actor* a, uint32_t flag, TESIdleForm* idle, bool unk01 = true, uint64_t unk02 = 0)
+		bool SetWeaponBonesCulled(const Actor& a_actor, bool a_stateToSet, WEAPON_CULL_TYPE a_weaponCullType)
 		{
-			using func_t = decltype(&AIProcess::PlayIdle);
-			REL::Relocation<func_t> func{ REL::ID(1446774) };
-			return func(this, a, flag, idle, unk01, unk02);
-		}
-
-		bool RequestLoadAnimationsForWeaponChange(Actor& a_actor)
-		{
-			using func_t = decltype(&AIProcess::RequestLoadAnimationsForWeaponChange);
-			REL::Relocation<func_t> func{ REL::ID(666002) };
-			return func(this, a_actor);
-		}
-
-		bool IsWeaponSubgraphFinishedLoading(Actor& a_actor)
-		{
-			using func_t = decltype(&AIProcess::IsWeaponSubgraphFinishedLoading);
-			REL::Relocation<func_t> func{ REL::ID(320183) };
-			return func(this, a_actor);
+			using func_t = decltype(&AIProcess::SetWeaponBonesCulled);
+			REL::Relocation<func_t> func{ REL::ID(397172) };
+			return func(this, a_actor, a_stateToSet, a_weaponCullType);
 		}
 
 		TESPackage* GetPackageThatIsRunning()
@@ -643,6 +678,19 @@ namespace RE
 	};
 	static_assert(sizeof(MagicTarget) == 0x18);
 
+	enum class LIFE_STATE : std::uint32_t
+	{
+		kAlive,
+		kDying,
+		kDead,
+		kUnconscious,
+		kReanimate,
+		kRecycle,
+		kRestrained,
+		kEssentialDown,
+		kBleedout
+	};
+
 	enum class WEAPON_STATE : std::uint32_t
 	{
 		kSheathed,
@@ -664,6 +712,14 @@ namespace RE
 		kSighted,
 		kFire,
 		kFireSighted
+	};
+
+	enum class INTERACTING_STATE : std::uint32_t
+	{
+		kNotInteracting,
+		kWaitingToInteract,
+		kInteracting,
+		kWaitingToStopInteracting
 	};
 
 	class __declspec(novtable) ActorState :
@@ -926,6 +982,13 @@ namespace RE
 			return func(this, a_perk, a_rank);
 		}
 
+		void ClearAttackStates()
+		{
+			using func_t = decltype(&Actor::ClearAttackStates);
+			REL::Relocation<func_t> func{ REL::ID(1525555) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
 		{
 			return currentProcess ? currentProcess->GetCurrentAmmo(a_equipIndex) : nullptr;
@@ -936,6 +999,13 @@ namespace RE
 			using func_t = decltype(&Actor::GetHostileToActor);
 			REL::Relocation<func_t> func{ REL::ID(1148686) };
 			return func(this, a_actor);
+		}
+
+		[[nodiscard]] ActorHandle GetMountHandle()
+		{
+			using func_t = decltype(&Actor::GetMountHandle);
+			REL::Relocation<func_t> func{ REL::ID(313362) };
+			return func(this);
 		}
 
 		[[nodiscard]] std::int16_t GetLevel()

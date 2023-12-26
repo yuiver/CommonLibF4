@@ -315,6 +315,20 @@ namespace RE
 			return func(this, a_compiler, a_compilerIndex, a_ownerObject);
 		}
 
+		static bool GetProcessScripts()
+		{
+			using func_t = decltype(&Script::GetProcessScripts);
+			REL::Relocation<func_t> func{ REL::ID(44950) };
+			return func();
+		}
+
+		static void SetProcessScripts(bool a_processScripts)
+		{
+			using func_t = decltype(&Script::SetProcessScripts);
+			REL::Relocation<func_t> func{ REL::ID(1188642) };
+			return func(a_processScripts);
+		}
+
 		void SetText(std::string_view a_text)
 		{
 			if (text) {

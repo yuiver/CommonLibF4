@@ -41,7 +41,7 @@ namespace RE
 
 		inline void AddItemCardInfoEntry(Scaleform::GFx::Value& a_array, const char* a_name, Scaleform::GFx::Value a_value)
 		{
-			RE::Scaleform::GFx::Value entry;
+			Scaleform::GFx::Value entry;
 			detail::AddItemCardInfoEntry(a_array, entry, a_name, a_value);
 		}
 	}
@@ -65,6 +65,13 @@ namespace RE
 			using func_t = decltype(&GetComparisonItems);
 			REL::Relocation<func_t> func{ REL::ID(593818) };
 			return func(a_object, a_comparisonItems);
+		}
+
+		inline void PlayPipboySound(const char* a_soundName)
+		{
+			using func_t = decltype(&PlayPipboySound);
+			REL::Relocation<func_t> func{ REL::ID(1320952) };
+			return func(a_soundName);
 		}
 
 		inline void PlayMenuSound(const char* a_soundName)
