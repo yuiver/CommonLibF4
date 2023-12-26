@@ -53,6 +53,13 @@ namespace RE
 		// add
 		virtual ~UI() = default;  // 01
 
+		[[nodiscard]] bool CustomRendererHasQuads(const BSFixedString& a_customRendererName)
+		{
+			using func_t = decltype(&UI::CustomRendererHasQuads);
+			REL::Relocation<func_t> func{ REL::ID(1401451) };
+			return func(this, a_customRendererName);
+		}
+
 		template <class T>
 		[[nodiscard]] BSTEventSource<T>* GetEventSource()
 		{
@@ -90,6 +97,13 @@ namespace RE
 		{
 			const auto menu = GetMenu(a_name);
 			return menu ? menu->OnStack() : false;
+		}
+
+		template <class T>
+		[[nodiscard]] bool GetMenuOpen() const  //
+			requires(requires { T::MENU_NAME; })
+		{
+			return GetMenuOpen(T::MENU_NAME);
 		}
 
 		void RefreshCursor()

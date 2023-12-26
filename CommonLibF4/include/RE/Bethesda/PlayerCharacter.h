@@ -20,8 +20,8 @@
 
 namespace RE
 {
-	enum class COMMAND_TYPE;
 	enum class DEFAULT_OBJECT;
+	enum class DIFFICULTY_LEVEL;
 	enum class PLAYER_ACTION;
 	enum class QUEST_OBJECTIVE_STATE;
 	enum class SCENE_ACTION_PLAYER_RESPONSE_TYPE;
@@ -71,6 +71,23 @@ namespace RE
 	{
 		struct PerkEntryUpdatedEvent;
 	}
+
+	enum class COMMAND_TYPE
+	{
+		kNone = 0x0,
+		kCall = 0x1,
+		kFollow = 0x2,
+		kMove = 0x3,
+		kAttack = 0x4,
+		kInspect = 0x5,
+		kRetrieve = 0x6,
+		kStay = 0x7,
+		kRelease = 0x8,
+		kHeal = 0x9,
+		kAssign = 0xA,
+		kRide = 0xB,
+		kEnter = 0xC,
+	};
 
 	struct CrimeGoldStruct
 	{
@@ -263,25 +280,17 @@ namespace RE
 			return singleton->get();
 		}
 
-		void RemoveLastUsedPowerArmor()
+		[[nodiscard]] static ActorHandle GetPlayerHandle()
 		{
-			using func_t = decltype(&PlayerCharacter::RemoveLastUsedPowerArmor);
-			REL::Relocation<func_t> func{ REL::ID(1488486) };
+			REL::Relocation<ActorHandle*> singleton{ REL::ID(522947) };
+			return *singleton;
+		}
+
+		DIFFICULTY_LEVEL GetDifficultyLevel()
+		{
+			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
+			REL::Relocation<func_t> func{ REL::ID(922962) };
 			return func(this);
-		}
-
-		void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
-		{
-			using func_t = decltype(&PlayerCharacter::SelectPerk);
-			REL::Relocation<func_t> func{ REL::ID(1397326) };
-			return func(this, a_formID, a_rank);
-		}
-
-		void SetEscaping(bool a_flag, bool a_escaped)
-		{
-			using func_t = decltype(&PlayerCharacter::SetEscaping);
-			REL::Relocation<func_t> func{ REL::ID(25528) };
-			return func(this, a_flag, a_escaped);
 		}
 
 		bool IsGodMode()
@@ -305,12 +314,16 @@ namespace RE
 			return func(this);
 		}
 
+		bool IsLockedOutOfTerminal(ObjectRefHandle a_handle);
+
 		bool IsPipboyLightOn()
 		{
 			using func_t = decltype(&PlayerCharacter::IsPipboyLightOn);
 			REL::Relocation<func_t> func{ REL::ID(426550) };
 			return func(this);
 		}
+
+		void LockOutOfTerminal(ObjectRefHandle a_handle);
 
 		void PauseHolotape(BGSNote* a_holotape)
 		{
@@ -324,6 +337,34 @@ namespace RE
 			using func_t = decltype(&PlayerCharacter::PlayHolotape);
 			REL::Relocation<func_t> func{ REL::ID(1581042) };
 			return func(this, a_holotape);
+		}
+
+		void QueueFastTravel(ObjectRefHandle a_marker, bool a_allowAutoSave)
+		{
+			using func_t = decltype(&PlayerCharacter::QueueFastTravel);
+			REL::Relocation<func_t> func{ REL::ID(556824) };
+			return func(this, a_marker, a_allowAutoSave);
+		}
+
+		void RemoveLastUsedPowerArmor()
+		{
+			using func_t = decltype(&PlayerCharacter::RemoveLastUsedPowerArmor);
+			REL::Relocation<func_t> func{ REL::ID(1488486) };
+			return func(this);
+		}
+
+		void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
+		{
+			using func_t = decltype(&PlayerCharacter::SelectPerk);
+			REL::Relocation<func_t> func{ REL::ID(1397326) };
+			return func(this, a_formID, a_rank);
+		}
+
+		void SetEscaping(bool a_flag, bool a_escaped)
+		{
+			using func_t = decltype(&PlayerCharacter::SetEscaping);
+			REL::Relocation<func_t> func{ REL::ID(25528) };
+			return func(this, a_flag, a_escaped);
 		}
 
 		void SetVATSCriticalCount(uint32_t a_critCount)
@@ -345,6 +386,13 @@ namespace RE
 			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
 			REL::Relocation<func_t> func{ REL::ID(922962) };
 			return func(this);
+		}
+
+		void ShowPipboyLight(bool a_show, bool a_skipEffects)
+		{
+			using func_t = decltype(&PlayerCharacter::ShowPipboyLight);
+			REL::Relocation<func_t> func{ REL::ID(1304102) };
+			return func(this, a_show, a_skipEffects);
 		}
 
 		// members

@@ -256,11 +256,25 @@ namespace RE
 				       (1ull << (32ull + 16ull));
 			}
 
+			void DropSaveLoadRemapData()
+			{
+				using func_t = decltype(&HandlePolicy::DropSaveLoadRemapData);
+				REL::Relocation<func_t> func{ REL::ID(647657) };
+				return func(this);
+			}
+
 			void GetInventoryObjFromHandle(std::uint64_t a_cobj, TESObjectREFR*& a_container, std::uint16_t& a_uniqueID, TESObjectREFR*& a_inWorldREFR)
 			{
 				using func_t = decltype(&HandlePolicy::GetInventoryObjFromHandle);
 				REL::Relocation<func_t> func{ REL::ID(66597) };
 				return func(this, a_cobj, a_container, a_uniqueID, a_inWorldREFR);
+			}
+
+			void UpdatePersistence()
+			{
+				using func_t = decltype(&HandlePolicy::UpdatePersistence);
+				REL::Relocation<func_t> func{ REL::ID(11020) };
+				return func(this);
 			}
 
 			// members
@@ -304,6 +318,13 @@ namespace RE
 			void ResolveProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::Object>& a_object, const BSScript::MergedBoundScript& a_boundScript, bool a_postSaveConstOnly) override;                                                                   // 0C
 			void ConvertProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::BoundScript>& a_boundScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, BSScript::Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const override;  // 0F
 			void ConvertProperties(std::size_t a_objTarget, const BSScript::MergedBoundScript& a_mergedScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, BSScript::Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const override;            // 0E
+
+			void EndSaveLoad()
+			{
+				using func_t = decltype(&ObjectBindPolicy::EndSaveLoad);
+				REL::Relocation<func_t> func{ REL::ID(1558837) };
+				return func(this);
+			}
 
 			// members
 			BSSpinLock queueLock;                                                      // 50
@@ -484,6 +505,13 @@ namespace RE
 			using func_t = decltype(&GameVM::QueuePostRenderCall);
 			REL::Relocation<func_t> func{ REL::ID(34412) };
 			return func(this, a_functor);
+		}
+
+		void RegisterForAllGameEvents()
+		{
+			using func_t = decltype(&GameVM::RegisterForAllGameEvents);
+			REL::Relocation<func_t> func{ REL::ID(680454) };
+			return func(this);
 		}
 
 		void SendEventToObjectAndRelated(

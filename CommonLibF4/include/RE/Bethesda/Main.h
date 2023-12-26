@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/Bethesda/BGSSaveLoad.h"
 #include "RE/Bethesda/BSPointerHandle.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTMessageQueue.h"
@@ -21,17 +22,6 @@ namespace RE
 		void (*UnpackFunc_t)(const BSPackedTask&);           // 28
 	};
 	static_assert(sizeof(BSPackedTaskQueue) == 0x30);
-
-	class BSSaveDataSystemUtilityImage
-	{
-	public:
-		// members
-		std::uint32_t size;    // 00
-		std::uint32_t width;   // 04
-		std::uint32_t height;  // 08
-		char* buffer;          // 10
-	};
-	static_assert(sizeof(BSSaveDataSystemUtilityImage) == 0x18);
 
 	class Main :
 		public BSTEventSink<PositionPlayerEvent>
