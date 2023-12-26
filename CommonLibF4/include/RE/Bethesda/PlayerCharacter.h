@@ -333,10 +333,17 @@ namespace RE
 			return func(this, a_critCount);
 		}
 
-		void TogglePipBoyLight()
+		void ShowPipboyLight(bool a_show, bool a_skipEffects)
 		{
-			using func_t = decltype(&PlayerCharacter::TogglePipBoyLight);
-			REL::Relocation<func_t> func{ REL::ID(520007) };
+			using func_t = decltype(&PlayerCharacter::ShowPipboyLight);
+			REL::Relocation<func_t> func{ REL::ID(1304102) };
+			return func(this, a_show, a_skipEffects);
+		}
+
+		std::int64_t GetDifficultyLevel()
+		{
+			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
+			REL::Relocation<func_t> func{ REL::ID(922962) };
 			return func(this);
 		}
 
