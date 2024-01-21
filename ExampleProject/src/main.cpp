@@ -44,11 +44,35 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a
 	return true;
 }
 
+
+void MessageCallback(F4SE::MessagingInterface::Message* msg)
+{
+	switch (msg->type)
+	{
+	case F4SE::MessagingInterface::kGameDataReady:
+		break;
+	case F4SE::MessagingInterface::kNewGame:
+		break;
+	case F4SE::MessagingInterface::kPostPostLoad:
+		break;
+	default:
+		break;
+	}
+
+}
+
+
 extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
 {
 	F4SE::Init(a_f4se);
 
 	logger::info("hello world!");
+
+	if (!F4SE::GetMessagingInterface()->RegisterListener(MessageCallback))
+	{
+		logger::info("Cannot register listener!");
+		return false;
+	}
 
 	return true;
 }
