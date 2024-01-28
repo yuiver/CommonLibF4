@@ -241,6 +241,27 @@ namespace RE
 	};
 	static_assert(sizeof(SubGraphIdleRootData) == 0x18);
 
+	class __declspec(novtable) AimModel
+	{
+	public:
+		BGSAimModel::Data aimModelData;					// 00 // confirmed
+		NiPoint2 unk_1;									// 40
+		NiPoint2 unk_2;									// 48
+		float aimModelRecoilSpringForce;				// 50
+		NiPoint2 postSpringStateOrientation;			// 54
+		NiPoint2 unk_4;									// 5C
+		float aimModelRecoilDiminishSightsSpringMult;	// 64
+		NiPoint2 aimModelOrientation;					// 68
+		NiPoint2 unk_7;									// 70
+		NiPoint2 unk_8;									// 78
+		NiPoint2 playerViewAnglesRad;					// 80 confirmed
+		Actor* owningActor;								// 88
+		float currentAimModelConeSize;					// 90
+		float msSinceLastShot;							// 94 
+		int successiveShotsFired;						// 98 confirmed
+	};
+	static_assert(sizeof(AimModel) == 0xA0);
+
 	class __declspec(novtable) EquippedItemData :
 		public NiRefObject  // 00
 	{
