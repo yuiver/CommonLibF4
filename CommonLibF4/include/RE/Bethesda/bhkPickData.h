@@ -1,15 +1,14 @@
 #pragma once
 
-#include <RE/Bethesda/MemoryManager.h>
-#include <RE/Bethesda/bhkCharacterController.h>
-#include <RE/Havok/hkVector4.h>
-#include <RE/Havok/hknpCollisionResult.h>
-#include <RE/NetImmerse/NiPoint3.h>
-#include <REL/Relocation.h>
+#include "RE/Bethesda/MemoryManager.h"
+#include "RE/Bethesda/bhkCharacterController.h"
+#include "RE/Havok/hkVector4.h"
+#include "RE/Havok/hknpCollisionResult.h"
+#include "RE/NetImmerse/NiPoint3.h"
 
 namespace RE
 {
-	struct __declspec(novtable) bhkPickData
+	struct bhkPickData
 	{
 	public:
 		bhkPickData()
@@ -18,6 +17,8 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(526783) };
 			func(this);
 		}
+
+		F4_HEAP_REDEFINE_NEW(bhkPickData);
 
 		void SetStartEnd(const NiPoint3& start, const NiPoint3& end)
 		{
@@ -82,6 +83,7 @@ namespace RE
 			return func(this);
 		}
 
+		// members
 		std::uint64_t field_0;
 		std::uint16_t field_8;
 		CFilter collisionFilter;
@@ -99,7 +101,6 @@ namespace RE
 		__int16 field_DC;
 		char field_DE;
 		char field_DF;
-		F4_HEAP_REDEFINE_NEW(bhkPickData);
 	};
 	static_assert(sizeof(bhkPickData) == 0xE0);
 };

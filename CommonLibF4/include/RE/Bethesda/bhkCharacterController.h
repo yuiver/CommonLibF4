@@ -13,9 +13,9 @@
 #include "RE/Havok/hknpCharacterSurfaceInfo.h"
 #include "RE/NetImmerse/NiCollisionObject.h"
 #include "RE/NetImmerse/NiFlags.h"
+#include "RE/NetImmerse/NiMatrix3.h"
 #include "RE/NetImmerse/NiPoint3.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
-#include <RE/NetImmerse/NiMatrix3.h>
 
 namespace RE
 {
@@ -32,10 +32,14 @@ namespace RE
 	class bhkWorld;
 	class hknpBody;
 	class hknpShape;
+
+	struct DamageImpactData;
+	struct MoveData;
+	
 	class hknpMotionPropertiesId
 	{
 	public:
-		enum Preset
+		enum class Preset
 		{
 			STATIC = 0,  ///< No velocity allowed
 			DYNAMIC,     ///< For regular dynamic bodies, undamped and gravity factor = 1
@@ -50,18 +54,16 @@ namespace RE
 	class hkTransformf
 	{
 	public:
-		void setIdentity()
+		void SetIdentity()
 		{
-			m_rotation.MakeIdentity();
-			m_translation = NiPoint4();
+			rotation.MakeIdentity();
+			translation = NiPoint4();
 		}
-		NiMatrix3 m_rotation;
-		NiPoint4 m_translation;
+		// members
+		NiMatrix3 rotation;
+		NiPoint4 translation;
 	};
-	typedef hkTransformf hkTransform;
-
-	struct DamageImpactData;
-	struct MoveData;
+	using hkTransform = hkTransformf;
 
 	class CFilter
 	{

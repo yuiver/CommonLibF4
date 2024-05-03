@@ -330,6 +330,13 @@ namespace RE::Scaleform::GFx
 				return func(this, a_data, a_name, a_isdobj);
 			}
 
+			std::uint32_t GetArraySize(void* a_data) const
+			{
+				using func_t = decltype(&ObjectInterface::GetArraySize);
+				REL::Relocation<func_t> func{ REL::ID(254218) };
+				return func(this, a_data);
+			}
+
 			bool GetMember(void* a_data, const char* a_name, Value* a_val, bool a_isdobj) const
 			{
 				using func_t = decltype(&ObjectInterface::GetMember);
@@ -358,10 +365,28 @@ namespace RE::Scaleform::GFx
 				return func(this, a_data, a_value);
 			}
 
+			bool RemoveElements(void* a_data, std::uint32_t a_idx, std::int32_t a_count)
+			{
+				using func_t = decltype(&ObjectInterface::RemoveElements);
+				REL::Relocation<func_t> func{ REL::ID(1286586) };
+				return func(this, a_data, a_idx, a_count);
+			}
+
+			void VisitMembers(void* a_data, ObjVisitor* a_visitor, bool a_isDObj) const
+			{
+				using func_t = decltype(&ObjectInterface::VisitMembers);
+				REL::Relocation<func_t> func{ REL::ID(1276961) };
+				return func(this, a_data, a_visitor, a_isDObj);
+			}
+
 			// members
 			MovieImpl* movieRoot;  // 08
 		};
 		static_assert(sizeof(ObjectInterface) == 0x10);
+
+		using ObjectVisitor = ObjectInterface::ObjVisitor;
+		using ArrayVisitor = ObjectInterface::ArrVisitor;
+		using ObjectVisitFn = std::function<void(const char*, const Value&)>;
 
 		Value() noexcept = default;
 
@@ -415,9 +440,19 @@ namespace RE::Scaleform::GFx
 			_value(a_rhs)
 		{}
 
+		Value(std::string_view a_rhs) noexcept :
+			_type(ValueType::kString),
+			_value(a_rhs.data())
+		{}
+
 		Value(const wchar_t* a_rhs) noexcept :
 			_type(ValueType::kStringW),
 			_value(a_rhs)
+		{}
+
+		Value(std::wstring_view a_rhs) noexcept :
+			_type(ValueType::kStringW),
+			_value(a_rhs.data())
 		{}
 
 		~Value()
@@ -603,6 +638,43 @@ namespace RE::Scaleform::GFx
 			return _objectInterface->HasMember(_value.data, a_name.data(), IsDisplayObject());
 		}
 
+		void VisitMembers(ObjectVisitor* a_visitor) const
+		{
+			assert(IsObject());
+			return _objectInterface->VisitMembers(_value.data, a_visitor, IsDisplayObject());
+		}
+
+		void VisitMembers(ObjectVisitFn&& a_visitor) const
+		{
+			assert(IsObject());
+
+			struct MemberVisitor : ObjectInterface::ObjVisitor
+			{
+			public:
+				MemberVisitor(ObjectVisitFn&& a_fn) :
+					_fn(a_fn) {}
+
+				void Visit(const char* a_name, const Value& a_val) override
+				{
+					if (_fn) {
+						_fn(a_name, a_val);
+					}
+				}
+
+			private:
+				ObjectVisitFn _fn;
+			};
+
+			MemberVisitor visitor{ std::forward<ObjectVisitFn>(a_visitor) };
+			return _objectInterface->VisitMembers(_value.data, std::addressof(visitor), IsDisplayObject());
+		}
+
+		std::uint32_t GetArraySize() const
+		{
+			assert(IsArray());
+			return _objectInterface->GetArraySize(_value.data);
+		}
+
 		bool GetMember(stl::zstring a_name, Value* a_val) const
 		{
 			assert(IsObject());
@@ -626,10 +698,38 @@ namespace RE::Scaleform::GFx
 			return Invoke(a_name, a_result, nullptr, 0);
 		}
 
+		template <std::size_t N>
+		inline bool Invoke(const char* a_name, const std::array<Value, N>& a_args)
+		{
+			return Invoke(a_name, nullptr, a_args);
+		}
+
+		template <std::size_t N>
+		inline bool Invoke(const char* a_name, Value* a_result, const std::array<Value, N>& a_args)
+		{
+			return Invoke(a_name, a_result, a_args.data(), a_args.size());
+		}
+
 		bool PushBack(const Value& a_val)
 		{
 			assert(IsArray());
 			return _objectInterface->PushBack(_value.data, a_val);
+		}
+
+		bool RemoveElements(std::uint32_t a_idx, std::int32_t a_count = -1)
+		{
+			assert(IsArray());
+			return _objectInterface->RemoveElements(_value.data, a_idx, a_count);
+		}
+
+		bool RemoveElement(std::uint32_t a_idx)
+		{
+			return RemoveElements(a_idx, 1);
+		}
+
+		bool ClearElements()
+		{
+			return RemoveElements(0);
 		}
 
 		[[nodiscard]] Movie* GetMovie() const
@@ -848,6 +948,10 @@ namespace RE::Scaleform::GFx
 		void CreateFunction(Value* a_value, FunctionHandler* a_function, void* a_userData = nullptr);
 		void CreateObject(Value* a_value, const char* a_className = nullptr, const GFx::Value* a_args = nullptr, std::uint32_t a_numArgs = 0);
 		bool GetVariable(Value* a_val, const char* a_pathToVar) const;
+		bool SetVariable(const char* a_pathToVar, const Value& a_value, SetVarType a_setType = SetVarType::kSticky);
+		bool Invoke(const char* a_methodName, Value* a_result, const char* a_argFmt, ...);
+		bool Invoke(const char* a_methodName, Value* a_result, const Value* a_args, std::uint32_t a_numArgs);
+		bool InvokeArgs(const char* a_methodName, Value* a_result, const char* a_argFmt, std::va_list a_args);
 
 		void Release()
 		{

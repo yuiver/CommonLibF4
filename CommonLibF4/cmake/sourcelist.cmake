@@ -32,6 +32,7 @@ set(SOURCES
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
 	include/RE/Bethesda/BSAnimationGraph.h
+	include/RE/Bethesda/BSAttachTechniques.h
 	include/RE/Bethesda/BSAudioManager.h
 	include/RE/Bethesda/BSAudioUtil.h
 	include/RE/Bethesda/BSBTreeFile.h
@@ -40,6 +41,7 @@ set(SOURCES
 	include/RE/Bethesda/BSExtraData.h
 	include/RE/Bethesda/BSFadeNode.h
 	include/RE/Bethesda/BSFixedString.h
+	include/RE/Bethesda/BSGeometry.h
 	include/RE/Bethesda/BSGraphics.h
 	include/RE/Bethesda/BSHavok.h
 	include/RE/Bethesda/BSInputDeviceManager.h
@@ -121,6 +123,8 @@ set(SOURCES
 	include/RE/Bethesda/BSScriptUtil.h
 	include/RE/Bethesda/BSSemaphore.h
 	include/RE/Bethesda/BSShader.h
+	include/RE/Bethesda/BSShaderMaterial.h
+	include/RE/Bethesda/BSShaderProperty.h
 	include/RE/Bethesda/BSSoundHandle.h
 	include/RE/Bethesda/BSSpring.h
 	include/RE/Bethesda/BSStorage.h
@@ -146,11 +150,12 @@ set(SOURCES
 	include/RE/Bethesda/BSTSmartPointer.h
 	include/RE/Bethesda/BSTTuple.h
 	include/RE/Bethesda/BSTempEffect.h
-	include/RE/Bethesda/BSTempEffectDebris.h
+	include/RE/Bethesda/BSTextureDB.h
 	include/RE/Bethesda/BSTextureSet.h
 	include/RE/Bethesda/BSTextureStreamer.h
 	include/RE/Bethesda/BSThread.h
 	include/RE/Bethesda/BSTimer.h
+	include/RE/Bethesda/BSVisit.h
 	include/RE/Bethesda/CELLJobs.h
 	include/RE/Bethesda/CRC.h
 	include/RE/Bethesda/Calendar.h
@@ -193,12 +198,14 @@ set(SOURCES
 	include/RE/Bethesda/PowerUtils.h
 	include/RE/Bethesda/ProcessLists.h
 	include/RE/Bethesda/Projectiles.h
+	include/RE/Bethesda/ReferenceEffectController.h
 	include/RE/Bethesda/SCRIPT_OUTPUT.h
 	include/RE/Bethesda/SDirectory2.h
 	include/RE/Bethesda/SWFToCodeFunctionHandler.h
 	include/RE/Bethesda/Script.h
 	include/RE/Bethesda/SendHUDMessage.h
 	include/RE/Bethesda/Settings.h
+	include/RE/Bethesda/Sky.h
 	include/RE/Bethesda/SplineUtils.h
 	include/RE/Bethesda/TESBoundAnimObjects.h
 	include/RE/Bethesda/TESBoundObjects.h
@@ -361,6 +368,7 @@ set(SOURCES
 	src/RE/Bethesda/BSScript/StructTypeInfo.cpp
 	src/RE/Bethesda/BSScript/TypeInfo.cpp
 	src/RE/Bethesda/BSScript/Variable.cpp
+	src/RE/Bethesda/BSVisit.cpp
 	src/RE/Bethesda/CRC.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp

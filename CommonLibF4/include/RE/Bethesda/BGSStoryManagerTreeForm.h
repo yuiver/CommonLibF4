@@ -89,16 +89,16 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESQuest };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kQUST };
 
-		bool SetStage(uint16_t stage)
+		struct AliasesAccess;
+		struct ListObjectivesAccess;
+		struct ListStagesAccess;
+
+		bool SetStage(std::uint16_t stage)
 		{
 			using func_t = decltype(&TESQuest::SetStage);
 			REL::Relocation<func_t> func{ REL::ID(952799) };
 			return func(this, stage);
 		}
-
-		struct AliasesAccess;
-		struct ListObjectivesAccess;
-		struct ListStagesAccess;
 
 		// members
 		BSTArray<BGSQuestInstanceText*> instanceData;                                                  // 038

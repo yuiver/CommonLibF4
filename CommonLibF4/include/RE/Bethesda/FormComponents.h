@@ -69,12 +69,6 @@ namespace RE
 		class Items;
 	}
 
-	enum class ACTOR_VALUE_MODIFIER
-	{
-		Perm,
-		Temp,
-		Damage
-	};
 	enum class ENUM_FORM_ID;
 	enum class IO_TASK_PRIORITY;
 
@@ -146,6 +140,13 @@ namespace RE
 		};
 		static_assert(sizeof(SharedVal) == 0x4);
 	}
+
+	enum class ACTOR_VALUE_MODIFIER
+	{
+		kPermanent,
+		kTemporary,
+		kDamage
+	};
 
 	class __declspec(novtable) ActorValueOwner
 	{
@@ -586,7 +587,7 @@ namespace RE
 	namespace detail
 	{
 		[[nodiscard]] BGSKeyword* BGSKeywordGetTypedKeywordByIndex(KeywordType a_type, std::uint16_t a_index);
-		[[nodiscard]] uint16_t BGSKeywordGetIndexForTypedKeyword(BGSKeyword* a_keyword, KeywordType a_type);
+		[[nodiscard]] std::uint16_t BGSKeywordGetIndexForTypedKeyword(BGSKeyword* a_keyword, KeywordType a_type);
 	}
 
 	template <KeywordType TYPE>
@@ -641,11 +642,11 @@ namespace RE
 		void CopyComponent(BaseFormComponent*) override { return; }             // 06
 		void CopyComponent(BaseFormComponent*, TESForm*) override;              // 05
 
-		void SetParentGroupNumber(BGSKeyword* keyword, uint32_t i)
+		void SetParentGroupNumber(BGSKeyword* a_parent, std::uint32_t a_groupID)
 		{
 			using func_t = decltype(&BGSAttachParentArray::SetParentGroupNumber);
 			REL::Relocation<func_t> func{ REL::ID(1412266) };
-			return func(this, keyword, i);
+			return func(this, a_parent, a_groupID);
 		}
 	};
 	static_assert(sizeof(BGSAttachParentArray) == 0x18);
@@ -933,11 +934,11 @@ namespace RE
 
 		[[nodiscard]] std::uint32_t GetNumKeywords() const { return numKeywords; };
 
-		void RemoveKeyword(BGSKeyword* kwd)
+		void RemoveKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::RemoveKeyword);
 			REL::Relocation<func_t> func{ REL::ID(921694) };
-			return func(this, kwd);
+			return func(this, a_keyword);
 		}
 
 		// members
@@ -1657,7 +1658,7 @@ namespace RE
 		virtual const char* GetOverrideName() { return nullptr; }              // 0A
 		virtual bool GetCanContainFormsOfType(ENUM_FORM_ID a_type) const = 0;  // 0B
 
-		LEVELED_OBJECT* AddLeveledObject(uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
+		LEVELED_OBJECT* AddLeveledObject(std::uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
 		{
 			using func_t = decltype(&TESLeveledList::AddLeveledObject);
 			REL::Relocation<func_t> func{ REL::ID(1163308) };
