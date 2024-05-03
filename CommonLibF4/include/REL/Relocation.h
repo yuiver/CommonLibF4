@@ -161,6 +161,8 @@ namespace REL
 
 			return func(std::forward<First>(a_first), std::addressof(result), std::forward<Rest>(a_rest)...);
 		}
+
+		std::optional<std::string> sha512(std::span<const std::byte> a_data);
 	}
 
 	inline constexpr std::uint8_t NOP = 0x90;
@@ -625,6 +627,23 @@ namespace REL
 				version.string());
 			if (!_mmap.open(path)) {
 				stl::report_and_fail(fmt::format("failed to open: {}", path));
+			}
+			if (version == REL::Version(1, 10, 980)) {
+				const auto sha = detail::sha512({ _mmap });
+				if (!sha) {
+					stl::report_and_fail(fmt::format("failed to hash: {}", path));
+				}
+				// Address bins are expected to be pre-sorted. This bin was released without being sorted, and will cause lookups to randomly fail.
+				if (*sha == "2AD60B95388F1B6E77A6F86F17BEB51D043CF95A341E91ECB2E911A393E45FE8156D585D2562F7B14434483D6E6652E2373B91589013507CABAE596C26A343F1"sv) {
+					stl::report_and_fail(fmt::format(
+						"The address bin you are using ({}) is corrupted. "
+						"Please go to the Nexus page for Address Library and redownload the file corresponding to version {}.{}.{}.{}",
+						path,
+						version[0],
+						version[1],
+						version[2],
+						version[3]));
+				}
 			}
 			_id2offset = std::span{
 				reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
