@@ -165,10 +165,10 @@ namespace RE
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
 
 	private:
-		template <class T>
-		[[nodiscard]] T make_iterator(size_type a_pos) const noexcept
+		template <class U>
+		[[nodiscard]] U make_iterator(size_type a_pos) const noexcept
 		{
-			return T(_data + a_pos, _data, _data + _capacity);
+			return U(_data + a_pos, _data, _data + _capacity);
 		}
 
 		// members
