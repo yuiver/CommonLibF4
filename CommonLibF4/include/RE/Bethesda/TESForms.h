@@ -726,8 +726,8 @@ namespace RE
 				BSTHashMap<std::uint32_t, TESForm*>*,
 				std::reference_wrapper<BSReadWriteLock>>
 		{
-			REL::Relocation<BSTHashMap<std::uint32_t, TESForm*>**> allForms{ REL::ID(422985) };
-			REL::Relocation<BSReadWriteLock*> allFormsMapLock{ REL::ID(691815) };
+			REL::Relocation<BSTHashMap<std::uint32_t, TESForm*>**> allForms{ REL::ID(2689178) };
+			REL::Relocation<BSReadWriteLock*> allFormsMapLock{ REL::ID(2689189) };
 			return { *allForms, *allFormsMapLock };
 		}
 
@@ -736,8 +736,8 @@ namespace RE
 				BSTHashMap<BSFixedString, TESForm*>*,
 				std::reference_wrapper<BSReadWriteLock>>
 		{
-			REL::Relocation<BSTHashMap<BSFixedString, TESForm*>**> allFormsByEditorID{ REL::ID(642758) };
-			REL::Relocation<BSReadWriteLock*> allFormsEditorIDMapLock{ REL::ID(910917) };
+			REL::Relocation<BSTHashMap<BSFixedString, TESForm*>**> allFormsByEditorID{ REL::ID(2689179) };
+			REL::Relocation<BSReadWriteLock*> allFormsEditorIDMapLock{ REL::ID(2689190) };
 			return { *allFormsByEditorID, *allFormsEditorIDMapLock };
 		}
 
@@ -749,7 +749,7 @@ namespace RE
 		[[nodiscard]] TESFile* GetFile(std::int32_t a_index = -1) const
 		{
 			using func_t = decltype(&TESForm::GetFile);
-			REL::Relocation<func_t> func{ REL::ID(1376557) };
+			REL::Relocation<func_t> func{ REL::ID(2193103) };
 			return func(this, a_index);
 		}
 
@@ -800,7 +800,7 @@ namespace RE
 		[[nodiscard]] static ENUM_FORM_ID GetFormTypeFromString(const char* a_formTypeString)
 		{
 			using func_t = decltype(&TESForm::GetFormTypeFromString);
-			REL::Relocation<func_t> func{ REL::ID(565203) };
+			REL::Relocation<func_t> func{ REL::ID(2193108) };
 			return func(a_formTypeString);
 		}
 
@@ -1496,14 +1496,14 @@ namespace RE
 		[[nodiscard]] std::int32_t GetDataX()
 		{
 			using func_t = decltype(&TESObjectCELL::GetDataX);
-			REL::Relocation<func_t> func{ REL::ID(445210) };
+			REL::Relocation<func_t> func{ REL::ID(2200213) };
 			return func(this);
 		}
 
 		[[nodiscard]] std::int32_t GetDataY()
 		{
 			using func_t = decltype(&TESObjectCELL::GetDataY);
-			REL::Relocation<func_t> func{ REL::ID(1322816) };
+			REL::Relocation<func_t> func{ REL::ID(2200214) };
 			return func(this);
 		}
 
@@ -1517,7 +1517,7 @@ namespace RE
 		[[nodiscard]] BGSLocation* GetLocation() const
 		{
 			using func_t = decltype(&TESObjectCELL::GetLocation);
-			REL::Relocation<func_t> func{ REL::ID(868663) };
+			REL::Relocation<func_t> func{ REL::ID(2200179) };
 			return func(this);
 		}
 

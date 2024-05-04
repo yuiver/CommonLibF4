@@ -257,9 +257,9 @@ namespace RE
 		using CompileFunction_t = bool(const std::uint16_t a_paramCount, const SCRIPT_PARAMETER* a_parameters, SCRIPT_LINE* a_scriptLine, ScriptCompileData* a_compileData);
 		using ExecuteFunction_t = bool(const SCRIPT_PARAMETER* a_parameters, const char* a_compiledParams, TESObjectREFR* a_refObject, TESObjectREFR* a_container, Script* a_script, ScriptLocals* a_scriptLocals, float& a_returnValue, std::uint32_t& a_offset);
 
-		[[nodiscard]] static std::span<SCRIPT_FUNCTION, 522> GetConsoleFunctions()
+		[[nodiscard]] static std::span<SCRIPT_FUNCTION, 526> GetConsoleFunctions()
 		{
-			REL::Relocation<SCRIPT_FUNCTION(*)[522]> functions{ REL::ID(901511) };
+			REL::Relocation<SCRIPT_FUNCTION(*)[526]> functions{ REL::ID(901511) };
 			return { *functions };
 		}
 
@@ -270,18 +270,18 @@ namespace RE
 		}
 
 		// members
-		const char* functionName{ "" };                                                                      // 00
-		const char* shortName{ "" };                                                                         // 08
-		stl::enumeration<SCRIPT_OUTPUT, std::int32_t> output;                                                // 10
-		const char* helpString{ "" };                                                                        // 18
-		bool referenceFunction{ false };                                                                     // 20
-		std::uint16_t paramCount{ 0 };                                                                       // 22
-		SCRIPT_PARAMETER* parameters{ nullptr };                                                             // 28
-		ExecuteFunction_t* executeFunction{ nullptr };                                                       // 30
-		CompileFunction_t* compileFunction{ REL::Relocation<CompileFunction_t*>{ REL::ID(638606) }.get() };  // 38
-		ConditionFunction_t* conditionFunction{ nullptr };                                                   // 40
-		bool editorFilter{ false };                                                                          // 48
-		bool invalidatesCellList{ false };                                                                   // 49
+		const char* functionName{ "" };                                                                       // 00
+		const char* shortName{ "" };                                                                          // 08
+		stl::enumeration<SCRIPT_OUTPUT, std::int32_t> output;                                                 // 10
+		const char* helpString{ "" };                                                                         // 18
+		bool referenceFunction{ false };                                                                      // 20
+		std::uint16_t paramCount{ 0 };                                                                        // 22
+		SCRIPT_PARAMETER* parameters{ nullptr };                                                              // 28
+		ExecuteFunction_t* executeFunction{ nullptr };                                                        // 30
+		CompileFunction_t* compileFunction{ REL::Relocation<CompileFunction_t*>{ REL::ID(2204343) }.get() };  // 38
+		ConditionFunction_t* conditionFunction{ nullptr };                                                    // 40
+		bool editorFilter{ false };                                                                           // 48
+		bool invalidatesCellList{ false };                                                                    // 49
 	};
 	static_assert(sizeof(SCRIPT_FUNCTION) == 0x50);
 
@@ -304,14 +304,14 @@ namespace RE
 		{
 			static_assert((std::is_pointer_v<Args> && ...), "arguments must all be pointers");
 			using func_t = bool(const SCRIPT_PARAMETER*, const char*, std::uint32_t&, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
-			REL::Relocation<func_t> func{ REL::ID(1607) };
+			REL::Relocation<func_t> func{ REL::ID(2204298) };
 			return func(a_parameters, a_compiledParams, a_offset, a_refObject, a_container, a_script, a_scriptLocals, a_args...);
 		}
 
 		void CompileAndRun(ScriptCompiler* a_compiler, COMPILER_NAME a_compilerIndex, TESObjectREFR* a_ownerObject)
 		{
 			using func_t = decltype(&Script::CompileAndRun);
-			REL::Relocation<func_t> func{ REL::ID(526625) };
+			REL::Relocation<func_t> func{ REL::ID(2204287) };
 			return func(this, a_compiler, a_compilerIndex, a_ownerObject);
 		}
 
@@ -325,7 +325,7 @@ namespace RE
 		static void SetProcessScripts(bool a_processScripts)
 		{
 			using func_t = decltype(&Script::SetProcessScripts);
-			REL::Relocation<func_t> func{ REL::ID(1188642) };
+			REL::Relocation<func_t> func{ REL::ID(2204309) };
 			return func(a_processScripts);
 		}
 

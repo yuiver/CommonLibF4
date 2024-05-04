@@ -201,7 +201,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(696410) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(2696196) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -400,7 +400,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(1140080) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(2696280) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}

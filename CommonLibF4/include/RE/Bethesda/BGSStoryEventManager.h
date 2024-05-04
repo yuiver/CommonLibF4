@@ -17,14 +17,14 @@ namespace RE
 	public:
 		[[nodiscard]] static BGSStoryEventManager* GetSingleton()
 		{
-			REL::Relocation<BGSStoryEventManager**> singleton{ REL::ID(1160067) };
+			REL::Relocation<BGSStoryEventManager**> singleton{ REL::ID(2693504) };
 			return *singleton;
 		}
 
 		std::uint32_t AddEvent(std::uint32_t a_index, const void* a_event)
 		{
 			using func_t = std::uint32_t (BGSStoryEventManager::*)(std::uint32_t, const void*);
-			REL::Relocation<func_t> func{ REL::ID(312533) };
+			REL::Relocation<func_t> func{ REL::ID(2214088) };
 			return func(this, a_index, a_event);
 		}
 
@@ -55,7 +55,7 @@ namespace RE
 
 		[[nodiscard]] static std::uint32_t EVENT_INDEX()
 		{
-			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(1382765) };
+			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(2663409) };
 			return *eventIdx;
 		}
 

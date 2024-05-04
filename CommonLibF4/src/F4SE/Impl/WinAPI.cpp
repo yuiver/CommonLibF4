@@ -47,6 +47,7 @@
 #include <Windows.h>
 #pragma warning(pop)
 
+#undef GetComputerName
 #undef GetEnvironmentVariable
 #undef GetFileVersionInfo
 #undef GetFileVersionInfoSize
@@ -60,6 +61,16 @@ extern "C" IMAGE_DOS_HEADER __ImageBase;  // NOLINT(bugprone-reserved-identifier
 
 namespace F4SE::WinAPI
 {
+	bool(GetComputerName)(
+		char* a_buffer,
+		std::uint32_t* a_size) noexcept
+	{
+		return static_cast<bool>(
+			::GetComputerNameA(
+				static_cast<::LPSTR>(a_buffer),
+				reinterpret_cast<::LPDWORD>(a_size)));
+	}
+
 	void*(GetCurrentModule)() noexcept
 	{
 		return static_cast<void*>(

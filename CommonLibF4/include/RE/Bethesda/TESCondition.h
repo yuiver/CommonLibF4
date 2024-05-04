@@ -104,7 +104,7 @@ namespace RE
 		[[nodiscard]] bool IsTrue(TESObjectREFR* a_actionRef, TESObjectREFR* a_targetRef) const
 		{
 			using func_t = decltype(&TESCondition::IsTrue);
-			REL::Relocation<func_t> func{ REL::ID(1275731) };
+			REL::Relocation<func_t> func{ REL::ID(2211989) };
 			return func(this, a_actionRef, a_targetRef);
 		}
 
