@@ -24,7 +24,7 @@
 #	include <spdlog/sinks/msvc_sink.h>
 #endif
 
-#define DLLEXPORT __declspec(dllexport)
+#define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
 
 namespace logger = F4SE::log;
 namespace stl = F4SE::stl;
