@@ -17,8 +17,72 @@ namespace RE
 	class HUDModeType;
 	class TESObjectCELL;
 	class TESObjectREFR;
+	class VATSCommand;
 
 	struct InventoryUserUIInterfaceEntry;
+
+	enum class QuickContainerMode : std::int32_t
+	{
+		kLoot,
+		kTeammate,
+		kPowerArmor,
+		kTurret,
+		kWorkshop,
+		kCrafting,
+		kStealing,
+		kStealingPowerArmor
+	};
+
+	namespace ActorEquipManagerEvent
+	{
+		enum class Type
+		{
+			Equip = 0,
+			Unequip,
+		};
+
+		struct Event
+		{
+			// members
+			stl::enumeration<Type, std::uint16_t> changeType;  // 00
+			const BGSObjectInstance* itemAffected;             // 08
+			Actor* actorAffected;                              // 10
+			std::uint32_t stackID;                             // 18
+		};
+		static_assert(sizeof(Event) == 0x20);
+	}
+
+	struct BGSActorEvent
+	{
+	public:
+		// member
+		ActorHandle actor;  // 00
+	};
+	static_assert(sizeof(BGSActorEvent) == 0x4);
+
+	struct BGSActorCellEvent : public BGSActorEvent
+	{
+	public:
+		enum class CellFlag
+		{
+			kEnter = 0,
+			kLeave = 1
+		};
+
+		// members
+		std::uint32_t cellID;                             // 04
+		stl::enumeration<CellFlag, std::uint32_t> flags;  // 08
+	};
+	static_assert(sizeof(BGSActorCellEvent) == 0xC);
+
+	struct BGSActorDeathEvent : public BGSActorEvent
+	{
+	public:
+		// members
+		ActorHandle attacker;  // 04
+		float damage;          // 08
+	};
+	static_assert(sizeof(BGSActorDeathEvent) == 0xC);
 
 	struct BSThreadEvent
 	{
@@ -38,17 +102,20 @@ namespace RE
 	};
 	static_assert(std::is_empty_v<BSThreadEvent>);
 
-	enum class QuickContainerMode : std::int32_t
+	struct BSTransformDeltaEvent
 	{
-		kLoot,
-		kTeammate,
-		kPowerArmor,
-		kTurret,
-		kWorkshop,
-		kCrafting,
-		kStealing,
-		kStealingPowerArmor
+	public:
+		// members
+		NiMatrix3 deltaRotation;
+		NiPoint4 deltaTranslation;
+		NiPoint4 previousTranslation;
+		NiPoint4 previousRotation;
+		NiPoint4 previousScale;
+		NiPoint4 currentTranslation;
+		NiPoint4 currentRotation;
+		NiPoint4 currentScale;
 	};
+	static_assert(sizeof(BSTransformDeltaEvent) == 0xA0);
 
 	struct ApplyColorUpdateEvent
 	{
@@ -105,6 +172,25 @@ namespace RE
 		stl::enumeration<EVENT_TYPE, std::int32_t> type;  // 08
 	};
 	static_assert(sizeof(CellAttachDetachEvent) == 0x10);
+
+	namespace CellAttachDetachEventSource
+	{
+		struct CellAttachDetachEventSourceSingleton :
+			public BSTSingletonImplicit<CellAttachDetachEventSourceSingleton>
+		{
+		public:
+			[[nodiscard]] static CellAttachDetachEventSourceSingleton& GetSingleton()
+			{
+				using func_t = decltype(&CellAttachDetachEventSourceSingleton::GetSingleton);
+				REL::Relocation<func_t> func{ REL::ID(862142) };
+				return func();
+			}
+
+			// members
+			BSTEventSource<CellAttachDetachEvent> source;  // 00
+		};
+		static_assert(sizeof(CellAttachDetachEventSourceSingleton) == 0x58);
+	}
 
 	class CurrentRadiationSourceCount :
 		public BSTValueEvent<std::uint32_t>
@@ -481,6 +567,25 @@ namespace RE
 	};
 	static_assert(sizeof(TESDeathEvent) == 0x18);
 
+	struct TESEquipEvent
+	{
+	public:
+		[[nodiscard]] static BSTEventSource<TESEquipEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESEquipEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(1251703) };
+			return func();
+		}
+		
+		// members
+		NiPointer<TESObjectREFR> actor;  // 00
+		std::uint32_t baseObject;        // 08
+		std::uint32_t originalRefr;      // 0C
+		std::uint16_t uniqueID;          // 10
+		bool equipped;                   // 12
+	};
+	static_assert(sizeof(TESEquipEvent) == 0x18);
+
 	struct TESFurnitureEvent
 	{
 	public:
@@ -504,15 +609,130 @@ namespace RE
 	};
 	static_assert(sizeof(TESFurnitureEvent) == 0x18);
 
+		struct DamageImpactData
+	{
+	public:
+		// members
+		NiPoint3A location;                      // 00
+		NiPoint3A normal;                        // 10
+		NiPoint3A velocity;                      // 20
+		NiPointer<bhkNPCollisionObject> colObj;  // 30
+	};
+	static_assert(sizeof(DamageImpactData) == 0x40);
+
+	class HitData
+	{
+	public:
+		enum class Flag
+		{
+			kBlocked = 1 << 0,
+			kBlockWithWeapon = 1 << 1,
+			kBlockCandidate = 1 << 2,
+			kCritical = 1 << 3,
+			kCriticalOnDeath = 1 << 4,
+			kFatal = 1 << 5,
+			kDismemberLimb = 1 << 6,
+			kExplodeLimb = 1 << 7,
+			kCrippleLimb = 1 << 8,
+			kDisarm = 1 << 9,
+			kDisableWeapon = 1 << 10,
+			kSneakAttack = 1 << 11,
+			kIgnoreCritical = 1 << 12,
+			kPredictDamage = 1 << 13,
+			kPredictBaseDamage = 1 << 14,
+			kBash = 1 << 15,
+			kTimedBash = 1 << 16,
+			kPowerAttack = 1 << 17,
+			kMeleeAttack = 1 << 18,
+			kRicochet = 1 << 19,
+			kExplosion = 1 << 20
+		};
+
+		// members
+		DamageImpactData impactData;                                                  // 00
+		ActorHandle aggressor;                                                        // 40
+		ActorHandle target;                                                           // 44
+		ObjectRefHandle sourceRef;                                                    // 48
+		NiPointer<BGSAttackData> attackData;                                          // 50
+		BGSObjectInstanceT<TESObjectWEAP> weapon;                                     // 58
+		SpellItem* criticalEffect;                                                    // 68
+		SpellItem* hitEffect;                                                         // 70
+		BSTSmartPointer<VATSCommand> VATSCommand;                                     // 78
+		const TESAmmo* ammo;                                                          // 80
+		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;  // 88
+		float healthDamage;                                                           // 90
+		float totalDamage;                                                            // 94
+		float physicalDamage;                                                         // 98
+		float targetedLimbDamage;                                                     // 9C
+		float percentBlocked;                                                         // A0
+		float resistedPhysicalDamage;                                                 // A4
+		float resistedTypedDamage;                                                    // A8
+		stl::enumeration<STAGGER_MAGNITUDE, std::uint32_t> stagger;                   // AC
+		float sneakAttackBonus;                                                       // B0
+		float bonusHealthDamageMult;                                                  // B4
+		float pushBack;                                                               // B8
+		float reflectedDamage;                                                        // BC
+		float criticalDamageMult;                                                     // C0
+		stl::enumeration<Flag, std::uint32_t> flags;                                  // C4
+		BGSEquipIndex equipIndex;                                                     // C8
+		std::uint32_t material;                                                       // D0
+		stl::enumeration<BGSBodyPartDefs::LIMB_ENUM, std::uint32_t> damageLimb;       // D4
+	};
+	static_assert(sizeof(HitData) == 0xE0);
+
+	class TESHitEvent
+	{
+	public:
+		[[nodiscard]] static BSTEventSource<TESHitEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESHitEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(1411899) };
+			return func();
+		}
+		
+		// members
+		HitData hitData;                  // 000
+		NiPointer<TESObjectREFR> target;  // 0E0
+		NiPointer<TESObjectREFR> cause;   // 0E8
+		BSFixedString material;           // 0F0
+		std::uint32_t sourceFormID;       // 0F8
+		std::uint32_t projectileFormID;   // 0FC
+		bool usesHitData;                 // 100
+	};
+	static_assert(sizeof(TESHitEvent) == 0x110);
+
 	struct TESMagicEffectApplyEvent
 	{
 	public:
+		[[nodiscard]] static BSTEventSource<TESMagicEffectApplyEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESMagicEffectApplyEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(1327824) };
+			return func();
+		}
+		
 		// members
 		NiPointer<TESObjectREFR> target;  // 00
 		NiPointer<TESObjectREFR> caster;  // 08
 		std::uint32_t magicEffectFormID;  // 10
 	};
 	static_assert(sizeof(TESMagicEffectApplyEvent) == 0x18);
+
+	struct TESObjectLoadedEvent
+	{
+	public:
+		[[nodiscard]] static BSTEventSource<TESObjectLoadedEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESObjectLoadedEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(609604) };
+			return func();
+		}
+		
+		// members
+		std::uint32_t formId;  // 00
+		bool loaded;           // 04
+	};
+	static_assert(sizeof(TESObjectLoadedEvent) == 0x8);
 
 	class TutorialEvent
 	{
@@ -549,161 +769,4 @@ namespace RE
 		stl::enumeration<UserEvents::SENDER_ID, std::int32_t> senderID;                // 8
 	};
 	static_assert(sizeof(UserEventEnabledEvent) == 0xC);
-
-	namespace CellAttachDetachEventSource
-	{
-		struct CellAttachDetachEventSourceSingleton :
-			public BSTSingletonImplicit<CellAttachDetachEventSourceSingleton>
-		{
-		public:
-			[[nodiscard]] static CellAttachDetachEventSourceSingleton& GetSingleton()
-			{
-				using func_t = decltype(&CellAttachDetachEventSourceSingleton::GetSingleton);
-				REL::Relocation<func_t> func{ REL::ID(862142) };
-				return func();
-			}
-
-			// members
-			BSTEventSource<CellAttachDetachEvent> source;  // 00
-		};
-		static_assert(sizeof(CellAttachDetachEventSourceSingleton) == 0x58);
-	}
-
-	struct TESObjectLoadedEvent
-	{
-		uint32_t formId;  //00
-		uint8_t loaded;   //08
-	};
-
-	struct TESEquipEvent
-	{
-		Actor* a;
-		uint32_t formId;
-		uint32_t refFormID;
-		uint16_t unk10;
-		bool isEquip;
-	};
-
-	struct BSTransformDeltaEvent
-	{
-		NiMatrix3 deltaRotation;
-		NiPoint4 deltaTranslation;
-		NiPoint4 previousTranslation;
-		NiPoint4 previousRotation;
-		NiPoint4 previousScale;
-		NiPoint4 currentTranslation;
-		NiPoint4 currentRotation;
-		NiPoint4 currentScale;
-	};
-
-	struct DamageImpactData
-	{
-		NiPoint4 hitPos;
-		NiPoint4 hitDirection;
-		NiPoint4 projectileDir;
-		bhkNPCollisionObject* collisionObj;
-	};
-	static_assert(sizeof(DamageImpactData) == 0x38);
-
-	class VATSCommand;
-	class HitData
-	{
-	public:
-		void SetAllDamageToZero()
-		{
-			flags &= 0xFFFFFE07;
-			calculatedBaseDamage = 0.f;
-			blockedDamage = 0.f;
-			reducedDamage = 0.f;
-			blockStaggerMult = 0.f;
-		}
-
-		DamageImpactData impactData;
-		int8_t gap38[8];
-		ObjectRefHandle attackerHandle;
-		ObjectRefHandle victimHandle;
-		ObjectRefHandle sourceHandle;
-		int8_t gap4C[4];
-		BGSAttackData* attackData;
-		BGSObjectInstance source;
-		MagicItem* effect;
-		SpellItem* spellItem;
-		VATSCommand* VATScmd;
-		TESAmmo* ammo;
-		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;
-		float calculatedBaseDamage;
-		float baseDamage;
-		float totalDamage;
-		float blockedDamage;
-		float blockMult;
-		float reducedDamage;
-		float field_A8;
-		float blockStaggerMult;
-		float sneakAttackMult;
-		float field_B4;
-		float field_B8;
-		float field_BC;
-		float criticalDamageMult;
-		uint32_t flags;
-		BGSEquipIndex equipIndex;
-		uint32_t materialType;
-		int32_t bodypartType;
-		int8_t gapD4[4];
-	};
-	static_assert(sizeof(HitData) == 0xD8);
-
-	class TESHitEvent
-	{
-	public:
-		HitData hitdata;
-		int8_t gapD8[8];
-		TESObjectREFR* victim;
-		TESObjectREFR* attacker;
-		BSFixedString matName;
-		uint32_t sourceFormID;
-		uint32_t projFormID;
-		bool hasHitData;
-		int8_t gapD1[7];
-	};
-	static_assert(sizeof(TESHitEvent) == 0x108);
-
-	class HitEventSource : public BSTEventSource<TESHitEvent>
-	{
-	public:
-		[[nodiscard]] static HitEventSource* GetSingleton()
-		{
-			REL::Relocation<HitEventSource*> singleton{ REL::ID(989868) };
-			return singleton.get();
-		}
-	};
-
-	class ObjectLoadedEventSource : public BSTEventSource<TESObjectLoadedEvent>
-	{
-	public:
-		[[nodiscard]] static ObjectLoadedEventSource* GetSingleton()
-		{
-			REL::Relocation<ObjectLoadedEventSource*> singleton{ REL::ID(416662) };
-			return singleton.get();
-		}
-	};
-
-	class EquipEventSource : public BSTEventSource<TESEquipEvent>
-	{
-	public:
-		[[nodiscard]] static EquipEventSource* GetSingleton()
-		{
-			REL::Relocation<EquipEventSource*> singleton{ REL::ID(485633) };
-			return singleton.get();
-		}
-	};
-
-	class MGEFApplyEventSource : public BSTEventSource<TESMagicEffectApplyEvent>
-	{
-	public:
-		[[nodiscard]] static MGEFApplyEventSource* GetSingleton()
-		{
-			REL::Relocation<MGEFApplyEventSource*> singleton{ REL::ID(1481228) };
-			return singleton.get();
-		}
-	};
 }

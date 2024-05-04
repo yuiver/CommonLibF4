@@ -348,6 +348,12 @@ namespace RE
 			REL::Relocation<GameSettingCollection**> singleton{ REL::ID(8308) };
 			return *singleton;
 		}
+
+		[[nodiscard]] Setting* GetSetting(std::string_view a_name)
+		{
+			auto it = settings.find(a_name);
+			return it != settings.end() ? it->second : nullptr;
+		}
 	};
 	static_assert(sizeof(GameSettingCollection) == 0x138);
 
@@ -390,4 +396,17 @@ namespace RE
 		}
 	};
 	static_assert(sizeof(INIPrefSettingCollection) == 0x128);
+
+	inline Setting* GetINISetting(std::string_view a_name)
+	{
+		Setting* setting = nullptr;
+
+		auto iniPrefs = INIPrefSettingCollection::GetSingleton();
+		setting = iniPrefs ? iniPrefs->GetSetting(a_name) : nullptr;
+		if (!setting) {
+			auto ini = INISettingCollection::GetSingleton();
+			setting = ini ? ini->GetSetting(a_name) : nullptr;
+		}
+		return setting;
+	}
 }

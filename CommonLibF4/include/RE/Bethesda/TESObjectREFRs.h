@@ -49,6 +49,7 @@ namespace RE
 	class NiNode;
 	class NiTransform;
 	class NonActorMagicCaster;
+	class ShaderReferenceEffect;
 	class SimpleAnimationGraphManagerLoadingTask;
 	class TargetEntry;
 	class TBO_InstanceData;
@@ -206,11 +207,11 @@ namespace RE
 			return func(this, a_variable, a_var);
 		};
 
-		bool RevertAnimationGraphManager(bool unk = true)
+		bool RevertAnimationGraphManager(bool a_performModifyInitialAnimationStateC = true)
 		{
 			using func_t = decltype(&IAnimationGraphManagerHolder::RevertAnimationGraphManager);
 			REL::Relocation<func_t> func{ REL::ID(41382) };
-			return func(this, unk);
+			return func(this, a_performModifyInitialAnimationStateC);
 		}
 	};
 	static_assert(sizeof(IAnimationGraphManagerHolder) == 0x8);
@@ -683,6 +684,34 @@ namespace RE
 			return func(this);
 		}
 
+		ModelReferenceEffect* ApplyArtObject(
+			BGSArtObject* a_art, 
+			float a_time = -1.0f, 
+			TESObjectREFR* a_facingRef = nullptr, 
+			bool a_attachToCamera = false, 
+			bool a_inheritRotation = false, 
+			NiAVObject* a_3D = nullptr, 
+			bool a_interfaceEffect = false)
+		{
+			using func_t = decltype(&TESObjectREFR::ApplyArtObject);
+			REL::Relocation<func_t> func{ REL::ID(357908) };
+			return func(this, a_art, a_time, a_facingRef, a_attachToCamera, a_inheritRotation, a_3D, a_interfaceEffect);
+		}
+
+		ShaderReferenceEffect* ApplyEffectShader(
+			TESEffectShader* a_art, 
+			float a_time = -1.0f,
+			TESObjectREFR* a_facingRef = nullptr, 
+			bool a_attachToCamera = false,
+			bool a_inheritRotation = false, 
+			NiAVObject* a_3D = nullptr, 
+			bool a_interfaceEffect = false)
+		{
+			using func_t = decltype(&TESObjectREFR::ApplyEffectShader);
+			REL::Relocation<func_t> func{ REL::ID(652173) };
+			return func(this, a_art, a_time, a_facingRef, a_attachToCamera, a_inheritRotation, a_3D, a_interfaceEffect);
+		}
+
 		void Enable(bool a_resetInventory)
 		{
 			using func_t = decltype(&TESObjectREFR::Enable);
@@ -706,6 +735,13 @@ namespace RE
 		{
 			using func_t = decltype(&TESObjectREFR::GetCurrentLocation);
 			REL::Relocation<func_t> func{ REL::ID(1135470) };
+			return func(this);
+		}
+	
+		[[nodiscard]] const char* GetDisplayFullName()
+		{
+			using func_t = decltype(&TESObjectREFR::GetDisplayFullName);
+			REL::Relocation<func_t> func{ REL::ID(1212056) };
 			return func(this);
 		}
 

@@ -2,6 +2,8 @@
 
 namespace F4SE::WinAPI
 {
+	inline constexpr auto CP_UTF8{ static_cast<unsigned int>(65001) };
+	inline constexpr auto MAX_PATH{ 260u };
 	inline constexpr auto(MEM_RELEASE){ static_cast<std::uint32_t>(0x00008000) };
 	inline constexpr auto(PAGE_EXECUTE_READWRITE){ static_cast<std::uint32_t>(0x40) };
 
@@ -85,6 +87,14 @@ namespace F4SE::WinAPI
 		const wchar_t* a_caption,
 		unsigned int a_type) noexcept;
 
+	[[nodiscard]] int(MultiByteToWideChar)(
+		unsigned int a_codePage,
+		std::uint32_t a_flags,
+		const char* a_multiByteStr,
+		int a_multiByte,
+		wchar_t* a_wideCharStr,
+		int a_wideChar);
+
 	void(OutputDebugString)(
 		const char* a_outputString) noexcept;
 
@@ -123,6 +133,16 @@ namespace F4SE::WinAPI
 		std::size_t a_size,
 		std::uint32_t a_newProtect,
 		std::uint32_t* a_oldProtect) noexcept;
+
+	[[nodiscard]] int(WideCharToMultiByte)(
+		unsigned int a_codePage,
+		std::uint32_t a_flags,
+		const wchar_t* a_wideCharStr,
+		int a_wideChar,
+		char* a_multiByteStr,
+		int a_multiByte,
+		const char* a_defaultChar,
+		int* a_usedDefaultChar);
 }
 
 namespace RE

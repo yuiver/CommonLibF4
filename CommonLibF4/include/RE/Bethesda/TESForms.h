@@ -822,7 +822,7 @@ namespace RE
 		template <class... Args>
 
 		[[nodiscard]] bool Is(Args... a_args) const noexcept  //
-			requires(std::same_as<Args, ENUM_FORM_ID>&&...)
+			requires(std::same_as<Args, ENUM_FORM_ID> && ...)
 		{
 			return (Is(a_args) || ...);
 		}
@@ -839,13 +839,14 @@ namespace RE
 		[[nodiscard]] bool IsAlchemyItem() const noexcept { return Is(ENUM_FORM_ID::kALCH); }
 		[[nodiscard]] bool IsCreated() const noexcept { return (formID >> (8 * 3)) == 0xFF; }
 		[[nodiscard]] bool IsDeleted() noexcept { return (formFlags & (1u << 5)) != 0; }
+		[[nodiscard]] bool IsDisabled() noexcept { return (formFlags & (1u << 11)) != 0; }
 		[[nodiscard]] bool IsInitialized() const noexcept { return (formFlags & (1u << 3)) != 0; }
 
 		[[nodiscard]] bool IsNot(ENUM_FORM_ID a_type) const noexcept { return !Is(a_type); }
 		template <class... Args>
 
 		[[nodiscard]] bool IsNot(Args... a_args) const noexcept  //
-			requires(std::same_as<Args, ENUM_FORM_ID>&&...)
+			requires(std::same_as<Args, ENUM_FORM_ID> && ...)
 		{
 			return (IsNot(a_args) && ...);
 		}
@@ -1353,13 +1354,21 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSReferenceEffect };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kRFCT };
 
+		enum class Flag
+		{
+			kNone = 0,
+			kFaceTarget = 1 << 0,
+			kAttachToCamera = 1 << 1,
+			kInheritRotation = 1 << 2
+		};
+
 		struct Data
 		{
 		public:
 			// members
-			BGSArtObject* artObject;        // 00
-			TESEffectShader* effectShader;  // 08
-			std::uint32_t flags;            // 10
+			BGSArtObject* artObject;                      // 00
+			TESEffectShader* effectShader;                // 08
+			stl::enumeration<Flag, std::uint32_t> flags;  // 10
 		};
 		static_assert(sizeof(Data) == 0x18);
 
@@ -1988,25 +1997,63 @@ namespace RE
 	};
 	static_assert(sizeof(BGSPerk) == 0x98);
 
-	class __declspec(novtable) BGSBodyPart
+	struct PART_DATA
 	{
 	public:
-		BSFixedString PartNode;               //00
-		BSFixedString VATSTarget;             //08
-		BSFixedString TwistVariation;         //10
-		BSFixedString HitReactionStart;       //18
-		BSFixedString HitReactionEnd;         //20
-		BSFixedString TwistVariationX;        //28
-		BSFixedString TwistVariationY;        //30
-		BSFixedString TwistVariationZ;        //38
-		BSFixedString unk40;                  //40
-		BSFixedString GoreEffectsTargetBone;  //48
-		void* TESModelVTable;                 //50
-		BSFixedString LimbReplacementModel;   //58
-		void* TextureFileHashes;              //60
-		void* MaterialRelated;                //68
-		uint64_t unk70;                       //70
+		// members
+		float damageMult;                           // 00
+		BGSDebris* explosionGenericDebris;          // 08
+		BGSExplosion* explosion;                    // 10
+		float explosionGenericDebrisScale;          // 18
+		BGSDebris* dismemberGenericDebris;          // 20
+		BGSExplosion* dismemberExplosion;           // 28
+		float dismemberGenericDebrisScale;          // 30
+		BGSDebris* onCrippleGenericDebris;          // 38
+		BGSExplosion* onCrippleExplosion;           // 40
+		float onCrippleGenericDebrisScale;          // 48
+		NiPoint3 goreTranslate;                     // 4C
+		NiPoint3 goreRotate;                        // 58
+		BGSImpactDataSet* dismemberImpactDataSet;   // 68
+		BGSImpactDataSet* explosionImpactDataSet;   // 70
+		BGSImpactDataSet* onCrippleImpactDataSet;   // 78
+		ActorValueInfo* actorValue;                 // 80
+		BGSArtObject* artObject;                    // 88
+		float explosionSpecialDebrisScale;          // 90
+		std::uint8_t flags;                         // 94
+		std::uint8_t type;                          // 95
+		std::uint8_t healthPercent;                 // 96
+		std::uint8_t toHitChance;                   // 97
+		std::uint8_t explosionChance;               // 98
+		std::uint8_t nonLethalDismembermentChance;  // 99
+		std::uint8_t dismemberGenericDebrisCount;   // 9A
+		std::uint8_t onCrippleGenericDebrisCount;   // 9B
+		std::uint8_t explosionGenericDebrisCount;   // 9C
+		std::uint8_t dismemberDecalCount;           // 9D
+		std::uint8_t onCrippleDecalCount;           // 9E
+		std::uint8_t explosionDecalCount;           // 9F
+		std::uint8_t geometrySegmentIndex;          // A0
 	};
+	static_assert(sizeof(PART_DATA) == 0xA8);
+
+	class BGSBodyPart
+	{
+	public:
+		// members
+		BSFixedString nodeName;                                   // 000
+		BSFixedString targetName;                                 // 008
+		BSFixedString hitReactionVariablePrefix;                  // 010
+		BGSBodyPartDefs::HitReactionData runtimeHitReactionData;  // 018
+		BGSLocalizedString partName;                              // 040
+		BSFixedString goreObjectName;                             // 048
+		TESModel explosionSpecialDebris;                          // 050
+		PART_DATA data;                                           // 080
+		BGSArtObject* dismemberBlood;                             // 128
+		BGSMaterialType* bloodImpactMaterial;                     // 130
+		BGSMaterialType* onCrippleBloodImpactMaterial;            // 138
+		BGSTextureSet* meatCapTextureSet;                         // 140
+		BGSTextureSet* meatCollarTextureSet;                      // 148
+	};
+	static_assert(sizeof(BGSBodyPart) == 0x150);
 
 	class __declspec(novtable) BGSBodyPartData :
 		public TESForm,        // 000

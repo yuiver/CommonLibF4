@@ -22,7 +22,7 @@
 #define NOGDI
 #define NOKERNEL
 //#define NOUSER
-#define NONLS
+//#define NONLS
 //#define NOMB
 #define NOMEMMGR
 #define NOMETAFILE
@@ -230,6 +230,22 @@ namespace F4SE::WinAPI
 				static_cast<::UINT>(a_type)));
 	}
 
+	int(MultiByteToWideChar)(
+		unsigned int a_codePage,
+		std::uint32_t a_flags,
+		const char* a_multiByteStr,
+		int a_multiByte,
+		wchar_t* a_wideCharStr, int a_wideChar)
+	{
+		return ::MultiByteToWideChar(
+			static_cast<::UINT>(a_codePage),
+			static_cast<::DWORD>(a_flags),
+			static_cast<::LPCCH>(a_multiByteStr),
+			a_multiByte,
+			static_cast<::LPWSTR>(a_wideCharStr),
+			a_wideChar);
+	}
+
 	void(OutputDebugString)(
 		const char* a_outputString) noexcept
 	{
@@ -322,5 +338,24 @@ namespace F4SE::WinAPI
 				static_cast<::SIZE_T>(a_size),
 				static_cast<::DWORD>(a_newProtect),
 				reinterpret_cast<::PDWORD>(a_oldProtect)));
+	}
+	int WideCharToMultiByte(
+		unsigned int a_codePage,
+		std::uint32_t a_flags,
+		const wchar_t* a_wideCharStr,
+		int a_wideChar,
+		char* a_multiByteStr,
+		int a_multiByte,
+		const char* a_defaultChar, int* a_usedDefaultChar)
+	{
+		return ::WideCharToMultiByte(
+			static_cast<::UINT>(a_codePage),
+			static_cast<::DWORD>(a_flags),
+			static_cast<::LPCWCH>(a_wideCharStr),
+			a_wideChar,
+			static_cast<::LPSTR>(a_multiByteStr),
+			a_multiByte,
+			static_cast<::LPCCH>(a_defaultChar),
+			static_cast<::LPBOOL>(a_usedDefaultChar));
 	}
 }

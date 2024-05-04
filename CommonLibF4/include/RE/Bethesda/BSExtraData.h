@@ -429,18 +429,18 @@ namespace RE
 			ctor(a_item, a_parentForm, a_filter);
 		}
 
-		static bool AttachModToReference(TESObjectREFR& ref, BGSMod::Attachment::Mod& mod, std::uint8_t a_attachIndex, std::uint8_t a_rank)
+		static bool AttachModToReference(TESObjectREFR& a_ref, BGSMod::Attachment::Mod& a_mod, std::uint8_t a_attachIndex, std::uint8_t a_rank)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AttachModToReference);
 			REL::Relocation<func_t> func{ REL::ID(3303) };
-			return func(ref, mod, a_attachIndex, a_rank);
+			return func(a_ref, a_mod, a_attachIndex, a_rank);
 		}
 
-		bool HasMod(const BGSMod::Attachment::Mod& mod)
+		bool HasMod(const BGSMod::Attachment::Mod& a_mod)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::HasMod);
 			REL::Relocation<func_t> func{ REL::ID(963890) };
-			return func(this, mod);
+			return func(this, a_mod);
 		}
 
 		void AddMod(const BGSMod::Attachment::Mod& a_newMod, std::uint8_t a_attachIndex, std::uint8_t a_rank, bool a_removeInvalidMods)
@@ -642,18 +642,32 @@ namespace RE
 	};
 	static_assert(sizeof(ExtraPowerLinks) == 0x30);
 
-	class __declspec(novtable) ExtraBendableSplineParams : public BSExtraData
+	class __declspec(novtable) ExtraBendableSplineParams :
+		public BSExtraData  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ExtraBendableSplineParams };
 		static constexpr auto VTABLE{ VTABLE::ExtraBendableSplineParams };
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kBendableSplineParams };
-		float unk18;      // 18
-		float thickness;  // 1C
-		float xOffset;    // 20
-		float yOffset;    // 24
-		float zOffset;    // 28
-		float unk2C;      // 2C
+
+		struct ParamData_Untilv13
+		{
+			// members
+			float slack;           // 00
+			float thickness;       // 04
+			NiPoint3 halfExtents;  // 08
+		};
+		static_assert(sizeof(ParamData_Untilv13) == 0x14);
+
+		struct ParamData : public ParamData_Untilv13
+		{
+			// members
+			bool endDetached;  // 14
+		};
+		static_assert(sizeof(ParamData) == 0x18);
+
+		// members
+		ParamData data;  // 18
 	};
 	static_assert(sizeof(ExtraBendableSplineParams) == 0x30);
 
@@ -850,11 +864,11 @@ namespace RE
 			return std::unique_ptr<T>{ static_cast<T*>(RemoveExtra(T::TYPE).release()) };
 		}
 
-		bool SetBendableSplineInfo(float* thickness, float* slack, NiPoint3* unk1 = nullptr, bool* unk2 = nullptr)
+		bool SetBendableSplineInfo(float* a_thickness, float* a_slack, NiPoint3* a_halfExtents = nullptr, bool* a_detachedEnd = nullptr)
 		{
 			using func_t = decltype(&ExtraDataList::SetBendableSplineInfo);
 			REL::Relocation<func_t> func{ REL::ID(894306) };
-			return func(this, thickness, slack, unk1, unk2);
+			return func(this, a_thickness, a_slack, a_halfExtents, a_detachedEnd);
 		}
 
 		void SetDisplayNameFromInstanceData(BGSObjectInstanceExtra* a_instExtra, TESBoundObject* a_object, const BSTSmartPointer<TBO_InstanceData>& a_data)

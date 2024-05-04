@@ -2,6 +2,8 @@
 
 #include "RE/Bethesda/Atomic.h"
 #include "RE/Bethesda/BSTHashMap.h"
+#include "RE/NetImmerse/NiColor.h"
+#include "RE/NetImmerse/NiPoint2.h"
 #include "RE/NetImmerse/NiRect.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTexture.h"
@@ -25,6 +27,15 @@ namespace RE
 {
 	enum class DXGI_MODE_SCALING;
 	enum class DXGI_MODE_SCANLINE_ORDER;
+
+	enum class TextureFileFormat
+	{
+		kBMP = 0,
+		kJPG = 1,
+		kTGA = 2,
+		kPNG = 3,
+		kDDS = 4,
+	};
 
 	class BSD3DResourceCreator;
 	class NiCamera;
@@ -60,11 +71,37 @@ namespace RE
 			kEnabled
 		};
 
+		enum class TextureFileFormat
+		{
+			kBMP = 0,
+			kJPG = 1,
+			kTGA = 2,
+			kPNG = 3,
+			kDDS = 4,
+		};
+
 		struct Buffer
 		{
-			uint64_t unk00;
-			uint64_t rawVertexData;
+		public:
+			// members
+			ID3D11Buffer* buffer;                           // 00
+			void* data;                                     // 08
+			Buffer* next;                                   // 10
+			ID3D11ShaderResourceView* shaderResource;       // 18
+			ID3D11UnorderedAccessView* unorderedAccess;     // 20
+			BSEventFlag* requestEventToWait;                // 28
+			std::uint32_t maxDataSize;                      // 30
+			std::uint32_t dataSize;                         // 34
+			std::uint32_t refCount;                         // 38
+			BSTAtomicValue<std::uint32_t> SRAcquire;        // 3C
+			BSTAtomicValue<std::uint32_t> UAVAcquire;       // 40
+			BSTAtomicValue<std::uint32_t> pendingRequests;  // 44
+			std::uint32_t dataOffset;                       // 48
+			bool invalidCpuData;                            // 4C
+			bool heapAllocated;                             // 4D
+			volatile bool pendingCopy;                      // 4E
 		};
+		static_assert(sizeof(Buffer) == 0x50);
 
 		struct TextureHeader
 		{
@@ -234,7 +271,7 @@ namespace RE
 			RenderTarget renderTargets[101];              // 0A58
 			DepthStencilTarget depthStencilTargets[13];   // 1D48
 			CubeMapRenderTarget cubeMapRenderTargets[2];  // 2500
-			std::byte rendererLock[0x25A8 - 0x2580];      // 2580 - TODO
+			BSCriticalSection rendererLock;               // 2580
 			const char* className;                        // 25A8
 			void* instance;                               // 25B0
 			bool nvapiEnabled;                            // 25B8
@@ -246,17 +283,17 @@ namespace RE
 		public:
 			using ResetRenderTargets_t = void (*)();
 
-			void IncRef(Buffer* vertexBuffer)
+			void IncRef(Buffer* a_vertexBuffer)
 			{
 				using func_t = decltype(&BSGraphics::Renderer::IncRef);
 				REL::Relocation<func_t> func{ REL::ID(1337764) };
-				return func(this, vertexBuffer);
+				return func(this, a_vertexBuffer);
 			}
-			void DecRef(Buffer* vertexBuffer)
+			void DecRef(Buffer* a_vertexBuffer)
 			{
 				using func_t = decltype(&BSGraphics::Renderer::DecRef);
 				REL::Relocation<func_t> func{ REL::ID(194808) };
-				return func(this, vertexBuffer);
+				return func(this, a_vertexBuffer);
 			}
 
 			// members

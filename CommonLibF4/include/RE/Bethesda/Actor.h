@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/Bethesda/AITimeStamp.h"
+#include "RE/Bethesda/BGSDefaultObjectManager.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
 #include "RE/Bethesda/BSPointerHandle.h"
@@ -95,14 +96,7 @@ namespace RE
 
 	namespace ActorEquipManagerEvent
 	{
-		struct Event
-		{
-			uint32_t unk00;            //00
-			uint8_t pad04[0x7 - 0x4];  //04
-			bool isUnequip;            //07
-			void* unk08;               //08
-			Actor* a;                  //10	equip target
-		};
+		struct Event;
 	}
 
 	namespace MagicSystem
@@ -529,11 +523,9 @@ namespace RE
 			return func(this, a_actor, a_location, a_magnitude);
 		}
 
-		void SetupSpecialIdle(Actor& a_actor, RE::DEFAULT_OBJECT a_defaultObject, TESIdleForm* a_idle, bool a_testConditions, TESObjectREFR* a_targetOverride)
+		bool PlayIdle(Actor& a_actor, TESIdleForm* a_idle, TESObjectREFR* a_target)
 		{
-			using func_t = decltype(&AIProcess::SetupSpecialIdle);
-			REL::Relocation<func_t> func{ REL::ID(1446774) };
-			return func(this, a_actor, a_defaultObject, a_idle, a_testConditions, a_targetOverride);
+			return SetupSpecialIdle(a_actor, DEFAULT_OBJECT::kActionIdle, a_idle, true, a_target);
 		}
 
 		bool ProcessGreet(Actor* a_actor, DIALOGUE_TYPE a_type, DIALOGUE_SUBTYPE a_subType, TESObjectREFR* a_target, BGSDialogueBranch* a_branch, bool a_forceSub, bool a_stop, bool a_que, bool a_sayCallback)
@@ -578,11 +570,25 @@ namespace RE
 			return func(this, a_actor, a_instance, a_slot);
 		}
 
+		bool SetupSpecialIdle(Actor& a_actor, RE::DEFAULT_OBJECT a_defaultObject, TESIdleForm* a_idle, bool a_testConditions, TESObjectREFR* a_targetOverride)
+		{
+			using func_t = decltype(&AIProcess::SetupSpecialIdle);
+			REL::Relocation<func_t> func{ REL::ID(1446774) };
+			return func(this, a_actor, a_defaultObject, a_idle, a_testConditions, a_targetOverride);
+		}
+
 		bool SetWeaponBonesCulled(const Actor& a_actor, bool a_stateToSet, WEAPON_CULL_TYPE a_weaponCullType)
 		{
 			using func_t = decltype(&AIProcess::SetWeaponBonesCulled);
 			REL::Relocation<func_t> func{ REL::ID(397172) };
 			return func(this, a_actor, a_stateToSet, a_weaponCullType);
+		}
+
+		void StopCurrentIdle(Actor* a_actor, bool a_instant, bool a_killFlavor)
+		{
+			using func_t = decltype(&AIProcess::StopCurrentIdle);
+			REL::Relocation<func_t> func{ REL::ID(434460) };
+			return func(this, a_actor, a_instant, a_killFlavor);
 		}
 
 		// members
@@ -965,6 +971,13 @@ namespace RE
 			return func(this, a_perk, a_rank);
 		}
 
+		bool CanUseIdle(TESIdleForm* a_idle) const
+		{
+			using func_t = decltype(&Actor::CanUseIdle);
+			REL::Relocation<func_t> func{ REL::ID(1223707) };
+			return func(this, a_idle);
+		}
+
 		void ClearAttackStates()
 		{
 			using func_t = decltype(&Actor::ClearAttackStates);
@@ -972,9 +985,72 @@ namespace RE
 			return func(this);
 		}
 
+		void EndInterruptPackage(bool a_notRunOnceDialogue)
+		{
+			using func_t = decltype(&Actor::EndInterruptPackage);
+			REL::Relocation<func_t> func{ REL::ID(575188) };
+			return func(this, a_notRunOnceDialogue);
+		}
+
+		void ExitCover()
+		{
+			using func_t = decltype(&Actor::ExitCover);
+			REL::Relocation<func_t> func{ REL::ID(770035) };
+			return func(this);
+		}
+
+		void GetAimVector(NiPoint3& a_aimVector)
+		{
+			using func_t = decltype(&Actor::GetAimVector);
+			REL::Relocation<func_t> func{ REL::ID(554863) };
+			return func(this, a_aimVector);
+		}
+
+		NiAVObject* GetClosestBone(NiPoint3 a_impactLocation, NiPoint3 a_movementDirection)
+		{
+			using func_t = decltype(&Actor::GetClosestBone);
+			REL::Relocation<func_t> func{ REL::ID(1180004) };
+			return func(this, a_impactLocation, a_movementDirection);
+		}
+
+		CFilter GetCollisionFilter()
+		{
+			using func_t = decltype(&Actor::GetCollisionFilter);
+			REL::Relocation<func_t> func{ REL::ID(1474995) };
+			return func(this);
+		}
+
+		TESCombatStyle* GetCombatStyle()
+		{
+			using func_t = decltype(&Actor::GetCombatStyle);
+			REL::Relocation<func_t> func{ REL::ID(1270929) };
+			return func(this);
+		}
+
 		[[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
 		{
 			return currentProcess ? currentProcess->GetCurrentAmmo(a_equipIndex) : nullptr;
+		}
+
+		std::uint32_t GetCurrentCollisionGroup()
+		{
+			using func_t = decltype(&Actor::GetCurrentCollisionGroup);
+			REL::Relocation<func_t> func{ REL::ID(410500) };
+			return func(this);
+		}
+
+		bool GetCurrentFireLocation(BGSEquipIndex a_index, NiPoint3& a_fireLocation)
+		{
+			using func_t = decltype(&Actor::GetCurrentFireLocation);
+			REL::Relocation<func_t> func{ REL::ID(663107) };
+			return func(this, a_index, a_fireLocation);
+		}
+
+		float GetDesiredSpeed()
+		{
+			using func_t = decltype(&Actor::GetDesiredSpeed);
+			REL::Relocation<func_t> func{ REL::ID(106892) };
+			return func(this);
 		}
 
 		[[nodiscard]] bool GetHostileToActor(Actor* a_actor)
@@ -1007,11 +1083,88 @@ namespace RE
 			return func(this, a_perk);
 		}
 
+		void HandleDefaultAnimationSwitch()
+		{
+			using func_t = decltype(&Actor::HandleDefaultAnimationSwitch);
+			REL::Relocation<func_t> func{ REL::ID(1163130) };
+			return func(this);
+		}
+
+		void HandleItemEquip(bool bCullBone)
+		{
+			using func_t = decltype(&Actor::HandleItemEquip);
+			REL::Relocation<func_t> func{ REL::ID(164912) };
+			return func(this, bCullBone);
+		}
+
+		void InitiateDoNothingPackage()
+		{
+			using func_t = decltype(&Actor::InitiateDoNothingPackage);
+			REL::Relocation<func_t> func{ REL::ID(89993) };
+			return func(this);
+		}
+
+		bool IsCrippled()
+		{
+			using func_t = decltype(&Actor::IsCrippled);
+			REL::Relocation<func_t> func{ REL::ID(1238666) };
+			return func(this);
+		}
+
+		bool IsFollowing()
+		{
+			using func_t = decltype(&Actor::IsFollowing);
+			REL::Relocation<func_t> func{ REL::ID(629579) };
+			return func(this);
+		}
+
 		[[nodiscard]] bool IsJumping()
 		{
 			using func_t = decltype(&Actor::IsJumping);
 			REL::Relocation<func_t> func{ REL::ID(1041558) };
 			return func(this);
+		}
+
+		bool IsPathValid()
+		{
+			using func_t = decltype(&Actor::IsPathValid);
+			REL::Relocation<func_t> func{ REL::ID(1522194) };
+			return func(this);
+		}
+
+		bool IsPathing()
+		{
+			using func_t = decltype(&Actor::IsPathing);
+			REL::Relocation<func_t> func{ REL::ID(989661) };
+			return func(this);
+		}
+
+		bool IsPathingComplete()
+		{
+			using func_t = decltype(&Actor::IsPathingComplete);
+			REL::Relocation<func_t> func{ REL::ID(817283) };
+			return func(this);
+		}
+
+		bool IsQuadruped()
+		{
+			using func_t = decltype(&Actor::IsQuadruped);
+			REL::Relocation<func_t> func{ REL::ID(1552322) };
+			return func(this);
+		}
+
+		bhkCharacterController* Move(float a_deltaTime, NiPoint3 a_deltaPos, bool a_defer)
+		{
+			using func_t = decltype(&Actor::Move);
+			REL::Relocation<func_t> func{ REL::ID(737625) };
+			return func(this, a_deltaTime, a_deltaPos, a_defer);
+		}
+
+		bool PerformAction(BGSAction* a_action, TESObjectREFR* a_target)
+		{
+			using func_t = decltype(&Actor::PerformAction);
+			REL::Relocation<func_t> func{ REL::ID(1057231) };
+			return func(this, a_action, a_target);
 		}
 
 		void RemovePerk(BGSPerk* a_perk)
@@ -1042,144 +1195,25 @@ namespace RE
 			}
 		}
 
+		void SetGunState(GUN_STATE a_gunState, bool a_val = true)
+		{
+			using func_t = decltype(&Actor::SetGunState);
+			REL::Relocation<func_t> func{ REL::ID(977675) };
+			return func(this, a_gunState, a_val);
+		}
+
+		void SetHeading(float a_angle)
+		{
+			using func_t = decltype(&Actor::SetHeading);
+			REL::Relocation<func_t> func{ REL::ID(353571) };
+			return func(this, a_angle);
+		}
+
 		void TrespassAlarm(TESObjectREFR* a_refr, TESForm* a_owner, std::int32_t a_crime)
 		{
 			using func_t = decltype(&Actor::TrespassAlarm);
 			REL::Relocation<func_t> func{ REL::ID(1109888) };
 			return func(this, a_refr, a_owner, a_crime);
-		}
-
-		void HandleDefaultAnimationSwitch()
-		{
-			using func_t = decltype(&Actor::HandleDefaultAnimationSwitch);
-			REL::Relocation<func_t> func{ REL::ID(1163130) };
-			return func(this);
-		}
-
-		void HandleItemEquip(bool bCullBone)
-		{
-			using func_t = decltype(&Actor::HandleItemEquip);
-			REL::Relocation<func_t> func{ REL::ID(164912) };
-			return func(this, bCullBone);
-		}
-
-		bool PerformAction(BGSAction* a_action, TESObjectREFR* a_target)
-		{
-			using func_t = decltype(&Actor::PerformAction);
-			REL::Relocation<func_t> func{ REL::ID(1057231) };
-			return func(this, a_action, a_target);
-		}
-
-		void SetGunState(GUN_STATE gun_state, bool unk = true)
-		{
-			using func_t = decltype(&Actor::SetGunState);
-			REL::Relocation<func_t> func{ REL::ID(977675) };
-			return func(this, gun_state, unk);
-		}
-
-		void GetAimVector(NiPoint3& out)
-		{
-			using func_t = decltype(&Actor::GetAimVector);
-			REL::Relocation<func_t> func{ REL::ID(554863) };
-			return func(this, out);
-		}
-
-		uint32_t GetCurrentCollisionGroup()
-		{
-			using func_t = decltype(&Actor::GetCurrentCollisionGroup);
-			REL::Relocation<func_t> func{ REL::ID(410500) };
-			return func(this);
-		}
-
-		CFilter GetCollisionFilter()
-		{
-			using func_t = decltype(&Actor::GetCollisionFilter);
-			REL::Relocation<func_t> func{ REL::ID(1474995) };
-			return func(this);
-		}
-
-		bool GetCurrentFireLocation(BGSEquipIndex index, NiPoint3& out)
-		{
-			using func_t = decltype(&Actor::GetCurrentFireLocation);
-			REL::Relocation<func_t> func{ REL::ID(663107) };
-			return func(this, index, out);
-		}
-
-		float GetDesiredSpeed()
-		{
-			using func_t = decltype(&Actor::GetDesiredSpeed);
-			REL::Relocation<func_t> func{ REL::ID(106892) };
-			return func(this);
-		}
-
-		NiAVObject* GetClosestBone(NiPoint3 pos, NiPoint3 dir)
-		{
-			using func_t = decltype(&Actor::GetClosestBone);
-			REL::Relocation<func_t> func{ REL::ID(1180004) };
-			return func(this, pos, dir);
-		}
-
-		bhkCharacterController* Move(float deltaTime, NiPoint3 deltaPos, bool unk)
-		{
-			using func_t = decltype(&Actor::Move);
-			REL::Relocation<func_t> func{ REL::ID(737625) };
-			return func(this, deltaTime, deltaPos, unk);
-		}
-
-		void ExitCover()
-		{
-			using func_t = decltype(&Actor::ExitCover);
-			REL::Relocation<func_t> func{ REL::ID(770035) };
-			return func(this);
-		}
-
-		TESCombatStyle* GetCombatStyle()
-		{
-			using func_t = decltype(&Actor::GetCombatStyle);
-			REL::Relocation<func_t> func{ REL::ID(1270929) };
-			return func(this);
-		}
-
-		bool IsCrippled()
-		{
-			using func_t = decltype(&Actor::IsCrippled);
-			REL::Relocation<func_t> func{ REL::ID(1238666) };
-			return func(this);
-		}
-
-		bool IsFollowing()
-		{
-			using func_t = decltype(&Actor::IsFollowing);
-			REL::Relocation<func_t> func{ REL::ID(629579) };
-			return func(this);
-		}
-
-		bool IsPathValid()
-		{
-			using func_t = decltype(&Actor::IsPathValid);
-			REL::Relocation<func_t> func{ REL::ID(1522194) };
-			return func(this);
-		}
-
-		bool IsPathing()
-		{
-			using func_t = decltype(&Actor::IsPathing);
-			REL::Relocation<func_t> func{ REL::ID(989661) };
-			return func(this);
-		}
-
-		bool IsPathingComplete()
-		{
-			using func_t = decltype(&Actor::IsPathingComplete);
-			REL::Relocation<func_t> func{ REL::ID(817283) };
-			return func(this);
-		}
-
-		bool IsQuadruped()
-		{
-			using func_t = decltype(&Actor::IsQuadruped);
-			REL::Relocation<func_t> func{ REL::ID(1552322) };
-			return func(this);
 		}
 
 		// members

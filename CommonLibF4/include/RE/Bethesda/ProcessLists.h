@@ -3,10 +3,10 @@
 #include "RE/Bethesda/BSSemaphore.h"
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTSingleton.h"
+#include "RE/Bethesda/BSTempEffect.h"
 
 namespace RE
 {
-	class BSTempEffect;
 	class SyncQueueObj;
 
 	class __declspec(novtable) ProcessLists :
@@ -33,6 +33,40 @@ namespace RE
 			using func_t = decltype(&ProcessLists::AreHostileActorsNear);
 			REL::Relocation<func_t> func{ REL::ID(1053584) };
 			return func(this, a_hostileActorArray);
+		}
+
+		void ForEachMagicTempEffect(std::function<BSContainer::ForEachResult(BSTempEffect*)> a_callback)
+		{
+			BSAutoLock locker(magicEffectsLock);
+
+			for (auto& tempEffectPtr : magicEffects) {
+				const auto& tempEffect = tempEffectPtr.get();
+				if (tempEffect && a_callback(tempEffect) == BSContainer::ForEachResult::kStop) {
+					break;
+				}
+			}
+		}
+
+		void ForEachModelEffect(std::function<BSContainer::ForEachResult(ModelReferenceEffect*)> a_callback)
+		{
+			ForEachMagicTempEffect([a_callback](BSTempEffect* a_tempEffect) {
+				const auto modelEffect = a_tempEffect->As<ModelReferenceEffect>();
+				if (modelEffect && a_callback(modelEffect) == BSContainer::ForEachResult::kStop) {
+					return BSContainer::ForEachResult::kStop;
+				}
+				return BSContainer::ForEachResult::kContinue;
+			});
+		}
+
+		void ForEachShaderEffect(std::function<BSContainer::ForEachResult(ShaderReferenceEffect*)> a_callback)
+		{
+			ForEachMagicTempEffect([a_callback](BSTempEffect* a_tempEffect) {
+				const auto shaderEffect = a_tempEffect->As<ShaderReferenceEffect>();
+				if (shaderEffect && a_callback(shaderEffect) == BSContainer::ForEachResult::kStop) {
+					return BSContainer::ForEachResult::kStop;
+				}
+				return BSContainer::ForEachResult::kContinue;
+			});
 		}
 
 		[[nodiscard]] bool IsActorTargetingREFinPackage(const TESObjectREFR* a_actor, PTYPE a_type, bool a_onlyHigh)

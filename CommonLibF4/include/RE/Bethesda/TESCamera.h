@@ -205,6 +205,13 @@ namespace RE
 			return func(this, a_state);
 		}
 
+		void ToggleFreeCameraMode(bool a_freezeTime)
+		{
+			using func_t = decltype(&PlayerCamera::ToggleFreeCameraMode);
+			REL::Relocation<func_t> func{ REL::ID(224913) };
+			return func(this, a_freezeTime);
+		}
+
 		void SetState(TESCameraState* a_newstate) const
 		{
 			using func_t = decltype(&PlayerCamera::SetState);

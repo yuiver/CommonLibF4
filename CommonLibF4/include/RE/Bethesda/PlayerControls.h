@@ -159,11 +159,11 @@ namespace RE
 			return *singleton;
 		}
 
-		bool CanPerformAction(DEFAULT_OBJECT id)
+		bool CanPerformAction(DEFAULT_OBJECT a_action)
 		{
 			using func_t = decltype(&PlayerControls::CanPerformAction);
 			REL::Relocation<func_t> func{ REL::ID(565925) };
-			return func(this, id);
+			return func(this, a_action);
 		}
 
 		bool DoAction(DEFAULT_OBJECT a_action, ActionInput::ACTIONPRIORITY a_priority)

@@ -167,13 +167,6 @@ namespace RE
 		};
 		static_assert(sizeof(Data) == 0x28);
 
-		bool Cast(TESObjectREFR* caster, TESObjectREFR* target, Actor* anyActor, BSScript::IVirtualMachine* vm)
-		{
-			using func_t = decltype(&SpellItem::Cast);
-			REL::Relocation<func_t> func{ REL::ID(1511987) };
-			return func(this, caster, target, anyActor, vm);
-		}
-
 		// members
 		Data data;  // 108
 	};

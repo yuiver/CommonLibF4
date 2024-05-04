@@ -2,6 +2,14 @@
 
 namespace RE
 {
+	class BSCriticalSection
+	{
+	public:
+		// members
+		WinAPI::CRITICAL_SECTION criticalSection;  // 00
+	};
+	static_assert(sizeof(BSCriticalSection) == 0x28);
+	
 	class BSNonReentrantSpinLock
 	{
 	public:

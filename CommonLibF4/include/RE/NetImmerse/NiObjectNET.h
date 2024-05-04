@@ -31,7 +31,7 @@ namespace RE
 
 		[[nodiscard]] std::string_view GetName() const { return name; }
 
-		[[nodiscard]] NiExtraData* GetExtraData(BSFixedString name) const noexcept;
+		[[nodiscard]] NiExtraData* GetExtraData(BSFixedString a_key) const noexcept;
 
 		// members
 		BSFixedString name{ "" };                 // 10

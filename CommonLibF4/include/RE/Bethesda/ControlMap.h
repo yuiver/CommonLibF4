@@ -73,11 +73,11 @@ namespace RE
 			return func(this, a_context);
 		}
 
-		bool RemapButton(BSFixedString const& id, INPUT_DEVICE device, int32_t key)
+		bool RemapButton(BSFixedString const& a_id, INPUT_DEVICE a_device, std::int32_t a_buttonID)
 		{
 			using func_t = decltype(&ControlMap::RemapButton);
 			REL::Relocation<func_t> func{ REL::ID(11351) };
-			return func(this, id, device, key);
+			return func(this, a_id, a_device, a_buttonID);
 		}
 
 		void SaveRemappings()

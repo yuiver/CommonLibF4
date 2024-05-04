@@ -1,21 +1,19 @@
 #pragma once
 
 #include "RE/Bethesda/BSInputEventReceiver.h"
+#include "RE/Bethesda/BSInputEventUser.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTSingleton.h"
 
 namespace RE
 {
-	class BSInputEventUser;
 	class PipboyHandler;
 
 	struct CameraZoomHandler;
 	struct ClickHandler;
-	struct DisconnectHandler;
 	struct GFxConvertHandler;
 	struct MenuOpenHandler;
 	struct QuickSaveLoadHandler;
-	struct ScreenshotHandler;
 
 	class MenuControls :
 		public BSInputEventReceiver,          // 00
@@ -26,6 +24,15 @@ namespace RE
 		{
 			REL::Relocation<MenuControls**> singleton{ REL::ID(520890) };
 			return *singleton;
+		}
+
+		bool QueueScreenshot() const
+		{
+			if (!screenshotHandler || screenshotHandler->screenshotQueued) {
+				return false;
+			}
+			screenshotHandler->screenshotQueued = true;
+			return true;
 		}
 
 		// members

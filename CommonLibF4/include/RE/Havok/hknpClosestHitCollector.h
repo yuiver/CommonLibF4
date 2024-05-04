@@ -28,9 +28,8 @@ namespace RE
 		const hknpCollisionResult* GetHits() const override;  // 05
 
 		// members
-		hknpCollisionResult result;  //0x20
-		bool hasHit;                 //0x80
-		int8_t pad[15];
+		hknpCollisionResult result;  // 20
+		bool hasHit;                 // 80
 	};
 	static_assert(sizeof(hknpClosestHitCollector) == 0x90);
 }
