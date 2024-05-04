@@ -26,14 +26,14 @@ namespace RE
 		void lock(const char* a_id = nullptr)
 		{
 			using func_t = decltype(&BSSpinLock::lock);
-			REL::Relocation<func_t> func{ REL::ID(1425657) };
+			REL::Relocation<func_t> func{ REL::ID(2192245) };
 			return func(this, a_id);
 		}
 
 		[[nodiscard]] bool try_lock()
 		{
 			using func_t = decltype(&BSSpinLock::try_lock);
-			REL::Relocation<func_t> func{ REL::ID(267930) };
+			REL::Relocation<func_t> func{ REL::ID(2267902) };
 			return func(this);
 		}
 
