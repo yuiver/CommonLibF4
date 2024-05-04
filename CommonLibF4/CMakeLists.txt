@@ -95,6 +95,7 @@ target_include_directories(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
+		bcrypt.lib
 		Boost::headers
 		fmt::fmt
 		mmio::mmio
