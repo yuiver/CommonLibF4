@@ -175,4 +175,9 @@ namespace F4SE
 		}
 		return mem;
 	}
+
+	const PluginVersionData* PluginVersionData::GetSingleton() noexcept
+	{
+		return reinterpret_cast<const PluginVersionData*>(WinAPI::GetProcAddress(WinAPI::GetCurrentModule(), "F4SEPlugin_Version"));
+	}
 }
