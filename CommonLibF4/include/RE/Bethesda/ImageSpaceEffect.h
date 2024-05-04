@@ -101,7 +101,7 @@ namespace RE
 	static_assert(sizeof(ImageSpaceEffectOption) == 0xC8);
 
 	class __declspec(novtable) ImageSpaceEffectFullScreenBlur :
-		public ImageSpaceEffect // 00
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectFullScreenBlur };
@@ -125,7 +125,7 @@ namespace RE
 	static_assert(sizeof(ImageSpaceEffectFullScreenBlur) == 0x128);
 
 	class __declspec(novtable) ImageSpaceEffectGetHit :
-		public ImageSpaceEffect // 00
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectGetHit };
@@ -150,7 +150,7 @@ namespace RE
 	static_assert(sizeof(ImageSpaceEffectGetHit) == 0x108);
 
 	class __declspec(novtable) ImageSpaceEffectMotionBlur :
-		public ImageSpaceEffect // 00
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectMotionBlur };
@@ -166,7 +166,7 @@ namespace RE
 	static_assert(sizeof(ImageSpaceEffectMotionBlur) == 0xB0);
 
 	class __declspec(novtable) ImageSpaceEffectPipboyScreen :
-		public ImageSpaceEffect // 00
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectPipboyScreen };
@@ -188,7 +188,7 @@ namespace RE
 	static_assert(sizeof(ImageSpaceEffectPipboyScreen) == 0xC0);
 
 	class __declspec(novtable) ImageSpaceEffectRadialBlur :
-		public ImageSpaceEffect // 00
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectRadialBlur };
@@ -206,7 +206,7 @@ namespace RE
 	static_assert(sizeof(ImageSpaceEffectRadialBlur) == 0xB0);
 
 	class __declspec(novtable) ImageSpaceEffectTemporalAA :
-		public ImageSpaceEffect // 00
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectTemporalAA };

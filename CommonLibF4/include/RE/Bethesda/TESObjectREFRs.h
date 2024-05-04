@@ -685,12 +685,12 @@ namespace RE
 		}
 
 		ModelReferenceEffect* ApplyArtObject(
-			BGSArtObject* a_art, 
-			float a_time = -1.0f, 
-			TESObjectREFR* a_facingRef = nullptr, 
-			bool a_attachToCamera = false, 
-			bool a_inheritRotation = false, 
-			NiAVObject* a_3D = nullptr, 
+			BGSArtObject* a_art,
+			float a_time = -1.0f,
+			TESObjectREFR* a_facingRef = nullptr,
+			bool a_attachToCamera = false,
+			bool a_inheritRotation = false,
+			NiAVObject* a_3D = nullptr,
 			bool a_interfaceEffect = false)
 		{
 			using func_t = decltype(&TESObjectREFR::ApplyArtObject);
@@ -699,12 +699,12 @@ namespace RE
 		}
 
 		ShaderReferenceEffect* ApplyEffectShader(
-			TESEffectShader* a_art, 
+			TESEffectShader* a_art,
 			float a_time = -1.0f,
-			TESObjectREFR* a_facingRef = nullptr, 
+			TESObjectREFR* a_facingRef = nullptr,
 			bool a_attachToCamera = false,
-			bool a_inheritRotation = false, 
-			NiAVObject* a_3D = nullptr, 
+			bool a_inheritRotation = false,
+			NiAVObject* a_3D = nullptr,
 			bool a_interfaceEffect = false)
 		{
 			using func_t = decltype(&TESObjectREFR::ApplyEffectShader);
@@ -737,7 +737,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(1135470) };
 			return func(this);
 		}
-	
+
 		[[nodiscard]] const char* GetDisplayFullName()
 		{
 			using func_t = decltype(&TESObjectREFR::GetDisplayFullName);
