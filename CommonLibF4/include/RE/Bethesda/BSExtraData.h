@@ -464,7 +464,7 @@ namespace RE
 		std::uint32_t RemoveMod(const BGSMod::Attachment::Mod* a_mod, std::uint8_t a_attachIndex)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::RemoveMod);
-			REL::Relocation<func_t> func{ REL::ID(1136607) };
+			REL::Relocation<func_t> func{ REL::ID(2189027) };
 			return func(this, a_mod, a_attachIndex);
 		}
 
