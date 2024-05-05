@@ -446,7 +446,7 @@ namespace RE
 		void AddMod(const BGSMod::Attachment::Mod& a_newMod, std::uint8_t a_attachIndex, std::uint8_t a_rank, bool a_removeInvalidMods)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AddMod);
-			REL::Relocation<func_t> func{ REL::ID(1191757) };
+			REL::Relocation<func_t> func{ REL::ID(2189025) };
 			return func(this, a_newMod, a_attachIndex, a_rank, a_removeInvalidMods);
 		}
 
