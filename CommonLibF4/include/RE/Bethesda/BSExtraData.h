@@ -909,7 +909,7 @@ namespace RE
 		bool IsFavorite()
 		{
 			using func_t = decltype(&ExtraDataList::IsFavorite);
-			REL::Relocation<func_t> func{ REL::ID(786568) };
+			REL::Relocation<func_t> func{ REL::ID(2190189) };
 			return func(this);
 		}
 
