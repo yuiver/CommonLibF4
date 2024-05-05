@@ -439,7 +439,7 @@ namespace RE
 		bool HasMod(const BGSMod::Attachment::Mod& a_mod)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::HasMod);
-			REL::Relocation<func_t> func{ REL::ID(963890) };
+			REL::Relocation<func_t> func{ REL::ID(2189026) };
 			return func(this, a_mod);
 		}
 
