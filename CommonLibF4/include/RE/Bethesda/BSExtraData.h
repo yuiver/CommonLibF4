@@ -881,7 +881,7 @@ namespace RE
 		void SetOverrideName(const char* a_name)
 		{
 			using func_t = decltype(&ExtraDataList::SetOverrideName);
-			REL::Relocation<func_t> func{ REL::ID(222303) };
+			REL::Relocation<func_t> func{ REL::ID(2190167) };
 			return func(this, a_name);
 		}
 
