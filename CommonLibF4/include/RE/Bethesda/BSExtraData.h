@@ -836,7 +836,7 @@ namespace RE
 		[[nodiscard]] BGSMod::Attachment::Mod* GetLegendaryMod()
 		{
 			using func_t = decltype(&ExtraDataList::GetLegendaryMod);
-			REL::Relocation<func_t> func{ REL::ID(178075) };
+			REL::Relocation<func_t> func{ REL::ID(2190180) };
 			return func(this);
 		}
 
