@@ -457,7 +457,7 @@ namespace RE
 		std::uint32_t RemoveInvalidMods(const BGSAttachParentArray* a_baseObjectParents)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::RemoveInvalidMods);
-			REL::Relocation<func_t> func{ REL::ID(1548060) };
+			REL::Relocation<func_t> func{ REL::ID(2189028) };
 			return func(this, a_baseObjectParents);
 		}
 
