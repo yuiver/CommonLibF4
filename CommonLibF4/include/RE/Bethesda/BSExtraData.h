@@ -867,7 +867,7 @@ namespace RE
 		bool SetBendableSplineInfo(float* a_thickness, float* a_slack, NiPoint3* a_halfExtents = nullptr, bool* a_detachedEnd = nullptr)
 		{
 			using func_t = decltype(&ExtraDataList::SetBendableSplineInfo);
-			REL::Relocation<func_t> func{ REL::ID(894306) };
+			REL::Relocation<func_t> func{ REL::ID(2190623) };
 			return func(this, a_thickness, a_slack, a_halfExtents, a_detachedEnd);
 		}
 
