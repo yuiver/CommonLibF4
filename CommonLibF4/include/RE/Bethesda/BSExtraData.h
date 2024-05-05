@@ -817,7 +817,7 @@ namespace RE
 		stl::observer<TBO_InstanceData*> CreateInstanceData(TESBoundObject* a_object, bool a_generateName)
 		{
 			using func_t = decltype(&ExtraDataList::CreateInstanceData);
-			REL::Relocation<func_t> func{ REL::ID(1280130) };
+			REL::Relocation<func_t> func{ REL::ID(2190185) };
 			return func(this, a_object, a_generateName);
 		}
 
