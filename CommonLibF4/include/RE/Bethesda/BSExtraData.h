@@ -895,7 +895,7 @@ namespace RE
 		void SetHealthPercent(float a_healthPerc)
 		{
 			using func_t = decltype(&ExtraDataList::SetHealthPercent);
-			REL::Relocation<func_t> func{ REL::ID(1208294) };
+			REL::Relocation<func_t> func{ REL::ID(2190124) };
 			return func(this, a_healthPerc);
 		}
 
