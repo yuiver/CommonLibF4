@@ -874,7 +874,7 @@ namespace RE
 		void SetDisplayNameFromInstanceData(BGSObjectInstanceExtra* a_instExtra, TESBoundObject* a_object, const BSTSmartPointer<TBO_InstanceData>& a_data)
 		{
 			using func_t = decltype(&ExtraDataList::SetDisplayNameFromInstanceData);
-			REL::Relocation<func_t> func{ REL::ID(457340) };
+			REL::Relocation<func_t> func{ REL::ID(2190179) };
 			return func(this, a_instExtra, a_object, a_data);
 		}
 
