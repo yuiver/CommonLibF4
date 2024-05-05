@@ -432,7 +432,7 @@ namespace RE
 		static bool AttachModToReference(TESObjectREFR& a_ref, BGSMod::Attachment::Mod& a_mod, std::uint8_t a_attachIndex, std::uint8_t a_rank)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AttachModToReference);
-			REL::Relocation<func_t> func{ REL::ID(3303) };
+			REL::Relocation<func_t> func{ REL::ID(2189033) };
 			return func(a_ref, a_mod, a_attachIndex, a_rank);
 		}
 
