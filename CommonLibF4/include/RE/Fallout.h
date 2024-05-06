@@ -22,6 +22,7 @@
 #include "RE/Bethesda/BGSMod.h"
 #include "RE/Bethesda/BGSPrimitive.h"
 #include "RE/Bethesda/BGSSaveLoad.h"
+#include "RE/Bethesda/BGSSceneAction.h"
 #include "RE/Bethesda/BGSStoryEventManager.h"
 #include "RE/Bethesda/BGSStoryManagerTreeForm.h"
 #include "RE/Bethesda/BGSSynchronizedAnimationManager.h"
