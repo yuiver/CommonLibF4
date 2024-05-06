@@ -44,7 +44,7 @@ namespace RE
 			};
 			static_assert(sizeof(ArgsType) == 0x0C);
 
-			static BSResource::EntryDB<BSModelDB::DBTraits>* GetSingleton()
+			[[deprecated]] static BSResource::EntryDB<BSModelDB::DBTraits>* GetSingleton()
 			{
 				REL::Relocation<BSResource::EntryDB<BSModelDB::DBTraits>**> singleton{ REL::ID(45807) };
 				return *singleton;
@@ -52,7 +52,7 @@ namespace RE
 		};
 		static_assert(std::is_empty_v<DBTraits>);
 
-		static BSResource::ErrorCode Demand(
+		[[deprecated]] static BSResource::ErrorCode Demand(
 			const char* a_name,
 			BSResource::RHandleType<BSResource::Entry<NiPointer<NiNode>, BSResource::EntryDBTraits<BSModelDB::DBTraits, BSResource::EntryDB<BSModelDB::DBTraits>>::CArgs>, BSResource::EntryDB<BSModelDB::DBTraits>>& a_result,
 			const DBTraits::ArgsType& a_args)
@@ -62,7 +62,7 @@ namespace RE
 			return func(a_name, a_result, a_args);
 		}
 
-		static BSResource::ErrorCode Demand(
+		[[deprecated]] static BSResource::ErrorCode Demand(
 			const char* a_name,
 			NiPointer<NiNode>* a_result,
 			const DBTraits::ArgsType& a_args)

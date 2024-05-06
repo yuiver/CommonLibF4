@@ -53,7 +53,7 @@ namespace RE
 		// add
 		virtual ~UI() = default;  // 01
 
-		[[nodiscard]] bool CustomRendererHasQuads(const BSFixedString& a_customRendererName)
+		[[deprecated]] [[nodiscard]] bool CustomRendererHasQuads(const BSFixedString& a_customRendererName)
 		{
 			using func_t = decltype(&UI::CustomRendererHasQuads);
 			REL::Relocation<func_t> func{ REL::ID(1401451) };
@@ -66,7 +66,7 @@ namespace RE
 			return static_cast<RE::BSTEventSource<T>*>(this);
 		}
 
-		[[nodiscard]] static BSReadWriteLock& GetMenuMapRWLock()
+		[[deprecated]] [[nodiscard]] static BSReadWriteLock& GetMenuMapRWLock()
 		{
 			REL::Relocation<BSReadWriteLock*> menuMapRWLock{ REL::ID(578487) };
 			return *menuMapRWLock;
@@ -106,14 +106,14 @@ namespace RE
 			return GetMenuOpen(T::MENU_NAME);
 		}
 
-		void RefreshCursor()
+		[[deprecated]] void RefreshCursor()
 		{
 			using func_t = decltype(&UI::RefreshCursor);
 			REL::Relocation<func_t> func{ REL::ID(1436639) };
 			return func(this);
 		}
 
-		void RegisterMenu(const char* a_menu, Create_t* a_create, StaticUpdate_t* a_staticUpdate = nullptr)
+		[[deprecated]] void RegisterMenu(const char* a_menu, Create_t* a_create, StaticUpdate_t* a_staticUpdate = nullptr)
 		{
 			using func_t = decltype(&UI::RegisterMenu);
 			REL::Relocation<func_t> func{ REL::ID(1519575) };
@@ -126,7 +126,7 @@ namespace RE
 			GetEventSource<T>()->RegisterSink(a_sink);
 		}
 
-		void UpdateControllerType()
+		[[deprecated]] void UpdateControllerType()
 		{
 			using func_t = decltype(&UI::UpdateControllerType);
 			REL::Relocation<func_t> func{ REL::ID(175796) };
@@ -162,7 +162,7 @@ namespace RE
 
 	namespace UIUtils
 	{
-		inline void UpdateGamepadDependentButtonCodes(bool a_usingGamepad)
+		[[deprecated]] inline void UpdateGamepadDependentButtonCodes(bool a_usingGamepad)
 		{
 			using func_t = decltype(&UpdateGamepadDependentButtonCodes);
 			REL::Relocation<func_t> func{ REL::ID(190238) };

@@ -15,7 +15,7 @@ namespace RE::BSResource
 		static constexpr auto RTTI{ RTTI::BSResource____GlobalPaths };
 		static constexpr auto VTABLE{ VTABLE::BSResource____GlobalPaths };
 
-		[[nodiscard]] static GlobalPaths* GetSingleton()
+		[[deprecated]] [[nodiscard]] static GlobalPaths* GetSingleton()
 		{
 			REL::Relocation<GlobalPaths**> singleton{ REL::ID(210868) };
 			return *singleton;

@@ -31,7 +31,7 @@ namespace RE
 		};
 		using Month = Months::Month;
 
-		[[nodiscard]] static Calendar* GetSingleton()
+		[[deprecated]] [[nodiscard]] static Calendar* GetSingleton()
 		{
 			REL::Relocation<Calendar**> singleton{ REL::ID(1444952) };
 			return *singleton;

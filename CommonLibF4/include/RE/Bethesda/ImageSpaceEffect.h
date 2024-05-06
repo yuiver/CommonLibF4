@@ -117,7 +117,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(372489) };
+		[[deprecated]] inline static REL::Relocation<bool*> bDisable{ REL::ID(372489) };
 
 		// members
 		ImageSpaceTexture buffer[3];  // B0
@@ -141,7 +141,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(1523708) };
+		[[deprecated]] inline static REL::Relocation<bool*> bDisable{ REL::ID(1523708) };
 
 		// members
 		float* data;                  // B0
@@ -179,7 +179,7 @@ namespace RE
 		virtual void ReturnTextures() override;                                                     // 06
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bPowerArmorPipboy{ REL::ID(1065542) };
+		[[deprecated]] inline static REL::Relocation<bool*> bPowerArmorPipboy{ REL::ID(1065542) };
 
 		// members
 		NiPointer<NiTexture> scanlineTexture;  // B0
@@ -201,7 +201,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(1500590) };
+		[[deprecated]] inline static REL::Relocation<bool*> bDisable{ REL::ID(1500590) };
 	};
 	static_assert(sizeof(ImageSpaceEffectRadialBlur) == 0xB0);
 
@@ -220,7 +220,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<std::uint32_t*> MaskS{ REL::ID(775377) };
+		[[deprecated]] inline static REL::Relocation<std::uint32_t*> MaskS{ REL::ID(775377) };
 
 		// members
 		float previousInvTexSizeX;         // B0

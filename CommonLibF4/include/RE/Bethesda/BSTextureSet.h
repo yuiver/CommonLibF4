@@ -34,7 +34,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BSShaderTextureSet };
 		static constexpr auto Ni_RTTI{ Ni_RTTI::BSShaderTextureSet };
 
-		static BSShaderTextureSet* CreateObject()
+		[[deprecated]] static BSShaderTextureSet* CreateObject()
 		{
 			using func_t = decltype(&BSShaderTextureSet::CreateObject);
 			REL::Relocation<func_t> func{ REL::ID(993063) };

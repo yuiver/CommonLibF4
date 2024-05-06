@@ -18,7 +18,7 @@ namespace RE
 
 	namespace PowerArmor
 	{
-		[[nodiscard]] inline bool ActorInPowerArmor(const Actor& a_actor)
+		[[deprecated]] [[nodiscard]] inline bool ActorInPowerArmor(const Actor& a_actor)
 		{
 			using func_t = decltype(&ActorInPowerArmor);
 			REL::Relocation<func_t> func{ REL::ID(1176757) };
@@ -31,42 +31,42 @@ namespace RE
 			return PlayerCharacter ? ActorInPowerArmor(*PlayerCharacter) : false;
 		}
 
-		[[nodiscard]] inline BGSKeyword* GetArmorKeyword()
+		[[deprecated]] [[nodiscard]] inline BGSKeyword* GetArmorKeyword()
 		{
 			using func_t = decltype(&GetArmorKeyword);
 			REL::Relocation<func_t> func{ REL::ID(961172) };
 			return func();
 		}
 
-		[[nodiscard]] inline BGSKeyword* GetBatteryKeyword()
+		[[deprecated]] [[nodiscard]] inline BGSKeyword* GetBatteryKeyword()
 		{
 			using func_t = decltype(&GetBatteryKeyword);
 			REL::Relocation<func_t> func{ REL::ID(1493537) };
 			return func();
 		}
 
-		[[nodiscard]] inline TESAmmo* GetDefaultBatteryObject()
+		[[deprecated]] [[nodiscard]] inline TESAmmo* GetDefaultBatteryObject()
 		{
 			using func_t = decltype(&GetDefaultBatteryObject);
 			REL::Relocation<func_t> func{ REL::ID(1279247) };
 			return func();
 		}
 
-		[[nodiscard]] inline bool IsPowerArmorBattery(const TESBoundObject* a_itemData)
+		[[deprecated]] [[nodiscard]] inline bool IsPowerArmorBattery(const TESBoundObject* a_itemData)
 		{
 			using func_t = decltype(&IsPowerArmorBattery);
 			REL::Relocation<func_t> func{ REL::ID(1012910) };
 			return func(a_itemData);
 		}
 
-		inline void SyncFurnitureVisualsToInventory(TESObjectREFR* a_furniture, bool a_force3DUpdate, BGSInventoryItem* a_tempItemToAdd, bool a_hideCore)
+		[[deprecated]] inline void SyncFurnitureVisualsToInventory(TESObjectREFR* a_furniture, bool a_force3DUpdate, BGSInventoryItem* a_tempItemToAdd, bool a_hideCore)
 		{
 			using func_t = decltype(&SyncFurnitureVisualsToInventory);
 			REL::Relocation<func_t> func{ REL::ID(1078979) };
 			return func(a_furniture, a_force3DUpdate, a_tempItemToAdd, a_hideCore);
 		}
 
-		inline REL::Relocation<SettingT<GameSettingCollection>*> fNewBatteryCapacity{ REL::ID(1134204) };
+		[[deprecated]] inline REL::Relocation<SettingT<GameSettingCollection>*> fNewBatteryCapacity{ REL::ID(1134204) };
 	}
 
 	class __declspec(novtable) PowerArmorGeometry :
@@ -87,20 +87,20 @@ namespace RE
 		virtual BSEventNotifyControl ProcessEvent(const PreloadPowerArmor::Event& a_event, BSTEventSource<PreloadPowerArmor::Event>* a_source) override;  // 02
 		virtual BSEventNotifyControl ProcessEvent(const ExitPowerArmor::Event& a_event, BSTEventSource<ExitPowerArmor::Event>* a_source) override;        // 03
 
-		[[nodiscard]] static PowerArmorGeometry* GetSingleton()
+		[[deprecated]] [[nodiscard]] static PowerArmorGeometry* GetSingleton()
 		{
 			REL::Relocation<PowerArmorGeometry**> singleton{ REL::ID(1365745) };
 			return *singleton;
 		}
 
-		void HidePipboyPAGeometry()
+		[[deprecated]] void HidePipboyPAGeometry()
 		{
 			using func_t = decltype(&PowerArmorGeometry::HidePipboyPAGeometry);
 			REL::Relocation<func_t> func{ REL::ID(976332) };
 			return func(this);
 		}
 
-		void ShowPipboyPAGeometry()
+		[[deprecated]] void ShowPipboyPAGeometry()
 		{
 			using func_t = decltype(&PowerArmorGeometry::ShowPipboyPAGeometry);
 			REL::Relocation<func_t> func{ REL::ID(19066) };

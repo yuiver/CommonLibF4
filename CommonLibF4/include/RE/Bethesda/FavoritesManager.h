@@ -40,13 +40,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::FavoritesManager };
 		static constexpr auto VTABLE{ VTABLE::FavoritesManager };
 
-		[[nodiscard]] static FavoritesManager* GetSingleton()
+		[[deprecated]] [[nodiscard]] static FavoritesManager* GetSingleton()
 		{
 			REL::Relocation<FavoritesManager**> singleton{ REL::ID(198281) };
 			return *singleton;
 		}
 
-		[[nodiscard]] bool IsComponentFavorite(const TESBoundObject* a_component)
+		[[deprecated]] [[nodiscard]] bool IsComponentFavorite(const TESBoundObject* a_component)
 		{
 			using func_t = decltype(&FavoritesManager::IsComponentFavorite);
 			REL::Relocation<func_t> func{ REL::ID(352046) };

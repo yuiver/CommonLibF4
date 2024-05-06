@@ -32,7 +32,7 @@ namespace RE
 		[[nodiscard]] virtual OBJECT_CATEGORY_TYPE GetObjectCategory() const;                           // 06
 		[[nodiscard]] virtual BGSMod::Property::BridgeI* GetPropertyBridge() const { return nullptr; }  // 07
 
-		[[nodiscard]] static auto GetFormFactories()
+		[[deprecated]] [[nodiscard]] static auto GetFormFactories()
 			-> std::span<IFormFactory*, stl::to_underlying(ENUM_FORM_ID::kTotal)>
 		{
 			constexpr auto len = stl::to_underlying(ENUM_FORM_ID::kTotal);

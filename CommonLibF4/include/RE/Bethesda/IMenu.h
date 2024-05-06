@@ -176,7 +176,7 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::FlatScreenModel };
 		static constexpr auto VTABLE{ VTABLE::FlatScreenModel };
 
-		[[nodiscard]] static FlatScreenModel* GetSingleton()
+		[[deprecated]] [[nodiscard]] static FlatScreenModel* GetSingleton()
 		{
 			REL::Relocation<FlatScreenModel**> singleton{ REL::ID(847741) };
 			return *singleton;
@@ -200,13 +200,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::GameUIModel };
 		static constexpr auto VTABLE{ VTABLE::GameUIModel };
 
-		[[nodiscard]] static GameUIModel* GetSingleton()
+		[[deprecated]] [[nodiscard]] static GameUIModel* GetSingleton()
 		{
 			REL::Relocation<GameUIModel**> singleton{ REL::ID(17419) };
 			return *singleton;
 		}
 
-		void UpdateDataModels()
+		[[deprecated]] void UpdateDataModels()
 		{
 			using func_t = decltype(&GameUIModel::UpdateDataModels);
 			REL::Relocation<func_t> func{ REL::ID(1269653) };
@@ -240,7 +240,7 @@ namespace RE
 		}
 
 		// override (BSInputEventUser)
-		bool ShouldHandleEvent(const InputEvent* a_event) override  // 01
+		[[deprecated]] bool ShouldHandleEvent(const InputEvent* a_event) override  // 01
 		{
 			using func_t = decltype(&IMenu::ShouldHandleEvent);
 			REL::Relocation<func_t> func{ REL::ID(1241790) };
@@ -292,7 +292,7 @@ namespace RE
 		virtual void PreDisplay() { return; }   // 05
 		virtual void PostDisplay() { return; }  // 06
 
-		virtual bool PassesRenderConditionText(MENU_RENDER_CONTEXT a_reason, const BSFixedString& a_customRendererName) const  // 07
+		[[deprecated]] virtual bool PassesRenderConditionText(MENU_RENDER_CONTEXT a_reason, const BSFixedString& a_customRendererName) const  // 07
 		{
 			using func_t = decltype(&IMenu::PassesRenderConditionText);
 			REL::Relocation<func_t> func{ REL::ID(937304) };
@@ -344,7 +344,7 @@ namespace RE
 			uiMovie->Advance(a_timeDelta);
 		}
 
-		void OnSetSafeRect()
+		[[deprecated]] void OnSetSafeRect()
 		{
 			using func_t = decltype(&IMenu::OnSetSafeRect);
 			REL::Relocation<func_t> func{ REL::ID(964859) };
@@ -353,14 +353,14 @@ namespace RE
 
 		[[nodiscard]] bool OnStack() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kOnStack); }
 
-		UI_MESSAGE_RESULTS ProcessScaleformEvent(Scaleform::GFx::Movie* a_movie, const IUIMessageData* a_data)
+		[[deprecated]] UI_MESSAGE_RESULTS ProcessScaleformEvent(Scaleform::GFx::Movie* a_movie, const IUIMessageData* a_data)
 		{
 			using func_t = decltype(&IMenu::ProcessScaleformEvent);
 			REL::Relocation<func_t> func{ REL::ID(150211) };
 			return func(this, a_movie, a_data);
 		}
 
-		void RefreshPlatform()
+		[[deprecated]] void RefreshPlatform()
 		{
 			using func_t = decltype(&IMenu::RefreshPlatform);
 			REL::Relocation<func_t> func{ REL::ID(1071829) };
@@ -485,14 +485,14 @@ namespace RE
 			AcquireFlashObjectByPath(a_parentMovie, a_pathToObject);
 		}
 
-		Scaleform::GFx::Value* AcquireFlashObjectByMemberName(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember)
+		[[deprecated]] Scaleform::GFx::Value* AcquireFlashObjectByMemberName(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember)
 		{
 			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByMemberName);
 			REL::Relocation<func_t> func{ REL::ID(1172680) };
 			return func(this, a_flashObject, a_relativePathToMember);
 		}
 
-		Scaleform::GFx::Value* AcquireFlashObjectByPath(const Scaleform::GFx::Movie& a_parentMovie, const char* a_absolutePathToMember)
+		[[deprecated]] Scaleform::GFx::Value* AcquireFlashObjectByPath(const Scaleform::GFx::Movie& a_parentMovie, const char* a_absolutePathToMember)
 		{
 			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByPath);
 			REL::Relocation<func_t> func{ REL::ID(1065592) };
@@ -542,7 +542,7 @@ namespace RE
 			}
 		}
 
-		void RemoveChild(const BSGFxDisplayObject& a_child) const
+		[[deprecated]] void RemoveChild(const BSGFxDisplayObject& a_child) const
 		{
 			using func_t = decltype(&BSGFxDisplayObject::RemoveChild);
 			REL::Relocation<func_t> func{ REL::ID(1229383) };
@@ -611,7 +611,7 @@ namespace RE
 		}
 
 		// override
-		virtual BSEventNotifyControl ProcessEvent(const ApplyColorUpdateEvent& a_event, BSTEventSource<ApplyColorUpdateEvent>* a_source) override  // 01
+		[[deprecated]] virtual BSEventNotifyControl ProcessEvent(const ApplyColorUpdateEvent& a_event, BSTEventSource<ApplyColorUpdateEvent>* a_source) override  // 01
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::ProcessEvent);
 			REL::Relocation<func_t> func{ REL::ID(848563) };
@@ -619,35 +619,35 @@ namespace RE
 		}
 
 		// add
-		virtual void AppendShaderFXInfos(BSTArray<UIShaderFXInfo>& a_colorFXInfo, BSTArray<UIShaderFXInfo>& a_backgroundFXInfo)  // 02
+		[[deprecated]] virtual void AppendShaderFXInfos(BSTArray<UIShaderFXInfo>& a_colorFXInfo, BSTArray<UIShaderFXInfo>& a_backgroundFXInfo)  // 02
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::AppendShaderFXInfos);
 			REL::Relocation<func_t> func{ REL::ID(544646) };
 			return func(this, a_colorFXInfo, a_backgroundFXInfo);
 		}
 
-		void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
+		[[deprecated]] void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
 		{
 			using func_t = void (BSGFxShaderFXTarget::*)(const NiColor&, float);
 			REL::Relocation<func_t> func{ REL::ID(1487925) };
 			func(this, a_color, a_brightness);
 		}
 
-		void CreateAndSetFiltersToColor(std::uint8_t a_r, std::uint8_t a_g, std::uint8_t a_b, float a_brightness)
+		[[deprecated]] void CreateAndSetFiltersToColor(std::uint8_t a_r, std::uint8_t a_g, std::uint8_t a_b, float a_brightness)
 		{
 			using func_t = void (BSGFxShaderFXTarget::*)(std::uint8_t, std::uint8_t, std::uint8_t, float);
 			REL::Relocation<func_t> func{ REL::ID(783104) };
 			func(this, a_r, a_g, a_b, a_brightness);
 		}
 
-		void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
+		[[deprecated]] void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::CreateAndSetFiltersToHUD);
 			REL::Relocation<func_t> func{ REL::ID(876001) };
 			func(this, a_colorType, a_scale);
 		}
 
-		void EnableShadedBackground(HUDColorTypes a_colorType, float a_scale = 1.0)
+		[[deprecated]] void EnableShadedBackground(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::EnableShadedBackground);
 			REL::Relocation<func_t> func{ REL::ID(278402) };
@@ -716,14 +716,14 @@ namespace RE
 		virtual ~GameMenuBase() = default;
 
 		// override
-		virtual void SetIsTopButtonBar(bool a_isTopButtonBar) override  // 08
+		[[deprecated]] virtual void SetIsTopButtonBar(bool a_isTopButtonBar) override  // 08
 		{
 			using func_t = decltype(&GameMenuBase::SetIsTopButtonBar);
 			REL::Relocation<func_t> func{ REL::ID(1367353) };
 			return func(this, a_isTopButtonBar);
 		}
 
-		virtual void OnMenuDisplayStateChanged() override  // 0A
+		[[deprecated]] virtual void OnMenuDisplayStateChanged() override  // 0A
 		{
 			using func_t = decltype(&GameMenuBase::OnMenuDisplayStateChanged);
 			REL::Relocation<func_t> func{ REL::ID(1274450) };
@@ -746,21 +746,21 @@ namespace RE
 			}
 		}
 
-		virtual bool CacheShaderFXQuadsForRenderer_Impl() override  // 10
+		[[deprecated]] virtual bool CacheShaderFXQuadsForRenderer_Impl() override  // 10
 		{
 			using func_t = decltype(&GameMenuBase::CacheShaderFXQuadsForRenderer_Impl);
 			REL::Relocation<func_t> func{ REL::ID(863029) };
 			return func(this);
 		}
 
-		virtual void TransferCachedShaderFXQuadsForRenderer(const BSFixedString& a_rendererName) override  // 11
+		[[deprecated]] virtual void TransferCachedShaderFXQuadsForRenderer(const BSFixedString& a_rendererName) override  // 11
 		{
 			using func_t = decltype(&GameMenuBase::TransferCachedShaderFXQuadsForRenderer);
 			REL::Relocation<func_t> func{ REL::ID(65166) };
 			return func(this, a_rendererName);
 		}
 
-		virtual void SetViewportRect(const NiRect<float>& a_viewportRect) override  // 12
+		[[deprecated]] virtual void SetViewportRect(const NiRect<float>& a_viewportRect) override  // 12
 		{
 			using func_t = decltype(&GameMenuBase::SetViewportRect);
 			REL::Relocation<func_t> func{ REL::ID(1554334) };
@@ -768,14 +768,14 @@ namespace RE
 		}
 
 		// add
-		virtual void AppendShaderFXInfos(BSTAlignedArray<UIShaderFXInfo>& a_colorFXInfos, BSTAlignedArray<UIShaderFXInfo>& a_backgroundFXInfos) const  // 13
+		[[deprecated]] virtual void AppendShaderFXInfos(BSTAlignedArray<UIShaderFXInfo>& a_colorFXInfos, BSTAlignedArray<UIShaderFXInfo>& a_backgroundFXInfos) const  // 13
 		{
 			using func_t = decltype(&GameMenuBase::AppendShaderFXInfos);
 			REL::Relocation<func_t> func{ REL::ID(583584) };
 			return func(this, a_colorFXInfos, a_backgroundFXInfos);
 		}
 
-		void SetUpButtonBar(BSGFxShaderFXTarget& a_parentObject, const char* a_buttonBarPath, HUDColorTypes a_colorType)
+		[[deprecated]] void SetUpButtonBar(BSGFxShaderFXTarget& a_parentObject, const char* a_buttonBarPath, HUDColorTypes a_colorType)
 		{
 			using func_t = decltype(&GameMenuBase::SetUpButtonBar);
 			REL::Relocation<func_t> func{ REL::ID(531584) };
@@ -812,32 +812,32 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::Console };
 		static constexpr auto MENU_NAME{ "Console"sv };
 
-		static void ExecuteCommand(const char* a_command)
+		[[deprecated]] static void ExecuteCommand(const char* a_command)
 		{
 			using func_t = decltype(&Console::ExecuteCommand);
 			REL::Relocation<func_t> func{ REL::ID(1061864) };
 			return func(a_command);
 		}
 
-		[[nodiscard]] static decltype(auto) GetCurrentPickIndex()
+		[[deprecated]] [[nodiscard]] static decltype(auto) GetCurrentPickIndex()
 		{
 			REL::Relocation<std::int32_t*> currentPickIndex{ REL::ID(1407033) };
 			return *currentPickIndex;
 		}
 
-		[[nodiscard]] static decltype(auto) GetPickRef()
+		[[deprecated]] [[nodiscard]] static decltype(auto) GetPickRef()
 		{
 			REL::Relocation<ObjectRefHandle*> ref{ REL::ID(170742) };
 			return *ref;
 		}
 
-		[[nodiscard]] static decltype(auto) GetPickRefs()
+		[[deprecated]] [[nodiscard]] static decltype(auto) GetPickRefs()
 		{
 			REL::Relocation<BSTArray<ObjectRefHandle>*> pickRefs{ REL::ID(875116) };
 			return *pickRefs;
 		}
 
-		[[nodiscard]] static ObjectRefHandle GetCurrentPickREFR()
+		[[deprecated]] [[nodiscard]] static ObjectRefHandle GetCurrentPickREFR()
 		{
 			const auto idx = GetCurrentPickIndex();
 			const auto& refs = GetPickRefs();
@@ -846,7 +846,7 @@ namespace RE
 			           ObjectRefHandle{};
 		}
 
-		void SetCurrentPickREFR(stl::not_null<ObjectRefHandle*> a_refr)
+		[[deprecated]] void SetCurrentPickREFR(stl::not_null<ObjectRefHandle*> a_refr)
 		{
 			using func_t = decltype(&Console::SetCurrentPickREFR);
 			REL::Relocation<func_t> func{ REL::ID(79066) };
@@ -901,49 +901,49 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::Inventory3DManager };
 		static constexpr auto VTABLE{ VTABLE::Inventory3DManager };
 
-		void Begin3D()
+		[[deprecated]] void Begin3D()
 		{
 			using func_t = decltype(&Inventory3DManager::Begin3D);
 			REL::Relocation<func_t> func{ REL::ID(662659) };
 			return func(this);
 		}
 
-		void ClearModel()
+		[[deprecated]] void ClearModel()
 		{
 			using func_t = decltype(&Inventory3DManager::ClearModel);
 			REL::Relocation<func_t> func{ REL::ID(63218) };
 			return func(this);
 		}
 
-		void DisableRendering(const BSFixedString& a_userID)
+		[[deprecated]] void DisableRendering(const BSFixedString& a_userID)
 		{
 			using func_t = decltype(&Inventory3DManager::DisableRendering);
 			REL::Relocation<func_t> func{ REL::ID(255893) };
 			return func(this, a_userID);
 		}
 
-		void EnableRendering(const BSFixedString& a_userID)
+		[[deprecated]] void EnableRendering(const BSFixedString& a_userID)
 		{
 			using func_t = decltype(&Inventory3DManager::EnableRendering);
 			REL::Relocation<func_t> func{ REL::ID(176578) };
 			return func(this, a_userID);
 		}
 
-		void End3D()
+		[[deprecated]] void End3D()
 		{
 			using func_t = decltype(&Inventory3DManager::End3D);
 			REL::Relocation<func_t> func{ REL::ID(1512675) };
 			return func(this);
 		}
 
-		void SetModelScale(float a_scale)
+		[[deprecated]] void SetModelScale(float a_scale)
 		{
 			using func_t = decltype(&Inventory3DManager::SetModelScale);
 			REL::Relocation<func_t> func{ REL::ID(1319701) };
 			return func(this, a_scale);
 		}
 
-		void SetModelScreenPosition(const NiPoint3& a_position, bool a_screenCoords)
+		[[deprecated]] void SetModelScreenPosition(const NiPoint3& a_position, bool a_screenCoords)
 		{
 			using func_t = decltype(&Inventory3DManager::SetModelScreenPosition);
 			REL::Relocation<func_t> func{ REL::ID(2967) };
@@ -1056,14 +1056,14 @@ namespace RE
 		};
 		static_assert(sizeof(IconBG) == 0x38);
 
-		void CheckAndSetItemForPlacement()
+		[[deprecated]] void CheckAndSetItemForPlacement()
 		{
 			using func_t = decltype(&WorkshopMenu::CheckAndSetItemForPlacement);
 			REL::Relocation<func_t> func{ REL::ID(1541862) };
 			return func(this);
 		}
 
-		void UpdateButtonText()
+		[[deprecated]] void UpdateButtonText()
 		{
 			using func_t = decltype(&WorkshopMenu::UpdateButtonText);
 			REL::Relocation<func_t> func{ REL::ID(1089189) };
@@ -1105,7 +1105,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboySubMenu };
 
 		// override (BSTEventSink<PipboyValueChangedEvent>)
-		BSEventNotifyControl ProcessEvent(const PipboyValueChangedEvent& a_event, BSTEventSource<PipboyValueChangedEvent>* a_source) override
+		[[deprecated]] BSEventNotifyControl ProcessEvent(const PipboyValueChangedEvent& a_event, BSTEventSource<PipboyValueChangedEvent>* a_source) override
 		{
 			using func_t = decltype(&PipboySubMenu::ProcessEvent);
 			REL::Relocation<func_t> func{ REL::ID(893703) };
@@ -1129,7 +1129,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyStatsMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyStatsMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(332518) };
@@ -1149,7 +1149,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboySpecialMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboySpecialMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(1426810) };
@@ -1166,7 +1166,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyPerksMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyPerksMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(783380) };
@@ -1183,7 +1183,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyInventoryMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyInventoryMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(762897) };
@@ -1200,7 +1200,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyQuestMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyQuestMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(1495929) };
@@ -1217,7 +1217,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyWorkshopMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyWorkshopMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(1370368) };
@@ -1234,7 +1234,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyLogMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyLogMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(672256) };
@@ -1261,7 +1261,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyMapMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyMapMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(92696) };
@@ -1287,7 +1287,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::PipboyRadioMenu };
 
 		// override (PipboySubMenu)
-		void UpdateData() override
+		[[deprecated]] void UpdateData() override
 		{
 			using func_t = decltype(&PipboyRadioMenu::UpdateData);
 			REL::Relocation<func_t> func{ REL::ID(713423) };
@@ -1423,7 +1423,7 @@ namespace RE
 				kWeight = 6,
 			};
 
-			void IncrementSort()
+			[[deprecated]] void IncrementSort()
 			{
 				using func_t = decltype(&ItemSorter::IncrementSort);
 				REL::Relocation<func_t> func{ REL::ID(1307263) };
@@ -1511,7 +1511,7 @@ namespace RE
 		virtual void UpdateItemPickpocketInfo(std::int32_t a_index, bool a_inContainer, std::int32_t a_count) override;                                         // 25
 		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 26
 
-		void TakeAllItems()
+		[[deprecated]] void TakeAllItems()
 		{
 			using func_t = decltype(&ContainerMenu::TakeAllItems);
 			REL::Relocation<func_t> func{ REL::ID(1323703) };
@@ -1565,21 +1565,21 @@ namespace RE
 		virtual void UpdateEncumbranceAndCaps(bool a_inContainer, std::int32_t a_capsDifferential) override;                                                    // 1E
 		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 20
 
-		void ClearTradingData()
+		[[deprecated]] void ClearTradingData()
 		{
 			using func_t = decltype(&BarterMenu::ClearTradingData);
 			REL::Relocation<func_t> func{ REL::ID(1112285) };
 			return func(this);
 		}
 
-		void CompleteTrade()
+		[[deprecated]] void CompleteTrade()
 		{
 			using func_t = decltype(&BarterMenu::CompleteTrade);
 			REL::Relocation<func_t> func{ REL::ID(379932) };
 			return func(this);
 		}
 
-		[[nodiscard]] std::int64_t GetCapsOwedByPlayer()
+		[[deprecated]] [[nodiscard]] std::int64_t GetCapsOwedByPlayer()
 		{
 			using func_t = decltype(&BarterMenu::GetCapsOwedByPlayer);
 			REL::Relocation<func_t> func{ REL::ID(672405) };
@@ -1612,7 +1612,7 @@ namespace RE
 		virtual void MapCodeObjectFunctions() override;                  // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage&) override;  // 03
 
-		void ShowMessage()
+		[[deprecated]] void ShowMessage()
 		{
 			using func_t = decltype(&MessageBoxMenu::ShowMessage);
 			REL::Relocation<func_t> func{ REL::ID(442479) };
@@ -1926,21 +1926,21 @@ namespace RE
 		virtual bool AddLooseModToModChoiceArray(BGSMod::Attachment::Mod* a_mod, std::uint8_t a_rank);                                                   // 44
 		virtual bool ShouldShowModSlot(const BGSKeyword* a_keyword);                                                                                     // 45
 
-		void BuildWeaponScrappingArray()
+		[[deprecated]] void BuildWeaponScrappingArray()
 		{
 			using func_t = decltype(&ExamineMenu::BuildWeaponScrappingArray);
 			REL::Relocation<func_t> func{ REL::ID(646841) };
 			return func(this);
 		}
 
-		[[nodiscard]] std::uint32_t GetSelectedIndex()
+		[[deprecated]] [[nodiscard]] std::uint32_t GetSelectedIndex()
 		{
 			using func_t = decltype(&ExamineMenu::GetSelectedIndex);
 			REL::Relocation<func_t> func{ REL::ID(776503) };
 			return func(this);
 		}
 
-		void ShowConfirmMenu(ExamineConfirmMenu::InitData* a_data, ExamineConfirmMenu::ICallback* a_callback)
+		[[deprecated]] void ShowConfirmMenu(ExamineConfirmMenu::InitData* a_data, ExamineConfirmMenu::ICallback* a_callback)
 		{
 			using func_t = decltype(&ExamineMenu::ShowConfirmMenu);
 			REL::Relocation<func_t> func{ REL::ID(443081) };
@@ -2090,7 +2090,7 @@ namespace RE
 		virtual void OnMouseMoveEvent(const MouseMoveEvent*) override;    // 06
 		virtual void OnButtonEvent(const ButtonEvent*) override;          // 08
 
-		static void OpenLockpickingMenu(TESObjectREFR* a_lockedRef)
+		[[deprecated]] static void OpenLockpickingMenu(TESObjectREFR* a_lockedRef)
 		{
 			using func_t = decltype(&LockpickingMenu::OpenLockpickingMenu);
 			REL::Relocation<func_t> func{ REL::ID(129892) };
@@ -2150,14 +2150,14 @@ namespace RE
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                // 03
 		virtual void OnMenuStackChanged(const BSFixedString& a_topMenuName, bool a_passesTopMenuTest) override;  // 09
 
-		static void OnEnterFurniture(ObjectRefHandle a_handle)
+		[[deprecated]] static void OnEnterFurniture(ObjectRefHandle a_handle)
 		{
 			using func_t = decltype(&SitWaitMenu::OnEnterFurniture);
 			REL::Relocation<func_t> func{ REL::ID(562238) };
 			return func(a_handle);
 		}
 
-		static void OnExitFurniture()
+		[[deprecated]] static void OnExitFurniture()
 		{
 			using func_t = decltype(&SitWaitMenu::OnExitFurniture);
 			REL::Relocation<func_t> func{ REL::ID(454795) };
@@ -2296,14 +2296,14 @@ namespace RE
 		// override (BSTEventSink)
 		virtual BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent& a_event, BSTEventSource<MenuOpenCloseEvent>* a_source) override;  // 01
 
-		static void ShowHolotapeInPipboy(const BSFixedString& a_holotapePath)
+		[[deprecated]] static void ShowHolotapeInPipboy(const BSFixedString& a_holotapePath)
 		{
 			using func_t = decltype(&HolotapeMenu::ShowHolotapeInPipboy);
 			REL::Relocation<func_t> func{ REL::ID(217953) };
 			return func(a_holotapePath);
 		}
 
-		static void ShowHolotapeInTerminal(const BSFixedString& a_holotapePath)
+		[[deprecated]] static void ShowHolotapeInTerminal(const BSFixedString& a_holotapePath)
 		{
 			using func_t = decltype(&HolotapeMenu::ShowHolotapeInTerminal);
 			REL::Relocation<func_t> func{ REL::ID(390509) };

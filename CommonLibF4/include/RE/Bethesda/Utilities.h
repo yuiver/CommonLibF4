@@ -11,7 +11,7 @@ namespace RE
 {
 	namespace BSUtilities
 	{
-		inline NiAVObject* GetObjectByName(NiAVObject* a_root, const BSFixedString& a_name, bool a_tryInternal, bool a_dontAttach)
+		[[deprecated]] inline NiAVObject* GetObjectByName(NiAVObject* a_root, const BSFixedString& a_name, bool a_tryInternal, bool a_dontAttach)
 		{
 			using func_t = decltype(&GetObjectByName);
 			REL::Relocation<func_t> func{ REL::ID(843650) };
@@ -21,7 +21,7 @@ namespace RE
 
 	namespace CombatUtilities
 	{
-		inline bool CalculateProjectileLOS(
+		[[deprecated]] inline bool CalculateProjectileLOS(
 			Actor* a_actor,
 			BGSProjectile* a_projectile,
 			float a_projectileSpeed,
@@ -36,14 +36,14 @@ namespace RE
 			return func(a_actor, a_projectile, a_projectileSpeed, a_launchPos, a_targetPos, a_hitPos, a_collidee, a_distanceFraction);
 		}
 
-		inline bool CalculateProjectileLOS(Actor* a_actor, BGSProjectile* a_projectile, bhkPickData& a_pickData)
+		[[deprecated]] inline bool CalculateProjectileLOS(Actor* a_actor, BGSProjectile* a_projectile, bhkPickData& a_pickData)
 		{
 			using func_t = bool (*)(Actor*, BGSProjectile*, bhkPickData&);
 			REL::Relocation<func_t> func{ REL::ID(55339) };
 			return func(a_actor, a_projectile, a_pickData);
 		}
 
-		inline bool CalculateProjectileTrajectory(
+		[[deprecated]] inline bool CalculateProjectileTrajectory(
 			const NiPoint3& a_projectilePos,
 			const NiPoint3& a_projectileVelocity,
 			float a_projectileGravity,
@@ -56,12 +56,12 @@ namespace RE
 			return func(a_projectilePos, a_projectileVelocity, a_projectileGravity, a_targetPos, a_heading, a_trajectoryPos);
 		}
 
-		static REL::Relocation<float> fWorldGravity{ REL::ID(1378547) };
+		[[deprecated]] static REL::Relocation<float> fWorldGravity{ REL::ID(1378547) };
 	};
 
 	namespace AnimationSystemUtils
 	{
-		inline bool WillEventChangeState(const TESObjectREFR& a_ref, const BSFixedString& a_evn)
+		[[deprecated]] inline bool WillEventChangeState(const TESObjectREFR& a_ref, const BSFixedString& a_evn)
 		{
 			using func_t = decltype(&WillEventChangeState);
 			REL::Relocation<func_t> func{ REL::ID(35074) };
@@ -82,21 +82,21 @@ namespace RE
 		};
 		static_assert(sizeof(ActiveSyncInfo) == 0x50);
 
-		inline bool GetActiveSyncInfo(const IAnimationGraphManagerHolder* a_graphHolder, ActiveSyncInfo& a_infoOut)
+		[[deprecated]] inline bool GetActiveSyncInfo(const IAnimationGraphManagerHolder* a_graphHolder, ActiveSyncInfo& a_infoOut)
 		{
 			using func_t = decltype(&GetActiveSyncInfo);
 			REL::Relocation<func_t> func{ REL::ID(1349978) };
 			return func(a_graphHolder, a_infoOut);
 		}
 
-		inline bool InitializeActorInstant(Actor& a_actor, bool a_update3D)
+		[[deprecated]] inline bool InitializeActorInstant(Actor& a_actor, bool a_update3D)
 		{
 			using func_t = decltype(&InitializeActorInstant);
 			REL::Relocation<func_t> func{ REL::ID(672857) };
 			return func(a_actor, a_update3D);
 		}
 
-		inline bool IsActiveGraphInTransition(const TESObjectREFR* a_refr)
+		[[deprecated]] inline bool IsActiveGraphInTransition(const TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&IsActiveGraphInTransition);
 			REL::Relocation<func_t> func{ REL::ID(839650) };
@@ -106,7 +106,7 @@ namespace RE
 
 	namespace PerkUtilities
 	{
-		inline void RemoveGrenadeTrajectory()
+		[[deprecated]] inline void RemoveGrenadeTrajectory()
 		{
 			using func_t = decltype(&RemoveGrenadeTrajectory);
 			REL::Relocation<func_t> func{ REL::ID(672186) };

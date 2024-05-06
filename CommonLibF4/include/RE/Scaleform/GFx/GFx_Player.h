@@ -309,70 +309,70 @@ namespace RE::Scaleform::GFx
 
 			virtual ~ObjectInterface() = default;  // 00
 
-			void ObjectAddRef(Value* a_val, void* a_obj)
+			[[deprecated]] void ObjectAddRef(Value* a_val, void* a_obj)
 			{
 				using func_t = decltype(&ObjectInterface::ObjectRelease);
 				REL::Relocation<func_t> func{ REL::ID(244786) };
 				return func(this, a_val, a_obj);
 			}
 
-			void ObjectRelease(Value* a_val, void* a_obj)
+			[[deprecated]] void ObjectRelease(Value* a_val, void* a_obj)
 			{
 				using func_t = decltype(&ObjectInterface::ObjectRelease);
 				REL::Relocation<func_t> func{ REL::ID(856221) };
 				return func(this, a_val, a_obj);
 			}
 
-			bool HasMember(void* a_data, const char* a_name, bool a_isdobj) const
+			[[deprecated]] bool HasMember(void* a_data, const char* a_name, bool a_isdobj) const
 			{
 				using func_t = decltype(&ObjectInterface::HasMember);
 				REL::Relocation<func_t> func{ REL::ID(788691) };
 				return func(this, a_data, a_name, a_isdobj);
 			}
 
-			std::uint32_t GetArraySize(void* a_data) const
+			[[deprecated]] std::uint32_t GetArraySize(void* a_data) const
 			{
 				using func_t = decltype(&ObjectInterface::GetArraySize);
 				REL::Relocation<func_t> func{ REL::ID(254218) };
 				return func(this, a_data);
 			}
 
-			bool GetMember(void* a_data, const char* a_name, Value* a_val, bool a_isdobj) const
+			[[deprecated]] bool GetMember(void* a_data, const char* a_name, Value* a_val, bool a_isdobj) const
 			{
 				using func_t = decltype(&ObjectInterface::GetMember);
 				REL::Relocation<func_t> func{ REL::ID(1517430) };
 				return func(this, a_data, a_name, a_val, a_isdobj);
 			}
 
-			bool SetMember(void* a_data, const char* a_name, const Value& a_value, bool a_isdobj)
+			[[deprecated]] bool SetMember(void* a_data, const char* a_name, const Value& a_value, bool a_isdobj)
 			{
 				using func_t = decltype(&ObjectInterface::SetMember);
 				REL::Relocation<func_t> func{ REL::ID(1360149) };
 				return func(this, a_data, a_name, a_value, a_isdobj);
 			}
 
-			bool Invoke(void* a_data, Value* a_result, const char* a_name, const Value* a_args, std::size_t a_numArgs, bool a_isdobj)
+			[[deprecated]] bool Invoke(void* a_data, Value* a_result, const char* a_name, const Value* a_args, std::size_t a_numArgs, bool a_isdobj)
 			{
 				using func_t = decltype(&ObjectInterface::Invoke);
 				REL::Relocation<func_t> func{ REL::ID(655847) };
 				return func(this, a_data, a_result, a_name, a_args, a_numArgs, a_isdobj);
 			}
 
-			bool PushBack(void* a_data, const Value& a_value)
+			[[deprecated]] bool PushBack(void* a_data, const Value& a_value)
 			{
 				using func_t = decltype(&ObjectInterface::PushBack);
 				REL::Relocation<func_t> func{ REL::ID(1330475) };
 				return func(this, a_data, a_value);
 			}
 
-			bool RemoveElements(void* a_data, std::uint32_t a_idx, std::int32_t a_count)
+			[[deprecated]] bool RemoveElements(void* a_data, std::uint32_t a_idx, std::int32_t a_count)
 			{
 				using func_t = decltype(&ObjectInterface::RemoveElements);
 				REL::Relocation<func_t> func{ REL::ID(1286586) };
 				return func(this, a_data, a_idx, a_count);
 			}
 
-			void VisitMembers(void* a_data, ObjVisitor* a_visitor, bool a_isDObj) const
+			[[deprecated]] void VisitMembers(void* a_data, ObjVisitor* a_visitor, bool a_isDObj) const
 			{
 				using func_t = decltype(&ObjectInterface::VisitMembers);
 				REL::Relocation<func_t> func{ REL::ID(1276961) };
@@ -953,7 +953,7 @@ namespace RE::Scaleform::GFx
 		bool Invoke(const char* a_methodName, Value* a_result, const Value* a_args, std::uint32_t a_numArgs);
 		bool InvokeArgs(const char* a_methodName, Value* a_result, const char* a_argFmt, std::va_list a_args);
 
-		void Release()
+		[[deprecated]] void Release()
 		{
 			using func_t = decltype(&Movie::Release);
 			REL::Relocation<func_t> func{ REL::ID(404814) };

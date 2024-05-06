@@ -473,7 +473,7 @@ namespace RE
 		std::uint16_t itemIndex{ 0 };               // 20
 
 	private:
-		BGSObjectInstanceExtra* ctor(const BGSMod::Template::Item* a_item, TESForm* a_parentForm, const INSTANCE_FILTER* a_filter)
+		[[deprecated]] BGSObjectInstanceExtra* ctor(const BGSMod::Template::Item* a_item, TESForm* a_parentForm, const INSTANCE_FILTER* a_filter)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::ctor);
 			REL::Relocation<func_t> func{ REL::ID(1222521) };
@@ -885,7 +885,7 @@ namespace RE
 			return func(this, a_name);
 		}
 
-		void SetStartingWorldOrCell(TESForm* a_form)
+		[[deprecated]] void SetStartingWorldOrCell(TESForm* a_form)
 		{
 			using func_t = decltype(&ExtraDataList::SetStartingWorldOrCell);
 			REL::Relocation<func_t> func{ REL::ID(603621) };

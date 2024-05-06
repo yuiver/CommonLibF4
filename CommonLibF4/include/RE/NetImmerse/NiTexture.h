@@ -33,7 +33,7 @@ namespace RE
 		// add
 		virtual BSTextureArray::Texture* IsBSTextureArray() { return nullptr; }  // 28
 
-		static void SetAllowDegrade(bool a_allow)
+		[[deprecated]] static void SetAllowDegrade(bool a_allow)
 		{
 			using func_t = decltype(&NiTexture::SetAllowDegrade);
 			REL::Relocation<func_t> func{ REL::ID(948181) };

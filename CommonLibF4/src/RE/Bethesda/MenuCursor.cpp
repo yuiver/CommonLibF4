@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	void MenuCursor::ConstrainForPipboy()
+	[[deprecated]] void MenuCursor::ConstrainForPipboy()
 	{
 		REL::Relocation<Setting*> tlx{ REL::ID(60674) };
 		REL::Relocation<Setting*> tly{ REL::ID(719279) };
@@ -17,7 +17,7 @@ namespace RE
 			height->GetUInt());
 	}
 
-	void MenuCursor::ConstrainForPipboyPA()
+	[[deprecated]] void MenuCursor::ConstrainForPipboyPA()
 	{
 		REL::Relocation<Setting*> tlx{ REL::ID(1110986) };
 		REL::Relocation<Setting*> tly{ REL::ID(187113) };

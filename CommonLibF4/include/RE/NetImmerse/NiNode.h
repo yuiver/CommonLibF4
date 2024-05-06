@@ -20,7 +20,7 @@ namespace RE
 			NiNode(0)
 		{}
 
-		explicit NiNode(std::uint32_t a_numChildren) :
+		[[deprecated]] explicit NiNode(std::uint32_t a_numChildren) :
 			children(a_numChildren)
 		{
 			stl::emplace_vtable(this);

@@ -121,13 +121,13 @@ namespace RE
 		// override (BSTEventSink)
 		BSEventNotifyControl ProcessEvent(const SPECIALMenuEvent::NameChangedEvent& a_event, BSTEventSource<SPECIALMenuEvent::NameChangedEvent>* a_source) override;  // 01
 
-		[[nodiscard]] static BGSSaveLoadManager* GetSingleton()
+		[[deprecated]] [[nodiscard]] static BGSSaveLoadManager* GetSingleton()
 		{
 			REL::Relocation<BGSSaveLoadManager**> singleton{ REL::ID(1247320) };
 			return *singleton;
 		}
 
-		void QueueSaveLoadTask(QUEUED_TASK a_task)
+		[[deprecated]] void QueueSaveLoadTask(QUEUED_TASK a_task)
 		{
 			using func_t = decltype(&BGSSaveLoadManager::QueueSaveLoadTask);
 			REL::Relocation<func_t> func{ REL::ID(1487308) };

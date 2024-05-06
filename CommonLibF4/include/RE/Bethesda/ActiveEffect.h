@@ -53,8 +53,8 @@ namespace RE
 		};
 
 		virtual ~ActiveEffect();
-
-		bool CheckDisplacementSpellOnTarget()
+		
+		[[deprecated]] bool CheckDisplacementSpellOnTarget()
 		{
 			using func_t = decltype(&ActiveEffect::CheckDisplacementSpellOnTarget);
 			REL::Relocation<func_t> func{ REL::ID(1415178) };

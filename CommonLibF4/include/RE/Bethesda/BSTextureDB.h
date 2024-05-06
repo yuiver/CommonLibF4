@@ -27,7 +27,7 @@ namespace RE
 			};
 			static_assert(sizeof(ArgsType) == 0x0C);
 
-			static BSResource::EntryDB<BSTextureDB::DBTraits>* GetSingleton()
+			[[deprecated]] static BSResource::EntryDB<BSTextureDB::DBTraits>* GetSingleton()
 			{
 				REL::Relocation<BSResource::EntryDB<BSTextureDB::DBTraits>**> singleton{ REL::ID(1126862) };
 				return *singleton;

@@ -40,7 +40,7 @@ namespace RE
 		public BSTEventSource<SFRendererInitializedEvent>  // 000
 	{
 	public:
-		void Initialize()
+		[[deprecated]] void Initialize()
 		{
 			using func_t = decltype(&BSScaleformRenderer::Initialize);
 			REL::Relocation<func_t> func{ REL::ID(1403529) };
@@ -83,13 +83,13 @@ namespace RE
 
 		using ScaleModeType = Scaleform::GFx::Movie::ScaleModeType;
 
-		[[nodiscard]] static BSScaleformManager* GetSingleton()
+		[[deprecated]] [[nodiscard]] static BSScaleformManager* GetSingleton()
 		{
 			REL::Relocation<BSScaleformManager**> singleton{ REL::ID(106578) };
 			return *singleton;
 		}
 
-		bool LoadMovie(
+		[[deprecated]] bool LoadMovie(
 			IMenu& a_menu,
 			Scaleform::Ptr<Scaleform::GFx::Movie>& a_movie,
 			const char* a_menuName,
@@ -117,14 +117,14 @@ namespace RE
 		BSStringT<char> validNameChars;                               // 30
 
 	private:
-		[[nodiscard]] bool GetMovieFilename(char const* a_menuName, BSStaticStringT<260>& a_filePath)
+		[[deprecated]] [[nodiscard]] bool GetMovieFilename(char const* a_menuName, BSStaticStringT<260>& a_filePath)
 		{
 			using func_t = decltype(&BSScaleformManager::GetMovieFilename);
 			REL::Relocation<func_t> func{ REL::ID(1191277) };
 			return func(this, a_menuName, a_filePath);
 		}
 
-		void InitMovieViewport(Scaleform::GFx::Movie& a_movie, const float a_dynamicWidthRatio, const float a_dynamicHeightRatio)
+		[[deprecated]] void InitMovieViewport(Scaleform::GFx::Movie& a_movie, const float a_dynamicWidthRatio, const float a_dynamicHeightRatio)
 		{
 			using func_t = decltype(&BSScaleformManager::InitMovieViewport);
 			REL::Relocation<func_t> func{ REL::ID(206895) };

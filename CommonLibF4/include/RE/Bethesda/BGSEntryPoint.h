@@ -169,7 +169,7 @@ namespace RE
 		};
 
 		template <class... Args>
-		inline void HandleEntryPoint(ENTRY_POINT a_entryPoint, Actor* a_perkOwner, Args... a_args)
+		[[deprecated]] inline void HandleEntryPoint(ENTRY_POINT a_entryPoint, Actor* a_perkOwner, Args... a_args)
 		{
 			using func_t = decltype(&BGSEntryPoint::HandleEntryPoint<Args...>);
 			REL::Relocation<func_t> func{ REL::ID(714336) };

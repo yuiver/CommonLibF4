@@ -53,7 +53,7 @@ namespace RE
 			kTotal
 		};
 
-		[[nodiscard]] static BSInputDeviceManager* GetSingleton()
+		[[deprecated]] [[nodiscard]] static BSInputDeviceManager* GetSingleton()
 		{
 			REL::Relocation<BSInputDeviceManager**> singleton{ REL::ID(1284221) };
 			return *singleton;

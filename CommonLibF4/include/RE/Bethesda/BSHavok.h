@@ -18,7 +18,7 @@ namespace RE
 		virtual bool Update(std::uint32_t a_updateFlags);  // 28
 		virtual void Init(const hknpWorldCinfo& a_info);   // 29
 
-		static bool RemoveObjects(NiAVObject* a_object, bool a_recurse, bool a_force)
+		[[deprecated]] static bool RemoveObjects(NiAVObject* a_object, bool a_recurse, bool a_force)
 		{
 			using func_t = decltype(&RemoveObjects);
 			REL::Relocation<func_t> func{ REL::ID(1514984) };

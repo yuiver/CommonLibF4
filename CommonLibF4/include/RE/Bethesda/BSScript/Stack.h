@@ -75,14 +75,14 @@ namespace RE
 			};
 			static_assert(sizeof(MemoryPageData) == 0x10);
 
-			[[nodiscard]] std::uint32_t GetPageForFrame(const StackFrame* a_frame) const
+			[[deprecated]] [[nodiscard]] std::uint32_t GetPageForFrame(const StackFrame* a_frame) const
 			{
 				using func_t = decltype(&Stack::GetPageForFrame);
 				REL::Relocation<func_t> func{ REL::ID(1429302) };
 				return func(this, a_frame);
 			}
 
-			[[nodiscard]] Variable& GetStackFrameVariable(const StackFrame* a_frame, std::uint32_t a_index, std::uint32_t a_pageHint)
+			[[deprecated]] [[nodiscard]] Variable& GetStackFrameVariable(const StackFrame* a_frame, std::uint32_t a_index, std::uint32_t a_pageHint)
 			{
 				using func_t = decltype(&Stack::GetStackFrameVariable);
 				REL::Relocation<func_t> func{ REL::ID(897539) };

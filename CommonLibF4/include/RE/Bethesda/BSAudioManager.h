@@ -70,13 +70,13 @@ namespace RE
 		};
 		static_assert(sizeof(SyncedPlaybackManager) == 0x18);
 
-		[[nodiscard]] static BSAudioManager* GetSingleton()
+		[[deprecated]] [[nodiscard]] static BSAudioManager* GetSingleton()
 		{
 			REL::Relocation<BSAudioManager**> singleton{ REL::ID(1321158) };
 			return *singleton;
 		}
 
-		void GetSoundHandleByName(BSSoundHandle& a_handle, const char* a_soundName, float a_distance, std::uint32_t a_usageFlags, BSISoundDescriptor::ExtraResolutionData* a_data)
+		[[deprecated]] void GetSoundHandleByName(BSSoundHandle& a_handle, const char* a_soundName, float a_distance, std::uint32_t a_usageFlags, BSISoundDescriptor::ExtraResolutionData* a_data)
 		{
 			using func_t = decltype(&BSAudioManager::GetSoundHandleByName);
 			REL::Relocation<func_t> func{ REL::ID(196484) };

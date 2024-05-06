@@ -17,13 +17,13 @@ namespace RE
 			return *GetInstancePtr();
 		}
 
-		[[nodiscard]] static hkMemoryRouter* GetInstancePtr()
+		[[deprecated]] [[nodiscard]] static hkMemoryRouter* GetInstancePtr()
 		{
 			REL::Relocation<std::uint32_t*> slot{ REL::ID(878080) };
 			return static_cast<hkMemoryRouter*>(WinAPI::TlsGetValue(*slot));
 		}
 
-		static void ReplaceInstance(hkMemoryRouter* a_router)
+		[[deprecated]] static void ReplaceInstance(hkMemoryRouter* a_router)
 		{
 			REL::Relocation<std::uint32_t*> slot{ REL::ID(878080) };
 			WinAPI::TlsSetValue(*slot, a_router);

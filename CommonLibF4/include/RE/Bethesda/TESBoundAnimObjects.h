@@ -278,7 +278,7 @@ namespace RE
 		};
 		static_assert(sizeof(EntryPointData) == 0x8);
 
-		[[nodiscard]] TESContainer* GetContainer()
+		[[deprecated]] [[nodiscard]] TESContainer* GetContainer()
 		{
 			using func_t = decltype(&TESFurniture::GetContainer);
 			REL::Relocation<func_t> func{ REL::ID(1049933) };
@@ -385,13 +385,13 @@ namespace RE
 
 		[[nodiscard]] bool ContainsKeyword(std::string_view a_editorID) const;
 
-		[[nodiscard]] static BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>& GetAlternateHeadPartListMap()
+		[[deprecated]] [[nodiscard]] static BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>& GetAlternateHeadPartListMap()
 		{
 			REL::Relocation<BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>*> map{ REL::ID(1306546), -0x8 };
 			return *map;
 		}
 
-		[[nodiscard]] static TESNPC* GetDefaultNPC(TESNPC* npc)
+		[[deprecated]] [[nodiscard]] static TESNPC* GetDefaultNPC(TESNPC* npc)
 		{
 			using func_t = decltype(&TESNPC::GetDefaultNPC);
 			REL::Relocation<func_t> func{ REL::ID(1073775) };
@@ -440,7 +440,7 @@ namespace RE
 			return root;
 		}
 
-		[[nodiscard]] uint32_t GetSex() noexcept
+		[[deprecated]] [[nodiscard]] uint32_t GetSex() noexcept
 		{
 			using func_t = decltype(&TESNPC::GetSex);
 			REL::Relocation<func_t> func{ REL::ID(1257181) };
@@ -560,21 +560,21 @@ namespace RE
 		};
 		static_assert(sizeof(MenuItem) == 0x28);
 
-		LOCK_LEVEL GetHackDifficultyLockLevel(TESObjectREFR* a_refr)
+		[[deprecated]] LOCK_LEVEL GetHackDifficultyLockLevel(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::GetHackDifficultyLockLevel);
 			REL::Relocation<func_t> func{ REL::ID(537273) };
 			return func(this, a_refr);
 		}
 
-		static bool IsTerminalRefInUse(TESObjectREFR* a_refr)
+		[[deprecated]] static bool IsTerminalRefInUse(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::IsTerminalRefInUse);
 			REL::Relocation<func_t> func{ REL::ID(1093565) };
 			return func(a_refr);
 		}
 
-		static void Show(TESObjectREFR* a_refr)
+		[[deprecated]] static void Show(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::Show);
 			REL::Relocation<func_t> func{ REL::ID(1069012) };

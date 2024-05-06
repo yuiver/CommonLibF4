@@ -430,7 +430,7 @@ namespace RE::BSScript
 	}
 
 	template <detail::vmobject T>
-	[[nodiscard]] std::optional<TypeInfo> GetTypeInfo()
+	[[deprecated]] [[nodiscard]] std::optional<TypeInfo> GetTypeInfo()
 	{
 		const auto game = GameVM::GetSingleton();
 		const auto vm = game ? game->GetVM() : nullptr;
@@ -1276,7 +1276,7 @@ namespace RE::BSScript
 		};
 		static_assert(sizeof(FunctionArgsBase) == 0x10);
 
-		inline BSTThreadScrapFunction<bool(BSScrapArray<Variable>&)>
+		[[deprecated]] inline BSTThreadScrapFunction<bool(BSScrapArray<Variable>&)>
 			CreateThreadScrapFunction(FunctionArgsBase& a_args)
 		{
 			using func_t = decltype(&detail::CreateThreadScrapFunction);

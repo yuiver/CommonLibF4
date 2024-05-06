@@ -20,7 +20,7 @@ namespace RE
 		public BSTSingletonSDM<MenuControls>  // 10
 	{
 	public:
-		[[nodiscard]] static MenuControls* GetSingleton()
+		[[deprecated]] [[nodiscard]] static MenuControls* GetSingleton()
 		{
 			REL::Relocation<MenuControls**> singleton{ REL::ID(520890) };
 			return *singleton;

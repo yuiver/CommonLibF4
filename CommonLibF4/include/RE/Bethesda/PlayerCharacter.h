@@ -245,14 +245,14 @@ namespace RE
 			const bool suppressAudio{ false };     // 01
 
 		private:
-			void ctor(bool a_suppressMessages, bool a_suppressAudio)
+			[[deprecated]] void ctor(bool a_suppressMessages, bool a_suppressAudio)
 			{
 				using func_t = decltype(&ScopedInventoryChangeMessageContext::ctor);
 				REL::Relocation<func_t> func{ REL::ID(1512872) };
 				return func(this, a_suppressMessages, a_suppressAudio);
 			}
 
-			void dtor()
+			[[deprecated]] void dtor()
 			{
 				using func_t = decltype(&ScopedInventoryChangeMessageContext::dtor);
 				REL::Relocation<func_t> func{ REL::ID(542100) };
@@ -273,34 +273,34 @@ namespace RE
 			return singleton->get();
 		}
 
-		[[nodiscard]] static ActorHandle GetPlayerHandle()
+		[[deprecated]] [[nodiscard]] static ActorHandle GetPlayerHandle()
 		{
 			REL::Relocation<ActorHandle*> singleton{ REL::ID(522947) };
 			return *singleton;
 		}
 
-		DIFFICULTY_LEVEL GetDifficultyLevel()
+		[[deprecated]] DIFFICULTY_LEVEL GetDifficultyLevel()
 		{
 			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
 			REL::Relocation<func_t> func{ REL::ID(922962) };
 			return func(this);
 		}
 
-		bool IsGodMode()
+		[[deprecated]] bool IsGodMode()
 		{
 			using func_t = decltype(&PlayerCharacter::IsGodMode);
 			REL::Relocation<func_t> func{ REL::ID(1032309) };
 			return func(this);
 		}
 
-		bool IsHolotapePlaying(BGSNote* a_holotape)
+		[[deprecated]] bool IsHolotapePlaying(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::IsHolotapePlaying);
 			REL::Relocation<func_t> func{ REL::ID(530826) };
 			return func(this, a_holotape);
 		}
 
-		bool IsImmortal()
+		[[deprecated]] bool IsImmortal()
 		{
 			using func_t = decltype(&PlayerCharacter::IsImmortal);
 			REL::Relocation<func_t> func{ REL::ID(500346) };
@@ -309,7 +309,7 @@ namespace RE
 
 		bool IsLockedOutOfTerminal(ObjectRefHandle a_handle);
 
-		bool IsPipboyLightOn()
+		[[deprecated]] bool IsPipboyLightOn()
 		{
 			using func_t = decltype(&PlayerCharacter::IsPipboyLightOn);
 			REL::Relocation<func_t> func{ REL::ID(426550) };
@@ -318,56 +318,56 @@ namespace RE
 
 		void LockOutOfTerminal(ObjectRefHandle a_handle);
 
-		void PauseHolotape(BGSNote* a_holotape)
+		[[deprecated]] void PauseHolotape(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::PauseHolotape);
 			REL::Relocation<func_t> func{ REL::ID(1567456) };
 			return func(this, a_holotape);
 		}
 
-		void PlayHolotape(BGSNote* a_holotape)
+		[[deprecated]] void PlayHolotape(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::PlayHolotape);
 			REL::Relocation<func_t> func{ REL::ID(1581042) };
 			return func(this, a_holotape);
 		}
 
-		void QueueFastTravel(ObjectRefHandle a_marker, bool a_allowAutoSave)
+		[[deprecated]] void QueueFastTravel(ObjectRefHandle a_marker, bool a_allowAutoSave)
 		{
 			using func_t = decltype(&PlayerCharacter::QueueFastTravel);
 			REL::Relocation<func_t> func{ REL::ID(556824) };
 			return func(this, a_marker, a_allowAutoSave);
 		}
 
-		void RemoveLastUsedPowerArmor()
+		[[deprecated]] void RemoveLastUsedPowerArmor()
 		{
 			using func_t = decltype(&PlayerCharacter::RemoveLastUsedPowerArmor);
 			REL::Relocation<func_t> func{ REL::ID(1488486) };
 			return func(this);
 		}
 
-		void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
+		[[deprecated]] void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
 		{
 			using func_t = decltype(&PlayerCharacter::SelectPerk);
 			REL::Relocation<func_t> func{ REL::ID(1397326) };
 			return func(this, a_formID, a_rank);
 		}
 
-		void SetEscaping(bool a_flag, bool a_escaped)
+		[[deprecated]] void SetEscaping(bool a_flag, bool a_escaped)
 		{
 			using func_t = decltype(&PlayerCharacter::SetEscaping);
 			REL::Relocation<func_t> func{ REL::ID(25528) };
 			return func(this, a_flag, a_escaped);
 		}
 
-		void SetVATSCriticalCount(uint32_t a_critCount)
+		[[deprecated]] void SetVATSCriticalCount(uint32_t a_critCount)
 		{
 			using func_t = decltype(&PlayerCharacter::SetVATSCriticalCount);
 			REL::Relocation<func_t> func{ REL::ID(327338) };
 			return func(this, a_critCount);
 		}
 
-		void ShowPipboyLight(bool a_show, bool a_skipEffects)
+		[[deprecated]] void ShowPipboyLight(bool a_show, bool a_skipEffects)
 		{
 			using func_t = decltype(&PlayerCharacter::ShowPipboyLight);
 			REL::Relocation<func_t> func{ REL::ID(1304102) };

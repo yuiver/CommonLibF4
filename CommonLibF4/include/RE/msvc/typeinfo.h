@@ -9,7 +9,7 @@ namespace RE::msvc
 	public:
 		virtual ~type_info();  // 00
 
-		[[nodiscard]] const char* name() const noexcept
+		[[deprecated]] [[nodiscard]] const char* name() const noexcept
 		{
 			using func_t = const char* (*)(const type_info*, __type_info_node*) noexcept;
 			REL::Relocation<func_t*> func{ REL::ID(1419793) };
@@ -19,7 +19,7 @@ namespace RE::msvc
 		[[nodiscard]] const char* mangled_name() const noexcept { return _name; }
 
 	private:
-		[[nodiscard]] static __type_info_node& get_root_node() noexcept
+		[[deprecated]] [[nodiscard]] static __type_info_node& get_root_node() noexcept
 		{
 			REL::Relocation<__type_info_node*> root{ REL::ID(161235) };
 			return *root;

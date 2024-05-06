@@ -110,7 +110,7 @@ namespace RE
 		static_assert(sizeof(CompleteObjectLocator) == 0x14);
 	}
 
-	inline void* RTDynamicCast(void* a_inptr, std::int32_t a_vfDelta, void* a_srcType, void* a_targetType, std::int32_t a_isReference)
+	[[deprecated]] inline void* RTDynamicCast(void* a_inptr, std::int32_t a_vfDelta, void* a_srcType, void* a_targetType, std::int32_t a_isReference)
 	{
 		using func_t = decltype(&RTDynamicCast);
 		REL::Relocation<func_t> func{ REL::ID(84112) };

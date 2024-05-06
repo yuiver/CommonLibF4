@@ -77,7 +77,7 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] static std::uint32_t EVENT_INDEX()
+		[[deprecated]] [[nodiscard]] static std::uint32_t EVENT_INDEX()
 		{
 			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(1186942) };
 			return *eventIdx;
@@ -97,7 +97,7 @@ namespace RE
 			ctor(a_actor, a_lockRef, a_isCrime);
 		}
 
-		[[nodiscard]] static std::uint32_t EVENT_INDEX()
+		[[deprecated]] [[nodiscard]] static std::uint32_t EVENT_INDEX()
 		{
 			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(701969) };
 			return *eventIdx;
@@ -109,7 +109,7 @@ namespace RE
 		std::uint32_t isCrime;       // 08
 
 	private:
-		BGSPickLockEvent* ctor(TESObjectREFR* a_actor, TESObjectREFR* a_lockRef, bool a_isCrime)
+		[[deprecated]] BGSPickLockEvent* ctor(TESObjectREFR* a_actor, TESObjectREFR* a_lockRef, bool a_isCrime)
 		{
 			using func_t = decltype(&BGSPickLockEvent::ctor);
 			REL::Relocation<func_t> func{ REL::ID(193329) };

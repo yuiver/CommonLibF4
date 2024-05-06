@@ -142,7 +142,7 @@ namespace RE
 		return cross;
 	}
 
-	float NiPoint3::GetZAngleFromVector()
+	[[deprecated]] float NiPoint3::GetZAngleFromVector()
 	{
 		using func_t = decltype(&NiPoint3::GetZAngleFromVector);
 		REL::Relocation<func_t> func{ REL::ID(1450064) };

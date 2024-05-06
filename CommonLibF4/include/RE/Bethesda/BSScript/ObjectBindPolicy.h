@@ -56,14 +56,14 @@ namespace RE
 			virtual void ConvertProperties(std::size_t a_objTarget, const BSTSmartPointer<BoundScript>& a_boundScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const = 0;  // 0F
 			virtual void ConvertProperties(std::size_t a_objTarget, const MergedBoundScript& a_mergedScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const = 0;            // 0E
 
-			void BindObject(const BSTSmartPointer<Object>& a_obj, std::size_t a_objHandle)
+			[[deprecated]] void BindObject(const BSTSmartPointer<Object>& a_obj, std::size_t a_objHandle)
 			{
 				using func_t = decltype(&ObjectBindPolicy::BindObject);
 				REL::Relocation<func_t> func{ REL::ID(709728) };
 				return func(this, a_obj, a_objHandle);
 			}
 
-			void UnbindObject(const BSTSmartPointer<Object>& a_obj)
+			[[deprecated]] void UnbindObject(const BSTSmartPointer<Object>& a_obj)
 			{
 				using func_t = decltype(&ObjectBindPolicy::UnbindObject);
 				REL::Relocation<func_t> func{ REL::ID(522763) };

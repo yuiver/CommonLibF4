@@ -121,21 +121,21 @@ namespace RE
 			};
 			static_assert(sizeof(LightParams) == 0x28);
 
-			static Renderer* Create(const BSFixedString& a_name, RE::UI_DEPTH_PRIORITY a_depth, float a_fov, bool a_alwaysRenderWhenEnabled)
+			[[deprecated]] static Renderer* Create(const BSFixedString& a_name, RE::UI_DEPTH_PRIORITY a_depth, float a_fov, bool a_alwaysRenderWhenEnabled)
 			{
 				using func_t = decltype(&Renderer::Create);
 				REL::Relocation<func_t> func{ REL::ID(88488) };
 				return func(a_name, a_depth, a_fov, a_alwaysRenderWhenEnabled);
 			}
 
-			[[nodiscard]] static Renderer* GetByName(const BSFixedString& a_name)
+			[[deprecated]] [[nodiscard]] static Renderer* GetByName(const BSFixedString& a_name)
 			{
 				using func_t = decltype(&Renderer::GetByName);
 				REL::Relocation<func_t> func{ REL::ID(140387) };
 				return func(a_name);
 			}
 
-			void MainScreen_AddPointLight(
+			[[deprecated]] void MainScreen_AddPointLight(
 				NiPoint3 a_translation,
 				NiColor a_diffuse,
 				float a_radius,
@@ -146,7 +146,7 @@ namespace RE
 				return func(this, a_translation, a_diffuse, a_radius, a_dimmerVal);
 			}
 
-			void MainScreen_AddSpotLight(
+			[[deprecated]] void MainScreen_AddSpotLight(
 				NiPoint3 a_translation,
 				NiPoint3 a_lookAtPosition,
 				NiAVObject* a_lookAtObject,
@@ -161,7 +161,7 @@ namespace RE
 				return func(this, a_translation, a_lookAtPosition, a_lookAtObject, a_fov, a_diffuse, a_radius, a_dimmerVal, a_castShadows);
 			}
 
-			void MainScreen_ClearLights()
+			[[deprecated]] void MainScreen_ClearLights()
 			{
 				using func_t = decltype(&Renderer::MainScreen_ClearLights);
 				REL::Relocation<func_t> func{ REL::ID(683530) };
@@ -217,7 +217,7 @@ namespace RE
 				postAA = a_value;
 			}
 
-			void MainScreen_SetScreenAttached3D(NiAVObject* a_root3D)
+			[[deprecated]] void MainScreen_SetScreenAttached3D(NiAVObject* a_root3D)
 			{
 				using func_t = decltype(&Renderer::MainScreen_SetScreenAttached3D);
 				REL::Relocation<func_t> func{ REL::ID(817727) };
@@ -229,7 +229,7 @@ namespace RE
 				defRenderMainScreen = a_value;
 			}
 
-			void MainScreen_SetWorldAttached3D(NiAVObject* a_root3D)
+			[[deprecated]] void MainScreen_SetWorldAttached3D(NiAVObject* a_root3D)
 			{
 				using func_t = decltype(&Renderer::MainScreen_SetWorldAttached3D);
 				REL::Relocation<func_t> func{ REL::ID(724778) };
@@ -247,7 +247,7 @@ namespace RE
 				hideScreenWhenDisabled = a_value;
 			}
 
-			void Offscreen_AddLight(
+			[[deprecated]] void Offscreen_AddLight(
 				NiPoint3 a_translation,
 				NiColor a_diffuse,
 				NiColor a_specular,
@@ -258,14 +258,14 @@ namespace RE
 				return func(this, a_translation, a_diffuse, a_specular, a_dimmerVal);
 			}
 
-			void Offscreen_Clear3D()
+			[[deprecated]] void Offscreen_Clear3D()
 			{
 				using func_t = decltype(&Renderer::Offscreen_Clear3D);
 				REL::Relocation<func_t> func{ REL::ID(1533262) };
 				return func(this);
 			}
 
-			void Offscreen_ClearLights()
+			[[deprecated]] void Offscreen_ClearLights()
 			{
 				using func_t = decltype(&Renderer::Offscreen_ClearLights);
 				REL::Relocation<func_t> func{ REL::ID(1039253) };
@@ -277,21 +277,21 @@ namespace RE
 				offscreen3DEnabled = a_value;
 			}
 
-			std::uint32_t Offscreen_GetRenderTargetHeight()
+			[[deprecated]] std::uint32_t Offscreen_GetRenderTargetHeight()
 			{
 				using func_t = decltype(&Renderer::Offscreen_GetRenderTargetHeight);
 				REL::Relocation<func_t> func{ REL::ID(1280897) };
 				return func(this);
 			}
 
-			std::uint32_t Offscreen_GetRenderTargetWidth()
+			[[deprecated]] std::uint32_t Offscreen_GetRenderTargetWidth()
 			{
 				using func_t = decltype(&Renderer::Offscreen_GetRenderTargetWidth);
 				REL::Relocation<func_t> func{ REL::ID(403273) };
 				return func(this);
 			}
 
-			void Offscreen_Set3D(NiAVObject* a_3D)
+			[[deprecated]] void Offscreen_Set3D(NiAVObject* a_3D)
 			{
 				using func_t = decltype(&Renderer::Offscreen_Set3D);
 				REL::Relocation<func_t> func{ REL::ID(43983) };
@@ -313,14 +313,14 @@ namespace RE
 				clearRenderTarget = a_clear;
 			}
 
-			void Offscreen_SetDebugMode(bool a_on, bool a_small, std::uint32_t a_target)
+			[[deprecated]] void Offscreen_SetDebugMode(bool a_on, bool a_small, std::uint32_t a_target)
 			{
 				using func_t = decltype(&Renderer::Offscreen_SetDebugMode);
 				REL::Relocation<func_t> func{ REL::ID(1277879) };
 				return func(this, a_on, a_small, a_target);
 			}
 
-			void Offscreen_SetDirectionalLight(
+			[[deprecated]] void Offscreen_SetDirectionalLight(
 				float a_xyPlaneAngle,
 				float a_zAngle,
 				NiColor a_diffuse,
@@ -356,28 +356,28 @@ namespace RE
 				useLongRangeCamera = a_use;
 			}
 
-			void Enable(bool a_unhideGeometries = false)
+			[[deprecated]] void Enable(bool a_unhideGeometries = false)
 			{
 				using func_t = decltype(&Renderer::Enable);
 				REL::Relocation<func_t> func{ REL::ID(326895) };
 				return func(this, a_unhideGeometries);
 			}
 
-			void Disable()
+			[[deprecated]] void Disable()
 			{
 				using func_t = decltype(&Renderer::Disable);
 				REL::Relocation<func_t> func{ REL::ID(938370) };
 				return func(this);
 			}
 
-			void Release()
+			[[deprecated]] void Release()
 			{
 				using func_t = decltype(&Renderer::Release);
 				REL::Relocation<func_t> func{ REL::ID(74749) };
 				return func(this);
 			}
 
-			void SetViewport(RE::Scaleform::GFx::Movie& a_ui, const NiRect<float>& a_renderArea)
+			[[deprecated]] void SetViewport(RE::Scaleform::GFx::Movie& a_ui, const NiRect<float>& a_renderArea)
 			{
 				using func_t = decltype(&Renderer::SetViewport);
 				REL::Relocation<func_t> func{ REL::ID(825410) };

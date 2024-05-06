@@ -294,7 +294,7 @@ namespace RE
 		static constexpr auto Ni_RTTI{ Ni_RTTI::BSTempEffectDebris };
 		static constexpr auto TYPE{ TEMP_EFFECT_TYPE::kDebris };
 
-		BSTempEffectDebris(
+		[[deprecated]] BSTempEffectDebris(
 			TESObjectCELL* a_parentCell,
 			float a_lifetime,
 			const char* a_fileName,

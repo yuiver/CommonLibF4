@@ -107,7 +107,7 @@ namespace RE
 			return parentUseFlags.all(a_flags) ? parentWorld : nullptr;
 		}
 
-		[[nodiscard]] TESWaterForm* GetWaterType() const noexcept
+		[[deprecated]] [[nodiscard]] TESWaterForm* GetWaterType() const noexcept
 		{
 			auto root = this;
 			for (auto iter = root; iter; iter = iter->GetParentWorld(PARENT_USE_FLAG::kWater)) {

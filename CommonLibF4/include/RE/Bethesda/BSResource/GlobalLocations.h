@@ -24,7 +24,7 @@ namespace RE::BSResource
 		};
 		static_assert(sizeof(Entry) == 0x18);
 
-		[[nodiscard]] static GlobalLocations* GetSingleton()
+		[[deprecated]] [[nodiscard]] static GlobalLocations* GetSingleton()
 		{
 			REL::Relocation<GlobalLocations**> singleton{ REL::ID(1573818) };
 			return *singleton;

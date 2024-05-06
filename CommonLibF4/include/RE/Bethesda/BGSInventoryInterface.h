@@ -60,13 +60,13 @@ namespace RE
 		};
 		static_assert(sizeof(Agent) == 0xC);
 
-		[[nodiscard]] static BGSInventoryInterface* GetSingleton()
+		[[deprecated]] [[nodiscard]] static BGSInventoryInterface* GetSingleton()
 		{
 			REL::Relocation<BGSInventoryInterface**> singleton{ REL::ID(501899) };
 			return *singleton;
 		}
 
-		[[nodiscard]] const BGSInventoryItem* RequestInventoryItem(const std::uint32_t& a_handleID) const
+		[[deprecated]] [[nodiscard]] const BGSInventoryItem* RequestInventoryItem(const std::uint32_t& a_handleID) const
 		{
 			using func_t = decltype(&BGSInventoryInterface::RequestInventoryItem);
 			REL::Relocation<func_t> func{ REL::ID(1200959) };

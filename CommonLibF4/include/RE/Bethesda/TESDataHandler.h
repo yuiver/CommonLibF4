@@ -69,21 +69,21 @@ namespace RE
 			return *singleton;
 		}
 
-		[[nodiscard]] bool AddFormToDataHandler(TESForm* a_form)
+		[[deprecated]] [[nodiscard]] bool AddFormToDataHandler(TESForm* a_form)
 		{
 			using func_t = decltype(&TESDataHandler::AddFormToDataHandler);
 			REL::Relocation<func_t> func{ REL::ID(350112) };
 			return func(this, a_form);
 		}
 
-		[[nodiscard]] bool CheckModsLoaded(bool a_everModded)
+		[[deprecated]] [[nodiscard]] bool CheckModsLoaded(bool a_everModded)
 		{
 			using func_t = decltype(&TESDataHandler::CheckModsLoaded);
 			REL::Relocation<func_t> func{ REL::ID(1432894) };
 			return func(this, a_everModded);
 		}
 
-		[[nodiscard]] ObjectRefHandle CreateReferenceAtLocation(NEW_REFR_DATA& a_data)
+		[[deprecated]] [[nodiscard]] ObjectRefHandle CreateReferenceAtLocation(NEW_REFR_DATA& a_data)
 		{
 			using func_t = decltype(&TESDataHandler::CreateReferenceAtLocation);
 			REL::Relocation<func_t> func{ REL::ID(500304) };
@@ -202,7 +202,7 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
-		bool IsFormIDInuse(std::uint32_t a_formID)
+		[[deprecated]] bool IsFormIDInuse(std::uint32_t a_formID)
 		{
 			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
 			REL::Relocation<func_t> func{ REL::ID(1448838) };

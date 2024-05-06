@@ -132,7 +132,7 @@ namespace RE::BGSMod
 
 	namespace Attachment
 	{
-		[[nodiscard]] inline BSTHashMap<const Mod*, TESObjectMISC*>& GetAllLooseMods()
+		[[deprecated]] [[nodiscard]] inline BSTHashMap<const Mod*, TESObjectMISC*>& GetAllLooseMods()
 		{
 			REL::Relocation<BSTHashMap<const Mod*, TESObjectMISC*>*> mods{ REL::ID(1108112), -0x8 };
 			return *mods;
@@ -163,28 +163,28 @@ namespace RE::BGSMod
 			};
 			static_assert(sizeof(Data) == 0x20);
 
-			static void FindModsForLooseMod(TESObjectMISC* a_looseMod, BSScrapArray<BGSMod::Attachment::Mod*>& a_result)
+			[[deprecated]] static void FindModsForLooseMod(TESObjectMISC* a_looseMod, BSScrapArray<BGSMod::Attachment::Mod*>& a_result)
 			{
 				using func_t = decltype(&Mod::FindModsForLooseMod);
 				REL::Relocation<func_t> func{ REL::ID(410363) };
 				return func(a_looseMod, a_result);
 			}
 
-			void GetData(Data& a_data) const
+			[[deprecated]] void GetData(Data& a_data) const
 			{
 				using func_t = decltype(&Mod::GetData);
 				REL::Relocation<func_t> func{ REL::ID(33658) };
 				return func(this, a_data);
 			}
 
-			TESObjectMISC* GetLooseMod()
+			[[deprecated]] TESObjectMISC* GetLooseMod()
 			{
 				using func_t = decltype(&Mod::GetLooseMod);
 				REL::Relocation<func_t> func{ REL::ID(1359613) };
 				return func(this);
 			}
 
-			void SetLooseMod(TESObjectMISC* misc)
+			[[deprecated]] void SetLooseMod(TESObjectMISC* misc)
 			{
 				using func_t = decltype(&Mod::SetLooseMod);
 				REL::Relocation<func_t> func{ REL::ID(123132) };
@@ -247,7 +247,7 @@ namespace RE::BGSMod
 			static constexpr auto RTTI{ RTTI::BGSMod__Template__Items };
 			static constexpr auto VTABLE{ VTABLE::BGSMod__Template__Items };
 
-			static void CreateInstanceDataForObjectAndExtra(TESBoundObject& a_object, ExtraDataList& a_extra, const INSTANCE_FILTER* a_filter, bool a_useDefault)
+			[[deprecated]] static void CreateInstanceDataForObjectAndExtra(TESBoundObject& a_object, ExtraDataList& a_extra, const INSTANCE_FILTER* a_filter, bool a_useDefault)
 			{
 				using func_t = decltype(&Items::CreateInstanceDataForObjectAndExtra);
 				REL::Relocation<func_t> func{ REL::ID(147297) };

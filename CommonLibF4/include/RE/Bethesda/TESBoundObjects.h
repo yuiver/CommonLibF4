@@ -99,7 +99,7 @@ namespace RE
 		virtual void OnCopyReference() { return; }                                                                                             // 65
 		virtual void OnFinishScale() { return; }                                                                                               // 66
 
-		void ApplyMods(BSTSmartPointer<TBO_InstanceData>& a_dest, const BGSObjectInstanceExtra* a_extra) const
+		[[deprecated]] void ApplyMods(BSTSmartPointer<TBO_InstanceData>& a_dest, const BGSObjectInstanceExtra* a_extra) const
 		{
 			using func_t = decltype(&TESBoundObject::ApplyMods);
 			REL::Relocation<func_t> func{ REL::ID(113585) };
@@ -600,14 +600,14 @@ namespace RE
 		};
 		static_assert(sizeof(Data) == 0x138);
 
-		[[nodiscard]] MELEE_ATTACK_SPEED GetMeleeAttackSpeed()
+		[[deprecated]] [[nodiscard]] MELEE_ATTACK_SPEED GetMeleeAttackSpeed()
 		{
 			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeed);
 			REL::Relocation<func_t> func{ REL::ID(817670) };
 			return func(this);
 		}
 
-		[[nodiscard]] static const char* GetMeleeAttackSpeedLabel(MELEE_ATTACK_SPEED a_speed)
+		[[deprecated]] [[nodiscard]] static const char* GetMeleeAttackSpeedLabel(MELEE_ATTACK_SPEED a_speed)
 		{
 			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeedLabel);
 			REL::Relocation<func_t> func{ REL::ID(178784) };
@@ -652,7 +652,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESAmmo };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kAMMO };
 
-		[[nodiscard]] static bool GetReloadsWithAmmoRef(const TESAmmo* a_ammo)
+		[[deprecated]] [[nodiscard]] static bool GetReloadsWithAmmoRef(const TESAmmo* a_ammo)
 		{
 			using func_t = decltype(&TESAmmo::GetReloadsWithAmmoRef);
 			REL::Relocation<func_t> func{ REL::ID(1035622) };
@@ -790,7 +790,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSProjectile };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kPROJ };
 
-		bool CollidesWithSmallTransparentLayer()
+		[[deprecated]] bool CollidesWithSmallTransparentLayer()
 		{
 			using func_t = decltype(&BGSProjectile::CollidesWithSmallTransparentLayer);
 			REL::Relocation<func_t> func{ REL::ID(1115694) };

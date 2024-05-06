@@ -84,7 +84,7 @@ namespace RE
 				const BSFixedString& GetDocString() const override { return docString; }             // 0D
 				void InsertLocals(StackFrame&) const override { return; }                            // 0E
 
-				CallResult Call(const BSTSmartPointer<Stack>& a_stack, ErrorLogger& a_errorLogger, Internal::VirtualMachine& a_vm, bool a_inScriptTasklet) const override  // 0F
+				[[deprecated]] CallResult Call(const BSTSmartPointer<Stack>& a_stack, ErrorLogger& a_errorLogger, Internal::VirtualMachine& a_vm, bool a_inScriptTasklet) const override  // 0F
 				{
 					using func_t = decltype(&NativeFunctionBase::Call);
 					REL::Relocation<func_t> func{ REL::ID(571037) };

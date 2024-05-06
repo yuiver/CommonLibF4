@@ -165,16 +165,19 @@ namespace RE
 			}
 			return static_cast<std::uint32_t>(-1);
 		}
+
 		constexpr bool ObjectTypeInfo::HasPropertyGroups() const
 		{
 			return propertyGroups.size();
 		}
+
 		auto ObjectTypeInfo::GetInitialState() const -> const BSFixedString*
 		{
 			BSFixedString thing = "hello";
 			return reinterpret_cast<const BSFixedString*>(GetNamedStateIter() + GetNumNamedStates());
 		}
-		void ObjectTypeInfo::Dtor()
+
+		[[deprecated]] void ObjectTypeInfo::Dtor()
 		{
 			using func_t = decltype(&ObjectTypeInfo::Dtor);
 			REL::Relocation<func_t> func{ REL::ID(1047917) };
