@@ -432,21 +432,21 @@ namespace RE
 		static bool AttachModToReference(TESObjectREFR& a_ref, BGSMod::Attachment::Mod& a_mod, std::uint8_t a_attachIndex, std::uint8_t a_rank)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AttachModToReference);
-			REL::Relocation<func_t> func{ REL::ID(3303) };
+			REL::Relocation<func_t> func{ REL::ID(2189033) };
 			return func(a_ref, a_mod, a_attachIndex, a_rank);
 		}
 
 		bool HasMod(const BGSMod::Attachment::Mod& a_mod)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::HasMod);
-			REL::Relocation<func_t> func{ REL::ID(963890) };
+			REL::Relocation<func_t> func{ REL::ID(2189026) };
 			return func(this, a_mod);
 		}
 
 		void AddMod(const BGSMod::Attachment::Mod& a_newMod, std::uint8_t a_attachIndex, std::uint8_t a_rank, bool a_removeInvalidMods)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AddMod);
-			REL::Relocation<func_t> func{ REL::ID(1191757) };
+			REL::Relocation<func_t> func{ REL::ID(2189025) };
 			return func(this, a_newMod, a_attachIndex, a_rank, a_removeInvalidMods);
 		}
 
@@ -457,14 +457,14 @@ namespace RE
 		std::uint32_t RemoveInvalidMods(const BGSAttachParentArray* a_baseObjectParents)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::RemoveInvalidMods);
-			REL::Relocation<func_t> func{ REL::ID(1548060) };
+			REL::Relocation<func_t> func{ REL::ID(2189028) };
 			return func(this, a_baseObjectParents);
 		}
 
 		std::uint32_t RemoveMod(const BGSMod::Attachment::Mod* a_mod, std::uint8_t a_attachIndex)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::RemoveMod);
-			REL::Relocation<func_t> func{ REL::ID(1136607) };
+			REL::Relocation<func_t> func{ REL::ID(2189027) };
 			return func(this, a_mod, a_attachIndex);
 		}
 
@@ -817,7 +817,7 @@ namespace RE
 		stl::observer<TBO_InstanceData*> CreateInstanceData(TESBoundObject* a_object, bool a_generateName)
 		{
 			using func_t = decltype(&ExtraDataList::CreateInstanceData);
-			REL::Relocation<func_t> func{ REL::ID(1280130) };
+			REL::Relocation<func_t> func{ REL::ID(2190185) };
 			return func(this, a_object, a_generateName);
 		}
 
@@ -836,7 +836,7 @@ namespace RE
 		[[nodiscard]] BGSMod::Attachment::Mod* GetLegendaryMod()
 		{
 			using func_t = decltype(&ExtraDataList::GetLegendaryMod);
-			REL::Relocation<func_t> func{ REL::ID(178075) };
+			REL::Relocation<func_t> func{ REL::ID(2190180) };
 			return func(this);
 		}
 
@@ -867,21 +867,21 @@ namespace RE
 		bool SetBendableSplineInfo(float* a_thickness, float* a_slack, NiPoint3* a_halfExtents = nullptr, bool* a_detachedEnd = nullptr)
 		{
 			using func_t = decltype(&ExtraDataList::SetBendableSplineInfo);
-			REL::Relocation<func_t> func{ REL::ID(894306) };
+			REL::Relocation<func_t> func{ REL::ID(2190623) };
 			return func(this, a_thickness, a_slack, a_halfExtents, a_detachedEnd);
 		}
 
 		void SetDisplayNameFromInstanceData(BGSObjectInstanceExtra* a_instExtra, TESBoundObject* a_object, const BSTSmartPointer<TBO_InstanceData>& a_data)
 		{
 			using func_t = decltype(&ExtraDataList::SetDisplayNameFromInstanceData);
-			REL::Relocation<func_t> func{ REL::ID(457340) };
+			REL::Relocation<func_t> func{ REL::ID(2190179) };
 			return func(this, a_instExtra, a_object, a_data);
 		}
 
 		void SetOverrideName(const char* a_name)
 		{
 			using func_t = decltype(&ExtraDataList::SetOverrideName);
-			REL::Relocation<func_t> func{ REL::ID(222303) };
+			REL::Relocation<func_t> func{ REL::ID(2190167) };
 			return func(this, a_name);
 		}
 
@@ -895,21 +895,21 @@ namespace RE
 		void SetHealthPercent(float a_healthPerc)
 		{
 			using func_t = decltype(&ExtraDataList::SetHealthPercent);
-			REL::Relocation<func_t> func{ REL::ID(1208294) };
+			REL::Relocation<func_t> func{ REL::ID(2190124) };
 			return func(this, a_healthPerc);
 		}
 
 		bool ClearFavorite()
 		{
 			using func_t = decltype(&ExtraDataList::ClearFavorite);
-			REL::Relocation<func_t> func{ REL::ID(254434) };
+			REL::Relocation<func_t> func{ REL::ID(2190191) };
 			return func(this);
 		}
 
 		bool IsFavorite()
 		{
 			using func_t = decltype(&ExtraDataList::IsFavorite);
-			REL::Relocation<func_t> func{ REL::ID(786568) };
+			REL::Relocation<func_t> func{ REL::ID(2190189) };
 			return func(this);
 		}
 
