@@ -53,7 +53,7 @@ namespace RE
 		};
 
 		virtual ~ActiveEffect();
-		
+
 		[[deprecated]] bool CheckDisplacementSpellOnTarget()
 		{
 			using func_t = decltype(&ActiveEffect::CheckDisplacementSpellOnTarget);
