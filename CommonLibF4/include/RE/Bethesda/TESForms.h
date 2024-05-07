@@ -1698,9 +1698,9 @@ namespace RE
 	public:
 		struct RespData
 		{
-			std::uint16_t uiPercent;
-			std::uint8_t ucResponseID;
-			bool bUseEmotion;
+			std::uint16_t percent;
+			std::uint8_t responseID;
+			bool useEmotion;
 		};
 		static_assert(sizeof(RespData) == 0x4);
 

@@ -117,16 +117,16 @@ namespace RE
 
 		// members	
 		TESTopic* topic;							// 20
-		float fMaxLoopTime;							// 28
-		float fMinLoopTime;							// 2C
-		BSTArray<std::uint32_t> iHeadTrackTargetA;	// 30
-		float fCurrentLoopTimer;					// 48
+		float maxLoopTime;							// 28
+		float minLoopTime;							// 2C
+		BSTArray<std::uint32_t> headTrackTargetA;	// 30
+		float currentLoopTimer;					// 48
 		BGSKeyword* pAnimFaceArchType;				// 50	
 		BGSKeyword* pSubtypeKeyword;				// 58
 		BGSSoundOutput* outputModel;				// 60
 		BSTSmartPointer<BSInputEnableLayer> pInputLayer; // 68
-		std::uint32_t iHeadTargetValue;				// 74
-		float fHeadTrackChangeTimer;				// 78
+		std::uint32_t headTargetValue;				// 74
+		float headTrackChangeTimer;				// 78
 	};
 	static_assert(sizeof(BGSSceneActionDialogue) == 0x78);
 
@@ -140,9 +140,9 @@ namespace RE
 		TESTopic* responseTopics[4];				// 20
 		BGSKeyword* pResponseSubtypeKeywords[4];	// 40
 		BGSSoundOutput* pOutputModel;				// 60
-		BSTArray<std::uint32_t> iHeadTrackTargetA;	// 68
-		std::uint32_t iHeadTargetValue;				// 80
-		float fHeadTrackChangeTimer;				// 84
+		BSTArray<std::uint32_t> headTrackTargetA;	// 68
+		std::uint32_t headTargetValue;				// 80
+		float headTrackChangeTimer;				// 84
 		TESTopic* currentTopic;						// 88
 	};
 	static_assert(sizeof(BGSSceneActionConversationBase) == 0x90);
@@ -185,12 +185,12 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSSceneActionTimer };
 		static constexpr auto VTABlE{ VTABLE::BGSSceneActionTimer };
 
-		float fSeconds;			// 20
-		float fMinSeconds;		// 24
-		float fTimer;			// 28
+		float seconds;			// 20
+		float minSeconds;		// 24
+		float timer;			// 28
 		bool scriptEndRun;		// 2C
 		bool runEnd;			// 2D
-		float fCurrentSeconds;	// 30
+		float currentSeconds;	// 30
 	};
 	static_assert(sizeof(BGSSceneActionTimer) == 0x38);
 
@@ -206,11 +206,11 @@ namespace RE
 		BGSSoundOutput* outputModel;		// 30
 		BGSKeyword* subtypeKeyword;			// 38
 		BGSSoundDescriptorForm* topicSound;	// 40
-		float fSoundDuration;				// 48
+		float soundDuration;				// 48
 		std::uint32_t soundID;				// 4C
 		bool soundDone;						// 50
 		TESTopic* currentTopic;				// 58
-		float fFailTimer;					// 60
+		float failTimer;					// 60
 	};
 	static_assert(sizeof(BGSSceneActionRadio) == 0x68);
 
