@@ -1717,7 +1717,7 @@ namespace RE
 		TESResponse::RespData data;
 		BGSTypedKeywordValue<KeywordType::kAnimFaceArchetype> faceArcheType;
 	};
-	static_assert(sizeof(TESRespone) == 0x18);
+	static_assert(sizeof(TESResponse) == 0x18);
 
 	class ResponseListWrapper
 	{
