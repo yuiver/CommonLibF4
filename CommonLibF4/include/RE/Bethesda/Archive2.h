@@ -165,55 +165,55 @@ namespace RE::BSResource::Archive2
 		ReaderStream() { stl::emplace_vtable<ReaderStream>(this); }
 
 		// override
-		[[deprecated]] ErrorCode DoOpen() override  // 01
+		ErrorCode DoOpen() override  // 01
 		{
 			using func_t = decltype(&ReaderStream::DoOpen);
 			REL::Relocation<func_t> func{ REL::ID(762048) };
 			return func(this);
 		}
 
-		[[deprecated]] void DoClose() override  // 02
+		void DoClose() override  // 02
 		{
 			using func_t = decltype(&ReaderStream::DoClose);
 			REL::Relocation<func_t> func{ REL::ID(109149) };
 			return func(this);
 		}
 
-		[[deprecated]] std::uint64_t DoGetKey() const override  // 03
+		std::uint64_t DoGetKey() const override  // 03
 		{
 			using func_t = decltype(&ReaderStream::DoGetKey);
 			REL::Relocation<func_t> func{ REL::ID(772817) };
 			return func(this);
 		}
 
-		[[deprecated]] void DoClone(BSTSmartPointer<Stream>& a_result) const override  // 05
+		void DoClone(BSTSmartPointer<Stream>& a_result) const override  // 05
 		{
 			using func_t = decltype(&ReaderStream::DoClone);
 			REL::Relocation<func_t> func{ REL::ID(855081) };
 			return func(this, a_result);
 		}
 
-		[[deprecated]] ErrorCode DoRead(void* a_buffer, std::uint64_t a_bytes, std::uint64_t& a_read) const override  // 06
+		ErrorCode DoRead(void* a_buffer, std::uint64_t a_bytes, std::uint64_t& a_read) const override  // 06
 		{
 			using func_t = decltype(&ReaderStream::DoRead);
 			REL::Relocation<func_t> func{ REL::ID(1359347) };
 			return func(this, a_buffer, a_bytes, a_read);
 		}
 
-		[[deprecated]] ErrorCode DoWrite(const void*, std::uint64_t, std::uint64_t& a_write) const override  // 08
+		ErrorCode DoWrite(const void*, std::uint64_t, std::uint64_t& a_write) const override  // 08
 		{
 			a_write = 0;
 			return ErrorCode::kUnsupported;
 		}
 
-		[[deprecated]] ErrorCode DoSeek(std::int64_t a_offset, SeekMode a_whence, std::uint64_t& a_pos) const override  // 09
+		ErrorCode DoSeek(std::int64_t a_offset, SeekMode a_whence, std::uint64_t& a_pos) const override  // 09
 		{
 			using func_t = decltype(&ReaderStream::DoSeek);
 			REL::Relocation<func_t> func{ REL::ID(1000164) };
 			return func(this, a_offset, a_whence, a_pos);
 		}
 
-		[[deprecated]] ErrorCode DoPrefetchAll(std::uint32_t a_priority) const override  // 0E
+		ErrorCode DoPrefetchAll(std::uint32_t a_priority) const override  // 0E
 		{
 			using func_t = decltype(&ReaderStream::DoPrefetchAll);
 			REL::Relocation<func_t> func{ REL::ID(1518821) };
@@ -226,7 +226,7 @@ namespace RE::BSResource::Archive2
 			return a_result.size() != 0;
 		}
 
-		[[deprecated]] ErrorCode DoCreateAsync(BSTSmartPointer<AsyncStream>& a_result) const override  // 10
+		ErrorCode DoCreateAsync(BSTSmartPointer<AsyncStream>& a_result) const override  // 10
 		{
 			using func_t = decltype(&ReaderStream::DoCreateAsync);
 			REL::Relocation<func_t> func{ REL::ID(893405) };
@@ -269,21 +269,21 @@ namespace RE::BSResource::Archive2
 		AsyncReaderStream() { stl::emplace_vtable<AsyncReaderStream>(this); }
 
 		// override
-		[[deprecated]] ErrorCode DoOpen() override  // 01
+		ErrorCode DoOpen() override  // 01
 		{
 			using func_t = decltype(&AsyncReaderStream::DoOpen);
 			REL::Relocation<func_t> func{ REL::ID(1401160) };
 			return func(this);
 		}
 
-		[[deprecated]] void DoClose() override  // 02
+		void DoClose() override  // 02
 		{
 			using func_t = decltype(&AsyncReaderStream::DoClose);
 			REL::Relocation<func_t> func{ REL::ID(883012) };
 			return func(this);
 		}
 
-		[[deprecated]] void DoClone(
+		void DoClone(
 			BSTSmartPointer<AsyncStream>& a_result) const override  // 05
 		{
 			using func_t = decltype(&AsyncReaderStream::DoClone);
@@ -291,7 +291,7 @@ namespace RE::BSResource::Archive2
 			return func(this, a_result);
 		}
 
-		[[deprecated]] ErrorCode DoStartRead(
+		ErrorCode DoStartRead(
 			void* a_buffer,
 			std::uint64_t a_bytes,
 			std::uint64_t a_offset) const override  // 06
@@ -301,7 +301,7 @@ namespace RE::BSResource::Archive2
 			return func(this, a_buffer, a_bytes, a_offset);
 		}
 
-		[[deprecated]] ErrorCode DoStartPacketAlignedBufferedRead(
+		ErrorCode DoStartPacketAlignedBufferedRead(
 			PacketAlignedBuffer* a_buffer,
 			std::uint64_t a_bytes,
 			std::uint64_t a_offset) const override  // 07
@@ -325,7 +325,7 @@ namespace RE::BSResource::Archive2
 			return ErrorCode::kUnsupported;
 		}
 
-		[[deprecated]] ErrorCode DoWait(
+		ErrorCode DoWait(
 			std::uint64_t& a_transferred,
 			bool a_block) override  // 0B
 		{

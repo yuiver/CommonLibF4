@@ -34,14 +34,14 @@ namespace RE::Scaleform
 		static constexpr auto VTABLE{ VTABLE::Scaleform__SysAlloc };
 
 		// override (SysAllocBase)
-		[[deprecated]] bool InitHeapEngine(const void* a_heapDesc) override  // 01
+		bool InitHeapEngine(const void* a_heapDesc) override  // 01
 		{
 			using func_t = decltype(&SysAlloc::InitHeapEngine);
 			REL::Relocation<func_t> func{ REL::ID(1047970) };
 			return func(this, a_heapDesc);
 		}
 
-		[[deprecated]] bool ShutdownHeapEngine() override  // 02
+		bool ShutdownHeapEngine() override  // 02
 		{
 			using func_t = decltype(&SysAlloc::ShutdownHeapEngine);
 			REL::Relocation<func_t> func{ REL::ID(1207169) };

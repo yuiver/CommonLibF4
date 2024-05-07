@@ -428,7 +428,7 @@ namespace RE
 	};
 	static_assert(sizeof(DEFAULT_OBJECT_DATA) == 0x20);
 
-	[[deprecated]] [[nodiscard]] inline std::span<DEFAULT_OBJECT_DATA, 394> GetDefaultObjectData()
+	[[nodiscard]] inline std::span<DEFAULT_OBJECT_DATA, 394> GetDefaultObjectData()
 	{
 		REL::Relocation<DEFAULT_OBJECT_DATA(*)[394]> data{ REL::ID(838886) };
 		return { *data };

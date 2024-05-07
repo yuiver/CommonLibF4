@@ -55,7 +55,7 @@ namespace RE
 			kHardcoded = 1 << 31,
 		};
 
-		[[deprecated]] [[nodiscard]] static ActorValue* GetSingleton()
+		[[nodiscard]] static ActorValue* GetSingleton()
 		{
 			using func_t = decltype(&ActorValue::GetSingleton);
 			REL::Relocation<func_t> func{ REL::ID(405390) };

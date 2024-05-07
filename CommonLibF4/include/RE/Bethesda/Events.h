@@ -93,7 +93,7 @@ namespace RE
 			kOnShutdown
 		};
 
-		[[deprecated]] static void InitSDM()
+		static void InitSDM()
 		{
 			using func_t = decltype(&BSThreadEvent::InitSDM);
 			REL::Relocation<func_t> func{ REL::ID(1425097) };
@@ -123,7 +123,7 @@ namespace RE
 		using EventSource_t = BSTGlobalEvent::EventSource<ApplyColorUpdateEvent>;
 
 	public:
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(421543) };
 			if (!*singleton) {
@@ -146,7 +146,7 @@ namespace RE
 			optionalValue = a_value;
 		}
 
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(344866) };
 			if (!*singleton) {
@@ -179,7 +179,7 @@ namespace RE
 			public BSTSingletonImplicit<CellAttachDetachEventSourceSingleton>
 		{
 		public:
-			[[deprecated]] [[nodiscard]] static CellAttachDetachEventSourceSingleton& GetSingleton()
+			[[nodiscard]] static CellAttachDetachEventSourceSingleton& GetSingleton()
 			{
 				using func_t = decltype(&CellAttachDetachEventSourceSingleton::GetSingleton);
 				REL::Relocation<func_t> func{ REL::ID(862142) };
@@ -216,7 +216,7 @@ namespace RE
 		using EventSource_t = BSTGlobalEvent::EventSource<ColorUpdateEvent>;
 
 	public:
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(1226590) };
 			if (!*singleton) {
@@ -247,7 +247,7 @@ namespace RE
 		using EventSource_t = BSTGlobalEvent::EventSource<DoBeforeNewOrLoadCompletedEvent>;
 
 	public:
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(787908) };
 			if (!*singleton) {
@@ -264,7 +264,7 @@ namespace RE
 		using EventSource_t = BSTGlobalEvent::EventSource<HUDModeEvent>;
 
 	public:
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(683142) };
 			if (!*singleton) {
@@ -311,7 +311,7 @@ namespace RE
 		bool isBetterThanEquippedItem{ false };  // 17
 
 	private:
-		[[deprecated]] InventoryItemDisplayData* ctor(
+		InventoryItemDisplayData* ctor(
 			const ObjectRefHandle a_inventoryRef,
 			const InventoryUserUIInterfaceEntry& a_entry)
 		{
@@ -331,7 +331,7 @@ namespace RE
 		};
 		static_assert(std::is_empty_v<LocksPicked::Event>);
 
-		[[deprecated]] [[nodiscard]] static BSTEventSource<LocksPicked::Event>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<LocksPicked::Event>* GetEventSource()
 		{
 			using func_t = decltype(&LocksPicked::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(594991) };
@@ -377,7 +377,7 @@ namespace RE
 			perkCount(a_perkCount)
 		{}
 
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(685859) };
 			if (!*singleton) {
@@ -438,7 +438,7 @@ namespace RE
 		using EventSource_t = BSTGlobalEvent::EventSource<PowerArmorLightData>;
 
 	public:
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(120809) };
 			if (!*singleton) {
@@ -505,7 +505,7 @@ namespace RE
 		};
 		static_assert(sizeof(Event) == 0x04);
 
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TerminalHacked::Event>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TerminalHacked::Event>* GetEventSource()
 		{
 			using func_t = decltype(&TerminalHacked::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(425579) };
@@ -517,7 +517,7 @@ namespace RE
 	struct TESActivateEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESActivateEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESActivateEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESActivateEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(166230) };
@@ -533,7 +533,7 @@ namespace RE
 	struct TESContainerChangedEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESContainerChangedEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESContainerChangedEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESContainerChangedEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(242538) };
@@ -553,7 +553,7 @@ namespace RE
 	struct TESDeathEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESDeathEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESDeathEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESDeathEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(1465690) };
@@ -570,7 +570,7 @@ namespace RE
 	struct TESEquipEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESEquipEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESEquipEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESEquipEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(1251703) };
@@ -595,7 +595,7 @@ namespace RE
 			kExit
 		};
 
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESFurnitureEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESFurnitureEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESFurnitureEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(678665) };
@@ -683,7 +683,7 @@ namespace RE
 	class TESHitEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESHitEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESHitEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESHitEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(1411899) };
@@ -704,7 +704,7 @@ namespace RE
 	struct TESMagicEffectApplyEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESMagicEffectApplyEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESMagicEffectApplyEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESMagicEffectApplyEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(1327824) };
@@ -721,7 +721,7 @@ namespace RE
 	struct TESObjectLoadedEvent
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static BSTEventSource<TESObjectLoadedEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESObjectLoadedEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESObjectLoadedEvent::GetEventSource);
 			REL::Relocation<func_t> func{ REL::ID(609604) };
@@ -749,7 +749,7 @@ namespace RE
 		using EventSource_t = BSTGlobalEvent::EventSource<UIAdvanceMenusFunctionCompleteEvent>;
 
 	public:
-		[[deprecated]] [[nodiscard]] static EventSource_t* GetEventSource()
+		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
 			REL::Relocation<EventSource_t**> singleton{ REL::ID(1067039) };
 			if (!*singleton) {

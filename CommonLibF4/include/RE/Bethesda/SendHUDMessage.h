@@ -4,28 +4,28 @@ namespace RE
 {
 	namespace SendHUDMessage
 	{
-		[[deprecated]] inline void PopHUDMode(const HUDModeType& a_hudMode)
+		inline void PopHUDMode(const HUDModeType& a_hudMode)
 		{
 			using func_t = decltype(&SendHUDMessage::PopHUDMode);
 			REL::Relocation<func_t> func{ REL::ID(1495042) };
 			return func(a_hudMode);
 		}
 
-		[[deprecated]] inline void PushHUDMode(const HUDModeType& a_hudMode)
+		inline void PushHUDMode(const HUDModeType& a_hudMode)
 		{
 			using func_t = decltype(&SendHUDMessage::PushHUDMode);
 			REL::Relocation<func_t> func{ REL::ID(1321764) };
 			return func(a_hudMode);
 		}
 
-		[[deprecated]] inline void SetPowerArmorMode(bool a_inPowerArmor)
+		inline void SetPowerArmorMode(bool a_inPowerArmor)
 		{
 			using func_t = decltype(&SendHUDMessage::SetPowerArmorMode);
 			REL::Relocation<func_t> func{ REL::ID(361745) };
 			return func(a_inPowerArmor);
 		}
 
-		[[deprecated]] inline void ShowHUDMessage(const char* a_message, const char* a_sound, bool a_throttle, bool a_warning)
+		inline void ShowHUDMessage(const char* a_message, const char* a_sound, bool a_throttle, bool a_warning)
 		{
 			using func_t = decltype(&SendHUDMessage::ShowHUDMessage);
 			REL::Relocation<func_t> func{ REL::ID(1163005) };

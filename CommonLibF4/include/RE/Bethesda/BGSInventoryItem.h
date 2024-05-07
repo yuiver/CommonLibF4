@@ -127,7 +127,7 @@ namespace RE
 		};
 		static_assert(sizeof(ModifyModDataFunctor) == 0x30);
 
-		[[deprecated]] bool FindAndWriteStackData(StackDataCompareFunctor& a_compareFunc, StackDataWriteFunctor& a_writeFunc, bool a_manualMerge, ObjectRefHandle a_owner)
+		bool FindAndWriteStackData(StackDataCompareFunctor& a_compareFunc, StackDataWriteFunctor& a_writeFunc, bool a_manualMerge, ObjectRefHandle a_owner)
 		{
 			using func_t = decltype(&BGSInventoryItem::FindAndWriteStackData);
 			REL::Relocation<func_t> func{ REL::ID(770140) };
@@ -145,21 +145,21 @@ namespace RE
 			return iter;
 		}
 
-		[[deprecated]] [[nodiscard]] const char* GetDisplayFullName(std::uint32_t a_stackID)
+		[[nodiscard]] const char* GetDisplayFullName(std::uint32_t a_stackID)
 		{
 			using func_t = decltype(&BGSInventoryItem::GetDisplayFullName);
 			REL::Relocation<func_t> func{ REL::ID(277641) };
 			return func(this, a_stackID);
 		}
 
-		[[deprecated]] [[nodiscard]] TBO_InstanceData* GetInstanceData(std::uint32_t a_stackID)
+		[[nodiscard]] TBO_InstanceData* GetInstanceData(std::uint32_t a_stackID)
 		{
 			using func_t = decltype(&BGSInventoryItem::GetInstanceData);
 			REL::Relocation<func_t> func{ REL::ID(491493) };
 			return func(this, a_stackID);
 		}
 
-		[[deprecated]] [[nodiscard]] std::int32_t GetInventoryValue(std::uint32_t a_stackID, bool a_scale) const
+		[[nodiscard]] std::int32_t GetInventoryValue(std::uint32_t a_stackID, bool a_scale) const
 		{
 			using func_t = decltype(&BGSInventoryItem::GetInventoryValue);
 			REL::Relocation<func_t> func{ REL::ID(430292) };
@@ -180,7 +180,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::__ApplyChangesFunctor };
 
 		// override
-		[[deprecated]] virtual void WriteDataImpl(TESBoundObject& a_baseObj, BGSInventoryItem::Stack& a_stack) override  // 01
+		virtual void WriteDataImpl(TESBoundObject& a_baseObj, BGSInventoryItem::Stack& a_stack) override  // 01
 		{
 			using func_t = decltype(&ApplyChangesFunctor::WriteDataImpl);
 			REL::Relocation<func_t> func{ REL::ID(1291190) };

@@ -153,20 +153,20 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::PlayerControls };
 		static constexpr auto VTABLE{ VTABLE::PlayerControls };
 
-		[[deprecated]] static PlayerControls* GetSingleton()
+		static PlayerControls* GetSingleton()
 		{
 			REL::Relocation<PlayerControls**> singleton{ REL::ID(544871) };
 			return *singleton;
 		}
 
-		[[deprecated]] bool CanPerformAction(DEFAULT_OBJECT a_action)
+		bool CanPerformAction(DEFAULT_OBJECT a_action)
 		{
 			using func_t = decltype(&PlayerControls::CanPerformAction);
 			REL::Relocation<func_t> func{ REL::ID(565925) };
 			return func(this, a_action);
 		}
 
-		[[deprecated]] bool DoAction(DEFAULT_OBJECT a_action, ActionInput::ACTIONPRIORITY a_priority)
+		bool DoAction(DEFAULT_OBJECT a_action, ActionInput::ACTIONPRIORITY a_priority)
 		{
 			using func_t = decltype(&PlayerControls::DoAction);
 			REL::Relocation<func_t> func{ REL::ID(818081) };
@@ -204,7 +204,7 @@ namespace RE
 		float cameraAutoRotationY;                      // 258
 
 	private:
-		[[deprecated]] void DoRegisterHandler(PlayerInputHandler* a_handler, bool a_isHeldStateHandler)
+		void DoRegisterHandler(PlayerInputHandler* a_handler, bool a_isHeldStateHandler)
 		{
 			using func_t = decltype(&PlayerControls::DoRegisterHandler);
 			REL::Relocation<func_t> func{ REL::ID(177801) };

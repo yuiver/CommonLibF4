@@ -13,13 +13,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::MenuCursor };
 		static constexpr auto VTABLE{ VTABLE::MenuCursor };
 
-		[[deprecated]] [[nodiscard]] static MenuCursor* GetSingleton()
+		[[nodiscard]] static MenuCursor* GetSingleton()
 		{
 			REL::Relocation<MenuCursor**> singleton{ REL::ID(695696) };
 			return *singleton;
 		}
 
-		[[deprecated]] void CenterCursor()
+		void CenterCursor()
 		{
 			using func_t = decltype(&MenuCursor::CenterCursor);
 			REL::Relocation<func_t> func{ REL::ID(1107298) };
@@ -37,21 +37,21 @@ namespace RE
 		void ConstrainForPipboy();
 		void ConstrainForPipboyPA();
 
-		[[deprecated]] void RegisterCursor()
+		void RegisterCursor()
 		{
 			using func_t = decltype(&MenuCursor::RegisterCursor);
 			REL::Relocation<func_t> func{ REL::ID(1318193) };
 			return func(this);
 		}
 
-		[[deprecated]] void SetCursorConstraintsRaw(std::uint32_t a_tlx, std::uint32_t a_tly, std::uint32_t a_width, std::uint32_t a_height)
+		void SetCursorConstraintsRaw(std::uint32_t a_tlx, std::uint32_t a_tly, std::uint32_t a_width, std::uint32_t a_height)
 		{
 			using func_t = decltype(&MenuCursor::SetCursorConstraintsRaw);
 			REL::Relocation<func_t> func{ REL::ID(907092) };
 			return func(this, a_tlx, a_tly, a_width, a_height);
 		}
 
-		[[deprecated]] void UnregisterCursor()
+		void UnregisterCursor()
 		{
 			using func_t = decltype(&MenuCursor::UnregisterCursor);
 			REL::Relocation<func_t> func{ REL::ID(1225249) };

@@ -138,7 +138,7 @@ namespace RE
 			class RadiationDamageRegistrationList;
 		}
 
-		[[deprecated]] inline void LogFormError(
+		inline void LogFormError(
 			const TESForm* a_obj,
 			const char* a_error,
 			BSScript::IVirtualMachine* a_vm,
@@ -263,7 +263,7 @@ namespace RE
 				return func(this);
 			}
 
-			[[deprecated]] void GetInventoryObjFromHandle(std::uint64_t a_cobj, TESObjectREFR*& a_container, std::uint16_t& a_uniqueID, TESObjectREFR*& a_inWorldREFR)
+			void GetInventoryObjFromHandle(std::uint64_t a_cobj, TESObjectREFR*& a_container, std::uint16_t& a_uniqueID, TESObjectREFR*& a_inWorldREFR)
 			{
 				using func_t = decltype(&HandlePolicy::GetInventoryObjFromHandle);
 				REL::Relocation<func_t> func{ REL::ID(66597) };
@@ -500,7 +500,7 @@ namespace RE
 
 		[[nodiscard]] BSTSmartPointer<BSScript::IVirtualMachine> GetVM() const noexcept { return impl; }
 
-		[[deprecated]] bool QueuePostRenderCall(const BSTSmartPointer<GameScript::DelayFunctor>& a_functor)
+		bool QueuePostRenderCall(const BSTSmartPointer<GameScript::DelayFunctor>& a_functor)
 		{
 			using func_t = decltype(&GameVM::QueuePostRenderCall);
 			REL::Relocation<func_t> func{ REL::ID(34412) };
@@ -514,7 +514,7 @@ namespace RE
 			return func(this);
 		}
 
-		[[deprecated]] void SendEventToObjectAndRelated(
+		void SendEventToObjectAndRelated(
 			std::size_t a_object,
 			const BSFixedString& a_eventName,
 			const BSTThreadScrapFunction<bool(BSScrapArray<BSScript::Variable>&)>& a_args,
@@ -696,7 +696,7 @@ namespace RE
 		};
 		static_assert(sizeof(RefrOrInventoryObj) == 0x18);
 
-		[[deprecated]] inline void BindCObject(const BSTSmartPointer<BSScript::Object>& a_scriptObj, const RefrOrInventoryObj& a_cobj, BSScript::IVirtualMachine& a_vm)
+		inline void BindCObject(const BSTSmartPointer<BSScript::Object>& a_scriptObj, const RefrOrInventoryObj& a_cobj, BSScript::IVirtualMachine& a_vm)
 		{
 			using func_t = decltype(&BindCObject);
 			REL::Relocation<func_t> func{ REL::ID(81787) };

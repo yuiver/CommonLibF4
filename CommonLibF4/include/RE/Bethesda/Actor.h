@@ -256,7 +256,7 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::EquippedWeaponData };
 		static constexpr auto VTABLE{ VTABLE::EquippedWeaponData };
 
-		[[deprecated]] void SetupFireSounds(Actor& a_actor, BGSObjectInstanceT<TESObjectWEAP>& a_weapon)
+		void SetupFireSounds(Actor& a_actor, BGSObjectInstanceT<TESObjectWEAP>& a_weapon)
 		{
 			using func_t = decltype(&EquippedWeaponData::SetupFireSounds);
 			REL::Relocation<func_t> func{ REL::ID(1468462) };
@@ -488,35 +488,35 @@ namespace RE
 	class AIProcess
 	{
 	public:
-		[[deprecated]] [[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
+		[[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
 		{
 			using func_t = decltype(&AIProcess::GetCurrentAmmo);
 			REL::Relocation<func_t> func{ REL::ID(1154936) };
 			return func(this, a_equipIndex);
 		}
 
-		[[deprecated]] COMMAND_TYPE GetCommandType()
+		COMMAND_TYPE GetCommandType()
 		{
 			using func_t = decltype(&AIProcess::GetCommandType);
 			REL::Relocation<func_t> func{ REL::ID(678523) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] ObjectRefHandle GetOccupiedFurniture()
+		[[nodiscard]] ObjectRefHandle GetOccupiedFurniture()
 		{
 			using func_t = decltype(&AIProcess::GetOccupiedFurniture);
 			REL::Relocation<func_t> func{ REL::ID(1162965) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsWeaponSubgraphFinishedLoading(const Actor& a_actor)
+		bool IsWeaponSubgraphFinishedLoading(const Actor& a_actor)
 		{
 			using func_t = decltype(&AIProcess::IsWeaponSubgraphFinishedLoading);
 			REL::Relocation<func_t> func{ REL::ID(320183) };
 			return func(this, a_actor);
 		}
 
-		[[deprecated]] void KnockExplosion(Actor* a_actor, const NiPoint3& a_location, float a_magnitude)
+		void KnockExplosion(Actor* a_actor, const NiPoint3& a_location, float a_magnitude)
 		{
 			using func_t = decltype(&AIProcess::KnockExplosion);
 			REL::Relocation<func_t> func{ REL::ID(533106) };
@@ -528,63 +528,63 @@ namespace RE
 			return SetupSpecialIdle(a_actor, DEFAULT_OBJECT::kActionIdle, a_idle, true, a_target);
 		}
 
-		[[deprecated]] bool ProcessGreet(Actor* a_actor, DIALOGUE_TYPE a_type, DIALOGUE_SUBTYPE a_subType, TESObjectREFR* a_target, BGSDialogueBranch* a_branch, bool a_forceSub, bool a_stop, bool a_que, bool a_sayCallback)
+		bool ProcessGreet(Actor* a_actor, DIALOGUE_TYPE a_type, DIALOGUE_SUBTYPE a_subType, TESObjectREFR* a_target, BGSDialogueBranch* a_branch, bool a_forceSub, bool a_stop, bool a_que, bool a_sayCallback)
 		{
 			using func_t = decltype(&AIProcess::ProcessGreet);
 			REL::Relocation<func_t> func{ REL::ID(1174935) };
 			return func(this, a_actor, a_type, a_subType, a_target, a_branch, a_forceSub, a_stop, a_que, a_sayCallback);
 		}
 
-		[[deprecated]] bool RequestLoadAnimationsForWeaponChange(Actor& a_actor)
+		bool RequestLoadAnimationsForWeaponChange(Actor& a_actor)
 		{
 			using func_t = decltype(&AIProcess::RequestLoadAnimationsForWeaponChange);
 			REL::Relocation<func_t> func{ REL::ID(666002) };
 			return func(this, a_actor);
 		}
 
-		[[deprecated]] void SetActorsDetectionEvent(Actor* a_actor, const NiPoint3& a_location, std::int32_t a_soundLevel, TESObjectREFR* a_refr)
+		void SetActorsDetectionEvent(Actor* a_actor, const NiPoint3& a_location, std::int32_t a_soundLevel, TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&AIProcess::SetActorsDetectionEvent);
 			REL::Relocation<func_t> func{ REL::ID(1376336) };
 			return func(this, a_actor, a_location, a_soundLevel, a_refr);
 		}
 
-		[[deprecated]] void SetCurrentAmmo(BGSEquipIndex a_equipIndex, TESAmmo* a_ammo)
+		void SetCurrentAmmo(BGSEquipIndex a_equipIndex, TESAmmo* a_ammo)
 		{
 			using func_t = decltype(&AIProcess::SetCurrentAmmo);
 			REL::Relocation<func_t> func{ REL::ID(795983) };
 			return func(this, a_equipIndex, a_ammo);
 		}
 
-		[[deprecated]] void SetCommandType(COMMAND_TYPE a_type)
+		void SetCommandType(COMMAND_TYPE a_type)
 		{
 			using func_t = decltype(&AIProcess::SetCommandType);
 			REL::Relocation<func_t> func{ REL::ID(1555789) };
 			return func(this, a_type);
 		}
 
-		[[deprecated]] void SetEquippedItem(Actor* a_actor, const BGSObjectInstance& a_instance, const BGSEquipSlot* a_slot)
+		void SetEquippedItem(Actor* a_actor, const BGSObjectInstance& a_instance, const BGSEquipSlot* a_slot)
 		{
 			using func_t = decltype(&AIProcess::SetEquippedItem);
 			REL::Relocation<func_t> func{ REL::ID(1200276) };
 			return func(this, a_actor, a_instance, a_slot);
 		}
 
-		[[deprecated]] bool SetupSpecialIdle(Actor& a_actor, RE::DEFAULT_OBJECT a_defaultObject, TESIdleForm* a_idle, bool a_testConditions, TESObjectREFR* a_targetOverride)
+		bool SetupSpecialIdle(Actor& a_actor, RE::DEFAULT_OBJECT a_defaultObject, TESIdleForm* a_idle, bool a_testConditions, TESObjectREFR* a_targetOverride)
 		{
 			using func_t = decltype(&AIProcess::SetupSpecialIdle);
 			REL::Relocation<func_t> func{ REL::ID(1446774) };
 			return func(this, a_actor, a_defaultObject, a_idle, a_testConditions, a_targetOverride);
 		}
 
-		[[deprecated]] bool SetWeaponBonesCulled(const Actor& a_actor, bool a_stateToSet, WEAPON_CULL_TYPE a_weaponCullType)
+		bool SetWeaponBonesCulled(const Actor& a_actor, bool a_stateToSet, WEAPON_CULL_TYPE a_weaponCullType)
 		{
 			using func_t = decltype(&AIProcess::SetWeaponBonesCulled);
 			REL::Relocation<func_t> func{ REL::ID(397172) };
 			return func(this, a_actor, a_stateToSet, a_weaponCullType);
 		}
 
-		[[deprecated]] void StopCurrentIdle(Actor* a_actor, bool a_instant, bool a_killFlavor)
+		void StopCurrentIdle(Actor* a_actor, bool a_instant, bool a_killFlavor)
 		{
 			using func_t = decltype(&AIProcess::StopCurrentIdle);
 			REL::Relocation<func_t> func{ REL::ID(434460) };
@@ -657,14 +657,14 @@ namespace RE
 		virtual void EffectActiveStatusChanged([[maybe_unused]] ActiveEffect* a_effect) { return; }                                                                                  // 0B
 		virtual bool CheckAbsorb([[maybe_unused]] Actor* a_caster, [[maybe_unused]] MagicItem* a_spell, [[maybe_unused]] const EffectItem* a_effectItem) { return false; }           // 0C
 
-		[[deprecated]] [[nodiscard]] bool IsTakingHealthDamageFromActiveEffect()
+		[[nodiscard]] bool IsTakingHealthDamageFromActiveEffect()
 		{
 			using func_t = decltype(&MagicTarget::IsTakingHealthDamageFromActiveEffect);
 			REL::Relocation<func_t> func{ REL::ID(999442) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] bool IsTakingRadDamageFromActiveEffect()
+		[[nodiscard]] bool IsTakingRadDamageFromActiveEffect()
 		{
 			using func_t = decltype(&MagicTarget::IsTakingRadDamageFromActiveEffect);
 			REL::Relocation<func_t> func{ REL::ID(1079111) };
@@ -964,110 +964,110 @@ namespace RE
 		virtual float CheckClampDamageModifier(ActorValueInfo& a_info, float a_delta);                                                                                                                   // 131
 		virtual void ValidateNewPath([[maybe_unused]] const MovementMessageNewPath& a_newPathMessage) { return; }                                                                                        // 132
 
-		[[deprecated]] void AddPerk(BGSPerk* a_perk, std::uint8_t a_rank = 0)
+		void AddPerk(BGSPerk* a_perk, std::uint8_t a_rank = 0)
 		{
 			using func_t = decltype(&Actor::AddPerk);
 			REL::Relocation<func_t> func{ REL::ID(187096) };
 			return func(this, a_perk, a_rank);
 		}
 
-		[[deprecated]] bool CanUseIdle(TESIdleForm* a_idle) const
+		bool CanUseIdle(TESIdleForm* a_idle) const
 		{
 			using func_t = decltype(&Actor::CanUseIdle);
 			REL::Relocation<func_t> func{ REL::ID(1223707) };
 			return func(this, a_idle);
 		}
 
-		[[deprecated]] void ClearAttackStates()
+		void ClearAttackStates()
 		{
 			using func_t = decltype(&Actor::ClearAttackStates);
 			REL::Relocation<func_t> func{ REL::ID(1525555) };
 			return func(this);
 		}
 
-		[[deprecated]] void EndInterruptPackage(bool a_notRunOnceDialogue)
+		void EndInterruptPackage(bool a_notRunOnceDialogue)
 		{
 			using func_t = decltype(&Actor::EndInterruptPackage);
 			REL::Relocation<func_t> func{ REL::ID(575188) };
 			return func(this, a_notRunOnceDialogue);
 		}
 
-		[[deprecated]] void ExitCover()
+		void ExitCover()
 		{
 			using func_t = decltype(&Actor::ExitCover);
 			REL::Relocation<func_t> func{ REL::ID(770035) };
 			return func(this);
 		}
 
-		[[deprecated]] void GetAimVector(NiPoint3& a_aimVector)
+		void GetAimVector(NiPoint3& a_aimVector)
 		{
 			using func_t = decltype(&Actor::GetAimVector);
 			REL::Relocation<func_t> func{ REL::ID(554863) };
 			return func(this, a_aimVector);
 		}
 
-		[[deprecated]] NiAVObject* GetClosestBone(NiPoint3 a_impactLocation, NiPoint3 a_movementDirection)
+		NiAVObject* GetClosestBone(NiPoint3 a_impactLocation, NiPoint3 a_movementDirection)
 		{
 			using func_t = decltype(&Actor::GetClosestBone);
 			REL::Relocation<func_t> func{ REL::ID(1180004) };
 			return func(this, a_impactLocation, a_movementDirection);
 		}
 
-		[[deprecated]] CFilter GetCollisionFilter()
+		CFilter GetCollisionFilter()
 		{
 			using func_t = decltype(&Actor::GetCollisionFilter);
 			REL::Relocation<func_t> func{ REL::ID(1474995) };
 			return func(this);
 		}
 
-		[[deprecated]] TESCombatStyle* GetCombatStyle()
+		TESCombatStyle* GetCombatStyle()
 		{
 			using func_t = decltype(&Actor::GetCombatStyle);
 			REL::Relocation<func_t> func{ REL::ID(1270929) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
+		[[nodiscard]] TESAmmo* GetCurrentAmmo(BGSEquipIndex a_equipIndex) const
 		{
 			return currentProcess ? currentProcess->GetCurrentAmmo(a_equipIndex) : nullptr;
 		}
 
-		[[deprecated]] std::uint32_t GetCurrentCollisionGroup()
+		std::uint32_t GetCurrentCollisionGroup()
 		{
 			using func_t = decltype(&Actor::GetCurrentCollisionGroup);
 			REL::Relocation<func_t> func{ REL::ID(410500) };
 			return func(this);
 		}
 
-		[[deprecated]] bool GetCurrentFireLocation(BGSEquipIndex a_index, NiPoint3& a_fireLocation)
+		bool GetCurrentFireLocation(BGSEquipIndex a_index, NiPoint3& a_fireLocation)
 		{
 			using func_t = decltype(&Actor::GetCurrentFireLocation);
 			REL::Relocation<func_t> func{ REL::ID(663107) };
 			return func(this, a_index, a_fireLocation);
 		}
 
-		[[deprecated]] float GetDesiredSpeed()
+		float GetDesiredSpeed()
 		{
 			using func_t = decltype(&Actor::GetDesiredSpeed);
 			REL::Relocation<func_t> func{ REL::ID(106892) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] bool GetHostileToActor(Actor* a_actor)
+		[[nodiscard]] bool GetHostileToActor(Actor* a_actor)
 		{
 			using func_t = decltype(&Actor::GetHostileToActor);
 			REL::Relocation<func_t> func{ REL::ID(1148686) };
 			return func(this, a_actor);
 		}
 
-		[[deprecated]] [[nodiscard]] ActorHandle GetMountHandle()
+		[[nodiscard]] ActorHandle GetMountHandle()
 		{
 			using func_t = decltype(&Actor::GetMountHandle);
 			REL::Relocation<func_t> func{ REL::ID(313362) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] std::int16_t GetLevel()
+		[[nodiscard]] std::int16_t GetLevel()
 		{
 			using func_t = decltype(&Actor::GetLevel);
 			REL::Relocation<func_t> func{ REL::ID(661617) };
@@ -1076,112 +1076,112 @@ namespace RE
 
 		[[nodiscard]] TESNPC* GetNPC() const noexcept;
 
-		[[deprecated]] [[nodiscard]] std::uint8_t GetPerkRank(BGSPerk* a_perk)
+		[[nodiscard]] std::uint8_t GetPerkRank(BGSPerk* a_perk)
 		{
 			using func_t = decltype(&Actor::GetPerkRank);
 			REL::Relocation<func_t> func{ REL::ID(1368313) };
 			return func(this, a_perk);
 		}
 
-		[[deprecated]] void HandleDefaultAnimationSwitch()
+		void HandleDefaultAnimationSwitch()
 		{
 			using func_t = decltype(&Actor::HandleDefaultAnimationSwitch);
 			REL::Relocation<func_t> func{ REL::ID(1163130) };
 			return func(this);
 		}
 
-		[[deprecated]] void HandleItemEquip(bool bCullBone)
+		void HandleItemEquip(bool bCullBone)
 		{
 			using func_t = decltype(&Actor::HandleItemEquip);
 			REL::Relocation<func_t> func{ REL::ID(164912) };
 			return func(this, bCullBone);
 		}
 
-		[[deprecated]] void InitiateDoNothingPackage()
+		void InitiateDoNothingPackage()
 		{
 			using func_t = decltype(&Actor::InitiateDoNothingPackage);
 			REL::Relocation<func_t> func{ REL::ID(89993) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsCrippled()
+		bool IsCrippled()
 		{
 			using func_t = decltype(&Actor::IsCrippled);
 			REL::Relocation<func_t> func{ REL::ID(1238666) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsFollowing()
+		bool IsFollowing()
 		{
 			using func_t = decltype(&Actor::IsFollowing);
 			REL::Relocation<func_t> func{ REL::ID(629579) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] bool IsJumping()
+		[[nodiscard]] bool IsJumping()
 		{
 			using func_t = decltype(&Actor::IsJumping);
 			REL::Relocation<func_t> func{ REL::ID(1041558) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsPathValid()
+		bool IsPathValid()
 		{
 			using func_t = decltype(&Actor::IsPathValid);
 			REL::Relocation<func_t> func{ REL::ID(1522194) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsPathing()
+		bool IsPathing()
 		{
 			using func_t = decltype(&Actor::IsPathing);
 			REL::Relocation<func_t> func{ REL::ID(989661) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsPathingComplete()
+		bool IsPathingComplete()
 		{
 			using func_t = decltype(&Actor::IsPathingComplete);
 			REL::Relocation<func_t> func{ REL::ID(817283) };
 			return func(this);
 		}
 
-		[[deprecated]] bool IsQuadruped()
+		bool IsQuadruped()
 		{
 			using func_t = decltype(&Actor::IsQuadruped);
 			REL::Relocation<func_t> func{ REL::ID(1552322) };
 			return func(this);
 		}
 
-		[[deprecated]] bhkCharacterController* Move(float a_deltaTime, NiPoint3 a_deltaPos, bool a_defer)
+		bhkCharacterController* Move(float a_deltaTime, NiPoint3 a_deltaPos, bool a_defer)
 		{
 			using func_t = decltype(&Actor::Move);
 			REL::Relocation<func_t> func{ REL::ID(737625) };
 			return func(this, a_deltaTime, a_deltaPos, a_defer);
 		}
 
-		[[deprecated]] bool PerformAction(BGSAction* a_action, TESObjectREFR* a_target)
+		bool PerformAction(BGSAction* a_action, TESObjectREFR* a_target)
 		{
 			using func_t = decltype(&Actor::PerformAction);
 			REL::Relocation<func_t> func{ REL::ID(1057231) };
 			return func(this, a_action, a_target);
 		}
 
-		[[deprecated]] void RemovePerk(BGSPerk* a_perk)
+		void RemovePerk(BGSPerk* a_perk)
 		{
 			using func_t = decltype(&Actor::RemovePerk);
 			REL::Relocation<func_t> func{ REL::ID(1316475) };
 			return func(this, a_perk);
 		}
 
-		[[deprecated]] void Reset3D(bool a_reloadAll, std::uint32_t a_additionalFlags, bool a_queueReset, std::uint32_t a_excludeFlags)
+		void Reset3D(bool a_reloadAll, std::uint32_t a_additionalFlags, bool a_queueReset, std::uint32_t a_excludeFlags)
 		{
 			using func_t = decltype(&Actor::Reset3D);
 			REL::Relocation<func_t> func{ REL::ID(302888) };
 			return func(this, a_reloadAll, a_additionalFlags, a_queueReset, a_excludeFlags);
 		}
 
-		[[deprecated]] void RewardExperience(float a_amount, bool a_direct, TESObjectREFR* a_actionTarget, TESObjectREFR* a_killWeapon)
+		void RewardExperience(float a_amount, bool a_direct, TESObjectREFR* a_actionTarget, TESObjectREFR* a_killWeapon)
 		{
 			using func_t = decltype(&Actor::RewardExperience);
 			REL::Relocation<func_t> func{ REL::ID(262786) };
@@ -1195,21 +1195,21 @@ namespace RE
 			}
 		}
 
-		[[deprecated]] void SetGunState(GUN_STATE a_gunState, bool a_val = true)
+		void SetGunState(GUN_STATE a_gunState, bool a_val = true)
 		{
 			using func_t = decltype(&Actor::SetGunState);
 			REL::Relocation<func_t> func{ REL::ID(977675) };
 			return func(this, a_gunState, a_val);
 		}
 
-		[[deprecated]] void SetHeading(float a_angle)
+		void SetHeading(float a_angle)
 		{
 			using func_t = decltype(&Actor::SetHeading);
 			REL::Relocation<func_t> func{ REL::ID(353571) };
 			return func(this, a_angle);
 		}
 
-		[[deprecated]] void TrespassAlarm(TESObjectREFR* a_refr, TESForm* a_owner, std::int32_t a_crime)
+		void TrespassAlarm(TESObjectREFR* a_refr, TESForm* a_owner, std::int32_t a_crime)
 		{
 			using func_t = decltype(&Actor::TrespassAlarm);
 			REL::Relocation<func_t> func{ REL::ID(1109888) };
@@ -1278,13 +1278,13 @@ namespace RE
 		public BSTEventSource<ActorEquipManagerEvent::Event>  // 08
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static ActorEquipManager* GetSingleton()
+		[[nodiscard]] static ActorEquipManager* GetSingleton()
 		{
 			REL::Relocation<ActorEquipManager**> singleton{ REL::ID(1174340) };
 			return *singleton;
 		}
 
-		[[deprecated]] bool EquipObject(
+		bool EquipObject(
 			Actor* a_actor,
 			const BGSObjectInstance& a_object,
 			std::uint32_t a_stackID,
@@ -1301,7 +1301,7 @@ namespace RE
 			return func(this, a_actor, a_object, a_stackID, a_number, a_slot, a_queueEquip, a_forceEquip, a_playSounds, a_applyNow, a_locked);
 		}
 
-		[[deprecated]] bool UnequipObject(
+		bool UnequipObject(
 			Actor* a_actor,
 			const BGSObjectInstance* a_object,
 			std::uint32_t a_number,

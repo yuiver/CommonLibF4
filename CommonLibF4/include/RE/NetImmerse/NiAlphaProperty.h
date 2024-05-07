@@ -57,35 +57,35 @@ namespace RE
 
 		F4_HEAP_REDEFINE_ALIGNED_NEW(NiAlphaProperty);
 
-		[[deprecated]] void SetDestBlendMode(AlphaFunction f)
+		void SetDestBlendMode(AlphaFunction f)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetDestBlendMode);
 			REL::Relocation<func_t> func{ REL::ID(725249) };
 			return func(this, f);
 		}
 
-		[[deprecated]] void SetSrcBlendMode(AlphaFunction f)
+		void SetSrcBlendMode(AlphaFunction f)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetSrcBlendMode);
 			REL::Relocation<func_t> func{ REL::ID(976961) };
 			return func(this, f);
 		}
 
-		[[deprecated]] void SetTestMode(TestFunction f)
+		void SetTestMode(TestFunction f)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetTestMode);
 			REL::Relocation<func_t> func{ REL::ID(976961), 0x20 };
 			return func(this, f);
 		}
 
-		[[deprecated]] void SetAlphaBlending(bool b)
+		void SetAlphaBlending(bool b)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetAlphaBlending);
 			REL::Relocation<func_t> func{ REL::ID(645586) };
 			return func(this, b);
 		}
 
-		[[deprecated]] void SetAlphaTesting(bool b)
+		void SetAlphaTesting(bool b)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetAlphaTesting);
 			REL::Relocation<func_t> func{ REL::ID(645586), 0x20 };

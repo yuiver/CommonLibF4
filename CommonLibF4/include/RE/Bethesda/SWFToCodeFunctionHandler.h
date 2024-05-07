@@ -20,14 +20,14 @@ namespace RE
 		// add
 		virtual void MapCodeObjectFunctions() { return; }  // 02
 
-		[[deprecated]] void MapCodeMethodToASFunction(const char* a_functionName, std::int32_t a_functionID)
+		void MapCodeMethodToASFunction(const char* a_functionName, std::int32_t a_functionID)
 		{
 			using func_t = decltype(&SWFToCodeFunctionHandler::MapCodeMethodToASFunction);
 			REL::Relocation<func_t> func{ REL::ID(1263128) };
 			return func(this, a_functionName, a_functionID);
 		}
 
-		[[deprecated]] void RegisterCodeObject(Scaleform::GFx::Movie& a_movie, Scaleform::GFx::Value& a_menuObj)
+		void RegisterCodeObject(Scaleform::GFx::Movie& a_movie, Scaleform::GFx::Value& a_menuObj)
 		{
 			using func_t = decltype(&SWFToCodeFunctionHandler::RegisterCodeObject);
 			REL::Relocation<func_t> func{ REL::ID(67637) };

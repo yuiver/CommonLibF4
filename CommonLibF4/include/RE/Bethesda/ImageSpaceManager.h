@@ -269,7 +269,7 @@ namespace RE
 			EFFECT_SHADER_BRIGHTPASS_CS_V_END = 231
 		};
 
-		[[deprecated]] [[nodiscard]] static ImageSpaceManager* GetSingleton()
+		[[nodiscard]] static ImageSpaceManager* GetSingleton()
 		{
 			REL::Relocation<ImageSpaceManager**> singleton{ REL::ID(161743) };
 			return *singleton;

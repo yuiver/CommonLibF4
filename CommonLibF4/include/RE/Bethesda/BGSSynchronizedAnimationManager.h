@@ -25,13 +25,13 @@ namespace RE
 		virtual BSEventNotifyControl ProcessEvent(const AnimationDataSetupEvent&, BSTEventSource<AnimationDataSetupEvent>*) override;      // 01
 		virtual BSEventNotifyControl ProcessEvent(const AnimationDataCleanupEvent&, BSTEventSource<AnimationDataCleanupEvent>*) override;  // 02
 
-		[[deprecated]] [[nodiscard]] static BGSSynchronizedAnimationManager* GetSingleton()
+		[[nodiscard]] static BGSSynchronizedAnimationManager* GetSingleton()
 		{
 			REL::Relocation<BGSSynchronizedAnimationManager**> singleton{ REL::ID(1346879) };
 			return *singleton;
 		}
 
-		[[deprecated]] [[nodiscard]] bool IsReferenceInSynchronizedScene(ObjectRefHandle a_ref)
+		[[nodiscard]] bool IsReferenceInSynchronizedScene(ObjectRefHandle a_ref)
 		{
 			using func_t = decltype(&BGSSynchronizedAnimationManager::IsReferenceInSynchronizedScene);
 			REL::Relocation<func_t> func{ REL::ID(915329) };

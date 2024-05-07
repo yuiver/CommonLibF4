@@ -11,7 +11,7 @@ namespace RE
 	struct bhkPickData
 	{
 	public:
-		[[deprecated]] bhkPickData()
+		bhkPickData()
 		{
 			typedef bhkPickData* func_t(bhkPickData*);
 			REL::Relocation<func_t> func{ REL::ID(526783) };
@@ -20,63 +20,63 @@ namespace RE
 
 		F4_HEAP_REDEFINE_NEW(bhkPickData);
 
-		[[deprecated]] void SetStartEnd(const NiPoint3& start, const NiPoint3& end)
+		void SetStartEnd(const NiPoint3& start, const NiPoint3& end)
 		{
 			using func_t = decltype(&bhkPickData::SetStartEnd);
 			REL::Relocation<func_t> func{ REL::ID(747470) };
 			return func(this, start, end);
 		}
 
-		[[deprecated]] void Reset()
+		void Reset()
 		{
 			using func_t = decltype(&bhkPickData::Reset);
 			REL::Relocation<func_t> func{ REL::ID(438299) };
 			return func(this);
 		}
 
-		[[deprecated]] bool HasHit()
+		bool HasHit()
 		{
 			using func_t = decltype(&bhkPickData::HasHit);
 			REL::Relocation<func_t> func{ REL::ID(1181584) };
 			return func(this);
 		}
 
-		[[deprecated]] float GetHitFraction()
+		float GetHitFraction()
 		{
 			using func_t = decltype(&bhkPickData::GetHitFraction);
 			REL::Relocation<func_t> func{ REL::ID(476687) };
 			return func(this);
 		}
 
-		[[deprecated]] int32_t GetAllCollectorRayHitSize()
+		int32_t GetAllCollectorRayHitSize()
 		{
 			using func_t = decltype(&bhkPickData::GetAllCollectorRayHitSize);
 			REL::Relocation<func_t> func{ REL::ID(1288513) };
 			return func(this);
 		}
 
-		[[deprecated]] bool GetAllCollectorRayHitAt(uint32_t i, hknpCollisionResult& res)
+		bool GetAllCollectorRayHitAt(uint32_t i, hknpCollisionResult& res)
 		{
 			using func_t = decltype(&bhkPickData::GetAllCollectorRayHitAt);
 			REL::Relocation<func_t> func{ REL::ID(583997) };
 			return func(this, i, res);
 		}
 
-		[[deprecated]] void SortAllCollectorHits()
+		void SortAllCollectorHits()
 		{
 			using func_t = decltype(&bhkPickData::SortAllCollectorHits);
 			REL::Relocation<func_t> func{ REL::ID(1274842) };
 			return func(this);
 		}
 
-		[[deprecated]] NiAVObject* GetNiAVObject()
+		NiAVObject* GetNiAVObject()
 		{
 			using func_t = decltype(&bhkPickData::GetNiAVObject);
 			REL::Relocation<func_t> func{ REL::ID(863406) };
 			return func(this);
 		}
 
-		[[deprecated]] hknpBody* GetBody()
+		hknpBody* GetBody()
 		{
 			using func_t = decltype(&bhkPickData::GetBody);
 			REL::Relocation<func_t> func{ REL::ID(1223055) };

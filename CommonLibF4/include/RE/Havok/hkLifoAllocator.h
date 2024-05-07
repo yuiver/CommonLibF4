@@ -16,35 +16,35 @@ namespace RE
 		hkLifoAllocator() { stl::emplace_vtable(this); }
 
 		// override (hkMemoryAllocator)
-		[[deprecated]] void* BlockAlloc(std::int32_t a_numBytesIn) override  // 01
+		void* BlockAlloc(std::int32_t a_numBytesIn) override  // 01
 		{
 			using func_t = decltype(&hkLifoAllocator::BlockAlloc);
 			REL::Relocation<func_t> func{ REL::ID(605837) };
 			return func(this, a_numBytesIn);
 		}
 
-		[[deprecated]] void BlockFree(void* a_ptr, std::int32_t a_numBytesIn) override  // 02
+		void BlockFree(void* a_ptr, std::int32_t a_numBytesIn) override  // 02
 		{
 			using func_t = decltype(&hkLifoAllocator::BlockFree);
 			REL::Relocation<func_t> func{ REL::ID(778687) };
 			return func(this, a_ptr, a_numBytesIn);
 		}
 
-		[[deprecated]] void* BufAlloc(std::int32_t& a_reqNumBytesInOut) override  // 03
+		void* BufAlloc(std::int32_t& a_reqNumBytesInOut) override  // 03
 		{
 			using func_t = decltype(&hkLifoAllocator::BufAlloc);
 			REL::Relocation<func_t> func{ REL::ID(951267) };
 			return func(this, a_reqNumBytesInOut);
 		}
 
-		[[deprecated]] void BufFree(void* a_ptr, std::int32_t a_numBytes) override  // 04
+		void BufFree(void* a_ptr, std::int32_t a_numBytes) override  // 04
 		{
 			using func_t = decltype(&hkLifoAllocator::BufFree);
 			REL::Relocation<func_t> func{ REL::ID(1123850) };
 			return func(this, a_ptr, a_numBytes);
 		}
 
-		[[deprecated]] void* BufRealloc(void* a_old, std::int32_t a_oldNumBytes, std::int32_t& a_reqNumBytesInOut) override  // 05
+		void* BufRealloc(void* a_old, std::int32_t a_oldNumBytes, std::int32_t& a_reqNumBytesInOut) override  // 05
 		{
 			using func_t = decltype(&hkLifoAllocator::BufRealloc);
 			REL::Relocation<func_t> func{ REL::ID(1296646) };
@@ -57,7 +57,7 @@ namespace RE
 			[[maybe_unused]] const void* a_obj,
 			std::int32_t a_numBytes) const override { return a_numBytes; }  // 09
 
-		[[deprecated]] void Init(
+		void Init(
 			hkMemoryAllocator* a_slabAllocator,
 			hkMemoryAllocator* a_largeAllocator,
 			hkMemoryAllocator* a_internalAllocator)
@@ -67,7 +67,7 @@ namespace RE
 			return func(this, a_slabAllocator, a_largeAllocator, a_internalAllocator);
 		}
 
-		[[deprecated]] void Quit(hkMemoryAllocator** a_allocators)
+		void Quit(hkMemoryAllocator** a_allocators)
 		{
 			using func_t = decltype(&hkLifoAllocator::Quit);
 			REL::Relocation<func_t> func{ REL::ID(1058127) };

@@ -93,7 +93,7 @@ namespace RE
 		struct ListObjectivesAccess;
 		struct ListStagesAccess;
 
-		[[deprecated]] bool SetStage(std::uint16_t stage)
+		bool SetStage(std::uint16_t stage)
 		{
 			using func_t = decltype(&TESQuest::SetStage);
 			REL::Relocation<func_t> func{ REL::ID(952799) };

@@ -631,7 +631,7 @@ namespace RE
 		struct FormSortFunc
 		{
 		public:
-			[[deprecated]] std::int32_t operator()(const TESForm* a_arg1, const TESForm* a_arg2)
+			std::int32_t operator()(const TESForm* a_arg1, const TESForm* a_arg2)
 			{
 				using func_t = decltype(&FormSortFunc::operator());
 				REL::Relocation<func_t> func{ REL::ID(705530) };
@@ -714,7 +714,7 @@ namespace RE
 		virtual std::uint32_t GetFilledSlotsImpl() const { return static_cast<std::uint32_t>(-1); }                                                                                                                                   // 48
 		virtual float GetDesirability([[maybe_unused]] TBO_InstanceData* a_instanceData, [[maybe_unused]] const TESForm* a_user) const { return 0.0F; }                                                                               // 49
 
-		[[deprecated]] static void AddCompileIndex(std::uint32_t& a_id, TESFile* a_file)
+		static void AddCompileIndex(std::uint32_t& a_id, TESFile* a_file)
 		{
 			using func_t = decltype(&TESForm::AddCompileIndex);
 			REL::Relocation<func_t> func{ REL::ID(1315637) };
@@ -866,7 +866,7 @@ namespace RE
 			}
 		}
 
-		[[deprecated]] void SetTemporary()
+		void SetTemporary()
 		{
 			using func_t = decltype(&TESForm::SetTemporary);
 			REL::Relocation<func_t> func{ REL::ID(482454) };
@@ -939,7 +939,7 @@ namespace RE
 			}
 		}
 
-		[[deprecated]] [[nodiscard]] static auto GetTypedKeywords()
+		[[nodiscard]] static auto GetTypedKeywords()
 			-> std::optional<std::span<BSTArray<BGSKeyword*>, stl::to_underlying(KeywordType::kTotal)>>
 		{
 			REL::Relocation<BSTArray<BGSKeyword*>(*)[stl::to_underlying(KeywordType::kTotal)]> keywords{ REL::ID(1095775) };
@@ -1479,14 +1479,14 @@ namespace RE
 			kWarnToLeave = 1u << 9,
 		};
 
-		[[deprecated]] [[nodiscard]] bhkWorld* GetbhkWorld() const
+		[[nodiscard]] bhkWorld* GetbhkWorld() const
 		{
 			using func_t = decltype(&TESObjectCELL::GetbhkWorld);
 			REL::Relocation<func_t> func{ REL::ID(1326073) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] bool GetCantWaitHere()
+		[[nodiscard]] bool GetCantWaitHere()
 		{
 			using func_t = decltype(&TESObjectCELL::GetCantWaitHere);
 			REL::Relocation<func_t> func{ REL::ID(376940) };
@@ -1507,7 +1507,7 @@ namespace RE
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] BGSEncounterZone* GetEncounterZone() const
+		[[nodiscard]] BGSEncounterZone* GetEncounterZone() const
 		{
 			using func_t = decltype(&TESObjectCELL::GetEncounterZone);
 			REL::Relocation<func_t> func{ REL::ID(1414637) };
@@ -1521,21 +1521,21 @@ namespace RE
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] TESForm* GetOwner()
+		[[nodiscard]] TESForm* GetOwner()
 		{
 			using func_t = decltype(&TESObjectCELL::GetOwner);
 			REL::Relocation<func_t> func{ REL::ID(910422) };
 			return func(this);
 		}
 
-		[[deprecated]] [[nodiscard]] TESRegionList* GetRegionList(bool a_createIfMissing)
+		[[nodiscard]] TESRegionList* GetRegionList(bool a_createIfMissing)
 		{
 			using func_t = decltype(&TESObjectCELL::GetRegionList);
 			REL::Relocation<func_t> func{ REL::ID(1565031) };
 			return func(this, a_createIfMissing);
 		}
 
-		[[deprecated]] [[nodiscard]] NiAVObject* Pick(bhkPickData& pd)
+		[[nodiscard]] NiAVObject* Pick(bhkPickData& pd)
 		{
 			using func_t = decltype(&TESObjectCELL::Pick);
 			REL::Relocation<func_t> func{ REL::ID(434717) };
@@ -1919,14 +1919,14 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSListForm };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kFLST };
 
-		[[deprecated]] void AddScriptAddedForm(TESForm* a_form)
+		void AddScriptAddedForm(TESForm* a_form)
 		{
 			using func_t = decltype(&BGSListForm::AddScriptAddedForm);
 			REL::Relocation<func_t> func{ REL::ID(1064874) };
 			return func(this, a_form);
 		}
 
-		[[deprecated]] [[nodiscard]] bool ContainsItem(const TESForm* a_form)
+		[[nodiscard]] bool ContainsItem(const TESForm* a_form)
 		{
 			using func_t = decltype(&BGSListForm::ContainsItem);
 			REL::Relocation<func_t> func{ REL::ID(688500) };
@@ -2440,14 +2440,14 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSMessage };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kMESG };
 
-		[[deprecated]] void AddButton(MESSAGEBOX_BUTTON* btn)
+		void AddButton(MESSAGEBOX_BUTTON* btn)
 		{
 			using func_t = decltype(&BGSMessage::AddButton);
 			REL::Relocation<func_t> func{ REL::ID(236744) };
 			return func(this, btn);
 		}
 
-		[[deprecated]] std::uint32_t GetConvertedDescription(BSFixedString& a_result)
+		std::uint32_t GetConvertedDescription(BSFixedString& a_result)
 		{
 			using func_t = decltype(&BGSMessage::GetConvertedDescription);
 			REL::Relocation<func_t> func{ REL::ID(8331) };

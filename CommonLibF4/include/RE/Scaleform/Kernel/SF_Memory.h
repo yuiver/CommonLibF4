@@ -9,13 +9,13 @@ namespace RE::Scaleform
 	class Memory
 	{
 	public:
-		[[deprecated]] static void SetGlobalHeap(MemoryHeap* a_heap)
+		static void SetGlobalHeap(MemoryHeap* a_heap)
 		{
 			REL::Relocation<MemoryHeap**> heap{ REL::ID(939898) };
 			*heap = a_heap;
 		}
 
-		[[deprecated]] [[nodiscard]] static MemoryHeap* GetGlobalHeap()
+		[[nodiscard]] static MemoryHeap* GetGlobalHeap()
 		{
 			REL::Relocation<MemoryHeap**> heap{ REL::ID(939898) };
 			return *heap;

@@ -112,7 +112,7 @@ namespace RE
 		class alignas(0x10) PlacementItemData
 		{
 		public:
-			[[deprecated]] void Set(TESObjectREFR& a_refr)
+			void Set(TESObjectREFR& a_refr)
 			{
 				using func_t = decltype(&PlacementItemData::Set);
 				REL::Relocation<func_t> func{ REL::ID(1460935) };
@@ -165,7 +165,7 @@ namespace RE
 				children.clear();
 			}
 
-			[[deprecated]] bool FindAndSetSelectedNode(std::uint16_t a_row, std::uint32_t a_crc, std::uint16_t& a_outRow)
+			bool FindAndSetSelectedNode(std::uint16_t a_row, std::uint32_t a_crc, std::uint16_t& a_outRow)
 			{
 				using func_t = decltype(&WorkshopMenuNode::FindAndSetSelectedNode);
 				REL::Relocation<func_t> func{ REL::ID(1309368) };
@@ -197,155 +197,155 @@ namespace RE
 		};
 		static_assert(sizeof(WorkshopModeEvent) == 0x10);
 
-		[[deprecated]] [[nodiscard]] inline TESObjectREFR* FindNearestValidWorkshop(const TESObjectREFR& a_refr)
+		[[nodiscard]] inline TESObjectREFR* FindNearestValidWorkshop(const TESObjectREFR& a_refr)
 		{
 			using func_t = decltype(&Workshop::FindNearestValidWorkshop);
 			REL::Relocation<func_t> func{ REL::ID(905705) };
 			return func(a_refr);
 		}
 
-		[[deprecated]] [[nodiscard]] inline bool FreeBuild()
+		[[nodiscard]] inline bool FreeBuild()
 		{
 			using func_t = decltype(&Workshop::FreeBuild);
 			REL::Relocation<func_t> func{ REL::ID(1583365) };
 			return func();
 		}
 
-		[[deprecated]] [[nodiscard]] inline WorkshopMenuNode* GetSelectedWorkshopMenuNode(std::uint32_t a_row, std::uint32_t& a_column)
+		[[nodiscard]] inline WorkshopMenuNode* GetSelectedWorkshopMenuNode(std::uint32_t a_row, std::uint32_t& a_column)
 		{
 			using func_t = decltype(&Workshop::GetSelectedWorkshopMenuNode);
 			REL::Relocation<func_t> func{ REL::ID(763948) };
 			return func(a_row, a_column);
 		}
 
-		[[deprecated]] inline void InitializePlacementReference(const ContextData& a_context, TESBoundObject& a_object)
+		inline void InitializePlacementReference(const ContextData& a_context, TESBoundObject& a_object)
 		{
 			using func_t = decltype(&Workshop::InitializePlacementReference);
 			REL::Relocation<func_t> func{ REL::ID(1577199) };
 			return func(a_context, a_object);
 		}
 
-		[[deprecated]] [[nodiscard]] inline bool IsLocationWithinBuildableArea(const TESObjectREFR& a_workshop, const NiPoint3& a_location)
+		[[nodiscard]] inline bool IsLocationWithinBuildableArea(const TESObjectREFR& a_workshop, const NiPoint3& a_location)
 		{
 			using func_t = decltype(&Workshop::IsLocationWithinBuildableArea);
 			REL::Relocation<func_t> func{ REL::ID(990965) };
 			return func(a_workshop, a_location);
 		}
 
-		[[deprecated]] inline bool PlaceCurrentReference(const ContextData& a_context)
+		inline bool PlaceCurrentReference(const ContextData& a_context)
 		{
 			using func_t = decltype(&Workshop::PlaceCurrentReference);
 			REL::Relocation<func_t> func{ REL::ID(1058211) };
 			return func(a_context);
 		}
 
-		[[deprecated]] inline void RegisterForItemDestroyed(BSTEventSink<ItemDestroyedEvent>* a_sink)
+		inline void RegisterForItemDestroyed(BSTEventSink<ItemDestroyedEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::RegisterForItemDestroyed);
 			REL::Relocation<func_t> func{ REL::ID(1367004) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void RegisterForItemMoved(BSTEventSink<ItemMovedEvent>* a_sink)
+		inline void RegisterForItemMoved(BSTEventSink<ItemMovedEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::RegisterForItemMoved);
 			REL::Relocation<func_t> func{ REL::ID(835323) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void RegisterForItemPlaced(BSTEventSink<ItemPlacedEvent>* a_sink)
+		inline void RegisterForItemPlaced(BSTEventSink<ItemPlacedEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::RegisterForItemPlaced);
 			REL::Relocation<func_t> func{ REL::ID(849008) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void RegisterForWorkshopModeEvent(BSTEventSink<WorkshopModeEvent>* a_sink)
+		inline void RegisterForWorkshopModeEvent(BSTEventSink<WorkshopModeEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::RegisterForWorkshopModeEvent);
 			REL::Relocation<func_t> func{ REL::ID(275798) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void RequestExitWorkshop(bool a_allowReEntry)
+		inline void RequestExitWorkshop(bool a_allowReEntry)
 		{
 			using func_t = decltype(&Workshop::RequestExitWorkshop);
 			REL::Relocation<func_t> func{ REL::ID(209891) };
 			return func(a_allowReEntry);
 		}
 
-		[[deprecated]] inline void ScrapReference(const ContextData& a_context, BSPointerHandleSmartPointer<BSPointerHandleManagerInterface<TESObjectREFR, HandleManager>>& a_scrapRef, BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>>* a_rewards)
+		inline void ScrapReference(const ContextData& a_context, BSPointerHandleSmartPointer<BSPointerHandleManagerInterface<TESObjectREFR, HandleManager>>& a_scrapRef, BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>>* a_rewards)
 		{
 			using func_t = decltype(&Workshop::ScrapReference);
 			REL::Relocation<func_t> func{ REL::ID(636327) };
 			return func(a_context, a_scrapRef, a_rewards);
 		}
 
-		[[deprecated]] inline void SetSelectedEditItem(ObjectRefHandle a_refr)
+		inline void SetSelectedEditItem(ObjectRefHandle a_refr)
 		{
 			using func_t = decltype(&Workshop::SetSelectedEditItem);
 			REL::Relocation<func_t> func{ REL::ID(2562) };
 			return func(a_refr);
 		}
 
-		[[deprecated]] inline void StartWorkshop(TESObjectREFR* a_workshopRef)
+		inline void StartWorkshop(TESObjectREFR* a_workshopRef)
 		{
 			using func_t = decltype(&Workshop::StartWorkshop);
 			REL::Relocation<func_t> func{ REL::ID(171771) };
 			return func(a_workshopRef);
 		}
 
-		[[deprecated]] inline void ToggleEditMode(const ContextData& a_context)
+		inline void ToggleEditMode(const ContextData& a_context)
 		{
 			using func_t = decltype(&Workshop::ToggleEditMode);
 			REL::Relocation<func_t> func{ REL::ID(1243386) };
 			return func(a_context);
 		}
 
-		[[deprecated]] inline void UnregisterForItemDestroyed(BSTEventSink<ItemDestroyedEvent>* a_sink)
+		inline void UnregisterForItemDestroyed(BSTEventSink<ItemDestroyedEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::UnregisterForItemDestroyed);
 			REL::Relocation<func_t> func{ REL::ID(1101379) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void UnregisterForItemMoved(BSTEventSink<ItemMovedEvent>* a_sink)
+		inline void UnregisterForItemMoved(BSTEventSink<ItemMovedEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::UnregisterForItemMoved);
 			REL::Relocation<func_t> func{ REL::ID(569432) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void UnregisterForItemPlaced(BSTEventSink<ItemPlacedEvent>* a_sink)
+		inline void UnregisterForItemPlaced(BSTEventSink<ItemPlacedEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::UnregisterForItemPlaced);
 			REL::Relocation<func_t> func{ REL::ID(583255) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void UnregisterForWorkshopModeEvent(BSTEventSink<WorkshopModeEvent>* a_sink)
+		inline void UnregisterForWorkshopModeEvent(BSTEventSink<WorkshopModeEvent>* a_sink)
 		{
 			using func_t = decltype(&Workshop::UnregisterForWorkshopModeEvent);
 			REL::Relocation<func_t> func{ REL::ID(9236) };
 			return func(a_sink);
 		}
 
-		[[deprecated]] inline void UpdateActiveEdit(const ContextData& a_context, bool a_multiselect = false)
+		inline void UpdateActiveEdit(const ContextData& a_context, bool a_multiselect = false)
 		{
 			using func_t = decltype(&Workshop::UpdateActiveEdit);
 			REL::Relocation<func_t> func{ REL::ID(69261) };
 			return func(a_context, a_multiselect);
 		}
 
-		[[deprecated]] [[nodiscard]] inline bool WorkshopCanShowRecipe(BGSConstructibleObject* a_recipe, BGSKeyword* a_filter)
+		[[nodiscard]] inline bool WorkshopCanShowRecipe(BGSConstructibleObject* a_recipe, BGSKeyword* a_filter)
 		{
 			using func_t = decltype(&Workshop::WorkshopCanShowRecipe);
 			REL::Relocation<func_t> func{ REL::ID(239190) };
 			return func(a_recipe, a_filter);
 		}
 
-		[[deprecated]] inline REL::Relocation<PlacementItemData*> CurrentPlacementItemData{ REL::ID(1279207) };
-		[[deprecated]] inline REL::Relocation<std::uint16_t*> CurrentRow{ REL::ID(833923) };
-		[[deprecated]] inline REL::Relocation<ObjectRefHandle*> PlacementItem{ REL::ID(526727) };
+		inline REL::Relocation<PlacementItemData*> CurrentPlacementItemData{ REL::ID(1279207) };
+		inline REL::Relocation<std::uint16_t*> CurrentRow{ REL::ID(833923) };
+		inline REL::Relocation<ObjectRefHandle*> PlacementItem{ REL::ID(526727) };
 	}
 }

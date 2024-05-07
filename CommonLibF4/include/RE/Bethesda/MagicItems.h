@@ -28,7 +28,7 @@ namespace RE
 	class EffectItem
 	{
 	public:
-		[[deprecated]] void GetDescription(BSStringT<char>* a_buffer, const char* a_beginTagFormat, const char* a_endTagFormat, float a_magnitude, float a_duration)
+		void GetDescription(BSStringT<char>* a_buffer, const char* a_beginTagFormat, const char* a_endTagFormat, float a_magnitude, float a_duration)
 		{
 			using func_t = decltype(&EffectItem::GetDescription);
 			REL::Relocation<func_t> func{ REL::ID(949839) };

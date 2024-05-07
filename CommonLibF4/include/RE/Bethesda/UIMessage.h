@@ -77,28 +77,28 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BSUIMessageData };
 		static constexpr auto VTABLE{ VTABLE::BSUIMessageData };
 
-		[[deprecated]] static void SendUIBoolMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, bool a_value)
+		static void SendUIBoolMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, bool a_value)
 		{
 			using func_t = decltype(&BSUIMessageData::SendUIBoolMessage);
 			REL::Relocation<func_t> func{ REL::ID(1388308) };
 			return func(a_menuName, a_type, a_value);
 		}
 
-		[[deprecated]] static void SendUIStringMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, const BSFixedString& a_string)
+		static void SendUIStringMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, const BSFixedString& a_string)
 		{
 			using func_t = decltype(&BSUIMessageData::SendUIStringMessage);
 			REL::Relocation<func_t> func{ REL::ID(1270833) };
 			return func(a_menuName, a_type, a_string);
 		}
 
-		[[deprecated]] static void SendUIPtrMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, void* a_data)
+		static void SendUIPtrMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, void* a_data)
 		{
 			using func_t = decltype(&BSUIMessageData::SendUIPtrMessage);
 			REL::Relocation<func_t> func{ REL::ID(1374542) };
 			return func(a_menuName, a_type, a_data);
 		}
 
-		[[deprecated]] static void SendUIStringUIntMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, const BSFixedString& a_fixedString, std::uint32_t a_data)
+		static void SendUIStringUIntMessage(const BSFixedString& a_menuName, UI_MESSAGE_TYPE a_type, const BSFixedString& a_fixedString, std::uint32_t a_data)
 		{
 			using func_t = decltype(&BSUIMessageData::SendUIStringUIntMessage);
 			REL::Relocation<func_t> func{ REL::ID(99795) };

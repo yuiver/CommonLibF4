@@ -12,13 +12,13 @@ namespace RE
 		public BSTSingletonSDM<UIMessageQueue>  // 000
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static UIMessageQueue* GetSingleton()
+		[[nodiscard]] static UIMessageQueue* GetSingleton()
 		{
 			REL::Relocation<UIMessageQueue**> singleton{ REL::ID(82123) };
 			return *singleton;
 		}
 
-		[[deprecated]] void AddMessage(const BSFixedString& a_menu, UI_MESSAGE_TYPE a_type)
+		void AddMessage(const BSFixedString& a_menu, UI_MESSAGE_TYPE a_type)
 		{
 			using func_t = decltype(&UIMessageQueue::AddMessage);
 			REL::Relocation<func_t> func{ REL::ID(1182019) };

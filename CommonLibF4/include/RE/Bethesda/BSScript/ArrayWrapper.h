@@ -46,7 +46,7 @@ namespace RE
 
 			F4_HEAP_REDEFINE_NEW(ArrayWrapper<BSScript::Variable>);
 
-			[[deprecated]] void ReplaceArray(BSScrapArray<Variable>& a_copy, IVirtualMachine& a_vm)
+			void ReplaceArray(BSScrapArray<Variable>& a_copy, IVirtualMachine& a_vm)
 			{
 				using func_t = decltype(&ArrayWrapper::ReplaceArray);
 				REL::Relocation<func_t> func{ REL::ID(445184) };

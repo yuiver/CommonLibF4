@@ -10,7 +10,7 @@ namespace RE::Scaleform::GFx
 		public RefCountBase<ASStringManager, 324>  // 00
 	{
 	public:
-		[[deprecated]] [[nodiscard]] ASStringNode* CreateStringNode(const char* a_str)
+		[[nodiscard]] ASStringNode* CreateStringNode(const char* a_str)
 		{
 			using func_t = decltype(&ASStringManager::CreateStringNode);
 			REL::Relocation<func_t> func{ REL::ID(419974) };

@@ -10,7 +10,7 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::NiRefObject };
 		static constexpr auto VTABLE{ VTABLE::NiRefObject };
 
-		[[deprecated]] NiRefObject()
+		NiRefObject()
 		{
 			stl::emplace_vtable(this);
 			REL::Relocation<std::uint32_t*> objects{ REL::ID(1161724) };
@@ -18,7 +18,7 @@ namespace RE
 			++myObjects;
 		}
 
-		[[deprecated]] virtual ~NiRefObject()  // 00
+		virtual ~NiRefObject()  // 00
 		{
 			REL::Relocation<std::uint32_t*> objects{ REL::ID(1161724) };
 			stl::atomic_ref myObjects{ *objects };

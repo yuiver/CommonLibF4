@@ -22,13 +22,13 @@ namespace RE
 		// override
 		virtual BSEventNotifyControl ProcessEvent(const PositionPlayerEvent&, BSTEventSource<PositionPlayerEvent>*) override;  // 01
 
-		[[deprecated]] [[nodiscard]] static ProcessLists* GetSingleton()
+		[[nodiscard]] static ProcessLists* GetSingleton()
 		{
 			REL::Relocation<ProcessLists**> singleton{ REL::ID(1569706) };
 			return *singleton;
 		}
 
-		[[deprecated]] [[nodiscard]] bool AreHostileActorsNear(BSScrapArray<ActorHandle>* a_hostileActorArray)
+		[[nodiscard]] bool AreHostileActorsNear(BSScrapArray<ActorHandle>* a_hostileActorArray)
 		{
 			using func_t = decltype(&ProcessLists::AreHostileActorsNear);
 			REL::Relocation<func_t> func{ REL::ID(1053584) };
@@ -69,14 +69,14 @@ namespace RE
 			});
 		}
 
-		[[deprecated]] [[nodiscard]] bool IsActorTargetingREFinPackage(const TESObjectREFR* a_actor, PTYPE a_type, bool a_onlyHigh)
+		[[nodiscard]] bool IsActorTargetingREFinPackage(const TESObjectREFR* a_actor, PTYPE a_type, bool a_onlyHigh)
 		{
 			using func_t = decltype(&ProcessLists::IsActorTargetingREFinPackage);
 			REL::Relocation<func_t> func{ REL::ID(559542) };
 			return func(this, a_actor, a_type, a_onlyHigh);
 		}
 
-		[[deprecated]] [[nodiscard]] std::int16_t RequestHighestDetectionLevelAgainstActor(Actor* a_actor, std::uint32_t& a_LOSCount)
+		[[nodiscard]] std::int16_t RequestHighestDetectionLevelAgainstActor(Actor* a_actor, std::uint32_t& a_LOSCount)
 		{
 			using func_t = decltype(&ProcessLists::RequestHighestDetectionLevelAgainstActor);
 			REL::Relocation<func_t> func{ REL::ID(1036693) };

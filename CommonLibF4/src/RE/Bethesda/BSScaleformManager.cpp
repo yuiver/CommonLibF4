@@ -8,7 +8,7 @@
 
 namespace RE
 {
-	[[deprecated]] bool BSScaleformManager::LoadMovieEx(
+	bool BSScaleformManager::LoadMovieEx(
 		IMenu& a_menu,
 		stl::zstring a_filePath,
 		stl::zstring a_menuObjPath,

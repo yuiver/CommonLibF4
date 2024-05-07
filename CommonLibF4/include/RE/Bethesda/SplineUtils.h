@@ -6,14 +6,14 @@ namespace RE
 
 	namespace SplineUtils
 	{
-		[[deprecated]] inline void DisconnectSpline(TESObjectREFR& a_spline)
+		inline void DisconnectSpline(TESObjectREFR& a_spline)
 		{
 			using func_t = decltype(&DisconnectSpline);
 			REL::Relocation<func_t> func{ REL::ID(750682) };
 			return func(a_spline);
 		}
 
-		[[deprecated]] inline void ConnectSpline(TESObjectREFR* akEndpoint1, int32_t linkType1, TESObjectREFR* akEndpoint2, int32_t linkType2, TESObjectREFR* akWireRef)
+		inline void ConnectSpline(TESObjectREFR* akEndpoint1, int32_t linkType1, TESObjectREFR* akEndpoint2, int32_t linkType2, TESObjectREFR* akWireRef)
 		{
 			using func_t = decltype(&ConnectSpline);
 			REL::Relocation<func_t> func{ REL::ID(59311) };

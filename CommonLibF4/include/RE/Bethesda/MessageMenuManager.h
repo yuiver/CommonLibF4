@@ -86,13 +86,13 @@ namespace RE
 		public BSTSingletonSDM<MessageMenuManager>  // 00
 	{
 	public:
-		[[deprecated]] [[nodiscard]] static MessageMenuManager* GetSingleton()
+		[[nodiscard]] static MessageMenuManager* GetSingleton()
 		{
 			REL::Relocation<MessageMenuManager**> singleton{ REL::ID(959572) };
 			return *singleton;
 		}
 
-		[[deprecated]] void Create(
+		void Create(
 			const char* a_headerText,
 			const char* a_bodyText,
 			IMessageBoxCallback* a_callback,

@@ -114,42 +114,42 @@ namespace RE
 		virtual void RemoveFromWorld();                             // 2F
 		virtual bool SetCollisionFilterInfo(CFilter a_filterInfo);  // 30
 
-		[[deprecated]] void CopyMembers(bhkNPCollisionObject* from, NiCloningProcess& cp)
+		void CopyMembers(bhkNPCollisionObject* from, NiCloningProcess& cp)
 		{
 			using func_t = decltype(&bhkNPCollisionObject::CopyMembers);
 			REL::Relocation<func_t> func{ REL::ID(1558409) };
 			func(this, from, cp);
 		}
 
-		[[deprecated]] static bhkNPCollisionObject* Getbhk(bhkWorld* world, hknpBodyId& bodyId)
+		static bhkNPCollisionObject* Getbhk(bhkWorld* world, hknpBodyId& bodyId)
 		{
 			using func_t = decltype(&bhkNPCollisionObject::Getbhk);
 			REL::Relocation<func_t> func{ REL::ID(730034) };
 			return func(world, bodyId);
 		}
 
-		[[deprecated]] hknpShape* GetShape()
+		hknpShape* GetShape()
 		{
 			using func_t = decltype(&bhkNPCollisionObject::GetShape);
 			REL::Relocation<func_t> func{ REL::ID(315427) };
 			return func(this);
 		}
 
-		[[deprecated]] bool GetTransform(hkTransformf& transform)
+		bool GetTransform(hkTransformf& transform)
 		{
 			using func_t = decltype(&bhkNPCollisionObject::GetTransform);
 			REL::Relocation<func_t> func{ REL::ID(1508189) };
 			return func(this, transform);
 		}
 
-		[[deprecated]] void SetMotionType(hknpMotionPropertiesId::Preset type)
+		void SetMotionType(hknpMotionPropertiesId::Preset type)
 		{
 			using func_t = decltype(&bhkNPCollisionObject::SetMotionType);
 			REL::Relocation<func_t> func{ REL::ID(200912) };
 			return func(this, type);
 		}
 
-		[[deprecated]] bool SetTransform(hkTransformf& transform)
+		bool SetTransform(hkTransformf& transform)
 		{
 			using func_t = decltype(&bhkNPCollisionObject::SetTransform);
 			REL::Relocation<func_t> func{ REL::ID(178085) };

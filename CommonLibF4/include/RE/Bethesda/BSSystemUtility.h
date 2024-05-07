@@ -10,7 +10,7 @@ namespace RE
 
 		virtual ~BSAwardsSystemUtility() {}  // 00
 
-		[[deprecated]] [[nodiscard]] static BSAwardsSystemUtility& GetSingleton()
+		[[nodiscard]] static BSAwardsSystemUtility& GetSingleton()
 		{
 			using func_t = decltype(&BSAwardsSystemUtility::GetSingleton);
 			REL::Relocation<func_t> func{ REL::ID(1569384) };

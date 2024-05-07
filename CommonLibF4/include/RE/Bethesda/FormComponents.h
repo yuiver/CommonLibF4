@@ -642,7 +642,7 @@ namespace RE
 		void CopyComponent(BaseFormComponent*) override { return; }             // 06
 		void CopyComponent(BaseFormComponent*, TESForm*) override;              // 05
 
-		[[deprecated]] void SetParentGroupNumber(BGSKeyword* a_parent, std::uint32_t a_groupID)
+		void SetParentGroupNumber(BGSKeyword* a_parent, std::uint32_t a_groupID)
 		{
 			using func_t = decltype(&BGSAttachParentArray::SetParentGroupNumber);
 			REL::Relocation<func_t> func{ REL::ID(1412266) };
@@ -900,7 +900,7 @@ namespace RE
 		// add
 		virtual BGSKeyword* GetDefaultKeyword() const { return nullptr; }  // 07
 
-		[[deprecated]] void AddKeyword(BGSKeyword* a_keyword)
+		void AddKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::AddKeyword);
 			REL::Relocation<func_t> func{ REL::ID(762999) };
@@ -934,7 +934,7 @@ namespace RE
 
 		[[nodiscard]] std::uint32_t GetNumKeywords() const { return numKeywords; };
 
-		[[deprecated]] void RemoveKeyword(BGSKeyword* a_keyword)
+		void RemoveKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::RemoveKeyword);
 			REL::Relocation<func_t> func{ REL::ID(921694) };
@@ -1041,14 +1041,14 @@ namespace RE
 		virtual void InitComponent() override;                           // 04
 		virtual void CopyComponent(BaseFormComponent* a_copy) override;  // 06
 
-		[[deprecated]] void AllocatePerkRankArray(std::uint32_t a_count)
+		void AllocatePerkRankArray(std::uint32_t a_count)
 		{
 			using func_t = decltype(&BGSPerkRankArray::AllocatePerkRankArray);
 			REL::Relocation<func_t> func{ REL::ID(888419) };
 			return func(this, a_count);
 		}
 
-		[[deprecated]] void ClearPerks(bool a_removeFormUser)
+		void ClearPerks(bool a_removeFormUser)
 		{
 			using func_t = decltype(&BGSPerkRankArray::ClearPerks);
 			REL::Relocation<func_t> func{ REL::ID(1247917) };
@@ -1267,14 +1267,14 @@ namespace RE
 	struct BGSLocalizedStringDL
 	{
 	public:
-		[[deprecated]] void GetDescription(BSStringT<char>& a_out, const TESForm* a_form) const
+		void GetDescription(BSStringT<char>& a_out, const TESForm* a_form) const
 		{
 			using func_t = decltype(&BGSLocalizedStringDL::GetDescription);
 			REL::Relocation<func_t> func{ REL::ID(523613) };
 			return func(this, a_out, a_form);
 		}
 
-		[[deprecated]] [[nodiscard]] BGSLocalizedStrings::ScrapStringBuffer GetText(TESFile& a_file) const
+		[[nodiscard]] BGSLocalizedStrings::ScrapStringBuffer GetText(TESFile& a_file) const
 		{
 			using func_t = decltype(&BGSLocalizedStringDL::GetText);
 			REL::Relocation<func_t> func{ REL::ID(472297) };
@@ -1303,7 +1303,7 @@ namespace RE
 		void ClearDataComponent() override { return; }    // 03
 		void CopyComponent(BaseFormComponent*) override;  // 06
 
-		[[deprecated]] void GetDescription(BSStringT<char>& a_outString, const TESForm* a_form = nullptr)
+		void GetDescription(BSStringT<char>& a_outString, const TESForm* a_form = nullptr)
 		{
 			using func_t = decltype(&TESDescription::GetDescription);
 			REL::Relocation<func_t> func{ REL::ID(523613) };
@@ -1377,7 +1377,7 @@ namespace RE
 		void ClearDataComponent() override;               // 03
 		void CopyComponent(BaseFormComponent*) override;  // 06
 
-		[[deprecated]] [[nodiscard]] static std::uint32_t GetFormHealth(const TESForm* a_form, const TBO_InstanceData* a_data)
+		[[nodiscard]] static std::uint32_t GetFormHealth(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = decltype(&TESHealthForm::GetFormHealth);
 			REL::Relocation<func_t> func{ REL::ID(1515099) };
@@ -1658,14 +1658,14 @@ namespace RE
 		virtual const char* GetOverrideName() { return nullptr; }              // 0A
 		virtual bool GetCanContainFormsOfType(ENUM_FORM_ID a_type) const = 0;  // 0B
 
-		[[deprecated]] LEVELED_OBJECT* AddLeveledObject(std::uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
+		LEVELED_OBJECT* AddLeveledObject(std::uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
 		{
 			using func_t = decltype(&TESLeveledList::AddLeveledObject);
 			REL::Relocation<func_t> func{ REL::ID(1163308) };
 			return func(this, a_level, a_count, a_chanceNone, a_item, a_itemExtra);
 		}
 
-		[[deprecated]] bool GetUseAll()
+		bool GetUseAll()
 		{
 			using func_t = decltype(&TESLeveledList::GetUseAll);
 			REL::Relocation<func_t> func{ REL::ID(233875) };
@@ -1802,7 +1802,7 @@ namespace RE
 		};
 		static_assert(sizeof(SpellData) == 0x28);
 
-		[[deprecated]] bool AddSpell(TESForm* a_spell)
+		bool AddSpell(TESForm* a_spell)
 		{
 			using func_t = decltype(&TESSpellList::AddSpell);
 			REL::Relocation<func_t> func{ REL::ID(1312083) };
@@ -1833,7 +1833,7 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESValueForm };
 		static constexpr auto VTABLE{ VTABLE::TESValueForm };
 
-		[[deprecated]] [[nodiscard]] static std::uint32_t GetFormValue(const TESForm* a_form, const TBO_InstanceData* a_data)
+		[[nodiscard]] static std::uint32_t GetFormValue(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = std::int32_t (*)(const TESForm*, const TBO_InstanceData*);
 			REL::Relocation<func_t> func{ REL::ID(885783) };
@@ -1855,7 +1855,7 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESWeightForm };
 		static constexpr auto VTABLE{ VTABLE::TESWeightForm };
 
-		[[deprecated]] [[nodiscard]] static float GetFormWeight(const TESForm* a_form, const TBO_InstanceData* a_data)
+		[[nodiscard]] static float GetFormWeight(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = float (*)(const TESForm*, const TBO_InstanceData*);
 			REL::Relocation<func_t> func{ REL::ID(1321341) };

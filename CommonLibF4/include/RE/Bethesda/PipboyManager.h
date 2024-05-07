@@ -60,181 +60,181 @@ namespace RE
 		virtual void OnMouseMoveEvent(const MouseMoveEvent*) override;                                                                              // 07
 		virtual void OnThumbstickEvent(const ThumbstickEvent*) override;                                                                            // 05
 
-		[[deprecated]] [[nodiscard]] static PipboyManager* GetSingleton()
+		[[nodiscard]] static PipboyManager* GetSingleton()
 		{
 			REL::Relocation<PipboyManager**> singleton{ REL::ID(553234) };
 			return *singleton;
 		}
 
-		[[deprecated]] void AddMenuToPipboy(IMenu& a_menu, const NiRect<float>& a_standVP, const NiRect<float>& a_powerVP)
+		void AddMenuToPipboy(IMenu& a_menu, const NiRect<float>& a_standVP, const NiRect<float>& a_powerVP)
 		{
 			using func_t = decltype(&PipboyManager::AddMenuToPipboy);
 			REL::Relocation<func_t> func{ REL::ID(394568) };
 			return func(this, a_menu, a_standVP, a_powerVP);
 		}
 
-		[[deprecated]] void ClosedownPipboy()
+		void ClosedownPipboy()
 		{
 			using func_t = decltype(&PipboyManager::ClosedownPipboy);
 			REL::Relocation<func_t> func{ REL::ID(731410) };
 			return func(this);
 		}
 
-		[[deprecated]] void DisablePipboyShader()
+		void DisablePipboyShader()
 		{
 			using func_t = decltype(&PipboyManager::DisablePipboyShader);
 			REL::Relocation<func_t> func{ REL::ID(662519) };
 			return func(this);
 		}
 
-		[[deprecated]] void EnablePipboyShader()
+		void EnablePipboyShader()
 		{
 			using func_t = decltype(&PipboyManager::EnablePipboyShader);
 			REL::Relocation<func_t> func{ REL::ID(157921) };
 			return func(this);
 		}
 
-		[[deprecated]] void InitPipboy()
+		void InitPipboy()
 		{
 			using func_t = decltype(&PipboyManager::InitPipboy);
 			REL::Relocation<func_t> func{ REL::ID(1477369) };
 			return func(this);
 		}
 
-		[[deprecated]] void LowerPipboy(LOWER_REASON a_reason)
+		void LowerPipboy(LOWER_REASON a_reason)
 		{
 			using func_t = decltype(&PipboyManager::LowerPipboy);
 			REL::Relocation<func_t> func{ REL::ID(1444875) };
 			return func(this, a_reason);
 		}
 
-		[[deprecated]] void OnPipboyCloseAnim()
+		void OnPipboyCloseAnim()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyCloseAnim);
 			REL::Relocation<func_t> func{ REL::ID(1231000) };
 			return func(this);
 		}
 
-		[[deprecated]] void OnPipboyCloseAnimFailed()
+		void OnPipboyCloseAnimFailed()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyCloseAnimFailed);
 			REL::Relocation<func_t> func{ REL::ID(1362084) };
 			return func(this);
 		}
 
-		[[deprecated]] void OnPipboyClosed()
+		void OnPipboyClosed()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyClosed);
 			REL::Relocation<func_t> func{ REL::ID(592088) };
 			return func(this);
 		}
 
-		[[deprecated]] void OnPipboyOpenAnim()
+		void OnPipboyOpenAnim()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyOpenAnim);
 			REL::Relocation<func_t> func{ REL::ID(1500318) };
 			return func(this);
 		}
 
-		[[deprecated]] void OnPipboyOpenAnimFailed()
+		void OnPipboyOpenAnimFailed()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyOpenAnimFailed);
 			REL::Relocation<func_t> func{ REL::ID(702357) };
 			return func(this);
 		}
 
-		[[deprecated]] void OnPipboyOpened()
+		void OnPipboyOpened()
 		{
 			using func_t = decltype(&PipboyManager::OnPipboyOpened);
 			REL::Relocation<func_t> func{ REL::ID(1299608) };
 			return func(this);
 		}
 
-		[[deprecated]] void PlayItemAnimOnClose()
+		void PlayItemAnimOnClose()
 		{
 			using func_t = decltype(&PipboyManager::PlayItemAnimOnClose);
 			REL::Relocation<func_t> func{ REL::ID(377837) };
 			return func(this);
 		}
 
-		[[deprecated]] void PlayPipboyCloseAnim(bool a_noAnim)
+		void PlayPipboyCloseAnim(bool a_noAnim)
 		{
 			using func_t = decltype(&PipboyManager::PlayPipboyCloseAnim);
 			REL::Relocation<func_t> func{ REL::ID(273927) };
 			return func(this, a_noAnim);
 		}
 
-		[[deprecated]] void PlayPipboyGenericOpenAnim(const BSFixedString& a_menu, const BSFixedString& a_anim, bool a_noAnim)
+		void PlayPipboyGenericOpenAnim(const BSFixedString& a_menu, const BSFixedString& a_anim, bool a_noAnim)
 		{
 			using func_t = decltype(&PipboyManager::PlayPipboyGenericOpenAnim);
 			REL::Relocation<func_t> func{ REL::ID(809076) };
 			return func(this, a_menu, a_anim, a_noAnim);
 		}
 
-		[[deprecated]] void PlayPipboyLoadHolotapeAnim(BGSNote* a_holotape, bool a_noAnim)
+		void PlayPipboyLoadHolotapeAnim(BGSNote* a_holotape, bool a_noAnim)
 		{
 			using func_t = decltype(&PipboyManager::PlayPipboyLoadHolotapeAnim);
 			REL::Relocation<func_t> func{ REL::ID(477096) };
 			return func(this, a_holotape, a_noAnim);
 		}
 
-		[[deprecated]] void PlayPipboyOpenAnim(const RE::BSFixedString& a_menuName)
+		void PlayPipboyOpenAnim(const RE::BSFixedString& a_menuName)
 		{
 			using func_t = decltype(&PipboyManager::PlayPipboyOpenAnim);
 			REL::Relocation<func_t> func{ REL::ID(663900) };
 			return func(this, a_menuName);
 		}
 
-		[[deprecated]] void PlayPipboyOpenTerminalAnim(BGSTerminal* a_terminal)
+		void PlayPipboyOpenTerminalAnim(BGSTerminal* a_terminal)
 		{
 			using func_t = decltype(&PipboyManager::PlayPipboyOpenTerminalAnim);
 			REL::Relocation<func_t> func{ REL::ID(743427) };
 			return func(this, a_terminal);
 		}
 
-		[[deprecated]] void ProcessLoweringReason()
+		void ProcessLoweringReason()
 		{
 			using func_t = decltype(&PipboyManager::ProcessLoweringReason);
 			REL::Relocation<func_t> func{ REL::ID(302903) };
 			return func(this);
 		}
 
-		[[deprecated]] bool QPipboyActive()
+		bool QPipboyActive()
 		{
 			using func_t = decltype(&PipboyManager::QPipboyActive);
 			REL::Relocation<func_t> func{ REL::ID(470886) };
 			return func(this);
 		}
 
-		[[deprecated]] void RaisePipboy()
+		void RaisePipboy()
 		{
 			using func_t = decltype(&PipboyManager::RaisePipboy);
 			REL::Relocation<func_t> func{ REL::ID(726763) };
 			return func(this);
 		}
 
-		[[deprecated]] void RefreshPipboyRenderSurface()
+		void RefreshPipboyRenderSurface()
 		{
 			using func_t = decltype(&PipboyManager::RefreshPipboyRenderSurface);
 			REL::Relocation<func_t> func{ REL::ID(81339) };
 			return func(this);
 		}
 
-		[[deprecated]] void StartAnimationGraphListening()
+		void StartAnimationGraphListening()
 		{
 			using func_t = decltype(&PipboyManager::StartAnimationGraphListening);
 			REL::Relocation<func_t> func{ REL::ID(714713) };
 			return func(this);
 		}
 
-		[[deprecated]] void StopAnimationGraphListening()
+		void StopAnimationGraphListening()
 		{
 			using func_t = decltype(&PipboyManager::StopAnimationGraphListening);
 			REL::Relocation<func_t> func{ REL::ID(621144) };
 			return func(this);
 		}
 
-		[[deprecated]] void UpdateCursorConstraint(bool a_enable)
+		void UpdateCursorConstraint(bool a_enable)
 		{
 			using func_t = decltype(&PipboyManager::UpdateCursorConstraint);
 			REL::Relocation<func_t> func{ REL::ID(900802) };

@@ -142,7 +142,7 @@ namespace RE
 		virtual std::uint32_t GetMaterialType() const { return 0; }                                                                        // 3E
 		virtual void DoClearRenderPasses() { return; }                                                                                     // 3F
 
-		[[deprecated]] void SetMaterial(BSShaderMaterial* a_material, bool a_unique)
+		void SetMaterial(BSShaderMaterial* a_material, bool a_unique)
 		{
 			using func_t = decltype(&BSShaderProperty::SetMaterial);
 			REL::Relocation<func_t> func{ REL::ID(706318) };

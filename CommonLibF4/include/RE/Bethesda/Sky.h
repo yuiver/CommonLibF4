@@ -71,13 +71,13 @@ namespace RE
 
 		virtual ~Sky();  // 00
 
-		[[deprecated]] [[nodiscard]] static Sky* GetSingleton()
+		[[nodiscard]] static Sky* GetSingleton()
 		{
 			REL::Relocation<Sky**> singleton{ REL::ID(484694) };
 			return *singleton;
 		}
 
-		[[deprecated]] void ForceWeather(TESWeather* a_weather, bool a_override)
+		void ForceWeather(TESWeather* a_weather, bool a_override)
 		{
 			using func_t = decltype(&Sky::ForceWeather);
 			REL::Relocation<func_t> func{ REL::ID(698558) };
@@ -92,7 +92,7 @@ namespace RE
 			}
 		}
 
-		[[deprecated]] void ResetWeather()
+		void ResetWeather()
 		{
 			using func_t = decltype(&Sky::ResetWeather);
 			REL::Relocation<func_t> func{ REL::ID(6511) };

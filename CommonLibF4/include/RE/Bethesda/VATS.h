@@ -46,7 +46,7 @@ namespace RE
 		virtual BSEventNotifyControl ProcessEvent(const TESHitEvent& a_event, BSTEventSource<TESHitEvent>* a_source) override;                                // 03
 		virtual BSEventNotifyControl ProcessEvent(const TESDeathEvent& a_event, BSTEventSource<TESDeathEvent>* a_source) override;                            // 04
 
-		[[deprecated]] [[nodiscard]] static VATS* GetSingleton()
+		[[nodiscard]] static VATS* GetSingleton()
 		{
 			REL::Relocation<VATS**> singleton{ REL::ID(570121) };
 			return *singleton;

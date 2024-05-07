@@ -33,7 +33,7 @@ namespace RE
 
 			[[nodiscard]] void* Resolve(std::uint32_t a_typeID) const;
 
-			[[deprecated]] [[nodiscard]] std::uint32_t DecRef() const
+			[[nodiscard]] std::uint32_t DecRef() const
 			{
 				using func_t = decltype(&Object::DecRef);
 				REL::Relocation<func_t> func{ REL::ID(541793) };

@@ -35,7 +35,7 @@ namespace RE
 		class EntryDBBaseUtil
 		{
 		public:
-			[[deprecated]] static bool ReleaseEntryAction(EntryBase* a_entry)
+			static bool ReleaseEntryAction(EntryBase* a_entry)
 			{
 				using func_t = decltype(&EntryDBBaseUtil::ReleaseEntryAction);
 				REL::Relocation<func_t> func{ REL::ID(777279) };

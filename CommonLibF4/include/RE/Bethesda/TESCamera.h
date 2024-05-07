@@ -173,7 +173,7 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESCamera };
 		static constexpr auto VTABLE{ VTABLE::TESCamera };
 
-		[[deprecated]] [[nodiscard]] static PlayerCamera* GetSingleton()
+		[[nodiscard]] static PlayerCamera* GetSingleton()
 		{
 			REL::Relocation<PlayerCamera**> singleton{ REL::ID(1171980) };
 			return *singleton;
@@ -191,49 +191,49 @@ namespace RE
 			return BSTSmartPointer{ static_cast<T*>(cameraStates[T::STATE].get()) };
 		}
 
-		[[deprecated]] TESCameraState* PopState()
+		TESCameraState* PopState()
 		{
 			using func_t = decltype(&PlayerCamera::PopState);
 			REL::Relocation<func_t> func{ REL::ID(120998) };
 			return func(this);
 		}
 
-		[[deprecated]] TESCameraState* PushState(CameraState a_state)
+		TESCameraState* PushState(CameraState a_state)
 		{
 			using func_t = decltype(&PlayerCamera::PushState);
 			REL::Relocation<func_t> func{ REL::ID(746523) };
 			return func(this, a_state);
 		}
 
-		[[deprecated]] void ToggleFreeCameraMode(bool a_freezeTime)
+		void ToggleFreeCameraMode(bool a_freezeTime)
 		{
 			using func_t = decltype(&PlayerCamera::ToggleFreeCameraMode);
 			REL::Relocation<func_t> func{ REL::ID(224913) };
 			return func(this, a_freezeTime);
 		}
 
-		[[deprecated]] void SetState(TESCameraState* a_newstate) const
+		void SetState(TESCameraState* a_newstate) const
 		{
 			using func_t = decltype(&PlayerCamera::SetState);
 			REL::Relocation<func_t> func{ REL::ID(858847) };
 			return func(this, a_newstate);
 		}
 
-		[[deprecated]] void StartFurnitureMode(TESObjectREFR* a_furniture)
+		void StartFurnitureMode(TESObjectREFR* a_furniture)
 		{
 			using func_t = decltype(&PlayerCamera::StartFurnitureMode);
 			REL::Relocation<func_t> func{ REL::ID(10202) };
 			return func(this, a_furniture);
 		}
 
-		[[deprecated]] void StartPipboyMode(bool a_forcePipboyModeCamera)
+		void StartPipboyMode(bool a_forcePipboyModeCamera)
 		{
 			using func_t = decltype(&PlayerCamera::StartPipboyMode);
 			REL::Relocation<func_t> func{ REL::ID(998069) };
 			return func(this, a_forcePipboyModeCamera);
 		}
 
-		[[deprecated]] void StopPipboyMode()
+		void StopPipboyMode()
 		{
 			using func_t = decltype(&PlayerCamera::StopPipboyMode);
 			REL::Relocation<func_t> func{ REL::ID(811954) };
