@@ -289,7 +289,7 @@ namespace RE
 		bool IsGodMode()
 		{
 			using func_t = decltype(&PlayerCharacter::IsGodMode);
-			REL::Relocation<func_t> func{ REL::ID(1032309) };
+			REL::Relocation<func_t> func{ REL::ID(2232986) };
 			return func(this);
 		}
 

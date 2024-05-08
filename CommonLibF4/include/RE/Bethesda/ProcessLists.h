@@ -72,7 +72,7 @@ namespace RE
 		[[nodiscard]] bool IsActorTargetingREFinPackage(const TESObjectREFR* a_actor, PTYPE a_type, bool a_onlyHigh)
 		{
 			using func_t = decltype(&ProcessLists::IsActorTargetingREFinPackage);
-			REL::Relocation<func_t> func{ REL::ID(559542) };
+			REL::Relocation<func_t> func{ REL::ID(2234033) };
 			return func(this, a_actor, a_type, a_onlyHigh);
 		}
 

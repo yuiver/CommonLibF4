@@ -200,21 +200,21 @@ namespace RE
 		[[nodiscard]] inline TESObjectREFR* FindNearestValidWorkshop(const TESObjectREFR& a_refr)
 		{
 			using func_t = decltype(&Workshop::FindNearestValidWorkshop);
-			REL::Relocation<func_t> func{ REL::ID(905705) };
+			REL::Relocation<func_t> func{ REL::ID(2194970) };
 			return func(a_refr);
 		}
 
 		[[nodiscard]] inline bool FreeBuild()
 		{
 			using func_t = decltype(&Workshop::FreeBuild);
-			REL::Relocation<func_t> func{ REL::ID(1583365) };
+			REL::Relocation<func_t> func{ REL::ID(2194924) };
 			return func();
 		}
 
 		[[nodiscard]] inline WorkshopMenuNode* GetSelectedWorkshopMenuNode(std::uint32_t a_row, std::uint32_t& a_column)
 		{
 			using func_t = decltype(&Workshop::GetSelectedWorkshopMenuNode);
-			REL::Relocation<func_t> func{ REL::ID(763948) };
+			REL::Relocation<func_t> func{ REL::ID(2195024) };
 			return func(a_row, a_column);
 		}
 

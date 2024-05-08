@@ -102,7 +102,7 @@ namespace RE
 		void ApplyMods(BSTSmartPointer<TBO_InstanceData>& a_dest, const BGSObjectInstanceExtra* a_extra) const
 		{
 			using func_t = decltype(&TESBoundObject::ApplyMods);
-			REL::Relocation<func_t> func{ REL::ID(113585) };
+			REL::Relocation<func_t> func{ REL::ID(2198325) };
 			return func(this, a_dest, a_extra);
 		}
 
@@ -655,7 +655,7 @@ namespace RE
 		[[nodiscard]] static bool GetReloadsWithAmmoRef(const TESAmmo* a_ammo)
 		{
 			using func_t = decltype(&TESAmmo::GetReloadsWithAmmoRef);
-			REL::Relocation<func_t> func{ REL::ID(1035622) };
+			REL::Relocation<func_t> func{ REL::ID(2197864) };
 			return func(a_ammo);
 		}
 
@@ -793,7 +793,7 @@ namespace RE
 		bool CollidesWithSmallTransparentLayer()
 		{
 			using func_t = decltype(&BGSProjectile::CollidesWithSmallTransparentLayer);
-			REL::Relocation<func_t> func{ REL::ID(1115694) };
+			REL::Relocation<func_t> func{ REL::ID(2197620) };
 			return func(this);
 		}
 

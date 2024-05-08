@@ -281,7 +281,7 @@ namespace RE
 		[[nodiscard]] TESContainer* GetContainer()
 		{
 			using func_t = decltype(&TESFurniture::GetContainer);
-			REL::Relocation<func_t> func{ REL::ID(1049933) };
+			REL::Relocation<func_t> func{ REL::ID(2198043) };
 			return func(this);
 		}
 
@@ -443,7 +443,7 @@ namespace RE
 		[[nodiscard]] uint32_t GetSex() noexcept
 		{
 			using func_t = decltype(&TESNPC::GetSex);
-			REL::Relocation<func_t> func{ REL::ID(1257181) };
+			REL::Relocation<func_t> func{ REL::ID(2207107) };
 			return func(this);
 		}
 
@@ -563,21 +563,21 @@ namespace RE
 		LOCK_LEVEL GetHackDifficultyLockLevel(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::GetHackDifficultyLockLevel);
-			REL::Relocation<func_t> func{ REL::ID(537273) };
+			REL::Relocation<func_t> func{ REL::ID(2197777) };
 			return func(this, a_refr);
 		}
 
 		static bool IsTerminalRefInUse(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::IsTerminalRefInUse);
-			REL::Relocation<func_t> func{ REL::ID(1093565) };
+			REL::Relocation<func_t> func{ REL::ID(2197779) };
 			return func(a_refr);
 		}
 
 		static void Show(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::Show);
-			REL::Relocation<func_t> func{ REL::ID(1069012) };
+			REL::Relocation<func_t> func{ REL::ID(2197776) };
 			return func(a_refr);
 		}
 
