@@ -1662,7 +1662,8 @@ namespace RE
 	struct TOPIC_INFO_DATA
 	{
 	public:
-		enum class TOPIC_INFO_FLAGS : std::uint32_t {
+		enum class TOPIC_INFO_FLAGS : std::uint32_t
+		{
 			kNone = 0,
 			kStartSceneOnEnd = 0x1,
 			kRandom = 0x2,
@@ -1689,7 +1690,7 @@ namespace RE
 
 		// members
 		stl::enumeration<TOPIC_INFO_FLAGS, std::uint16_t> flags;  // 0
-		std::uint16_t timeUntilReset;  // 2
+		std::uint16_t timeUntilReset;                             // 2
 	};
 	static_assert(sizeof(TOPIC_INFO_DATA) == 0x4);
 
