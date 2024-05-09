@@ -20,7 +20,7 @@
 namespace RE
 {
 	template <class F>
-	using BSTThreadScrapFunction = msvc::function<F>;
+	using BSTThreadScrapFunction = std::function<F>;
 
 	namespace BSScript
 	{

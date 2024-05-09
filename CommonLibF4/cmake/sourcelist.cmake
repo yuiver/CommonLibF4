@@ -340,7 +340,6 @@ set(SOURCES
 	include/RE/Scaleform/Render/Render_Types2D.h
 	include/RE/Scaleform/Render/Render_Viewport.h
 	include/RE/VTABLE_IDs.h
-	include/RE/msvc/functional.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
 	include/REL/Relocation.h

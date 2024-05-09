@@ -1255,48 +1255,23 @@ namespace RE::BSScript
 			(std::make_index_sequence<size>{});
 			return result;
 		}
+	}
 
-		class FunctionArgsBase
-		{
-		public:
-			FunctionArgsBase() = delete;
-			FunctionArgsBase(IVirtualMachine* a_vm) :
-				vm(a_vm)
-			{}
-
-			bool operator()(BSScrapArray<Variable>& a_args)
-			{
-				args->ReplaceArray(a_args, *vm);
+	template <class... Args>
+	bool IVirtualMachine::DispatchStaticCall(
+		const BSFixedString& a_objName,
+		const BSFixedString& a_funcName,
+		const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
+		Args... a_args)
+	{
+		return DispatchStaticCall(
+			a_objName,
+			a_funcName,
+			[&](BSScrapArray<Variable>& a_out) {
+				a_out = detail::PackVariables(a_args...);
 				return true;
-			}
-
-		protected:
-			ArrayWrapper<Variable>* args;  // 00
-			IVirtualMachine* vm;           // 08
-		};
-		static_assert(sizeof(FunctionArgsBase) == 0x10);
-
-		inline BSTThreadScrapFunction<bool(BSScrapArray<Variable>&)>
-			CreateThreadScrapFunction(FunctionArgsBase& a_args)
-		{
-			using func_t = decltype(&detail::CreateThreadScrapFunction);
-			REL::Relocation<func_t> func{ REL::ID(69733) };
-			return func(a_args);
-		}
-
-		template <class... Args>
-		class FunctionArgs :
-			public FunctionArgsBase
-		{
-		public:
-			FunctionArgs() = delete;
-			FunctionArgs(IVirtualMachine* a_vm, Args... a_args) :
-				FunctionArgsBase(a_vm)
-			{
-				auto scrap = PackVariables(a_args...);
-				args = new ArrayWrapper<Variable>(scrap, *vm);
-			}
-		};
+			},
+			a_callback);
 	}
 
 	template <class... Args>
@@ -1307,12 +1282,14 @@ namespace RE::BSScript
 		const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
 		Args... a_args)
 	{
-		auto args = detail::FunctionArgs{ this, a_args... };
 		return DispatchMethodCall(
 			a_objHandle,
 			a_objName,
 			a_funcName,
-			detail::CreateThreadScrapFunction(args),
+			[&](BSScrapArray<Variable>& a_out) {
+				a_out = detail::PackVariables(a_args...);
+				return true;
+			},
 			a_callback);
 	}
 }

@@ -215,21 +215,21 @@ namespace RE
 		using DerivationFunction_t = float(const ActorValueOwner* a_actor, const ActorValueInfo& a_info);
 
 		// members
-		msvc::function<ModifiedCallback_t> modifiedCallback;        // 048
-		BSStringT<char> formEditorID;                               // 068
-		ActorValueInfo* dependentActorValues[15];                   // 078
-		msvc::function<DerivationFunction_t> derivationFunction;    // 0F0
-		const char* enumNames[10];                                  // 110
-		BGSLocalizedString abbreviation;                            // 160
-		std::int32_t oldActorValue;                                 // 168
-		stl::enumeration<ActorValue::Flags, std::int32_t> flags;    // 16C
-		stl::enumeration<ActorValue::AVType, std::int32_t> avType;  // 170
-		std::uint32_t numDependentActorValues;                      // 174
-		std::uint32_t enumCount;                                    // 178
-		std::int32_t fullCacheIndex;                                // 17C
-		std::int32_t permanentCacheIndex;                           // 180
-		float defaultValue;                                         // 184
-		std::uint32_t sortIndex;                                    // 188
+		std::function<ModifiedCallback_t> modifiedCallback;         // 048
+		BSStringT<char> formEditorID;                               // 088
+		ActorValueInfo* dependentActorValues[15];                   // 098
+		std::function<DerivationFunction_t> derivationFunction;     // 110
+		const char* enumNames[10];                                  // 150
+		BGSLocalizedString abbreviation;                            // 1A0
+		std::int32_t oldActorValue;                                 // 1A8
+		stl::enumeration<ActorValue::Flags, std::int32_t> flags;    // 1AC
+		stl::enumeration<ActorValue::AVType, std::int32_t> avType;  // 1B0
+		std::uint32_t numDependentActorValues;                      // 1B4
+		std::uint32_t enumCount;                                    // 1B8
+		std::int32_t fullCacheIndex;                                // 1BC
+		std::int32_t permanentCacheIndex;                           // 1C0
+		float defaultValue;                                         // 1C4
+		std::uint32_t sortIndex;                                    // 1C8
 	};
-	static_assert(sizeof(ActorValueInfo) == 0x190);
+	static_assert(sizeof(ActorValueInfo) == 0x1D0);
 }

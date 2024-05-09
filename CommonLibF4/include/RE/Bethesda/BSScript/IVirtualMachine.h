@@ -29,7 +29,7 @@
 namespace RE
 {
 	template <class F>
-	using BSTThreadScrapFunction = msvc::function<F>;
+	using BSTThreadScrapFunction = std::function<F>;
 
 	namespace BSScript
 	{
@@ -139,6 +139,13 @@ namespace RE
 				F a_func,
 				std::optional<bool> a_taskletCallable = std::nullopt,
 				bool a_isLatent = false);
+
+			template <class... Args>
+			bool DispatchStaticCall(
+				const BSFixedString& a_objName,
+				const BSFixedString& a_funcName,
+				const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
+				Args... a_args);
 
 			template <class... Args>
 			bool DispatchMethodCall(
