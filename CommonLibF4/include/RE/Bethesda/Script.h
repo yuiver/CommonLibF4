@@ -318,7 +318,7 @@ namespace RE
 		static bool GetProcessScripts()
 		{
 			using func_t = decltype(&Script::GetProcessScripts);
-			REL::Relocation<func_t> func{ REL::ID(2192245) };
+			REL::Relocation<func_t> func{ REL::ID(2204310) };
 			return func();
 		}
 
