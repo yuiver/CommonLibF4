@@ -68,7 +68,7 @@ namespace RE
 
 		[[nodiscard]] static BSReadWriteLock& GetMenuMapRWLock()
 		{
-			REL::Relocation<BSReadWriteLock*> menuMapRWLock{ REL::ID(578487) };
+			REL::Relocation<BSReadWriteLock*> menuMapRWLock{ REL::ID(2707105) };
 			return *menuMapRWLock;
 		}
 

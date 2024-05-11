@@ -774,7 +774,7 @@ namespace RE
 		[[nodiscard]] ObjectRefHandle GetHandle()
 		{
 			using func_t = decltype(&TESObjectREFR::GetHandle);
-			REL::Relocation<func_t> func{ REL::ID(1573130) };
+			REL::Relocation<func_t> func{ REL::ID(2201196) };
 			return func(this);
 		}
 
