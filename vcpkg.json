@@ -8,7 +8,6 @@
     "fmt",
     "frozen",
     "nowide",
-    "robin-hood-hashing",
     "rsm-mmio",
     "spdlog",
     "srell",
