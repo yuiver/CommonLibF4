@@ -155,6 +155,8 @@ macro(add_project)
 				"/Zi"	# Debug Information Format
 
 				"/permissive-"	# Standards conformance
+			PUBLIC
+				"/wd4702" # unreachable code
 		)
 
 		target_link_options(
