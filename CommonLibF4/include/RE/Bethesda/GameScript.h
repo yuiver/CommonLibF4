@@ -13,6 +13,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/BSTimer.h"
+#include "RE/Bethesda/Events.h"
 #include "RE/Bethesda/MemoryManager.h"
 #include "RE/Bethesda/TESFile.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
@@ -102,7 +103,6 @@ namespace RE
 	struct TESFormIDRemapEvent;
 	struct TESFurnitureEvent;
 	struct TESGrabReleaseEvent;
-	struct TESInitScriptEvent;
 	struct TESLimbCrippleEvent;
 	struct TESLoadGameEvent;
 	struct TESLocationClearedEvent;

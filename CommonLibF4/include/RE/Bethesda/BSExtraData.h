@@ -350,6 +350,10 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::ExtraHealth };
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kHealth };
 
+		ExtraHealth();
+		ExtraHealth(float health);
+
+
 		// members
 		float health;  // 18
 	};
@@ -892,9 +896,15 @@ namespace RE
 			return func(this, a_form);
 		}
 
-		void SetHealthPercent(float a_healthPerc)
+		float GetHealthPerc()
 		{
-			using func_t = decltype(&ExtraDataList::SetHealthPercent);
+			using func_t = decltype(&ExtraDataList::GetHealthPerc);
+			REL::Relocation<func_t> func{ REL::ID(2190226) };
+		}
+
+		void SetHealthPerc(float a_healthPerc)
+		{
+			using func_t = decltype(&ExtraDataList::SetHealthPerc);
 			REL::Relocation<func_t> func{ REL::ID(2190124) };
 			return func(this, a_healthPerc);
 		}

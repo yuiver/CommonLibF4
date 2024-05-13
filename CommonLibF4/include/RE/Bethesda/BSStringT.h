@@ -94,6 +94,13 @@ namespace RE
 			return *this;
 		}
 
+		bool Set(const char* apString, std::uint64_t auiMaxLen)
+		{
+			using func_t = decltype(&BSStringT::Set);
+			REL::Relocation<func_t> func{ REL::ID(2189084) };
+			return func(this, apString, auiMaxLen);
+		}
+
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
 		[[nodiscard]] pointer data() noexcept { return _data; }
 

@@ -1762,6 +1762,14 @@ namespace RE
 			CC_SUCCESS_COUNT = 0x2,
 		};
 
+		// Returns nullptr if no parent.
+		TESTopicInfo* GetParentInfoGroup()
+		{
+			using func_t = decltype(&TESTopicInfo::GetParentInfoGroup);
+			REL::Relocation<func_t> func{ REL::ID(2208435) };
+			return func(this);
+		}
+
 		// members
 		TESTopic* parentTopic;          // 20
 		TESGlobal* resetGlobal;         // 28

@@ -660,14 +660,14 @@ namespace RE
 		[[nodiscard]] bool IsTakingHealthDamageFromActiveEffect()
 		{
 			using func_t = decltype(&MagicTarget::IsTakingHealthDamageFromActiveEffect);
-			REL::Relocation<func_t> func{ REL::ID(999442) };
+			REL::Relocation<func_t> func{ REL::ID(2226397) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool IsTakingRadDamageFromActiveEffect()
 		{
 			using func_t = decltype(&MagicTarget::IsTakingRadDamageFromActiveEffect);
-			REL::Relocation<func_t> func{ REL::ID(1079111) };
+			REL::Relocation<func_t> func{ REL::ID(2226398) };
 			return func(this);
 		}
 
@@ -967,7 +967,7 @@ namespace RE
 		void AddPerk(BGSPerk* a_perk, std::uint8_t a_rank = 0)
 		{
 			using func_t = decltype(&Actor::AddPerk);
-			REL::Relocation<func_t> func{ REL::ID(187096) };
+			REL::Relocation<func_t> func{ REL::ID(2230121) };
 			return func(this, a_perk, a_rank);
 		}
 
@@ -1114,28 +1114,28 @@ namespace RE
 		bool IsFollowing()
 		{
 			using func_t = decltype(&Actor::IsFollowing);
-			REL::Relocation<func_t> func{ REL::ID(629579) };
+			REL::Relocation<func_t> func{ REL::ID(2230013) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool IsJumping()
 		{
 			using func_t = decltype(&Actor::IsJumping);
-			REL::Relocation<func_t> func{ REL::ID(1041558) };
+			REL::Relocation<func_t> func{ REL::ID(2229640) };
 			return func(this);
 		}
 
 		bool IsPathValid()
 		{
 			using func_t = decltype(&Actor::IsPathValid);
-			REL::Relocation<func_t> func{ REL::ID(1522194) };
+			REL::Relocation<func_t> func{ REL::ID(2230279) };
 			return func(this);
 		}
 
 		bool IsPathing()
 		{
 			using func_t = decltype(&Actor::IsPathing);
-			REL::Relocation<func_t> func{ REL::ID(989661) };
+			REL::Relocation<func_t> func{ REL::ID(2234312) };
 			return func(this);
 		}
 
@@ -1184,7 +1184,7 @@ namespace RE
 		void RewardExperience(float a_amount, bool a_direct, TESObjectREFR* a_actionTarget, TESObjectREFR* a_killWeapon)
 		{
 			using func_t = decltype(&Actor::RewardExperience);
-			REL::Relocation<func_t> func{ REL::ID(262786) };
+			REL::Relocation<func_t> func{ REL::ID(2230428) };
 			return func(this, a_amount, a_direct, a_actionTarget, a_killWeapon);
 		}
 
