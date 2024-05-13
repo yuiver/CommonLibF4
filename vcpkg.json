@@ -5,7 +5,6 @@
     "args",
     "boost-stl-interfaces",
     "catch2",
-    "nowide",
     "rsm-mmio",
     "spdlog",
     "srell",

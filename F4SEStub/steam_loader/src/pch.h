@@ -22,7 +22,7 @@
 #define NOGDI
 #define NOKERNEL
 //#define NOUSER
-#define NONLS
+//#define NONLS
 #define NOMB
 #define NOMEMMGR
 #define NOMETAFILE
@@ -48,6 +48,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <span>
@@ -58,8 +59,6 @@
 #include <utility>
 
 #pragma warning(push)
-#include <nowide/convert.hpp>
-#include <nowide/iostream.hpp>
 #include <spdlog/spdlog.h>
 
 #include <Windows.h>

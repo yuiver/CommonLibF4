@@ -12,14 +12,12 @@ add_project(
 )
 
 find_package(args REQUIRED CONFIG)
-find_package(nowide REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 find_package(xbyak REQUIRED CONFIG)
 
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PRIVATE
-		nowide::nowide
 		spdlog::spdlog
 		taywee::args
 		Version.lib
