@@ -93,8 +93,4 @@
 #include <vector>
 #include <version>
 
-#pragma warning(push)
-#include <boost/stl_interfaces/iterator_interface.hpp>
-#pragma warning(pop)
-
 using namespace std::literals;
