@@ -179,7 +179,7 @@ namespace cli
 		{
 			bool operator()(const std::string& a_name, const std::string& a_value, DWORD& a_dst)
 			{
-				constexpr frozen::map<std::string_view, ::DWORD, 6> map = {
+				static const std::map<std::string_view, ::DWORD> map = {
 					std::make_pair("realtime"sv, REALTIME_PRIORITY_CLASS),
 					std::make_pair("high"sv, HIGH_PRIORITY_CLASS),
 					std::make_pair("above_normal"sv, ABOVE_NORMAL_PRIORITY_CLASS),
@@ -199,11 +199,7 @@ namespace cli
 					a_dst = it->second;
 					return true;
 				} else {
-					throw args::ParseError(
-						std::format(
-							"Argument \'{}\' received invalid value type \'{}\'",
-							a_name,
-							a_value));
+					throw args::ParseError(std::format("Argument \'{}\' received invalid value type \'{}\'", a_name, a_value));
 				}
 			}
 		};
