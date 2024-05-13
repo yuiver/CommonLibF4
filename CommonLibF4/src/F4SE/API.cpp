@@ -109,9 +109,7 @@ namespace F4SE
 			}
 		}
 
-		log::warn(
-			FMT_STRING("failed to get plugin info for {}"),
-			a_plugin);
+		log::warn("failed to get plugin info for {}", a_plugin);
 		return std::nullopt;
 	}
 

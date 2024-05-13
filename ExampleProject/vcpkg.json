@@ -6,7 +6,6 @@
   "license": "MIT",
   "dependencies": [
     "boost-stl-interfaces",
-    "fmt",
     "rsm-mmio",
     "spdlog"
   ]

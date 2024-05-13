@@ -1,7 +1,3 @@
-template <>
-struct fmt::formatter<args::ArgumentParser> : fmt::ostream_formatter
-{};
-
 namespace stl
 {
 	template <class EF>                                    //
@@ -80,12 +76,7 @@ namespace win32
 {
 	[[noreturn]] void error(std::string_view a_error)
 	{
-		throw std::runtime_error{
-			fmt::format(
-				"{:08X}: {}",
-				::GetLastError(),
-				a_error)
-		};
+		throw std::runtime_error{ std::format("{:08X}: {}", ::GetLastError(), a_error) };
 	}
 }
 
@@ -209,7 +200,7 @@ namespace cli
 					return true;
 				} else {
 					throw args::ParseError(
-						fmt::format(
+						std::format(
 							"Argument \'{}\' received invalid value type \'{}\'",
 							a_name,
 							a_value));
@@ -268,12 +259,12 @@ namespace cli
 			const auto args = detail::do_parse(a_args);
 			p.ParseArgs(args.begin(), args.end());
 		} catch (const args::Help&) {
-			spdlog::trace(p);
+			spdlog::trace(p.Help());
 			return std::nullopt;
 		} catch (const args::ParseError& a_err) {
 			spdlog::error(a_err.what());
 			spdlog::trace("");
-			spdlog::trace(p);
+			spdlog::trace(p.Help());
 			return std::nullopt;
 		}
 
@@ -853,7 +844,7 @@ void augment_environment(
 			return *a_options.altdll;
 		} else {
 			const auto version = win32::get_file_version(exe);
-			return fmt::format(
+			return std::format(
 				"{}_{}_{}_{}.dll",
 				(a_options.editor ?
 						"f4se_editor"s :
@@ -866,7 +857,7 @@ void augment_environment(
 
 	const auto error = [](std::string_view a_file) {
 		throw std::runtime_error(
-			fmt::format(
+			std::format(
 				"file does not exist: {}",
 				a_file));
 	};

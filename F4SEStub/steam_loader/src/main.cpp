@@ -88,12 +88,7 @@ namespace win32
 	{
 		[[noreturn]] void error(std::string_view a_error)
 		{
-			throw std::runtime_error{
-				fmt::format(
-					FMT_STRING("{:08X}: {}"),
-					::GetLastError(),
-					a_error)
-			};
+			throw std::runtime_error{ std::format("{:08X}: {}", ::GetLastError(), a_error) };
 		}
 	}
 
@@ -243,11 +238,9 @@ namespace util
 	}
 
 	template <class... Args>
-	[[noreturn]] void error(fmt::format_string<Args...> a_fmt, Args&&... a_args)
+	[[noreturn]] void error(std::format_string<Args...> a_fmt, Args&&... a_args)
 	{
-		throw std::runtime_error{
-			fmt::format(a_fmt, std::forward<Args>(a_args)...)
-		};
+		throw std::runtime_error{ std::format(a_fmt, std::forward<Args>(a_args)...) };
 	}
 
 	void safe_write(

@@ -58,7 +58,6 @@
 #include <utility>
 
 #pragma warning(push)
-#include <fmt/format.h>
 #include <nowide/convert.hpp>
 #include <nowide/iostream.hpp>
 #include <spdlog/spdlog.h>

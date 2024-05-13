@@ -41,7 +41,6 @@ static_assert(
 
 #pragma warning(push, 0)
 #include <boost/stl_interfaces/sequence_container_interface.hpp>
-#include <fmt/format.h>
 #include <mmio/mmio.hpp>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
@@ -576,7 +575,7 @@ namespace F4SE
 					fileview = fileview.substr(pos + off);
 				}
 
-				return fmt::format(FMT_STRING("{}({}): {}"), fileview, a_loc.line(), a_msg);
+				return std::format("{}({}): {}", fileview, a_loc.line(), a_msg);
 			}();
 
 			const auto caption = []() -> std::string {
