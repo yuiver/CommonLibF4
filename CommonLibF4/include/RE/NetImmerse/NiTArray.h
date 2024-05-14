@@ -55,7 +55,6 @@ namespace RE
 				return *_pos;
 			}
 
-
 			[[nodiscard]] pointer operator->() const noexcept
 			{
 				return std::pointer_traits<pointer>::pointer_to(operator*());
