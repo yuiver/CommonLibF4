@@ -2,6 +2,7 @@
 
 #include "RE/Bethesda/AITimeStamp.h"
 #include "RE/Bethesda/Actor.h"
+#include "RE/Bethesda/BGSCharacterTint.h"
 #include "RE/Bethesda/BSLock.h"
 #include "RE/Bethesda/BSPointerHandle.h"
 #include "RE/Bethesda/BSSoundHandle.h"
@@ -54,11 +55,6 @@ namespace RE
 	struct ItemChange;
 	struct PickRefUpdateEvent;
 	struct PositionPlayerEvent;
-
-	namespace BGSCharacterTint
-	{
-		class Entries;
-	}
 
 	namespace PerkValueEvents
 	{
@@ -282,7 +278,7 @@ namespace RE
 		DIFFICULTY_LEVEL GetDifficultyLevel()
 		{
 			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
-			REL::Relocation<func_t> func{ REL::ID(922962) };
+			REL::Relocation<func_t> func{ REL::ID(2233056) };
 			return func(this);
 		}
 
@@ -296,14 +292,14 @@ namespace RE
 		bool IsHolotapePlaying(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::IsHolotapePlaying);
-			REL::Relocation<func_t> func{ REL::ID(530826) };
+			REL::Relocation<func_t> func{ REL::ID(2233206) };
 			return func(this, a_holotape);
 		}
 
 		bool IsImmortal()
 		{
 			using func_t = decltype(&PlayerCharacter::IsImmortal);
-			REL::Relocation<func_t> func{ REL::ID(500346) };
+			REL::Relocation<func_t> func{ REL::ID(2232988) };
 			return func(this);
 		}
 
@@ -321,14 +317,14 @@ namespace RE
 		void PauseHolotape(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::PauseHolotape);
-			REL::Relocation<func_t> func{ REL::ID(1567456) };
+			REL::Relocation<func_t> func{ REL::ID(2233208) };
 			return func(this, a_holotape);
 		}
 
 		void PlayHolotape(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::PlayHolotape);
-			REL::Relocation<func_t> func{ REL::ID(1581042) };
+			REL::Relocation<func_t> func{ REL::ID(2233207) };
 			return func(this, a_holotape);
 		}
 
@@ -372,6 +368,20 @@ namespace RE
 			using func_t = decltype(&PlayerCharacter::ShowPipboyLight);
 			REL::Relocation<func_t> func{ REL::ID(1304102) };
 			return func(this, a_show, a_skipEffects);
+		}
+
+		void SetLastDialogueInput(uint32_t dialogueOption)
+		{
+			using func_t = decltype(&PlayerCharacter::SetLastDialogueInput);
+			REL::Relocation<func_t> func{ REL::ID(2233190) };
+			return func(this, dialogueOption);
+		}
+
+		void ClearPrison()
+		{
+			using func_t = decltype(&PlayerCharacter::ClearPrison);
+			REL::Relocation<func_t> func{ REL::ID(2233196) };
+			return func(this);
 		}
 
 		// members

@@ -182,6 +182,7 @@
 #include "RE/Bethesda/MemoryManager.h"
 #include "RE/Bethesda/MenuControls.h"
 #include "RE/Bethesda/MenuCursor.h"
+#include "RE/Bethesda/MenuTopicManager.h"
 #include "RE/Bethesda/MessageMenuManager.h"
 #include "RE/Bethesda/Movement.h"
 #include "RE/Bethesda/NavMesh.h"
