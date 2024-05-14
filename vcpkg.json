@@ -4,7 +4,6 @@
   "dependencies": [
     "args",
     "boost-stl-interfaces",
-    "catch2",
     "rsm-mmio",
     "spdlog",
     "srell",
