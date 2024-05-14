@@ -489,6 +489,29 @@ namespace RE
 		kMine = 11,
 	};
 
+	enum class WEAPON_FLAGS : std::uint32_t
+	{
+		
+		kIgnoresNormalResist = 0x0000002,
+		kMinorCrime = 0x0000004,
+		kChargingReload = 0x0000008,
+		kHideBackpack = 0x0000010,
+		kNonHostile = 0x0000040,
+		kNPCsUseAmmo = 0x0000200,
+		kRepeatableSingleFire = 0x0000800,
+		kHasScope = 0x0001000,
+		kHoldInputToPower = 0x0002000,
+		kAutomatic = 0x0004000,
+		kCantDrop = 0x0008000,
+		kChargingAttack = 0x0010000,
+		kNotUsedInNormalCombat = 0x0020000,
+		kBoundWeapon = 0x0040000,
+		kSecondaryWeapon = 0x0200000,
+		kBoltAction = 0x0400000,
+		kNoJamAfterReload = 0x0800000,
+		kDisableShells = 0x1000000,
+	};
+
 	class __declspec(novtable) TESObjectWEAP :
 		public TESBoundObject,             // 000
 		public TESFullName,                // 068
@@ -578,7 +601,7 @@ namespace RE
 			float criticalDamageMult;                                                     // 104
 			stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerValue;               // 108
 			std::uint32_t value;                                                          // 10C
-			std::uint32_t flags;                                                          // 110
+			stlenumeration<WEAPON_FLAGS, std::uint32_t> flags;							  // 110
 			stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;                       // 114
 			stl::enumeration<WEAPONHITBEHAVIOR, std::int32_t> hitBehavior;                // 118
 			ActorValueInfo* skill;                                                        // 120
