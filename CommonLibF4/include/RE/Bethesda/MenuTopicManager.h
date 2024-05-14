@@ -14,7 +14,7 @@ namespace RE
 		[[nodiscard]] static MenuTopicManager* GetSingleton()
 		{
 			REL::Relocation<MenuTopicManager**> singleton{ REL::ID(520890) };  // TODO: Update
-			return singleton*
+			return *singleton;
 		}
 
 		// members
@@ -38,11 +38,11 @@ namespace RE
 		bool showHelpButton;                                                        // 53
 		bool needEnterDialogueAction;                                               // 54
 		bool allowInput;                                                            // 55
-		bool 3rdPartyCameraReady;                                                   // 56
+		bool thirdPartyCameraReady;                                                 // 56
 		bool speechChallengeAlwaysSucceed;                                          // 57
 		bool speechChallengeAlwaysFail;                                             // 58
 		bool overSceneActor;                                                        // 59
 		bool forceCameraRotationStart;                                              // 5A
 	};
-	static_assert(sizeof(MenuTopicManager) = 0x60)
+	static_assert(sizeof(MenuTopicManager) == 0x60);
 }

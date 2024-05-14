@@ -150,9 +150,9 @@ namespace RE
 			virtual BGSCharacterTint::EntryType GetType();                                           // 28
 
 			// Members
-			BGSCharacterTint::Template::Entry* template;  // 08
-			const std::uint16_t idLink;                   // 10
-			std::uint8_t tingingValue;                    // 12
+			BGSCharacterTint::Template::Entry* templateEntry;  // 08
+			const std::uint16_t idLink;                        // 10
+			std::uint8_t tingingValue;                         // 12
 		};
 		static_assert(sizeof(Entry) == 0x18);
 

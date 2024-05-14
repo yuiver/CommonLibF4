@@ -668,7 +668,7 @@ namespace RE
 
 		bool IsOneHandedWeapon()
 		{
-			retunr(this->weaponData.type.underlying() <= 4 || this->weaponData.type.underlying() == 8);
+			return (this->weaponData.type.underlying() <= 4 || this->weaponData.type.underlying() == 8);
 		}
 
 		bool IsEmbeddedWeapon()
