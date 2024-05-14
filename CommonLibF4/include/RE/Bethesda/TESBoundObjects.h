@@ -491,7 +491,6 @@ namespace RE
 
 	enum class WEAPON_FLAGS : std::uint32_t
 	{
-		
 		kIgnoresNormalResist = 0x0000002,
 		kMinorCrime = 0x0000004,
 		kChargingReload = 0x0000008,
@@ -601,7 +600,7 @@ namespace RE
 			float criticalDamageMult;                                                     // 104
 			stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerValue;               // 108
 			std::uint32_t value;                                                          // 10C
-			stlenumeration<WEAPON_FLAGS, std::uint32_t> flags;							  // 110
+			stl::enumeration<WEAPON_FLAGS, std::uint32_t> flags;						  // 110
 			stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;                       // 114
 			stl::enumeration<WEAPONHITBEHAVIOR, std::int32_t> hitBehavior;                // 118
 			ActorValueInfo* skill;                                                        // 120
