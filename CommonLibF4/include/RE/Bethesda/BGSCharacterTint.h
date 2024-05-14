@@ -101,16 +101,16 @@ namespace RE
 
 				struct ColorValue
 				{
-					BGSColorForm* Color;				// 00
+					BGSColorForm* color;				// 00
 					float value;						// 08
-					BGSCharacterTint::BlendOp BlendOp;	// 0C
-					std::uint16_t SwatchID;				// 01
+					BGSCharacterTint::BlendOp blendOp;	// 0C
+					std::uint16_t swatchID;				// 01
 				};
 				static_assert(sizeof(ColorValue) == 0x18);
 
 				// Members
-				BSFixedString MaskTextureName;
-				std::uint32_t DefaultIndex;
+				BSFixedString maskTextureName;
+				std::uint32_t defaultIndex;
 				BSTArray<BGSCharacterTint::Template::Palette::ColorValue> colorValues;
 			};
 			static_assert(sizeof(Palette) == 0x48);
@@ -150,9 +150,9 @@ namespace RE
 			virtual BGSCharacterTint::EntryType GetType(); // 28
 
 			// Members
-			BGSCharacterTint::Template::Entry* Template; // 08
-			const std::uint16_t IDLink;	// 10
-			std::uint8_t TingingValue; // 12
+			BGSCharacterTint::Template::Entry* template; // 08
+			const std::uint16_t idLink;	// 10
+			std::uint8_t tingingValue; // 12
 		};
 		static_assert(sizeof(Entry) == 0x18);
 
@@ -173,8 +173,8 @@ namespace RE
 			static constexpr auto VTABLE{ VTABLE::BGSCharacterTint__PaletteEntry };
 
 			// members
-			std::uint32_t uiTintingColor; // 18
-			std::uint16_t usSwatchID;	  // 1C
+			std::uint32_t tintingColor; // 18
+			std::uint16_t swatchID;	  // 1C
 		};
 		static_assert(sizeof(PaletteEntry) == 0x20);
 
