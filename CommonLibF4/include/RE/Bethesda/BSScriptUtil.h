@@ -60,12 +60,8 @@ namespace RE::BSScript
 			if (!_proxy) {
 				const auto game = GameVM::GetSingleton();
 				const auto vm = game ? game->GetVM() : nullptr;
-				if (!vm ||
-					!vm->CreateStruct(name, _proxy) ||
-					!_proxy) {
-					F4SE::log::error(
-						FMT_STRING("failed to create structure of type \"{}\""),
-						name);
+				if (!vm || !vm->CreateStruct(name, _proxy) || !_proxy) {
+					F4SE::log::error("failed to create structure of type \"{}\"", name);
 					assert(false);
 				}
 			}
@@ -84,10 +80,7 @@ namespace RE::BSScript
 			}
 
 			if (!a_quiet) {
-				F4SE::log::warn(
-					FMT_STRING("failed to find var \"{}\" on structure \"{}\""),
-					a_name,
-					name);
+				F4SE::log::warn("failed to find var \"{}\" on structure \"{}\"", a_name, name);
 			}
 
 			return std::nullopt;
@@ -106,10 +99,7 @@ namespace RE::BSScript
 				}
 			}
 
-			F4SE::log::warn(
-				FMT_STRING("failed to pack var \"{}\" on structure \"{}\""),
-				a_name,
-				name);
+			F4SE::log::warn("failed to pack var \"{}\" on structure \"{}\"", a_name, name);
 			return false;
 		}
 
@@ -1229,10 +1219,7 @@ namespace RE::BSScript
 				std::move(a_func),
 				a_isLatent));
 		if (!success) {
-			F4SE::log::warn(
-				FMT_STRING("failed to register method \"{}\" on object \"{}\""),
-				a_function,
-				a_object);
+			F4SE::log::warn("failed to register method \"{}\" on object \"{}\"", a_function, a_object);
 		}
 
 		if (success && a_taskletCallable) {

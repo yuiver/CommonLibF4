@@ -14,7 +14,6 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 endif()
 
 find_package(Boost MODULE REQUIRED)
-find_package(fmt REQUIRED CONFIG)
 find_package(mmio REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 
@@ -73,6 +72,7 @@ if (MSVC)
 			/wd4625 # 'derived class' : copy constructor was implicitly defined as deleted because a base class copy constructor is inaccessible or deleted
 			/wd4626 # 'derived class' : assignment operator was implicitly defined as deleted because a base class assignment operator is inaccessible or deleted
 			/wd4686 # 'user-defined type' : possible change in behavior, change in UDT return calling convention
+			/wd4702 # unreachable code
 			/wd4710 # 'function' : function not inlined
 			/wd4711 # function 'function' selected for inline expansion
 			/wd4820 # 'bytes' bytes padding added after construct 'member_name'
@@ -97,7 +97,6 @@ target_link_libraries(
 	PUBLIC
 		bcrypt.lib
 		Boost::headers
-		fmt::fmt
 		mmio::mmio
 		spdlog::spdlog
 		Version.lib

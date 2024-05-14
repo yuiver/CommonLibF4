@@ -315,7 +315,7 @@ void dump_nirtti()
 		2704769,  // bhkWorld
 		2704838,  // bhkWorldM
 	};
-	robin_hood::unordered_flat_set<std::uintptr_t> results;
+	std::unordered_set<std::uintptr_t> results;
 	results.reserve(seeds.size());
 	for (const auto& seed : seeds) {
 		results.insert(REL::ID(seed).address());

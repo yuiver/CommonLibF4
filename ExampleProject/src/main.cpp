@@ -8,7 +8,7 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a
 		return false;
 	}
 
-	*path /= fmt::format(FMT_STRING("{}.log"), Version::PROJECT);
+	*path /= std::format("{}.log", Version::PROJECT);
 	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 #endif
 

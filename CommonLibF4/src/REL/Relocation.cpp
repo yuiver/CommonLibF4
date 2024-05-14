@@ -124,7 +124,7 @@ namespace REL
 			std::string result;
 			result.reserve(buffer.size() * 2);
 			for (const auto byte : buffer) {
-				result += fmt::format("{:02X}", byte);
+				result += std::format("{:02X}", byte);
 			}
 
 			return { std::move(result) };

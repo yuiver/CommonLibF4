@@ -52,6 +52,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <format>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <numeric>
@@ -66,11 +68,6 @@
 
 #pragma warning(push, 0)
 #include <args.hxx>
-#include <fmt/format.h>
-#include <fmt/ostream.h>
-#include <frozen/map.h>
-#include <nowide/convert.hpp>
-#include <nowide/iostream.hpp>
 #include <spdlog/spdlog.h>
 
 #include <Windows.h>

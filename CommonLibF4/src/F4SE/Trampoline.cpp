@@ -81,7 +81,7 @@ namespace F4SE
 		::MEMORY_BASIC_INFORMATION mbi;
 		do {
 			if (!::VirtualQuery(reinterpret_cast<void*>(min), std::addressof(mbi), sizeof(mbi))) {
-				log::error(FMT_STRING("VirtualQuery failed with code: 0x{:08X}"), ::GetLastError());
+				log::error("VirtualQuery failed with code: 0x{:08X}", ::GetLastError());
 				return nullptr;
 			}
 
@@ -97,7 +97,7 @@ namespace F4SE
 					if (mem) {
 						return mem;
 					} else {
-						log::warn(FMT_STRING("VirtualAlloc failed with code: 0x{:08X}"), ::GetLastError());
+						log::warn("VirtualAlloc failed with code: 0x{:08X}", ::GetLastError());
 					}
 				}
 			}
@@ -108,14 +108,7 @@ namespace F4SE
 
 	void Trampoline::log_stats() const
 	{
-		auto pct = (static_cast<double>(_size) /
-					   static_cast<double>(_capacity)) *
-		           100.0;
-		log::debug(
-			FMT_STRING("{} => {}B / {}B ({:05.2f}%)"),
-			_name,
-			_size,
-			_capacity,
-			pct);
+		auto pct = (static_cast<double>(_size) / static_cast<double>(_capacity)) * 100.0;
+		log::debug("{} => {}B / {}B ({:05.2f}%)", _name, _size, _capacity, pct);
 	}
 }

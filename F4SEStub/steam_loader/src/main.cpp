@@ -67,18 +67,62 @@ namespace stl
 
 namespace unicode
 {
-	using nowide::cerr;
-	using nowide::narrow;
-	using nowide::widen;
+	[[nodiscard]] std::string narrow(const wchar_t* a_src, std::size_t a_srcLength)
+	{
+		const auto cvt = [&](char* a_dst, std::size_t a_dstLength) {
+			return ::WideCharToMultiByte(
+				CP_UTF8,
+				0,
+				a_src,
+				static_cast<int>(a_srcLength),
+				a_dst,
+				static_cast<int>(a_dstLength),
+				nullptr,
+				nullptr);
+		};
+
+		const auto len = cvt(nullptr, 0);
+		if (len == 0)
+			return "";
+
+		std::string out(len, '\0');
+		if (cvt(out.data(), out.length()) == 0)
+			return "";
+
+		return out;
+	}
 
 	[[nodiscard]] std::string narrow(std::wstring_view a_str)
 	{
-		return nowide::narrow(a_str.data(), a_str.size());
+		return narrow(a_str.data(), a_str.length());
+	}
+
+	[[nodiscard]] std::wstring widen(const char* a_src, std::size_t a_srcLength)
+	{
+		const auto cvt = [&](wchar_t* a_dst, std::size_t a_dstLength) {
+			return ::MultiByteToWideChar(
+				CP_UTF8,
+				0,
+				a_src,
+				static_cast<int>(a_srcLength),
+				a_dst,
+				static_cast<int>(a_dstLength));
+		};
+
+		const auto len = cvt(nullptr, 0);
+		if (len == 0)
+			return L"";
+
+		std::wstring out(len, '\0');
+		if (cvt(out.data(), out.length()) == 0)
+			return L"";
+
+		return out;
 	}
 
 	[[nodiscard]] std::wstring widen(std::string_view a_str)
 	{
-		return nowide::widen(a_str.data(), a_str.size());
+		return widen(a_str.data(), a_str.length());
 	}
 }
 
@@ -88,12 +132,7 @@ namespace win32
 	{
 		[[noreturn]] void error(std::string_view a_error)
 		{
-			throw std::runtime_error{
-				fmt::format(
-					FMT_STRING("{:08X}: {}"),
-					::GetLastError(),
-					a_error)
-			};
+			throw std::runtime_error{ std::format("{:08X}: {}", ::GetLastError(), a_error) };
 		}
 	}
 
@@ -243,11 +282,9 @@ namespace util
 	}
 
 	template <class... Args>
-	[[noreturn]] void error(fmt::format_string<Args...> a_fmt, Args&&... a_args)
+	[[noreturn]] void error(std::format_string<Args...> a_fmt, Args&&... a_args)
 	{
-		throw std::runtime_error{
-			fmt::format(a_fmt, std::forward<Args>(a_args)...)
-		};
+		throw std::runtime_error{ std::format(a_fmt, std::forward<Args>(a_args)...) };
 	}
 
 	void safe_write(
@@ -371,7 +408,7 @@ void do_initialize()
 int safe_initialize()
 {
 	const auto cerr = [](std::string_view a_err) {
-		unicode::cerr
+		std::cerr
 			<< "failed to initialize log with error:\n"
 			<< "\t" << a_err << '\n';
 	};

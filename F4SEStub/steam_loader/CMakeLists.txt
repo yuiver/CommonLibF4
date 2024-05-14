@@ -12,15 +12,11 @@ add_project(
 		"src/PCH.h"
 )
 
-find_package(fmt REQUIRED CONFIG)
-find_package(nowide REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 
 target_link_libraries(
 	${PROJECT_NAME}
 	PRIVATE
-		fmt::fmt
-		nowide::nowide
 		spdlog::spdlog
 )
 

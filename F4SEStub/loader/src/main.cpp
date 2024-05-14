@@ -1,7 +1,3 @@
-template <>
-struct fmt::formatter<args::ArgumentParser> : fmt::ostream_formatter
-{};
-
 namespace stl
 {
 	template <class EF>                                    //
@@ -80,29 +76,68 @@ namespace win32
 {
 	[[noreturn]] void error(std::string_view a_error)
 	{
-		throw std::runtime_error{
-			fmt::format(
-				"{:08X}: {}",
-				::GetLastError(),
-				a_error)
-		};
+		throw std::runtime_error{ std::format("{:08X}: {}", ::GetLastError(), a_error) };
 	}
 }
 
 namespace unicode
 {
-	using nowide::cerr;
-	using nowide::narrow;
-	using nowide::widen;
+	[[nodiscard]] std::string narrow(const wchar_t* a_src, std::size_t a_srcLength)
+	{
+		const auto cvt = [&](char* a_dst, std::size_t a_dstLength) {
+			return ::WideCharToMultiByte(
+				CP_UTF8,
+				0,
+				a_src,
+				static_cast<int>(a_srcLength),
+				a_dst,
+				static_cast<int>(a_dstLength),
+				nullptr,
+				nullptr);
+		};
+
+		const auto len = cvt(nullptr, 0);
+		if (len == 0)
+			return "";
+
+		std::string out(len, '\0');
+		if (cvt(out.data(), out.length()) == 0)
+			return "";
+
+		return out;
+	}
 
 	[[nodiscard]] std::string narrow(std::wstring_view a_str)
 	{
-		return nowide::narrow(a_str.data(), a_str.size());
+		return narrow(a_str.data(), a_str.length());
+	}
+
+	[[nodiscard]] std::wstring widen(const char* a_src, std::size_t a_srcLength)
+	{
+		const auto cvt = [&](wchar_t* a_dst, std::size_t a_dstLength) {
+			return ::MultiByteToWideChar(
+				CP_UTF8,
+				0,
+				a_src,
+				static_cast<int>(a_srcLength),
+				a_dst,
+				static_cast<int>(a_dstLength));
+		};
+
+		const auto len = cvt(nullptr, 0);
+		if (len == 0)
+			return L"";
+
+		std::wstring out(len, '\0');
+		if (cvt(out.data(), out.length()) == 0)
+			return L"";
+
+		return out;
 	}
 
 	[[nodiscard]] std::wstring widen(std::string_view a_str)
 	{
-		return nowide::widen(a_str.data(), a_str.size());
+		return widen(a_str.data(), a_str.length());
 	}
 }
 
@@ -188,7 +223,7 @@ namespace cli
 		{
 			bool operator()(const std::string& a_name, const std::string& a_value, DWORD& a_dst)
 			{
-				constexpr frozen::map<std::string_view, ::DWORD, 6> map = {
+				static const std::map<std::string_view, ::DWORD> map = {
 					std::make_pair("realtime"sv, REALTIME_PRIORITY_CLASS),
 					std::make_pair("high"sv, HIGH_PRIORITY_CLASS),
 					std::make_pair("above_normal"sv, ABOVE_NORMAL_PRIORITY_CLASS),
@@ -208,11 +243,7 @@ namespace cli
 					a_dst = it->second;
 					return true;
 				} else {
-					throw args::ParseError(
-						fmt::format(
-							"Argument \'{}\' received invalid value type \'{}\'",
-							a_name,
-							a_value));
+					throw args::ParseError(std::format("Argument \'{}\' received invalid value type \'{}\'", a_name, a_value));
 				}
 			}
 		};
@@ -268,12 +299,12 @@ namespace cli
 			const auto args = detail::do_parse(a_args);
 			p.ParseArgs(args.begin(), args.end());
 		} catch (const args::Help&) {
-			spdlog::trace(p);
+			spdlog::trace(p.Help());
 			return std::nullopt;
 		} catch (const args::ParseError& a_err) {
 			spdlog::error(a_err.what());
 			spdlog::trace("");
-			spdlog::trace(p);
+			spdlog::trace(p.Help());
 			return std::nullopt;
 		}
 
@@ -853,7 +884,7 @@ void augment_environment(
 			return *a_options.altdll;
 		} else {
 			const auto version = win32::get_file_version(exe);
-			return fmt::format(
+			return std::format(
 				"{}_{}_{}_{}.dll",
 				(a_options.editor ?
 						"f4se_editor"s :
@@ -866,7 +897,7 @@ void augment_environment(
 
 	const auto error = [](std::string_view a_file) {
 		throw std::runtime_error(
-			fmt::format(
+			std::format(
 				"file does not exist: {}",
 				a_file));
 	};
@@ -988,7 +1019,7 @@ void do_main(std::span<const wchar_t*> a_args)
 int wmain(int a_argc, wchar_t* a_argv[])
 {
 	const auto cerr = [](std::string_view a_err) {
-		unicode::cerr
+		std::cerr
 			<< "failed to initialize log with error:\n"
 			<< "\t" << a_err << '\n';
 	};
