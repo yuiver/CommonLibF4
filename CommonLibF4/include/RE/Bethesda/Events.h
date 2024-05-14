@@ -495,7 +495,7 @@ namespace RE
 	static_assert(sizeof(HUDPerkVaultBoyData) == 0x18);
 
 	class HUDPerkVaultBoySwfDisplayEvent :
-		public BSTValueEvent<HUDPerkVaultBoyData> // 00
+		public BSTValueEvent<HUDPerkVaultBoyData>  // 00
 	{
 	public:
 	};
@@ -817,7 +817,7 @@ namespace RE
 	{
 	public:
 		// Members
-		TESObjectREFR* hObjectInitialized; // 00
+		TESObjectREFR* hObjectInitialized;  // 00
 	};
 	static_assert(sizeof(TESInitScriptEvent) == 0x08);
 
@@ -826,7 +826,7 @@ namespace RE
 	public:
 		[[nodiscard]] static TESInitScriptEventSource* GetSingleton()
 		{
-			REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(444105) }; // Needs updating.
+			REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(444105) };  // Needs updating.
 			return singleton.get();
 		}
 	};

@@ -78,17 +78,17 @@ namespace RE
 				virtual ~Entry();  // 00
 
 				// add
-				virtual float GetDefaultValue() { return 0.0F; }  // 01
-				virtual void InitItem(TESForm* a_owner);          // 02
-				virtual void CopyData(BGSCharacterTint::Template::Entry* a_copy);             // 03
-				virtual void LoadImpl(TESFile* a_file) = 0;       // 04
+				virtual float GetDefaultValue() { return 0.0F; }                   // 01
+				virtual void InitItem(TESForm* a_owner);                           // 02
+				virtual void CopyData(BGSCharacterTint::Template::Entry* a_copy);  // 03
+				virtual void LoadImpl(TESFile* a_file) = 0;                        // 04
 
 				// members
-				BGSLocalizedString name;                         // 08
-				TESCondition chargenConditions;                  // 10
+				BGSLocalizedString name;                                           // 08
+				TESCondition chargenConditions;                                    // 10
 				stl::enumeration<BGSCharacterTint::EntrySlot, std::int32_t> slot;  // 18
-				const std::uint16_t uniqueID{ 0 };               // 1C
-				std::int8_t flags;                               // 1E
+				const std::uint16_t uniqueID{ 0 };                                 // 1C
+				std::int8_t flags;                                                 // 1E
 			};
 			static_assert(sizeof(Entry) == 0x20);
 
@@ -101,10 +101,10 @@ namespace RE
 
 				struct ColorValue
 				{
-					BGSColorForm* color;				// 00
-					float value;						// 08
-					BGSCharacterTint::BlendOp blendOp;	// 0C
-					std::uint16_t swatchID;				// 01
+					BGSColorForm* color;                // 00
+					float value;                        // 08
+					BGSCharacterTint::BlendOp blendOp;  // 0C
+					std::uint16_t swatchID;             // 01
 				};
 				static_assert(sizeof(ColorValue) == 0x18);
 
@@ -119,10 +119,10 @@ namespace RE
 			{
 			public:
 				// members
-				BGSLocalizedString name;     // 00
-				std::uint32_t id;            // 08
-				std::uint32_t chargenIndex;  // 0C
-				BSTArray<BGSCharacterTint::Template::Entry*> entries;    // 10
+				BGSLocalizedString name;                               // 00
+				std::uint32_t id;                                      // 08
+				std::uint32_t chargenIndex;                            // 0C
+				BSTArray<BGSCharacterTint::Template::Entry*> entries;  // 10
 			};
 			static_assert(sizeof(Group) == 0x28);
 
@@ -141,18 +141,18 @@ namespace RE
 			static constexpr auto RTTI{ RTTI::BGSCharacterTint__Entry };
 			static constexpr auto VTABLE{ VTABLE::BGSCharacterTint__Entry };
 
-			virtual ~Entry(); // 00
+			virtual ~Entry();  // 00
 
-			virtual bool GetIsIdentical(const Entry* entry); // 08
-			virtual bool CopyData(const Entry entry); // 10
-			virtual bool SetFromTemplateDefault(const BGSCharacterTint::Template::Entry* entry); // 18
-			virtual bool GetMatchesTemplateDefault(const BGSCharacterTint::Template::Entry* entry); // 20
-			virtual BGSCharacterTint::EntryType GetType(); // 28
+			virtual bool GetIsIdentical(const Entry* entry);                                         // 08
+			virtual bool CopyData(const Entry entry);                                                // 10
+			virtual bool SetFromTemplateDefault(const BGSCharacterTint::Template::Entry* entry);     // 18
+			virtual bool GetMatchesTemplateDefault(const BGSCharacterTint::Template::Entry* entry);  // 20
+			virtual BGSCharacterTint::EntryType GetType();                                           // 28
 
 			// Members
-			BGSCharacterTint::Template::Entry* template; // 08
-			const std::uint16_t idLink;	// 10
-			std::uint8_t tingingValue; // 12
+			BGSCharacterTint::Template::Entry* template;  // 08
+			const std::uint16_t idLink;                   // 10
+			std::uint8_t tingingValue;                    // 12
 		};
 		static_assert(sizeof(Entry) == 0x18);
 
@@ -173,8 +173,8 @@ namespace RE
 			static constexpr auto VTABLE{ VTABLE::BGSCharacterTint__PaletteEntry };
 
 			// members
-			std::uint32_t tintingColor; // 18
-			std::uint16_t swatchID;	  // 1C
+			std::uint32_t tintingColor;  // 18
+			std::uint16_t swatchID;      // 1C
 		};
 		static_assert(sizeof(PaletteEntry) == 0x20);
 
@@ -190,7 +190,7 @@ namespace RE
 		class Entries
 		{
 		public:
-			BSTArray<BGSCharacterTint::Entry* > entriesA;
+			BSTArray<BGSCharacterTint::Entry*> entriesA;
 		};
 		static_assert(sizeof(Entries) == 0x18);
 	}

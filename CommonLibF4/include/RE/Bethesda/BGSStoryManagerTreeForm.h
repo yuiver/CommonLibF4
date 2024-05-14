@@ -85,7 +85,7 @@ namespace RE
 		void ParseString(BSStringT<char>& inOutText, const TESQuest* quest, std::uint32_t instanceID)
 		{
 			using func_t = decltype(&BGSQuestInstanceText::ParseString);
-			REL::Relocation<func_t> func{ REL::ID(141681) }; // Update
+			REL::Relocation<func_t> func{ REL::ID(141681) };  // Update
 			return func(this, inOutText, quest, instanceID);
 		}
 
@@ -104,11 +104,11 @@ namespace RE
 		static_assert(sizeof(GlobabValueData) == 0x10);
 
 		// Members
-		std::uint32_t ID; // 00
-		BSTArray<BGSQuestInstanceText::StringData> StringData; // 08
-		BSTArray<BGSQuestInstanceText::GlobabValueData> ValueData; // 20
-		std::uint16_t JournalStage; // 38
-		std::uint16_t JournalStageItem; // 3A
+		std::uint32_t ID;                                           // 00
+		BSTArray<BGSQuestInstanceText::StringData> StringData;      // 08
+		BSTArray<BGSQuestInstanceText::GlobabValueData> ValueData;  // 20
+		std::uint16_t JournalStage;                                 // 38
+		std::uint16_t JournalStageItem;                             // 3A
 	};
 	static_assert(sizeof(BGSQuestInstanceText) == 0x40);
 
@@ -138,7 +138,6 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(2207810) };
 			return func(this, a_result, a_aiAliasID);
 		}
-
 
 		// members
 		BSTArray<BGSQuestInstanceText*> instanceData;                                                  // 038

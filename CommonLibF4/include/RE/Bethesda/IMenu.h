@@ -1529,7 +1529,7 @@ namespace RE
 	static_assert(sizeof(ContainerMenu) == 0x440);
 
 	class __declspec(novtable) DialogueMenu :
-		public GameMenuBase // 00
+		public GameMenuBase  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::DialogueMenu };

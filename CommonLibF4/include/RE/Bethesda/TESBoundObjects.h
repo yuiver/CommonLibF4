@@ -600,7 +600,7 @@ namespace RE
 			float criticalDamageMult;                                                     // 104
 			stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerValue;               // 108
 			std::uint32_t value;                                                          // 10C
-			stl::enumeration<WEAPON_FLAGS, std::uint32_t> flags;						  // 110
+			stl::enumeration<WEAPON_FLAGS, std::uint32_t> flags;                          // 110
 			stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;                       // 114
 			stl::enumeration<WEAPONHITBEHAVIOR, std::int32_t> hitBehavior;                // 118
 			ActorValueInfo* skill;                                                        // 120
@@ -668,7 +668,7 @@ namespace RE
 
 		bool IsOneHandedWeapon()
 		{
-			retunr (this->weaponData.type.underlying() <= 4 || this->weaponData.type.underlying() == 8);
+			retunr(this->weaponData.type.underlying() <= 4 || this->weaponData.type.underlying() == 8);
 		}
 
 		bool IsEmbeddedWeapon()

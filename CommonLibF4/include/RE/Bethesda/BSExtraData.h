@@ -353,7 +353,6 @@ namespace RE
 		ExtraHealth();
 		ExtraHealth(float health);
 
-
 		// members
 		float health;  // 18
 	};
