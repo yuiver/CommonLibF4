@@ -614,6 +614,46 @@ namespace RE
 			return func(a_speed);
 		}
 
+		bool IsThrownWeapon()
+		{
+			return (this->weaponData.type.underlying() - 10) <= 1u;
+		}
+
+		bool IsGunWeapon()
+		{
+			return ((this->weaponData.type.underlying() - 7) & 0xFD) == 0;
+		}
+
+		bool IsMeleeWeapon()
+		{
+			return (this->weaponData.type.underlying() + 1) <= 7;
+		}
+
+		bool IsRangedWeapon()
+		{
+			return (this->weaponData.type.underlying() - 7) >= 2;
+		}
+
+		bool IsBoundWeapon()
+		{
+			return (this->weaponData.type.underlying() >> 13) & 1;
+		}
+
+		bool IsTwoHandedWeapon()
+		{
+			return (this->weaponData.type.underlying() - 5) <= 2;
+		}
+
+		bool IsOneHandedWeapon()
+		{
+			retunr (this->weaponData.type.underlying() <= 4 || this->weaponData.type.underlying() == 8);
+		}
+
+		bool IsEmbeddedWeapon()
+		{
+			return (this->weaponData.flags.underlying() >> 19) & 1;
+		}
+
 		// members
 		TESObjectWEAP::Data weaponData;              // 198
 		BGSModelMaterialSwap* firstPersonModel;      // 2D0
