@@ -491,24 +491,29 @@ namespace RE
 
 	enum class WEAPON_FLAGS : std::uint32_t
 	{
-		kIgnoresNormalResist = 0x0000002,
-		kMinorCrime = 0x0000004,
-		kChargingReload = 0x0000008,
-		kHideBackpack = 0x0000010,
-		kNonHostile = 0x0000040,
-		kNPCsUseAmmo = 0x0000200,
-		kRepeatableSingleFire = 0x0000800,
-		kHasScope = 0x0001000,
-		kHoldInputToPower = 0x0002000,
-		kAutomatic = 0x0004000,
-		kCantDrop = 0x0008000,
-		kChargingAttack = 0x0010000,
-		kNotUsedInNormalCombat = 0x0020000,
-		kBoundWeapon = 0x0040000,
-		kSecondaryWeapon = 0x0200000,
-		kBoltAction = 0x0400000,
-		kNoJamAfterReload = 0x0800000,
-		kDisableShells = 0x1000000,
+		kPlayerOnly = 0x00000001,
+		kNPCsUseAmmo = 0x00000002,
+		kNoJamAfterReload = 0x00000004,
+		kChargingReload = 0x00000008,
+		kMinorCrime = 0x00000010,
+		kFixedRange = 0x00000020,
+		kNotUsedInNormalCombat = 0x00000040,
+		kCritEffectOnDeath = 0x00000100,
+		kChargingAttack = 0x00000200,
+		kHoldInputToPower = 0x00000800,
+		kNonHostile = 0x00001000,
+		kBoundWeapon = 0x00002000,
+		kIgnoresNormalWeaponResistance = 0x00004000,
+		kAutomatic = 0x00008000,
+		kRepeatableSingleFire = 0x00010000,
+		kCantDrop = 0x00020000,
+		kHideBackpack = 0x00040000,
+		kEmbeddedWeapon = 0x00080000,
+		kNotPlayable = 0x00100000,
+		kHasScope = 0x00200000,
+		kBoltAction = 0x00400000,
+		kSecondaryWeapon = 0x00800000,
+		kDisableShells = 0x01000000,
 	};
 
 	class __declspec(novtable) TESObjectWEAP :
@@ -636,44 +641,66 @@ namespace RE
 			return func(a_speed);
 		}
 
-		bool IsThrownWeapon()
+		bool IsMeleeWeapon() const
 		{
-			return (this->weaponData.type.underlying() - 10) <= 1u;
+			return weaponData.type.any(
+				WEAPON_TYPE::kOneHandSword,
+				WEAPON_TYPE::kOneHandDagger,
+				WEAPON_TYPE::kOneHandAxe,
+				WEAPON_TYPE::kOneHandMace,
+				WEAPON_TYPE::kTwoHandSword,
+				WEAPON_TYPE::kTwoHandAxe);
 		}
 
-		bool IsGunWeapon()
+		bool IsGunWeapon() const
 		{
-			return ((this->weaponData.type.underlying() - 7) & 0xFD) == 0;
+			return weaponData.type.any(
+				WEAPON_TYPE::kGun);
 		}
 
-		bool IsMeleeWeapon()
+		bool IsThrownWeapon() const
 		{
-			return (this->weaponData.type.underlying() + 1) <= 7;
+			return weaponData.type.any(
+				WEAPON_TYPE::kGrenade,
+				WEAPON_TYPE::kMine);
 		}
 
-		bool IsRangedWeapon()
+		bool IsOneHandedWeapon() const
 		{
-			return (this->weaponData.type.underlying() - 7) >= 2;
+			return weaponData.type.any(
+				WEAPON_TYPE::kOneHandSword,
+				WEAPON_TYPE::kOneHandDagger,
+				WEAPON_TYPE::kOneHandAxe,
+				WEAPON_TYPE::kOneHandMace);
 		}
 
-		bool IsBoundWeapon()
+		bool IsTwoHandedWeapon() const
 		{
-			return (this->weaponData.type.underlying() >> 13) & 1;
+			return weaponData.type.any(
+				WEAPON_TYPE::kTwoHandSword,
+				WEAPON_TYPE::kTwoHandAxe);
 		}
 
-		bool IsTwoHandedWeapon()
+		bool IsRangedWeapon() const
 		{
-			return (this->weaponData.type.underlying() - 5) <= 2;
+			return weaponData.type.any(
+				WEAPON_TYPE::kBow,
+				WEAPON_TYPE::kStaff,
+				WEAPON_TYPE::kGun,
+				WEAPON_TYPE::kGrenade,
+				WEAPON_TYPE::kMine);
 		}
 
-		bool IsOneHandedWeapon()
+		bool IsBoundWeapon() const
 		{
-			return (this->weaponData.type.underlying() <= 4 || this->weaponData.type.underlying() == 8);
+			return weaponData.flags.all(
+				WEAPON_FLAGS::kBoundWeapon);
 		}
 
-		bool IsEmbeddedWeapon()
+		bool IsEmbeddedWeapon() const
 		{
-			return (this->weaponData.flags.underlying() >> 19) & 1;
+			return weaponData.flags.all(
+				WEAPON_FLAGS::kEmbeddedWeapon);
 		}
 
 		// members
