@@ -347,6 +347,7 @@ set(SOURCES
 	include/REX/W32.h
 	include/REX/W32/ADVAPI32.h
 	include/REX/W32/BASE.h
+	include/REX/W32/BCRYPT.h
 	include/REX/W32/COM.h
 	include/REX/W32/COMPTR.h
 	include/REX/W32/D3D.h
@@ -414,6 +415,7 @@ set(SOURCES
 	src/RE/Scaleform/GFx/GFx_Player.cpp
 	src/REL/Relocation.cpp
 	src/REX/W32/ADVAPI32.cpp
+	src/REX/W32/BCRYPT.cpp
 	src/REX/W32/D3D11.cpp
 	src/REX/W32/D3DCOMPILER.cpp
 	src/REX/W32/DBGHELP.cpp

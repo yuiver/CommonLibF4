@@ -28,6 +28,7 @@ namespace REX::W32
 	using HRESULT = std::int32_t;
 	using HSTRING = struct HSTRING__*;
 	using HWND = struct HWND__*;
+	using NTSTATUS = std::int32_t;
 
 	// general constants
 	inline const auto     INVALID_HANDLE_VALUE{ reinterpret_cast<HANDLE>(static_cast<std::intptr_t>(-1)) };
@@ -50,8 +51,8 @@ namespace REX::W32
 			return std::bit_cast<std::uint64_t>(*this);
 		}
 
-		std::uint32_t lo;  // 00
-		std::uint32_t hi;  // 04
+		std::uint32_t lo{};  // 00
+		std::uint32_t hi{};  // 04
 	};
 	static_assert(sizeof(FILETIME) == 0x8);
 }
@@ -76,10 +77,10 @@ namespace REX::W32
 			return !(a_lhs == a_rhs);
 		}
 
-		std::uint32_t data1;     // 00
-		std::uint16_t data2;     // 04
-		std::uint16_t data3;     // 08
-		std::uint8_t  data4[8];  // 10
+		std::uint32_t data1{};     // 00
+		std::uint16_t data2{};     // 04
+		std::uint16_t data3{};     // 08
+		std::uint8_t  data4[8]{};  // 10
 	};
 	static_assert(sizeof(GUID) == 0x10);
 
@@ -97,8 +98,8 @@ namespace REX::W32
 			x(a_x), y(a_y)
 		{}
 
-		std::int32_t x;  // 00
-		std::int32_t y;  // 04
+		std::int32_t x{};  // 00
+		std::int32_t y{};  // 04
 	};
 	static_assert(sizeof(POINT) == 0x8);
 }
@@ -113,10 +114,10 @@ namespace REX::W32
 			x1(a_x1), y1(a_y1), x2(a_x2), y2(a_y2)
 		{}
 
-		std::int32_t x1;  // 00
-		std::int32_t y1;  // 04
-		std::int32_t x2;  // 08
-		std::int32_t y2;  // 10
+		std::int32_t x1{};  // 00
+		std::int32_t y1{};  // 04
+		std::int32_t x2{};  // 08
+		std::int32_t y2{};  // 10
 	};
 	static_assert(sizeof(RECT) == 0x10);
 }
@@ -161,4 +162,17 @@ namespace REX::W32
 		};
 		std::uint64_t value;
 	};
+}
+
+namespace REX::W32
+{
+	constexpr bool SUCCESS(const HRESULT a_result)
+	{
+		return a_result >= 0;
+	}
+
+	constexpr bool NT_SUCCESS(const NTSTATUS a_status)
+	{
+		return a_status >= 0;
+	}
 }
