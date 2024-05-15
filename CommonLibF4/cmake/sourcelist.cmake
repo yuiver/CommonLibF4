@@ -2,7 +2,10 @@ set(SOURCES
 	include/F4SE/API.h
 	include/F4SE/F4SE.h
 	include/F4SE/Impl/PCH.h
+	include/F4SE/Impl/ScePadAPI.h
 	include/F4SE/Impl/WinAPI.h
+	include/F4SE/Impl/XInputAPI.h
+	include/F4SE/InputMap.h
 	include/F4SE/Interfaces.h
 	include/F4SE/Logger.h
 	include/F4SE/Trampoline.h
@@ -45,6 +48,7 @@ set(SOURCES
 	include/RE/Bethesda/BSGraphics.h
 	include/RE/Bethesda/BSHavok.h
 	include/RE/Bethesda/BSInputDeviceManager.h
+	include/RE/Bethesda/BSInputEnableManager.h
 	include/RE/Bethesda/BSInputEventReceiver.h
 	include/RE/Bethesda/BSInputEventSingleUser.h
 	include/RE/Bethesda/BSInputEventUser.h
@@ -346,6 +350,7 @@ set(SOURCES
 	src/F4SE/API.cpp
 	src/F4SE/Impl/PCH.cpp
 	src/F4SE/Impl/WinAPI.cpp
+	src/F4SE/InputMap.cpp
 	src/F4SE/Interfaces.cpp
 	src/F4SE/Logger.cpp
 	src/F4SE/Trampoline.cpp

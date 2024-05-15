@@ -31,6 +31,7 @@ namespace RE
 		kBackspace = 0x08,
 		kTab = 0x09,
 		kEnter = 0x0D,
+		kPause = 0x13,
 		kCapsLock = 0x14,
 		kEscape = 0x1B,
 		kSpace = 0x20,
@@ -42,6 +43,7 @@ namespace RE
 		kUp = 0x26,
 		kRight = 0x27,
 		kDown = 0x28,
+		kPrintScreen = 0x2C,
 		kInsert = 0x2D,
 		kDelete = 0x2E,
 		k0 = 0x30,
@@ -123,6 +125,8 @@ namespace RE
 		kRControl = 0xA3,
 		kLAlt = 0xA4,
 		kRAlt = 0xA5,
+		kNumLock = 0x90,
+		kScrollLock = 0x91,
 
 		kGamepad = 0x10000,
 		kDPAD_Up = 0x10001,
@@ -131,7 +135,8 @@ namespace RE
 		kDPAD_Right = 0x10008,
 		kLTrigger = 0x10009,
 		kRTrigger = 0x1000A,
-		kSelect = 0x10020,
+		kStart = 0x10010,
+		kBack = 0x10020,
 		kLStick = 0x10040,
 		kRStick = 0x10080,
 		kLShoulder = 0x10100,
@@ -140,6 +145,9 @@ namespace RE
 		kBButton = 0x12000,
 		kXButton = 0x14000,
 		kYButton = 0x18000,
+
+		kWheelUp = 0x10800,
+		kWheelDown = 0x10900,
 	};
 
 	class IDEvent;
@@ -320,7 +328,9 @@ namespace RE
 		[[nodiscard]] bool QHeldDown() const noexcept { return value != 0.0 && heldDownSecs > 0.0F; }
 		[[nodiscard]] float QHeldDownSecs() const noexcept { return heldDownSecs; }
 		[[nodiscard]] bool QJustPressed() const noexcept { return value != 0.0F && heldDownSecs == 0.0F; }
+		[[nodiscard]] bool QPressed() const noexcept { return value != 0.0F; }
 		[[nodiscard]] bool QReleased(float a_heldDownSecs) const noexcept { return value == 0.0F && a_heldDownSecs <= heldDownSecs; }
+		[[nodiscard]] bool QReleased() const noexcept { return value == 0.0F && heldDownSecs > 0.0F; }
 
 		// members
 		float value{ 0.0F };         // 38
