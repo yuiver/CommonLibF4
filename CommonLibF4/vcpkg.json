@@ -6,7 +6,6 @@
   "license": "MIT",
   "supports": "windows & x64",
   "dependencies": [
-    "boost-stl-interfaces",
     "rsm-mmio",
     "spdlog"
   ]

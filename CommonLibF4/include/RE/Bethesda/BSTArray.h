@@ -223,17 +223,8 @@ namespace RE
 	template <
 		class T,
 		class Allocator = BSTArrayHeapAllocator>
-	class BSTArray :
-		public boost::stl_interfaces::sequence_container_interface<
-			BSTArray<T, Allocator>,
-			boost::stl_interfaces::element_layout::contiguous>
+	class BSTArray
 	{
-	private:
-		using super =
-			boost::stl_interfaces::sequence_container_interface<
-				BSTArray<T, Allocator>,
-				boost::stl_interfaces::element_layout::contiguous>;
-
 	public:
 		using value_type = T;
 		using allocator_type = Allocator;
@@ -247,29 +238,6 @@ namespace RE
 		using const_iterator = const_pointer;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-
-		using super::operator=;
-		using super::operator[];
-
-		using super::assign;
-		using super::at;
-		using super::back;
-		using super::begin;
-		using super::cbegin;
-		using super::cend;
-		using super::clear;
-		using super::crbegin;
-		using super::crend;
-		using super::data;
-		using super::empty;
-		using super::end;
-		using super::erase;
-		using super::front;
-		using super::insert;
-		using super::push_back;
-		using super::rbegin;
-		using super::rend;
-		using super::size;
 
 		// 1)
 		BSTArray() noexcept = default;
@@ -358,10 +326,54 @@ namespace RE
 
 		F4_HEAP_REDEFINE_NEW(BSTArray<T, Allocator>);
 
-		[[nodiscard]] iterator begin() noexcept { return static_cast<pointer>(_allocator.data()); }
-		[[nodiscard]] iterator end() noexcept { return begin() + _size; }
+		constexpr reference at(size_type a_pos)
+		{
+			if (size() <= a_pos)
+				throw std::out_of_range("bounds check failed in BSTArray::at()");
 
-		[[nodiscard]] size_type max_size() const noexcept { return std::numeric_limits<size_type>::max(); }
+			return begin()[a_pos];
+		}
+
+		constexpr reference at(size_type a_pos) const
+		{
+			if (size() <= a_pos)
+				throw std::out_of_range("bounds check failed in BSTArray::at()");
+
+			return begin()[a_pos];
+		}
+
+		[[nodiscard]] constexpr reference operator[](size_type a_pos) noexcept { return begin()[a_pos]; }
+		[[nodiscard]] constexpr const_reference operator[](size_type a_pos) const noexcept { return begin()[a_pos]; }
+
+		[[nodiscard]] constexpr reference front() noexcept { return operator[](0); }
+		[[nodiscard]] constexpr const_reference front() const noexcept { return operator[](0); }
+
+		[[nodiscard]] constexpr reference back() noexcept { return operator[](size() - 1); }
+		[[nodiscard]] constexpr const_reference back() const noexcept { return operator[](size() - 1); }
+
+		[[nodiscard]] constexpr pointer data() noexcept { return static_cast<pointer>(_allocator.data()); }
+		[[nodiscard]] constexpr const_pointer data() const noexcept { return static_cast<const_pointer>(_allocator.data()); }
+
+		[[nodiscard]] constexpr iterator begin() noexcept { return data(); }
+		[[nodiscard]] constexpr const_iterator begin() const noexcept { return data(); }
+		[[nodiscard]] constexpr const_iterator cbegin() const noexcept { return begin(); }
+
+		[[nodiscard]] constexpr iterator end() noexcept { return begin() + size(); }
+		[[nodiscard]] constexpr const_iterator end() const noexcept { return begin() + size(); }
+		[[nodiscard]] constexpr const_iterator cend() const noexcept { return end(); }
+
+		[[nodiscard]] constexpr reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+		[[nodiscard]] constexpr const_reverse_iterator rbegin() const noexcept { return rbegin(); }
+		[[nodiscard]] constexpr const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+
+		[[nodiscard]] constexpr reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+		[[nodiscard]] constexpr const_reverse_iterator rend() const noexcept { return rend(); }
+		[[nodiscard]] constexpr const_reverse_iterator crend() const noexcept { return rend(); }
+
+		[[nodiscard]] constexpr size_type size() const noexcept { return _size; }
+		[[nodiscard]] constexpr size_type max_size() const noexcept { return std::numeric_limits<size_type>::max(); }
+
+		[[nodiscard]] constexpr bool empty() const noexcept { size() == 0; }
 
 		void reserve(size_type a_capacity)
 		{
@@ -370,9 +382,28 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] size_type capacity() const noexcept { return _allocator.capacity(); }
+		[[nodiscard]] constexpr size_type capacity() const noexcept { return _allocator.capacity(); }
 
 		void shrink_to_fit() { reserve_exact(size()); }
+
+        template<class ForwardIt>
+		void assign(ForwardIt a_first, ForwardIt a_last)
+		{
+			auto out = begin();
+			auto const out_last = end();
+			for (; out != out_last && a_first != a_last; ++a_first, ++out) {
+				*out = *a_first;
+			}
+			if (out != out_last)
+				erase(out, out_last);
+			if (a_first != a_last)
+				insert(end(), a_first, a_last);
+		}
+
+		void assign(std::initializer_list<value_type> a_init)
+		{
+			assign(a_init.begin(), a_init.end());
+		}
 
 		template <class ForwardIt>
 		iterator insert(const_iterator a_pos, ForwardIt a_first, ForwardIt a_last)  //
@@ -389,6 +420,21 @@ namespace RE
 			std::move_backward(iter, iter + distance, end());
 			std::copy(a_first, a_last, iter);
 			return iter;
+		}
+
+		iterator insert(const_iterator a_pos, value_type const& a_value)
+		{
+			return emplace(a_pos, a_value);
+		}
+
+		iterator insert(const_iterator a_pos, value_type&& a_value)
+		{
+			return emplace(a_pos, std::move(a_value));
+		}
+
+		iterator insert(const_iterator a_pos, std::initializer_list<value_type> a_init)
+		{
+			return insert(a_pos, a_init.begin(), a_init.end());
 		}
 
 		template <class... Args>
@@ -424,11 +470,31 @@ namespace RE
 			return end();
 		}
 
+		iterator erase(const_iterator a_pos)
+		{
+			return erase(a_pos, std::next(a_pos));
+		}
+
+		void clear()
+		{
+			erase(begin(), end());
+		}
+
 		template <class... Args>
-		reference emplace_back(Args&&... a_args)  //
+		reference emplace_back(Args&&... a_args)
 			requires(std::constructible_from<value_type, Args&&...>)
 		{
 			return *emplace(end(), std::forward<Args>(a_args)...);
+		}
+
+		void push_back(value_type const& a_value)
+		{
+			emplace_back(a_value);
+		}
+
+		void push_back(value_type&& a_value)
+		{
+			emplace_back(std::move(a_value));
 		}
 
 		void pop_back() { erase(std::prev(end())); }
@@ -441,6 +507,12 @@ namespace RE
 			auto tmp = std::move(*this);
 			*this = std::move(a_rhs);
 			a_rhs = std::move(tmp);
+		}
+
+		auto operator=(std::initializer_list<value_type> a_init)
+		{
+			assign(a_init.begin(), a_init.end());
+			return *this;
 		}
 
 	private:

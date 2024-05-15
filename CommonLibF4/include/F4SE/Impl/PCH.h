@@ -40,7 +40,6 @@ static_assert(
 	"wrap std::time_t instead");
 
 #pragma warning(push, 0)
-#include <boost/stl_interfaces/sequence_container_interface.hpp>
 #include <mmio/mmio.hpp>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)

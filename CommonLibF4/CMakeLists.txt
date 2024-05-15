@@ -13,7 +13,6 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(FATAL_ERROR "in-source builds are not allowed")
 endif()
 
-find_package(Boost MODULE REQUIRED)
 find_package(mmio REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 
@@ -37,7 +36,6 @@ add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 target_compile_definitions(
 	"${PROJECT_NAME}"
 	PUBLIC
-		BOOST_STL_INTERFACES_DISABLE_CONCEPTS
 		WINVER=0x0601	# windows 7, minimum supported version by fallout 4
 		_WIN32_WINNT=0x0601
 		"$<$<BOOL:${F4SE_SUPPORT_XBYAK}>:F4SE_SUPPORT_XBYAK=1>"
@@ -96,7 +94,6 @@ target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
 		bcrypt.lib
-		Boost::headers
 		mmio::mmio
 		spdlog::spdlog
 		Version.lib
