@@ -6,7 +6,6 @@
     "boost-stl-interfaces",
     "rsm-mmio",
     "spdlog",
-    "srell",
     "xbyak"
   ]
 }
