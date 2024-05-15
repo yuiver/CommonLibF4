@@ -344,6 +344,32 @@ set(SOURCES
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
 	include/REL/Relocation.h
+	include/REX/W32.h
+	include/REX/W32/ADVAPI32.h
+	include/REX/W32/BASE.h
+	include/REX/W32/COM.h
+	include/REX/W32/COMPTR.h
+	include/REX/W32/D3D.h
+	include/REX/W32/D3D11.h
+	include/REX/W32/D3D11_1.h
+	include/REX/W32/D3D11_2.h
+	include/REX/W32/D3D11_3.h
+	include/REX/W32/D3D11_4.h
+	include/REX/W32/D3DCOMPILER.h
+	include/REX/W32/DBGHELP.h
+	include/REX/W32/DINPUT.h
+	include/REX/W32/DXGI.h
+	include/REX/W32/DXGI_2.h
+	include/REX/W32/DXGI_3.h
+	include/REX/W32/DXGI_4.h
+	include/REX/W32/DXGI_5.h
+	include/REX/W32/DXGI_6.h
+	include/REX/W32/KERNEL32.h
+	include/REX/W32/OLE32.h
+	include/REX/W32/SHELL32.h
+	include/REX/W32/USER32.h
+	include/REX/W32/VERSION.h
+	include/REX/W32/XINPUT.h
 	src/F4SE/API.cpp
 	src/F4SE/Impl/PCH.cpp
 	src/F4SE/Impl/WinAPI.cpp
@@ -387,4 +413,14 @@ set(SOURCES
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
 	src/REL/Relocation.cpp
+	src/REX/W32/ADVAPI32.cpp
+	src/REX/W32/D3D11.cpp
+	src/REX/W32/D3DCOMPILER.cpp
+	src/REX/W32/DBGHELP.cpp
+	src/REX/W32/DXGI.cpp
+	src/REX/W32/KERNEL32.cpp
+	src/REX/W32/OLE32.cpp
+	src/REX/W32/SHELL32.cpp
+	src/REX/W32/USER32.cpp
+	src/REX/W32/VERSION.cpp
 )

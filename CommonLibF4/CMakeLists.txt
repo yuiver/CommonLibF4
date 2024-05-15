@@ -93,10 +93,16 @@ target_include_directories(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
+ 		advapi32.lib
 		bcrypt.lib
+		d3d11.lib
+		d3dcompiler.lib
+		dbghelp.lib
+		dxgi.lib
 		mmio::mmio
+		ole32.lib
 		spdlog::spdlog
-		Version.lib
+		version.lib
 )
 
 target_precompile_headers(
@@ -132,5 +138,6 @@ install(
 		"include/F4SE"
 		"include/RE"
 		"include/REL"
+		"include/REX"
 	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
