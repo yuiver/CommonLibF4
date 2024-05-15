@@ -178,8 +178,8 @@ namespace RE
 		TESBitArrayFile* formUserDataBitArray;                           // 058
 		TESBitArrayFile* formVersionBitArray;                            // 060
 		TESBitArrayFile* formIDBitArray;                                 // 068
-		char filename[260];                                              // 070
-		char path[260];                                                  // 174
+		char filename[REX::W32::MAX_PATH];                               // 070
+		char path[REX::W32::MAX_PATH];                                   // 174
 		char* buffer;                                                    // 278
 		std::uint32_t bufferAllocSize;                                   // 280
 		std::uint32_t firstCellOffset;                                   // 284
@@ -205,7 +205,7 @@ namespace RE
 		BSSimpleList<_ULARGE_INTEGER*> mastersData;                      // 348
 		std::uint32_t masterCount;                                       // 358
 		TESFile** masterPtrs;                                            // 360
-		_FILETIME deletedFormTime;                                       // 368
+		REX::W32::FILETIME deletedFormTime;                              // 368
 		std::uint8_t compileIndex;                                       // 370
 		std::uint16_t smallFileCompileIndex;                             // 372
 		BSStringT<char> createdBy;                                       // 378

@@ -6,7 +6,7 @@ namespace RE
 	{
 	public:
 		// members
-		WinAPI::CRITICAL_SECTION criticalSection;  // 00
+		REX::W32::CRITICAL_SECTION criticalSection;  // 00
 	};
 	static_assert(sizeof(BSCriticalSection) == 0x28);
 

@@ -2,7 +2,6 @@ set(SOURCES
 	include/F4SE/API.h
 	include/F4SE/F4SE.h
 	include/F4SE/Impl/PCH.h
-	include/F4SE/Impl/WinAPI.h
 	include/F4SE/Interfaces.h
 	include/F4SE/Logger.h
 	include/F4SE/Trampoline.h
@@ -373,7 +372,6 @@ set(SOURCES
 	include/REX/W32/XINPUT.h
 	src/F4SE/API.cpp
 	src/F4SE/Impl/PCH.cpp
-	src/F4SE/Impl/WinAPI.cpp
 	src/F4SE/Interfaces.cpp
 	src/F4SE/Logger.cpp
 	src/F4SE/Trampoline.cpp

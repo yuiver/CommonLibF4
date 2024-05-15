@@ -3,6 +3,8 @@
 #include "F4SE/API.h"
 #include "F4SE/Logger.h"
 
+#include "REX/W32/KERNEL32.h"
+
 namespace F4SE
 {
 	bool MessagingInterface::RegisterListener(EventCallback* a_handler, stl::zstring a_sender) const
@@ -178,6 +180,6 @@ namespace F4SE
 
 	const PluginVersionData* PluginVersionData::GetSingleton() noexcept
 	{
-		return reinterpret_cast<const PluginVersionData*>(WinAPI::GetProcAddress(WinAPI::GetCurrentModule(), "F4SEPlugin_Version"));
+		return reinterpret_cast<const PluginVersionData*>(REX::W32::GetProcAddress(REX::W32::GetCurrentModule(), "F4SEPlugin_Version"));
 	}
 }

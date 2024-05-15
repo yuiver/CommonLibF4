@@ -112,7 +112,7 @@ namespace RE
 		static_assert(sizeof(FreeTreeNode) == 0x40);
 
 		// NOLINTNEXTLINE(modernize-use-equals-default)
-		~ScrapHeap() override { WinAPI::VirtualFree(baseAddress, 0, (WinAPI::MEM_RELEASE)); }  // 00
+		~ScrapHeap() override { REX::W32::VirtualFree(baseAddress, 0, REX::W32::MEM_RELEASE); }  // 00
 
 		// override (IMemoryStore)
 		std::size_t Size(void const* a_mem) const override { return *static_cast<const std::size_t*>(a_mem) & ~(std::size_t{ 3 } << 62); }  // 01
@@ -188,9 +188,9 @@ namespace RE
 		{
 		public:
 			// members
-			ScrapHeap heap;                                              // 00
-			ThreadScrapHeap* next{ nullptr };                            // 90
-			std::uint32_t owningThread{ WinAPI::GetCurrentThreadID() };  // 98
+			ScrapHeap heap;                                                // 00
+			ThreadScrapHeap* next{ nullptr };                              // 90
+			std::uint32_t owningThread{ REX::W32::GetCurrentThreadId() };  // 98
 		};
 		static_assert(sizeof(ThreadScrapHeap) == 0xA0);
 
