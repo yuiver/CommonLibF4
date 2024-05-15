@@ -576,7 +576,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(1251703) };
 			return func();
 		}
-		
+
 		// members
 		NiPointer<TESObjectREFR> actor;  // 00
 		std::uint32_t baseObject;        // 08
@@ -609,7 +609,7 @@ namespace RE
 	};
 	static_assert(sizeof(TESFurnitureEvent) == 0x18);
 
-		struct DamageImpactData
+	struct DamageImpactData
 	{
 	public:
 		// members
@@ -689,7 +689,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(1411899) };
 			return func();
 		}
-		
+
 		// members
 		HitData hitData;                  // 000
 		NiPointer<TESObjectREFR> target;  // 0E0
@@ -710,7 +710,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(1327824) };
 			return func();
 		}
-		
+
 		// members
 		NiPointer<TESObjectREFR> target;  // 00
 		NiPointer<TESObjectREFR> caster;  // 08
@@ -727,7 +727,7 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(609604) };
 			return func();
 		}
-		
+
 		// members
 		std::uint32_t formId;  // 00
 		bool loaded;           // 04

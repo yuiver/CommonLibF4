@@ -26,7 +26,7 @@ namespace RE
 		{
 			kInvalid = static_cast<std::uint8_t>(-1)
 		};
-		
+
 		struct UserEventMapping
 		{
 		public:

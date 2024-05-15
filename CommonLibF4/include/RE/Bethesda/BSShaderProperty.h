@@ -35,7 +35,7 @@ namespace RE
 			kMultilayer,
 			kBacklightMask,
 			kSmoothSpec = kBacklightMask,
-			
+
 			kTotal,
 		};
 

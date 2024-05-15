@@ -35,7 +35,7 @@ namespace RE
 
 	struct DamageImpactData;
 	struct MoveData;
-	
+
 	class hknpMotionPropertiesId
 	{
 	public:

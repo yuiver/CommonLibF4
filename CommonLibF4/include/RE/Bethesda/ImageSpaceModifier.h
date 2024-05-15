@@ -74,7 +74,7 @@ namespace RE
 
 		static void Stop(TESImageSpaceModifier* a_mod)
 		{
-			using func_t = void (*)(TESImageSpaceModifier* );
+			using func_t = void (*)(TESImageSpaceModifier*);
 			REL::Relocation<func_t> func{ REL::ID(217873) };
 			return func(a_mod);
 		}

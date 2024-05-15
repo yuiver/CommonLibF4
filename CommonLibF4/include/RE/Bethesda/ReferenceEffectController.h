@@ -105,7 +105,7 @@ namespace RE
 	public:
 		static constexpr auto RTTI{ RTTI::SkyEffectController };
 		static constexpr auto VTABLE{ VTABLE::SkyEffectController };
-		
+
 		// override (ReferenceEffectController)
 		void RemoveHitEffect(ReferenceEffect* a_refEffect) override;  // 0A - { return; }
 		TESObjectREFR* GetTargetReference() override;                 // 0B - { return g_thePlayer; }
