@@ -128,20 +128,20 @@ private:
 {
 	static const std::array expressions{
 		std::make_pair(
-			srell::regex{ R"regex((`anonymous namespace'|[ &'*\-`]){1})regex"s, srell::regex::ECMAScript },
-			std::function{ [](std::string& a_name, const srell::ssub_match& a_match) {
+			std::regex{ R"regex((`anonymous namespace'|[ &'*\-`]){1})regex"s, std::regex::ECMAScript },
+			std::function{ [](std::string& a_name, const std::ssub_match& a_match) {
 				a_name.erase(a_match.first, a_match.second);
 			} }),
 		std::make_pair(
-			srell::regex{ R"regex(([(),:<>]){1})regex"s, srell::regex::ECMAScript },
-			std::function{ [](std::string& a_name, const srell::ssub_match& a_match) {
+			std::regex{ R"regex(([(),:<>]){1})regex"s, std::regex::ECMAScript },
+			std::function{ [](std::string& a_name, const std::ssub_match& a_match) {
 				a_name.replace(a_match.first, a_match.second, "_"sv);
 			} }),
 	};
 
-	srell::smatch matches;
+	std::smatch matches;
 	for (const auto& [expr, callback] : expressions) {
-		while (srell::regex_search(a_name, matches, expr)) {
+		while (std::regex_search(a_name, matches, expr)) {
 			for (std::size_t i = 1; i < matches.size(); ++i) {
 				callback(a_name, matches[static_cast<int>(i)]);
 			}
@@ -389,20 +389,19 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 
 DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
 {
-#ifndef NDEBUG
-	auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
-#else
 	auto path = logger::log_directory();
 	if (!path) {
 		return false;
 	}
 
 	*path /= "RTTIDump.log"sv;
-	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
-#endif
 
-	auto log = std::make_shared<spdlog::logger>("global log", std::move(sink));
+	spdlog::sinks_init_list sinks{
+		std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true),
+		std::make_shared<spdlog::sinks::msvc_sink_mt>()
+	};
 
+	auto log = std::make_shared<spdlog::logger>("global", sinks);
 #ifndef NDEBUG
 	log->set_level(spdlog::level::trace);
 #else

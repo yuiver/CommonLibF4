@@ -12,6 +12,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,7 +21,6 @@
 #include <utility>
 #include <vector>
 
-#include <srell.hpp>
 #pragma warning(pop)
 
 using namespace std::literals;
@@ -117,12 +117,12 @@ using files_t = std::vector<std::tuple<Version, Version, std::filesystem::path>>
 [[nodiscard]] files_t get_files(const std::filesystem::path& a_root)
 {
 	files_t results;
-	srell::wregex regex(L"(\\d+)\\.(\\d+)\\.(\\d+)_(\\d+)\\.(\\d+)\\.(\\d+)\\.txt"s, srell::regex::ECMAScript);
+	std::wregex regex(L"(\\d+)\\.(\\d+)\\.(\\d+)_(\\d+)\\.(\\d+)\\.(\\d+)\\.txt"s, std::regex::ECMAScript);
 	for (const auto& entry : std::filesystem::directory_iterator(a_root)) {
 		if (entry.is_regular_file()) {
 			const auto filename = entry.path().filename();
-			srell::wsmatch matches;
-			if (srell::regex_match(filename.native(), matches, regex) && matches.size() == 7) {
+			std::wsmatch matches;
+			if (std::regex_match(filename.native(), matches, regex) && matches.size() == 7) {
 				results.emplace_back();
 				auto& [lversion, rversion, path] = results.back();
 

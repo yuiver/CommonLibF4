@@ -7,11 +7,3 @@ add_project(
 	GROUPED_FILES
 		"src/main.cpp"
 )
-
-find_package(srell MODULE REQUIRED)
-
-target_link_libraries(
-	"${PROJECT_NAME}"
-	PRIVATE
-		srell::srell
-)
