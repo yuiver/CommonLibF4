@@ -3,18 +3,8 @@
   "version-string": "1",
   "dependencies": [
     "args",
-    "boost-stl-interfaces",
-    "catch2",
-    "fmt",
-    "frozen",
-    "nowide",
-    "robin-hood-hashing",
     "rsm-mmio",
     "spdlog",
-    "srell",
     "xbyak"
-  ],
-  "vcpkg-configuration": {
-    "overlay-ports": [ "./cmake/ports/" ]
-  }
+  ]
 }

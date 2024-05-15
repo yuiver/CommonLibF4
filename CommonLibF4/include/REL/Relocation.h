@@ -161,6 +161,8 @@ namespace REL
 
 			return func(std::forward<First>(a_first), std::addressof(result), std::forward<Rest>(a_rest)...);
 		}
+
+		std::optional<std::string> sha512(std::span<const std::byte> a_data);
 	}
 
 	inline constexpr std::uint8_t NOP = 0x90;
@@ -276,6 +278,23 @@ namespace REL
 			return std::strong_ordering::equal;
 		}
 
+		[[nodiscard]] constexpr std::uint32_t pack() const noexcept
+		{
+			return static_cast<std::uint32_t>(
+				(_impl[0] & 0x0FF) << 24u |
+				(_impl[1] & 0x0FF) << 16u |
+				(_impl[2] & 0xFFF) << 4u |
+				(_impl[3] & 0x00F) << 0u);
+		}
+
+		[[nodiscard]] constexpr value_type major() const noexcept { return _impl[0]; }
+
+		[[nodiscard]] constexpr value_type minor() const noexcept { return _impl[1]; }
+
+		[[nodiscard]] constexpr value_type patch() const noexcept { return _impl[2]; }
+
+		[[nodiscard]] constexpr value_type build() const noexcept { return _impl[3]; }
+
 		[[nodiscard]] std::string string() const
 		{
 			std::string result;
@@ -296,6 +315,16 @@ namespace REL
 			}
 			result.pop_back();
 			return result;
+		}
+
+		[[nodiscard]] static constexpr Version unpack(const std::uint32_t a_packedVersion) noexcept
+		{
+			return Version{
+				static_cast<value_type>((a_packedVersion >> 24) & 0x0FF),
+				static_cast<value_type>((a_packedVersion >> 16) & 0x0FF),
+				static_cast<value_type>((a_packedVersion >> 4) & 0xFFF),
+				static_cast<value_type>(a_packedVersion & 0x0F)
+			};
 		}
 
 	private:
@@ -593,11 +622,28 @@ namespace REL
 		void load()
 		{
 			const auto version = Module::get().version();
-			const auto path = fmt::format(
+			const auto path = std::format(
 				"Data/F4SE/Plugins/version-{}.bin",
 				version.string());
 			if (!_mmap.open(path)) {
-				stl::report_and_fail(fmt::format("failed to open: {}", path));
+				stl::report_and_fail(std::format("failed to open: {}", path));
+			}
+			if (version == REL::Version(1, 10, 980)) {
+				const auto sha = detail::sha512({ _mmap });
+				if (!sha) {
+					stl::report_and_fail(std::format("failed to hash: {}", path));
+				}
+				// Address bins are expected to be pre-sorted. This bin was released without being sorted, and will cause lookups to randomly fail.
+				if (*sha == "2AD60B95388F1B6E77A6F86F17BEB51D043CF95A341E91ECB2E911A393E45FE8156D585D2562F7B14434483D6E6652E2373B91589013507CABAE596C26A343F1"sv) {
+					stl::report_and_fail(std::format(
+						"The address bin you are using ({}) is corrupted. "
+						"Please go to the Nexus page for Address Library and redownload the file corresponding to version {}.{}.{}.{}",
+						path,
+						version[0],
+						version[1],
+						version[2],
+						version[3]));
+				}
 			}
 			_id2offset = std::span{
 				reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),

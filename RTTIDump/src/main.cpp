@@ -128,20 +128,20 @@ private:
 {
 	static const std::array expressions{
 		std::make_pair(
-			srell::regex{ R"regex((`anonymous namespace'|[ &'*\-`]){1})regex"s, srell::regex::ECMAScript },
-			std::function{ [](std::string& a_name, const srell::ssub_match& a_match) {
+			std::regex{ R"regex((`anonymous namespace'|[ &'*\-`]){1})regex"s, std::regex::ECMAScript },
+			std::function{ [](std::string& a_name, const std::ssub_match& a_match) {
 				a_name.erase(a_match.first, a_match.second);
 			} }),
 		std::make_pair(
-			srell::regex{ R"regex(([(),:<>]){1})regex"s, srell::regex::ECMAScript },
-			std::function{ [](std::string& a_name, const srell::ssub_match& a_match) {
+			std::regex{ R"regex(([(),:<>]){1})regex"s, std::regex::ECMAScript },
+			std::function{ [](std::string& a_name, const std::ssub_match& a_match) {
 				a_name.replace(a_match.first, a_match.second, "_"sv);
 			} }),
 	};
 
-	srell::smatch matches;
+	std::smatch matches;
 	for (const auto& [expr, callback] : expressions) {
-		while (srell::regex_search(a_name, matches, expr)) {
+		while (std::regex_search(a_name, matches, expr)) {
 			for (std::size_t i = 1; i < matches.size(); ++i) {
 				callback(a_name, matches[static_cast<int>(i)]);
 			}
@@ -234,8 +234,8 @@ void dump_rtti()
 		results.end());
 
 	constexpr std::array toRemove{
-		static_cast<std::uint64_t>(25921),   // float
-		static_cast<std::uint64_t>(950502),  // unsigned int
+		static_cast<std::uint64_t>(2769189),  // float
+		static_cast<std::uint64_t>(2769187),  // unsigned int
 	};
 	results.erase(
 		std::remove_if(
@@ -295,27 +295,27 @@ void dump_nirtti()
 {
 	{
 		// fix a dumb fuckup
-		REL::Relocation<RE::NiRTTI*> rtti{ REL::ID(221529) };
+		REL::Relocation<RE::NiRTTI*> rtti{ REL::ID(2690507) };
 		rtti->name = "BGSStaticCollection::RootFacade";
 	}
 
 	constexpr std::array seeds = {
-		17735,    // NiObject
-		1352616,  // NiCullingProcess
-		31936,    // BSFaceGenMorphData
-		1482971,  // BSTempEffect
-		1123991,  // bhkCharacterProxy
-		858091,   // bhkCharacterRigidBody
-		933986,   // bhkNPCollisionObject
-		56458,    // bhkNPCollisionObjectBase
-		1372534,  // bhkNPCollisionObjectUnlinked
-		495124,   // bhkNPCollisionProxyObject
-		1325961,  // bhkPhysicsSystem
-		182826,   // bhkRagdollSystem
-		1359461,  // bhkWorld
-		34089,    // bhkWorldM
+		2703473,  // NiObject
+		2703545,  // NiCullingProcess
+		2692702,  // BSFaceGenMorphData
+		2693100,  // BSTempEffect
+		2707081,  // bhkCharacterProxy
+		2707083,  // bhkCharacterRigidBody
+		2704798,  // bhkNPCollisionObject
+		2704796,  // bhkNPCollisionObjectBase
+		2704799,  // bhkNPCollisionObjectUnlinked
+		2704797,  // bhkNPCollisionProxyObject
+		2704800,  // bhkPhysicsSystem
+		2704801,  // bhkRagdollSystem
+		2704769,  // bhkWorld
+		2704838,  // bhkWorldM
 	};
-	robin_hood::unordered_flat_set<std::uintptr_t> results;
+	std::unordered_set<std::uintptr_t> results;
 	results.reserve(seeds.size());
 	for (const auto& seed : seeds) {
 		results.insert(REL::ID(seed).address());
@@ -387,22 +387,21 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 	}
 }
 
-extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a_f4se, F4SE::PluginInfo* a_info)
+DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
 {
-#ifndef NDEBUG
-	auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
-#else
 	auto path = logger::log_directory();
 	if (!path) {
 		return false;
 	}
 
 	*path /= "RTTIDump.log"sv;
-	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
-#endif
 
-	auto log = std::make_shared<spdlog::logger>("global log", std::move(sink));
+	spdlog::sinks_init_list sinks{
+		std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true),
+		std::make_shared<spdlog::sinks::msvc_sink_mt>()
+	};
 
+	auto log = std::make_shared<spdlog::logger>("global", sinks);
 #ifndef NDEBUG
 	log->set_level(spdlog::level::trace);
 #else
@@ -413,26 +412,6 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a
 	spdlog::set_default_logger(std::move(log));
 	spdlog::set_pattern("%g(%#): [%^%l%$] %v");
 
-	a_info->infoVersion = F4SE::PluginInfo::kVersion;
-	a_info->name = "ExampleProject";
-	a_info->version = 1;
-
-	if (a_f4se->IsEditor()) {
-		logger::critical("loaded in editor");
-		return false;
-	}
-
-	const auto ver = a_f4se->RuntimeVersion();
-	if (ver < F4SE::RUNTIME_1_10_130) {
-		logger::critical("unsupported runtime v{}", ver.string());
-		return false;
-	}
-
-	return true;
-}
-
-extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
-{
 	F4SE::Init(a_f4se);
 
 	auto messaging = F4SE::GetMessagingInterface();
@@ -440,3 +419,16 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f
 
 	return true;
 }
+
+DLLEXPORT constinit auto F4SEPlugin_Version = []() noexcept {
+	F4SE::PluginVersionData data{};
+
+	data.PluginName("rttidump");
+	data.UsesAddressLibrary(true);
+	data.UsesSigScanning(false);
+	data.IsLayoutDependent(true);
+	data.HasNoStructUse(false);
+	data.CompatibleVersions({ F4SE::RUNTIME_LATEST });
+
+	return data;
+}();

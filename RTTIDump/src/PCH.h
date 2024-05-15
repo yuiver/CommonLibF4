@@ -10,21 +10,17 @@
 #include <fstream>
 #include <functional>
 #include <memory>
+#include <regex>
 #include <span>
 #include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include <robin_hood.h>
-#include <srell.hpp>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/msvc_sink.h>
 
-#ifdef NDEBUG
-#	include <spdlog/sinks/basic_file_sink.h>
-#else
-#	include <spdlog/sinks/msvc_sink.h>
-#endif
-
-#define DLLEXPORT __declspec(dllexport)
+#define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
 
 namespace logger = F4SE::log;
 namespace stl = F4SE::stl;

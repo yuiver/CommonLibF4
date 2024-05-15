@@ -102,7 +102,7 @@ namespace RE
 		void ApplyMods(BSTSmartPointer<TBO_InstanceData>& a_dest, const BGSObjectInstanceExtra* a_extra) const
 		{
 			using func_t = decltype(&TESBoundObject::ApplyMods);
-			REL::Relocation<func_t> func{ REL::ID(113585) };
+			REL::Relocation<func_t> func{ REL::ID(2198325) };
 			return func(this, a_dest, a_extra);
 		}
 
@@ -489,6 +489,33 @@ namespace RE
 		kMine = 11,
 	};
 
+	enum class WEAPON_FLAGS : std::uint32_t
+	{
+		kPlayerOnly = 0x00000001,
+		kNPCsUseAmmo = 0x00000002,
+		kNoJamAfterReload = 0x00000004,
+		kChargingReload = 0x00000008,
+		kMinorCrime = 0x00000010,
+		kFixedRange = 0x00000020,
+		kNotUsedInNormalCombat = 0x00000040,
+		kCritEffectOnDeath = 0x00000100,
+		kChargingAttack = 0x00000200,
+		kHoldInputToPower = 0x00000800,
+		kNonHostile = 0x00001000,
+		kBoundWeapon = 0x00002000,
+		kIgnoresNormalWeaponResistance = 0x00004000,
+		kAutomatic = 0x00008000,
+		kRepeatableSingleFire = 0x00010000,
+		kCantDrop = 0x00020000,
+		kHideBackpack = 0x00040000,
+		kEmbeddedWeapon = 0x00080000,
+		kNotPlayable = 0x00100000,
+		kHasScope = 0x00200000,
+		kBoltAction = 0x00400000,
+		kSecondaryWeapon = 0x00800000,
+		kDisableShells = 0x01000000,
+	};
+
 	class __declspec(novtable) TESObjectWEAP :
 		public TESBoundObject,             // 000
 		public TESFullName,                // 068
@@ -578,7 +605,7 @@ namespace RE
 			float criticalDamageMult;                                                     // 104
 			stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerValue;               // 108
 			std::uint32_t value;                                                          // 10C
-			std::uint32_t flags;                                                          // 110
+			stl::enumeration<WEAPON_FLAGS, std::uint32_t> flags;                          // 110
 			stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;                       // 114
 			stl::enumeration<WEAPONHITBEHAVIOR, std::int32_t> hitBehavior;                // 118
 			ActorValueInfo* skill;                                                        // 120
@@ -612,6 +639,68 @@ namespace RE
 			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeedLabel);
 			REL::Relocation<func_t> func{ REL::ID(178784) };
 			return func(a_speed);
+		}
+
+		bool IsMeleeWeapon() const
+		{
+			return weaponData.type.any(
+				WEAPON_TYPE::kOneHandSword,
+				WEAPON_TYPE::kOneHandDagger,
+				WEAPON_TYPE::kOneHandAxe,
+				WEAPON_TYPE::kOneHandMace,
+				WEAPON_TYPE::kTwoHandSword,
+				WEAPON_TYPE::kTwoHandAxe);
+		}
+
+		bool IsGunWeapon() const
+		{
+			return weaponData.type.any(
+				WEAPON_TYPE::kGun);
+		}
+
+		bool IsThrownWeapon() const
+		{
+			return weaponData.type.any(
+				WEAPON_TYPE::kGrenade,
+				WEAPON_TYPE::kMine);
+		}
+
+		bool IsOneHandedWeapon() const
+		{
+			return weaponData.type.any(
+				WEAPON_TYPE::kOneHandSword,
+				WEAPON_TYPE::kOneHandDagger,
+				WEAPON_TYPE::kOneHandAxe,
+				WEAPON_TYPE::kOneHandMace);
+		}
+
+		bool IsTwoHandedWeapon() const
+		{
+			return weaponData.type.any(
+				WEAPON_TYPE::kTwoHandSword,
+				WEAPON_TYPE::kTwoHandAxe);
+		}
+
+		bool IsRangedWeapon() const
+		{
+			return weaponData.type.any(
+				WEAPON_TYPE::kBow,
+				WEAPON_TYPE::kStaff,
+				WEAPON_TYPE::kGun,
+				WEAPON_TYPE::kGrenade,
+				WEAPON_TYPE::kMine);
+		}
+
+		bool IsBoundWeapon() const
+		{
+			return weaponData.flags.all(
+				WEAPON_FLAGS::kBoundWeapon);
+		}
+
+		bool IsEmbeddedWeapon() const
+		{
+			return weaponData.flags.all(
+				WEAPON_FLAGS::kEmbeddedWeapon);
 		}
 
 		// members
@@ -655,7 +744,7 @@ namespace RE
 		[[nodiscard]] static bool GetReloadsWithAmmoRef(const TESAmmo* a_ammo)
 		{
 			using func_t = decltype(&TESAmmo::GetReloadsWithAmmoRef);
-			REL::Relocation<func_t> func{ REL::ID(1035622) };
+			REL::Relocation<func_t> func{ REL::ID(2197864) };
 			return func(a_ammo);
 		}
 
@@ -793,7 +882,7 @@ namespace RE
 		bool CollidesWithSmallTransparentLayer()
 		{
 			using func_t = decltype(&BGSProjectile::CollidesWithSmallTransparentLayer);
-			REL::Relocation<func_t> func{ REL::ID(1115694) };
+			REL::Relocation<func_t> func{ REL::ID(2197620) };
 			return func(this);
 		}
 

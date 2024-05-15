@@ -68,13 +68,13 @@ namespace RE
 
 		[[nodiscard]] static BSReadWriteLock& GetMenuMapRWLock()
 		{
-			REL::Relocation<BSReadWriteLock*> menuMapRWLock{ REL::ID(578487) };
+			REL::Relocation<BSReadWriteLock*> menuMapRWLock{ REL::ID(2707105) };
 			return *menuMapRWLock;
 		}
 
 		[[nodiscard]] static UI* GetSingleton()
 		{
-			REL::Relocation<UI**> singleton{ REL::ID(548587) };
+			REL::Relocation<UI**> singleton{ REL::ID(2689028) };
 			return *singleton;
 		}
 

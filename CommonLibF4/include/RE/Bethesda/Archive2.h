@@ -330,7 +330,7 @@ namespace RE::BSResource::Archive2
 			bool a_block) override  // 0B
 		{
 			using func_t = decltype(&AsyncReaderStream::DoWait);
-			REL::Relocation<func_t> func{ REL::ID(244066) };
+			REL::Relocation<func_t> func{ REL::ID(2269399) };
 			return func(this, a_transferred, a_block);
 		}
 

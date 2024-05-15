@@ -479,7 +479,6 @@ namespace RE
 	class TESPackageData;
 	class TESRegionDataList;
 	class TESRegionPointList;
-	class TESResponse;
 
 	struct BGSDebrisData;
 	struct FORM;
@@ -726,8 +725,8 @@ namespace RE
 				BSTHashMap<std::uint32_t, TESForm*>*,
 				std::reference_wrapper<BSReadWriteLock>>
 		{
-			REL::Relocation<BSTHashMap<std::uint32_t, TESForm*>**> allForms{ REL::ID(422985) };
-			REL::Relocation<BSReadWriteLock*> allFormsMapLock{ REL::ID(691815) };
+			REL::Relocation<BSTHashMap<std::uint32_t, TESForm*>**> allForms{ REL::ID(2689178) };
+			REL::Relocation<BSReadWriteLock*> allFormsMapLock{ REL::ID(2689189) };
 			return { *allForms, *allFormsMapLock };
 		}
 
@@ -736,8 +735,8 @@ namespace RE
 				BSTHashMap<BSFixedString, TESForm*>*,
 				std::reference_wrapper<BSReadWriteLock>>
 		{
-			REL::Relocation<BSTHashMap<BSFixedString, TESForm*>**> allFormsByEditorID{ REL::ID(642758) };
-			REL::Relocation<BSReadWriteLock*> allFormsEditorIDMapLock{ REL::ID(910917) };
+			REL::Relocation<BSTHashMap<BSFixedString, TESForm*>**> allFormsByEditorID{ REL::ID(2689179) };
+			REL::Relocation<BSReadWriteLock*> allFormsEditorIDMapLock{ REL::ID(2689190) };
 			return { *allFormsByEditorID, *allFormsEditorIDMapLock };
 		}
 
@@ -749,7 +748,7 @@ namespace RE
 		[[nodiscard]] TESFile* GetFile(std::int32_t a_index = -1) const
 		{
 			using func_t = decltype(&TESForm::GetFile);
-			REL::Relocation<func_t> func{ REL::ID(1376557) };
+			REL::Relocation<func_t> func{ REL::ID(2193103) };
 			return func(this, a_index);
 		}
 
@@ -800,7 +799,7 @@ namespace RE
 		[[nodiscard]] static ENUM_FORM_ID GetFormTypeFromString(const char* a_formTypeString)
 		{
 			using func_t = decltype(&TESForm::GetFormTypeFromString);
-			REL::Relocation<func_t> func{ REL::ID(565203) };
+			REL::Relocation<func_t> func{ REL::ID(2193108) };
 			return func(a_formTypeString);
 		}
 
@@ -1496,14 +1495,14 @@ namespace RE
 		[[nodiscard]] std::int32_t GetDataX()
 		{
 			using func_t = decltype(&TESObjectCELL::GetDataX);
-			REL::Relocation<func_t> func{ REL::ID(445210) };
+			REL::Relocation<func_t> func{ REL::ID(2200213) };
 			return func(this);
 		}
 
 		[[nodiscard]] std::int32_t GetDataY()
 		{
 			using func_t = decltype(&TESObjectCELL::GetDataY);
-			REL::Relocation<func_t> func{ REL::ID(1322816) };
+			REL::Relocation<func_t> func{ REL::ID(2200214) };
 			return func(this);
 		}
 
@@ -1517,7 +1516,7 @@ namespace RE
 		[[nodiscard]] BGSLocation* GetLocation() const
 		{
 			using func_t = decltype(&TESObjectCELL::GetLocation);
-			REL::Relocation<func_t> func{ REL::ID(868663) };
+			REL::Relocation<func_t> func{ REL::ID(2200179) };
 			return func(this);
 		}
 
@@ -1663,11 +1662,63 @@ namespace RE
 	struct TOPIC_INFO_DATA
 	{
 	public:
+		enum class TOPIC_INFO_FLAGS : std::uint32_t
+		{
+			kNone = 0,
+			kStartSceneOnEnd = 0x1,
+			kRandom = 0x2,
+			kSayOnce = 0x4,
+			kRequirePlayerActivation = 0x8,
+			kInfoRefusal = 0x10,
+			kRandomEnd = 0x20,
+			kEndRunningScene = 0x40,
+			kIsForceGreet = 0x80,
+			kPlaredAddress = 0x100,
+			kGroupTracksData = 0x100,
+			kForceSubtitle = 0x200,
+			kGroupForceRandom = 0x200,
+			kCanMoveWhileGreeitng = 0x400,
+			kNoLIPFile = 0x800,
+			kGroupDontDoAll = 0x800,
+			kPostProcess = 0x1000,
+			kCustomSoundOutpt = 0x2000,
+			kDialogueInfoSaid = 0x4000,
+			kHasCapsData = 0x4000,
+			kAlreadySaidDoAllBeforeRepeating = 0x8000,
+			kEditorOnly = 0x4000,
+		};
+
 		// members
-		std::uint16_t flags;           // 0
-		std::uint16_t timeUntilReset;  // 2
+		stl::enumeration<TOPIC_INFO_FLAGS, std::uint16_t> flags;  // 0
+		std::uint16_t timeUntilReset;                             // 2
 	};
 	static_assert(sizeof(TOPIC_INFO_DATA) == 0x4);
+
+	struct TESResponse
+	{
+	public:
+		struct RespData
+		{
+			std::uint16_t percent;
+			std::uint8_t responseID;
+			bool useEmotion;
+		};
+		static_assert(sizeof(RespData) == 0x4);
+
+		const char* GetResponseText()
+		{
+			using func_t = decltype(&TESResponse::GetResponseText);
+			REL::Relocation<func_t> func{ REL::ID(2208288) };
+			return func(this);
+		}
+
+		// Members
+		BGSLocalizedString responseText;
+		TESResponse* pNext;
+		TESResponse::RespData data;
+		BGSTypedKeywordValue<KeywordType::kAnimFaceArchetype> faceArcheType;
+	};
+	static_assert(sizeof(TESResponse) == 0x18);
 
 	class ResponseListWrapper
 	{
@@ -1684,6 +1735,40 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESTopicInfo };
 		static constexpr auto VTABLE{ VTABLE::TESTopicInfo };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kINFO };
+
+		enum Flags
+		{
+			kInfoGroup = (1 << 6),
+		};
+
+		enum CHARISMA_CHALLENGE_DIFFICULTY : std::uint32_t
+		{
+			CC_CHALLENGE_NONE = 0x0,
+			CC_CHALLENGE_EASY = 0x1,
+			CC_CHALLENGE_MEDIUM = 0x2,
+			CC_CHALLENGE_HARD = 0x3,
+			CC_CHALLENGE_ALWAYS_SUCCEEDS = 0x4,
+			CC_CHALLENGE_EASY_REPEATABLE = 0x5,
+			CC_CHALLENGE_MEDIUM_REPEATABLE = 0x6,
+			CC_CHALLENGE_HARD_REPEATABLE = 0x7,
+			CC_CHALLENGE_COUNT = 0x8,
+		};
+
+		enum CHARISMA_CHALLENGE_SUCCESS : std::uint32_t
+		{
+			CC_SUCCESS_NONE = 0xFFFFFFFF,
+			CC_SUCCESS_FAIL = 0x0,
+			CC_SUCCESS_SUCCEED = 0x1,
+			CC_SUCCESS_COUNT = 0x2,
+		};
+
+		// Returns nullptr if no parent.
+		TESTopicInfo* GetParentInfoGroup()
+		{
+			using func_t = decltype(&TESTopicInfo::GetParentInfoGroup);
+			REL::Relocation<func_t> func{ REL::ID(2208435) };
+			return func(this);
+		}
 
 		// members
 		TESTopic* parentTopic;          // 20

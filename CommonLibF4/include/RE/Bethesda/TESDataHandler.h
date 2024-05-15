@@ -65,21 +65,21 @@ namespace RE
 	public:
 		[[nodiscard]] static TESDataHandler* GetSingleton()
 		{
-			REL::Relocation<TESDataHandler**> singleton{ REL::ID(711558) };
+			REL::Relocation<TESDataHandler**> singleton{ REL::ID(2688883) };
 			return *singleton;
 		}
 
 		[[nodiscard]] bool AddFormToDataHandler(TESForm* a_form)
 		{
 			using func_t = decltype(&TESDataHandler::AddFormToDataHandler);
-			REL::Relocation<func_t> func{ REL::ID(350112) };
+			REL::Relocation<func_t> func{ REL::ID(2192271) };
 			return func(this, a_form);
 		}
 
 		[[nodiscard]] bool CheckModsLoaded(bool a_everModded)
 		{
 			using func_t = decltype(&TESDataHandler::CheckModsLoaded);
-			REL::Relocation<func_t> func{ REL::ID(1432894) };
+			REL::Relocation<func_t> func{ REL::ID(2192323) };
 			return func(this, a_everModded);
 		}
 
@@ -205,7 +205,7 @@ namespace RE
 		bool IsFormIDInuse(std::uint32_t a_formID)
 		{
 			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
-			REL::Relocation<func_t> func{ REL::ID(1448838) };
+			REL::Relocation<func_t> func{ REL::ID(2192351) };
 			return func(this, a_formID);
 		}
 

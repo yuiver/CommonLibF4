@@ -60,12 +60,8 @@ namespace RE::BSScript
 			if (!_proxy) {
 				const auto game = GameVM::GetSingleton();
 				const auto vm = game ? game->GetVM() : nullptr;
-				if (!vm ||
-					!vm->CreateStruct(name, _proxy) ||
-					!_proxy) {
-					F4SE::log::error(
-						FMT_STRING("failed to create structure of type \"{}\""),
-						name);
+				if (!vm || !vm->CreateStruct(name, _proxy) || !_proxy) {
+					F4SE::log::error("failed to create structure of type \"{}\"", name);
 					assert(false);
 				}
 			}
@@ -84,10 +80,7 @@ namespace RE::BSScript
 			}
 
 			if (!a_quiet) {
-				F4SE::log::warn(
-					FMT_STRING("failed to find var \"{}\" on structure \"{}\""),
-					a_name,
-					name);
+				F4SE::log::warn("failed to find var \"{}\" on structure \"{}\"", a_name, name);
 			}
 
 			return std::nullopt;
@@ -106,10 +99,7 @@ namespace RE::BSScript
 				}
 			}
 
-			F4SE::log::warn(
-				FMT_STRING("failed to pack var \"{}\" on structure \"{}\""),
-				a_name,
-				name);
+			F4SE::log::warn("failed to pack var \"{}\" on structure \"{}\"", a_name, name);
 			return false;
 		}
 
@@ -1229,10 +1219,7 @@ namespace RE::BSScript
 				std::move(a_func),
 				a_isLatent));
 		if (!success) {
-			F4SE::log::warn(
-				FMT_STRING("failed to register method \"{}\" on object \"{}\""),
-				a_function,
-				a_object);
+			F4SE::log::warn("failed to register method \"{}\" on object \"{}\"", a_function, a_object);
 		}
 
 		if (success && a_taskletCallable) {
@@ -1255,48 +1242,23 @@ namespace RE::BSScript
 			(std::make_index_sequence<size>{});
 			return result;
 		}
+	}
 
-		class FunctionArgsBase
-		{
-		public:
-			FunctionArgsBase() = delete;
-			FunctionArgsBase(IVirtualMachine* a_vm) :
-				vm(a_vm)
-			{}
-
-			bool operator()(BSScrapArray<Variable>& a_args)
-			{
-				args->ReplaceArray(a_args, *vm);
+	template <class... Args>
+	bool IVirtualMachine::DispatchStaticCall(
+		const BSFixedString& a_objName,
+		const BSFixedString& a_funcName,
+		const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
+		Args... a_args)
+	{
+		return DispatchStaticCall(
+			a_objName,
+			a_funcName,
+			[&](BSScrapArray<Variable>& a_out) {
+				a_out = detail::PackVariables(a_args...);
 				return true;
-			}
-
-		protected:
-			ArrayWrapper<Variable>* args;  // 00
-			IVirtualMachine* vm;           // 08
-		};
-		static_assert(sizeof(FunctionArgsBase) == 0x10);
-
-		inline BSTThreadScrapFunction<bool(BSScrapArray<Variable>&)>
-			CreateThreadScrapFunction(FunctionArgsBase& a_args)
-		{
-			using func_t = decltype(&detail::CreateThreadScrapFunction);
-			REL::Relocation<func_t> func{ REL::ID(69733) };
-			return func(a_args);
-		}
-
-		template <class... Args>
-		class FunctionArgs :
-			public FunctionArgsBase
-		{
-		public:
-			FunctionArgs() = delete;
-			FunctionArgs(IVirtualMachine* a_vm, Args... a_args) :
-				FunctionArgsBase(a_vm)
-			{
-				auto scrap = PackVariables(a_args...);
-				args = new ArrayWrapper<Variable>(scrap, *vm);
-			}
-		};
+			},
+			a_callback);
 	}
 
 	template <class... Args>
@@ -1307,12 +1269,14 @@ namespace RE::BSScript
 		const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
 		Args... a_args)
 	{
-		auto args = detail::FunctionArgs{ this, a_args... };
 		return DispatchMethodCall(
 			a_objHandle,
 			a_objName,
 			a_funcName,
-			detail::CreateThreadScrapFunction(args),
+			[&](BSScrapArray<Variable>& a_out) {
+				a_out = detail::PackVariables(a_args...);
+				return true;
+			},
 			a_callback);
 	}
 }

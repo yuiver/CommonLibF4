@@ -20,6 +20,10 @@ namespace F4SE::WinAPI
 	};
 	static_assert(sizeof(CRITICAL_SECTION) == 0x28);
 
+	[[nodiscard]] bool(GetComputerName)(
+		char* a_buffer,
+		std::uint32_t* a_size) noexcept;
+
 	[[nodiscard]] void*(GetCurrentModule)() noexcept;
 
 	[[nodiscard]] void*(GetCurrentProcess)() noexcept;

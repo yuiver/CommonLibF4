@@ -34,14 +34,14 @@ namespace RE
 
 		[[nodiscard]] static Main* GetSingleton()
 		{
-			REL::Relocation<Main**> singleton{ REL::ID(756304) };
+			REL::Relocation<Main**> singleton{ REL::ID(2698043) };
 			return *singleton;
 		}
 
 		[[nodiscard]] static NiCamera* WorldRootCamera()
 		{
 			using func_t = decltype(&Main::WorldRootCamera);
-			REL::Relocation<func_t> func{ REL::ID(384264) };
+			REL::Relocation<func_t> func{ REL::ID(2228956) };
 			return func();
 		}
 

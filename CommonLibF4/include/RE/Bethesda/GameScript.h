@@ -13,6 +13,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/BSTimer.h"
+#include "RE/Bethesda/Events.h"
 #include "RE/Bethesda/MemoryManager.h"
 #include "RE/Bethesda/TESFile.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
@@ -20,7 +21,7 @@
 namespace RE
 {
 	template <class F>
-	using BSTThreadScrapFunction = msvc::function<F>;
+	using BSTThreadScrapFunction = std::function<F>;
 
 	namespace BSScript
 	{
@@ -102,7 +103,6 @@ namespace RE
 	struct TESFormIDRemapEvent;
 	struct TESFurnitureEvent;
 	struct TESGrabReleaseEvent;
-	struct TESInitScriptEvent;
 	struct TESLimbCrippleEvent;
 	struct TESLoadGameEvent;
 	struct TESLocationClearedEvent;
@@ -259,7 +259,7 @@ namespace RE
 			void DropSaveLoadRemapData()
 			{
 				using func_t = decltype(&HandlePolicy::DropSaveLoadRemapData);
-				REL::Relocation<func_t> func{ REL::ID(647657) };
+				REL::Relocation<func_t> func{ REL::ID(2249995) };
 				return func(this);
 			}
 
@@ -273,7 +273,7 @@ namespace RE
 			void UpdatePersistence()
 			{
 				using func_t = decltype(&HandlePolicy::UpdatePersistence);
-				REL::Relocation<func_t> func{ REL::ID(11020) };
+				REL::Relocation<func_t> func{ REL::ID(2249991) };
 				return func(this);
 			}
 
@@ -322,7 +322,7 @@ namespace RE
 			void EndSaveLoad()
 			{
 				using func_t = decltype(&ObjectBindPolicy::EndSaveLoad);
-				REL::Relocation<func_t> func{ REL::ID(1558837) };
+				REL::Relocation<func_t> func{ REL::ID(2250482) };
 				return func(this);
 			}
 
@@ -494,7 +494,7 @@ namespace RE
 
 		[[nodiscard]] static GameVM* GetSingleton()
 		{
-			REL::Relocation<GameVM**> singleton{ REL::ID(996227) };
+			REL::Relocation<GameVM**> singleton{ REL::ID(2689134) };
 			return *singleton;
 		}
 
@@ -510,7 +510,7 @@ namespace RE
 		void RegisterForAllGameEvents()
 		{
 			using func_t = decltype(&GameVM::RegisterForAllGameEvents);
-			REL::Relocation<func_t> func{ REL::ID(680454) };
+			REL::Relocation<func_t> func{ REL::ID(2251353) };
 			return func(this);
 		}
 

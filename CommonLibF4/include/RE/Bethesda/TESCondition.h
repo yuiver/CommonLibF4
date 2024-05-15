@@ -74,14 +74,14 @@ namespace RE
 		[[nodiscard]] float GetComparisonValue()
 		{
 			using func_t = decltype(&TESConditionItem::GetComparisonValue);
-			REL::Relocation<func_t> func{ REL::ID(1373349) };
+			REL::Relocation<func_t> func{ REL::ID(2212007) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool IsTrue(TESObjectREFR* a_actionRef, TESObjectREFR* a_targetRef)
 		{
 			using func_t = decltype(&TESConditionItem::IsTrue);
-			REL::Relocation<func_t> func{ REL::ID(1453240) };
+			REL::Relocation<func_t> func{ REL::ID(2212008) };
 			return func(this, a_actionRef, a_targetRef);
 		}
 
@@ -104,7 +104,7 @@ namespace RE
 		[[nodiscard]] bool IsTrue(TESObjectREFR* a_actionRef, TESObjectREFR* a_targetRef) const
 		{
 			using func_t = decltype(&TESCondition::IsTrue);
-			REL::Relocation<func_t> func{ REL::ID(1275731) };
+			REL::Relocation<func_t> func{ REL::ID(2211989) };
 			return func(this, a_actionRef, a_targetRef);
 		}
 

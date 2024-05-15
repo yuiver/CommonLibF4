@@ -17,25 +17,14 @@ namespace RE
 		using const_pointer = const value_type*;
 
 		template <class U>
-		class iterator_base :
-			public boost::stl_interfaces::iterator_interface<
-				iterator_base<U>,
-				std::bidirectional_iterator_tag,
-				U>
+		class iterator_base
 		{
-		private:
-			using super =
-				boost::stl_interfaces::iterator_interface<
-					iterator_base<U>,
-					std::bidirectional_iterator_tag,
-					U>;
-
 		public:
-			using difference_type = typename super::difference_type;
-			using value_type = typename super::value_type;
-			using pointer = typename super::pointer;
-			using reference = typename super::reference;
-			using iterator_category = typename super::iterator_category;
+			using difference_type = std::ptrdiff_t;
+			using value_type = std::remove_const_t<U>;
+			using pointer = value_type*;
+			using reference = value_type&;
+			using iterator_category = std::bidirectional_iterator_tag;
 
 			~iterator_base() noexcept = default;
 			iterator_base() noexcept = default;
@@ -66,6 +55,11 @@ namespace RE
 				return *_pos;
 			}
 
+			[[nodiscard]] pointer operator->() const noexcept
+			{
+				return std::pointer_traits<pointer>::pointer_to(operator*());
+			}
+
 			template <class V>
 			[[nodiscard]] bool operator==(const iterator_base<V>& a_rhs) const noexcept
 			{
@@ -74,24 +68,42 @@ namespace RE
 				return _pos == a_rhs._pos;
 			}
 
-			using super::operator++;
+			template <class V>
+			[[nodiscard]] bool operator!=(const iterator_base<V>& a_rhs) const noexcept
+			{
+				return !operator==(a_rhs);
+			}
 
-			void operator++() noexcept
+			iterator_base& operator++() noexcept
 			{
 				assert(validate());
 				do {
 					++_pos;
 				} while (_pos < _tail && !slot_filled());
+				return *this;
 			}
 
-			using super::operator--;
+			iterator_base operator++(int) noexcept
+			{
+				iterator_base tmp{ *this };
+				operator++();
+				return tmp;
+			}
 
-			void operator--() noexcept
+			iterator_base& operator--() noexcept
 			{
 				assert(validate());
 				do {
 					--_pos;
 				} while (_head <= _pos && !slot_filled());
+				return *this;
+			}
+
+			iterator_base operator--(int) noexcept
+			{
+				iterator_base tmp{ *this };
+				operator--();
+				return tmp;
 			}
 
 		private:
@@ -165,10 +177,10 @@ namespace RE
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
 
 	private:
-		template <class T>
-		[[nodiscard]] T make_iterator(size_type a_pos) const noexcept
+		template <class U>
+		[[nodiscard]] U make_iterator(size_type a_pos) const noexcept
 		{
-			return T(_data + a_pos, _data, _data + _capacity);
+			return U(_data + a_pos, _data, _data + _capacity);
 		}
 
 		// members

@@ -40,9 +40,6 @@ static_assert(
 	"wrap std::time_t instead");
 
 #pragma warning(push, 0)
-#include <boost/stl_interfaces/iterator_interface.hpp>
-#include <boost/stl_interfaces/sequence_container_interface.hpp>
-#include <fmt/format.h>
 #include <mmio/mmio.hpp>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
@@ -208,31 +205,18 @@ namespace F4SE
 		scope_exit(EF) -> scope_exit<EF>;
 
 		template <class F>
-		class counted_function_iterator :
-			public boost::stl_interfaces::iterator_interface<
-				counted_function_iterator<F>,
-				std::input_iterator_tag,
-				std::remove_reference_t<decltype(std::declval<F>()())>>
+		class counted_function_iterator
 		{
-		private:
-			using super =
-				boost::stl_interfaces::iterator_interface<
-					counted_function_iterator<F>,
-					std::input_iterator_tag,
-					std::remove_reference_t<decltype(std::declval<F>()())>>;
-
 		public:
-			using difference_type = typename super::difference_type;
-			using value_type = typename super::value_type;
-			using pointer = typename super::pointer;
-			using reference = typename super::reference;
-			using iterator_category = typename super::iterator_category;
+			using difference_type = std::ptrdiff_t;
+			using value_type = std::remove_const_t<std::remove_reference_t<decltype(std::declval<F>()())>>;
+			using pointer = value_type*;
+			using reference = value_type&;
+			using iterator_category = std::input_iterator_tag;
 
 			counted_function_iterator() noexcept = default;
 
-			counted_function_iterator(
-				F a_fn,
-				std::size_t a_count) noexcept :
+			counted_function_iterator(F a_fn, std::size_t a_count) noexcept :
 				_fn(std::move(a_fn)),
 				_left(a_count)
 			{}
@@ -244,6 +228,11 @@ namespace F4SE
 				return (*_fn)();
 			}
 
+			[[nodiscard]] pointer operator->() const
+			{
+				return std::pointer_traits<pointer>::pointer_to(operator*());
+			}
+
 			[[nodiscard]] friend bool operator==(
 				const counted_function_iterator& a_lhs,
 				const counted_function_iterator& a_rhs) noexcept
@@ -251,12 +240,18 @@ namespace F4SE
 				return a_lhs._left == a_rhs._left;
 			}
 
-			using super::operator++;
-
-			void operator++() noexcept
+			counted_function_iterator& operator++() noexcept
 			{
 				assert(_left > 0);
 				_left -= 1;
+				return *this;
+			}
+
+			counted_function_iterator operator++(int) noexcept
+			{
+				counted_function_iterator tmp{ *this };
+				operator++();
+				return tmp;
 			}
 
 		private:
@@ -585,7 +580,7 @@ namespace F4SE
 					fileview = fileview.substr(pos + off);
 				}
 
-				return fmt::format(FMT_STRING("{}({}): {}"), fileview, a_loc.line(), a_msg);
+				return std::format("{}({}): {}", fileview, a_loc.line(), a_msg);
 			}();
 
 			const auto caption = []() -> std::string {
@@ -748,6 +743,5 @@ namespace REL
 #include "RE/RTTI_IDs.h"
 #include "RE/VTABLE_IDs.h"
 
-#include "RE/msvc/functional.h"
 #include "RE/msvc/memory.h"
 #include "RE/msvc/typeinfo.h"

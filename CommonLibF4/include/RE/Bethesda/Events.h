@@ -201,7 +201,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(696410) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(2696196) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -400,7 +400,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(1140080) };
+			REL::Relocation<EventSource_t**> singleton{ REL::ID(2696280) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -481,6 +481,32 @@ namespace RE
 	public:
 	};
 	static_assert(sizeof(QuickContainerStateEvent) == 0xC0);
+
+	struct HUDPerkVaultBoyData
+	{
+	public:
+		// members
+		BSFixedString SwfName;
+		const BGSSoundDescriptorForm* soundForm;
+		bool VATSCritAppliedAnim;
+		bool VATSCritFillenAnim;
+		bool dialogueSpeechChallengeAnim;
+	};
+	static_assert(sizeof(HUDPerkVaultBoyData) == 0x18);
+
+	class HUDPerkVaultBoySwfDisplayEvent :
+		public BSTValueEvent<HUDPerkVaultBoyData>  // 00
+	{
+	public:
+	};
+	static_assert(sizeof(HUDPerkVaultBoySwfDisplayEvent) == 0x20);
+
+	class ShowingDialogueSpeechChallengeAnim :
+		public BSTValueEvent<bool>
+	{
+	public:
+	};
+	static_assert(sizeof(ShowingDialogueSpeechChallengeAnim) == 0x2);
 
 	namespace SPECIALMenuEvent
 	{
@@ -769,4 +795,39 @@ namespace RE
 		stl::enumeration<UserEvents::SENDER_ID, std::int32_t> senderID;                // 8
 	};
 	static_assert(sizeof(UserEventEnabledEvent) == 0xC);
+
+	struct PositionPlayerEvent
+	{
+		enum EVENT_TYPE : uint32_t
+		{
+			PRE_POSITION_PLAYER = 0x0,
+			POSITION_PLAYER_PRE_UPDATE_PACKAGES = 0x1,
+			POSITION_PLAYER_POST_UPDATE_PACKAGES = 0x2,
+			POST_POSITION_PLAYER = 0x3,
+			FINISH_POSITION_PLAYER = 0x4,
+		};
+
+		// members
+		EVENT_TYPE type;
+		bool NoLoadScreen;
+	};
+	static_assert(sizeof(PositionPlayerEvent) == 0x08);
+
+	class TESInitScriptEvent
+	{
+	public:
+		// Members
+		TESObjectREFR* hObjectInitialized;  // 00
+	};
+	static_assert(sizeof(TESInitScriptEvent) == 0x08);
+
+	class TESInitScriptEventSource : public BSTEventSource<TESInitScriptEvent>
+	{
+	public:
+		[[nodiscard]] static TESInitScriptEventSource* GetSingleton()
+		{
+			REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(444105) };  // Needs updating.
+			return singleton.get();
+		}
+	};
 }

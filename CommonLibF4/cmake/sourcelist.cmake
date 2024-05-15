@@ -30,6 +30,7 @@ set(SOURCES
 	include/RE/Bethesda/BGSMod.h
 	include/RE/Bethesda/BGSPrimitive.h
 	include/RE/Bethesda/BGSSaveLoad.h
+	include/RE/Bethesda/BGSSceneAction.h
 	include/RE/Bethesda/BGSStoryEventManager.h
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
@@ -190,6 +191,7 @@ set(SOURCES
 	include/RE/Bethesda/MemoryManager.h
 	include/RE/Bethesda/MenuControls.h
 	include/RE/Bethesda/MenuCursor.h
+	include/RE/Bethesda/MenuTopicManager.h
 	include/RE/Bethesda/MessageMenuManager.h
 	include/RE/Bethesda/Movement.h
 	include/RE/Bethesda/NavMesh.h
@@ -343,7 +345,6 @@ set(SOURCES
 	include/RE/Scaleform/Render/Render_Types2D.h
 	include/RE/Scaleform/Render/Render_Viewport.h
 	include/RE/VTABLE_IDs.h
-	include/RE/msvc/functional.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
 	include/REL/Relocation.h

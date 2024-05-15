@@ -17,18 +17,14 @@ if(NOT TARGET CommonLibF4)
 	add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../CommonLibF4" CommonLibF4)
 endif()
 
-find_package(robin_hood REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
-find_package(srell MODULE REQUIRED)
 
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
 		CommonLibF4::CommonLibF4
 		Dbghelp.lib
-		robin_hood::robin_hood
 		spdlog::spdlog
-		srell::srell
 )
 
 copy_files(
