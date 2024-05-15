@@ -97,7 +97,7 @@ namespace RE
 					 !std::is_reference_v<T>)
 		{
 			assert(T::FORM_ID < ENUM_FORM_ID::kTotal);
-			return reinterpret_cast<BSTArray<T*>&>(formArrays[stl::to_underlying(T::FORM_ID)]);
+			return reinterpret_cast<BSTArray<T*>&>(formArrays[std::to_underlying(T::FORM_ID)]);
 		}
 
 		std::uint32_t LookupFormID(std::uint32_t a_rawFormID, std::string_view a_modName)
@@ -211,7 +211,7 @@ namespace RE
 
 		// members
 		TESObjectList* objectList;                                                // 0060
-		BSTArray<TESForm*> formArrays[stl::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
+		BSTArray<TESForm*> formArrays[std::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
 		TESRegionList* regionList;                                                // 0F50
 		NiTPrimitiveArray<TESObjectCELL*> interiorCells;                          // 0F58
 		NiTPrimitiveArray<BGSAddonNode*> addonNodes;                              // 0F70

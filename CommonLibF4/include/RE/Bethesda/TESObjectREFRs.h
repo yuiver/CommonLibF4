@@ -445,8 +445,8 @@ namespace RE
 	public:
 		// members
 		NiNode* root;                                                         // 0008
-		BIPOBJECT object[stl::to_underlying(BIPED_OBJECT::kTotal)];           // 0010
-		BIPOBJECT bufferedObjects[stl::to_underlying(BIPED_OBJECT::kTotal)];  // 0F30
+		BIPOBJECT object[std::to_underlying(BIPED_OBJECT::kTotal)];           // 0010
+		BIPOBJECT bufferedObjects[std::to_underlying(BIPED_OBJECT::kTotal)];  // 0F30
 		ObjectRefHandle actorRef;                                             // 1E50
 	};
 	static_assert(sizeof(BipedAnim) == 0x1E58);

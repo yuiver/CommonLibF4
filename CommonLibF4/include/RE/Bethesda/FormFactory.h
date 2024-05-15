@@ -33,9 +33,9 @@ namespace RE
 		[[nodiscard]] virtual BGSMod::Property::BridgeI* GetPropertyBridge() const { return nullptr; }  // 07
 
 		[[nodiscard]] static auto GetFormFactories()
-			-> std::span<IFormFactory*, stl::to_underlying(ENUM_FORM_ID::kTotal)>
+			-> std::span<IFormFactory*, std::to_underlying(ENUM_FORM_ID::kTotal)>
 		{
-			constexpr auto len = stl::to_underlying(ENUM_FORM_ID::kTotal);
+			constexpr auto len = std::to_underlying(ENUM_FORM_ID::kTotal);
 			REL::Relocation<IFormFactory*(*)[len]> factories{ REL::ID(228366) };
 			return { *factories };
 		}
@@ -50,7 +50,7 @@ namespace RE
 		[[nodiscard]] static ConcreteFormFactory* GetFormFactory()
 		{
 			const auto factories = GetFormFactories();
-			return static_cast<ConcreteFormFactory*>(factories[stl::to_underlying(ID)]);
+			return static_cast<ConcreteFormFactory*>(factories[std::to_underlying(ID)]);
 		}
 
 		[[nodiscard]] T* Create() { return static_cast<T*>(DoCreate()); }
