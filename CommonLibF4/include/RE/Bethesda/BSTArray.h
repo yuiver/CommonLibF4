@@ -386,7 +386,7 @@ namespace RE
 
 		void shrink_to_fit() { reserve_exact(size()); }
 
-        template<class ForwardIt>
+		template <class ForwardIt>
 		void assign(ForwardIt a_first, ForwardIt a_last)
 		{
 			auto out = begin();
@@ -481,8 +481,7 @@ namespace RE
 		}
 
 		template <class... Args>
-		reference emplace_back(Args&&... a_args)
-			requires(std::constructible_from<value_type, Args&&...>)
+		reference emplace_back(Args&&... a_args) requires(std::constructible_from<value_type, Args&&...>)
 		{
 			return *emplace(end(), std::forward<Args>(a_args)...);
 		}
