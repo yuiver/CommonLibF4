@@ -184,14 +184,14 @@ namespace REX::W32
 	struct DIACTIONA
 	{
 		std::uintptr_t appData;
-		std::uint32_t  semantic;
-		std::uint32_t  flags;
+		std::uint32_t semantic;
+		std::uint32_t flags;
 		union
 		{
-			const char*   actionName;
+			const char* actionName;
 			std::uint32_t resIdString;
 		};
-		GUID          guidInstance;
+		GUID guidInstance;
 		std::uint32_t objID;
 		std::uint32_t how;
 	};
@@ -202,50 +202,50 @@ namespace REX::W32
 		std::uint32_t actionSize;
 		std::uint32_t dataSize;
 		std::uint32_t numActions;
-		DIACTIONA*    action;
-		GUID          guidActionMap;
+		DIACTIONA* action;
+		GUID guidActionMap;
 		std::uint32_t genre;
 		std::uint32_t bufferSize;
-		std::int32_t  axisMin;
-		std::int32_t  axisMax;
-		HINSTANCE     instString;
-		FILETIME      timeStamp;
+		std::int32_t axisMin;
+		std::int32_t axisMax;
+		HINSTANCE instString;
+		FILETIME timeStamp;
 		std::uint32_t crc;
-		char          actionMap[MAX_PATH];
+		char actionMap[MAX_PATH];
 	};
 
 	struct DICOLORSET
 	{
 		std::uint32_t size;
-		D3DCOLOR      textFore;
-		D3DCOLOR      textHighlight;
-		D3DCOLOR      calloutLine;
-		D3DCOLOR      calloutHighlight;
-		D3DCOLOR      border;
-		D3DCOLOR      controlFill;
-		D3DCOLOR      highlightFill;
-		D3DCOLOR      areaFill;
+		D3DCOLOR textFore;
+		D3DCOLOR textHighlight;
+		D3DCOLOR calloutLine;
+		D3DCOLOR calloutHighlight;
+		D3DCOLOR border;
+		D3DCOLOR controlFill;
+		D3DCOLOR highlightFill;
+		D3DCOLOR areaFill;
 	};
 
 	struct DICONFIGUREDEVICESPARAMSA
 	{
-		std::uint32_t    size;
-		std::uint32_t    users;
-		char*            userNames;
-		std::uint32_t    formatsSize;
+		std::uint32_t size;
+		std::uint32_t users;
+		char* userNames;
+		std::uint32_t formatsSize;
 		DIACTIONFORMATA* formats;
-		HWND             hwnd;
-		DICOLORSET       dics;
-		IUnknown*        unkDDSTarget;
+		HWND hwnd;
+		DICOLORSET dics;
+		IUnknown* unkDDSTarget;
 	};
 
 	struct DIDATAFORMAT
 	{
-		std::uint32_t       size;
-		std::uint32_t       objSize;
-		std::uint32_t       flags;
-		std::uint32_t       dataSize;
-		std::uint32_t       numObjs;
+		std::uint32_t size;
+		std::uint32_t objSize;
+		std::uint32_t flags;
+		std::uint32_t dataSize;
+		std::uint32_t numObjs;
 		DIOBJECTDATAFORMAT* odf;
 	};
 
@@ -266,39 +266,39 @@ namespace REX::W32
 
 	struct DIDEVICEIMAGEINFOA
 	{
-		char          imagePath[MAX_PATH];
+		char imagePath[MAX_PATH];
 		std::uint32_t flags;
 		std::uint32_t viewID;
-		RECT          overlay;
+		RECT overlay;
 		std::uint32_t objID;
 		std::uint32_t validPts;
-		POINT         calloutLine[5];
-		RECT          calloutRect;
+		POINT calloutLine[5];
+		RECT calloutRect;
 		std::uint32_t textAlign;
 	};
 
 	struct DIDEVICEIMAGEINFOHEADERA
 	{
-		std::uint32_t       size;
-		std::uint32_t       sizeImageInfo;
-		std::uint32_t       views;
-		std::uint32_t       buttons;
-		std::uint32_t       axes;
-		std::uint32_t       povs;
-		std::uint32_t       bufferSize;
-		std::uint32_t       bufferUsed;
+		std::uint32_t size;
+		std::uint32_t sizeImageInfo;
+		std::uint32_t views;
+		std::uint32_t buttons;
+		std::uint32_t axes;
+		std::uint32_t povs;
+		std::uint32_t bufferSize;
+		std::uint32_t bufferUsed;
 		DIDEVICEIMAGEINFOA* imageInfoArray;
 	};
 
 	struct DIDEVICEINSTANCEA
 	{
 		std::uint32_t size;
-		GUID          guidInstance;
-		GUID          guidProduct;
+		GUID guidInstance;
+		GUID guidProduct;
 		std::uint32_t devType;
-		char          instanceName[MAX_PATH];
-		char          productName[MAX_PATH];
-		GUID          guidFFDriver;
+		char instanceName[MAX_PATH];
+		char productName[MAX_PATH];
+		GUID guidFFDriver;
 
 		// DIRECTINPUT_VERSION >= 0x0500
 		std::uint16_t usagePage;
@@ -307,21 +307,21 @@ namespace REX::W32
 
 	struct DIDEVICEOBJECTDATA
 	{
-		std::uint32_t  ofs;
-		std::uint32_t  data;
-		std::uint32_t  timeStamp;
-		std::uint32_t  sequence;
+		std::uint32_t ofs;
+		std::uint32_t data;
+		std::uint32_t timeStamp;
+		std::uint32_t sequence;
 		std::uintptr_t appData;
 	};
 
 	struct DIDEVICEOBJECTINSTANCEA
 	{
 		std::uint32_t size;
-		GUID          guidType;
+		GUID guidType;
 		std::uint32_t ofs;
 		std::uint32_t type;
 		std::uint32_t flags;
-		char          name[MAX_PATH];
+		char name[MAX_PATH];
 
 		// DIRECTINPUT_VERSION >= 0x0500
 		std::uint32_t ffMaxForce;
@@ -337,20 +337,20 @@ namespace REX::W32
 
 	struct DIEFFECT
 	{
-		std::uint32_t  size;
-		std::uint32_t  flags;
-		std::uint32_t  duration;
-		std::uint32_t  samplePeriod;
-		std::uint32_t  gain;
-		std::uint32_t  triggerButton;
-		std::uint32_t  triggerRepeatInterval;
-		std::uint32_t  axesSize;
+		std::uint32_t size;
+		std::uint32_t flags;
+		std::uint32_t duration;
+		std::uint32_t samplePeriod;
+		std::uint32_t gain;
+		std::uint32_t triggerButton;
+		std::uint32_t triggerRepeatInterval;
+		std::uint32_t axesSize;
 		std::uint32_t* axes;
-		std::int32_t*  direction;
-		DIENVELOPE*    envelope;
-		std::uint32_t  typeSpecificParamsSize;
-		void*          typeSpecificParams;
-		std::uint32_t  startDelay;
+		std::int32_t* direction;
+		DIENVELOPE* envelope;
+		std::uint32_t typeSpecificParamsSize;
+		void* typeSpecificParams;
+		std::uint32_t startDelay;
 	};
 
 	struct DIENVELOPE
@@ -365,29 +365,29 @@ namespace REX::W32
 	struct DIEFFECTINFOA
 	{
 		std::uint32_t size;
-		GUID          guid;
+		GUID guid;
 		std::uint32_t effectType;
 		std::uint32_t staticParams;
 		std::uint32_t dynamicParams;
-		char          name[MAX_PATH];
+		char name[MAX_PATH];
 	};
 
 	struct DIEFFESCAPE
 	{
 		std::uint32_t size;
 		std::uint32_t command;
-		void*         inBuffer;
+		void* inBuffer;
 		std::uint32_t inBufferSize;
-		void*         outBuffer;
+		void* outBuffer;
 		std::uint32_t outBufferSize;
 	};
 
 	struct DIFILEEFFECT
 	{
-		std::uint32_t   size;
-		GUID            guidEffect;
+		std::uint32_t size;
+		GUID guidEffect;
 		const DIEFFECT* effect;
-		char            friendlyName[MAX_PATH];
+		char friendlyName[MAX_PATH];
 	};
 
 	struct DIMOUSESTATE2
@@ -400,7 +400,7 @@ namespace REX::W32
 
 	struct DIOBJECTDATAFORMAT
 	{
-		const GUID*   guid;
+		const GUID* guid;
 		std::uint32_t ofs;
 		std::uint32_t type;
 		std::uint32_t flags;

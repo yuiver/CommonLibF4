@@ -174,7 +174,7 @@ namespace REX::W32
 		std::uint16_t oemid;
 		std::uint16_t oeminfo;
 		std::uint16_t res2[10];
-		std::int32_t  lfanew;
+		std::int32_t lfanew;
 	};
 	static_assert(sizeof(IMAGE_DOS_HEADER) == 0x40);
 
@@ -193,7 +193,7 @@ namespace REX::W32
 	struct IMAGE_IMPORT_BY_NAME
 	{
 		std::uint16_t hint;
-		char          name[1];
+		char name[1];
 	};
 	static_assert(sizeof(IMAGE_IMPORT_BY_NAME) == 0x4);
 
@@ -214,43 +214,43 @@ namespace REX::W32
 
 	struct IMAGE_OPTIONAL_HEADER64
 	{
-		std::uint16_t        magic;
-		std::uint8_t         linkerVersionMajor;
-		std::uint8_t         linkerVersionMinor;
-		std::uint32_t        codeSize;
-		std::uint32_t        initializedDataSize;
-		std::uint32_t        uninitializedDataSize;
-		std::uint32_t        entryPointAddress;
-		std::uint32_t        codeBase;
-		std::uint64_t        imageBase;
-		std::uint32_t        sectionAlignment;
-		std::uint32_t        fileAlignment;
-		std::uint16_t        osVersionMajor;
-		std::uint16_t        osVersionMinor;
-		std::uint16_t        imageVersionMajor;
-		std::uint16_t        imageVersionMinor;
-		std::uint16_t        subsystemVersionMajor;
-		std::uint16_t        subsystemVersionMinor;
-		std::uint32_t        win32Version;
-		std::uint32_t        imageSize;
-		std::uint32_t        headersSize;
-		std::uint32_t        checksum;
-		std::uint16_t        subsystem;
-		std::uint16_t        dllCharacteristics;
-		std::uint64_t        stackReserveSize;
-		std::uint64_t        stackCommitSize;
-		std::uint64_t        heapReserveSize;
-		std::uint64_t        heapCommitSize;
-		std::uint32_t        loaderFlags;
-		std::uint32_t        rvaAndSizesCount;
+		std::uint16_t magic;
+		std::uint8_t linkerVersionMajor;
+		std::uint8_t linkerVersionMinor;
+		std::uint32_t codeSize;
+		std::uint32_t initializedDataSize;
+		std::uint32_t uninitializedDataSize;
+		std::uint32_t entryPointAddress;
+		std::uint32_t codeBase;
+		std::uint64_t imageBase;
+		std::uint32_t sectionAlignment;
+		std::uint32_t fileAlignment;
+		std::uint16_t osVersionMajor;
+		std::uint16_t osVersionMinor;
+		std::uint16_t imageVersionMajor;
+		std::uint16_t imageVersionMinor;
+		std::uint16_t subsystemVersionMajor;
+		std::uint16_t subsystemVersionMinor;
+		std::uint32_t win32Version;
+		std::uint32_t imageSize;
+		std::uint32_t headersSize;
+		std::uint32_t checksum;
+		std::uint16_t subsystem;
+		std::uint16_t dllCharacteristics;
+		std::uint64_t stackReserveSize;
+		std::uint64_t stackCommitSize;
+		std::uint64_t heapReserveSize;
+		std::uint64_t heapCommitSize;
+		std::uint32_t loaderFlags;
+		std::uint32_t rvaAndSizesCount;
 		IMAGE_DATA_DIRECTORY dataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
 	};
 	static_assert(sizeof(IMAGE_OPTIONAL_HEADER64) == 0xF0);
 
 	struct IMAGE_NT_HEADERS64
 	{
-		std::uint32_t           signature;
-		IMAGE_FILE_HEADER       fileHeader;
+		std::uint32_t signature;
+		IMAGE_FILE_HEADER fileHeader;
 		IMAGE_OPTIONAL_HEADER64 optionalHeader;
 	};
 	static_assert(sizeof(IMAGE_NT_HEADERS64) == 0x108);
@@ -288,11 +288,11 @@ namespace REX::W32
 
 	struct MEMORY_BASIC_INFORMATION
 	{
-		void*         baseAddress;
-		void*         allocationBase;
+		void* baseAddress;
+		void* allocationBase;
 		std::uint32_t allocationProtect;
 		std::uint16_t partitionID;
-		std::size_t   regionSize;
+		std::size_t regionSize;
 		std::uint32_t state;
 		std::uint32_t protect;
 		std::uint32_t type;
@@ -305,14 +305,14 @@ namespace REX::W32
 		std::uint32_t nlsVersion;
 		std::uint32_t definedVersion;
 		std::uint32_t effectiveID;
-		GUID          guidCustomVersion;
+		GUID guidCustomVersion;
 	};
 	static_assert(sizeof(NLSVERSIONINFO) == 0x20);
 
 	struct PROCESS_INFORMATION
 	{
-		void*         process;
-		void*         thread;
+		void* process;
+		void* thread;
 		std::uint32_t processID;
 		std::uint32_t threadID;
 	};
@@ -321,9 +321,9 @@ namespace REX::W32
 	struct STARTUPINFOA
 	{
 		std::uint32_t size;
-		char*         reserved0;
-		char*         desktop;
-		char*         title;
+		char* reserved0;
+		char* desktop;
+		char* title;
 		std::uint32_t x;
 		std::uint32_t y;
 		std::uint32_t xSize;
@@ -335,18 +335,18 @@ namespace REX::W32
 		std::uint16_t showWindow;
 		std::uint16_t reserved1;
 		std::uint8_t* reserved2;
-		void*         stdIn;
-		void*         stdOut;
-		void*         stdErr;
+		void* stdIn;
+		void* stdOut;
+		void* stdErr;
 	};
 	static_assert(sizeof(STARTUPINFOA) == 0x68);
 
 	struct STARTUPINFOW
 	{
 		std::uint32_t size;
-		wchar_t*      reserved0;
-		wchar_t*      desktop;
-		wchar_t*      title;
+		wchar_t* reserved0;
+		wchar_t* desktop;
+		wchar_t* title;
 		std::uint32_t x;
 		std::uint32_t y;
 		std::uint32_t xSize;
@@ -358,9 +358,9 @@ namespace REX::W32
 		std::uint16_t showWindow;
 		std::uint16_t reserved1;
 		std::uint8_t* reserved2;
-		void*         stdIn;
-		void*         stdOut;
-		void*         stdErr;
+		void* stdIn;
+		void* stdOut;
+		void* stdErr;
 	};
 	static_assert(sizeof(STARTUPINFOW) == 0x68);
 
@@ -375,45 +375,45 @@ namespace REX::W32
 				std::uint16_t reserved;
 			};
 		};
-		std::uint32_t  pageSize;
-		void*          appAddressMin;
-		void*          appAddressMax;
+		std::uint32_t pageSize;
+		void* appAddressMin;
+		void* appAddressMax;
 		std::uintptr_t processorActiveMask;
-		std::uint32_t  processorCount;
-		std::uint32_t  processorType;
-		std::uint32_t  allocationGranularity;
-		std::uint16_t  processorLevel;
-		std::uint16_t  processorRevision;
+		std::uint32_t processorCount;
+		std::uint32_t processorType;
+		std::uint32_t allocationGranularity;
+		std::uint16_t processorLevel;
+		std::uint16_t processorRevision;
 	};
 	static_assert(sizeof(SYSTEM_INFO) == 0x30);
 
 	struct WIN32_FIND_DATAA
 	{
 		std::uint32_t fileAttributes;
-		FILETIME      creationTime;
-		FILETIME      lastAccessTime;
-		FILETIME      lastWriteTime;
+		FILETIME creationTime;
+		FILETIME lastAccessTime;
+		FILETIME lastWriteTime;
 		std::uint32_t fileSizeHi;
 		std::uint32_t fileSizeLo;
 		std::uint32_t reserved0;
 		std::uint32_t reserved1;
-		char          fileName[MAX_PATH];
-		char          fileNameAlt[14];
+		char fileName[MAX_PATH];
+		char fileNameAlt[14];
 	};
 	static_assert(sizeof(WIN32_FIND_DATAA) == 0x140);
 
 	struct WIN32_FIND_DATAW
 	{
 		std::uint32_t fileAttributes;
-		FILETIME      creationTime;
-		FILETIME      lastAccessTime;
-		FILETIME      lastWriteTime;
+		FILETIME creationTime;
+		FILETIME lastAccessTime;
+		FILETIME lastWriteTime;
 		std::uint32_t fileSizeHi;
 		std::uint32_t fileSizeLo;
 		std::uint32_t reserved0;
 		std::uint32_t reserved1;
-		wchar_t       fileName[MAX_PATH];
-		wchar_t       fileNameAlt[14];
+		wchar_t fileName[MAX_PATH];
+		wchar_t fileNameAlt[14];
 	};
 	static_assert(sizeof(WIN32_FIND_DATAW) == 0x250);
 }
@@ -425,82 +425,82 @@ namespace REX::W32
 
 namespace REX::W32
 {
-	bool                  CloseHandle(HANDLE a_handle) noexcept;
-	HANDLE                CreateFileMappingA(HANDLE a_file, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_protect, std::uint32_t a_maxSizeHigh, std::uint32_t a_maxSizeLow, const char* a_name) noexcept;
-	HANDLE                CreateFileMappingW(HANDLE a_file, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_protect, std::uint32_t a_maxSizeHigh, std::uint32_t a_maxSizeLow, const wchar_t* a_name) noexcept;
-	bool                  CreateProcessA(const char* a_name, char* a_cmd, SECURITY_ATTRIBUTES* a_procAttr, SECURITY_ATTRIBUTES* a_threadAttr, bool a_inheritHandles, std::uint32_t a_flags, void* a_env, const char* a_curDir, STARTUPINFOA* a_startInfo, PROCESS_INFORMATION* a_procInfo) noexcept;
-	bool                  CreateProcessW(const wchar_t* a_name, wchar_t* a_cmd, SECURITY_ATTRIBUTES* a_procAttr, SECURITY_ATTRIBUTES* a_threadAttr, bool a_inheritHandles, std::uint32_t a_flags, void* a_env, const wchar_t* a_curDir, STARTUPINFOW* a_startInfo, PROCESS_INFORMATION* a_procInfo) noexcept;
-	HANDLE                CreateRemoteThread(HANDLE a_process, SECURITY_ATTRIBUTES* a_threadAttr, std::size_t a_stackSize, THREAD_START_ROUTINE* a_startAddr, void* a_param, std::uint32_t a_flags, std::uint32_t* a_threadID) noexcept;
-	HANDLE                CreateSemaphoreA(SECURITY_ATTRIBUTES* a_semaphoreAttr, std::int32_t a_initCount, std::int32_t a_maxCount, const char* a_name);
-	HANDLE                CreateThread(SECURITY_ATTRIBUTES* a_threadAttr, std::size_t a_stackSize, THREAD_START_ROUTINE* a_startAddr, void* a_param, std::uint32_t a_flags, std::uint32_t* a_threadID) noexcept;
-	void                  DeleteCriticalSection(CRITICAL_SECTION* a_criticalSection);
-	void                  EnterCriticalSection(CRITICAL_SECTION* a_criticalSection);
-	std::uint32_t         ExpandEnvironmentStrings(const char* a_src, char* a_dst, std::uint32_t a_dstLen) noexcept;
-	std::uint32_t         ExpandEnvironmentStrings(const wchar_t* a_src, wchar_t* a_dst, std::uint32_t a_dstLen) noexcept;
-	bool                  FindClose(HANDLE a_file) noexcept;
-	HANDLE                FindFirstFileA(const char* a_name, WIN32_FIND_DATAA* a_data) noexcept;
-	HANDLE                FindFirstFileW(const wchar_t* a_name, WIN32_FIND_DATAW* a_data) noexcept;
-	bool                  FindNextFileA(HANDLE a_file, WIN32_FIND_DATAA* a_data) noexcept;
-	bool                  FindNextFileW(HANDLE a_file, WIN32_FIND_DATAW* a_data) noexcept;
-	bool                  FlushInstructionCache(HANDLE a_process, const void* a_baseAddr, std::size_t a_size) noexcept;
-	bool                  FreeLibrary(HMODULE a_module) noexcept;
-	HMODULE               GetCurrentModule() noexcept;
-	HANDLE                GetCurrentProcess() noexcept;
-	std::uint32_t         GetCurrentThreadId() noexcept;
-	std::uint32_t         GetEnvironmentVariableA(const char* a_name, char* a_buf, std::uint32_t a_bufLen) noexcept;
-	std::uint32_t         GetEnvironmentVariableW(const wchar_t* a_name, wchar_t* a_buf, std::uint32_t a_bufLen) noexcept;
-	std::uint32_t         GetLastError() noexcept;
-	std::uint32_t         GetModuleFileNameA(HMODULE a_module, char* a_name, std::uint32_t a_nameLen) noexcept;
-	std::uint32_t         GetModuleFileNameW(HMODULE a_module, wchar_t* a_name, std::uint32_t a_nameLen) noexcept;
-	HMODULE               GetModuleHandleA(const char* a_name) noexcept;
-	HMODULE               GetModuleHandleW(const wchar_t* a_name) noexcept;
-	std::uint32_t         GetPrivateProfileStringA(const char* a_app, const char* a_key, const char* a_default, char* a_buf, std::uint32_t a_bufLen, const char* a_name) noexcept;
-	std::uint32_t         GetPrivateProfileStringW(const wchar_t* a_app, const wchar_t* a_key, const wchar_t* a_default, wchar_t* a_buf, std::uint32_t a_bufLen, const wchar_t* a_name) noexcept;
-	void*                 GetProcAddress(HMODULE a_module, const char* a_name) noexcept;
-	void                  GetSystemInfo(SYSTEM_INFO* a_info) noexcept;
-	bool                  IMAGE_SNAP_BY_ORDINAL64(std::uint64_t a_ordinal) noexcept;
+	bool CloseHandle(HANDLE a_handle) noexcept;
+	HANDLE CreateFileMappingA(HANDLE a_file, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_protect, std::uint32_t a_maxSizeHigh, std::uint32_t a_maxSizeLow, const char* a_name) noexcept;
+	HANDLE CreateFileMappingW(HANDLE a_file, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_protect, std::uint32_t a_maxSizeHigh, std::uint32_t a_maxSizeLow, const wchar_t* a_name) noexcept;
+	bool CreateProcessA(const char* a_name, char* a_cmd, SECURITY_ATTRIBUTES* a_procAttr, SECURITY_ATTRIBUTES* a_threadAttr, bool a_inheritHandles, std::uint32_t a_flags, void* a_env, const char* a_curDir, STARTUPINFOA* a_startInfo, PROCESS_INFORMATION* a_procInfo) noexcept;
+	bool CreateProcessW(const wchar_t* a_name, wchar_t* a_cmd, SECURITY_ATTRIBUTES* a_procAttr, SECURITY_ATTRIBUTES* a_threadAttr, bool a_inheritHandles, std::uint32_t a_flags, void* a_env, const wchar_t* a_curDir, STARTUPINFOW* a_startInfo, PROCESS_INFORMATION* a_procInfo) noexcept;
+	HANDLE CreateRemoteThread(HANDLE a_process, SECURITY_ATTRIBUTES* a_threadAttr, std::size_t a_stackSize, THREAD_START_ROUTINE* a_startAddr, void* a_param, std::uint32_t a_flags, std::uint32_t* a_threadID) noexcept;
+	HANDLE CreateSemaphoreA(SECURITY_ATTRIBUTES* a_semaphoreAttr, std::int32_t a_initCount, std::int32_t a_maxCount, const char* a_name);
+	HANDLE CreateThread(SECURITY_ATTRIBUTES* a_threadAttr, std::size_t a_stackSize, THREAD_START_ROUTINE* a_startAddr, void* a_param, std::uint32_t a_flags, std::uint32_t* a_threadID) noexcept;
+	void DeleteCriticalSection(CRITICAL_SECTION* a_criticalSection);
+	void EnterCriticalSection(CRITICAL_SECTION* a_criticalSection);
+	std::uint32_t ExpandEnvironmentStrings(const char* a_src, char* a_dst, std::uint32_t a_dstLen) noexcept;
+	std::uint32_t ExpandEnvironmentStrings(const wchar_t* a_src, wchar_t* a_dst, std::uint32_t a_dstLen) noexcept;
+	bool FindClose(HANDLE a_file) noexcept;
+	HANDLE FindFirstFileA(const char* a_name, WIN32_FIND_DATAA* a_data) noexcept;
+	HANDLE FindFirstFileW(const wchar_t* a_name, WIN32_FIND_DATAW* a_data) noexcept;
+	bool FindNextFileA(HANDLE a_file, WIN32_FIND_DATAA* a_data) noexcept;
+	bool FindNextFileW(HANDLE a_file, WIN32_FIND_DATAW* a_data) noexcept;
+	bool FlushInstructionCache(HANDLE a_process, const void* a_baseAddr, std::size_t a_size) noexcept;
+	bool FreeLibrary(HMODULE a_module) noexcept;
+	HMODULE GetCurrentModule() noexcept;
+	HANDLE GetCurrentProcess() noexcept;
+	std::uint32_t GetCurrentThreadId() noexcept;
+	std::uint32_t GetEnvironmentVariableA(const char* a_name, char* a_buf, std::uint32_t a_bufLen) noexcept;
+	std::uint32_t GetEnvironmentVariableW(const wchar_t* a_name, wchar_t* a_buf, std::uint32_t a_bufLen) noexcept;
+	std::uint32_t GetLastError() noexcept;
+	std::uint32_t GetModuleFileNameA(HMODULE a_module, char* a_name, std::uint32_t a_nameLen) noexcept;
+	std::uint32_t GetModuleFileNameW(HMODULE a_module, wchar_t* a_name, std::uint32_t a_nameLen) noexcept;
+	HMODULE GetModuleHandleA(const char* a_name) noexcept;
+	HMODULE GetModuleHandleW(const wchar_t* a_name) noexcept;
+	std::uint32_t GetPrivateProfileStringA(const char* a_app, const char* a_key, const char* a_default, char* a_buf, std::uint32_t a_bufLen, const char* a_name) noexcept;
+	std::uint32_t GetPrivateProfileStringW(const wchar_t* a_app, const wchar_t* a_key, const wchar_t* a_default, wchar_t* a_buf, std::uint32_t a_bufLen, const wchar_t* a_name) noexcept;
+	void* GetProcAddress(HMODULE a_module, const char* a_name) noexcept;
+	void GetSystemInfo(SYSTEM_INFO* a_info) noexcept;
+	bool IMAGE_SNAP_BY_ORDINAL64(std::uint64_t a_ordinal) noexcept;
 	IMAGE_SECTION_HEADER* IMAGE_FIRST_SECTION(const IMAGE_NT_HEADERS64* a_header) noexcept;
-	bool                  InitializeCriticalSectionAndSpinCount(CRITICAL_SECTION* a_criticalSection, std::uint32_t a_spinCount);
-	std::uint32_t         InterlockedCompareExchange(volatile std::uint32_t* a_target, std::uint32_t a_value, std::uint32_t a_compare) noexcept;
-	std::uint64_t         InterlockedCompareExchange64(volatile std::uint64_t* a_target, std::uint64_t a_value, std::uint64_t a_compare) noexcept;
-	std::uint32_t         InterlockedDecrement(volatile std::uint32_t* a_target) noexcept;
-	std::uint64_t         InterlockedDecrement64(volatile std::uint64_t* a_target) noexcept;
-	std::uint32_t         InterlockedExchange(volatile std::uint32_t* a_target, std::uint32_t a_value) noexcept;
-	std::uint64_t         InterlockedExchange64(volatile std::uint64_t* a_target, std::uint64_t a_value) noexcept;
-	std::uint32_t         InterlockedIncrement(volatile std::uint32_t* a_target) noexcept;
-	std::uint64_t         InterlockedIncrement64(volatile std::uint64_t* a_target) noexcept;
-	bool                  IsDebuggerPresent() noexcept;
-	std::int32_t          LCMapStringEx(const wchar_t* a_locale, std::uint32_t a_flags, const wchar_t* a_src, std::int32_t a_srcLen, wchar_t* a_dst, std::int32_t a_dstLen, NLSVERSIONINFO* a_info, void* a_reserved, std::intptr_t a_sortHandle) noexcept;
-	void                  LeaveCriticalSection(CRITICAL_SECTION* a_criticalSection);
-	HMODULE               LoadLibraryA(const char* a_name) noexcept;
-	HMODULE               LoadLibraryW(const wchar_t* a_name) noexcept;
-	void*                 MapViewOfFile(HANDLE a_object, std::uint32_t a_desiredAccess, std::uint32_t a_fileOffsetHi, std::uint32_t a_fileOffsetLo, std::size_t a_numBytes) noexcept;
-	void*                 MapViewOfFileEx(HANDLE a_object, std::uint32_t a_desiredAccess, std::uint32_t a_fileOffsetHi, std::uint32_t a_fileOffsetLo, std::size_t a_numBytes, void* a_baseAddr) noexcept;
-	std::int32_t          MultiByteToWideChar(std::uint32_t a_codePage, std::uint32_t a_flags, const char* a_src, std::int32_t a_srcLen, wchar_t* a_dst, std::int32_t a_dstLen) noexcept;
-	HANDLE                OpenFileMappingA(std::uint32_t a_desiredAccess, bool a_inheritHandle, const char* a_name) noexcept;
-	HANDLE                OpenFileMappingW(std::uint32_t a_desiredAccess, bool a_inheritHandle, const wchar_t* a_name) noexcept;
-	void                  OutputDebugStringA(const char* a_str) noexcept;
-	void                  OutputDebugStringW(const wchar_t* a_str) noexcept;
-	bool                  QueryPerformanceCounter(std::int64_t* a_counter) noexcept;
-	bool                  QueryPerformanceFrequency(std::int64_t* a_frequency) noexcept;
-	std::uint32_t         ResumeThread(HANDLE a_handle) noexcept;
-	bool                  SetEnvironmentVariableA(const char* a_name, const char* a_value) noexcept;
-	bool                  SetEnvironmentVariableW(const wchar_t* a_name, const wchar_t* a_value) noexcept;
-	void                  Sleep(std::uint32_t a_milliseconds) noexcept;
-	bool                  TerminateProcess(HANDLE a_process, std::uint32_t a_exitCode) noexcept;
-	void*                 TlsGetValue(std::uint32_t a_index) noexcept;
-	bool                  TlsSetValue(std::uint32_t a_index, void* a_value) noexcept;
-	bool                  UnmapViewOfFile(const void* a_baseAddress) noexcept;
-	void*                 VirtualAlloc(void* a_address, std::size_t a_size, std::uint32_t a_type, std::uint32_t a_protect) noexcept;
-	void*                 VirtualAllocEx(HANDLE a_process, void* a_address, std::size_t a_size, std::uint32_t a_type, std::uint32_t a_protect) noexcept;
-	bool                  VirtualFree(void* a_address, std::size_t a_size, std::uint32_t a_type) noexcept;
-	bool                  VirtualFreeEx(HANDLE a_process, void* a_address, std::size_t a_size, std::uint32_t a_type) noexcept;
-	bool                  VirtualProtect(void* a_address, std::size_t a_size, std::uint32_t a_newProtect, std::uint32_t* a_oldProtect) noexcept;
-	bool                  VirtualProtectEx(HANDLE a_process, void* a_address, std::size_t a_size, std::uint32_t a_newProtect, std::uint32_t* a_oldProtect) noexcept;
-	std::size_t           VirtualQuery(const void* a_address, MEMORY_BASIC_INFORMATION* a_buf, std::size_t a_bufLen) noexcept;
-	std::size_t           VirtualQueryEx(HANDLE a_process, const void* a_address, MEMORY_BASIC_INFORMATION* a_buf, std::size_t a_bufLen) noexcept;
-	std::uint32_t         WaitForSingleObject(HANDLE a_handle, std::uint32_t a_milliseconds) noexcept;
-	std::uint32_t         WaitForSingleObjectEx(HANDLE a_handle, std::uint32_t a_milliseconds, bool a_alertable) noexcept;
-	std::int32_t          WideCharToMultiByte(std::uint32_t a_codePage, std::uint32_t a_flags, const wchar_t* a_src, std::int32_t a_srcLen, char* a_dst, std::int32_t a_dstLen, const char* a_default, std::int32_t* a_defaultLen);
-	bool                  WriteProcessMemory(HANDLE a_process, void* a_address, const void* a_buf, std::size_t a_bufLen, std::size_t* a_bufWritten) noexcept;
+	bool InitializeCriticalSectionAndSpinCount(CRITICAL_SECTION* a_criticalSection, std::uint32_t a_spinCount);
+	std::uint32_t InterlockedCompareExchange(volatile std::uint32_t* a_target, std::uint32_t a_value, std::uint32_t a_compare) noexcept;
+	std::uint64_t InterlockedCompareExchange64(volatile std::uint64_t* a_target, std::uint64_t a_value, std::uint64_t a_compare) noexcept;
+	std::uint32_t InterlockedDecrement(volatile std::uint32_t* a_target) noexcept;
+	std::uint64_t InterlockedDecrement64(volatile std::uint64_t* a_target) noexcept;
+	std::uint32_t InterlockedExchange(volatile std::uint32_t* a_target, std::uint32_t a_value) noexcept;
+	std::uint64_t InterlockedExchange64(volatile std::uint64_t* a_target, std::uint64_t a_value) noexcept;
+	std::uint32_t InterlockedIncrement(volatile std::uint32_t* a_target) noexcept;
+	std::uint64_t InterlockedIncrement64(volatile std::uint64_t* a_target) noexcept;
+	bool IsDebuggerPresent() noexcept;
+	std::int32_t LCMapStringEx(const wchar_t* a_locale, std::uint32_t a_flags, const wchar_t* a_src, std::int32_t a_srcLen, wchar_t* a_dst, std::int32_t a_dstLen, NLSVERSIONINFO* a_info, void* a_reserved, std::intptr_t a_sortHandle) noexcept;
+	void LeaveCriticalSection(CRITICAL_SECTION* a_criticalSection);
+	HMODULE LoadLibraryA(const char* a_name) noexcept;
+	HMODULE LoadLibraryW(const wchar_t* a_name) noexcept;
+	void* MapViewOfFile(HANDLE a_object, std::uint32_t a_desiredAccess, std::uint32_t a_fileOffsetHi, std::uint32_t a_fileOffsetLo, std::size_t a_numBytes) noexcept;
+	void* MapViewOfFileEx(HANDLE a_object, std::uint32_t a_desiredAccess, std::uint32_t a_fileOffsetHi, std::uint32_t a_fileOffsetLo, std::size_t a_numBytes, void* a_baseAddr) noexcept;
+	std::int32_t MultiByteToWideChar(std::uint32_t a_codePage, std::uint32_t a_flags, const char* a_src, std::int32_t a_srcLen, wchar_t* a_dst, std::int32_t a_dstLen) noexcept;
+	HANDLE OpenFileMappingA(std::uint32_t a_desiredAccess, bool a_inheritHandle, const char* a_name) noexcept;
+	HANDLE OpenFileMappingW(std::uint32_t a_desiredAccess, bool a_inheritHandle, const wchar_t* a_name) noexcept;
+	void OutputDebugStringA(const char* a_str) noexcept;
+	void OutputDebugStringW(const wchar_t* a_str) noexcept;
+	bool QueryPerformanceCounter(std::int64_t* a_counter) noexcept;
+	bool QueryPerformanceFrequency(std::int64_t* a_frequency) noexcept;
+	std::uint32_t ResumeThread(HANDLE a_handle) noexcept;
+	bool SetEnvironmentVariableA(const char* a_name, const char* a_value) noexcept;
+	bool SetEnvironmentVariableW(const wchar_t* a_name, const wchar_t* a_value) noexcept;
+	void Sleep(std::uint32_t a_milliseconds) noexcept;
+	bool TerminateProcess(HANDLE a_process, std::uint32_t a_exitCode) noexcept;
+	void* TlsGetValue(std::uint32_t a_index) noexcept;
+	bool TlsSetValue(std::uint32_t a_index, void* a_value) noexcept;
+	bool UnmapViewOfFile(const void* a_baseAddress) noexcept;
+	void* VirtualAlloc(void* a_address, std::size_t a_size, std::uint32_t a_type, std::uint32_t a_protect) noexcept;
+	void* VirtualAllocEx(HANDLE a_process, void* a_address, std::size_t a_size, std::uint32_t a_type, std::uint32_t a_protect) noexcept;
+	bool VirtualFree(void* a_address, std::size_t a_size, std::uint32_t a_type) noexcept;
+	bool VirtualFreeEx(HANDLE a_process, void* a_address, std::size_t a_size, std::uint32_t a_type) noexcept;
+	bool VirtualProtect(void* a_address, std::size_t a_size, std::uint32_t a_newProtect, std::uint32_t* a_oldProtect) noexcept;
+	bool VirtualProtectEx(HANDLE a_process, void* a_address, std::size_t a_size, std::uint32_t a_newProtect, std::uint32_t* a_oldProtect) noexcept;
+	std::size_t VirtualQuery(const void* a_address, MEMORY_BASIC_INFORMATION* a_buf, std::size_t a_bufLen) noexcept;
+	std::size_t VirtualQueryEx(HANDLE a_process, const void* a_address, MEMORY_BASIC_INFORMATION* a_buf, std::size_t a_bufLen) noexcept;
+	std::uint32_t WaitForSingleObject(HANDLE a_handle, std::uint32_t a_milliseconds) noexcept;
+	std::uint32_t WaitForSingleObjectEx(HANDLE a_handle, std::uint32_t a_milliseconds, bool a_alertable) noexcept;
+	std::int32_t WideCharToMultiByte(std::uint32_t a_codePage, std::uint32_t a_flags, const wchar_t* a_src, std::int32_t a_srcLen, char* a_dst, std::int32_t a_dstLen, const char* a_default, std::int32_t* a_defaultLen);
+	bool WriteProcessMemory(HANDLE a_process, void* a_address, const void* a_buf, std::size_t a_bufLen, std::size_t* a_bufWritten) noexcept;
 }

@@ -37,8 +37,7 @@ namespace REL
 			if (!REX::W32::NT_SUCCESS(REX::W32::BCryptHashData(
 					hash,
 					reinterpret_cast<std::uint8_t*>(const_cast<std::byte*>(a_data.data())),  // does not modify contents of buffer
-					static_cast<std::uint32_t>(a_data.size()))))
-			{
+					static_cast<std::uint32_t>(a_data.size())))) {
 				log::error("failed to hash data");
 				return std::nullopt;
 			}
@@ -50,8 +49,7 @@ namespace REL
 					REX::W32::BCRYPT_HASH_LENGTH,
 					reinterpret_cast<std::uint8_t*>(&hashLen),
 					sizeof(hashLen),
-					&discard)))
-			{
+					&discard))) {
 				log::error("failed to get property");
 				return std::nullopt;
 			}
@@ -60,8 +58,7 @@ namespace REL
 			if (!REX::W32::NT_SUCCESS(REX::W32::BCryptFinishHash(
 					hash,
 					buffer.data(),
-					static_cast<std::uint32_t>(buffer.size()))))
-			{
+					static_cast<std::uint32_t>(buffer.size())))) {
 				log::error("failed to finish hash");
 				return std::nullopt;
 			}

@@ -281,13 +281,13 @@ namespace REX::W32
 
 namespace REX::W32
 {
-	bool          GetClientRect(HWND a_wnd, RECT* a_rect) noexcept;
-	std::int32_t  GetKeyNameTextA(std::int32_t a_param, char* a_buf, std::int32_t a_bufLen) noexcept;
-	std::int32_t  GetKeyNameTextW(std::int32_t a_param, wchar_t* a_buf, std::int32_t a_bufLen) noexcept;
-	std::int16_t  GetKeyState(std::int32_t a_key) noexcept;
-	bool          GetWindowRect(HWND a_wnd, RECT* a_rect) noexcept;
-	std::int32_t  MessageBoxA(HWND a_wnd, const char* a_text, const char* a_caption, std::uint32_t a_type) noexcept;
-	std::int32_t  MessageBoxW(HWND a_wnd, const wchar_t* a_text, const wchar_t* a_caption, std::uint32_t a_type) noexcept;
+	bool GetClientRect(HWND a_wnd, RECT* a_rect) noexcept;
+	std::int32_t GetKeyNameTextA(std::int32_t a_param, char* a_buf, std::int32_t a_bufLen) noexcept;
+	std::int32_t GetKeyNameTextW(std::int32_t a_param, wchar_t* a_buf, std::int32_t a_bufLen) noexcept;
+	std::int16_t GetKeyState(std::int32_t a_key) noexcept;
+	bool GetWindowRect(HWND a_wnd, RECT* a_rect) noexcept;
+	std::int32_t MessageBoxA(HWND a_wnd, const char* a_text, const char* a_caption, std::uint32_t a_type) noexcept;
+	std::int32_t MessageBoxW(HWND a_wnd, const wchar_t* a_text, const wchar_t* a_caption, std::uint32_t a_type) noexcept;
 	std::intptr_t SetWindowLongPtrA(HWND a_wnd, std::int32_t a_index, std::intptr_t a_newPtr) noexcept;
-	std::int32_t  ShowCursor(bool a_show) noexcept;
+	std::int32_t ShowCursor(bool a_show) noexcept;
 }

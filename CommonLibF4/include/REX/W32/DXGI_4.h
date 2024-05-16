@@ -47,11 +47,11 @@ namespace REX::W32
 		IDXGIAdapter3 : public IDXGIAdapter2
 	{
 		virtual HRESULT RegisterHardwareContentProtectionTeardownStatusEvent(HANDLE a_event, std::uint32_t* a_cookie) = 0;
-		virtual void    UnregisterHardwareContentProtectionTeardownStatus(std::uint32_t a_cookie) = 0;
+		virtual void UnregisterHardwareContentProtectionTeardownStatus(std::uint32_t a_cookie) = 0;
 		virtual HRESULT QueryVideoMemoryInfo(std::uint32_t a_nodeIndex, DXGI_MEMORY_SEGMENT_GROUP a_memorySegmentGroup, DXGI_QUERY_VIDEO_MEMORY_INFO* a_videoMemoryInfo) = 0;
 		virtual HRESULT SetVideoMemoryReservation(std::uint32_t a_nodeIndex, DXGI_MEMORY_SEGMENT_GROUP a_memorySegmentGroup, std::uint64_t a_reservation) = 0;
 		virtual HRESULT RegisterVideoMemoryBudgetChangeNotificationEvent(HANDLE a_event, std::uint32_t* a_cookie) = 0;
-		virtual void    UnregisterVideoMemoryBudgetChangeNotification(std::uint32_t a_cookie) = 0;
+		virtual void UnregisterVideoMemoryBudgetChangeNotification(std::uint32_t a_cookie) = 0;
 	};
 
 	struct __declspec(novtable, uuid("1BC6EA02-EF36-464F-BF0C-21CA39E5168A"))
@@ -71,9 +71,9 @@ namespace REX::W32
 		IDXGISwapChain3 : public IDXGISwapChain2
 	{
 		virtual std::uint32_t GetCurrentBackBufferIndex(void) = 0;
-		virtual HRESULT       CheckColorSpaceSupport(DXGI_COLOR_SPACE_TYPE a_colorSpace, std::uint32_t* a_colorSpaceSupport) = 0;
-		virtual HRESULT       SetColorSpace1(DXGI_COLOR_SPACE_TYPE a_colorSpace) = 0;
-		virtual HRESULT       ResizeBuffers1(std::uint32_t a_bufferCount, std::uint32_t a_width, std::uint32_t a_height, DXGI_FORMAT a_format, std::uint32_t a_swapChainFlags, const std::uint32_t* a_creationNodeMask, IUnknown* const* a_presentQueue) = 0;
+		virtual HRESULT CheckColorSpaceSupport(DXGI_COLOR_SPACE_TYPE a_colorSpace, std::uint32_t* a_colorSpaceSupport) = 0;
+		virtual HRESULT SetColorSpace1(DXGI_COLOR_SPACE_TYPE a_colorSpace) = 0;
+		virtual HRESULT ResizeBuffers1(std::uint32_t a_bufferCount, std::uint32_t a_width, std::uint32_t a_height, DXGI_FORMAT a_format, std::uint32_t a_swapChainFlags, const std::uint32_t* a_creationNodeMask, IUnknown* const* a_presentQueue) = 0;
 	};
 }
 

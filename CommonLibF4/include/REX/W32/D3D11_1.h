@@ -81,17 +81,17 @@ namespace REX::W32
 
 	struct D3D11_KEY_EXCHANGE_HW_PROTECTION_DATA
 	{
-		std::uint32_t                                 hwProtectionFunctionID;
-		D3D11_KEY_EXCHANGE_HW_PROTECTION_INPUT_DATA*  inputData;
+		std::uint32_t hwProtectionFunctionID;
+		D3D11_KEY_EXCHANGE_HW_PROTECTION_INPUT_DATA* inputData;
 		D3D11_KEY_EXCHANGE_HW_PROTECTION_OUTPUT_DATA* outputData;
-		HRESULT                                       status;
+		HRESULT status;
 	};
 
 	struct D3D11_KEY_EXCHANGE_HW_PROTECTION_INPUT_DATA
 	{
 		std::uint32_t privateDataSize;
 		std::uint32_t hwProtectionDataSize;
-		std::uint8_t  input[4];
+		std::uint8_t input[4];
 	};
 
 	struct D3D11_KEY_EXCHANGE_HW_PROTECTION_OUTPUT_DATA
@@ -101,57 +101,57 @@ namespace REX::W32
 		std::uint32_t hwProtectionDataSize;
 		std::uint64_t transportTime;
 		std::uint64_t executionTime;
-		std::uint8_t  output[4];
+		std::uint8_t output[4];
 	};
 
 	struct D3D11_RASTERIZER_DESC1
 	{
 		D3D11_FILL_MODE fillMode;
 		D3D11_CULL_MODE cullMode;
-		BOOL            frontCounterClockwise;
-		std::int32_t    depthBias;
-		float           depthBiasClamp;
-		float           slopeScaledDepthBias;
-		BOOL            depthClipEnable;
-		BOOL            scissorEnable;
-		BOOL            multisampleEnable;
-		BOOL            antialiasedLineEnable;
-		std::uint32_t   forcedSampleCount;
+		BOOL frontCounterClockwise;
+		std::int32_t depthBias;
+		float depthBiasClamp;
+		float slopeScaledDepthBias;
+		BOOL depthClipEnable;
+		BOOL scissorEnable;
+		BOOL multisampleEnable;
+		BOOL antialiasedLineEnable;
+		std::uint32_t forcedSampleCount;
 	};
 
 	struct D3D11_RENDER_TARGET_BLEND_DESC1
 	{
-		BOOL           blendEnable;
-		BOOL           logicOpEnable;
-		D3D11_BLEND    srcBlend;
-		D3D11_BLEND    destBlend;
+		BOOL blendEnable;
+		BOOL logicOpEnable;
+		D3D11_BLEND srcBlend;
+		D3D11_BLEND destBlend;
 		D3D11_BLEND_OP blendOp;
-		D3D11_BLEND    srcBlendAlpha;
-		D3D11_BLEND    destBlendAlpha;
+		D3D11_BLEND srcBlendAlpha;
+		D3D11_BLEND destBlendAlpha;
 		D3D11_BLEND_OP blendOpAlpha;
 		D3D11_LOGIC_OP logicOp;
-		std::uint8_t   renderTargetWriteMask;
+		std::uint8_t renderTargetWriteMask;
 	};
 
 	struct D3D11_VIDEO_DECODER_BEGIN_FRAME_CRYPTO_SESSION
 	{
 		ID3D11CryptoSession* cryptoSession;
-		std::uint32_t        blobSize;
-		void*                blob;
-		GUID*                keyInfoId;
-		std::uint32_t        privateDataSize;
-		void*                privateData;
+		std::uint32_t blobSize;
+		void* blob;
+		GUID* keyInfoId;
+		std::uint32_t privateDataSize;
+		void* privateData;
 	};
 
 	struct D3D11_VIDEO_DECODER_BUFFER_DESC1
 	{
-		D3D11_VIDEO_DECODER_BUFFER_TYPE               bufferType;
-		std::uint32_t                                 dataOffset;
-		std::uint32_t                                 dataSize;
-		void*                                         iv;
-		std::uint32_t                                 ivSize;
+		D3D11_VIDEO_DECODER_BUFFER_TYPE bufferType;
+		std::uint32_t dataOffset;
+		std::uint32_t dataSize;
+		void* iv;
+		std::uint32_t ivSize;
 		D3D11_VIDEO_DECODER_SUB_SAMPLE_MAPPING_BLOCK* subSampleMappingBlock;
-		std::uint32_t                                 subSampleMappingCount;
+		std::uint32_t subSampleMappingCount;
 	};
 
 	struct D3D11_VIDEO_DECODER_SUB_SAMPLE_MAPPING_BLOCK
@@ -162,24 +162,24 @@ namespace REX::W32
 
 	struct D3D11_VIDEO_PROCESSOR_STREAM_BEHAVIOR_HINT
 	{
-		BOOL          enable;
+		BOOL enable;
 		std::uint32_t width;
 		std::uint32_t height;
-		DXGI_FORMAT   format;
+		DXGI_FORMAT format;
 	};
 
 	struct D3D11_VIDEO_SAMPLE_DESC
 	{
-		std::uint32_t         width;
-		std::uint32_t         height;
-		DXGI_FORMAT           format;
+		std::uint32_t width;
+		std::uint32_t height;
+		DXGI_FORMAT format;
 		DXGI_COLOR_SPACE_TYPE colorSpace;
 	};
 
 	struct D3D11_BLEND_DESC1
 	{
-		BOOL                            alphaToCoverageEnable;
-		BOOL                            independentBlendEnable;
+		BOOL alphaToCoverageEnable;
+		BOOL independentBlendEnable;
 		D3D11_RENDER_TARGET_BLEND_DESC1 renderTarget[8];
 	};
 }
@@ -195,8 +195,8 @@ namespace REX::W32
 	{
 		virtual std::int32_t BeginEvent(const wchar_t* a_name) = 0;
 		virtual std::int32_t EndEvent(void) = 0;
-		virtual void         SetMarker(const wchar_t* a_name) = 0;
-		virtual BOOL         GetStatus(void) = 0;
+		virtual void SetMarker(const wchar_t* a_name) = 0;
+		virtual BOOL GetStatus(void) = 0;
 	};
 
 	struct __declspec(novtable, uuid("cc86fabe-da55-401d-85e7-e3c9de2877e9"))
@@ -208,7 +208,7 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("a04bfb29-08ef-43d6-a49c-a9bdbdcbe686"))
 		ID3D11Device1 : public ID3D11Device
 	{
-		virtual void    GetImmediateContext1(ID3D11DeviceContext1** a_immediateContext) = 0;
+		virtual void GetImmediateContext1(ID3D11DeviceContext1** a_immediateContext) = 0;
 		virtual HRESULT CreateDeferredContext1(std::uint32_t a_contextFlags, ID3D11DeviceContext1** a_deferredContext) = 0;
 		virtual HRESULT CreateBlendState1(const D3D11_BLEND_DESC1* a_blendStateDesc, ID3D11BlendState1** a_blendState) = 0;
 		virtual HRESULT CreateRasterizerState1(const D3D11_RASTERIZER_DESC1* a_rasterizerDesc, ID3D11RasterizerState1** a_rasterizerState) = 0;
@@ -255,14 +255,14 @@ namespace REX::W32
 		virtual HRESULT CheckCryptoSessionStatus(ID3D11CryptoSession* a_cryptoSession, D3D11_CRYPTO_SESSION_STATUS* a_status) = 0;
 		virtual HRESULT DecoderEnableDownsampling(ID3D11VideoDecoder* a_decoder, DXGI_COLOR_SPACE_TYPE a_inputColorSpace, const D3D11_VIDEO_SAMPLE_DESC* a_outputDesc, std::uint32_t a_referenceFrameCount) = 0;
 		virtual HRESULT DecoderUpdateDownsampling(ID3D11VideoDecoder* a_decoder, const D3D11_VIDEO_SAMPLE_DESC* a_outputDesc) = 0;
-		virtual void    VideoProcessorSetOutputColorSpace1(ID3D11VideoProcessor* a_videoProcessor, DXGI_COLOR_SPACE_TYPE a_colorSpace) = 0;
-		virtual void    VideoProcessorSetOutputShaderUsage(ID3D11VideoProcessor* a_videoProcessor, BOOL a_shaderUsage) = 0;
-		virtual void    VideoProcessorGetOutputColorSpace1(ID3D11VideoProcessor* a_videoProcessor, DXGI_COLOR_SPACE_TYPE* a_colorSpace) = 0;
-		virtual void    VideoProcessorGetOutputShaderUsage(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_shaderUsage) = 0;
-		virtual void    VideoProcessorSetStreamColorSpace1(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, DXGI_COLOR_SPACE_TYPE a_colorSpace) = 0;
-		virtual void    VideoProcessorSetStreamMirror(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, BOOL a_flipHorizontal, BOOL a_flipVertical) = 0;
-		virtual void    VideoProcessorGetStreamColorSpace1(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, DXGI_COLOR_SPACE_TYPE* a_colorSpace) = 0;
-		virtual void    VideoProcessorGetStreamMirror(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enable, BOOL* a_flipHorizontal, BOOL* a_flipVertical) = 0;
+		virtual void VideoProcessorSetOutputColorSpace1(ID3D11VideoProcessor* a_videoProcessor, DXGI_COLOR_SPACE_TYPE a_colorSpace) = 0;
+		virtual void VideoProcessorSetOutputShaderUsage(ID3D11VideoProcessor* a_videoProcessor, BOOL a_shaderUsage) = 0;
+		virtual void VideoProcessorGetOutputColorSpace1(ID3D11VideoProcessor* a_videoProcessor, DXGI_COLOR_SPACE_TYPE* a_colorSpace) = 0;
+		virtual void VideoProcessorGetOutputShaderUsage(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_shaderUsage) = 0;
+		virtual void VideoProcessorSetStreamColorSpace1(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, DXGI_COLOR_SPACE_TYPE a_colorSpace) = 0;
+		virtual void VideoProcessorSetStreamMirror(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, BOOL a_flipHorizontal, BOOL a_flipVertical) = 0;
+		virtual void VideoProcessorGetStreamColorSpace1(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, DXGI_COLOR_SPACE_TYPE* a_colorSpace) = 0;
+		virtual void VideoProcessorGetStreamMirror(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enable, BOOL* a_flipHorizontal, BOOL* a_flipVertical) = 0;
 		virtual HRESULT VideoProcessorGetBehaviorHints(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_outputWidth, std::uint32_t a_outputHeight, DXGI_FORMAT a_outputFormat, std::uint32_t a_streamCount, const D3D11_VIDEO_PROCESSOR_STREAM_BEHAVIOR_HINT* a_streams, std::uint32_t* a_behaviorHints) = 0;
 	};
 

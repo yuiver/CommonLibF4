@@ -261,7 +261,7 @@ namespace REX::W32
 	struct LUID
 	{
 		std::uint32_t lo;
-		std::int32_t  hi;
+		std::int32_t hi;
 	};
 }
 
@@ -269,28 +269,28 @@ namespace REX::W32
 {
 	struct DXGI_ADAPTER_DESC
 	{
-		wchar_t       description[128];
+		wchar_t description[128];
 		std::uint32_t vendorId;
 		std::uint32_t deviceId;
 		std::uint32_t subSysId;
 		std::uint32_t revision;
-		std::size_t   dedicatedVideoMemory;
-		std::size_t   dedicatedSystemMemory;
-		std::size_t   sharedSystemMemory;
-		LUID          adapterLuid;
+		std::size_t dedicatedVideoMemory;
+		std::size_t dedicatedSystemMemory;
+		std::size_t sharedSystemMemory;
+		LUID adapterLuid;
 	};
 
 	struct DXGI_ADAPTER_DESC1
 	{
-		wchar_t       description[128];
+		wchar_t description[128];
 		std::uint32_t vendorId;
 		std::uint32_t deviceId;
 		std::uint32_t subSysId;
 		std::uint32_t revision;
-		std::size_t   dedicatedVideoMemory;
-		std::size_t   dedicatedSystemMemory;
-		std::size_t   sharedSystemMemory;
-		LUID          adapterLuid;
+		std::size_t dedicatedVideoMemory;
+		std::size_t dedicatedSystemMemory;
+		std::size_t sharedSystemMemory;
+		LUID adapterLuid;
 		std::uint32_t flags;
 	};
 
@@ -305,8 +305,8 @@ namespace REX::W32
 		std::uint32_t presentCount;
 		std::uint32_t presentRefreshCount;
 		std::uint32_t syncRefreshCount;
-		std::int64_t  syncQPCTime;
-		std::int64_t  syncGPUTime;
+		std::int64_t syncQPCTime;
+		std::int64_t syncGPUTime;
 	};
 
 	struct DXGI_RGB
@@ -325,16 +325,16 @@ namespace REX::W32
 
 	struct DXGI_GAMMA_CONTROL_CAPABILITIES
 	{
-		BOOL          scaleAndOffsetSupported;
-		float         maxConvertedValue;
-		float         minConvertedValue;
+		BOOL scaleAndOffsetSupported;
+		float maxConvertedValue;
+		float minConvertedValue;
 		std::uint32_t numGammaControlPoints;
-		float         controlPointPositions[1025];
+		float controlPointPositions[1025];
 	};
 
 	struct DXGI_MAPPED_RECT
 	{
-		std::int32_t  pitch;
+		std::int32_t pitch;
 		std::uint8_t* bits;
 	};
 
@@ -346,21 +346,21 @@ namespace REX::W32
 
 	struct DXGI_MODE_DESC
 	{
-		std::uint32_t            width;
-		std::uint32_t            height;
-		DXGI_RATIONAL            refreshRate;
-		DXGI_FORMAT              format;
+		std::uint32_t width;
+		std::uint32_t height;
+		DXGI_RATIONAL refreshRate;
+		DXGI_FORMAT format;
 		DXGI_MODE_SCANLINE_ORDER scanlineOrdering;
-		DXGI_MODE_SCALING        scaling;
+		DXGI_MODE_SCALING scaling;
 	};
 
 	struct DXGI_OUTPUT_DESC
 	{
-		wchar_t            deviceName[32];
-		RECT               desktopCoordinates;
-		BOOL               attachedToDesktop;
+		wchar_t deviceName[32];
+		RECT desktopCoordinates;
+		BOOL attachedToDesktop;
 		DXGI_MODE_ROTATION rotation;
-		HMONITOR           monitor;
+		HMONITOR monitor;
 	};
 
 	struct DXGI_SAMPLE_DESC
@@ -376,22 +376,22 @@ namespace REX::W32
 
 	struct DXGI_SURFACE_DESC
 	{
-		std::uint32_t    width;
-		std::uint32_t    height;
-		DXGI_FORMAT      format;
+		std::uint32_t width;
+		std::uint32_t height;
+		DXGI_FORMAT format;
 		DXGI_SAMPLE_DESC sampleDesc;
 	};
 
 	struct DXGI_SWAP_CHAIN_DESC
 	{
-		DXGI_MODE_DESC   bufferDesc;
+		DXGI_MODE_DESC bufferDesc;
 		DXGI_SAMPLE_DESC sampleDesc;
-		DXGI_USAGE       bufferUsage;
-		std::uint32_t    bufferCount;
-		HWND             outputWindow;
-		BOOL             windowed;
+		DXGI_USAGE bufferUsage;
+		std::uint32_t bufferCount;
+		HWND outputWindow;
+		BOOL windowed;
 		DXGI_SWAP_EFFECT swapEffect;
-		std::uint32_t    flags;
+		std::uint32_t flags;
 	};
 }
 
@@ -465,7 +465,7 @@ namespace REX::W32
 		virtual HRESULT FindClosestMatchingMode(const DXGI_MODE_DESC* a_modeToMatch, DXGI_MODE_DESC* a_closestMatch, IUnknown* a_concernedDevice) = 0;
 		virtual HRESULT WaitForVBlank(void) = 0;
 		virtual HRESULT TakeOwnership(IUnknown* a_device, BOOL a_exclusive) = 0;
-		virtual void    ReleaseOwnership(void) = 0;
+		virtual void ReleaseOwnership(void) = 0;
 		virtual HRESULT GetGammaControlCapabilities(DXGI_GAMMA_CONTROL_CAPABILITIES* a_gammaCaps) = 0;
 		virtual HRESULT SetGammaControl(const DXGI_GAMMA_CONTROL* a_array) = 0;
 		virtual HRESULT GetGammaControl(DXGI_GAMMA_CONTROL* a_array) = 0;
@@ -503,7 +503,7 @@ namespace REX::W32
 		IDXGIFactory1 : public IDXGIFactory
 	{
 		virtual HRESULT EnumAdapters1(std::uint32_t a_adapterSize, IDXGIAdapter1** a_adapter) = 0;
-		virtual BOOL    IsCurrent(void) = 0;
+		virtual BOOL IsCurrent(void) = 0;
 	};
 
 	struct __declspec(novtable, uuid("54ec77fa-1377-44e6-8c32-88fd5f44c84c"))

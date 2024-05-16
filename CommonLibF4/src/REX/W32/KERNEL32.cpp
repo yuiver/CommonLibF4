@@ -245,8 +245,8 @@ namespace REX::W32
 	IMAGE_SECTION_HEADER* IMAGE_FIRST_SECTION(const IMAGE_NT_HEADERS64* a_header) noexcept
 	{
 		constexpr auto opt = __builtin_offsetof(IMAGE_NT_HEADERS64, optionalHeader);
-		const auto     optSize = a_header->fileHeader.optionalHeaderSize;
-		const auto     section = reinterpret_cast<std::uintptr_t>(a_header) + opt + optSize;
+		const auto optSize = a_header->fileHeader.optionalHeaderSize;
+		const auto section = reinterpret_cast<std::uintptr_t>(a_header) + opt + optSize;
 		return reinterpret_cast<IMAGE_SECTION_HEADER*>(section);
 	}
 

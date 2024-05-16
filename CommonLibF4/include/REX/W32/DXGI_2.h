@@ -70,60 +70,60 @@ namespace REX::W32
 {
 	struct DXGI_ADAPTER_DESC2
 	{
-		wchar_t                              description[128];
-		std::uint32_t                        vendorID;
-		std::uint32_t                        deviceID;
-		std::uint32_t                        subSysID;
-		std::uint32_t                        revision;
-		std::size_t                          dedicatedVideoMemory;
-		std::size_t                          dedicatedSystemMemory;
-		std::size_t                          sharedSystemMemory;
-		LUID                                 adapterLUID;
-		std::uint32_t                        flags;
+		wchar_t description[128];
+		std::uint32_t vendorID;
+		std::uint32_t deviceID;
+		std::uint32_t subSysID;
+		std::uint32_t revision;
+		std::size_t dedicatedVideoMemory;
+		std::size_t dedicatedSystemMemory;
+		std::size_t sharedSystemMemory;
+		LUID adapterLUID;
+		std::uint32_t flags;
 		DXGI_GRAPHICS_PREEMPTION_GRANULARITY graphicsPreemptionGranularity;
-		DXGI_COMPUTE_PREEMPTION_GRANULARITY  computePreemptionGranularity;
+		DXGI_COMPUTE_PREEMPTION_GRANULARITY computePreemptionGranularity;
 	};
 
 	struct DXGI_MODE_DESC1
 	{
-		std::uint32_t            width;
-		std::uint32_t            height;
-		DXGI_RATIONAL            refreshRate;
-		DXGI_FORMAT              format;
+		std::uint32_t width;
+		std::uint32_t height;
+		DXGI_RATIONAL refreshRate;
+		DXGI_FORMAT format;
 		DXGI_MODE_SCANLINE_ORDER scanlineOrdering;
-		DXGI_MODE_SCALING        scaling;
-		BOOL                     stereo;
+		DXGI_MODE_SCALING scaling;
+		BOOL stereo;
 	};
 
 	struct DXGI_OUTDUPL_DESC
 	{
-		DXGI_MODE_DESC     modeDesc;
+		DXGI_MODE_DESC modeDesc;
 		DXGI_MODE_ROTATION rotation;
-		BOOL               desktopImageInSystemMemory;
+		BOOL desktopImageInSystemMemory;
 	};
 
 	struct DXGI_OUTDUPL_POINTER_POSITION
 	{
 		POINT position;
-		BOOL  visible;
+		BOOL visible;
 	};
 
 	struct DXGI_OUTDUPL_FRAME_INFO
 	{
-		std::int64_t                  lastPresentTime;
-		std::int64_t                  lastMouseUpdateTime;
-		std::uint32_t                 accumulatedFrames;
-		BOOL                          rectsCoalesced;
-		BOOL                          protectedContentMaskedOut;
+		std::int64_t lastPresentTime;
+		std::int64_t lastMouseUpdateTime;
+		std::uint32_t accumulatedFrames;
+		BOOL rectsCoalesced;
+		BOOL protectedContentMaskedOut;
 		DXGI_OUTDUPL_POINTER_POSITION pointerPosition;
-		std::uint32_t                 totalMetadataBufferSize;
-		std::uint32_t                 pointerShapeBufferSize;
+		std::uint32_t totalMetadataBufferSize;
+		std::uint32_t pointerShapeBufferSize;
 	};
 
 	struct DXGI_OUTDUPL_MOVE_RECT
 	{
 		POINT sourcePoint;
-		RECT  destinationRect;
+		RECT destinationRect;
 	};
 
 	struct DXGI_OUTDUPL_POINTER_SHAPE_INFO
@@ -132,38 +132,38 @@ namespace REX::W32
 		std::uint32_t width;
 		std::uint32_t height;
 		std::uint32_t pitch;
-		POINT         hotSpot;
+		POINT hotSpot;
 	};
 
 	struct DXGI_PRESENT_PARAMETERS
 	{
 		std::uint32_t dirtyRectsCount;
-		RECT*         dirtyRects;
-		RECT*         scrollRect;
-		POINT*        scrollOffset;
+		RECT* dirtyRects;
+		RECT* scrollRect;
+		POINT* scrollOffset;
 	};
 
 	struct DXGI_SWAP_CHAIN_DESC1
 	{
-		std::uint32_t    width;
-		std::uint32_t    height;
-		DXGI_FORMAT      format;
-		BOOL             stereo;
+		std::uint32_t width;
+		std::uint32_t height;
+		DXGI_FORMAT format;
+		BOOL stereo;
 		DXGI_SAMPLE_DESC sampleDesc;
-		DXGI_USAGE       bufferUsage;
-		std::uint32_t    bufferCount;
-		DXGI_SCALING     scaling;
+		DXGI_USAGE bufferUsage;
+		std::uint32_t bufferCount;
+		DXGI_SCALING scaling;
 		DXGI_SWAP_EFFECT swapEffect;
-		DXGI_ALPHA_MODE  alphaMode;
-		std::uint32_t    flags;
+		DXGI_ALPHA_MODE alphaMode;
+		std::uint32_t flags;
 	};
 
 	struct DXGI_SWAP_CHAIN_FULLSCREEN_DESC
 	{
-		DXGI_RATIONAL            refreshRate;
+		DXGI_RATIONAL refreshRate;
 		DXGI_MODE_SCANLINE_ORDER scanlineOrdering;
-		DXGI_MODE_SCALING        scaling;
-		BOOL                     windowed;
+		DXGI_MODE_SCALING scaling;
+		BOOL windowed;
 	};
 }
 
@@ -193,16 +193,16 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("50C83A1C-E072-4C48-87B0-3630FA36A6D0"))
 		IDXGIFactory2 : public IDXGIFactory1
 	{
-		virtual BOOL    IsWindowedStereoEnabled(void) = 0;
+		virtual BOOL IsWindowedStereoEnabled(void) = 0;
 		virtual HRESULT CreateSwapChainForHwnd(IUnknown* a_device, HWND a_wnd, const DXGI_SWAP_CHAIN_DESC1* a_desc, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* a_fullscreenDesc, IDXGIOutput* a_restrictToOutput, IDXGISwapChain1** a_swapChain) = 0;
 		virtual HRESULT CreateSwapChainForCoreWindow(IUnknown* a_device, IUnknown* a_window, const DXGI_SWAP_CHAIN_DESC1* a_desc, IDXGIOutput* a_restrictToOutput, IDXGISwapChain1** a_swapChain) = 0;
 		virtual HRESULT GetSharedResourceAdapterLuid(HANDLE a_resource, LUID* a_luid) = 0;
 		virtual HRESULT RegisterStereoStatusWindow(HWND a_wnd, std::uint32_t a_msg, std::uint32_t* a_cookie) = 0;
 		virtual HRESULT RegisterStereoStatusEvent(HANDLE a_event, std::uint32_t* a_cookie) = 0;
-		virtual void    UnregisterStereoStatus(std::uint32_t a_cookie) = 0;
+		virtual void UnregisterStereoStatus(std::uint32_t a_cookie) = 0;
 		virtual HRESULT RegisterOcclusionStatusWindow(HWND a_wnd, std::uint32_t a_msg, std::uint32_t* a_cookie) = 0;
 		virtual HRESULT RegisterOcclusionStatusEvent(HANDLE a_event, std::uint32_t* a_cookie) = 0;
-		virtual void    UnregisterOcclusionStatus(std::uint32_t dwCookie) = 0;
+		virtual void UnregisterOcclusionStatus(std::uint32_t dwCookie) = 0;
 		virtual HRESULT CreateSwapChainForComposition(IUnknown* a_device, const DXGI_SWAP_CHAIN_DESC1* a_desc, IDXGIOutput* a_restrictToOutput, IDXGISwapChain1** a_swapChain) = 0;
 	};
 
@@ -218,7 +218,7 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("191CFAC3-A341-470D-B26E-A864F428319C"))
 		IDXGIOutputDuplication : public IDXGIObject
 	{
-		virtual void    GetDesc(DXGI_OUTDUPL_DESC* a_desc) = 0;
+		virtual void GetDesc(DXGI_OUTDUPL_DESC* a_desc) = 0;
 		virtual HRESULT AcquireNextFrame(std::uint32_t a_timeoutInMilliseconds, DXGI_OUTDUPL_FRAME_INFO* a_frameInfo, IDXGIResource** a_desktopResource) = 0;
 		virtual HRESULT GetFrameDirtyRects(std::uint32_t a_dirtyRectsBufferSize, RECT* a_dirtyRectsBuffer, std::uint32_t* a_dirtyRectsBufferSizeRequired) = 0;
 		virtual HRESULT GetFrameMoveRects(std::uint32_t a_moveRectsBufferSize, DXGI_OUTDUPL_MOVE_RECT* a_moveRectBuffer, std::uint32_t* a_moveRectsBufferSizeRequired) = 0;
@@ -249,7 +249,7 @@ namespace REX::W32
 		virtual HRESULT GetHwnd(HWND* a_wnd) = 0;
 		virtual HRESULT GetCoreWindow(const IID& a_iid, void** a_unk) = 0;
 		virtual HRESULT Present1(std::uint32_t a_syncInterval, std::uint32_t a_presentFlags, const DXGI_PRESENT_PARAMETERS* a_presentParameters) = 0;
-		virtual BOOL    IsTemporaryMonoSupported(void) = 0;
+		virtual BOOL IsTemporaryMonoSupported(void) = 0;
 		virtual HRESULT GetRestrictToOutput(IDXGIOutput** a_restrictToOutput) = 0;
 		virtual HRESULT SetBackgroundColor(const DXGI_RGBA* a_color) = 0;
 		virtual HRESULT GetBackgroundColor(DXGI_RGBA* a_color) = 0;
