@@ -8,12 +8,19 @@ on:
   workflow_dispatch:
 
 env:
-  BUILD_TYPE: Debug
   VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
 
 jobs:
   windows:
     runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        build-type:
+          - debug
+          - release
+        compiler:
+          - msvc
     steps:
       - uses: actions/checkout@v2
         with:
@@ -35,10 +42,9 @@ jobs:
           path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}/*
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('main/**/vcpkg.json', 'vcpkg-version.txt') }}
 
-      - name: Configure CMake
-        working-directory: ${{ github.workspace }}/main
-        run: cmake --preset vs2022-windows-vcpkg
-
       - name: Build
-        working-directory: ${{ github.workspace }}/main
-        run: cmake --build build --config ${{ env.BUILD_TYPE }}
+        uses: lukka/run-cmake@v10.0
+        with:
+          cmakeListsTxtPath: ${{ github.workspace }}/main/CMakeLists.txt
+          configurePreset: build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg
+          buildPreset: ${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg
