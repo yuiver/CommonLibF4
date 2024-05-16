@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <functional>
 #include <initializer_list>
+#include <intrin.h>
 #include <iterator>
 #include <limits>
 #include <map>

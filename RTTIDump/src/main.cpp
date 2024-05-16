@@ -387,31 +387,8 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 	}
 }
 
-DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
+F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
 {
-	auto path = logger::log_directory();
-	if (!path) {
-		return false;
-	}
-
-	*path /= "RTTIDump.log"sv;
-
-	spdlog::sinks_init_list sinks{
-		std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true),
-		std::make_shared<spdlog::sinks::msvc_sink_mt>()
-	};
-
-	auto log = std::make_shared<spdlog::logger>("global", sinks);
-#ifndef NDEBUG
-	log->set_level(spdlog::level::trace);
-#else
-	log->set_level(spdlog::level::info);
-	log->flush_on(spdlog::level::warn);
-#endif
-
-	spdlog::set_default_logger(std::move(log));
-	spdlog::set_pattern("%g(%#): [%^%l%$] %v");
-
 	F4SE::Init(a_f4se);
 
 	auto messaging = F4SE::GetMessagingInterface();
@@ -420,7 +397,7 @@ DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
 	return true;
 }
 
-DLLEXPORT constinit auto F4SEPlugin_Version = []() noexcept {
+F4SE_EXPORT constinit auto F4SEPlugin_Version = []() noexcept {
 	F4SE::PluginVersionData data{};
 
 	data.PluginName("rttidump");

@@ -18,11 +18,6 @@
 #include <utility>
 #include <vector>
 
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/msvc_sink.h>
-
-#define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
-
 namespace logger = F4SE::log;
 namespace stl = F4SE::stl;
 using namespace std::literals;

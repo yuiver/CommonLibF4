@@ -280,25 +280,25 @@ namespace REL
 
 		[[nodiscard]] constexpr value_type build() const noexcept { return _impl[3]; }
 
-		[[nodiscard]] std::string string() const
+		[[nodiscard]] constexpr std::string string(const std::string_view a_separator = "."sv) const
 		{
 			std::string result;
 			for (auto&& ver : _impl) {
 				result += std::to_string(ver);
-				result += '-';
+				result.append(a_separator.data(), a_separator.size());
 			}
-			result.pop_back();
+			result.erase(result.size() - a_separator.size(), a_separator.size());
 			return result;
 		}
 
-		[[nodiscard]] std::wstring wstring() const
+		[[nodiscard]] constexpr std::wstring wstring(const std::wstring_view a_separator = L"."sv) const
 		{
 			std::wstring result;
 			for (auto&& ver : _impl) {
 				result += std::to_wstring(ver);
-				result += L'-';
+				result.append(a_separator.data(), a_separator.size());
 			}
-			result.pop_back();
+			result.erase(result.size() - a_separator.size(), a_separator.size());
 			return result;
 		}
 
@@ -609,7 +609,7 @@ namespace REL
 			const auto version = Module::get().version();
 			const auto path = std::format(
 				"Data/F4SE/Plugins/version-{}.bin",
-				version.string());
+				version.string("-"sv));
 			if (!_mmap.open(path)) {
 				stl::report_and_fail(std::format("failed to open: {}", path));
 			}
@@ -792,6 +792,28 @@ namespace REL
 		std::uintptr_t _impl{ 0 };
 	};
 }
+
+template <class CharT>
+struct std::formatter<REL::Version, CharT> : formatter<std::string, CharT>
+{
+	template <class FormatContext>
+	constexpr auto format(const REL::Version& a_version, FormatContext& a_ctx) const
+	{
+		return formatter<std::string, CharT>::format(a_version.string(), a_ctx);
+	}
+};
+
+#ifdef FMT_VERSION
+template<class CharT>
+struct fmt::formatter<REL::Version, CharT> : formatter<std::string, CharT>
+{
+    template<class FormatContext>
+    auto format(const REL::Version& a_version, FormatContext& a_ctx)
+	{
+		return formatter<std::string, CharT>::format(a_version.string(), a_ctx);
+    }
+};
+#endif
 
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER
