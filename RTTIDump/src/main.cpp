@@ -157,20 +157,20 @@ private:
 
 	std::array<char, 0x1000> buf;
 	const auto len =
-		WinAPI::UnDecorateSymbolName(
+		REX::W32::UnDecorateSymbolName(
 			a_typeDesc->mangled_name() + 1,
 			buf.data(),
 			static_cast<std::uint32_t>(buf.size()),
-			(WinAPI::UNDNAME_NO_MS_KEYWORDS) |
-				(WinAPI::UNDNAME_NO_FUNCTION_RETURNS) |
-				(WinAPI::UNDNAME_NO_ALLOCATION_MODEL) |
-				(WinAPI::UNDNAME_NO_ALLOCATION_LANGUAGE) |
-				(WinAPI::UNDNAME_NO_THISTYPE) |
-				(WinAPI::UNDNAME_NO_ACCESS_SPECIFIERS) |
-				(WinAPI::UNDNAME_NO_THROW_SIGNATURES) |
-				(WinAPI::UNDNAME_NO_RETURN_UDT_MODEL) |
-				(WinAPI::UNDNAME_NAME_ONLY) |
-				(WinAPI::UNDNAME_NO_ARGUMENTS) |
+			(REX::W32::UNDNAME_NO_MS_KEYWORDS) |
+				(REX::W32::UNDNAME_NO_FUNCTION_RETURNS) |
+				(REX::W32::UNDNAME_NO_ALLOCATION_MODEL) |
+				(REX::W32::UNDNAME_NO_ALLOCATION_LANGUAGE) |
+				(REX::W32::UNDNAME_NO_THISTYPE) |
+				(REX::W32::UNDNAME_NO_ACCESS_SPECIFIERS) |
+				(REX::W32::UNDNAME_NO_THROW_SIGNATURES) |
+				(REX::W32::UNDNAME_NO_RETURN_UDT_MODEL) |
+				(REX::W32::UNDNAME_NAME_ONLY) |
+				(REX::W32::UNDNAME_NO_ARGUMENTS) |
 				static_cast<std::uint32_t>(0x8000));  // Disable enum/class/struct/union prefix
 
 	if (len != 0) {

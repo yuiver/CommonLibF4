@@ -713,10 +713,10 @@ namespace RE
 		[[nodiscard]] bool HasType(EXTRA_DATA_TYPE a_type) const noexcept
 		{
 			assert(a_type < EXTRA_DATA_TYPE::kTotal);
-			const auto idx = stl::to_underlying(a_type) / 8;
+			const auto idx = std::to_underlying(a_type) / 8;
 			const auto flags = GetFlags();
 			if (!flags.empty() && idx < flags.size()) {
-				const auto pos = static_cast<std::uint8_t>(1u << (stl::to_underlying(a_type) % 8));
+				const auto pos = static_cast<std::uint8_t>(1u << (std::to_underlying(a_type) % 8));
 				return (flags[idx] & pos) != 0;
 			} else {
 				return false;
@@ -749,11 +749,11 @@ namespace RE
 		}
 
 	private:
-		static constexpr std::size_t N = (stl::to_underlying(EXTRA_DATA_TYPE::kTotal) / 8) + 1;
+		static constexpr std::size_t N = (std::to_underlying(EXTRA_DATA_TYPE::kTotal) / 8) + 1;
 
 		[[nodiscard]] static bool IsHighUseExtra(EXTRA_DATA_TYPE a_type) noexcept
 		{
-			return !((stl::to_underlying(a_type) - 11) & ~0x22u) && a_type != EXTRA_DATA_TYPE::kLeveledCreature;
+			return !((std::to_underlying(a_type) - 11) & ~0x22u) && a_type != EXTRA_DATA_TYPE::kLeveledCreature;
 		}
 
 		void CreateFlags() { _flags = calloc<std::uint8_t>(N); }
@@ -779,8 +779,8 @@ namespace RE
 		void MarkType(EXTRA_DATA_TYPE a_type, bool a_set)
 		{
 			assert(a_type < EXTRA_DATA_TYPE::kTotal);
-			const auto idx = stl::to_underlying(a_type) / 8;
-			const auto pos = static_cast<std::uint8_t>(1u << (stl::to_underlying(a_type) % 8));
+			const auto idx = std::to_underlying(a_type) / 8;
+			const auto pos = static_cast<std::uint8_t>(1u << (std::to_underlying(a_type) % 8));
 			const auto flags = GetOrCreateFlags();
 			if (a_set) {
 				flags[idx] |= pos;

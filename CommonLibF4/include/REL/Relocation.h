@@ -1,6 +1,7 @@
 #pragma once
 
-#include <cstdint>
+#include "REX/W32/VERSION.h"
+
 #define REL_MAKE_MEMBER_FUNCTION_POD_TYPE_HELPER_IMPL(a_nopropQual, a_propQual, ...)              \
 	template <                                                                                    \
 		class R,                                                                                  \
@@ -190,23 +191,15 @@ namespace REL
 	inline void safe_write(std::uintptr_t a_dst, const void* a_src, std::size_t a_count)
 	{
 		std::uint32_t old{ 0 };
-		auto success =
-			WinAPI::VirtualProtect(
-				reinterpret_cast<void*>(a_dst),
-				a_count,
-				(WinAPI::PAGE_EXECUTE_READWRITE),
-				std::addressof(old));
-		if (success != 0) {
+		bool success = REX::W32::VirtualProtect(
+			reinterpret_cast<void*>(a_dst), a_count, REX::W32::PAGE_EXECUTE_READWRITE, std::addressof(old));
+		if (success) {
 			std::memcpy(reinterpret_cast<void*>(a_dst), a_src, a_count);
-			success =
-				WinAPI::VirtualProtect(
-					reinterpret_cast<void*>(a_dst),
-					a_count,
-					old,
-					std::addressof(old));
+			success = REX::W32::VirtualProtect(
+				reinterpret_cast<void*>(a_dst), a_count, old, std::addressof(old));
 		}
 
-		assert(success != 0);
+		assert(success);
 	}
 
 	template <std::integral T>
@@ -224,23 +217,15 @@ namespace REL
 	inline void safe_fill(std::uintptr_t a_dst, std::uint8_t a_value, std::size_t a_count)
 	{
 		std::uint32_t old{ 0 };
-		auto success =
-			WinAPI::VirtualProtect(
-				reinterpret_cast<void*>(a_dst),
-				a_count,
-				(WinAPI::PAGE_EXECUTE_READWRITE),
-				std::addressof(old));
-		if (success != 0) {
+		bool success = REX::W32::VirtualProtect(
+			reinterpret_cast<void*>(a_dst), a_count, REX::W32::PAGE_EXECUTE_READWRITE, std::addressof(old));
+		if (success) {
 			std::fill_n(reinterpret_cast<std::uint8_t*>(a_dst), a_count, a_value);
-			success =
-				WinAPI::VirtualProtect(
-					reinterpret_cast<void*>(a_dst),
-					a_count,
-					old,
-					std::addressof(old));
+			success = REX::W32::VirtualProtect(
+				reinterpret_cast<void*>(a_dst), a_count, old, std::addressof(old));
 		}
 
-		assert(success != 0);
+		assert(success);
 	}
 
 	class Version
@@ -337,18 +322,18 @@ namespace REL
 	[[nodiscard]] inline std::optional<Version> get_file_version(stl::zwstring a_filename)
 	{
 		std::uint32_t dummy;
-		std::vector<char> buf(WinAPI::GetFileVersionInfoSize(a_filename.data(), std::addressof(dummy)));
+		std::vector<char> buf(REX::W32::GetFileVersionInfoSizeW(a_filename.data(), std::addressof(dummy)));
 		if (buf.empty()) {
 			return std::nullopt;
 		}
 
-		if (!WinAPI::GetFileVersionInfo(a_filename.data(), 0, static_cast<std::uint32_t>(buf.size()), buf.data())) {
+		if (!REX::W32::GetFileVersionInfoW(a_filename.data(), 0, static_cast<std::uint32_t>(buf.size()), buf.data())) {
 			return std::nullopt;
 		}
 
 		void* verBuf{ nullptr };
 		std::uint32_t verLen{ 0 };
-		if (!WinAPI::VerQueryValue(buf.data(), L"\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
+		if (!REX::W32::VerQueryValueW(buf.data(), L"\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
 			return std::nullopt;
 		}
 
@@ -436,7 +421,7 @@ namespace REL
 		Module()
 		{
 			const auto getFilename = [&]() {
-				return WinAPI::GetEnvironmentVariable(
+				return REX::W32::GetEnvironmentVariableW(
 					ENVIRONMENT.data(),
 					_filename.data(),
 					static_cast<std::uint32_t>(_filename.size()));
@@ -456,7 +441,7 @@ namespace REL
 
 		void load()
 		{
-			auto handle = WinAPI::GetModuleHandle(_filename.c_str());
+			auto handle = REX::W32::GetModuleHandleW(_filename.c_str());
 			if (handle == nullptr) {
 				stl::report_and_fail("failed to obtain module handle"sv);
 			}

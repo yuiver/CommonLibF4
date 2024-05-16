@@ -37,7 +37,7 @@ namespace RE
 		{
 		public:
 			// members
-			BSTArray<UserEventMapping> deviceMappings[stl::to_underlying(INPUT_DEVICE::kSupported)];  // 00
+			BSTArray<UserEventMapping> deviceMappings[std::to_underlying(INPUT_DEVICE::kSupported)];  // 00
 		};
 		static_assert(sizeof(InputContext) == 0x48);
 
@@ -97,7 +97,7 @@ namespace RE
 		void SetIgnoreKeyboardMouse(bool a_value) noexcept { ignoreKeyboardMouse = a_value; }
 
 		// members
-		InputContext* controlMaps[stl::to_underlying(UserEvents::INPUT_CONTEXT_ID::kTotal)];          // 008
+		InputContext* controlMaps[std::to_underlying(UserEvents::INPUT_CONTEXT_ID::kTotal)];          // 008
 		BSTArray<LinkedMapping> linkedMappings;                                                       // 110
 		BSTArray<stl::enumeration<UserEvents::INPUT_CONTEXT_ID, std::int32_t>> contextPriorityStack;  // 128
 		std::int8_t byTextEntryCount;                                                                 // 140

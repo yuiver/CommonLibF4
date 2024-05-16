@@ -20,13 +20,13 @@ namespace RE
 		[[nodiscard]] static hkMemoryRouter* GetInstancePtr()
 		{
 			REL::Relocation<std::uint32_t*> slot{ REL::ID(878080) };
-			return static_cast<hkMemoryRouter*>(WinAPI::TlsGetValue(*slot));
+			return static_cast<hkMemoryRouter*>(REX::W32::TlsGetValue(*slot));
 		}
 
 		static void ReplaceInstance(hkMemoryRouter* a_router)
 		{
 			REL::Relocation<std::uint32_t*> slot{ REL::ID(878080) };
-			WinAPI::TlsSetValue(*slot, a_router);
+			REX::W32::TlsSetValue(*slot, a_router);
 		}
 
 		void SetDebug(Allocator* a_val) noexcept { debug = a_val; }

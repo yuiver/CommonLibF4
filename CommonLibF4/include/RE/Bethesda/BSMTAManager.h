@@ -110,7 +110,7 @@ namespace RE
 		std::uint32_t currentFirstPass;                                                                                        // 348
 		std::uint32_t currentLastPass;                                                                                         // 34C
 		bool autoClearPasses;                                                                                                  // 350
-		GeometryGroup* geometryGroups[stl::to_underlying(GEOMETRY_GROUP_ENUM::kTotal)];                                        // 358
+		GeometryGroup* geometryGroups[std::to_underlying(GEOMETRY_GROUP_ENUM::kTotal)];                                        // 358
 		GeometryGroup* alphaGroup;                                                                                             // 410
 		std::uint32_t groupingAlphasGroupCount;                                                                                // 418
 		GeometryGroup* groupingAlphasGroup;                                                                                    // 420

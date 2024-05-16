@@ -61,7 +61,7 @@ namespace RE
 
 		[[nodiscard]] BSInputDevice* GetGamepad() const noexcept
 		{
-			return devices[stl::to_underlying(INPUT_DEVICE::kGamepad)];
+			return devices[std::to_underlying(INPUT_DEVICE::kGamepad)];
 		}
 
 		[[nodiscard]] bool IsGamepadConnected() const
@@ -71,7 +71,7 @@ namespace RE
 		}
 
 		// members
-		BSInputDevice* devices[stl::to_underlying(INPUT_DEVICE::kTotal)];  // 08
+		BSInputDevice* devices[std::to_underlying(INPUT_DEVICE::kTotal)];  // 08
 		bool deviceLightStates[3];                                         // 30
 		bool queuedGamepadEnableValue;                                     // 33
 		bool valueQueued;                                                  // 34

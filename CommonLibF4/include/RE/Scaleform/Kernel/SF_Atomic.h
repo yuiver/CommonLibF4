@@ -25,7 +25,7 @@ namespace RE::Scaleform
 	{
 	public:
 		// members
-		WinAPI::CRITICAL_SECTION cs;  // 00
+		REX::W32::CRITICAL_SECTION cs;  // 00
 	};
 	static_assert(sizeof(Lock) == 0x28);
 }
