@@ -391,8 +391,6 @@ F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
 {
 	F4SE::Init(a_f4se);
 
-	logger::info("{} v{}", F4SE::GetPluginName(), F4SE::GetPluginVersion());
-
 	auto messaging = F4SE::GetMessagingInterface();
 	messaging->RegisterListener(MessageHandler);
 

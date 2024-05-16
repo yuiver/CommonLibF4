@@ -83,6 +83,7 @@ namespace F4SE
 
 		if (a_log) {
 			log::init();
+			log::info("{} v{}", GetPluginName(), GetPluginVersion());
 		}
 
 		storage.messagingInterface = detail::QueryInterface<MessagingInterface>(a_intfc, LoadInterface::kMessaging);
