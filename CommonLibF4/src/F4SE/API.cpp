@@ -23,10 +23,15 @@ namespace F4SE
 				return singleton;
 			}
 
-			REL::Version f4seVersion;
+			std::string_view pluginName{};
+			std::string_view pluginAuthor{};
+			REL::Version pluginVersion{};
+
+			REL::Version f4seVersion{};
 			PluginHandle pluginHandle{ static_cast<PluginHandle>(-1) };
 			std::uint32_t releaseIndex{ 0 };
 			std::function<const void*(F4SEAPI)(const char*)> pluginInfoAccessor;
+			std::string_view saveFolderName{};
 
 			MessagingInterface* messagingInterface{ nullptr };
 			ScaleformInterface* scaleformInterface{ nullptr };
@@ -52,7 +57,7 @@ namespace F4SE
 		}
 	}
 
-	void Init(const LoadInterface* a_intfc) noexcept
+	void Init(const LoadInterface* a_intfc, const bool a_log) noexcept
 	{
 		if (!a_intfc) {
 			stl::report_and_fail("interface is null"sv);
@@ -64,16 +69,21 @@ namespace F4SE
 		auto& storage = detail::APIStorage::get();
 		const auto& intfc = *a_intfc;
 
+		if (const auto pluginVersionData = PluginVersionData::GetSingleton()) {
+			storage.pluginName = pluginVersionData->GetPluginName();
+			storage.pluginAuthor = pluginVersionData->GetAuthorName();
+			storage.pluginVersion = pluginVersionData->GetPluginVersion();
+		}
+
 		storage.f4seVersion = intfc.F4SEVersion();
 		storage.pluginHandle = intfc.GetPluginHandle();
 		storage.releaseIndex = intfc.GetReleaseIndex();
-		storage.pluginInfoAccessor = [&]() -> decltype(storage.pluginInfoAccessor) {
-			if (storage.f4seVersion >= REL::Version{ 0, 6, 22 }) {
-				return reinterpret_cast<const detail::F4SEInterface&>(intfc).GetPluginInfo;
-			} else {
-				return nullptr;
-			}
-		}();
+		storage.pluginInfoAccessor = reinterpret_cast<const detail::F4SEInterface&>(intfc).GetPluginInfo;
+		storage.saveFolderName = intfc.GetSaveFolderName();
+
+		if (a_log) {
+			log::init();
+		}
 
 		storage.messagingInterface = detail::QueryInterface<MessagingInterface>(a_intfc, LoadInterface::kMessaging);
 		storage.scaleformInterface = detail::QueryInterface<ScaleformInterface>(a_intfc, LoadInterface::kScaleform);
@@ -82,6 +92,21 @@ namespace F4SE
 		storage.taskInterface = detail::QueryInterface<TaskInterface>(a_intfc, LoadInterface::kTask);
 		storage.objectInterface = detail::QueryInterface<ObjectInterface>(a_intfc, LoadInterface::kObject);
 		storage.trampolineInterface = detail::QueryInterface<TrampolineInterface>(a_intfc, LoadInterface::kTrampoline);
+	}
+
+	std::string_view GetPluginName() noexcept
+	{
+		return detail::APIStorage::get().pluginName;
+	}
+
+	std::string_view GetPluginAuthor() noexcept
+	{
+		return detail::APIStorage::get().pluginAuthor;
+	}
+
+	REL::Version GetPluginVersion() noexcept
+	{
+		return detail::APIStorage::get().pluginVersion;
 	}
 
 	REL::Version GetF4SEVersion() noexcept
@@ -111,6 +136,11 @@ namespace F4SE
 
 		log::warn("failed to get plugin info for {}", a_plugin);
 		return std::nullopt;
+	}
+
+	std::string_view GetSaveFolderName() noexcept
+	{
+		return detail::APIStorage::get().saveFolderName;
 	}
 
 	const MessagingInterface* GetMessagingInterface() noexcept

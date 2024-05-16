@@ -36,6 +36,8 @@ namespace F4SE::log
 	F4SE_MAKE_SOURCE_LOGGER(critical, critical);
 
 	[[nodiscard]] std::optional<std::filesystem::path> log_directory();
+
+	void init();
 }
 
 #undef F4SE_MAKE_SOURCE_LOGGER

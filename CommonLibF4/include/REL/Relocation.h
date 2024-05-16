@@ -793,6 +793,16 @@ namespace REL
 	};
 }
 
+template <class CharT>
+struct std::formatter<REL::Version, CharT> : formatter<std::string, CharT>
+{
+	template <class FormatContext>
+	constexpr auto format(const REL::Version& a_version, FormatContext& a_ctx) const
+	{
+		return formatter<std::string, CharT>::format(a_version.string(), a_ctx);
+	}
+};
+
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER_IMPL
