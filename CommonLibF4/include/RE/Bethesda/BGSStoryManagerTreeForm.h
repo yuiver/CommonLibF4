@@ -72,43 +72,47 @@ namespace RE
 	{
 	public:
 		// members
-		float questDelayTime;   // 0
-		std::uint16_t flags;    // 4
-		std::int8_t priority;   // 6
-		std::int8_t questType;  // 7
+		float questDelayTime;   // 00
+		std::uint16_t flags;    // 04
+		std::int8_t priority;   // 06
+		std::int8_t questType;  // 07
 	};
 	static_assert(sizeof(QUEST_DATA) == 0x8);
 
 	class BGSQuestInstanceText
 	{
 	public:
-		static void ParseString(BSStringT<char>* inOutText, const TESQuest* quest, std::uint32_t instanceID)
-		{
-			using func_t = decltype(&BGSQuestInstanceText::ParseString);
-			REL::Relocation<func_t> func{ REL::ID(2206630) };
-			return func(inOutText, quest, instanceID);
-		}
-
 		struct StringData
 		{
-			std::uint32_t aliasID;
-			std::uint32_t fullNameFormID;
+		public:
+			// members
+			std::uint32_t aliasID;         // 00
+			std::uint32_t fullNameFormID;  // 04
 		};
 		static_assert(sizeof(StringData) == 0x8);
 
 		struct GlobabValueData
 		{
-			const TESGlobal* globab;
-			float value;
+		public:
+			// members
+			const TESGlobal* global;  // 00
+			float value;              // 08
 		};
 		static_assert(sizeof(GlobabValueData) == 0x10);
 
+		static void ParseString(BSStringT<char>* a_inOutText, const TESQuest* a_quest, std::uint32_t a_instanceID)
+		{
+			using func_t = decltype(&BGSQuestInstanceText::ParseString);
+			REL::Relocation<func_t> func{ REL::ID(2206630) };
+			return func(a_inOutText, a_quest, a_instanceID);
+		}
+
 		// Members
-		std::uint32_t ID;                                           // 00
-		BSTArray<BGSQuestInstanceText::StringData> StringData;      // 08
-		BSTArray<BGSQuestInstanceText::GlobabValueData> ValueData;  // 20
-		std::uint16_t JournalStage;                                 // 38
-		std::uint16_t JournalStageItem;                             // 3A
+		std::uint32_t id;                                           // 00
+		BSTArray<BGSQuestInstanceText::StringData> stringData;      // 08
+		BSTArray<BGSQuestInstanceText::GlobabValueData> valueData;  // 20
+		std::uint16_t journalStage;                                 // 38
+		std::uint16_t journalStageItem;                             // 3A
 	};
 	static_assert(sizeof(BGSQuestInstanceText) == 0x40);
 
