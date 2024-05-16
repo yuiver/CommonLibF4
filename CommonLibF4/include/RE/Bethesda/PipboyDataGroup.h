@@ -6,8 +6,7 @@
 
 namespace RE
 {
-	class PipboyDataGroup
-		: BSTEventSource<PipboyValueChangedEvent>
+	class PipboyDataGroup : BSTEventSource<PipboyValueChangedEvent>
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::PipboyDataGroup };
@@ -20,7 +19,7 @@ namespace RE
 		virtual void DoClearSink();
 
 		REX::W32::CRITICAL_SECTION PipboyDataMutex;
-		void* rThrottleManager; // PipboyThrottleManager
+		void* rThrottleManager;  // PipboyThrottleManager
 		PipboyValue* rootValue;
 	};
 	static_assert(sizeof(PipboyDataGroup) == 0x98);
