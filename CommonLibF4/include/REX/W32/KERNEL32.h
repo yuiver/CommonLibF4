@@ -444,6 +444,8 @@ namespace REX::W32
 	bool FindNextFileW(HANDLE a_file, WIN32_FIND_DATAW* a_data) noexcept;
 	bool FlushInstructionCache(HANDLE a_process, const void* a_baseAddr, std::size_t a_size) noexcept;
 	bool FreeLibrary(HMODULE a_module) noexcept;
+	bool GetComputerNameA(char* a_buffer, std::uint32_t* a_size) noexcept;
+	bool GetComputerNameW(wchar_t* a_buffer, std::uint32_t* a_size) noexcept;
 	HMODULE GetCurrentModule() noexcept;
 	HANDLE GetCurrentProcess() noexcept;
 	std::uint32_t GetCurrentThreadId() noexcept;

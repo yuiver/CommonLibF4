@@ -19,6 +19,8 @@ REX_W32_IMPORT(REX::W32::BOOL, FindNextFileA, REX::W32::HANDLE, REX::W32::WIN32_
 REX_W32_IMPORT(REX::W32::BOOL, FindNextFileW, REX::W32::HANDLE, REX::W32::WIN32_FIND_DATAW*);
 REX_W32_IMPORT(REX::W32::BOOL, FlushInstructionCache, REX::W32::HANDLE, const void*, std::size_t);
 REX_W32_IMPORT(REX::W32::BOOL, FreeLibrary, REX::W32::HMODULE);
+REX_W32_IMPORT(REX::W32::BOOL, GetComputerNameA, char*, std::uint32_t*);
+REX_W32_IMPORT(REX::W32::BOOL, GetComputerNameW, wchar_t*, std::uint32_t*);
 REX_W32_IMPORT(REX::W32::HANDLE, GetCurrentProcess);
 REX_W32_IMPORT(std::uint32_t, GetCurrentThreadId);
 REX_W32_IMPORT(std::uint32_t, GetEnvironmentVariableA, const char*, char*, std::uint32_t);
@@ -165,6 +167,16 @@ namespace REX::W32
 	bool FreeLibrary(HMODULE a_module) noexcept
 	{
 		return ::W32_IMPL_FreeLibrary(a_module);
+	}
+
+	bool GetComputerNameA(char* a_buffer, std::uint32_t* a_size) noexcept
+	{
+		return ::W32_IMPL_GetComputerNameA(a_buffer, a_size);
+	}
+
+	bool GetComputerNameW(wchar_t* a_buffer, std::uint32_t* a_size) noexcept
+	{
+		return ::W32_IMPL_GetComputerNameW(a_buffer, a_size);
 	}
 
 	HMODULE GetCurrentModule() noexcept
