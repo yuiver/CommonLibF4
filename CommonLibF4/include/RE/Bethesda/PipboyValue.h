@@ -26,13 +26,13 @@ namespace RE
 			kInt8 = 0x1,
 			kUint8 = 0x2,
 			kInt32 = 0x3,
-			kUint32= 0x4,
+			kUint32 = 0x4,
 			kFloat = 0x5,
 			kString = 0x6,
 			kArray = 0x7,
 			kObject = 0x8,
 		};
-	
+
 		virtual ~PipboyValue();  // 00
 
 		// add
