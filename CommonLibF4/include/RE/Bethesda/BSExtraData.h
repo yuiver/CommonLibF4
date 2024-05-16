@@ -350,8 +350,12 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::ExtraHealth };
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kHealth };
 
-		ExtraHealth();
-		ExtraHealth(float health);
+		ExtraHealth(float health) :
+			BSExtraData(TYPE),
+			health(health)
+		{
+			stl::emplace_vtable(this);
+		}
 
 		// members
 		float health;  // 18
@@ -899,6 +903,7 @@ namespace RE
 		{
 			using func_t = decltype(&ExtraDataList::GetHealthPerc);
 			REL::Relocation<func_t> func{ REL::ID(2190226) };
+			return func(this);
 		}
 
 		void SetHealthPerc(float a_healthPerc)

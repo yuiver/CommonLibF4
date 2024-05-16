@@ -1770,6 +1770,20 @@ namespace RE
 			return func(this);
 		}
 
+		CHARISMA_CHALLENGE_DIFFICULTY GetSpeechChallengeLevel()
+		{
+			using func_t = decltype(&TESTopicInfo::GetSpeechChallengeLevel);
+			REL::Relocation<func_t> func{ REL::ID(2208441) };
+			return func(this);
+		}
+
+		CHARISMA_CHALLENGE_SUCCESS GetSuccessLevel()
+		{
+			using func_t = decltype(&TESTopicInfo::GetSuccessLevel);
+			REL::Relocation<func_t> func{ REL::ID(2208444) };
+			return func(this);
+		}
+
 		// members
 		TESTopic* parentTopic;          // 20
 		TESGlobal* resetGlobal;         // 28

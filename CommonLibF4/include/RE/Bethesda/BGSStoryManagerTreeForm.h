@@ -82,11 +82,11 @@ namespace RE
 	class BGSQuestInstanceText
 	{
 	public:
-		void ParseString(BSStringT<char>& inOutText, const TESQuest* quest, std::uint32_t instanceID)
+		static void ParseString(BSStringT<char>* inOutText, const TESQuest* quest, std::uint32_t instanceID)
 		{
 			using func_t = decltype(&BGSQuestInstanceText::ParseString);
-			REL::Relocation<func_t> func{ REL::ID(141681) };  // Update
-			return func(this, inOutText, quest, instanceID);
+			REL::Relocation<func_t> func{ REL::ID(2206630) };
+			return func(inOutText, quest, instanceID);
 		}
 
 		struct StringData
