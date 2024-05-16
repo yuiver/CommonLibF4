@@ -803,6 +803,18 @@ struct std::formatter<REL::Version, CharT> : formatter<std::string, CharT>
 	}
 };
 
+#ifdef FMT_VERSION
+template<class CharT>
+struct fmt::formatter<REL::Version, CharT> : formatter<std::string, CharT>
+{
+    template<class FormatContext>
+    auto format(const REL::Version& a_version, FormatContext& a_ctx)
+	{
+		return formatter<std::string, CharT>::format(a_version.string(), a_ctx);
+    }
+};
+#endif
+
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER_IMPL
