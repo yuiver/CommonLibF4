@@ -38,7 +38,7 @@ namespace F4SE
 			std::uint32_t(F4SEAPI* GetPluginHandle)(void);
 			std::uint32_t(F4SEAPI* GetReleaseIndex)(void);
 			const void*(F4SEAPI* GetPluginInfo)(const char*);  // 0.6.22+
-			const char*(F4SEAPI* GetSaveFolderName)(void);  // 0.7.1+
+			const char*(F4SEAPI* GetSaveFolderName)(void);     // 0.7.1+
 		};
 
 		struct F4SEMessagingInterface
