@@ -179,12 +179,6 @@ namespace F4SE
 		return detail::APIStorage::get().trampolineInterface;
 	}
 
-	Trampoline& GetTrampoline() noexcept
-	{
-		static Trampoline trampoline;
-		return trampoline;
-	}
-
 	void AllocTrampoline(std::size_t a_size) noexcept
 	{
 		auto& trampoline = GetTrampoline();

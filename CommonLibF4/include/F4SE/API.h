@@ -16,8 +16,6 @@ namespace F4SE
 	class ObjectInterface;
 	class TrampolineInterface;
 
-	class Trampoline;
-
 	void Init(const LoadInterface* a_intfc, bool a_log = true) noexcept;
 
 	[[nodiscard]] std::string_view GetPluginName() noexcept;
@@ -38,6 +36,5 @@ namespace F4SE
 	[[nodiscard]] const ObjectInterface* GetObjectInterface() noexcept;
 	[[nodiscard]] const TrampolineInterface* GetTrampolineInterface() noexcept;
 
-	[[nodiscard]] Trampoline& GetTrampoline() noexcept;
 	void AllocTrampoline(std::size_t a_size) noexcept;
 }
