@@ -64,7 +64,7 @@ namespace F4SE
 		}
 
 		(void)REL::Module::get();
-		(void)REL::IDDatabase::get();
+		(void)REL::IDDB::get();
 
 		auto& storage = detail::APIStorage::get();
 		const auto& intfc = *a_intfc;
@@ -177,12 +177,6 @@ namespace F4SE
 	const TrampolineInterface* GetTrampolineInterface() noexcept
 	{
 		return detail::APIStorage::get().trampolineInterface;
-	}
-
-	Trampoline& GetTrampoline() noexcept
-	{
-		static Trampoline trampoline;
-		return trampoline;
 	}
 
 	void AllocTrampoline(std::size_t a_size) noexcept

@@ -2,6 +2,7 @@
 
 #include "F4SE/F4SE.h"
 #include "RE/Fallout.h"
+#include "REL/REL.h"
 #include "REX/W32/DBGHELP.h"
 
 #include <algorithm>

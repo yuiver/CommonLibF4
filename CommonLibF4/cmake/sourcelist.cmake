@@ -344,7 +344,15 @@ set(SOURCES
 	include/RE/VTABLE_IDs.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
+	include/REL/ID.h
+	include/REL/IDDB.h
+	include/REL/Module.h
+	include/REL/Offset.h
+	include/REL/Offset2ID.h
+	include/REL/REL.h
 	include/REL/Relocation.h
+	include/REL/Segment.h
+	include/REL/Version.h
 	include/REX/W32.h
 	include/REX/W32/ADVAPI32.h
 	include/REX/W32/BASE.h
@@ -413,7 +421,10 @@ set(SOURCES
 	src/RE/NetImmerse/NiPoint3.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
+	src/REL/IDDB.cpp
+	src/REL/Module.cpp
 	src/REL/Relocation.cpp
+	src/REL/Version.cpp
 	src/REX/W32/ADVAPI32.cpp
 	src/REX/W32/BCRYPT.cpp
 	src/REX/W32/D3D11.cpp

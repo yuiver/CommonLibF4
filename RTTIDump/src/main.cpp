@@ -1,6 +1,6 @@
 [[nodiscard]] auto& get_iddb()
 {
-	static REL::IDDatabase::Offset2ID iddb;
+	static REL::Offset2ID iddb;
 	return iddb;
 }
 
