@@ -723,7 +723,7 @@ namespace REL
 	namespace stl = F4SE::stl;
 }
 
-#include "REL/Relocation.h"
+#include "REL/REL.h"
 
 #include "RE/NiRTTI_IDs.h"
 #include "RE/RTTI_IDs.h"
