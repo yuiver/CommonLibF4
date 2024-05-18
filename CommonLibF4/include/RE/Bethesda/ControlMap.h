@@ -71,8 +71,8 @@ namespace RE
 			assert(a_device < INPUT_DEVICE::kTotal);
 			assert(a_context < InputContextID::kTotal);
 
-			if (controlMaps[stl::to_underlying(a_context)]) {
-				const auto& mappings = controlMaps[stl::to_underlying(a_context)]->deviceMappings[stl::to_underlying(a_device)];
+			if (controlMaps[std::to_underlying(a_context)]) {
+				const auto& mappings = controlMaps[std::to_underlying(a_context)]->deviceMappings[std::to_underlying(a_device)];
 				BSFixedString eventID(a_eventID);
 				for (auto& mapping : mappings) {
 					if (mapping.eventID == eventID) {
