@@ -20,10 +20,10 @@ namespace RE
 		{
 		public:
 			// members
-			_FILETIME accessTime;  // 00
-			_FILETIME modifyTime;  // 08
-			_FILETIME createTime;  // 10
-			std::size_t fileSize;  // 18
+			REX::W32::FILETIME accessTime;  // 00
+			REX::W32::FILETIME modifyTime;  // 08
+			REX::W32::FILETIME createTime;  // 10
+			std::size_t fileSize;           // 18
 		};
 		static_assert(sizeof(Info) == 0x20);
 

@@ -38,6 +38,7 @@ namespace F4SE
 			std::uint32_t(F4SEAPI* GetPluginHandle)(void);
 			std::uint32_t(F4SEAPI* GetReleaseIndex)(void);
 			const void*(F4SEAPI* GetPluginInfo)(const char*);  // 0.6.22+
+			const char*(F4SEAPI* GetSaveFolderName)(void);     // 0.7.1+
 		};
 
 		struct F4SEMessagingInterface
@@ -125,6 +126,7 @@ namespace F4SE
 		[[nodiscard]] REL::Version F4SEVersion() const noexcept { return MakeVersion(GetProxy().f4seVersion); }
 		[[nodiscard]] PluginHandle GetPluginHandle() const { return GetProxy().GetPluginHandle(); }
 		[[nodiscard]] std::uint32_t GetReleaseIndex() const { return GetProxy().GetReleaseIndex(); }
+		[[nodiscard]] std::string_view GetSaveFolderName() const { return GetProxy().GetSaveFolderName(); }
 		[[nodiscard]] bool IsEditor() const noexcept { return GetProxy().isEditor != 0; }
 		[[nodiscard]] REL::Version RuntimeVersion() const noexcept { return MakeVersion(GetProxy().runtimeVersion); }
 	};
@@ -478,3 +480,7 @@ namespace F4SE
 	static_assert(offsetof(PluginVersionData, reserved) == 0x25C);
 	static_assert(sizeof(PluginVersionData) == 0x45C);
 }
+
+#define F4SE_EXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
+#define F4SE_PLUGIN_PRELOAD(...) F4SE_EXPORT bool F4SEPlugin_Preload(__VA_ARGS__)
+#define F4SE_PLUGIN_LOAD(...) F4SE_EXPORT bool F4SEPlugin_Load(__VA_ARGS__)

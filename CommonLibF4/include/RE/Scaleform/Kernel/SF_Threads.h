@@ -107,6 +107,6 @@ namespace RE::Scaleform
 	inline ThreadId GetCurrentThreadId()
 	{
 		return reinterpret_cast<ThreadId>(
-			static_cast<std::uintptr_t>(WinAPI::GetCurrentThreadID()));
+			static_cast<std::uintptr_t>(REX::W32::GetCurrentThreadId()));
 	}
 }

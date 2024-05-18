@@ -1,6 +1,6 @@
 [[nodiscard]] auto& get_iddb()
 {
-	static REL::IDDatabase::Offset2ID iddb;
+	static REL::Offset2ID iddb;
 	return iddb;
 }
 
@@ -157,20 +157,20 @@ private:
 
 	std::array<char, 0x1000> buf;
 	const auto len =
-		WinAPI::UnDecorateSymbolName(
+		REX::W32::UnDecorateSymbolName(
 			a_typeDesc->mangled_name() + 1,
 			buf.data(),
 			static_cast<std::uint32_t>(buf.size()),
-			(WinAPI::UNDNAME_NO_MS_KEYWORDS) |
-				(WinAPI::UNDNAME_NO_FUNCTION_RETURNS) |
-				(WinAPI::UNDNAME_NO_ALLOCATION_MODEL) |
-				(WinAPI::UNDNAME_NO_ALLOCATION_LANGUAGE) |
-				(WinAPI::UNDNAME_NO_THISTYPE) |
-				(WinAPI::UNDNAME_NO_ACCESS_SPECIFIERS) |
-				(WinAPI::UNDNAME_NO_THROW_SIGNATURES) |
-				(WinAPI::UNDNAME_NO_RETURN_UDT_MODEL) |
-				(WinAPI::UNDNAME_NAME_ONLY) |
-				(WinAPI::UNDNAME_NO_ARGUMENTS) |
+			(REX::W32::UNDNAME_NO_MS_KEYWORDS) |
+				(REX::W32::UNDNAME_NO_FUNCTION_RETURNS) |
+				(REX::W32::UNDNAME_NO_ALLOCATION_MODEL) |
+				(REX::W32::UNDNAME_NO_ALLOCATION_LANGUAGE) |
+				(REX::W32::UNDNAME_NO_THISTYPE) |
+				(REX::W32::UNDNAME_NO_ACCESS_SPECIFIERS) |
+				(REX::W32::UNDNAME_NO_THROW_SIGNATURES) |
+				(REX::W32::UNDNAME_NO_RETURN_UDT_MODEL) |
+				(REX::W32::UNDNAME_NAME_ONLY) |
+				(REX::W32::UNDNAME_NO_ARGUMENTS) |
 				static_cast<std::uint32_t>(0x8000));  // Disable enum/class/struct/union prefix
 
 	if (len != 0) {
@@ -387,31 +387,8 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 	}
 }
 
-DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
+F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
 {
-	auto path = logger::log_directory();
-	if (!path) {
-		return false;
-	}
-
-	*path /= "RTTIDump.log"sv;
-
-	spdlog::sinks_init_list sinks{
-		std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true),
-		std::make_shared<spdlog::sinks::msvc_sink_mt>()
-	};
-
-	auto log = std::make_shared<spdlog::logger>("global", sinks);
-#ifndef NDEBUG
-	log->set_level(spdlog::level::trace);
-#else
-	log->set_level(spdlog::level::info);
-	log->flush_on(spdlog::level::warn);
-#endif
-
-	spdlog::set_default_logger(std::move(log));
-	spdlog::set_pattern("%g(%#): [%^%l%$] %v");
-
 	F4SE::Init(a_f4se);
 
 	auto messaging = F4SE::GetMessagingInterface();
@@ -420,7 +397,7 @@ DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
 	return true;
 }
 
-DLLEXPORT constinit auto F4SEPlugin_Version = []() noexcept {
+F4SE_EXPORT constinit auto F4SEPlugin_Version = []() noexcept {
 	F4SE::PluginVersionData data{};
 
 	data.PluginName("rttidump");

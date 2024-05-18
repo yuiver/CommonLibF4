@@ -916,7 +916,7 @@ namespace RE
 			assert(a_type < KeywordType::kTotal);
 			const auto keywords = GetTypedKeywords();
 			if (keywords) {
-				const auto& arr = (*keywords)[stl::to_underlying(a_type)];
+				const auto& arr = (*keywords)[std::to_underlying(a_type)];
 				for (uint16_t i = 0; i < arr.size(); ++i) {
 					if (arr[i] == a_keyword) {
 						return i;
@@ -931,7 +931,7 @@ namespace RE
 			assert(a_type < KeywordType::kTotal);
 			const auto keywords = GetTypedKeywords();
 			if (keywords) {
-				const auto& arr = (*keywords)[stl::to_underlying(a_type)];
+				const auto& arr = (*keywords)[std::to_underlying(a_type)];
 				return a_index < arr.size() ? arr[a_index] : nullptr;
 			} else {
 				return nullptr;
@@ -939,9 +939,9 @@ namespace RE
 		}
 
 		[[nodiscard]] static auto GetTypedKeywords()
-			-> std::optional<std::span<BSTArray<BGSKeyword*>, stl::to_underlying(KeywordType::kTotal)>>
+			-> std::optional<std::span<BSTArray<BGSKeyword*>, std::to_underlying(KeywordType::kTotal)>>
 		{
-			REL::Relocation<BSTArray<BGSKeyword*>(*)[stl::to_underlying(KeywordType::kTotal)]> keywords{ REL::ID(1095775) };
+			REL::Relocation<BSTArray<BGSKeyword*>(*)[std::to_underlying(KeywordType::kTotal)]> keywords{ REL::ID(1095775) };
 			if (*keywords) {
 				return { *keywords };
 			} else {
@@ -1767,6 +1767,20 @@ namespace RE
 		{
 			using func_t = decltype(&TESTopicInfo::GetParentInfoGroup);
 			REL::Relocation<func_t> func{ REL::ID(2208435) };
+			return func(this);
+		}
+
+		CHARISMA_CHALLENGE_DIFFICULTY GetSpeechChallengeLevel()
+		{
+			using func_t = decltype(&TESTopicInfo::GetSpeechChallengeLevel);
+			REL::Relocation<func_t> func{ REL::ID(2208441) };
+			return func(this);
+		}
+
+		CHARISMA_CHALLENGE_SUCCESS GetSuccessLevel()
+		{
+			using func_t = decltype(&TESTopicInfo::GetSuccessLevel);
+			REL::Relocation<func_t> func{ REL::ID(2208444) };
 			return func(this);
 		}
 

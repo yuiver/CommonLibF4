@@ -453,8 +453,8 @@ namespace RE
 		[[nodiscard]] TESForm* GetDefaultObject(DEFAULT_OBJECT a_obj) const noexcept
 		{
 			assert(a_obj < DEFAULT_OBJECT::kTotal);
-			return objectInitArray[stl::to_underlying(a_obj)] ?
-			           objectArray[stl::to_underlying(a_obj)] :
+			return objectInitArray[std::to_underlying(a_obj)] ?
+			           objectArray[std::to_underlying(a_obj)] :
 			           nullptr;
 		}
 
@@ -469,8 +469,8 @@ namespace RE
 		}
 
 		// members
-		TESForm* objectArray[stl::to_underlying(DEFAULT_OBJECT::kTotal)];  // 020
-		bool objectInitArray[stl::to_underlying(DEFAULT_OBJECT::kTotal)];  // C70
+		TESForm* objectArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];  // 020
+		bool objectInitArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];  // C70
 	};
 	static_assert(sizeof(BGSDefaultObjectManager) == 0xE00);
 

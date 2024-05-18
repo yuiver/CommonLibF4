@@ -2,8 +2,6 @@ set(SOURCES
 	include/F4SE/API.h
 	include/F4SE/F4SE.h
 	include/F4SE/Impl/PCH.h
-	include/F4SE/Impl/ScePadAPI.h
-	include/F4SE/Impl/WinAPI.h
 	include/F4SE/Impl/XInputAPI.h
 	include/F4SE/InputMap.h
 	include/F4SE/Interfaces.h
@@ -196,8 +194,10 @@ set(SOURCES
 	include/RE/Bethesda/Movement.h
 	include/RE/Bethesda/NavMesh.h
 	include/RE/Bethesda/NavMeshInfoMap.h
+	include/RE/Bethesda/PipboyDataGroup.h
 	include/RE/Bethesda/PipboyInventoryUtils.h
 	include/RE/Bethesda/PipboyManager.h
+	include/RE/Bethesda/PipboyValue.h
 	include/RE/Bethesda/PlayerCharacter.h
 	include/RE/Bethesda/PlayerControls.h
 	include/RE/Bethesda/PowerArmor.h
@@ -347,11 +347,45 @@ set(SOURCES
 	include/RE/VTABLE_IDs.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
+	include/REL/ID.h
+	include/REL/IDDB.h
+	include/REL/Module.h
+	include/REL/Offset.h
+	include/REL/Offset2ID.h
+	include/REL/REL.h
 	include/REL/Relocation.h
+	include/REL/Segment.h
+	include/REL/Version.h
+	include/REX/W32.h
+	include/REX/W32/ADVAPI32.h
+	include/REX/W32/BASE.h
+	include/REX/W32/BCRYPT.h
+	include/REX/W32/COM.h
+	include/REX/W32/COMPTR.h
+	include/REX/W32/D3D.h
+	include/REX/W32/D3D11.h
+	include/REX/W32/D3D11_1.h
+	include/REX/W32/D3D11_2.h
+	include/REX/W32/D3D11_3.h
+	include/REX/W32/D3D11_4.h
+	include/REX/W32/D3DCOMPILER.h
+	include/REX/W32/DBGHELP.h
+	include/REX/W32/DINPUT.h
+	include/REX/W32/DXGI.h
+	include/REX/W32/DXGI_2.h
+	include/REX/W32/DXGI_3.h
+	include/REX/W32/DXGI_4.h
+	include/REX/W32/DXGI_5.h
+	include/REX/W32/DXGI_6.h
+	include/REX/W32/KERNEL32.h
+	include/REX/W32/OLE32.h
+	include/REX/W32/SHELL32.h
+	include/REX/W32/USER32.h
+	include/REX/W32/VERSION.h
+	include/REX/W32/XINPUT.h
 	src/F4SE/API.cpp
 	src/F4SE/Impl/PCH.cpp
 	src/F4SE/Impl/WinAPI.cpp
-	src/F4SE/InputMap.cpp
 	src/F4SE/Interfaces.cpp
 	src/F4SE/Logger.cpp
 	src/F4SE/Trampoline.cpp
@@ -391,5 +425,19 @@ set(SOURCES
 	src/RE/NetImmerse/NiPoint3.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
+	src/REL/IDDB.cpp
+	src/REL/Module.cpp
 	src/REL/Relocation.cpp
+	src/REL/Version.cpp
+	src/REX/W32/ADVAPI32.cpp
+	src/REX/W32/BCRYPT.cpp
+	src/REX/W32/D3D11.cpp
+	src/REX/W32/D3DCOMPILER.cpp
+	src/REX/W32/DBGHELP.cpp
+	src/REX/W32/DXGI.cpp
+	src/REX/W32/KERNEL32.cpp
+	src/REX/W32/OLE32.cpp
+	src/REX/W32/SHELL32.cpp
+	src/REX/W32/USER32.cpp
+	src/REX/W32/VERSION.cpp
 )

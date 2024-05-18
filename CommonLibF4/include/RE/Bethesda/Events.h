@@ -826,7 +826,7 @@ namespace RE
 	public:
 		[[nodiscard]] static TESInitScriptEventSource* GetSingleton()
 		{
-			REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(444105) };  // Needs updating.
+			REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(2691330) };
 			return singleton.get();
 		}
 	};

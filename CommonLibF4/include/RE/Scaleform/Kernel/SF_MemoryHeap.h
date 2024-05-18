@@ -129,7 +129,7 @@ namespace RE::Scaleform
 		virtual void CheckIntegrity() const = 0;                                                                                             // 21
 		virtual void GetUserDebugStats(RootStats* a_stats) const = 0;                                                                        // 22
 
-		void AssignToCurrentThread() { ownerThreadID = WinAPI::GetCurrentThreadID(); }
+		void AssignToCurrentThread() { ownerThreadID = REX::W32::GetCurrentThreadId(); }
 
 		// members
 		std::size_t selfSize;             // 18
