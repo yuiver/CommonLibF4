@@ -673,7 +673,7 @@ namespace RE
 		void AddKeyword(BGSKeyword* kwd)
 		{
 			using func_t = decltype(&TESObjectREFR::AddKeyword);
-			REL::Relocation<func_t> func{ REL::ID(640674) };
+			REL::Relocation<func_t> func{ REL::ID(2200860) };
 			return func(this, kwd);
 		}
 
@@ -734,14 +734,14 @@ namespace RE
 		[[nodiscard]] BGSLocation* GetCurrentLocation() const
 		{
 			using func_t = decltype(&TESObjectREFR::GetCurrentLocation);
-			REL::Relocation<func_t> func{ REL::ID(1135470) };
+			REL::Relocation<func_t> func{ REL::ID(2201163) };
 			return func(this);
 		}
 
 		[[nodiscard]] const char* GetDisplayFullName()
 		{
 			using func_t = decltype(&TESObjectREFR::GetDisplayFullName);
-			REL::Relocation<func_t> func{ REL::ID(1212056) };
+			REL::Relocation<func_t> func{ REL::ID(2201126) };
 			return func(this);
 		}
 

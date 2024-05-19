@@ -312,14 +312,14 @@ namespace RE::Scaleform::GFx
 			void ObjectAddRef(Value* a_val, void* a_obj)
 			{
 				using func_t = decltype(&ObjectInterface::ObjectRelease);
-				REL::Relocation<func_t> func{ REL::ID(244786) };
+				REL::Relocation<func_t> func{ REL::ID(2286228) };
 				return func(this, a_val, a_obj);
 			}
 
 			void ObjectRelease(Value* a_val, void* a_obj)
 			{
 				using func_t = decltype(&ObjectInterface::ObjectRelease);
-				REL::Relocation<func_t> func{ REL::ID(856221) };
+				REL::Relocation<func_t> func{ REL::ID(2286229) };
 				return func(this, a_val, a_obj);
 			}
 
@@ -333,35 +333,35 @@ namespace RE::Scaleform::GFx
 			std::uint32_t GetArraySize(void* a_data) const
 			{
 				using func_t = decltype(&ObjectInterface::GetArraySize);
-				REL::Relocation<func_t> func{ REL::ID(254218) };
+				REL::Relocation<func_t> func{ REL::ID(2285791) };
 				return func(this, a_data);
 			}
 
 			bool GetMember(void* a_data, const char* a_name, Value* a_val, bool a_isdobj) const
 			{
 				using func_t = decltype(&ObjectInterface::GetMember);
-				REL::Relocation<func_t> func{ REL::ID(1517430) };
+				REL::Relocation<func_t> func{ REL::ID(2285936) };
 				return func(this, a_data, a_name, a_val, a_isdobj);
 			}
 
 			bool SetMember(void* a_data, const char* a_name, const Value& a_value, bool a_isdobj)
 			{
 				using func_t = decltype(&ObjectInterface::SetMember);
-				REL::Relocation<func_t> func{ REL::ID(1360149) };
+				REL::Relocation<func_t> func{ REL::ID(2286589) };
 				return func(this, a_data, a_name, a_value, a_isdobj);
 			}
 
 			bool Invoke(void* a_data, Value* a_result, const char* a_name, const Value* a_args, std::size_t a_numArgs, bool a_isdobj)
 			{
 				using func_t = decltype(&ObjectInterface::Invoke);
-				REL::Relocation<func_t> func{ REL::ID(655847) };
+				REL::Relocation<func_t> func{ REL::ID(2286101) };
 				return func(this, a_data, a_result, a_name, a_args, a_numArgs, a_isdobj);
 			}
 
 			bool PushBack(void* a_data, const Value& a_value)
 			{
 				using func_t = decltype(&ObjectInterface::PushBack);
-				REL::Relocation<func_t> func{ REL::ID(1330475) };
+				REL::Relocation<func_t> func{ REL::ID(2286424) };
 				return func(this, a_data, a_value);
 			}
 
@@ -375,7 +375,7 @@ namespace RE::Scaleform::GFx
 			void VisitMembers(void* a_data, ObjVisitor* a_visitor, bool a_isDObj) const
 			{
 				using func_t = decltype(&ObjectInterface::VisitMembers);
-				REL::Relocation<func_t> func{ REL::ID(1276961) };
+				REL::Relocation<func_t> func{ REL::ID(2286786) };
 				return func(this, a_data, a_visitor, a_isDObj);
 			}
 
@@ -956,7 +956,7 @@ namespace RE::Scaleform::GFx
 		void Release()
 		{
 			using func_t = decltype(&Movie::Release);
-			REL::Relocation<func_t> func{ REL::ID(404814) };
+			REL::Relocation<func_t> func{ REL::ID(2287230) };
 			return func(this);
 		}
 

@@ -161,7 +161,7 @@ namespace RE
 		static BSPointerHandle<T> CreateHandle(T* a_ptr)
 		{
 			using func_t = decltype(&BSPointerHandleManagerInterface<T, Manager>::CreateHandle);
-			REL::Relocation<func_t> func{ REL::ID(224532) };
+			REL::Relocation<func_t> func{ REL::ID(2188375) };
 			return func(a_ptr);
 		}
 
@@ -175,7 +175,7 @@ namespace RE
 		static bool GetSmartPointer(const BSPointerHandle<T>& a_handle, NiPointer<T>& a_smartPointerOut)
 		{
 			using func_t = decltype(&BSPointerHandleManagerInterface<T, Manager>::GetSmartPointer);
-			REL::Relocation<func_t> func{ REL::ID(967277) };
+			REL::Relocation<func_t> func{ REL::ID(2188369) };
 			return func(a_handle, a_smartPointerOut);
 		}
 	};
