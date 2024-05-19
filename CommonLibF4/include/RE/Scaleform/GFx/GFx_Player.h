@@ -2,6 +2,7 @@
 
 #include "RE/Scaleform/GFx/GFx_Loader.h"
 #include "RE/Scaleform/GFx/GFx_Log.h"
+#include "RE/Scaleform/GFx/GFx_PlayerStats.h"
 #include "RE/Scaleform/GFx/GFx_Types.h"
 #include "RE/Scaleform/Kernel/SF_RefCount.h"
 #include "RE/Scaleform/Render/Render_Constants.h"
@@ -12,9 +13,9 @@
 namespace RE::Scaleform::GFx
 {
 	class ASMovieRootBase;
-	class InteractiveObject;
 	class EventId;
 	class FunctionHandler;
+	class InteractiveObject;
 	class MemoryContext;
 	class Movie;
 	class MovieDef;
@@ -796,6 +797,51 @@ namespace RE::Scaleform::GFx
 	};
 	static_assert(sizeof(FunctionHandler) == 0x10);
 
+	class __declspec(novtable) ExternalInterface :
+		public State  // 00
+	{
+	public:
+		ExternalInterface() :
+			State(StateType::kExternalInterface)
+		{}
+
+		virtual ~ExternalInterface() = default;  // 00
+
+		// add
+		virtual void Callback(Movie* a_movieView, const char* a_methodName, const Value* a_args, std::uint32_t a_numArgs) = 0;  // 01
+	};
+	static_assert(sizeof(ExternalInterface) == 0x18);
+
+	class __declspec(novtable) MultitouchInterface :
+		public State  // 00
+	{
+	public:
+		enum class MultitouchInputMode : std::int32_t
+		{
+			kNone = 0,
+			kTouchPoint = 0x1,
+			kGesture = 0x2,
+			kMixed = (kTouchPoint | kGesture)
+		};
+
+		enum GestureMask : std::int32_t
+		{
+			kMTG_None = 0,
+			kMTG_Pan = 0x1,
+			kMTG_Zoom = 0x2,
+			kMTG_Rotate = 0x4,
+			kMTG_Swipe = 0x8
+		};
+
+		MultitouchInterface() :
+			State(StateType::kMultitouchInterface)
+		{}
+
+		virtual std::uint32_t GetMaxTouchPoints() const = 0;
+		virtual std::uint32_t GetSupportedGesturesMask() const = 0;
+		virtual bool SetMultitouchInputMode(MultitouchInputMode a_inputMode) = 0;
+	};
+
 	using MovieDisplayHandle = Render::DisplayHandle<Render::TreeRoot>;
 
 	class __declspec(novtable) Movie :
@@ -965,15 +1011,6 @@ namespace RE::Scaleform::GFx
 	};
 	static_assert(sizeof(Movie) == 0x20);
 
-	class __declspec(novtable) MovieImpl :
-		public Movie  // 00
-	{
-	public:
-		// members
-		std::byte pad[0x3140 - 0x20];  // 20
-	};
-	static_assert(sizeof(MovieImpl) == 0x3140);
-
 	class __declspec(novtable) alignas(0x08) KeyboardState :
 		public RefCountBase<KeyboardState, 2>  // 00
 	{
@@ -994,4 +1031,18 @@ namespace RE::Scaleform::GFx
 		std::byte pad[0x688 - 0x10];  // 10 - TODO
 	};
 	static_assert(sizeof(KeyboardState) == 0x688);
+
+	class __declspec(novtable) ExternalLibPtr
+	{
+	public:
+		ExternalLibPtr(MovieImpl* a_movieRoot) :
+			owner(a_movieRoot)
+		{}
+
+		virtual ~ExternalLibPtr() = default;
+
+		// members
+		MovieImpl* owner;
+	};
+	static_assert(sizeof(ExternalLibPtr) == 0x10);
 }
