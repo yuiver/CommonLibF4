@@ -344,6 +344,7 @@ set(SOURCES
 	include/RE/VTABLE_IDs.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
+	include/REL/IAT.h
 	include/REL/ID.h
 	include/REL/IDDB.h
 	include/REL/Module.h
@@ -421,6 +422,7 @@ set(SOURCES
 	src/RE/NetImmerse/NiPoint3.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
+	src/REL/IAT.cpp
 	src/REL/IDDB.cpp
 	src/REL/Module.cpp
 	src/REL/Relocation.cpp

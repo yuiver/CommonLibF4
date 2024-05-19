@@ -1,5 +1,6 @@
 #pragma once
 
+#include "REL/IAT.h"
 #include "REL/ID.h"
 #include "REL/IDDB.h"
 #include "REL/Module.h"
