@@ -278,10 +278,15 @@ namespace REL
 			return stl::unrestricted_cast<value_type>(_impl);
 		}
 
+		void write(const void* a_src, std::size_t a_count) requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_write(address(), a_src, a_count);
+		}
+
 		template <std::integral U>
 		void write(const U& a_data) requires(std::same_as<value_type, std::uintptr_t>)
 		{
-			safe_write(address(), std::addressof(a_data), sizeof(T));
+			safe_write(address(), std::addressof(a_data), sizeof(U));
 		}
 
 		template <class U>
