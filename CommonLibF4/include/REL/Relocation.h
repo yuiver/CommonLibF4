@@ -289,6 +289,11 @@ namespace REL
 			safe_write(address(), std::addressof(a_data), sizeof(U));
 		}
 
+		void write(const std::initializer_list<std::uint8_t> a_data) requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_write(address(), a_data.begin(), a_data.size());
+		}
+
 		template <class U>
 		void write(const std::span<U> a_data) requires(std::same_as<value_type, std::uintptr_t>)
 		{
