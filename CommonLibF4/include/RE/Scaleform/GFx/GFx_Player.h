@@ -283,6 +283,237 @@ namespace RE::Scaleform::GFx
 		};
 		static_assert(sizeof(ValueUnion) == 0x8);
 
+		class DisplayInfo
+		{
+		public:
+			enum class SetFlags : std::uint16_t
+			{
+				kX = 0x01,
+				kY = 0x02,
+				kRotation = 0x04,
+				kXScale = 0x08,
+				kYScale = 0x10,
+				kAlpha = 0x20,
+				kVisible = 0x40,
+				kZ = 0x80,
+				kXRotation = 0x100,
+				kYRotation = 0x200,
+				kZScale = 0x400,
+				kFOV = 0x800,
+				kProjMatrix3D = 0x1000,
+				kViewMatrix3D = 0x2000,
+				kEdgeAAMode = 0x4000,
+			};
+
+			DisplayInfo() = default;
+
+			double GetX() const
+			{
+				assert(varsSet.any(SetFlags::kX));
+				return x;
+			}
+
+			double GetY() const
+			{
+				assert(varsSet.any(SetFlags::kY));
+				return y;
+			}
+
+			double GetZ() const
+			{
+				assert(varsSet.any(SetFlags::kZ));
+				return z;
+			}
+
+			double GetXScale() const
+			{
+				assert(varsSet.any(SetFlags::kXScale));
+				return xScale;
+			}
+
+			double GetYScale() const
+			{
+				assert(varsSet.any(SetFlags::kYScale));
+				return yScale;
+			}
+
+			double GetZScale() const
+			{
+				assert(varsSet.any(SetFlags::kZScale));
+				return zScale;
+			}
+
+			double GetRotation() const
+			{
+				assert(varsSet.any(SetFlags::kRotation));
+				return rotation;
+			}
+
+			double GetXRotation() const
+			{
+				assert(varsSet.any(SetFlags::kXRotation));
+				return xRotation;
+			}
+
+			double GetYRotation() const
+			{
+				assert(varsSet.any(SetFlags::kYRotation));
+				return yRotation;
+			}
+
+			double GetAlpha() const
+			{
+				assert(varsSet.any(SetFlags::kAlpha));
+				return alpha;
+			}
+
+			bool GetVisible() const
+			{
+				assert(varsSet.any(SetFlags::kVisible));
+				return visible;
+			}
+
+			double GetFOV() const
+			{
+				assert(varsSet.any(SetFlags::kFOV));
+				return fov;
+			}
+
+			const Matrix3F* GetViewMatrix3D() const
+			{
+				return varsSet.any(SetFlags::kViewMatrix3D) ? &viewMatrix3D : nullptr;
+			}
+
+			const Matrix4F* GetProjectionMatrix3D() const
+			{
+				return varsSet.any(SetFlags::kProjMatrix3D) ? &projectionMatrix3D : nullptr;
+			}
+
+			Render::EdgeAAMode GetEdgeAAMode() const
+			{
+				assert(varsSet.any(SetFlags::kEdgeAAMode));
+				return edgeAAMode;
+			}
+
+			void SetX(double a_x)
+			{
+				varsSet.set(SetFlags::kX);
+				x = a_x;
+			}
+
+			void SetY(double a_y)
+			{
+				varsSet.set(SetFlags::kY);
+				y = a_y;
+			}
+
+			void SetZ(double a_z)
+			{
+				varsSet.set(SetFlags::kZ);
+				z = a_z;
+			}
+
+			void SetXScale(double a_xScale)
+			{
+				varsSet.set(SetFlags::kXScale);
+				xScale = a_xScale;
+			}
+
+			void SetYScale(double a_yScale)
+			{
+				varsSet.set(SetFlags::kYScale);
+				yScale = a_yScale;
+			}
+
+			void SetZScale(double a_zScale)
+			{
+				varsSet.set(SetFlags::kZScale);
+				zScale = a_zScale;
+			}
+
+			void SetRotation(double a_rotation)
+			{
+				varsSet.set(SetFlags::kRotation);
+				rotation = a_rotation;
+			}
+
+			void SetXRotation(double a_xRotation)
+			{
+				varsSet.set(SetFlags::kXRotation);
+				xRotation = a_xRotation;
+			}
+
+			void SetYRotation(double a_yRotation)
+			{
+				varsSet.set(SetFlags::kYRotation);
+				yRotation = a_yRotation;
+			}
+
+			void SetAlpha(double a_alpha)
+			{
+				varsSet.set(SetFlags::kAlpha);
+				alpha = a_alpha;
+			}
+
+			void SetVisible(bool a_visible)
+			{
+				varsSet.set(SetFlags::kVisible);
+				visible = a_visible;
+			}
+
+			void SetFOV(double a_fov)
+			{
+				varsSet.set(SetFlags::kFOV);
+				fov = a_fov;
+			}
+
+			void SetViewMatrix3D(const Matrix3F* a_matrix)
+			{
+				if (a_matrix) {
+					varsSet.set(SetFlags::kViewMatrix3D);
+					viewMatrix3D = *a_matrix;
+				} else {
+					varsSet.reset(SetFlags::kViewMatrix3D);
+				}
+			}
+
+			void SetProjectionMatrix3D(const Matrix4F* a_matrix)
+			{
+				if (a_matrix) {
+					varsSet.set(SetFlags::kProjMatrix3D);
+					projectionMatrix3D = *a_matrix;
+				} else {
+					varsSet.reset(SetFlags::kProjMatrix3D);
+				}
+			}
+
+			void SetEdgeAAMode(Render::EdgeAAMode a_mode)
+			{
+				varsSet.set(SetFlags::kEdgeAAMode);
+				edgeAAMode = a_mode;
+			}
+
+		private:
+			// members
+			double x;
+			double y;
+			double rotation;
+			double xScale;
+			double yScale;
+			double alpha;
+			double z;
+			double xRotation;
+			double yRotation;
+			double zScale;
+			double fov;
+			alignas(16) Render::Matrix3x4<float> viewMatrix3D;
+			Render::Matrix4x4<float> projectionMatrix3D;
+			Render::EdgeAAMode edgeAAMode;
+			Flags<SetFlags> varsSet{};
+			bool visible;
+		};
+		static_assert(sizeof(DisplayInfo) == 0xE0);
+
 		class __declspec(novtable) ObjectInterface :
 			public NewOverrideBase<327>
 		{
@@ -378,6 +609,13 @@ namespace RE::Scaleform::GFx
 				using func_t = decltype(&ObjectInterface::VisitMembers);
 				REL::Relocation<func_t> func{ REL::ID(1276961) };
 				return func(this, a_data, a_visitor, a_isDObj);
+			}
+
+			bool GetDisplayInfo(void* a_data, DisplayInfo* a_info) const
+			{
+				using func_t = decltype(&ObjectInterface::GetDisplayInfo);
+				REL::Relocation<func_t> func{ REL::ID(2285873) };
+				return func(this, a_data, a_info);
 			}
 
 			// members
@@ -731,6 +969,12 @@ namespace RE::Scaleform::GFx
 		bool ClearElements()
 		{
 			return RemoveElements(0);
+		}
+
+		bool GetDisplayInfo(DisplayInfo* a_info) const
+		{
+			assert(IsDisplayObject());
+			return _objectInterface->GetDisplayInfo(_value.data, a_info);
 		}
 
 		[[nodiscard]] Movie* GetMovie() const
