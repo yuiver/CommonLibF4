@@ -152,6 +152,7 @@
 #include "RE/Bethesda/BSTextureStreamer.h"
 #include "RE/Bethesda/BSThread.h"
 #include "RE/Bethesda/BSTimer.h"
+#include "RE/Bethesda/BSUtilities.h"
 #include "RE/Bethesda/BSVisit.h"
 #include "RE/Bethesda/CELLJobs.h"
 #include "RE/Bethesda/CRC.h"
