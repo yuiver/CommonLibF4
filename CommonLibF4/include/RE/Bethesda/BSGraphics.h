@@ -398,10 +398,12 @@ namespace RE
 			{
 				return ((desc >> 44) & a_flag) != 0;
 			}
+
 			void SetFlag(Vertex::Flags a_flag)
 			{
 				desc |= (static_cast<uint64_t>(a_flag) << 44);
 			}
+
 			void ClearFlag(Vertex::Flags a_flag)
 			{
 				desc &= ~(static_cast<uint64_t>(a_flag) << 44);
@@ -411,6 +413,7 @@ namespace RE
 			{
 				return (desc >> (4 * static_cast<uint8_t>(a_attribute) + 2)) & 0x3C;
 			}
+
 			void SetAttributeOffset(Vertex::Attribute a_attribute, std::uint32_t a_offset)
 			{
 				if (a_attribute != Vertex::Attribute::VA_POSITION) {
@@ -420,6 +423,7 @@ namespace RE
 					desc = lhs | rhs;
 				}
 			}
+
 			void ClearAttributeOffsets()
 			{
 				desc &= Vertex::Masks::DESC_MASK_OFFSET;
@@ -429,6 +433,7 @@ namespace RE
 			{
 				return static_cast<Vertex::Flags>((desc & Vertex::Masks::DESC_MASK_OFFSET) >> 44);
 			}
+
 			void SetFlags(Vertex::Flags a_flags)
 			{
 				desc |= (static_cast<uint64_t>(a_flags) << 44) | (desc & Vertex::Masks::DESC_MASK_FLAGS);
@@ -439,7 +444,6 @@ namespace RE
 				return (desc & 0xF) * 4;
 			}
 
-		private:
 			// members
 			std::uint64_t desc;  // 00
 		};
