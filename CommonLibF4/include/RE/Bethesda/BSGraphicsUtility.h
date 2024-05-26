@@ -9,6 +9,20 @@ namespace RE
 
 namespace RE::BSGraphics::Utility
 {
+	inline void ConvertHALFToNiPoint3Stream(const std::uint16_t* a_src, NiPoint3* a_dst, std::uint32_t a_count, std::uint32_t a_stride)
+	{
+		using func_t = decltype(&ConvertHALFToNiPoint3Stream);
+		static REL::Relocation<func_t> func{ REL::ID(2277113) };
+		func(a_src, a_dst, a_count, a_stride);
+	}
+
+	inline void ConvertNiPoint3ToHALFStream(const NiPoint3* a_src, std::uint16_t* a_dst, std::uint32_t a_count)
+	{
+		using func_t = decltype(&ConvertNiPoint3ToHALFStream);
+		static REL::Relocation<func_t> func{ REL::ID(2277114) };
+		func(a_src, a_dst, a_count);
+	}
+
 	inline std::uint64_t PackVertexData(
 		std::uint32_t a_numVertices,
 		NiPoint3* a_positions,
