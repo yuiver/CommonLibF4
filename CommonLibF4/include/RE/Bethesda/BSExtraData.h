@@ -70,7 +70,7 @@ namespace RE
 		kLock,      // ExtraLock
 		kTeleport,  // ExtraTeleport
 		kMapMarker,
-		kLeveledCreature,
+		kLeveledCreature, // ExtraLeveledCreature
 		kLevelItem,
 		kScale,
 		kSeed,
@@ -249,6 +249,7 @@ namespace RE
 	class BGSMessage;
 	class BGSRefAlias;
 	class TBO_InstanceData;
+	class TESActorBase;
 	class TESBoundObject;
 	class TESForm;
 	class TESObjectCELL;
@@ -399,6 +400,20 @@ namespace RE
 		DoorTeleportData* teleportData;  // 18
 	};
 	static_assert(sizeof(ExtraTeleport) == 0x20);
+
+	class __declspec(novtable) ExtraLeveledCreature :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraLeveledCreature };
+		static constexpr auto VTABLE{ VTABLE::ExtraLeveledCreature };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kLeveledCreature };
+
+		// members
+		TESActorBase* originalBase;   // 18
+		TESActorBase* templates[13];  // 20
+	};
+	static_assert(sizeof(ExtraLeveledCreature) == 0x88);
 
 	class __declspec(novtable) ExtraInstanceData :
 		public BSExtraData  // 00

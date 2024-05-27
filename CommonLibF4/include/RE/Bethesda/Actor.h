@@ -1056,7 +1056,7 @@ namespace RE
 		[[nodiscard]] bool GetHostileToActor(Actor* a_actor)
 		{
 			using func_t = decltype(&Actor::GetHostileToActor);
-			REL::Relocation<func_t> func{ REL::ID(1148686) };
+			REL::Relocation<func_t> func{ REL::ID(2229968) };
 			return func(this, a_actor);
 		}
 

@@ -366,6 +366,13 @@ namespace RE
 			}
 		}
 
+		void BuildFromContainer(const TESContainer* a_container)
+		{
+			using func_t = decltype(&BGSInventoryList::BuildFromContainer);
+			REL::Relocation<func_t> func{ REL::ID(2194158) };
+			return func(this, a_container);
+		}
+
 		// members
 		BSTArray<BGSInventoryItem> data;  // 58
 		float cachedWeight;               // 70
@@ -734,7 +741,7 @@ namespace RE
 		[[nodiscard]] BGSLocation* GetCurrentLocation() const
 		{
 			using func_t = decltype(&TESObjectREFR::GetCurrentLocation);
-			REL::Relocation<func_t> func{ REL::ID(1135470) };
+			REL::Relocation<func_t> func{ REL::ID(2201163) };
 			return func(this);
 		}
 
@@ -831,6 +838,13 @@ namespace RE
 		{
 			using func_t = decltype(&TESObjectREFR::IsInWater);
 			REL::Relocation<func_t> func{ REL::ID(315318) };
+			return func(this);
+		}
+
+		[[nodiscard]] bool IsLeveledCreature()
+		{
+			using func_t = decltype(&TESObjectREFR::IsLeveledCreature);
+			REL::Relocation<func_t> func{ REL::ID(2202655) };
 			return func(this);
 		}
 
