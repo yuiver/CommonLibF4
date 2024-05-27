@@ -309,7 +309,7 @@ namespace RE
 			bool isFirstPerson)
 		{
 			using func_t = BSTempEffectDebris* (*)(BSTempEffectDebris*, TESObjectCELL*, float, const char*, TESObjectREFR*, const NiPoint3&, const NiMatrix3&, const NiPoint3&, const NiPoint3&, float, bool, bool, bool);
-			REL::Relocation<func_t> func{ REL::ID(1075623) };
+			REL::Relocation<func_t> func{ REL::ID(2212059) };
 			func(this, a_parentCell, a_lifetime, a_fileName, a_sourceRef, a_position, a_rotation, a_startLinearVelocity, a_startAngularVelocity, a_scale, a_useCache, a_addDebrisCount, isFirstPerson);
 		}
 

@@ -37,7 +37,7 @@ namespace RE
 		static BSShaderTextureSet* CreateObject()
 		{
 			using func_t = decltype(&BSShaderTextureSet::CreateObject);
-			REL::Relocation<func_t> func{ REL::ID(993063) };
+			REL::Relocation<func_t> func{ REL::ID(2316324) };
 			return func();
 		}
 

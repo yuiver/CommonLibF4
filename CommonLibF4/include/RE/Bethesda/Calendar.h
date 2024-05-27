@@ -33,7 +33,7 @@ namespace RE
 
 		[[nodiscard]] static Calendar* GetSingleton()
 		{
-			REL::Relocation<Calendar**> singleton{ REL::ID(1444952) };
+			REL::Relocation<Calendar**> singleton{ REL::ID(2689092) };
 			return *singleton;
 		}
 

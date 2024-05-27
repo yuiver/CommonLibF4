@@ -368,7 +368,7 @@ namespace RE::Scaleform::GFx
 			bool RemoveElements(void* a_data, std::uint32_t a_idx, std::int32_t a_count)
 			{
 				using func_t = decltype(&ObjectInterface::RemoveElements);
-				REL::Relocation<func_t> func{ REL::ID(1286586) };
+				REL::Relocation<func_t> func{ REL::ID(2286475) };
 				return func(this, a_data, a_idx, a_count);
 			}
 
