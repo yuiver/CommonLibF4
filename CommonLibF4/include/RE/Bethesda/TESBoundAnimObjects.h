@@ -362,6 +362,8 @@ namespace RE
 		};
 		static_assert(sizeof(HeadRelatedData) == 0x18);
 
+		void CopyPerkRankArray(const std::vector<PerkRankData>& a_copiedData);
+
 		bool AddPerk(BGSPerk* a_perk, std::int8_t a_rank)
 		{
 			if (!GetPerkIndex(a_perk)) {
@@ -378,6 +380,8 @@ namespace RE
 
 			return false;
 		}
+
+		bool AddPerks(const std::vector<BGSPerk*>& a_perks, std::int8_t a_rank);
 
 		[[nodiscard]] bool ContainsKeyword(std::string_view a_editorID) const;
 
@@ -452,6 +456,8 @@ namespace RE
 		}
 
 		[[nodiscard]] bool HasApplicableKeywordString(std::string_view a_editorID) const;
+
+		bool RemovePerks(const std::vector<BGSPerk*>& a_perks);
 
 		[[nodiscard]] bool IsInFaction(const TESFaction* a_faction)
 		{

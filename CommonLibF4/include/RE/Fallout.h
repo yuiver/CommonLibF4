@@ -41,6 +41,7 @@
 #include "RE/Bethesda/BSGraphics.h"
 #include "RE/Bethesda/BSHavok.h"
 #include "RE/Bethesda/BSInputDeviceManager.h"
+#include "RE/Bethesda/BSInputEnableManager.h"
 #include "RE/Bethesda/BSInputEventReceiver.h"
 #include "RE/Bethesda/BSInputEventSingleUser.h"
 #include "RE/Bethesda/BSInputEventUser.h"

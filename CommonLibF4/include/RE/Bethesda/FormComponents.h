@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSStringT.h"
 #include "RE/Bethesda/BSTArray.h"
@@ -900,16 +901,31 @@ namespace RE
 		// add
 		virtual BGSKeyword* GetDefaultKeyword() const { return nullptr; }  // 07
 
+		void CopyKeywords(const std::vector<RE::BGSKeyword*>& a_copiedData);
+
 		void AddKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::AddKeyword);
-			REL::Relocation<func_t> func{ REL::ID(762999) };
+			REL::Relocation<func_t> func{ REL::ID(2192766) };
 			return func(this, a_keyword);
 		}
+
+		bool AddKeywords(const std::vector<BGSKeyword*>& a_keywords);
 
 		[[nodiscard]] bool ContainsKeywordString(std::string_view a_editorID) const;
 		[[nodiscard]] bool HasKeywordID(std::uint32_t a_formID) const;
 		[[nodiscard]] bool HasKeywordString(std::string_view a_editorID) const;
+
+		void ForEachKeyword(std::function<BSContainer::ForEachResult(BGSKeyword*)> a_callback) const
+		{
+			if (keywords) {
+				for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
+					if (keywords[idx] && a_callback(keywords[idx]) == BSContainer::ForEachResult::kStop) {
+						return;
+					}
+				}
+			}
+		}
 
 		[[nodiscard]] std::optional<BGSKeyword*> GetKeywordAt(std::uint32_t a_idx) const
 		{
@@ -940,6 +956,8 @@ namespace RE
 			REL::Relocation<func_t> func{ REL::ID(921694) };
 			return func(this, a_keyword);
 		}
+
+		bool RemoveKeywords(const std::vector<BGSKeyword*>& a_keywords);
 
 		// members
 		BGSKeyword** keywords;      // 10
@@ -1216,6 +1234,20 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESContainer };
 		static constexpr auto VTABLE{ VTABLE::TESContainer };
 
+		void CopyObjectList(const std::vector<ContainerObject*>& a_copiedData)
+		{
+			const auto oldData = containerObjects;
+
+			const auto newSize = a_copiedData.size();
+			const auto newData = calloc<ContainerObject*>(newSize);
+			std::ranges::copy(a_copiedData, newData);
+
+			numContainerObjects = static_cast<std::uint32_t>(newSize);
+			containerObjects = newData;
+
+			free(oldData);
+		}
+
 		void ForEachContainerObject(std::function<bool(ContainerObject&)> a_fn) const
 		{
 			for (std::uint32_t i = 0; i < numContainerObjects; ++i) {
@@ -1242,20 +1274,31 @@ namespace RE
 				std::vector<ContainerObject*> copiedData{ containerObjects, containerObjects + numContainerObjects };
 				const auto newObj = new ContainerObject(a_object, a_count, a_owner);
 				copiedData.push_back(newObj);
-
-				const auto oldData = containerObjects;
-
-				const auto newSize = copiedData.size();
-				const auto newData = calloc<ContainerObject*>(newSize);
-				std::ranges::copy(copiedData, newData);
-
-				numContainerObjects = static_cast<std::uint32_t>(newSize);
-				containerObjects = newData;
-				free(oldData);
-
+				CopyObjectList(copiedData);
 				return true;
 			}
 			return added;
+		}
+
+		bool AddObjectsToContainer(std::map<TESBoundObject*, std::int32_t>& a_objects, TESForm* a_owner)
+		{
+			for (std::uint32_t i = 0; i < numContainerObjects; ++i) {
+				if (const auto entry = containerObjects[i]; entry && entry->obj) {
+					if (auto it = a_objects.find(entry->obj); it != a_objects.end()) {
+						entry->count += it->second;
+						a_objects.erase(it);
+					}
+				}
+			}
+			if (!a_objects.empty()) {
+				std::vector<ContainerObject*> copiedData{ containerObjects, containerObjects + numContainerObjects };
+				for (auto& [object, count] : a_objects) {
+					const auto newObj = new ContainerObject(object, count, a_owner);
+					copiedData.push_back(newObj);
+				}
+				CopyObjectList(copiedData);
+			}
+			return true;
 		}
 
 		// members
@@ -1555,6 +1598,13 @@ namespace RE
 		[[nodiscard]] constexpr bool UsesOppositeGenderAnims() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kOppositeGenderanims); }
 		[[nodiscard]] constexpr bool UsesTemplate() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kUsesTemplate); }
 
+		std::uint16_t GetLevel() const
+		{
+			using func_t = decltype(&TESActorBaseData::GetLevel);
+			REL::Relocation<func_t> func{ REL::ID(2192891) };
+			return func(this);
+		}
+
 		// members
 		ACTOR_BASE_DATA actorData;        // 08
 		std::int32_t changeFlags;         // 1C
@@ -1632,6 +1682,30 @@ namespace RE
 	};
 	static_assert(sizeof(TESImageSpaceModifiableForm) == 0x10);
 
+	struct INSTANCE_FILTER
+	{
+	public:
+		// members
+		std::uint32_t levelOverride;                                        // 00
+		std::uint8_t tierStartLevel;                                        // 04
+		std::uint8_t altLevelsPerTier;                                      // 05
+		bool epic;                                                          // 06
+		BSScrapArray<BSTTuple<BGSKeyword*, std::uint32_t>> keywordChances;  // 08
+	};
+	static_assert(sizeof(INSTANCE_FILTER) == 0x28);
+
+	struct CALCED_OBJECT
+	{
+	public:
+		// members
+		TESBoundObject* object;          // 00
+		const char* overrideName;        // 08
+		std::int32_t count;              // 10
+		ContainerItemExtra itemExtra;    // 18
+		INSTANCE_FILTER instanceFilter;  // 30
+	};
+	static_assert(sizeof(CALCED_OBJECT) == 0x58);
+
 	struct LEVELED_OBJECT
 	{
 	public:
@@ -1651,6 +1725,14 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESLeveledList };
 		static constexpr auto VTABLE{ VTABLE::TESLeveledList };
 
+		enum class LeveledListAllBelowForce
+		{
+			kNever = -1,
+			kDefault = 0,
+			kAlways = 1,
+			kShiftUp = 2,
+		};
+
 		// add
 		virtual std::int8_t GetChanceNone();                                   // 07
 		virtual bool GetMultCalc();                                            // 08
@@ -1663,6 +1745,27 @@ namespace RE
 			using func_t = decltype(&TESLeveledList::AddLeveledObject);
 			REL::Relocation<func_t> func{ REL::ID(1163308) };
 			return func(this, a_level, a_count, a_chanceNone, a_item, a_itemExtra);
+		}
+
+		void CalculateCurrentFormList(
+			std::uint16_t a_level,
+			std::uint16_t a_count,
+			BSScrapArray<CALCED_OBJECT>& a_outCont,
+			LeveledListAllBelowForce a_allBelowForce = LeveledListAllBelowForce::kDefault,
+			bool a_clampToPlayer = false,
+			INSTANCE_FILTER* a_instanceFilter = nullptr,
+			const char* a_overrideName = nullptr)
+		{
+			using func_t = decltype(&TESLeveledList::CalculateCurrentFormList);
+			REL::Relocation<func_t> func{ REL::ID(2193259) };
+			return func(this, a_level, a_count, a_outCont, a_allBelowForce, a_clampToPlayer, a_instanceFilter, a_overrideName);
+		}
+
+		void CalculateCurrentFormListForRef(TESObjectREFR* a_ref, BSScrapArray<CALCED_OBJECT>& a_outCont, bool a_legendary)
+		{
+			using func_t = decltype(&TESLeveledList::CalculateCurrentFormListForRef);
+			REL::Relocation<func_t> func{ REL::ID(2193260) };
+			return func(this, a_ref, a_outCont, a_legendary);
 		}
 
 		bool GetUseAll()
@@ -1799,6 +1902,98 @@ namespace RE
 			~SpellData() = default;
 
 			F4_HEAP_REDEFINE_NEW(SpellData);
+
+			void CopySpellList(const std::vector<TESLevSpell*>& a_copiedData)
+			{
+				const auto oldData = levSpells;
+
+				const auto newSize = a_copiedData.size();
+				const auto newData = calloc<TESLevSpell*>(newSize);
+				std::ranges::copy(a_copiedData, newData);
+
+				numLevSpells = static_cast<std::uint32_t>(newSize);
+				levSpells = newData;
+
+				free(oldData);
+			}
+
+			void CopySpellList(const std::vector<SpellItem*>& a_copiedData)
+			{
+				const auto oldData = spells;
+
+				const auto newSize = a_copiedData.size();
+				const auto newData = calloc<SpellItem*>(newSize);
+				std::ranges::copy(a_copiedData, newData);
+
+				numSpells = static_cast<std::uint32_t>(newSize);
+				spells = newData;
+
+				free(oldData);
+			}
+
+			bool AddLevSpells(const std::vector<TESLevSpell*>& a_levSpells)
+			{
+				std::vector<TESLevSpell*> copiedData{ levSpells, levSpells + numLevSpells };
+				std::ranges::remove_copy_if(a_levSpells, std::back_inserter(copiedData), [&](auto& spell) {
+					return std::ranges::find(copiedData, spell) != copiedData.end();
+				});
+				CopySpellList(copiedData);
+				return true;
+			}
+
+			bool AddSpells(const std::vector<SpellItem*>& a_spells)
+			{
+				std::vector<SpellItem*> copiedData{ spells, spells + numSpells };
+				std::ranges::remove_copy_if(a_spells, std::back_inserter(copiedData), [&](auto& spell) {
+					return std::ranges::find(copiedData, spell) != copiedData.end();
+				});
+				CopySpellList(copiedData);
+				return true;
+			}
+
+			std::optional<std::uint32_t> GetIndex(const SpellItem* a_spell) const
+			{
+				if (spells) {
+					for (std::uint32_t i = 0; i < numSpells; i++) {
+						if (spells[i] == a_spell) {
+							return i;
+						}
+					}
+				}
+				return std::nullopt;
+			}
+
+			std::optional<std::uint32_t> GetIndex(const TESLevSpell* a_levSpell) const
+			{
+				if (levSpells) {
+					for (std::uint32_t i = 0; i < numLevSpells; i++) {
+						if (levSpells[i] == a_levSpell) {
+							return i;
+						}
+					}
+				}
+				return std::nullopt;
+			}
+
+			bool RemoveLevSpells(const std::vector<TESLevSpell*>& a_levSpells)
+			{
+				std::vector<TESLevSpell*> copiedData{ levSpells, levSpells + numLevSpells };
+				if (std::erase_if(copiedData, [&](auto& spell) { return std::ranges::find(a_levSpells, spell) != a_levSpells.end(); }) > 0) {
+					CopySpellList(copiedData);
+					return true;
+				}
+				return false;
+			}
+
+			bool RemoveSpells(const std::vector<SpellItem*>& a_spells)
+			{
+				std::vector<SpellItem*> copiedData{ spells, spells + numSpells };
+				if (std::erase_if(copiedData, [&](auto& spell) { return std::ranges::find(a_spells, spell) != a_spells.end(); }) > 0) {
+					CopySpellList(copiedData);
+					return true;
+				}
+				return false;
+			}
 
 			// members
 			SpellItem** spells;          // 00

@@ -803,6 +803,17 @@ namespace RE
 			return func(a_formTypeString);
 		}
 
+		[[nodiscard]] static const char* GetFormTypeString(ENUM_FORM_ID a_formType)
+		{
+			auto formEnumString = GetFormEnumString();
+			return formEnumString[std::to_underlying(a_formType)].formString;
+		}
+
+		[[nodiscard]] const char* GetFormTypeString() const
+		{
+			return GetFormTypeString(GetFormType());
+		}
+
 		[[nodiscard]] std::uint32_t GetFormFlags() const noexcept { return formFlags; }
 		[[nodiscard]] std::uint32_t GetFormID() const noexcept { return formID; }
 		[[nodiscard]] ENUM_FORM_ID GetFormType() const noexcept { return *formType; }
@@ -1530,7 +1541,7 @@ namespace RE
 		[[nodiscard]] TESRegionList* GetRegionList(bool a_createIfMissing)
 		{
 			using func_t = decltype(&TESObjectCELL::GetRegionList);
-			REL::Relocation<func_t> func{ REL::ID(1565031) };
+			REL::Relocation<func_t> func{ REL::ID(2200265) };
 			return func(this, a_createIfMissing);
 		}
 
@@ -2030,6 +2041,23 @@ namespace RE
 			using func_t = decltype(&BGSListForm::ContainsItem);
 			REL::Relocation<func_t> func{ REL::ID(688500) };
 			return func(this, a_form);
+		}
+
+		void ForEachForm(std::function<BSContainer::ForEachResult(TESForm*)> a_callback) const
+		{
+			for (const auto& form : arrayOfForms) {
+				if (form && a_callback(form) == BSContainer::ForEachResult::kStop) {
+					return;
+				}
+			}
+			if (scriptAddedTempForms) {
+				for (const auto& addedFormID : *scriptAddedTempForms) {
+					const auto addedForm = TESForm::GetFormByID(addedFormID);
+					if (addedForm && a_callback(addedForm) == BSContainer::ForEachResult::kStop) {
+						return;
+					}
+				}
+			}
 		}
 
 		[[nodiscard]] std::optional<std::uint32_t> GetItemIndex(const TESForm& a_item) const noexcept
@@ -3409,3 +3437,47 @@ namespace RE
 	};
 	static_assert(sizeof(BGSGodRays) == 0x60);
 }
+
+namespace std
+{
+	[[nodiscard]] inline std::string to_string(RE::ENUM_FORM_ID a_formType)
+	{
+		return RE::TESForm::GetFormTypeString(a_formType);
+	}
+}
+
+#ifdef FMT_VERSION
+namespace fmt
+{
+	template <>
+	struct formatter<RE::ENUM_FORM_ID>
+	{
+		template <class ParseContext>
+		constexpr auto parse(ParseContext& a_ctx)
+		{
+			return a_ctx.begin();
+		}
+
+		template <class FormatContext>
+		auto format(const RE::ENUM_FORM_ID& a_formType, FormatContext& a_ctx)
+		{
+			return fmt::format_to(a_ctx.out(), "{}", RE::TESForm::GetFormTypeString(a_formType));
+		}
+	};
+}
+#endif
+
+#ifdef __cpp_lib_format
+namespace std
+{
+	template <class CharT>
+	struct formatter<RE::ENUM_FORM_ID, CharT> : std::formatter<std::string_view, CharT>
+	{
+		template <class FormatContext>
+		auto format(RE::ENUM_FORM_ID a_formType, FormatContext& a_ctx)
+		{
+			return formatter<std::string_view, CharT>::format(RE::TESForm::GetFormTypeString(a_formType), a_ctx);
+		}
+	};
+}
+#endif
