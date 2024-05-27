@@ -129,11 +129,11 @@ namespace RE
 		struct ListObjectivesAccess;
 		struct ListStagesAccess;
 
-		bool SetStage(std::uint16_t stage)
+		bool SetStage(std::uint16_t a_stage)
 		{
 			using func_t = decltype(&TESQuest::SetStage);
 			REL::Relocation<func_t> func{ REL::ID(2207743) };
-			return func(this, stage);
+			return func(this, a_stage);
 		}
 
 		BSPointerHandle<TESObjectREFR>* GetAliasedRef(BSPointerHandle<TESObjectREFR>* a_result, std::uint32_t a_aiAliasID)

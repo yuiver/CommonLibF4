@@ -7,7 +7,7 @@ namespace RE
 	public:
 		[[nodiscard]] static BSTimer GetSingleton()
 		{
-			REL::Relocation<BSTimer*> singleton{ REL::ID(1256126) };
+			REL::Relocation<BSTimer*> singleton{ REL::ID(2703179) };
 			return *singleton;
 		}
 
@@ -26,7 +26,7 @@ namespace RE
 		void SetGlobalTimeMultiplier(float a_mult, bool a_now)
 		{
 			using func_t = decltype(&BSTimer::SetGlobalTimeMultiplier);
-			REL::Relocation<func_t> func{ REL::ID(1419977) };
+			REL::Relocation<func_t> func{ REL::ID(2267970) };
 			return func(this, a_mult, a_now);
 		}
 
