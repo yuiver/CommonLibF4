@@ -34,9 +34,9 @@ namespace REL
 			return nullptr;
 		}
 
-		const auto  ntHeader = stl::adjust_pointer<REX::W32::IMAGE_NT_HEADERS64>(dosHeader, dosHeader->lfanew);
+		const auto ntHeader = stl::adjust_pointer<REX::W32::IMAGE_NT_HEADERS64>(dosHeader, dosHeader->lfanew);
 		const auto& dataDir = ntHeader->optionalHeader.dataDirectory[REX::W32::IMAGE_DIRECTORY_ENTRY_IMPORT];
-		const auto  importDesc = stl::adjust_pointer<REX::W32::IMAGE_IMPORT_DESCRIPTOR>(dosHeader, dataDir.virtualAddress);
+		const auto importDesc = stl::adjust_pointer<REX::W32::IMAGE_IMPORT_DESCRIPTOR>(dosHeader, dataDir.virtualAddress);
 
 		for (auto import = importDesc; import->characteristics != 0; ++import) {
 			auto name = stl::adjust_pointer<const char>(dosHeader, import->name);

@@ -95,6 +95,5 @@ namespace RE::Scaleform
 		public ArrayBase<ArrayDataCC<T, AllocatorLH<T, SID>, SizePolicy>>
 	{
 	public:
-		
 	};
 }

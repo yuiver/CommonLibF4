@@ -8,7 +8,7 @@ namespace RE::Scaleform::Render
 	{
 	public:
 		constexpr ScreenToWorld() = default;
-		
+
 		// members
 		float sx{ std::numeric_limits<float>::max() };     // 00
 		float sy{ std::numeric_limits<float>::max() };     // 04

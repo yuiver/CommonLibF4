@@ -47,7 +47,6 @@ namespace RE::BSGraphics::Utility
 		using func_t = decltype(&PackVertexData);
 		static REL::Relocation<func_t> func{ REL::ID(2277106) };
 		return func(a_numVertices, a_positions, a_texCoords0, a_texCoords1, a_normals, a_binormals, a_tangents, a_colors, a_skinBoneWeights, a_skinBoneIndices, a_landscapeData1, a_landscapeData2, a_eyeData, a_buffer, a_bufferSize, a_vertexMap, a_dynamicFlags, a_tangentXBuffer, a_tangentXBufferStride);
-
 	}
 
 	inline void UnpackVertexData(
