@@ -9,16 +9,6 @@
 
 namespace RE
 {
-	namespace BSUtilities
-	{
-		inline NiAVObject* GetObjectByName(NiAVObject* a_root, const BSFixedString& a_name, bool a_tryInternal, bool a_dontAttach)
-		{
-			using func_t = decltype(&GetObjectByName);
-			REL::Relocation<func_t> func{ REL::ID(843650) };
-			return func(a_root, a_name, a_tryInternal, a_dontAttach);
-		}
-	}
-
 	namespace CombatUtilities
 	{
 		inline bool CalculateProjectileLOS(

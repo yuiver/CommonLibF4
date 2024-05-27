@@ -44,6 +44,7 @@ set(SOURCES
 	include/RE/Bethesda/BSFixedString.h
 	include/RE/Bethesda/BSGeometry.h
 	include/RE/Bethesda/BSGraphics.h
+	include/RE/Bethesda/BSGraphicsUtility.h
 	include/RE/Bethesda/BSHavok.h
 	include/RE/Bethesda/BSInputDeviceManager.h
 	include/RE/Bethesda/BSInputEnableManager.h
@@ -157,6 +158,7 @@ set(SOURCES
 	include/RE/Bethesda/BSTextureStreamer.h
 	include/RE/Bethesda/BSThread.h
 	include/RE/Bethesda/BSTimer.h
+	include/RE/Bethesda/BSUtilities.h
 	include/RE/Bethesda/BSVisit.h
 	include/RE/Bethesda/CELLJobs.h
 	include/RE/Bethesda/CRC.h
@@ -317,11 +319,15 @@ set(SOURCES
 	include/RE/Scaleform/GFx/GFx_Loader.h
 	include/RE/Scaleform/GFx/GFx_Log.h
 	include/RE/Scaleform/GFx/GFx_Player.h
+	include/RE/Scaleform/GFx/GFx_PlayerImpl.h
+	include/RE/Scaleform/GFx/GFx_PlayerStats.h
 	include/RE/Scaleform/GFx/GFx_Resource.h
+	include/RE/Scaleform/GFx/GFx_Stats.h
 	include/RE/Scaleform/GFx/GFx_Types.h
 	include/RE/Scaleform/Kernel/SF_AllocInfo.h
 	include/RE/Scaleform/Kernel/SF_Allocator.h
 	include/RE/Scaleform/Kernel/SF_Array.h
+	include/RE/Scaleform/Kernel/SF_ArrayPaged.h
 	include/RE/Scaleform/Kernel/SF_Atomic.h
 	include/RE/Scaleform/Kernel/SF_List.h
 	include/RE/Scaleform/Kernel/SF_Log.h
@@ -332,6 +338,7 @@ set(SOURCES
 	include/RE/Scaleform/Kernel/SF_SysAlloc.h
 	include/RE/Scaleform/Kernel/SF_System.h
 	include/RE/Scaleform/Kernel/SF_Threads.h
+	include/RE/Scaleform/Kernel/SF_Types.h
 	include/RE/Scaleform/Render/Render_Color.h
 	include/RE/Scaleform/Render/Render_Constants.h
 	include/RE/Scaleform/Render/Render_Containers.h
@@ -339,13 +346,16 @@ set(SOURCES
 	include/RE/Scaleform/Render/Render_Matrix2x4.h
 	include/RE/Scaleform/Render/Render_Matrix3x4.h
 	include/RE/Scaleform/Render/Render_Matrix4x4.h
+	include/RE/Scaleform/Render/Render_ScreenToWorld.h
 	include/RE/Scaleform/Render/Render_ThreadCommandQueue.h
 	include/RE/Scaleform/Render/Render_TreeNode.h
+	include/RE/Scaleform/Render/Render_TreeShape.h
 	include/RE/Scaleform/Render/Render_Types2D.h
 	include/RE/Scaleform/Render/Render_Viewport.h
 	include/RE/VTABLE_IDs.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
+	include/REL/IAT.h
 	include/REL/ID.h
 	include/REL/IDDB.h
 	include/REL/Module.h
@@ -426,6 +436,7 @@ set(SOURCES
 	src/RE/NetImmerse/NiPoint3.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
+	src/REL/IAT.cpp
 	src/REL/IDDB.cpp
 	src/REL/Module.cpp
 	src/REL/Relocation.cpp

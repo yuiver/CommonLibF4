@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/Scaleform/Kernel/SF_Types.h"
 #include "RE/Scaleform/Render/Render_Color.h"
 #include "RE/Scaleform/Render/Render_Matrix2x4.h"
 #include "RE/Scaleform/Render/Render_Matrix3x4.h"

@@ -259,6 +259,10 @@ namespace RE::Scaleform::Render
 		{
 		public:
 			using Entry = ContextImpl::Entry;
+			using EntryData = ContextImpl::EntryData;
+			using EntryChange = ContextImpl::EntryChange;
+			using ChangeBuffer = ContextImpl::ChangeBuffer;
+			using RenderNotify = ContextImpl::RenderNotify;
 
 			// members
 			MemoryHeap* heap;                              // 000
@@ -280,9 +284,19 @@ namespace RE::Scaleform::Render
 			std::uint64_t finalizedFrameID;                // 108
 		};
 		static_assert(sizeof(Context) == 0x110);
+
+		template <class C, class B>
+		class ContextData_ImplMixin : public B
+		{
+		public:
+			virtual Context::EntryData* ConstructCopy(LinearHeap& heap) const;
+			virtual void CopyTo(void* pdest) const;
+			virtual void Destroy();
+		};
 	}
 
 	using ContextImpl::Context;
 	using ContextImpl::ContextCaptureNotify;
+	using ContextImpl::ContextData_ImplMixin;
 	using ContextImpl::DisplayHandle;
 }

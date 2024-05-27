@@ -3,7 +3,7 @@
 #include "RE/Scaleform/GFx/GFx_ASMovieRootBase.h"
 #include "RE/Scaleform/GFx/GFx_ASString.h"
 #include "RE/Scaleform/Kernel/SF_Allocator.h"
-#include "RE/Scaleform/Kernel/SF_Array.h"
+#include "RE/Scaleform/Kernel/SF_ArrayPaged.h"
 #include "RE/Scaleform/Kernel/SF_Memory.h"
 
 namespace RE::Scaleform

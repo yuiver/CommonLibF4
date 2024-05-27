@@ -70,9 +70,9 @@ namespace RE::Scaleform::GFx
 	{
 	public:
 		// members
-		Scaleform::GFx::ASStringNodeHolder builtins[STAT];  // 00
-		Scaleform::GFx::ASStringManager* stringManager;     // ??
-		const char** staticStrings;                         // ??+08
+		ASStringNodeHolder builtins[STAT];  // 00
+		ASStringManager* stringManager;     // ??
+		const char** staticStrings;         // ??+08
 	};
 	static_assert(sizeof(ASStringBuiltinManagerT<void, 65>) == 0x218);
 }
