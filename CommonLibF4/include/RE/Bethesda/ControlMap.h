@@ -20,6 +20,13 @@ namespace RE
 		public BSTSingletonSDM<ControlMap>  // 000
 	{
 	public:
+		using InputContextID = UserEvents::INPUT_CONTEXT_ID;
+
+		enum : std::uint32_t
+		{
+			kInvalid = static_cast<std::uint8_t>(-1)
+		};
+
 		struct UserEventMapping
 		{
 		public:
@@ -57,6 +64,24 @@ namespace RE
 		{
 			REL::Relocation<ControlMap**> singleton{ REL::ID(325206) };
 			return *singleton;
+		}
+
+		std::uint32_t GetMappedKey(std::string_view a_eventID, INPUT_DEVICE a_device, InputContextID a_context = InputContextID::kMainGameplay) const
+		{
+			assert(a_device < INPUT_DEVICE::kTotal);
+			assert(a_context < InputContextID::kTotal);
+
+			if (controlMaps[std::to_underlying(a_context)]) {
+				const auto& mappings = controlMaps[std::to_underlying(a_context)]->deviceMappings[std::to_underlying(a_device)];
+				BSFixedString eventID(a_eventID);
+				for (auto& mapping : mappings) {
+					if (mapping.eventID == eventID) {
+						return mapping.inputKey;
+					}
+				}
+			}
+
+			return kInvalid;
 		}
 
 		bool PopInputContext(UserEvents::INPUT_CONTEXT_ID a_context)

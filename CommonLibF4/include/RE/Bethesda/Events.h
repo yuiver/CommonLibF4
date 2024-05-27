@@ -582,7 +582,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESDeathEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESDeathEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(1465690) };
+			REL::Relocation<func_t> func{ REL::ID(2201833) };
 			return func();
 		}
 
@@ -611,6 +611,21 @@ namespace RE
 		bool equipped;                   // 12
 	};
 	static_assert(sizeof(TESEquipEvent) == 0x18);
+
+	struct TESFormDeleteEvent
+	{
+	public:
+		[[nodiscard]] static BSTEventSource<TESFormDeleteEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESFormDeleteEvent::GetEventSource);
+			REL::Relocation<func_t> func{ REL::ID(2201842) };
+			return func();
+		}
+
+		// members
+		std::uint32_t formID;  // 00
+	};
+	static_assert(sizeof(TESFormDeleteEvent) == 0x04);
 
 	struct TESFurnitureEvent
 	{

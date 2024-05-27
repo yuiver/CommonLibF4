@@ -24,6 +24,7 @@
 #include <new>
 #include <optional>
 #include <random>
+#include <ranges>
 #include <source_location>
 #include <span>
 #include <sstream>
@@ -326,6 +327,12 @@ namespace F4SE
 				requires(std::same_as<Args, enum_type>&&...)
 			{
 				_impl &= ~(static_cast<underlying_type>(a_args) | ...);
+				return *this;
+			}
+
+			constexpr enumeration& reset() noexcept
+			{
+				_impl = 0;
 				return *this;
 			}
 

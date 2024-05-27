@@ -73,8 +73,9 @@ namespace RE
 
 		[[nodiscard]] static Sky* GetSingleton()
 		{
-			REL::Relocation<Sky**> singleton{ REL::ID(484694) };
-			return *singleton;
+			using func_t = decltype(&Sky::GetSingleton);
+			REL::Relocation<func_t> func{ REL::ID(484694) };
+			return func();
 		}
 
 		void ForceWeather(TESWeather* a_weather, bool a_override)

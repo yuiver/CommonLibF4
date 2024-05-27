@@ -123,14 +123,14 @@ namespace RE
 
 		[[nodiscard]] static BGSSaveLoadManager* GetSingleton()
 		{
-			REL::Relocation<BGSSaveLoadManager**> singleton{ REL::ID(1247320) };
+			REL::Relocation<BGSSaveLoadManager**> singleton{ REL::ID(2697802) };
 			return *singleton;
 		}
 
 		void QueueSaveLoadTask(QUEUED_TASK a_task)
 		{
 			using func_t = decltype(&BGSSaveLoadManager::QueueSaveLoadTask);
-			REL::Relocation<func_t> func{ REL::ID(1487308) };
+			REL::Relocation<func_t> func{ REL::ID(2228080) };
 			return func(this, a_task);
 		}
 
