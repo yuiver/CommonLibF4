@@ -70,7 +70,7 @@ namespace RE
 		kLock,      // ExtraLock
 		kTeleport,  // ExtraTeleport
 		kMapMarker,
-		kLeveledCreature, // ExtraLeveledCreature
+		kLeveledCreature,  // ExtraLeveledCreature
 		kLevelItem,
 		kScale,
 		kSeed,

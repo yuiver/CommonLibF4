@@ -623,7 +623,7 @@ namespace RE
 		}
 
 		// members
-		std::uint32_t formID;            // 00
+		std::uint32_t formID;  // 00
 	};
 	static_assert(sizeof(TESFormDeleteEvent) == 0x04);
 
