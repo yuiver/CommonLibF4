@@ -242,7 +242,7 @@ namespace RE
 		};
 
 		// members
-		stl::enumeration<Type, std::int8_t> type;  // 0
+		REX::EnumSet<Type, std::int8_t> type;  // 0
 	};
 	static_assert(sizeof(WorkbenchData) == 0x1);
 

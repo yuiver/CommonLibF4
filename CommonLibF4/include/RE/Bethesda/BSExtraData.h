@@ -310,9 +310,9 @@ namespace RE
 		[[nodiscard]] EXTRA_DATA_TYPE GetExtraType() const noexcept { return *type; }
 
 		// members
-		BSExtraData* next{ nullptr };                                                    // 08
-		std::uint16_t flags{ 0 };                                                        // 10
-		stl::enumeration<EXTRA_DATA_TYPE, std::uint8_t> type{ EXTRA_DATA_TYPE::kNone };  // 12
+		BSExtraData* next{ nullptr };                                                // 08
+		std::uint16_t flags{ 0 };                                                    // 10
+		REX::EnumSet<EXTRA_DATA_TYPE, std::uint8_t> type{ EXTRA_DATA_TYPE::kNone };  // 12
 	};
 	static_assert(sizeof(BSExtraData) == 0x18);
 
@@ -619,12 +619,12 @@ namespace RE
 		}
 
 		// members
-		BSFixedStringCS displayName;                                    // 18
-		BGSMessage* displayNameText;                                    // 20
-		TESQuest* ownerQuest;                                           // 28
-		stl::enumeration<DisplayDataType, std::int32_t> ownerInstance;  // 30
-		BSTArray<BSTTuple<BSFixedString, TESForm*>>* textPairs;         // 38
-		std::uint16_t customNameLength;                                 // 40
+		BSFixedStringCS displayName;                                // 18
+		BGSMessage* displayNameText;                                // 20
+		TESQuest* ownerQuest;                                       // 28
+		REX::EnumSet<DisplayDataType, std::int32_t> ownerInstance;  // 30
+		BSTArray<BSTTuple<BSFixedString, TESForm*>>* textPairs;     // 38
+		std::uint16_t customNameLength;                             // 40
 	};
 	static_assert(sizeof(ExtraTextDisplayData) == 0x48);
 

@@ -97,7 +97,7 @@ namespace RE
 		float weightedLastTime;                              // 54
 		float lastScaledTime;                                // 58
 		NiControllerManager* owner;                          // 60
-		stl::enumeration<AnimState, std::int32_t> state;     // 68
+		REX::EnumSet<AnimState, std::int32_t> state;         // 68
 		float offset;                                        // 6C
 		float startTime;                                     // 70
 		float endTime;                                       // 74

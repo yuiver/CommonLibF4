@@ -84,11 +84,11 @@ namespace RE
 				virtual void LoadImpl(TESFile* a_file) = 0;                        // 04
 
 				// members
-				BGSLocalizedString name;                                           // 08
-				TESCondition chargenConditions;                                    // 10
-				stl::enumeration<BGSCharacterTint::EntrySlot, std::int32_t> slot;  // 18
-				const std::uint16_t uniqueID{ 0 };                                 // 1C
-				std::int8_t flags;                                                 // 1E
+				BGSLocalizedString name;                                       // 08
+				TESCondition chargenConditions;                                // 10
+				REX::EnumSet<BGSCharacterTint::EntrySlot, std::int32_t> slot;  // 18
+				const std::uint16_t uniqueID{ 0 };                             // 1C
+				std::int8_t flags;                                             // 1E
 			};
 			static_assert(sizeof(Entry) == 0x20);
 

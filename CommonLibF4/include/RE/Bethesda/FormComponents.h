@@ -244,7 +244,7 @@ namespace RE
 		virtual void DoClearDucking() { return; }                                                   // 0A
 
 		// members
-		stl::enumeration<MUSIC_STATUS, std::int32_t> trackStatus;  // 08
+		REX::EnumSet<MUSIC_STATUS, std::int32_t> trackStatus;  // 08
 	};
 	static_assert(sizeof(BSIMusicTrack) == 0x10);
 
@@ -266,15 +266,15 @@ namespace RE
 		virtual ~BSIMusicType();  // 07
 
 		// members
-		std::uint32_t flags;                                                     // 08
-		std::int8_t priority;                                                    // 0C
-		std::int8_t padding;                                                     // 0D
-		std::uint16_t ducksOtherMusicBy;                                         // 0E
-		float fadeTime;                                                          // 10
-		std::uint32_t currentTrackIndex;                                         // 14
-		BSTArray<std::uint32_t> trackHistory;                                    // 18
-		BSTArray<BSIMusicTrack*> tracks;                                         // 30
-		stl::enumeration<BSIMusicTrack::MUSIC_STATUS, std::int32_t> typeStatus;  // 48
+		std::uint32_t flags;                                                 // 08
+		std::int8_t priority;                                                // 0C
+		std::int8_t padding;                                                 // 0D
+		std::uint16_t ducksOtherMusicBy;                                     // 0E
+		float fadeTime;                                                      // 10
+		std::uint32_t currentTrackIndex;                                     // 14
+		BSTArray<std::uint32_t> trackHistory;                                // 18
+		BSTArray<BSIMusicTrack*> tracks;                                     // 30
+		REX::EnumSet<BSIMusicTrack::MUSIC_STATUS, std::int32_t> typeStatus;  // 48
 	};
 	static_assert(sizeof(BSIMusicType) == 0x50);
 
@@ -1375,9 +1375,9 @@ namespace RE
 		void SetBaseEnchanting(EnchantmentItem* a_ench) noexcept { formEnchanting = a_ench; }
 
 		// members
-		EnchantmentItem* formEnchanting;                                        // 08
-		stl::enumeration<MagicSystem::CastingType, std::uint16_t> castingType;  // 10
-		std::uint16_t amountOfEnchantment;                                      // 12
+		EnchantmentItem* formEnchanting;                                    // 08
+		REX::EnumSet<MagicSystem::CastingType, std::uint16_t> castingType;  // 10
+		std::uint16_t amountOfEnchantment;                                  // 12
 	};
 	static_assert(sizeof(TESEnchantableForm) == 0x18);
 
@@ -1548,14 +1548,14 @@ namespace RE
 		};
 
 		// members
-		stl::enumeration<Flag, std::uint32_t> actorBaseFlags;                 // 00
-		std::int16_t xpValueOffset;                                           // 04
-		std::uint16_t level;                                                  // 06
-		std::uint16_t calcLevelMin;                                           // 08
-		std::uint16_t calcLevelMax;                                           // 0A
-		std::uint16_t baseDisposition;                                        // 0C
-		stl::enumeration<TEMPLATE_USE_FLAG, std::uint16_t> templateUseFlags;  // 0E
-		std::int16_t bleedoutOverride;                                        // 10
+		REX::EnumSet<Flag, std::uint32_t> actorBaseFlags;                 // 00
+		std::int16_t xpValueOffset;                                       // 04
+		std::uint16_t level;                                              // 06
+		std::uint16_t calcLevelMin;                                       // 08
+		std::uint16_t calcLevelMax;                                       // 0A
+		std::uint16_t baseDisposition;                                    // 0C
+		REX::EnumSet<TEMPLATE_USE_FLAG, std::uint16_t> templateUseFlags;  // 0E
+		std::int16_t bleedoutOverride;                                    // 10
 	};
 	static_assert(sizeof(ACTOR_BASE_DATA) == 0x14);
 

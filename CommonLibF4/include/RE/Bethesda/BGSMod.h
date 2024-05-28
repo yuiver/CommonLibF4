@@ -155,11 +155,11 @@ namespace RE::BGSMod
 			{
 			public:
 				// members
-				stl::enumeration<ENUM_FORM_ID, std::uint8_t> targetFormType;  // 18
-				std::int8_t maxRank;                                          // 19
-				std::int8_t lvlsPerTierScaledOffset;                          // 1A
-				bool optional;                                                // 1B
-				bool childrenExclusive;                                       // 1C
+				REX::EnumSet<ENUM_FORM_ID, std::uint8_t> targetFormType;  // 18
+				std::int8_t maxRank;                                      // 19
+				std::int8_t lvlsPerTierScaledOffset;                      // 1A
+				bool optional;                                            // 1B
+				bool childrenExclusive;                                   // 1C
 			};
 			static_assert(sizeof(Data) == 0x20);
 
@@ -195,7 +195,7 @@ namespace RE::BGSMod
 			BGSAttachParentArray attachParents;                                           // 98
 			BGSTypedKeywordValueArray<KeywordType::kInstantiationFilter> filterKeywords;  // B0
 			BGSTypedKeywordValue<KeywordType::kAttachPoint> attachPoint;                  // C0
-			stl::enumeration<ENUM_FORM_ID, std::uint8_t> targetFormType;                  // C2
+			REX::EnumSet<ENUM_FORM_ID, std::uint8_t> targetFormType;                      // C2
 			std::uint8_t maxRank;                                                         // C3
 			std::uint8_t lvlsPerTierScaledOffset;                                         // C4
 			std::int8_t priority;                                                         // C5

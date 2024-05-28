@@ -116,9 +116,9 @@ namespace RE
 	{
 	public:
 		// members
-		const char* paramName{ "" };                                  // 00
-		stl::enumeration<SCRIPT_PARAM_TYPE, std::int32_t> paramType;  // 08
-		bool optional{ false };                                       // 0C
+		const char* paramName{ "" };                              // 00
+		REX::EnumSet<SCRIPT_PARAM_TYPE, std::int32_t> paramType;  // 08
+		bool optional{ false };                                   // 0C
 	};
 	static_assert(sizeof(SCRIPT_PARAMETER) == 0x10);
 
@@ -167,15 +167,15 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t lineNumber;                                  // 000
-		char line[512];                                            // 004
-		std::uint32_t size;                                        // 204
-		std::uint32_t offset;                                      // 208
-		char output[512];                                          // 20C
-		std::uint32_t outputSize;                                  // 40C
-		SCRIPT_OUTPUT expression;                                  // 410
-		std::uint32_t refObjectIndex;                              // 414
-		stl::enumeration<SCRIPT_ERROR, std::int32_t> scriptError;  // 418
+		std::uint32_t lineNumber;                              // 000
+		char line[512];                                        // 004
+		std::uint32_t size;                                    // 204
+		std::uint32_t offset;                                  // 208
+		char output[512];                                      // 20C
+		std::uint32_t outputSize;                              // 40C
+		SCRIPT_OUTPUT expression;                              // 410
+		std::uint32_t refObjectIndex;                          // 414
+		REX::EnumSet<SCRIPT_ERROR, std::int32_t> scriptError;  // 418
 	};
 	static_assert(sizeof(SCRIPT_LINE) == 0x41C);
 
@@ -216,20 +216,20 @@ namespace RE
 	{
 	public:
 		// members
-		const char* input;                                            // 00
-		std::uint32_t inputOffset;                                    // 08
-		stl::enumeration<COMPILER_NAME, std::int32_t> compilerIndex;  // 0C
-		BSStringT<char> scriptName;                                   // 10
-		SCRIPT_ERROR lastError;                                       // 20
-		bool isPartialScript;                                         // 24
-		std::uint32_t uiLastLineNumber;                               // 28
-		char* output;                                                 // 30
-		std::uint32_t outputOffset;                                   // 38
-		SCRIPT_HEADER header;                                         // 3C
-		BSSimpleList<ScriptVariable*> listVariables;                  // 50
-		BSSimpleList<SCRIPT_REFERENCED_OBJECT*> listRefObjects;       // 60
-		Script* currentScript;                                        // 70
-		BSSimpleList<SCRIPT_LINE*> listLines;                         // 78
+		const char* input;                                        // 00
+		std::uint32_t inputOffset;                                // 08
+		REX::EnumSet<COMPILER_NAME, std::int32_t> compilerIndex;  // 0C
+		BSStringT<char> scriptName;                               // 10
+		SCRIPT_ERROR lastError;                                   // 20
+		bool isPartialScript;                                     // 24
+		std::uint32_t uiLastLineNumber;                           // 28
+		char* output;                                             // 30
+		std::uint32_t outputOffset;                               // 38
+		SCRIPT_HEADER header;                                     // 3C
+		BSSimpleList<ScriptVariable*> listVariables;              // 50
+		BSSimpleList<SCRIPT_REFERENCED_OBJECT*> listRefObjects;   // 60
+		Script* currentScript;                                    // 70
+		BSSimpleList<SCRIPT_LINE*> listLines;                     // 78
 	};
 	static_assert(sizeof(ScriptCompileData) == 0x88);
 
@@ -272,7 +272,7 @@ namespace RE
 		// members
 		const char* functionName{ "" };                                                                       // 00
 		const char* shortName{ "" };                                                                          // 08
-		stl::enumeration<SCRIPT_OUTPUT, std::int32_t> output;                                                 // 10
+		REX::EnumSet<SCRIPT_OUTPUT, std::int32_t> output;                                                     // 10
 		const char* helpString{ "" };                                                                         // 18
 		bool referenceFunction{ false };                                                                      // 20
 		std::uint16_t paramCount{ 0 };                                                                        // 22

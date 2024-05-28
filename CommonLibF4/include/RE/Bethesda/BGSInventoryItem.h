@@ -42,10 +42,10 @@ namespace RE
 			[[nodiscard]] bool IsEquipped() const noexcept { return flags.any(Flag::kSlotMask); }
 
 			// members
-			BSTSmartPointer<Stack> nextStack;             // 10
-			BSTSmartPointer<ExtraDataList> extra;         // 18
-			std::uint32_t count;                          // 20
-			stl::enumeration<Flag, std::uint16_t> flags;  // 24
+			BSTSmartPointer<Stack> nextStack;         // 10
+			BSTSmartPointer<ExtraDataList> extra;     // 18
+			std::uint32_t count;                      // 20
+			REX::EnumSet<Flag, std::uint16_t> flags;  // 24
 		};
 		static_assert(sizeof(Stack) == 0x28);
 

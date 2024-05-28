@@ -218,12 +218,12 @@ namespace RE
 		}
 
 		// members
-		stl::enumeration<INPUT_DEVICE, std::int32_t> device{ INPUT_DEVICE::kNone };             // 08
-		std::int32_t deviceID{ 0 };                                                             // 0C
-		stl::enumeration<INPUT_EVENT_TYPE, std::int32_t> eventType{ INPUT_EVENT_TYPE::kNone };  // 10
-		InputEvent* next{ nullptr };                                                            // 18
-		std::uint32_t timeCode{ static_cast<std::uint32_t>(-1) };                               // 20
-		stl::enumeration<HANDLED_RESULT, std::int32_t> handled{ HANDLED_RESULT::kUnhandled };   // 24
+		REX::EnumSet<INPUT_DEVICE, std::int32_t> device{ INPUT_DEVICE::kNone };             // 08
+		std::int32_t deviceID{ 0 };                                                         // 0C
+		REX::EnumSet<INPUT_EVENT_TYPE, std::int32_t> eventType{ INPUT_EVENT_TYPE::kNone };  // 10
+		InputEvent* next{ nullptr };                                                        // 18
+		std::uint32_t timeCode{ static_cast<std::uint32_t>(-1) };                           // 20
+		REX::EnumSet<HANDLED_RESULT, std::int32_t> handled{ HANDLED_RESULT::kUnhandled };   // 24
 	};
 	static_assert(sizeof(InputEvent) == 0x28);
 
@@ -314,7 +314,7 @@ namespace RE
 
 		[[nodiscard]] BS_BUTTON_CODE GetBSButtonCode() const noexcept
 		{
-			stl::enumeration<BS_BUTTON_CODE> result{ static_cast<BS_BUTTON_CODE>(idCode) };
+			REX::EnumSet<BS_BUTTON_CODE> result{ static_cast<BS_BUTTON_CODE>(idCode) };
 			switch (device.get()) {
 			case INPUT_DEVICE::kGamepad:
 				result.set(BS_BUTTON_CODE::kGamepad);

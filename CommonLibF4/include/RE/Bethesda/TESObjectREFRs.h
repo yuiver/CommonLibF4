@@ -89,11 +89,11 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<Type, std::uint16_t> changeType;  // 00
-			ObjectRefHandle owner;                             // 04
-			TESBoundObject* objAffected;                       // 08
-			std::uint32_t count;                               // 10
-			std::uint32_t stackID;                             // 14
+			REX::EnumSet<Type, std::uint16_t> changeType;  // 00
+			ObjectRefHandle owner;                         // 04
+			TESBoundObject* objAffected;                   // 08
+			std::uint32_t count;                           // 10
+			std::uint32_t stackID;                         // 14
 		};
 		static_assert(sizeof(Event) == 0x18);
 	}
@@ -956,9 +956,9 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<BGSBodyPartDefs::LIMB_ENUM, std::int32_t> limb;  // 00
-			ActorValueInfo* limbCondition;                                    // 08
-			float distance;                                                   // 10
+			REX::EnumSet<BGSBodyPartDefs::LIMB_ENUM, std::int32_t> limb;  // 00
+			ActorValueInfo* limbCondition;                                // 08
+			float distance;                                               // 10
 		};
 		static_assert(sizeof(ExplodedLimb) == 0x18);
 
