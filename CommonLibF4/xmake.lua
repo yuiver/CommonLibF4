@@ -9,6 +9,9 @@ end)
 target("commonlibf4", function()
     set_kind("static")
 
+    -- set build group
+    set_group("commonlibf4")
+
     -- add packages
     add_packages("rsm-binary-io", "rsm-mmio", "spdlog", { public = true })
 
