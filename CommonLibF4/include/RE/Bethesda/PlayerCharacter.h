@@ -271,7 +271,7 @@ namespace RE
 
 		[[nodiscard]] static ActorHandle GetPlayerHandle()
 		{
-			REL::Relocation<ActorHandle*> singleton{ REL::ID(522947) };
+			REL::Relocation<ActorHandle*> singleton{ REL::ID(2698072) };
 			return *singleton;
 		}
 

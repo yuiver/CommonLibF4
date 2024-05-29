@@ -27,14 +27,14 @@ namespace RE
 
 		[[nodiscard]] static BGSSynchronizedAnimationManager* GetSingleton()
 		{
-			REL::Relocation<BGSSynchronizedAnimationManager**> singleton{ REL::ID(1346879) };
+			REL::Relocation<BGSSynchronizedAnimationManager**> singleton{ REL::ID(2690996) };
 			return *singleton;
 		}
 
 		[[nodiscard]] bool IsReferenceInSynchronizedScene(ObjectRefHandle a_ref)
 		{
 			using func_t = decltype(&BGSSynchronizedAnimationManager::IsReferenceInSynchronizedScene);
-			REL::Relocation<func_t> func{ REL::ID(915329) };
+			REL::Relocation<func_t> func{ REL::ID(2214437) };
 			return func(this, a_ref);
 		}
 

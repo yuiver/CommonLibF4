@@ -1499,7 +1499,7 @@ namespace RE
 		[[nodiscard]] bool GetCantWaitHere()
 		{
 			using func_t = decltype(&TESObjectCELL::GetCantWaitHere);
-			REL::Relocation<func_t> func{ REL::ID(376940) };
+			REL::Relocation<func_t> func{ REL::ID(2200287) };
 			return func(this);
 		}
 
