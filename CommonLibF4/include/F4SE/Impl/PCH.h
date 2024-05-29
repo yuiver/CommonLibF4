@@ -263,7 +263,6 @@ namespace F4SE
 			std::size_t _left{ 0 };
 		};
 
-
 		// backwards compat
 		template <
 			class E,
