@@ -34,9 +34,9 @@ namespace RE
 		virtual BSMultiBoundShape* MakeMultiBoundShape([[maybe_unused]] const NiPoint3& a_angle) const { return nullptr; }  // 04
 
 		// members
-		stl::enumeration<PRIMITIVE_TYPE, std::int32_t> type;  // 08
-		NiPoint3 radii;                                       // 0C
-		NiPointer<BSFadeNode> node;                           // 18
+		REX::EnumSet<PRIMITIVE_TYPE, std::int32_t> type;  // 08
+		NiPoint3 radii;                                   // 0C
+		NiPointer<BSFadeNode> node;                       // 18
 	};
 	static_assert(sizeof(BGSPrimitive) == 0x20);
 }

@@ -55,9 +55,9 @@ namespace RE::Scaleform::Render
 			{
 			public:
 				// members
-				Ptr<ContextLock> contextLock;                       // 20
-				stl::enumeration<HandleState, std::int32_t> state;  // 28
-				Entry* entry;                                       // 30
+				Ptr<ContextLock> contextLock;                   // 20
+				REX::EnumSet<HandleState, std::int32_t> state;  // 28
+				Entry* entry;                                   // 30
 			};
 			static_assert(sizeof(HandleData) == 0x38);
 
@@ -134,8 +134,8 @@ namespace RE::Scaleform::Render
 			virtual bool PropagateUp(Entry* a_entry) const;                  // 05
 
 			// members
-			stl::enumeration<EntryType, std::uint16_t> type;  // 08
-			std::uint16_t flags;                              // 0A
+			REX::EnumSet<EntryType, std::uint16_t> type;  // 08
+			std::uint16_t flags;                          // 0A
 		};
 		static_assert(sizeof(EntryData) == 0x10);
 

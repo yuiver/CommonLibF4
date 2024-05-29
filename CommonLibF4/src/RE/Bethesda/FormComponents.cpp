@@ -54,8 +54,6 @@ namespace RE
 			return BSContainer::ForEachResult::kContinue;
 		});
 		return result;
-
-		return false;
 	}
 
 	bool BGSKeywordForm::HasKeywordID(std::uint32_t a_formID) const

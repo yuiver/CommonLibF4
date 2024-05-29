@@ -1,4 +1,4 @@
-target("rttidump")
+target("commonlibf4-rttidump")
     -- set build kind
     set_kind("shared")
 
@@ -6,7 +6,7 @@ target("rttidump")
     set_default(false)
 
     -- set build group
-    set_group("plugin")
+    set_group("commonlibf4/plugin")
 
     -- add dependencies
     add_deps("commonlibf4")

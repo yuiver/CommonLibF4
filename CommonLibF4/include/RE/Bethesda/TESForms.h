@@ -906,11 +906,11 @@ namespace RE
 		[[nodiscard]] const T* As() const noexcept;
 
 		// members
-		TESFileContainer sourceFiles;                           // 08
-		std::uint32_t formFlags;                                // 10
-		std::uint32_t formID;                                   // 14
-		std::uint16_t inGameFormFlags;                          // 18
-		stl::enumeration<ENUM_FORM_ID, std::uint8_t> formType;  // 1A
+		TESFileContainer sourceFiles;                       // 08
+		std::uint32_t formFlags;                            // 10
+		std::uint32_t formID;                               // 14
+		std::uint16_t inGameFormFlags;                      // 18
+		REX::EnumSet<ENUM_FORM_ID, std::uint8_t> formType;  // 1A
 	};
 	static_assert(sizeof(TESForm) == 0x20);
 
@@ -1143,44 +1143,44 @@ namespace RE
 			};
 
 			// members
-			stl::enumeration<Flag, std::uint32_t> flags;                              // 000
-			float baseCost;                                                           // 004
-			TESForm* associatedForm;                                                  // 008
-			ActorValueInfo* associatedSkill;                                          // 010
-			ActorValueInfo* resistVariable;                                           // 018
-			std::int16_t numCounterEffects;                                           // 020
-			TESObjectLIGH* light;                                                     // 028
-			float taperWeight;                                                        // 030
-			TESEffectShader* effectShader;                                            // 038
-			TESEffectShader* enchantEffect;                                           // 040
-			std::int32_t minimumSkill;                                                // 048
-			std::int32_t spellmakingArea;                                             // 04C
-			float spellmakingChargeTime;                                              // 050
-			float taperCurve;                                                         // 054
-			float taperDuration;                                                      // 058
-			float secondaryAVWeight;                                                  // 05C
-			stl::enumeration<EffectArchetypes::ArchetypeID, std::int32_t> archetype;  // 060
-			ActorValueInfo* primaryAV;                                                // 068
-			BGSProjectile* projectileBase;                                            // 070
-			BGSExplosion* explosion;                                                  // 078
-			stl::enumeration<MagicSystem::CastingType, std::int32_t> castingType;     // 080
-			stl::enumeration<MagicSystem::Delivery, std::int32_t> delivery;           // 084
-			ActorValueInfo* secondaryAV;                                              // 088
-			BGSArtObject* castingArt;                                                 // 090
-			BGSArtObject* hitEffectArt;                                               // 098
-			BGSImpactDataSet* impactDataSet;                                          // 0A0
-			float skillUsageMult;                                                     // 0A8
-			BGSDualCastData* dualCastData;                                            // 0B0
-			float dualCastScale;                                                      // 0B8
-			BGSArtObject* enchantEffectArt;                                           // 0C0
-			BGSReferenceEffect* hitVisuals;                                           // 0C8
-			BGSReferenceEffect* enchantVisuals;                                       // 0D0
-			SpellItem* equipAbility;                                                  // 0D8
-			TESImageSpaceModifier* imageSpaceMod;                                     // 0E0
-			BGSPerk* perk;                                                            // 0E8
-			stl::enumeration<SOUND_LEVEL, std::int32_t> castingSoundLevel;            // 0F0
-			float aiScore;                                                            // 0F4
-			float aiDelayTime;                                                        // 0F8
+			REX::EnumSet<Flag, std::uint32_t> flags;                              // 000
+			float baseCost;                                                       // 004
+			TESForm* associatedForm;                                              // 008
+			ActorValueInfo* associatedSkill;                                      // 010
+			ActorValueInfo* resistVariable;                                       // 018
+			std::int16_t numCounterEffects;                                       // 020
+			TESObjectLIGH* light;                                                 // 028
+			float taperWeight;                                                    // 030
+			TESEffectShader* effectShader;                                        // 038
+			TESEffectShader* enchantEffect;                                       // 040
+			std::int32_t minimumSkill;                                            // 048
+			std::int32_t spellmakingArea;                                         // 04C
+			float spellmakingChargeTime;                                          // 050
+			float taperCurve;                                                     // 054
+			float taperDuration;                                                  // 058
+			float secondaryAVWeight;                                              // 05C
+			REX::EnumSet<EffectArchetypes::ArchetypeID, std::int32_t> archetype;  // 060
+			ActorValueInfo* primaryAV;                                            // 068
+			BGSProjectile* projectileBase;                                        // 070
+			BGSExplosion* explosion;                                              // 078
+			REX::EnumSet<MagicSystem::CastingType, std::int32_t> castingType;     // 080
+			REX::EnumSet<MagicSystem::Delivery, std::int32_t> delivery;           // 084
+			ActorValueInfo* secondaryAV;                                          // 088
+			BGSArtObject* castingArt;                                             // 090
+			BGSArtObject* hitEffectArt;                                           // 098
+			BGSImpactDataSet* impactDataSet;                                      // 0A0
+			float skillUsageMult;                                                 // 0A8
+			BGSDualCastData* dualCastData;                                        // 0B0
+			float dualCastScale;                                                  // 0B8
+			BGSArtObject* enchantEffectArt;                                       // 0C0
+			BGSReferenceEffect* hitVisuals;                                       // 0C8
+			BGSReferenceEffect* enchantVisuals;                                   // 0D0
+			SpellItem* equipAbility;                                              // 0D8
+			TESImageSpaceModifier* imageSpaceMod;                                 // 0E0
+			BGSPerk* perk;                                                        // 0E8
+			REX::EnumSet<SOUND_LEVEL, std::int32_t> castingSoundLevel;            // 0F0
+			float aiScore;                                                        // 0F4
+			float aiDelayTime;                                                    // 0F8
 		};
 		static_assert(sizeof(EffectSettingData) == 0x100);
 
@@ -1188,8 +1188,8 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<MagicSystem::SoundID, std::int32_t> id;  // 00
-			BGSSoundDescriptorForm* sound;                            // 08
+			REX::EnumSet<MagicSystem::SoundID, std::int32_t> id;  // 00
+			BGSSoundDescriptorForm* sound;                        // 08
 		};
 		static_assert(sizeof(SoundPair) == 0x10);
 
@@ -1268,8 +1268,8 @@ namespace RE
 		{
 		public:
 			// members
-			BGSSoundDescriptorForm* soundForm;               // 00
-			stl::enumeration<SoundType, std::int32_t> type;  // 08
+			BGSSoundDescriptorForm* soundForm;           // 00
+			REX::EnumSet<SoundType, std::int32_t> type;  // 08
 		};
 		static_assert(sizeof(WeatherSound) == 0x10);
 
@@ -1281,7 +1281,7 @@ namespace RE
 		static_assert(sizeof(WeatherSoundList) == 0x10);
 
 		// members
-		stl::enumeration<SpellContext, std::int32_t> context;                     // 020
+		REX::EnumSet<SpellContext, std::int32_t> context;                         // 020
 		TESTexture1024 cloudTexture[32];                                          // 028
 		std::int8_t cloudLayerSpeedY[32];                                         // 228
 		std::int8_t cloudLayerSpeedX[32];                                         // 248
@@ -1376,9 +1376,9 @@ namespace RE
 		{
 		public:
 			// members
-			BGSArtObject* artObject;                      // 00
-			TESEffectShader* effectShader;                // 08
-			stl::enumeration<Flag, std::uint32_t> flags;  // 10
+			BGSArtObject* artObject;                  // 00
+			TESEffectShader* effectShader;            // 08
+			REX::EnumSet<Flag, std::uint32_t> flags;  // 10
 		};
 		static_assert(sizeof(Data) == 0x18);
 
@@ -1558,14 +1558,14 @@ namespace RE
 		[[nodiscard]] bool IsInterior() const noexcept { return cellFlags.all(Flag::kInterior); }
 
 		// members
-		BSSpinLock grassCreateLock;                            // 30
-		BSSpinLock grassTaskLock;                              // 38
-		stl::enumeration<Flag, std::uint16_t> cellFlags;       // 40
-		std::uint16_t cellGameFlags;                           // 42
-		stl::enumeration<CELL_STATE, std::uint8_t> cellState;  // 44
-		bool autoWaterLoaded;                                  // 45
-		bool cellDetached;                                     // 46
-		BSTSmartPointer<ExtraDataList> extraList;              // 48
+		BSSpinLock grassCreateLock;                        // 30
+		BSSpinLock grassTaskLock;                          // 38
+		REX::EnumSet<Flag, std::uint16_t> cellFlags;       // 40
+		std::uint16_t cellGameFlags;                       // 42
+		REX::EnumSet<CELL_STATE, std::uint8_t> cellState;  // 44
+		bool autoWaterLoaded;                              // 45
+		bool cellDetached;                                 // 46
+		BSTSmartPointer<ExtraDataList> extraList;          // 48
 		union
 		{
 			void* cellData;
@@ -1611,7 +1611,7 @@ namespace RE
 		};
 
 		// members
-		stl::enumeration<LAND, std::uint32_t> flags;  // 0
+		REX::EnumSet<LAND, std::uint32_t> flags;  // 0
 	};
 	static_assert(sizeof(OBJ_LAND) == 0x4);
 
@@ -1700,8 +1700,8 @@ namespace RE
 		};
 
 		// members
-		stl::enumeration<TOPIC_INFO_FLAGS, std::uint16_t> flags;  // 0
-		std::uint16_t timeUntilReset;                             // 2
+		REX::EnumSet<TOPIC_INFO_FLAGS, std::uint16_t> flags;  // 0
+		std::uint16_t timeUntilReset;                         // 2
 	};
 	static_assert(sizeof(TOPIC_INFO_DATA) == 0x4);
 
@@ -1876,42 +1876,42 @@ namespace RE
 	{
 	public:
 		// members
-		stl::enumeration<_D3DBLEND, std::int32_t> textureBlendModeSource;   // 00
-		stl::enumeration<_D3DBLENDOP, std::int32_t> textureBlendOperation;  // 04
-		stl::enumeration<_D3DCMPFUNC, std::int32_t> textureZTestFunction;   // 08
-		std::uint32_t fillColor1;                                           // 0C
-		float fillAlphaFadeInTime;                                          // 10
-		float fillAlphaFullTime;                                            // 14
-		float fillAlphaFadeOutTime;                                         // 18
-		float fillAlphaPersistentPercent;                                   // 1C
-		float fillAlphaPulseAmplitude;                                      // 20
-		float fillAlphaPulseFrequency;                                      // 24
-		float fillTextureUAnimSpeed;                                        // 28
-		float fillTextureVAnimSpeed;                                        // 2C
-		float edgeExponentValue;                                            // 30
-		std::uint32_t edgeColor;                                            // 34
-		float edgeAlphaFadeInTime;                                          // 38
-		float edgeAlphaFullTime;                                            // 3C
-		float edgeAlphaFadeOutTime;                                         // 40
-		float edgeAlphaPersistentPercent;                                   // 44
-		float edgeAlphaPulseAmplitude;                                      // 48
-		float edgeAlphaPulseFrequency;                                      // 4C
-		float fillAlphaFullPercent;                                         // 50
-		float edgeAlphaFullPercent;                                         // 54
-		stl::enumeration<_D3DBLEND, std::int32_t> textureBlendModeDest;     // 58
-		float alphaTestStartTime;                                           // 5C
-		float alphaTestEndTime;                                             // 60
-		float alphaTestStartValue;                                          // 64
-		float alphaTestEndValue;                                            // 68
-		BGSSoundDescriptorForm* ambientSound;                               // 70
-		std::uint32_t fillColor2;                                           // 78
-		std::uint32_t fillColor3;                                           // 7C
-		float fillColorScaleA[3];                                           // 80
-		float fillColorTimeA[3];                                            // 8C
-		std::uint32_t flags;                                                // 98
-		float fillTextureUScale;                                            // 9C
-		float fillTextureVScale;                                            // A0
-		std::int8_t boneDepth;                                              // A4
+		REX::EnumSet<_D3DBLEND, std::int32_t> textureBlendModeSource;   // 00
+		REX::EnumSet<_D3DBLENDOP, std::int32_t> textureBlendOperation;  // 04
+		REX::EnumSet<_D3DCMPFUNC, std::int32_t> textureZTestFunction;   // 08
+		std::uint32_t fillColor1;                                       // 0C
+		float fillAlphaFadeInTime;                                      // 10
+		float fillAlphaFullTime;                                        // 14
+		float fillAlphaFadeOutTime;                                     // 18
+		float fillAlphaPersistentPercent;                               // 1C
+		float fillAlphaPulseAmplitude;                                  // 20
+		float fillAlphaPulseFrequency;                                  // 24
+		float fillTextureUAnimSpeed;                                    // 28
+		float fillTextureVAnimSpeed;                                    // 2C
+		float edgeExponentValue;                                        // 30
+		std::uint32_t edgeColor;                                        // 34
+		float edgeAlphaFadeInTime;                                      // 38
+		float edgeAlphaFullTime;                                        // 3C
+		float edgeAlphaFadeOutTime;                                     // 40
+		float edgeAlphaPersistentPercent;                               // 44
+		float edgeAlphaPulseAmplitude;                                  // 48
+		float edgeAlphaPulseFrequency;                                  // 4C
+		float fillAlphaFullPercent;                                     // 50
+		float edgeAlphaFullPercent;                                     // 54
+		REX::EnumSet<_D3DBLEND, std::int32_t> textureBlendModeDest;     // 58
+		float alphaTestStartTime;                                       // 5C
+		float alphaTestEndTime;                                         // 60
+		float alphaTestStartValue;                                      // 64
+		float alphaTestEndValue;                                        // 68
+		BGSSoundDescriptorForm* ambientSound;                           // 70
+		std::uint32_t fillColor2;                                       // 78
+		std::uint32_t fillColor3;                                       // 7C
+		float fillColorScaleA[3];                                       // 80
+		float fillColorTimeA[3];                                        // 8C
+		std::uint32_t flags;                                            // 98
+		float fillTextureUScale;                                        // 9C
+		float fillTextureVScale;                                        // A0
+		std::int8_t boneDepth;                                          // A4
 	};
 	static_assert(sizeof(EffectShaderData) == 0xA8);
 
@@ -2245,22 +2245,22 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<CAM_ACTION, std::int32_t> cameraAction;  // 00
-			stl::enumeration<CAM_OBJECT, std::int32_t> location;      // 04
-			stl::enumeration<CAM_OBJECT, std::int32_t> target;        // 08
-			std::uint32_t flags;                                      // 0C
-			float playerTimeMult;                                     // 10
-			float targetTimeMult;                                     // 14
-			float globalTimeMult;                                     // 18
-			float maxTime;                                            // 1C
-			float minTime;                                            // 20
-			float targetPercentBetweenActors;                         // 24
-			float nearTargetDistance;                                 // 28
-			float locationSpring;                                     // 2C
-			float targetSpring;                                       // 30
-			float rotationOffsetX;                                    // 34
-			float rotationOffsetY;                                    // 38
-			float rotationOffsetZ;                                    // 3C
+			REX::EnumSet<CAM_ACTION, std::int32_t> cameraAction;  // 00
+			REX::EnumSet<CAM_OBJECT, std::int32_t> location;      // 04
+			REX::EnumSet<CAM_OBJECT, std::int32_t> target;        // 08
+			std::uint32_t flags;                                  // 0C
+			float playerTimeMult;                                 // 10
+			float targetTimeMult;                                 // 14
+			float globalTimeMult;                                 // 18
+			float maxTime;                                        // 1C
+			float minTime;                                        // 20
+			float targetPercentBetweenActors;                     // 24
+			float nearTargetDistance;                             // 28
+			float locationSpring;                                 // 2C
+			float targetSpring;                                   // 30
+			float rotationOffsetX;                                // 34
+			float rotationOffsetY;                                // 38
+			float rotationOffsetZ;                                // 3C
 		};
 		static_assert(sizeof(CAMERA_SHOT_DATA) == 0x40);
 
@@ -2378,13 +2378,13 @@ namespace RE
 		{
 		public:
 			// members
-			float effectDuration;                                    // 00
-			stl::enumeration<ORIENTATION, std::int32_t> orient;      // 04
-			float angleThreshold;                                    // 08
-			float placementRadius;                                   // 0C
-			stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;  // 10
-			std::int8_t flags;                                       // 14
-			std::int8_t resultOverride;                              // 15
+			float effectDuration;                                // 00
+			REX::EnumSet<ORIENTATION, std::int32_t> orient;      // 04
+			float angleThreshold;                                // 08
+			float placementRadius;                               // 0C
+			REX::EnumSet<SOUND_LEVEL, std::int32_t> soundLevel;  // 10
+			std::int8_t flags;                                   // 14
+			std::int8_t resultOverride;                          // 15
 		};
 		static_assert(sizeof(IMPACT_DATA_DATA) == 0x18);
 
@@ -2438,12 +2438,12 @@ namespace RE
 		};
 
 		// members
-		TESForm* zoneOwner;                          // 00
-		BGSLocation* location;                       // 08
-		std::int8_t ownerRank;                       // 10
-		std::int8_t minLevel;                        // 11
-		stl::enumeration<FLAG, std::uint8_t> flags;  // 12
-		std::int8_t maxLevel;                        // 13
+		TESForm* zoneOwner;                      // 00
+		BGSLocation* location;                   // 08
+		std::int8_t ownerRank;                   // 10
+		std::int8_t minLevel;                    // 11
+		REX::EnumSet<FLAG, std::uint8_t> flags;  // 12
+		std::int8_t maxLevel;                    // 13
 	};
 	static_assert(sizeof(ENCOUNTER_ZONE_DATA) == 0x18);
 
@@ -2801,10 +2801,10 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kDLBR };
 
 		// members
-		std::uint32_t flags;                                 // 20
-		TESQuest* quest;                                     // 28
-		TESTopic* startingTopic;                             // 30
-		stl::enumeration<DIALOGUE_TYPE, std::int32_t> type;  // 38
+		std::uint32_t flags;                             // 20
+		TESQuest* quest;                                 // 28
+		TESTopic* startingTopic;                         // 30
+		REX::EnumSet<DIALOGUE_TYPE, std::int32_t> type;  // 38
 	};
 	static_assert(sizeof(BGSDialogueBranch) == 0x40);
 
@@ -3057,12 +3057,12 @@ namespace RE
 		struct SpeakerArrays;
 
 		// members
-		DynamicAttenuationCharacteristics* attenuation;            // 28
-		SpeakerArrays* speakerOutputArrays;                        // 30
-		BGSAudioEffectChain* effectChain;                          // 38
-		std::uint32_t flags;                                       // 40
-		stl::enumeration<SPEAKER_OUTPUT_MODE, std::int32_t> mode;  // 44
-		std::uint16_t staticAttenuation;                           // 48
+		DynamicAttenuationCharacteristics* attenuation;        // 28
+		SpeakerArrays* speakerOutputArrays;                    // 30
+		BGSAudioEffectChain* effectChain;                      // 38
+		std::uint32_t flags;                                   // 40
+		REX::EnumSet<SPEAKER_OUTPUT_MODE, std::int32_t> mode;  // 44
+		std::uint16_t staticAttenuation;                       // 48
 	};
 	static_assert(sizeof(BGSSoundOutput) == 0x50);
 
@@ -3292,7 +3292,7 @@ namespace RE
 		static_assert(sizeof(RuleSet) == 0x18);
 
 		// members
-		stl::enumeration<ENUM_FORM_ID, std::int32_t> type;     // 020
+		REX::EnumSet<ENUM_FORM_ID, std::int32_t> type;         // 020
 		RuleSet ruleSets[10];                                  // 028
 		BSTArray<const BGSInstanceNamingRules*> mergeSources;  // 118
 	};

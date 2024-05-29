@@ -391,18 +391,18 @@ namespace RE
 		[[nodiscard]] bool UsesCursor() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kUsesCursor); }
 
 		// members
-		Scaleform::GFx::Value menuObj;                                                                                     // 20
-		Scaleform::Ptr<Scaleform::GFx::Movie> uiMovie;                                                                     // 40
-		BSFixedString customRendererName;                                                                                  // 48
-		BSFixedString menuName;                                                                                            // 50
-		stl::enumeration<UI_MENU_FLAGS, std::uint32_t> menuFlags;                                                          // 58
-		BSTAtomicValue<std::uint32_t> advanceWithoutRenderCount{ 0 };                                                      // 5C
-		bool passesTopMenuTest{ true };                                                                                    // 60
-		bool menuCanBeVisible{ true };                                                                                     // 61
-		bool hasQuadsForCumstomRenderer{ false };                                                                          // 62
-		bool hasDoneFirstAdvanceMovie{ false };                                                                            // 63
-		stl::enumeration<UI_DEPTH_PRIORITY, std::uint8_t> depthPriority{ UI_DEPTH_PRIORITY::kStandard };                   // 64
-		stl::enumeration<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
+		Scaleform::GFx::Value menuObj;                                                                                 // 20
+		Scaleform::Ptr<Scaleform::GFx::Movie> uiMovie;                                                                 // 40
+		BSFixedString customRendererName;                                                                              // 48
+		BSFixedString menuName;                                                                                        // 50
+		REX::EnumSet<UI_MENU_FLAGS, std::uint32_t> menuFlags;                                                          // 58
+		BSTAtomicValue<std::uint32_t> advanceWithoutRenderCount{ 0 };                                                  // 5C
+		bool passesTopMenuTest{ true };                                                                                // 60
+		bool menuCanBeVisible{ true };                                                                                 // 61
+		bool hasQuadsForCumstomRenderer{ false };                                                                      // 62
+		bool hasDoneFirstAdvanceMovie{ false };                                                                        // 63
+		REX::EnumSet<UI_DEPTH_PRIORITY, std::uint8_t> depthPriority{ UI_DEPTH_PRIORITY::kStandard };                   // 64
+		REX::EnumSet<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
 	};
 	static_assert(sizeof(IMenu) == 0x70);
 
@@ -663,10 +663,10 @@ namespace RE
 		}
 
 		// members
-		UIShaderColors shaderFX;                                             // 58
-		BSTArray<BSGFxShaderFXTarget*> shaderFXObjects;                      // 90
-		stl::enumeration<HUDColorTypes, std::uint32_t> HUDColorType;         // A8
-		stl::enumeration<HUDColorTypes, std::uint32_t> backgroundColorType;  // AC
+		UIShaderColors shaderFX;                                         // 58
+		BSTArray<BSGFxShaderFXTarget*> shaderFXObjects;                  // 90
+		REX::EnumSet<HUDColorTypes, std::uint32_t> HUDColorType;         // A8
+		REX::EnumSet<HUDColorTypes, std::uint32_t> backgroundColorType;  // AC
 
 	private:
 		void ctor_shared()
@@ -882,7 +882,7 @@ namespace RE
 		// members
 		BSTSmallArray<msvc::unique_ptr<HUDComponentBase>, 32> hudObjects;  // 0F0
 		BSTArray<HUDModeType> hudModes;                                    // 200
-		stl::enumeration<ShowMenuState, std::uint32_t> hudShowMenuState;   // 218
+		REX::EnumSet<ShowMenuState, std::uint32_t> hudShowMenuState;       // 218
 	};
 	static_assert(sizeof(HUDMenu) == 0x220);
 
@@ -1463,8 +1463,8 @@ namespace RE
 			}
 
 			// members
-			stl::enumeration<SORT_ON_FIELD, std::uint32_t> currentSort[14];  // 00
-			std::uint32_t currentTab;                                        // 38
+			REX::EnumSet<SORT_ON_FIELD, std::uint32_t> currentSort[14];  // 00
+			std::uint32_t currentTab;                                    // 38
 		};
 		static_assert(sizeof(ItemSorter) == 0x3C);
 
@@ -1511,7 +1511,7 @@ namespace RE
 		Inventory3DManager inv3DModelManager;                                 // 2A0
 		BSTArray<const TESBoundObject*> partialPlayerUpdateList;              // 3E0
 		BSTArray<const TESBoundObject*> partialContainerUpdateList;           // 3F8
-		stl::enumeration<ContainerMenuMode, std::uint32_t> menuMode;          // 410
+		REX::EnumSet<ContainerMenuMode, std::uint32_t> menuMode;              // 410
 		Rumble::AutoRumblePause autoRumblePause;                              // 414
 		DisableHeavyItemsFunc disableHeavyFunc;                               // 418
 		ObjectRefHandle containerRef;                                         // 428
@@ -1746,27 +1746,27 @@ namespace RE
 		virtual bool TryCreate() = 0;                              // 1B
 
 		// members
-		NiPointer<TESObjectREFR> sharedContainerRef;                   // 0E0
-		NiPointer<TESObjectREFR> workbenchContainerRef;                // 0E8
-		BSTArray<NiPointer<TESObjectREFR>> sharedContainers;           // 0F0
-		Inventory3DManager inv3DModelManager;                          // 110
-		BGSInventoryList optimizedAutoBuildInv;                        // 250
-		BSTArray<ModChoiceData> modChoiceArray;                        // 2D0
-		std::uint32_t modChoiceIndex;                                  // 2E8
-		std::uint32_t lastModChoiceIndex;                              // 2EC
-		bool repairing;                                                // 2F0
-		bool queueHide;                                                // 2F1
-		bool hiding;                                                   // 2F2
-		bool VATSWasEnabled;                                           // 2F3
-		NiPointer<TESObjectREFR> workbenchRef;                         // 2F8
-		BSTSmartPointer<ExtraDataList> recipeExtraDataList;            // 300
-		NiPointer<NiNode> item3DGeometry;                              // 308
-		BSTArray<TESForm*> queuedCraftingComponents;                   // 310
-		std::uint64_t soundTimer;                                      // 328
-		stl::enumeration<HighlightMode, std::uint32_t> highlightMode;  // 330
-		Rumble::AutoRumblePause autoRumblePause;                       // 334
-		bool initialized;                                              // 335
-		bool soundsQueued;                                             // 336
+		NiPointer<TESObjectREFR> sharedContainerRef;               // 0E0
+		NiPointer<TESObjectREFR> workbenchContainerRef;            // 0E8
+		BSTArray<NiPointer<TESObjectREFR>> sharedContainers;       // 0F0
+		Inventory3DManager inv3DModelManager;                      // 110
+		BGSInventoryList optimizedAutoBuildInv;                    // 250
+		BSTArray<ModChoiceData> modChoiceArray;                    // 2D0
+		std::uint32_t modChoiceIndex;                              // 2E8
+		std::uint32_t lastModChoiceIndex;                          // 2EC
+		bool repairing;                                            // 2F0
+		bool queueHide;                                            // 2F1
+		bool hiding;                                               // 2F2
+		bool VATSWasEnabled;                                       // 2F3
+		NiPointer<TESObjectREFR> workbenchRef;                     // 2F8
+		BSTSmartPointer<ExtraDataList> recipeExtraDataList;        // 300
+		NiPointer<NiNode> item3DGeometry;                          // 308
+		BSTArray<TESForm*> queuedCraftingComponents;               // 310
+		std::uint64_t soundTimer;                                  // 328
+		REX::EnumSet<HighlightMode, std::uint32_t> highlightMode;  // 330
+		Rumble::AutoRumblePause autoRumblePause;                   // 334
+		bool initialized;                                          // 335
+		bool soundsQueued;                                         // 336
 	};
 	static_assert(sizeof(WorkbenchMenuBase) == 0x340);
 
@@ -1829,10 +1829,10 @@ namespace RE
 			F4_HEAP_REDEFINE_NEW(InitData);
 
 			// members
-			BSFixedString confirmQuestion;                                                      // 08
-			BSFixedStringCS buttonLabel;                                                        // 10
-			stl::enumeration<CONFIRM_TYPE, std::int32_t> confirmType{ CONFIRM_TYPE::kSimple };  // 18
-			bool hasCancelButton{ true };                                                       // 1C
+			BSFixedString confirmQuestion;                                                  // 08
+			BSFixedStringCS buttonLabel;                                                    // 10
+			REX::EnumSet<CONFIRM_TYPE, std::int32_t> confirmType{ CONFIRM_TYPE::kSimple };  // 18
+			bool hasCancelButton{ true };                                                   // 1C
 		};
 		static_assert(sizeof(InitData) == 0x20);
 
@@ -1995,50 +1995,50 @@ namespace RE
 		}
 
 		// members
-		ComponentBuilderFunctor componentFunctor;                              // 340
-		stl::enumeration<INSPECT_MODE_STATE, std::uint32_t> inspectModeState;  // 368
-		ObjectRefHandle inventorySource;                                       // 36C
-		InventoryUserUIInterface invInterface;                                 // 370
-		InventoryInterface::Handle modItem;                                    // 3F0
-		std::uint32_t modStack;                                                // 3F4
-		BSTHashMap<std::uint32_t, std::uint32_t> scrappableItemsMap;           // 3F8
-		BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrappingArray;     // 420
-		BSTArray<BSTTuple<NiAVObject*, BGSKeyword const*>> slotObjects;        // 440
-		BSTSmartPointer<ExtraDataList> extraDataList;                          // 458
-		std::uint32_t slotObjectIndex;                                         // 460
-		Scaleform::GFx::Value buttonAnimBase;                                  // 468
-		Scaleform::GFx::Value itemList;                                        // 488
-		Scaleform::GFx::Value itemNameTextField;                               // 4A8
-		Scaleform::GFx::Value itemInfoList;                                    // 4C8
-		Scaleform::GFx::Value modChoiceList;                                   // 4E8
-		Scaleform::GFx::Value modSlotList;                                     // 508
-		Scaleform::GFx::Value currentModsList;                                 // 528
-		BGSInventoryItem moddedInventoryItem;                                  // 548
-		bool queueItemHighlight;                                               // 558
-		float zoomDistance;                                                    // 55C
-		float lastFrameDelta;                                                  // 560
-		float menuCursorLeftPct;                                               // 564
-		float menuCursorRightPct;                                              // 568
-		float menuCursorTopPct;                                                // 56C
-		float menuCursorBottomPct;                                             // 570
-		BSTArray<BGSComponent*> queuedSoundArray;                              // 578
-		std::byte attachPointSource3D[0x598 - 0x590];                          // 590 - TODO
-		const BGSMod::Attachment::Mod* nullMod;                                // 598
-		Scaleform::GFx::Value requirementsList;                                // 5A0
-		Scaleform::GFx::Value itemSelectList;                                  // 5C0
-		const BGSKeyword* keyword;                                             // 5E0
-		bool queueChangeCameraPosition;                                        // 5E8
-		bool returnToInspect;                                                  // 5E9
-		bool highlightStoredItem;                                              // 5EA
-		bool textEntry;                                                        // 5EB
-		bool virtualKeyboardPendingEvt;                                        // 5EC
-		bool inspectMode;                                                      // 5ED
-		bool inspectingSingleItem;                                             // 5EE
-		bool inspectingFeaturedItem;                                           // 5EF
-		bool showFeaturedItemMessage;                                          // 5F0
-		char renameItemTo[260];                                                // 5F1
-		char renameItemCancelState[260];                                       // 6F5
-		BSTSmartPointer<BSInputEnableLayer> inputLayer;                        // 800
+		ComponentBuilderFunctor componentFunctor;                           // 340
+		REX::EnumSet<INSPECT_MODE_STATE, std::uint32_t> inspectModeState;   // 368
+		ObjectRefHandle inventorySource;                                    // 36C
+		InventoryUserUIInterface invInterface;                              // 370
+		InventoryInterface::Handle modItem;                                 // 3F0
+		std::uint32_t modStack;                                             // 3F4
+		BSTHashMap<std::uint32_t, std::uint32_t> scrappableItemsMap;        // 3F8
+		BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrappingArray;  // 420
+		BSTArray<BSTTuple<NiAVObject*, BGSKeyword const*>> slotObjects;     // 440
+		BSTSmartPointer<ExtraDataList> extraDataList;                       // 458
+		std::uint32_t slotObjectIndex;                                      // 460
+		Scaleform::GFx::Value buttonAnimBase;                               // 468
+		Scaleform::GFx::Value itemList;                                     // 488
+		Scaleform::GFx::Value itemNameTextField;                            // 4A8
+		Scaleform::GFx::Value itemInfoList;                                 // 4C8
+		Scaleform::GFx::Value modChoiceList;                                // 4E8
+		Scaleform::GFx::Value modSlotList;                                  // 508
+		Scaleform::GFx::Value currentModsList;                              // 528
+		BGSInventoryItem moddedInventoryItem;                               // 548
+		bool queueItemHighlight;                                            // 558
+		float zoomDistance;                                                 // 55C
+		float lastFrameDelta;                                               // 560
+		float menuCursorLeftPct;                                            // 564
+		float menuCursorRightPct;                                           // 568
+		float menuCursorTopPct;                                             // 56C
+		float menuCursorBottomPct;                                          // 570
+		BSTArray<BGSComponent*> queuedSoundArray;                           // 578
+		std::byte attachPointSource3D[0x598 - 0x590];                       // 590 - TODO
+		const BGSMod::Attachment::Mod* nullMod;                             // 598
+		Scaleform::GFx::Value requirementsList;                             // 5A0
+		Scaleform::GFx::Value itemSelectList;                               // 5C0
+		const BGSKeyword* keyword;                                          // 5E0
+		bool queueChangeCameraPosition;                                     // 5E8
+		bool returnToInspect;                                               // 5E9
+		bool highlightStoredItem;                                           // 5EA
+		bool textEntry;                                                     // 5EB
+		bool virtualKeyboardPendingEvt;                                     // 5EC
+		bool inspectMode;                                                   // 5ED
+		bool inspectingSingleItem;                                          // 5EE
+		bool inspectingFeaturedItem;                                        // 5EF
+		bool showFeaturedItemMessage;                                       // 5F0
+		char renameItemTo[260];                                             // 5F1
+		char renameItemCancelState[260];                                    // 6F5
+		BSTSmartPointer<BSInputEnableLayer> inputLayer;                     // 800
 	};
 	static_assert(sizeof(ExamineMenu) == 0x810);
 
@@ -2288,7 +2288,7 @@ namespace RE
 		BSTSmartPointer<REFREventCallbacks::IEventCallback> terminalRunResultsCallback;  // 218
 		BSScaleformExternalTexture displayImage;                                         // 220
 		BSSoundHandle charScrollLoop;                                                    // 238
-		stl::enumeration<Mode, std::uint32_t> mode;                                      // 240
+		REX::EnumSet<Mode, std::uint32_t> mode;                                          // 240
 		std::uint64_t soundMark;                                                         // 248
 		std::uint64_t responseTextTimeout;                                               // 250
 		std::uint64_t loginTextTimeout;                                                  // 258

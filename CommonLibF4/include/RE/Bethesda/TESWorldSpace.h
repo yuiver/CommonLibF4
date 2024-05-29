@@ -128,7 +128,7 @@ namespace RE
 		BGSTerrainManager* terrainManager;                                                     // 078
 		TESClimate* climate;                                                                   // 080
 		std::int8_t flags;                                                                     // 088
-		stl::enumeration<PARENT_USE_FLAG, std::uint16_t> parentUseFlags;                       // 08A
+		REX::EnumSet<PARENT_USE_FLAG, std::uint16_t> parentUseFlags;                           // 08A
 		std::int8_t worldFlags;                                                                // 08C
 		ShortPoint fixedCenter;                                                                // 08E
 		BSTHashMap<std::uint32_t, BSTArray<NiPointer<TESObjectREFR>>*> fixedPersistentRefMap;  // 098

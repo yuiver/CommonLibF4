@@ -44,10 +44,10 @@ namespace RE
 		struct Event
 		{
 			// members
-			stl::enumeration<Type, std::uint16_t> changeType;  // 00
-			const BGSObjectInstance* itemAffected;             // 08
-			Actor* actorAffected;                              // 10
-			std::uint32_t stackID;                             // 18
+			REX::EnumSet<Type, std::uint16_t> changeType;  // 00
+			const BGSObjectInstance* itemAffected;         // 08
+			Actor* actorAffected;                          // 10
+			std::uint32_t stackID;                         // 18
 		};
 		static_assert(sizeof(Event) == 0x20);
 	}
@@ -70,8 +70,8 @@ namespace RE
 		};
 
 		// members
-		std::uint32_t cellID;                             // 04
-		stl::enumeration<CellFlag, std::uint32_t> flags;  // 08
+		std::uint32_t cellID;                         // 04
+		REX::EnumSet<CellFlag, std::uint32_t> flags;  // 08
 	};
 	static_assert(sizeof(BGSActorCellEvent) == 0xC);
 
@@ -168,8 +168,8 @@ namespace RE
 		};
 
 		// members
-		TESObjectCELL* cell;                              // 00
-		stl::enumeration<EVENT_TYPE, std::int32_t> type;  // 08
+		TESObjectCELL* cell;                          // 00
+		REX::EnumSet<EVENT_TYPE, std::int32_t> type;  // 08
 	};
 	static_assert(sizeof(CellAttachDetachEvent) == 0x10);
 
@@ -456,22 +456,22 @@ namespace RE
 	{
 	public:
 		// members
-		BSTSmallArray<InventoryItemDisplayData, 5> itemData;      // 00
-		ObjectRefHandle containerRef;                             // 88
-		ObjectRefHandle inventoryRef;                             // 8C
-		BSFixedStringCS aButtonText;                              // 90
-		BSFixedString containerName;                              // 98
-		BSFixedStringCS perkButtonText;                           // A0
-		std::int32_t selectedClipIndex;                           // A8
-		stl::enumeration<QuickContainerMode, std::int32_t> mode;  // AC
-		bool perkButtonEnabled;                                   // B0
-		bool isNewContainer;                                      // B1
-		bool addedDroppedItems;                                   // B2
-		bool isLocked;                                            // B3
-		bool buttonAEnabled;                                      // B4
-		bool buttonXEnabled;                                      // B5
-		bool refreshContainerSize;                                // B6
-		bool containerActivated;                                  // B7
+		BSTSmallArray<InventoryItemDisplayData, 5> itemData;  // 00
+		ObjectRefHandle containerRef;                         // 88
+		ObjectRefHandle inventoryRef;                         // 8C
+		BSFixedStringCS aButtonText;                          // 90
+		BSFixedString containerName;                          // 98
+		BSFixedStringCS perkButtonText;                       // A0
+		std::int32_t selectedClipIndex;                       // A8
+		REX::EnumSet<QuickContainerMode, std::int32_t> mode;  // AC
+		bool perkButtonEnabled;                               // B0
+		bool isNewContainer;                                  // B1
+		bool addedDroppedItems;                               // B2
+		bool isLocked;                                        // B3
+		bool buttonAEnabled;                                  // B4
+		bool buttonXEnabled;                                  // B5
+		bool refreshContainerSize;                            // B6
+		bool containerActivated;                              // B7
 	};
 	static_assert(sizeof(QuickContainerStateData) == 0xB8);
 
@@ -644,9 +644,9 @@ namespace RE
 		}
 
 		// members
-		NiPointer<TESObjectREFR> actor;                           // 00
-		NiPointer<TESObjectREFR> targetFurniture;                 // 08
-		stl::enumeration<FurnitureEventType, std::int32_t> type;  // 10
+		NiPointer<TESObjectREFR> actor;                       // 00
+		NiPointer<TESObjectREFR> targetFurniture;             // 08
+		REX::EnumSet<FurnitureEventType, std::int32_t> type;  // 10
 	};
 	static_assert(sizeof(TESFurnitureEvent) == 0x18);
 
@@ -708,16 +708,16 @@ namespace RE
 		float percentBlocked;                                                         // A0
 		float resistedPhysicalDamage;                                                 // A4
 		float resistedTypedDamage;                                                    // A8
-		stl::enumeration<STAGGER_MAGNITUDE, std::uint32_t> stagger;                   // AC
+		REX::EnumSet<STAGGER_MAGNITUDE, std::uint32_t> stagger;                       // AC
 		float sneakAttackBonus;                                                       // B0
 		float bonusHealthDamageMult;                                                  // B4
 		float pushBack;                                                               // B8
 		float reflectedDamage;                                                        // BC
 		float criticalDamageMult;                                                     // C0
-		stl::enumeration<Flag, std::uint32_t> flags;                                  // C4
+		REX::EnumSet<Flag, std::uint32_t> flags;                                      // C4
 		BGSEquipIndex equipIndex;                                                     // C8
 		std::uint32_t material;                                                       // D0
-		stl::enumeration<BGSBodyPartDefs::LIMB_ENUM, std::uint32_t> damageLimb;       // D4
+		REX::EnumSet<BGSBodyPartDefs::LIMB_ENUM, std::uint32_t> damageLimb;           // D4
 	};
 	static_assert(sizeof(HitData) == 0xE0);
 
@@ -805,9 +805,9 @@ namespace RE
 	{
 	public:
 		// members
-		stl::enumeration<UserEvents::USER_EVENT_FLAG, std::int32_t> newUserEventFlag;  // 0
-		stl::enumeration<UserEvents::USER_EVENT_FLAG, std::int32_t> oldUserEventFlag;  // 4
-		stl::enumeration<UserEvents::SENDER_ID, std::int32_t> senderID;                // 8
+		REX::EnumSet<UserEvents::USER_EVENT_FLAG, std::int32_t> newUserEventFlag;  // 0
+		REX::EnumSet<UserEvents::USER_EVENT_FLAG, std::int32_t> oldUserEventFlag;  // 4
+		REX::EnumSet<UserEvents::SENDER_ID, std::int32_t> senderID;                // 8
 	};
 	static_assert(sizeof(UserEventEnabledEvent) == 0xC);
 

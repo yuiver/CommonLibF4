@@ -186,7 +186,7 @@ namespace RE
 			float colorRemappingIndex;                                                    // 44
 			std::uint32_t value;                                                          // 48
 			std::uint32_t health;                                                         // 4C
-			stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerRating;              // 50
+			REX::EnumSet<STAGGER_MAGNITUDE, std::int32_t> staggerRating;                  // 50
 			std::uint16_t rating;                                                         // 54
 			std::uint16_t index;                                                          // 56
 		};
@@ -378,16 +378,16 @@ namespace RE
 		{
 		public:
 			// members
-			std::int8_t density;                                           // 00
-			std::int8_t minSlopeDegrees;                                   // 01
-			std::int8_t maxSlopeDegrees;                                   // 02
-			std::uint16_t distanceFromWaterLevel;                          // 04
-			stl::enumeration<GRASS_WATER_STATE, std::int32_t> underwater;  // 08
-			float positionRange;                                           // 0C
-			float heightRange;                                             // 10
-			float colorRange;                                              // 14
-			float wavePeriod;                                              // 18
-			std::int8_t flags;                                             // 1C
+			std::int8_t density;                                       // 00
+			std::int8_t minSlopeDegrees;                               // 01
+			std::int8_t maxSlopeDegrees;                               // 02
+			std::uint16_t distanceFromWaterLevel;                      // 04
+			REX::EnumSet<GRASS_WATER_STATE, std::int32_t> underwater;  // 08
+			float positionRange;                                       // 0C
+			float heightRange;                                         // 10
+			float colorRange;                                          // 14
+			float wavePeriod;                                          // 18
+			std::int8_t flags;                                         // 1C
 		};
 		static_assert(sizeof(GRASS_DATA) == 0x20);
 
@@ -457,9 +457,9 @@ namespace RE
 		enum class etTreeType;
 
 		// members
-		OBJ_TREE data;                                    // 0D8
-		BaseTreeData* baseData;                           // 108
-		stl::enumeration<etTreeType, std::int32_t> type;  // 110
+		OBJ_TREE data;                                // 0D8
+		BaseTreeData* baseData;                       // 108
+		REX::EnumSet<etTreeType, std::int32_t> type;  // 110
 	};
 	static_assert(sizeof(TESObjectTREE) == 0x118);
 
@@ -541,17 +541,17 @@ namespace RE
 		{
 		public:
 			// members
-			BGSProjectile* overrideProjectile;                                    // 00
-			float fireSeconds;                                                    // 08
-			float firingRumbleLeftMotorStrength;                                  // 0C
-			float firingRumbleRightMotorStrength;                                 // 10
-			float firingRumbleDuration;                                           // 14
-			float reloadSeconds;                                                  // 18
-			float boltChargeSeconds;                                              // 1C
-			float sightedTransitionSeconds;                                       // 20
-			std::uint32_t rumblePeriod;                                           // 24
-			stl::enumeration<WEAPON_RUMBLE_PATTERN, std::int32_t> rumblePattern;  // 28
-			std::int8_t numProjectiles;                                           // 2C
+			BGSProjectile* overrideProjectile;                                // 00
+			float fireSeconds;                                                // 08
+			float firingRumbleLeftMotorStrength;                              // 0C
+			float firingRumbleRightMotorStrength;                             // 10
+			float firingRumbleDuration;                                       // 14
+			float reloadSeconds;                                              // 18
+			float boltChargeSeconds;                                          // 1C
+			float sightedTransitionSeconds;                                   // 20
+			std::uint32_t rumblePeriod;                                       // 24
+			REX::EnumSet<WEAPON_RUMBLE_PATTERN, std::int32_t> rumblePattern;  // 28
+			std::int8_t numProjectiles;                                       // 2C
 		};
 		static_assert(sizeof(RangedData) == 0x30);
 
@@ -603,18 +603,18 @@ namespace RE
 			float minPowerPerShot;                                                        // 0FC
 			float colorRemappingIndex;                                                    // 100
 			float criticalDamageMult;                                                     // 104
-			stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerValue;               // 108
+			REX::EnumSet<STAGGER_MAGNITUDE, std::int32_t> staggerValue;                   // 108
 			std::uint32_t value;                                                          // 10C
-			stl::enumeration<WEAPON_FLAGS, std::uint32_t> flags;                          // 110
-			stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;                       // 114
-			stl::enumeration<WEAPONHITBEHAVIOR, std::int32_t> hitBehavior;                // 118
+			REX::EnumSet<WEAPON_FLAGS, std::uint32_t> flags;                              // 110
+			REX::EnumSet<SOUND_LEVEL, std::int32_t> soundLevel;                           // 114
+			REX::EnumSet<WEAPONHITBEHAVIOR, std::int32_t> hitBehavior;                    // 118
 			ActorValueInfo* skill;                                                        // 120
 			ActorValueInfo* resistance;                                                   // 128
 			std::uint16_t ammoCapacity;                                                   // 130
 			std::uint16_t attackDamage;                                                   // 132
 			std::uint16_t rank;                                                           // 134
 			std::int8_t accuracyBonus;                                                    // 136
-			stl::enumeration<WEAPON_TYPE, std::uint8_t> type;                             // 137
+			REX::EnumSet<WEAPON_TYPE, std::uint8_t> type;                                 // 137
 		};
 		static_assert(sizeof(InstanceData) == 0x138);
 
@@ -887,9 +887,9 @@ namespace RE
 		}
 
 		// members
-		BGSProjectileData data;                                  // 0C0
-		TESModel muzzleFlashModel;                               // 150
-		stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;  // 180
+		BGSProjectileData data;                              // 0C0
+		TESModel muzzleFlashModel;                           // 150
+		REX::EnumSet<SOUND_LEVEL, std::int32_t> soundLevel;  // 180
 	};
 	static_assert(sizeof(BGSProjectile) == 0x188);
 
@@ -908,19 +908,19 @@ namespace RE
 		};
 
 		// members
-		std::uint32_t limit;                                    // 00
-		float radius;                                           // 04
-		float lifetime;                                         // 08
-		float imageSpaceRadius;                                 // 0C
-		float targetInterval;                                   // 10
-		stl::enumeration<BGSHazardFlags, std::uint32_t> flags;  // 14
-		SpellItem* spell;                                       // 18
-		TESObjectLIGH* light;                                   // 20
-		BGSImpactDataSet* impactDataSet;                        // 28
-		BGSSoundDescriptorForm* sound;                          // 30
-		float fullEffectRadius;                                 // 38
-		float taperWeight;                                      // 3C
-		float taperCurve;                                       // 40
+		std::uint32_t limit;                                // 00
+		float radius;                                       // 04
+		float lifetime;                                     // 08
+		float imageSpaceRadius;                             // 0C
+		float targetInterval;                               // 10
+		REX::EnumSet<BGSHazardFlags, std::uint32_t> flags;  // 14
+		SpellItem* spell;                                   // 18
+		TESObjectLIGH* light;                               // 20
+		BGSImpactDataSet* impactDataSet;                    // 28
+		BGSSoundDescriptorForm* sound;                      // 30
+		float fullEffectRadius;                             // 38
+		float taperWeight;                                  // 3C
+		float taperCurve;                                   // 40
 	};
 	static_assert(sizeof(BGSHazardData) == 0x48);
 
@@ -1017,25 +1017,25 @@ namespace RE
 	{
 	public:
 		// members
-		TESObjectLIGH* light;                                                // 00
-		BGSSoundDescriptorForm* sound1;                                      // 08
-		BGSSoundDescriptorForm* sound2;                                      // 10
-		BGSImpactDataSet* impactDataSet;                                     // 18
-		TESBoundObject* impactPlacedObject;                                  // 20
-		BGSProjectile* spawnProjectile;                                      // 28
-		NiPoint3 projectileVector;                                           // 30
-		float projectileSpread;                                              // 3C
-		std::uint32_t projectileCount;                                       // 40
-		float force;                                                         // 44
-		float damage;                                                        // 48
-		float innerRadius;                                                   // 4C
-		float outerRadius;                                                   // 50
-		float imageSpaceRadius;                                              // 54
-		float verticalOffsetMult;                                            // 58
-		std::uint32_t flags;                                                 // 5C
-		stl::enumeration<SOUND_LEVEL, std::int32_t> soundLevel;              // 60
-		float placedObjectFadeDelay;                                         // 64
-		stl::enumeration<STAGGER_MAGNITUDE, std::int32_t> staggerMagnitude;  // 68
+		TESObjectLIGH* light;                                            // 00
+		BGSSoundDescriptorForm* sound1;                                  // 08
+		BGSSoundDescriptorForm* sound2;                                  // 10
+		BGSImpactDataSet* impactDataSet;                                 // 18
+		TESBoundObject* impactPlacedObject;                              // 20
+		BGSProjectile* spawnProjectile;                                  // 28
+		NiPoint3 projectileVector;                                       // 30
+		float projectileSpread;                                          // 3C
+		std::uint32_t projectileCount;                                   // 40
+		float force;                                                     // 44
+		float damage;                                                    // 48
+		float innerRadius;                                               // 4C
+		float outerRadius;                                               // 50
+		float imageSpaceRadius;                                          // 54
+		float verticalOffsetMult;                                        // 58
+		std::uint32_t flags;                                             // 5C
+		REX::EnumSet<SOUND_LEVEL, std::int32_t> soundLevel;              // 60
+		float placedObjectFadeDelay;                                     // 64
+		REX::EnumSet<STAGGER_MAGNITUDE, std::int32_t> staggerMagnitude;  // 68
 	};
 	static_assert(sizeof(BGSExplosionData) == 0x70);
 
@@ -1136,7 +1136,7 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<ArtType, std::int32_t> artType;  // 0
+			REX::EnumSet<ArtType, std::int32_t> artType;  // 0
 		};
 		static_assert(sizeof(Data) == 0x4);
 

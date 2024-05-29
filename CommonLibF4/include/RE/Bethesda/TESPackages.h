@@ -59,7 +59,7 @@ namespace RE
 		enum class TOPIC_MODE;
 
 		// members
-		stl::enumeration<TOPIC_MODE, std::int32_t> mode;  // 0
+		REX::EnumSet<TOPIC_MODE, std::int32_t> mode;  // 0
 		union
 		{
 			DIALOGUE_SUBTYPE generalTopicSubtype;
@@ -72,9 +72,9 @@ namespace RE
 	{
 	public:
 		// members
-		TESIdleForm* idle;                                            // 00
-		stl::enumeration<PACK_EVENT_ACTION_TYPE, std::int32_t> type;  // 08
-		BGSTopicSubtypeUnion topicSubtypeUnion;                       // 0C
+		TESIdleForm* idle;                                        // 00
+		REX::EnumSet<PACK_EVENT_ACTION_TYPE, std::int32_t> type;  // 08
+		BGSTopicSubtypeUnion topicSubtypeUnion;                   // 0C
 	};
 	static_assert(sizeof(PackageEventAction) == 0x18);
 
@@ -94,20 +94,20 @@ namespace RE
 		virtual bool IsPackageOwner(Actor*) { return true; }                                                                                                // 4E
 
 		// members
-		PACKAGE_DATA data;                                                     // 20
-		TESPackageData* packData;                                              // 30
-		PackageLocation* packLoc;                                              // 38
-		PackageTarget* packTarg;                                               // 40
-		BGSIdleCollection* idleCollection;                                     // 48
-		PackageSchedule packSched;                                             // 50
-		TESCondition packConditions;                                           // 60
-		TESCombatStyle* combatStyle;                                           // 68
-		TESQuest* ownerQuest;                                                  // 70
-		PackageEventAction onBegin;                                            // 78
-		PackageEventAction onEnd;                                              // 90
-		PackageEventAction onChange;                                           // A8
-		stl::enumeration<PACKAGE_PROCEDURE_TYPE, std::int32_t> procedureType;  // C0
-		std::uint32_t refCount;                                                // C4
+		PACKAGE_DATA data;                                                 // 20
+		TESPackageData* packData;                                          // 30
+		PackageLocation* packLoc;                                          // 38
+		PackageTarget* packTarg;                                           // 40
+		BGSIdleCollection* idleCollection;                                 // 48
+		PackageSchedule packSched;                                         // 50
+		TESCondition packConditions;                                       // 60
+		TESCombatStyle* combatStyle;                                       // 68
+		TESQuest* ownerQuest;                                              // 70
+		PackageEventAction onBegin;                                        // 78
+		PackageEventAction onEnd;                                          // 90
+		PackageEventAction onChange;                                       // A8
+		REX::EnumSet<PACKAGE_PROCEDURE_TYPE, std::int32_t> procedureType;  // C0
+		std::uint32_t refCount;                                            // C4
 	};
 	static_assert(sizeof(TESPackage) == 0xC8);
 
@@ -174,16 +174,16 @@ namespace RE
 		enum class THREAT_LEVEL;
 
 		// members
-		ActorHandle source;                                        // 00
-		ActorHandle target;                                        // 04
-		stl::enumeration<THREAT_LEVEL, std::int32_t> threatLevel;  // 08
-		std::time_t lastPerceivedTime;                             // 10
-		float radius;                                              // 18
-		NiPoint3 lastKnownPosSource;                               // 1C
-		NiPoint3 lastKnownPosTarget;                               // 28
-		bool hasSource;                                            // 34
-		bool hasTarget;                                            // 35
-		NiPointer<NiAVObject> debugGeometry;                       // 38
+		ActorHandle source;                                    // 00
+		ActorHandle target;                                    // 04
+		REX::EnumSet<THREAT_LEVEL, std::int32_t> threatLevel;  // 08
+		std::time_t lastPerceivedTime;                         // 10
+		float radius;                                          // 18
+		NiPoint3 lastKnownPosSource;                           // 1C
+		NiPoint3 lastKnownPosTarget;                           // 28
+		bool hasSource;                                        // 34
+		bool hasTarget;                                        // 35
+		NiPointer<NiAVObject> debugGeometry;                   // 38
 	};
 	static_assert(sizeof(SpectatorThreatInfo) == 0x40);
 

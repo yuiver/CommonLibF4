@@ -126,13 +126,13 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<MagicSystem::CastingType, std::int32_t> castingType;  // 08
-			std::int32_t chargeOverride;                                           // 0C
-			stl::enumeration<MagicSystem::Delivery, std::int32_t> delivery;        // 10
-			stl::enumeration<MagicSystem::SpellType, std::int32_t> spellType;      // 14
-			float chargeTime;                                                      // 18
-			EnchantmentItem* baseEnchantment;                                      // 20
-			BGSListForm* wornRestrictions;                                         // 28
+			REX::EnumSet<MagicSystem::CastingType, std::int32_t> castingType;  // 08
+			std::int32_t chargeOverride;                                       // 0C
+			REX::EnumSet<MagicSystem::Delivery, std::int32_t> delivery;        // 10
+			REX::EnumSet<MagicSystem::SpellType, std::int32_t> spellType;      // 14
+			float chargeTime;                                                  // 18
+			EnchantmentItem* baseEnchantment;                                  // 20
+			BGSListForm* wornRestrictions;                                     // 28
 		};
 		static_assert(sizeof(Data) == 0x30);
 
@@ -157,13 +157,13 @@ namespace RE
 		{
 		public:
 			// members
-			stl::enumeration<MagicSystem::SpellType, std::int32_t> spellType;      // 08
-			float chargeTime;                                                      // 0C
-			stl::enumeration<MagicSystem::CastingType, std::int32_t> castingType;  // 10
-			stl::enumeration<MagicSystem::Delivery, std::int32_t> delivery;        // 14
-			float castDuration;                                                    // 18
-			float range;                                                           // 1C
-			BGSPerk* castingPerk;                                                  // 20
+			REX::EnumSet<MagicSystem::SpellType, std::int32_t> spellType;      // 08
+			float chargeTime;                                                  // 0C
+			REX::EnumSet<MagicSystem::CastingType, std::int32_t> castingType;  // 10
+			REX::EnumSet<MagicSystem::Delivery, std::int32_t> delivery;        // 14
+			float castDuration;                                                // 18
+			float range;                                                       // 1C
+			BGSPerk* castingPerk;                                              // 20
 		};
 		static_assert(sizeof(Data) == 0x28);
 
