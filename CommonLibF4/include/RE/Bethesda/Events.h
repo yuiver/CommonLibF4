@@ -534,7 +534,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TerminalHacked::Event>* GetEventSource()
 		{
 			using func_t = decltype(&TerminalHacked::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(425579) };
+			static REL::Relocation<func_t> func{ REL::ID(425579) };
 			return func();
 		}
 	};
@@ -546,7 +546,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESActivateEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESActivateEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(166230) };
+			static REL::Relocation<func_t> func{ REL::ID(166230) };
 			return func();
 		}
 
@@ -562,7 +562,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESContainerChangedEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESContainerChangedEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(242538) };
+			static REL::Relocation<func_t> func{ REL::ID(242538) };
 			return func();
 		}
 
@@ -582,7 +582,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESDeathEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESDeathEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(2201833) };
+			static REL::Relocation<func_t> func{ REL::ID(2201833) };
 			return func();
 		}
 
@@ -599,7 +599,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESEquipEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESEquipEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(1251703) };
+			static REL::Relocation<func_t> func{ REL::ID(2201837) };
 			return func();
 		}
 
@@ -618,7 +618,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESFormDeleteEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESFormDeleteEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(2201842) };
+			static REL::Relocation<func_t> func{ REL::ID(2201842) };
 			return func();
 		}
 
@@ -639,7 +639,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESFurnitureEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESFurnitureEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(678665) };
+			static REL::Relocation<func_t> func{ REL::ID(2201844) };
 			return func();
 		}
 
@@ -727,7 +727,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESHitEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESHitEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(1411899) };
+			static REL::Relocation<func_t> func{ REL::ID(1411899) };
 			return func();
 		}
 
@@ -748,7 +748,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESMagicEffectApplyEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESMagicEffectApplyEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(1327824) };
+			static REL::Relocation<func_t> func{ REL::ID(1327824) };
 			return func();
 		}
 
@@ -765,7 +765,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESObjectLoadedEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESObjectLoadedEvent::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(609604) };
+			static REL::Relocation<func_t> func{ REL::ID(2201853) };
 			return func();
 		}
 
@@ -774,6 +774,20 @@ namespace RE
 		bool loaded;       // 04
 	};
 	static_assert(sizeof(TESObjectLoadedEvent) == 0x8);
+
+	struct TESSwitchRaceCompleteEvent
+	{
+		[[nodiscard]] static BSTEventSource<TESSwitchRaceCompleteEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESSwitchRaceCompleteEvent::GetEventSource);
+			static REL::Relocation<func_t> func{ REL::ID(2201874) };
+			return func();
+		}
+
+		// members
+		NiPointer<TESObjectREFR> actor;  // 00
+	};
+	static_assert(sizeof(TESSwitchRaceCompleteEvent) == 0x8);
 
 	class TutorialEvent
 	{

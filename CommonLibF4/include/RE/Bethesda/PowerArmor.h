@@ -21,7 +21,7 @@ namespace RE
 		[[nodiscard]] inline bool ActorInPowerArmor(const Actor& a_actor)
 		{
 			using func_t = decltype(&ActorInPowerArmor);
-			REL::Relocation<func_t> func{ REL::ID(1176757) };
+			static REL::Relocation<func_t> func{ REL::ID(2219437) };
 			return func(a_actor);
 		}
 
@@ -34,35 +34,35 @@ namespace RE
 		[[nodiscard]] inline BGSKeyword* GetArmorKeyword()
 		{
 			using func_t = decltype(&GetArmorKeyword);
-			REL::Relocation<func_t> func{ REL::ID(961172) };
+			static REL::Relocation<func_t> func{ REL::ID(961172) };
 			return func();
 		}
 
 		[[nodiscard]] inline BGSKeyword* GetBatteryKeyword()
 		{
 			using func_t = decltype(&GetBatteryKeyword);
-			REL::Relocation<func_t> func{ REL::ID(1493537) };
+			static REL::Relocation<func_t> func{ REL::ID(1493537) };
 			return func();
 		}
 
 		[[nodiscard]] inline TESAmmo* GetDefaultBatteryObject()
 		{
 			using func_t = decltype(&GetDefaultBatteryObject);
-			REL::Relocation<func_t> func{ REL::ID(1279247) };
+			static REL::Relocation<func_t> func{ REL::ID(1279247) };
 			return func();
 		}
 
 		[[nodiscard]] inline bool IsPowerArmorBattery(const TESBoundObject* a_itemData)
 		{
 			using func_t = decltype(&IsPowerArmorBattery);
-			REL::Relocation<func_t> func{ REL::ID(1012910) };
+			static REL::Relocation<func_t> func{ REL::ID(1012910) };
 			return func(a_itemData);
 		}
 
 		inline void SyncFurnitureVisualsToInventory(TESObjectREFR* a_furniture, bool a_force3DUpdate, BGSInventoryItem* a_tempItemToAdd, bool a_hideCore)
 		{
 			using func_t = decltype(&SyncFurnitureVisualsToInventory);
-			REL::Relocation<func_t> func{ REL::ID(1078979) };
+			static REL::Relocation<func_t> func{ REL::ID(1078979) };
 			return func(a_furniture, a_force3DUpdate, a_tempItemToAdd, a_hideCore);
 		}
 
@@ -89,21 +89,21 @@ namespace RE
 
 		[[nodiscard]] static PowerArmorGeometry* GetSingleton()
 		{
-			REL::Relocation<PowerArmorGeometry**> singleton{ REL::ID(1365745) };
+			static REL::Relocation<PowerArmorGeometry**> singleton{ REL::ID(1365745) };
 			return *singleton;
 		}
 
 		void HidePipboyPAGeometry()
 		{
 			using func_t = decltype(&PowerArmorGeometry::HidePipboyPAGeometry);
-			REL::Relocation<func_t> func{ REL::ID(976332) };
+			static REL::Relocation<func_t> func{ REL::ID(976332) };
 			return func(this);
 		}
 
 		void ShowPipboyPAGeometry()
 		{
 			using func_t = decltype(&PowerArmorGeometry::ShowPipboyPAGeometry);
-			REL::Relocation<func_t> func{ REL::ID(19066) };
+			static REL::Relocation<func_t> func{ REL::ID(19066) };
 			return func(this);
 		}
 
