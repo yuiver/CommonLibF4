@@ -342,7 +342,7 @@ namespace RE
 			return func(this);
 		}
 
-		void SelectPerk(std::uint32_t a_formID, std::int8_t a_rank = 0)
+		void SelectPerk(TESFormID a_formID, std::int8_t a_rank = 0)
 		{
 			using func_t = decltype(&PlayerCharacter::SelectPerk);
 			REL::Relocation<func_t> func{ REL::ID(1397326) };

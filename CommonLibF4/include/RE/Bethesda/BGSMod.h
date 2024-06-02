@@ -68,8 +68,8 @@ namespace RE::BGSMod
 			{
 			public:
 				// members
-				std::uint32_t formID;  // 0
-				float value;           // 4
+				TESFormID formID;  // 0
+				float value;       // 4
 			};
 			static_assert(sizeof(FormValuePair) == 0x8);
 

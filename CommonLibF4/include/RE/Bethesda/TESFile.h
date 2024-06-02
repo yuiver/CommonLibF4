@@ -56,7 +56,7 @@ namespace RE
 		std::uint32_t form;            // 00
 		std::uint32_t length;          // 04
 		std::uint32_t flags;           // 08
-		std::uint32_t formID;          // 0C
+		TESFormID formID;              // 0C
 		std::uint32_t versionControl;  // 10
 		std::uint16_t formVersion;     // 14
 		std::uint16_t vcVersion;       // 16
@@ -117,7 +117,7 @@ namespace RE
 			return GetChunkData(a_data, 0);
 		}
 
-		[[nodiscard]] bool IsFormInMod(std::uint32_t a_formID) const
+		[[nodiscard]] bool IsFormInMod(TESFormID a_formID) const
 		{
 			if (!IsLight() && (a_formID >> 24) == compileIndex) {
 				return true;

@@ -623,7 +623,7 @@ namespace RE
 		}
 
 		// members
-		std::uint32_t formID;  // 00
+		TESFormID formID;  // 00
 	};
 	static_assert(sizeof(TESFormDeleteEvent) == 0x04);
 
@@ -770,8 +770,8 @@ namespace RE
 		}
 
 		// members
-		std::uint32_t formId;  // 00
-		bool loaded;           // 04
+		TESFormID formID;  // 00
+		bool loaded;       // 04
 	};
 	static_assert(sizeof(TESObjectLoadedEvent) == 0x8);
 
