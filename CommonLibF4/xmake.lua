@@ -60,12 +60,14 @@ target("commonlibf4", function()
     add_cxxflags(
         "cl::/wd4200", -- nonstandard extension used : zero-sized array in struct/union
         "cl::/wd4201", -- nonstandard extension used : nameless struct/union
-        "cl::/wd4324"  -- 'struct_name' : structure was padded due to __declspec(align())
+        "cl::/wd4324", -- structure was padded due to alignment specifier
+        { public = true }
     )
 
     -- add flags (cl: warnings -> errors)
     add_cxxflags(
-        "cl::/we4715"  -- `function` : not all control paths return a value
+        "cl::/we4715", -- not all control paths return a value
+        { public = true }
     )
 end)
 

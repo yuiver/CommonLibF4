@@ -34,6 +34,7 @@
 #include "RE/Bethesda/BSBTreeFile.h"
 #include "RE/Bethesda/BSBound.h"
 #include "RE/Bethesda/BSContainer.h"
+#include "RE/Bethesda/BSCoreTypes.h"
 #include "RE/Bethesda/BSExtraData.h"
 #include "RE/Bethesda/BSFadeNode.h"
 #include "RE/Bethesda/BSFixedString.h"

@@ -654,7 +654,7 @@ namespace RE
 		{
 		public:
 			// members
-			std::uint32_t formID;    // 0
+			TESFormID formID;        // 0
 			std::uint32_t linkType;  // 4
 		};
 		static_assert(sizeof(Element) == 0x8);

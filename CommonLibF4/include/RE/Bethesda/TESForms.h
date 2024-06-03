@@ -2,6 +2,7 @@
 
 #include "RE/Bethesda/Atomic.h"
 #include "RE/Bethesda/BGSBodyPartDefs.h"
+#include "RE/Bethesda/BSCoreTypes.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSLock.h"
 #include "RE/Bethesda/BSPointerHandle.h"
@@ -703,7 +704,7 @@ namespace RE
 		virtual bool IsFormTypeChild([[maybe_unused]] std::uint8_t a_type) { return false; }                                                                                                                                          // 3E
 		virtual bool LoopingActivate(TESObjectREFR* a_itemActivated, TESObjectREFR* a_actionRef) { return Activate(a_itemActivated, a_actionRef, nullptr, 1); }                                                                       // 3F
 		virtual bool Activate([[maybe_unused]] TESObjectREFR* a_itemActivated, [[maybe_unused]] TESObjectREFR* a_actionRef, [[maybe_unused]] TESBoundObject* a_objectToGet, [[maybe_unused]] std::int32_t a_count) { return false; }  // 40
-		virtual void SetFormID(std::uint32_t a_id, bool a_updateFile);                                                                                                                                                                // 41
+		virtual void SetFormID(TESFormID a_formID, bool a_updateFile);                                                                                                                                                                    // 41
 		virtual const char* GetObjectTypeName() const { return ""; }                                                                                                                                                                  // 42
 		virtual bool QAvailableInGame() const { return true; }                                                                                                                                                                        // 43
 		virtual BGSMod::Template::Items* GetObjectTemplate() { return nullptr; }                                                                                                                                                      // 44
@@ -752,7 +753,7 @@ namespace RE
 			return func(this, a_index);
 		}
 
-		[[nodiscard]] static TESForm* GetFormByID(std::uint32_t a_formID)
+		[[nodiscard]] static TESForm* GetFormByID(TESFormID a_formID)
 		{
 			const auto& [map, lock] = GetAllForms();
 			BSAutoReadLock l{ lock };
@@ -765,7 +766,7 @@ namespace RE
 		}
 
 		template <class T>
-		[[nodiscard]] static T* GetFormByID(std::uint32_t a_formID)
+		[[nodiscard]] static T* GetFormByID(TESFormID a_formID)
 		{
 			const auto form = GetFormByID(a_formID);
 			return form ? form->As<T>() : nullptr;
@@ -815,10 +816,10 @@ namespace RE
 		}
 
 		[[nodiscard]] std::uint32_t GetFormFlags() const noexcept { return formFlags; }
-		[[nodiscard]] std::uint32_t GetFormID() const noexcept { return formID; }
+		[[nodiscard]] TESFormID GetFormID() const noexcept { return formID; }
 		[[nodiscard]] ENUM_FORM_ID GetFormType() const noexcept { return *formType; }
 
-		[[nodiscard]] std::uint32_t GetLocalFormID()
+		[[nodiscard]] TESFormID GetLocalFormID()
 		{
 			auto file = GetFile(0);
 
@@ -908,7 +909,7 @@ namespace RE
 		// members
 		TESFileContainer sourceFiles;                       // 08
 		std::uint32_t formFlags;                            // 10
-		std::uint32_t formID;                               // 14
+		TESFormID formID;                                   // 14
 		std::uint16_t inGameFormFlags;                      // 18
 		REX::EnumSet<ENUM_FORM_ID, std::uint8_t> formType;  // 1A
 	};

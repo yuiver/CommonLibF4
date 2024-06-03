@@ -39,6 +39,7 @@ set(SOURCES
 	include/RE/Bethesda/BSBTreeFile.h
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
+	include/RE/Bethesda/BSCoreTypes.h
 	include/RE/Bethesda/BSExtraData.h
 	include/RE/Bethesda/BSFadeNode.h
 	include/RE/Bethesda/BSFixedString.h
@@ -442,15 +443,5 @@ set(SOURCES
 	src/REL/Module.cpp
 	src/REL/Relocation.cpp
 	src/REL/Version.cpp
-	src/REX/W32/ADVAPI32.cpp
-	src/REX/W32/BCRYPT.cpp
-	src/REX/W32/D3D11.cpp
-	src/REX/W32/D3DCOMPILER.cpp
-	src/REX/W32/DBGHELP.cpp
-	src/REX/W32/DXGI.cpp
-	src/REX/W32/KERNEL32.cpp
-	src/REX/W32/OLE32.cpp
-	src/REX/W32/SHELL32.cpp
-	src/REX/W32/USER32.cpp
-	src/REX/W32/VERSION.cpp
+	src/REX/W32.cpp
 )

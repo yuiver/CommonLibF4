@@ -100,28 +100,28 @@ namespace RE
 			return reinterpret_cast<BSTArray<T*>&>(formArrays[std::to_underlying(T::FORM_ID)]);
 		}
 
-		std::uint32_t LookupFormID(std::uint32_t a_rawFormID, std::string_view a_modName)
+		TESFormID LookupFormID(TESFormID a_rawFormID, std::string_view a_modName)
 		{
 			auto file = LookupModByName(a_modName);
 			if (!file || file->compileIndex == 0xFF) {
 				return 0;
 			}
 
-			std::uint32_t formID = file->compileIndex << 24;
+			TESFormID formID = file->compileIndex << 24;
 			formID += file->smallFileCompileIndex << 12;
 			formID += a_rawFormID;
 
 			return formID;
 		}
 
-		TESForm* LookupForm(std::uint32_t a_rawFormID, std::string_view a_modName)
+		TESForm* LookupForm(TESFormID a_rawFormID, std::string_view a_modName)
 		{
 			auto formID = LookupFormID(a_rawFormID, a_modName);
 			return formID != 0 ? TESForm::GetFormByID(formID) : nullptr;
 		}
 
 		template <class T>
-		T* LookupForm(std::uint32_t a_rawFormID, std::string_view a_modName)
+		T* LookupForm(TESFormID a_rawFormID, std::string_view a_modName)
 		{
 			auto form = LookupForm(a_rawFormID, a_modName);
 			if (!form) {
@@ -202,7 +202,7 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
-		bool IsFormIDInuse(std::uint32_t a_formID)
+		bool IsFormIDInuse(TESFormID a_formID)
 		{
 			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
 			REL::Relocation<func_t> func{ REL::ID(2192351) };

@@ -60,8 +60,8 @@ namespace RE
 			~DeletedItemInfo() noexcept {}  // NOLINT(modernize-use-equals-default)
 
 			// members
-			std::uint32_t formID;  // 0
-			std::uint32_t count;   // 4
+			TESFormID formID;     // 0
+			std::uint32_t count;  // 4
 		};
 		static_assert(sizeof(DeletedItemInfo) == 0x8);
 

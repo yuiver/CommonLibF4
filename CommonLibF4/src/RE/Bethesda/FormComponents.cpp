@@ -56,7 +56,7 @@ namespace RE
 		return result;
 	}
 
-	bool BGSKeywordForm::HasKeywordID(std::uint32_t a_formID) const
+	bool BGSKeywordForm::HasKeywordID(TESFormID a_formID) const
 	{
 		bool result = false;
 		ForEachKeyword([&](const BGSKeyword* a_keyword) {

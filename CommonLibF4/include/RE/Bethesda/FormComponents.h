@@ -913,7 +913,7 @@ namespace RE
 		bool AddKeywords(const std::vector<BGSKeyword*>& a_keywords);
 
 		[[nodiscard]] bool ContainsKeywordString(std::string_view a_editorID) const;
-		[[nodiscard]] bool HasKeywordID(std::uint32_t a_formID) const;
+		[[nodiscard]] bool HasKeywordID(TESFormID a_formID) const;
 		[[nodiscard]] bool HasKeywordString(std::string_view a_editorID) const;
 
 		void ForEachKeyword(std::function<BSContainer::ForEachResult(BGSKeyword*)> a_callback) const

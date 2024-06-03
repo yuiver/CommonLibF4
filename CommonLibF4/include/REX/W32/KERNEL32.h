@@ -46,6 +46,35 @@ namespace REX::W32
 	inline constexpr auto FILE_ATTRIBUTE_SYSTEM{ 0x00000004u };
 	inline constexpr auto FILE_ATTRIBUTE_DIRECTORY{ 0x00000010u };
 	inline constexpr auto FILE_ATTRIBUTE_ARCHIVE{ 0x00000020u };
+	inline constexpr auto FILE_ATTRIBUTE_DEVICE{ 0x00000040 };
+	inline constexpr auto FILE_ATTRIBUTE_NORMAL{ 0x00000080 };
+	inline constexpr auto FILE_ATTRIBUTE_TEMPORARY{ 0x00000100 };
+	inline constexpr auto FILE_ATTRIBUTE_SPARSE_FILE{ 0x00000200 };
+	inline constexpr auto FILE_ATTRIBUTE_REPARSE_POINT{ 0x00000400 };
+	inline constexpr auto FILE_ATTRIBUTE_COMPRESSED{ 0x00000800 };
+	inline constexpr auto FILE_ATTRIBUTE_OFFLINE{ 0x00001000 };
+	inline constexpr auto FILE_ATTRIBUTE_NOT_CONTENT_INDEXED{ 0x00002000 };
+	inline constexpr auto FILE_ATTRIBUTE_ENCRYPTED{ 0x00004000 };
+	inline constexpr auto FILE_ATTRIBUTE_INTEGRITY_STREAM{ 0x00008000 };
+	inline constexpr auto FILE_ATTRIBUTE_VIRTUAL{ 0x00010000 };
+	inline constexpr auto FILE_ATTRIBUTE_NO_SCRUB_DATA{ 0x00020000 };
+	inline constexpr auto FILE_ATTRIBUTE_EA{ 0x00040000 };
+	inline constexpr auto FILE_ATTRIBUTE_PINNED{ 0x00080000 };
+	inline constexpr auto FILE_ATTRIBUTE_UNPINNED{ 0x00100000 };
+	inline constexpr auto FILE_ATTRIBUTE_RECALL_ON_OPEN{ 0x00040000 };
+	inline constexpr auto FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS{ 0x00400000 };
+
+	// file creation diposition
+	inline constexpr auto CREATE_NEW{ 1 };
+	inline constexpr auto CREATE_ALWAYS{ 2 };
+	inline constexpr auto OPEN_EXISTING{ 3 };
+	inline constexpr auto OPEN_ALWAYS{ 4 };
+	inline constexpr auto TRUNCATE_EXISTING{ 5 };
+
+	// file share mode
+	inline constexpr auto FILE_SHARE_READ{ 0x00000001 };
+	inline constexpr auto FILE_SHARE_WRITE{ 0x00000002 };
+	inline constexpr auto FILE_SHARE_DELETE{ 0x00000004 };
 
 	// file mapping flags
 	inline constexpr auto FILE_MAP_ALL_ACCESS{ SECTION_ALL_ACCESS };
@@ -426,6 +455,8 @@ namespace REX::W32
 namespace REX::W32
 {
 	bool CloseHandle(HANDLE a_handle) noexcept;
+	HANDLE CreateFileA(const char* a_fileName, std::uint32_t a_desiredAccess, std::uint32_t a_shareMode, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_creationDisposition, std::uint32_t a_flags, HANDLE a_templateFile);
+	HANDLE CreateFileW(const wchar_t* a_fileName, std::uint32_t a_desiredAccess, std::uint32_t a_shareMode, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_creationDisposition, std::uint32_t a_flags, HANDLE a_templateFile);
 	HANDLE CreateFileMappingA(HANDLE a_file, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_protect, std::uint32_t a_maxSizeHigh, std::uint32_t a_maxSizeLow, const char* a_name) noexcept;
 	HANDLE CreateFileMappingW(HANDLE a_file, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_protect, std::uint32_t a_maxSizeHigh, std::uint32_t a_maxSizeLow, const wchar_t* a_name) noexcept;
 	bool CreateProcessA(const char* a_name, char* a_cmd, SECURITY_ATTRIBUTES* a_procAttr, SECURITY_ATTRIBUTES* a_threadAttr, bool a_inheritHandles, std::uint32_t a_flags, void* a_env, const char* a_curDir, STARTUPINFOA* a_startInfo, PROCESS_INFORMATION* a_procInfo) noexcept;
@@ -435,8 +466,8 @@ namespace REX::W32
 	HANDLE CreateThread(SECURITY_ATTRIBUTES* a_threadAttr, std::size_t a_stackSize, THREAD_START_ROUTINE* a_startAddr, void* a_param, std::uint32_t a_flags, std::uint32_t* a_threadID) noexcept;
 	void DeleteCriticalSection(CRITICAL_SECTION* a_criticalSection);
 	void EnterCriticalSection(CRITICAL_SECTION* a_criticalSection);
-	std::uint32_t ExpandEnvironmentStrings(const char* a_src, char* a_dst, std::uint32_t a_dstLen) noexcept;
-	std::uint32_t ExpandEnvironmentStrings(const wchar_t* a_src, wchar_t* a_dst, std::uint32_t a_dstLen) noexcept;
+	std::uint32_t ExpandEnvironmentStringsA(const char* a_src, char* a_dst, std::uint32_t a_dstLen) noexcept;
+	std::uint32_t ExpandEnvironmentStringsW(const wchar_t* a_src, wchar_t* a_dst, std::uint32_t a_dstLen) noexcept;
 	bool FindClose(HANDLE a_file) noexcept;
 	HANDLE FindFirstFileA(const char* a_name, WIN32_FIND_DATAA* a_data) noexcept;
 	HANDLE FindFirstFileW(const wchar_t* a_name, WIN32_FIND_DATAW* a_data) noexcept;
@@ -451,6 +482,7 @@ namespace REX::W32
 	std::uint32_t GetCurrentThreadId() noexcept;
 	std::uint32_t GetEnvironmentVariableA(const char* a_name, char* a_buf, std::uint32_t a_bufLen) noexcept;
 	std::uint32_t GetEnvironmentVariableW(const wchar_t* a_name, wchar_t* a_buf, std::uint32_t a_bufLen) noexcept;
+	bool GetFileSizeEx(HANDLE a_file, LARGE_INTEGER* a_fileSize) noexcept;
 	std::uint32_t GetLastError() noexcept;
 	std::uint32_t GetModuleFileNameA(HMODULE a_module, char* a_name, std::uint32_t a_nameLen) noexcept;
 	std::uint32_t GetModuleFileNameW(HMODULE a_module, wchar_t* a_name, std::uint32_t a_nameLen) noexcept;

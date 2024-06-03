@@ -63,7 +63,7 @@ namespace REX::W32
 	{
 		constexpr GUID() noexcept = default;
 
-		constexpr GUID(const std::uint32_t a_data1, std::uint16_t const a_data2, const std::uint16_t a_data3, const std::array<std::uint8_t, 8>& a_data4) noexcept :
+		constexpr GUID(const std::uint32_t a_data1, const std::uint16_t a_data2, const std::uint16_t a_data3, const std::array<std::uint8_t, 8>& a_data4) noexcept :
 			data1(a_data1), data2(a_data2), data3(a_data3), data4{ a_data4[0], a_data4[1], a_data4[2], a_data4[3], a_data4[4], a_data4[5], a_data4[6], a_data4[7] }
 		{}
 
@@ -152,6 +152,16 @@ namespace REX::W32
 		BOOL inheritHandle;        // 0C
 	};
 	static_assert(sizeof(SECURITY_ATTRIBUTES) == 0x18);
+
+	union LARGE_INTEGER
+	{
+		struct
+		{
+			std::uint32_t lo;
+			std::int32_t hi;
+		};
+		std::int64_t value;
+	};
 
 	union ULARGE_INTEGER
 	{
