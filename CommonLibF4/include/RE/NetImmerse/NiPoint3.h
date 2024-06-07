@@ -1,48 +1,54 @@
 #pragma once
 
+#include "RE/NetImmerse/NiPoint2.h"
+
 namespace RE
 {
 	class NiPoint3
 	{
 	public:
-		using value_type = float;
-		using size_type = std::size_t;
-		using reference = value_type&;
-		using const_reference = const value_type&;
-		using pointer = value_type*;
-		using const_pointer = const value_type*;
+		static const NiPoint3 ZERO;
 
-		reference operator[](size_type a_pos) noexcept;
-		const_reference operator[](size_type a_pos) const noexcept;
-		bool operator==(const NiPoint3& a_rhs) const;
-		bool operator!=(const NiPoint3& a_rhs) const;
-		NiPoint3 operator+(const NiPoint3& a_rhs) const;
-		NiPoint3 operator-(const NiPoint3& a_rhs) const;
-		float operator*(const NiPoint3& a_rhs) const;
-		NiPoint3 operator*(float a_scalar) const;
-		NiPoint3 operator/(float a_scalar) const;
-		NiPoint3 operator-() const;
-		NiPoint3& operator+=(const NiPoint3& a_rhs);
-		NiPoint3& operator-=(const NiPoint3& a_rhs);
-		NiPoint3& operator*=(const NiPoint3& a_rhs);
-		NiPoint3& operator/=(const NiPoint3& a_rhs);
-		NiPoint3& operator*=(float a_scalar);
-		NiPoint3& operator/=(float a_scalar);
+		NiPoint3() noexcept = default;
+		NiPoint3(const NiPoint2& a_point) noexcept;
+		NiPoint3(float a_x, float a_y, float a_z) noexcept;
 
-		[[nodiscard]] NiPoint3 Cross(const NiPoint3& pt) const;
-		[[nodiscard]] float Dot(const NiPoint3& pt) const;
-		[[nodiscard]] float GetDistance(const NiPoint3& a_pt) const noexcept;
-		[[nodiscard]] float GetSquaredDistance(const NiPoint3& a_pt) const noexcept;
-		[[nodiscard]] float Length() const;
-		[[nodiscard]] float SqrLength() const;
-		[[nodiscard]] NiPoint3 UnitCross(const NiPoint3& a_pt) const;
-		[[nodiscard]] float GetZAngleFromVector();
-		float Unitize();
+		float& operator[](std::size_t a_pos) noexcept;
+		const float& operator[](std::size_t a_pos) const noexcept;
+		bool operator==(const NiPoint3& a_rhs) const noexcept;
+		bool operator!=(const NiPoint3& a_rhs) const noexcept;
+		bool operator<(const NiPoint3& a_rhs) const noexcept;
+		bool operator>(const NiPoint3& a_rhs) const noexcept;
+		NiPoint3 operator+(const NiPoint3& a_rhs) const noexcept;
+		NiPoint3 operator-(const NiPoint3& a_rhs) const noexcept;
+		NiPoint3 operator*(const NiPoint3& a_rhs) const noexcept;
+		NiPoint3 operator/(const NiPoint3& a_rhs) const noexcept;
+		NiPoint3 operator*(float a_scalar) const noexcept;
+		NiPoint3 operator/(float a_scalar) const noexcept;
+		NiPoint3 operator-() const noexcept;
+		NiPoint3& operator+=(const NiPoint3& a_rhs) noexcept;
+		NiPoint3& operator-=(const NiPoint3& a_rhs) noexcept;
+		NiPoint3& operator*=(const NiPoint3& a_rhs) noexcept;
+		NiPoint3& operator/=(const NiPoint3& a_rhs) noexcept;
+		NiPoint3& operator+=(float a_scalar) noexcept;
+		NiPoint3& operator-=(float a_scalar) noexcept;
+		NiPoint3& operator*=(float a_scalar) noexcept;
+		NiPoint3& operator/=(float a_scalar) noexcept;
+
+		[[nodiscard]] NiPoint3 Cross(const NiPoint3& a_point) const noexcept;
+		[[nodiscard]] float Dot(const NiPoint3& a_point) const noexcept;
+		[[nodiscard]] float GetDistance(const NiPoint3& a_point) const noexcept;
+		[[nodiscard]] float GetSquaredDistance(const NiPoint3& a_point) const noexcept;
+		[[nodiscard]] float GetZAngleFromVector() const;
+		[[nodiscard]] float Length() const noexcept;
+		[[nodiscard]] float SqrLength() const noexcept;
+		[[nodiscard]] NiPoint3 UnitCross(const NiPoint3& a_point) const noexcept;
+		float Unitize() noexcept;
 
 		// members
-		value_type x{ 0.0F };  // 0
-		value_type y{ 0.0F };  // 4
-		value_type z{ 0.0F };  // 8
+		float x{ 0.0F };  // 00
+		float y{ 0.0F };  // 04
+		float z{ 0.0F };  // 08
 	};
 	static_assert(sizeof(NiPoint3) == 0xC);
 
@@ -50,6 +56,25 @@ namespace RE
 		public NiPoint3
 	{
 	public:
+		static const NiPoint3A ZERO;
+
+		using NiPoint3::NiPoint3;
 	};
 	static_assert(sizeof(NiPoint3A) == 0x10);
 }
+
+template <>
+struct std::formatter<RE::NiPoint3>
+{
+	template <class ParseContext>
+	constexpr auto parse(ParseContext& a_ctx)
+	{
+		return a_ctx.begin();
+	}
+
+	template <class FormatContext>
+	constexpr auto format(const RE::NiPoint3& a_point, FormatContext& a_ctx) const
+	{
+		return format_to(a_ctx.out(), "({}, {}, {})", a_point.x, a_point.y, a_point.z);
+	}
+};
