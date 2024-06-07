@@ -5,28 +5,28 @@ namespace RE
 	class BSTimer
 	{
 	public:
-		[[nodiscard]] static BSTimer GetSingleton()
+		[[nodiscard]] static BSTimer* GetSingleton()
 		{
-			REL::Relocation<BSTimer*> singleton{ REL::ID(2703179) };
-			return *singleton;
+			static REL::Relocation<BSTimer*> singleton{ REL::ID(2703179) };
+			return singleton.get();
 		}
 
-		static float QGlobalTimeMultiplier()
+		[[nodiscard]] static float QGlobalTimeMultiplier()
 		{
-			REL::Relocation<float*> value{ REL::ID(365546) };
+			static REL::Relocation<float*> value{ REL::ID(2666307) };
 			return *value;
 		}
 
-		static float QGlobalTimeMultiplierTarget()
+		[[nodiscard]] static float QGlobalTimeMultiplierTarget()
 		{
-			REL::Relocation<float*> value{ REL::ID(1266509) };
+			static REL::Relocation<float*> value{ REL::ID(2666308) };
 			return *value;
 		}
 
 		void SetGlobalTimeMultiplier(float a_mult, bool a_now)
 		{
 			using func_t = decltype(&BSTimer::SetGlobalTimeMultiplier);
-			REL::Relocation<func_t> func{ REL::ID(2267970) };
+			static REL::Relocation<func_t> func{ REL::ID(2267970) };
 			return func(this, a_mult, a_now);
 		}
 
