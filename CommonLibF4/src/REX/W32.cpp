@@ -321,6 +321,8 @@ REX_W32_IMPORT(std::uint32_t, GetModuleFileNameA, REX::W32::HMODULE, char*, std:
 REX_W32_IMPORT(std::uint32_t, GetModuleFileNameW, REX::W32::HMODULE, wchar_t*, std::uint32_t);
 REX_W32_IMPORT(REX::W32::HMODULE, GetModuleHandleA, const char*);
 REX_W32_IMPORT(REX::W32::HMODULE, GetModuleHandleW, const wchar_t*);
+REX_W32_IMPORT(std::uint32_t, GetPrivateProfileIntA, const char*, const char*, std::int32_t, const char*);
+REX_W32_IMPORT(std::uint32_t, GetPrivateProfileIntW, const wchar_t*, const wchar_t*, std::int32_t, const wchar_t*);
 REX_W32_IMPORT(std::uint32_t, GetPrivateProfileStringA, const char*, const char*, const char*, char*, std::uint32_t, const char*);
 REX_W32_IMPORT(std::uint32_t, GetPrivateProfileStringW, const wchar_t*, const wchar_t*, const wchar_t*, wchar_t*, std::uint32_t, const wchar_t*);
 REX_W32_IMPORT(void*, GetProcAddress, REX::W32::HMODULE, const char*);
@@ -533,6 +535,16 @@ namespace REX::W32
 	HMODULE GetModuleHandleW(const wchar_t* a_name) noexcept
 	{
 		return ::W32_IMPL_GetModuleHandleW(a_name);
+	}
+
+	std::uint32_t GetPrivateProfileIntA(const char* a_app, const char* a_key, std::int32_t a_default, const char* a_name) noexcept
+	{
+		return ::W32_IMPL_GetPrivateProfileIntA(a_app, a_key, a_default, a_name);
+	}
+
+	std::uint32_t GetPrivateProfileIntW(const wchar_t* a_app, const wchar_t* a_key, std::int32_t a_default, const wchar_t* a_name) noexcept
+	{
+		return ::W32_IMPL_GetPrivateProfileIntW(a_app, a_key, a_default, a_name);
 	}
 
 	std::uint32_t GetPrivateProfileStringA(const char* a_app, const char* a_key, const char* a_default, char* a_buf, std::uint32_t a_bufLen, const char* a_name) noexcept
