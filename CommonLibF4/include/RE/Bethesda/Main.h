@@ -29,20 +29,32 @@ namespace RE
 	public:
 		virtual ~Main();  // 00
 
-		// override
-		virtual BSEventNotifyControl ProcessEvent(const PositionPlayerEvent& a_event, BSTEventSource<PositionPlayerEvent>* a_source) override;  // 01
-
 		[[nodiscard]] static Main* GetSingleton()
 		{
-			REL::Relocation<Main**> singleton{ REL::ID(2698043) };
+			static REL::Relocation<Main**> singleton{ REL::ID(2698043) };
 			return *singleton;
 		}
+
+		// override
+		virtual BSEventNotifyControl ProcessEvent(const PositionPlayerEvent& a_event, BSTEventSource<PositionPlayerEvent>* a_source) override;  // 01
 
 		[[nodiscard]] static NiCamera* WorldRootCamera()
 		{
 			using func_t = decltype(&Main::WorldRootCamera);
-			REL::Relocation<func_t> func{ REL::ID(2228956) };
+			static REL::Relocation<func_t> func{ REL::ID(2228956) };
 			return func();
+		}
+
+		[[nodiscard]] static bool QGameSystemsShouldUpdate()
+		{
+			static REL::Relocation<bool*> singleton{ REL::ID(2698031) };
+			return *singleton;
+		}
+
+		[[nodiscard]] static bool QGameDataLoaded()
+		{
+			static REL::Relocation<bool*> singleton{ REL::ID(2698032) };
+			return *singleton;
 		}
 
 		// members
