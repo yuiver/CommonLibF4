@@ -11,7 +11,7 @@
 #include "RE/Bethesda/TESForms.h"
 #include "RE/Havok/hknpBodyId.h"
 #include "RE/Havok/hknpClosestUniqueBodyIdHitCollector.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiRefObject.h"
 
 namespace RE

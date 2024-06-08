@@ -1,7 +1,6 @@
 #pragma once
 
-#include "RE/NetImmerse/NiPoint2.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE::BSSpring
 {

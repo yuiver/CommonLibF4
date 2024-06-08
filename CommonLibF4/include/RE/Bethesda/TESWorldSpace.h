@@ -6,7 +6,7 @@
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/Bethesda/FormComponents.h"
 #include "RE/Bethesda/TESForms.h"
-#include "RE/NetImmerse/NiPoint2.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTMap.h"
 

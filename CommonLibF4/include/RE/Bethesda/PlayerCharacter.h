@@ -15,7 +15,7 @@
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/IMovementInterface.h"
 #include "RE/Havok/hkRefPtr.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTMap.h"
 

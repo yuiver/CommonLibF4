@@ -4,7 +4,7 @@
 #include "RE/Bethesda/bhkCharacterController.h"
 #include "RE/Havok/hkVector4.h"
 #include "RE/Havok/hknpCollisionResult.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {

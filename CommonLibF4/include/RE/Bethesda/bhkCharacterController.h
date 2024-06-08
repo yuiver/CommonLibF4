@@ -14,7 +14,7 @@
 #include "RE/NetImmerse/NiCollisionObject.h"
 #include "RE/NetImmerse/NiFlags.h"
 #include "RE/NetImmerse/NiMatrix3.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE

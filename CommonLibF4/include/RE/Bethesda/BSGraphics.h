@@ -3,7 +3,7 @@
 #include "RE/Bethesda/Atomic.h"
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/NetImmerse/NiColor.h"
-#include "RE/NetImmerse/NiPoint2.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiRect.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTexture.h"

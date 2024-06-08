@@ -5,7 +5,7 @@
 #include "RE/Bethesda/TESBoundObjects.h"
 #include "RE/Bethesda/bhkPickData.h"
 #include "RE/NetImmerse/NiAVObject.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {

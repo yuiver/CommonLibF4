@@ -13,7 +13,7 @@
 #include "RE/Bethesda/TESCondition.h"
 #include "RE/Bethesda/TESForms.h"
 #include "RE/NetImmerse/NiColor.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE

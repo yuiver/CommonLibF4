@@ -2,7 +2,7 @@
 
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSPointerHandle.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {
