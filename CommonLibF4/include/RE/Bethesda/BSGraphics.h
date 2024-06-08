@@ -245,7 +245,7 @@ namespace RE
 		public:
 			[[nodiscard]] static RendererData* GetSingleton()
 			{
-				REL::Relocation<RendererData**> singleton{ REL::ID(1235449) };
+				static REL::Relocation<RendererData**> singleton{ REL::ID(1235449) };
 				return *singleton;
 			}
 
@@ -287,13 +287,13 @@ namespace RE
 			void IncRef(Buffer* a_vertexBuffer)
 			{
 				using func_t = decltype(&BSGraphics::Renderer::IncRef);
-				REL::Relocation<func_t> func{ REL::ID(1337764) };
+				static REL::Relocation<func_t> func{ REL::ID(1337764) };
 				return func(this, a_vertexBuffer);
 			}
 			void DecRef(Buffer* a_vertexBuffer)
 			{
 				using func_t = decltype(&BSGraphics::Renderer::DecRef);
-				REL::Relocation<func_t> func{ REL::ID(194808) };
+				static REL::Relocation<func_t> func{ REL::ID(194808) };
 				return func(this, a_vertexBuffer);
 			}
 
@@ -512,7 +512,7 @@ namespace RE
 		public:
 			[[nodiscard]] static State GetSingleton()
 			{
-				REL::Relocation<State*> singleton{ REL::ID(600795) };
+				static REL::Relocation<State*> singleton{ REL::ID(600795) };
 				return *singleton;
 			}
 
@@ -621,14 +621,14 @@ namespace RE
 
 			[[nodiscard]] static RenderTargetManager GetSingleton()
 			{
-				REL::Relocation<RenderTargetManager*> singleton{ REL::ID(1508457) };
+				static REL::Relocation<RenderTargetManager*> singleton{ REL::ID(1508457) };
 				return *singleton;
 			}
 
 			void SetEnableDynamicResolution(bool a_enableDynamicResolution)
 			{
 				using func_t = decltype(&RenderTargetManager::SetEnableDynamicResolution);
-				REL::Relocation<func_t> func{ REL::ID(116947) };
+				static REL::Relocation<func_t> func{ REL::ID(116947) };
 				return func(this, a_enableDynamicResolution);
 			}
 

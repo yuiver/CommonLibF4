@@ -117,7 +117,7 @@ namespace RE
 			if (root->worldWater) {
 				return root->worldWater;
 			} else {
-				REL::Relocation<TESWaterForm**> defaultWater{ REL::ID(289864) };
+				static REL::Relocation<TESWaterForm**> defaultWater{ REL::ID(289864) };
 				return *defaultWater;
 			}
 		}

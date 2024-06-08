@@ -124,14 +124,14 @@ namespace RE
 		void* Allocate(std::size_t a_size, std::size_t a_alignment)
 		{
 			using func_t = decltype(&ScrapHeap::Allocate);
-			REL::Relocation<func_t> func{ REL::ID(2267983) };
+			static REL::Relocation<func_t> func{ REL::ID(2267983) };
 			return func(this, a_size, a_alignment);
 		}
 
 		void Deallocate(void* a_mem)
 		{
 			using func_t = decltype(&ScrapHeap::Deallocate);
-			REL::Relocation<func_t> func{ REL::ID(2267984) };
+			static REL::Relocation<func_t> func{ REL::ID(2267984) };
 			return func(this, a_mem);
 		}
 
@@ -171,14 +171,14 @@ namespace RE
 			AutoScrapBuffer* Ctor()
 			{
 				using func_t = decltype(&AutoScrapBuffer::Ctor);
-				REL::Relocation<func_t> func{ REL::ID(2267865) };
+				static REL::Relocation<func_t> func{ REL::ID(2267865) };
 				return func(this);
 			}
 
 			void Dtor()
 			{
 				using func_t = decltype(&AutoScrapBuffer::Dtor);
-				REL::Relocation<func_t> func{ REL::ID(2267867) };
+				static REL::Relocation<func_t> func{ REL::ID(2267867) };
 				return func(this);
 			}
 		};

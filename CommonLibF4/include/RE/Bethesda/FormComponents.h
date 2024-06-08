@@ -646,7 +646,7 @@ namespace RE
 		void SetParentGroupNumber(BGSKeyword* a_parent, std::uint32_t a_groupID)
 		{
 			using func_t = decltype(&BGSAttachParentArray::SetParentGroupNumber);
-			REL::Relocation<func_t> func{ REL::ID(1412266) };
+			static REL::Relocation<func_t> func{ REL::ID(1412266) };
 			return func(this, a_parent, a_groupID);
 		}
 	};
@@ -906,7 +906,7 @@ namespace RE
 		void AddKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::AddKeyword);
-			REL::Relocation<func_t> func{ REL::ID(2192766) };
+			static REL::Relocation<func_t> func{ REL::ID(2192766) };
 			return func(this, a_keyword);
 		}
 
@@ -953,7 +953,7 @@ namespace RE
 		void RemoveKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::RemoveKeyword);
-			REL::Relocation<func_t> func{ REL::ID(921694) };
+			static REL::Relocation<func_t> func{ REL::ID(921694) };
 			return func(this, a_keyword);
 		}
 
@@ -1062,14 +1062,14 @@ namespace RE
 		void AllocatePerkRankArray(std::uint32_t a_count)
 		{
 			using func_t = decltype(&BGSPerkRankArray::AllocatePerkRankArray);
-			REL::Relocation<func_t> func{ REL::ID(888419) };
+			static REL::Relocation<func_t> func{ REL::ID(888419) };
 			return func(this, a_count);
 		}
 
 		void ClearPerks(bool a_removeFormUser)
 		{
 			using func_t = decltype(&BGSPerkRankArray::ClearPerks);
-			REL::Relocation<func_t> func{ REL::ID(1247917) };
+			static REL::Relocation<func_t> func{ REL::ID(1247917) };
 			return func(this, a_removeFormUser);
 		}
 
@@ -1313,14 +1313,14 @@ namespace RE
 		void GetDescription(BSStringT<char>& a_out, const TESForm* a_form) const
 		{
 			using func_t = decltype(&BGSLocalizedStringDL::GetDescription);
-			REL::Relocation<func_t> func{ REL::ID(523613) };
+			static REL::Relocation<func_t> func{ REL::ID(523613) };
 			return func(this, a_out, a_form);
 		}
 
 		[[nodiscard]] BGSLocalizedStrings::ScrapStringBuffer GetText(TESFile& a_file) const
 		{
 			using func_t = decltype(&BGSLocalizedStringDL::GetText);
-			REL::Relocation<func_t> func{ REL::ID(472297) };
+			static REL::Relocation<func_t> func{ REL::ID(472297) };
 			return func(this, a_file);
 		}
 
@@ -1349,7 +1349,7 @@ namespace RE
 		void GetDescription(BSStringT<char>& a_outString, const TESForm* a_form = nullptr)
 		{
 			using func_t = decltype(&TESDescription::GetDescription);
-			REL::Relocation<func_t> func{ REL::ID(523613) };
+			static REL::Relocation<func_t> func{ REL::ID(523613) };
 			return func(this, a_outString, a_form);
 		}
 
@@ -1397,7 +1397,7 @@ namespace RE
 		[[nodiscard]] static auto GetSparseFullNameMap()
 			-> BSTHashMap<const TESForm*, BGSLocalizedString>&
 		{
-			REL::Relocation<BSTHashMap<const TESForm*, BGSLocalizedString>*> sparseFullNameMap{ REL::ID(2661402), -0x8 };
+			static REL::Relocation<BSTHashMap<const TESForm*, BGSLocalizedString>*> sparseFullNameMap{ REL::ID(2661402), -0x8 };
 			return *sparseFullNameMap;
 		}
 
@@ -1423,7 +1423,7 @@ namespace RE
 		[[nodiscard]] static std::uint32_t GetFormHealth(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = decltype(&TESHealthForm::GetFormHealth);
-			REL::Relocation<func_t> func{ REL::ID(1515099) };
+			static REL::Relocation<func_t> func{ REL::ID(1515099) };
 			return func(a_form, a_data);
 		}
 
@@ -1601,7 +1601,7 @@ namespace RE
 		std::uint16_t GetLevel() const
 		{
 			using func_t = decltype(&TESActorBaseData::GetLevel);
-			REL::Relocation<func_t> func{ REL::ID(2192891) };
+			static REL::Relocation<func_t> func{ REL::ID(2192891) };
 			return func(this);
 		}
 
@@ -1743,7 +1743,7 @@ namespace RE
 		LEVELED_OBJECT* AddLeveledObject(std::uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
 		{
 			using func_t = decltype(&TESLeveledList::AddLeveledObject);
-			REL::Relocation<func_t> func{ REL::ID(1163308) };
+			static REL::Relocation<func_t> func{ REL::ID(1163308) };
 			return func(this, a_level, a_count, a_chanceNone, a_item, a_itemExtra);
 		}
 
@@ -1757,21 +1757,21 @@ namespace RE
 			const char* a_overrideName = nullptr)
 		{
 			using func_t = decltype(&TESLeveledList::CalculateCurrentFormList);
-			REL::Relocation<func_t> func{ REL::ID(2193259) };
+			static REL::Relocation<func_t> func{ REL::ID(2193259) };
 			return func(this, a_level, a_count, a_outCont, a_allBelowForce, a_clampToPlayer, a_instanceFilter, a_overrideName);
 		}
 
 		void CalculateCurrentFormListForRef(TESObjectREFR* a_ref, BSScrapArray<CALCED_OBJECT>& a_outCont, bool a_legendary)
 		{
 			using func_t = decltype(&TESLeveledList::CalculateCurrentFormListForRef);
-			REL::Relocation<func_t> func{ REL::ID(2193260) };
+			static REL::Relocation<func_t> func{ REL::ID(2193260) };
 			return func(this, a_ref, a_outCont, a_legendary);
 		}
 
 		bool GetUseAll()
 		{
 			using func_t = decltype(&TESLeveledList::GetUseAll);
-			REL::Relocation<func_t> func{ REL::ID(233875) };
+			static REL::Relocation<func_t> func{ REL::ID(233875) };
 			return func(this);
 		}
 
@@ -2008,7 +2008,7 @@ namespace RE
 		bool AddSpell(TESForm* a_spell)
 		{
 			using func_t = decltype(&TESSpellList::AddSpell);
-			REL::Relocation<func_t> func{ REL::ID(1312083) };
+			static REL::Relocation<func_t> func{ REL::ID(1312083) };
 			return func(this, a_spell);
 		}
 
@@ -2039,7 +2039,7 @@ namespace RE
 		[[nodiscard]] static std::uint32_t GetFormValue(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = std::int32_t (*)(const TESForm*, const TBO_InstanceData*);
-			REL::Relocation<func_t> func{ REL::ID(885783) };
+			static REL::Relocation<func_t> func{ REL::ID(885783) };
 			return func(a_form, a_data);
 		}
 
@@ -2061,7 +2061,7 @@ namespace RE
 		[[nodiscard]] static float GetFormWeight(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = float (*)(const TESForm*, const TBO_InstanceData*);
-			REL::Relocation<func_t> func{ REL::ID(1321341) };
+			static REL::Relocation<func_t> func{ REL::ID(1321341) };
 			return func(a_form, a_data);
 		}
 

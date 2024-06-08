@@ -229,7 +229,7 @@ namespace RE::Scaleform::GFx
 		[[nodiscard]] MovieDef* CreateMovie(const char* a_filename, Flags<LoadConstants> a_loadConstants = LoadConstants::kAll, std::size_t a_memoryArena = 0)
 		{
 			using func_t = decltype(&Loader::CreateMovie);
-			REL::Relocation<func_t> func{ REL::ID(912291) };
+			static REL::Relocation<func_t> func{ REL::ID(912291) };
 			return func(this, a_filename, a_loadConstants, a_memoryArena);
 		}
 

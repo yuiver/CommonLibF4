@@ -22,14 +22,14 @@ namespace RE
 			float* a_distanceFraction)
 		{
 			using func_t = bool (*)(Actor*, BGSProjectile*, float, const NiPoint3&, const NiPoint3&, NiPoint3*, TESObjectREFR**, float*);
-			REL::Relocation<func_t> func{ REL::ID(798616) };
+			static REL::Relocation<func_t> func{ REL::ID(798616) };
 			return func(a_actor, a_projectile, a_projectileSpeed, a_launchPos, a_targetPos, a_hitPos, a_collidee, a_distanceFraction);
 		}
 
 		inline bool CalculateProjectileLOS(Actor* a_actor, BGSProjectile* a_projectile, bhkPickData& a_pickData)
 		{
 			using func_t = bool (*)(Actor*, BGSProjectile*, bhkPickData&);
-			REL::Relocation<func_t> func{ REL::ID(55339) };
+			static REL::Relocation<func_t> func{ REL::ID(55339) };
 			return func(a_actor, a_projectile, a_pickData);
 		}
 
@@ -42,7 +42,7 @@ namespace RE
 			NiPoint3& a_trajectoryPos)
 		{
 			using func_t = decltype(&CalculateProjectileTrajectory);
-			REL::Relocation<func_t> func{ REL::ID(1575156) };
+			static REL::Relocation<func_t> func{ REL::ID(1575156) };
 			return func(a_projectilePos, a_projectileVelocity, a_projectileGravity, a_targetPos, a_heading, a_trajectoryPos);
 		}
 
@@ -54,7 +54,7 @@ namespace RE
 		inline bool WillEventChangeState(const TESObjectREFR& a_ref, const BSFixedString& a_evn)
 		{
 			using func_t = decltype(&WillEventChangeState);
-			REL::Relocation<func_t> func{ REL::ID(35074) };
+			static REL::Relocation<func_t> func{ REL::ID(35074) };
 			return func(a_ref, a_evn);
 		}
 	}
@@ -75,21 +75,21 @@ namespace RE
 		inline bool GetActiveSyncInfo(const IAnimationGraphManagerHolder* a_graphHolder, ActiveSyncInfo& a_infoOut)
 		{
 			using func_t = decltype(&GetActiveSyncInfo);
-			REL::Relocation<func_t> func{ REL::ID(1349978) };
+			static REL::Relocation<func_t> func{ REL::ID(1349978) };
 			return func(a_graphHolder, a_infoOut);
 		}
 
 		inline bool InitializeActorInstant(Actor& a_actor, bool a_update3D)
 		{
 			using func_t = decltype(&InitializeActorInstant);
-			REL::Relocation<func_t> func{ REL::ID(672857) };
+			static REL::Relocation<func_t> func{ REL::ID(672857) };
 			return func(a_actor, a_update3D);
 		}
 
 		inline bool IsActiveGraphInTransition(const TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&IsActiveGraphInTransition);
-			REL::Relocation<func_t> func{ REL::ID(839650) };
+			static REL::Relocation<func_t> func{ REL::ID(839650) };
 			return func(a_refr);
 		}
 	};
@@ -99,7 +99,7 @@ namespace RE
 		inline void RemoveGrenadeTrajectory()
 		{
 			using func_t = decltype(&RemoveGrenadeTrajectory);
-			REL::Relocation<func_t> func{ REL::ID(672186) };
+			static REL::Relocation<func_t> func{ REL::ID(672186) };
 			return func();
 		}
 	}

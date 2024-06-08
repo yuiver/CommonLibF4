@@ -103,7 +103,7 @@ namespace RE
 		static void ParseString(BSStringT<char>* a_inOutText, const TESQuest* a_quest, std::uint32_t a_instanceID)
 		{
 			using func_t = decltype(&BGSQuestInstanceText::ParseString);
-			REL::Relocation<func_t> func{ REL::ID(2206630) };
+			static REL::Relocation<func_t> func{ REL::ID(2206630) };
 			return func(a_inOutText, a_quest, a_instanceID);
 		}
 
@@ -132,14 +132,14 @@ namespace RE
 		bool SetStage(std::uint16_t a_stage)
 		{
 			using func_t = decltype(&TESQuest::SetStage);
-			REL::Relocation<func_t> func{ REL::ID(2207743) };
+			static REL::Relocation<func_t> func{ REL::ID(2207743) };
 			return func(this, a_stage);
 		}
 
 		BSPointerHandle<TESObjectREFR>* GetAliasedRef(BSPointerHandle<TESObjectREFR>* a_result, std::uint32_t a_aiAliasID)
 		{
 			using func_t = decltype(&TESQuest::GetAliasedRef);
-			REL::Relocation<func_t> func{ REL::ID(2207810) };
+			static REL::Relocation<func_t> func{ REL::ID(2207810) };
 			return func(this, a_result, a_aiAliasID);
 		}
 

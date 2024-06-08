@@ -15,21 +15,21 @@ namespace RE
 	public:
 		[[nodiscard]] static BGSDynamicPersistenceManager* GetSingleton()
 		{
-			REL::Relocation<BGSDynamicPersistenceManager**> singleton{ REL::ID(109630) };
+			static REL::Relocation<BGSDynamicPersistenceManager**> singleton{ REL::ID(109630) };
 			return *singleton;
 		}
 
 		bool PromoteReference(TESObjectREFR* a_refr, TESForm* a_owner)
 		{
 			using func_t = decltype(&BGSDynamicPersistenceManager::PromoteReference);
-			REL::Relocation<func_t> func{ REL::ID(1300345) };
+			static REL::Relocation<func_t> func{ REL::ID(1300345) };
 			return func(this, a_refr, a_owner);
 		}
 
 		bool DemoteReference(TESObjectREFR* a_refr, TESForm* a_owner, bool a_allowActors = false)
 		{
 			using func_t = decltype(&BGSDynamicPersistenceManager::DemoteReference);
-			REL::Relocation<func_t> func{ REL::ID(222813) };
+			static REL::Relocation<func_t> func{ REL::ID(222813) };
 			return func(this, a_refr, a_owner, a_allowActors);
 		}
 

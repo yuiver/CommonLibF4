@@ -36,7 +36,7 @@ namespace RE
 		static void SetAllowDegrade(bool a_allow)
 		{
 			using func_t = decltype(&NiTexture::SetAllowDegrade);
-			REL::Relocation<func_t> func{ REL::ID(948181) };
+			static REL::Relocation<func_t> func{ REL::ID(948181) };
 			return func(a_allow);
 		}
 

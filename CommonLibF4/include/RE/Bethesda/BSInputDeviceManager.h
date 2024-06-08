@@ -55,7 +55,7 @@ namespace RE
 
 		[[nodiscard]] static BSInputDeviceManager* GetSingleton()
 		{
-			REL::Relocation<BSInputDeviceManager**> singleton{ REL::ID(1284221) };
+			static REL::Relocation<BSInputDeviceManager**> singleton{ REL::ID(1284221) };
 			return *singleton;
 		}
 

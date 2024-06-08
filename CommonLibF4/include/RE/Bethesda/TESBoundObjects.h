@@ -102,7 +102,7 @@ namespace RE
 		void ApplyMods(BSTSmartPointer<TBO_InstanceData>& a_dest, const BGSObjectInstanceExtra* a_extra) const
 		{
 			using func_t = decltype(&TESBoundObject::ApplyMods);
-			REL::Relocation<func_t> func{ REL::ID(2198325) };
+			static REL::Relocation<func_t> func{ REL::ID(2198325) };
 			return func(this, a_dest, a_extra);
 		}
 
@@ -630,14 +630,14 @@ namespace RE
 		[[nodiscard]] MELEE_ATTACK_SPEED GetMeleeAttackSpeed()
 		{
 			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeed);
-			REL::Relocation<func_t> func{ REL::ID(817670) };
+			static REL::Relocation<func_t> func{ REL::ID(817670) };
 			return func(this);
 		}
 
 		[[nodiscard]] static const char* GetMeleeAttackSpeedLabel(MELEE_ATTACK_SPEED a_speed)
 		{
 			using func_t = decltype(&TESObjectWEAP::GetMeleeAttackSpeedLabel);
-			REL::Relocation<func_t> func{ REL::ID(178784) };
+			static REL::Relocation<func_t> func{ REL::ID(178784) };
 			return func(a_speed);
 		}
 
@@ -744,7 +744,7 @@ namespace RE
 		[[nodiscard]] static bool GetReloadsWithAmmoRef(const TESAmmo* a_ammo)
 		{
 			using func_t = decltype(&TESAmmo::GetReloadsWithAmmoRef);
-			REL::Relocation<func_t> func{ REL::ID(2197864) };
+			static REL::Relocation<func_t> func{ REL::ID(2197864) };
 			return func(a_ammo);
 		}
 
@@ -882,7 +882,7 @@ namespace RE
 		bool CollidesWithSmallTransparentLayer()
 		{
 			using func_t = decltype(&BGSProjectile::CollidesWithSmallTransparentLayer);
-			REL::Relocation<func_t> func{ REL::ID(2197620) };
+			static REL::Relocation<func_t> func{ REL::ID(2197620) };
 			return func(this);
 		}
 

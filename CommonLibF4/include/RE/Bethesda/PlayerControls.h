@@ -154,21 +154,21 @@ namespace RE
 
 		static PlayerControls* GetSingleton()
 		{
-			REL::Relocation<PlayerControls**> singleton{ REL::ID(544871) };
+			static REL::Relocation<PlayerControls**> singleton{ REL::ID(544871) };
 			return *singleton;
 		}
 
 		bool CanPerformAction(DEFAULT_OBJECT a_action)
 		{
 			using func_t = decltype(&PlayerControls::CanPerformAction);
-			REL::Relocation<func_t> func{ REL::ID(565925) };
+			static REL::Relocation<func_t> func{ REL::ID(565925) };
 			return func(this, a_action);
 		}
 
 		bool DoAction(DEFAULT_OBJECT a_action, ActionInput::ACTIONPRIORITY a_priority)
 		{
 			using func_t = decltype(&PlayerControls::DoAction);
-			REL::Relocation<func_t> func{ REL::ID(818081) };
+			static REL::Relocation<func_t> func{ REL::ID(818081) };
 			return func(this, a_action, a_priority);
 		}
 
@@ -206,7 +206,7 @@ namespace RE
 		void DoRegisterHandler(PlayerInputHandler* a_handler, bool a_isHeldStateHandler)
 		{
 			using func_t = decltype(&PlayerControls::DoRegisterHandler);
-			REL::Relocation<func_t> func{ REL::ID(177801) };
+			static REL::Relocation<func_t> func{ REL::ID(177801) };
 			return func(this, a_handler, a_isHeldStateHandler);
 		}
 	};

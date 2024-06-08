@@ -67,7 +67,7 @@ namespace RE
 		// override (BSGeometry)
 		const NiRTTI* GetRTTI() const override  // 02
 		{
-			REL::Relocation<const NiRTTI*> rtti{ BSTriShape::Ni_RTTI };
+			static REL::Relocation<const NiRTTI*> rtti{ BSTriShape::Ni_RTTI };
 			return rtti.get();
 		}
 

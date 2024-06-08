@@ -59,14 +59,14 @@ namespace RE
 			void BindObject(const BSTSmartPointer<Object>& a_obj, std::size_t a_objHandle)
 			{
 				using func_t = decltype(&ObjectBindPolicy::BindObject);
-				REL::Relocation<func_t> func{ REL::ID(709728) };
+				static REL::Relocation<func_t> func{ REL::ID(709728) };
 				return func(this, a_obj, a_objHandle);
 			}
 
 			void UnbindObject(const BSTSmartPointer<Object>& a_obj)
 			{
 				using func_t = decltype(&ObjectBindPolicy::UnbindObject);
-				REL::Relocation<func_t> func{ REL::ID(522763) };
+				static REL::Relocation<func_t> func{ REL::ID(522763) };
 				return func(this, a_obj);
 			}
 
