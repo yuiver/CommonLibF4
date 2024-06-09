@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RE/Bethesda/BSTHashMap.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {

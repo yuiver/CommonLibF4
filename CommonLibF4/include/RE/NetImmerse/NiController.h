@@ -25,14 +25,14 @@ namespace RE
 		[[nodiscard]] static NiControllerManager* GetNiControllerManager(const NiObjectNET* a_object)
 		{
 			using func_t = decltype(&NiControllerManager::GetNiControllerManager);
-			REL::Relocation<func_t> func{ REL::ID(1013515) };
+			static REL::Relocation<func_t> func{ REL::ID(1013515) };
 			return func(a_object);
 		}
 
 		[[nodiscard]] NiControllerSequence* GetSequenceByName(const BSFixedString& a_name)
 		{
 			using func_t = decltype(&NiControllerManager::GetSequenceByName);
-			REL::Relocation<func_t> func{ REL::ID(846648) };
+			static REL::Relocation<func_t> func{ REL::ID(846648) };
 			return func(this, a_name);
 		}
 
@@ -77,7 +77,7 @@ namespace RE
 		bool Activate(std::uint8_t a_priority, bool a_startOver, float a_weight, float a_easeInTime, NiControllerSequence* a_timeSyncSeq, bool a_transition)
 		{
 			using func_t = decltype(&NiControllerSequence::Activate);
-			REL::Relocation<func_t> func{ REL::ID(829033) };
+			static REL::Relocation<func_t> func{ REL::ID(829033) };
 			return func(this, a_priority, a_startOver, a_weight, a_easeInTime, a_timeSyncSeq, a_transition);
 		}
 

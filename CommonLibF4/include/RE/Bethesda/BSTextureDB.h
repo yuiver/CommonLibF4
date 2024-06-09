@@ -29,7 +29,7 @@ namespace RE
 
 			static BSResource::EntryDB<BSTextureDB::DBTraits>* GetSingleton()
 			{
-				REL::Relocation<BSResource::EntryDB<BSTextureDB::DBTraits>**> singleton{ REL::ID(1126862) };
+				static REL::Relocation<BSResource::EntryDB<BSTextureDB::DBTraits>**> singleton{ REL::ID(1126862) };
 				return *singleton;
 			}
 		};

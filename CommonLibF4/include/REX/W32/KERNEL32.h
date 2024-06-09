@@ -488,6 +488,8 @@ namespace REX::W32
 	std::uint32_t GetModuleFileNameW(HMODULE a_module, wchar_t* a_name, std::uint32_t a_nameLen) noexcept;
 	HMODULE GetModuleHandleA(const char* a_name) noexcept;
 	HMODULE GetModuleHandleW(const wchar_t* a_name) noexcept;
+	std::uint32_t GetPrivateProfileIntA(const char* a_app, const char* a_key, std::int32_t a_default, const char* a_name) noexcept;
+	std::uint32_t GetPrivateProfileIntW(const wchar_t* a_app, const wchar_t* a_key, std::int32_t a_default, const wchar_t* a_name) noexcept;
 	std::uint32_t GetPrivateProfileStringA(const char* a_app, const char* a_key, const char* a_default, char* a_buf, std::uint32_t a_bufLen, const char* a_name) noexcept;
 	std::uint32_t GetPrivateProfileStringW(const wchar_t* a_app, const wchar_t* a_key, const wchar_t* a_default, wchar_t* a_buf, std::uint32_t a_bufLen, const wchar_t* a_name) noexcept;
 	void* GetProcAddress(HMODULE a_module, const char* a_name) noexcept;

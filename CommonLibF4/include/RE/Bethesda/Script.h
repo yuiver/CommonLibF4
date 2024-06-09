@@ -259,13 +259,13 @@ namespace RE
 
 		[[nodiscard]] static std::span<SCRIPT_FUNCTION, 526> GetConsoleFunctions()
 		{
-			REL::Relocation<SCRIPT_FUNCTION(*)[526]> functions{ REL::ID(901511) };
+			static REL::Relocation<SCRIPT_FUNCTION(*)[526]> functions{ REL::ID(901511) };
 			return { *functions };
 		}
 
 		[[nodiscard]] static std::span<SCRIPT_FUNCTION, 819> GetScriptFunctions()
 		{
-			REL::Relocation<SCRIPT_FUNCTION(*)[819]> functions{ REL::ID(75173) };
+			static REL::Relocation<SCRIPT_FUNCTION(*)[819]> functions{ REL::ID(75173) };
 			return { *functions };
 		}
 
@@ -304,28 +304,28 @@ namespace RE
 		{
 			static_assert((std::is_pointer_v<Args> && ...), "arguments must all be pointers");
 			using func_t = bool(const SCRIPT_PARAMETER*, const char*, std::uint32_t&, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
-			REL::Relocation<func_t> func{ REL::ID(2204298) };
+			static REL::Relocation<func_t> func{ REL::ID(2204298) };
 			return func(a_parameters, a_compiledParams, a_offset, a_refObject, a_container, a_script, a_scriptLocals, a_args...);
 		}
 
 		void CompileAndRun(ScriptCompiler* a_compiler, COMPILER_NAME a_compilerIndex, TESObjectREFR* a_ownerObject)
 		{
 			using func_t = decltype(&Script::CompileAndRun);
-			REL::Relocation<func_t> func{ REL::ID(2204287) };
+			static REL::Relocation<func_t> func{ REL::ID(2204287) };
 			return func(this, a_compiler, a_compilerIndex, a_ownerObject);
 		}
 
 		static bool GetProcessScripts()
 		{
 			using func_t = decltype(&Script::GetProcessScripts);
-			REL::Relocation<func_t> func{ REL::ID(2204310) };
+			static REL::Relocation<func_t> func{ REL::ID(2204310) };
 			return func();
 		}
 
 		static void SetProcessScripts(bool a_processScripts)
 		{
 			using func_t = decltype(&Script::SetProcessScripts);
-			REL::Relocation<func_t> func{ REL::ID(2204309) };
+			static REL::Relocation<func_t> func{ REL::ID(2204309) };
 			return func(a_processScripts);
 		}
 

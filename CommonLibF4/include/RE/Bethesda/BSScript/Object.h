@@ -36,21 +36,21 @@ namespace RE
 			[[nodiscard]] std::uint32_t DecRef() const
 			{
 				using func_t = decltype(&Object::DecRef);
-				REL::Relocation<func_t> func{ REL::ID(541793) };
+				static REL::Relocation<func_t> func{ REL::ID(541793) };
 				return func(this);
 			}
 
 			[[nodiscard]] std::size_t GetHandle() const
 			{
 				using func_t = decltype(&Object::GetHandle);
-				REL::Relocation<func_t> func{ REL::ID(2314431) };
+				static REL::Relocation<func_t> func{ REL::ID(2314431) };
 				return func(this);
 			}
 
 			void IncRef() const
 			{
 				using func_t = decltype(&Object::IncRef);
-				REL::Relocation<func_t> func{ REL::ID(2314436) };
+				static REL::Relocation<func_t> func{ REL::ID(2314436) };
 				return func(this);
 			}
 

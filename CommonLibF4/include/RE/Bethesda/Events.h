@@ -96,7 +96,7 @@ namespace RE
 		static void InitSDM()
 		{
 			using func_t = decltype(&BSThreadEvent::InitSDM);
-			REL::Relocation<func_t> func{ REL::ID(1425097) };
+			static REL::Relocation<func_t> func{ REL::ID(1425097) };
 			return func();
 		}
 	};
@@ -125,7 +125,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(421543) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(421543) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -148,7 +148,7 @@ namespace RE
 
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(344866) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(344866) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -182,7 +182,7 @@ namespace RE
 			[[nodiscard]] static CellAttachDetachEventSourceSingleton& GetSingleton()
 			{
 				using func_t = decltype(&CellAttachDetachEventSourceSingleton::GetSingleton);
-				REL::Relocation<func_t> func{ REL::ID(862142) };
+				static REL::Relocation<func_t> func{ REL::ID(862142) };
 				return func();
 			}
 
@@ -201,7 +201,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(2696196) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(2696196) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -218,7 +218,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(1226590) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(1226590) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -249,7 +249,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(787908) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(787908) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -266,7 +266,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(683142) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(683142) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -316,7 +316,7 @@ namespace RE
 			const InventoryUserUIInterfaceEntry& a_entry)
 		{
 			using func_t = decltype(&InventoryItemDisplayData::ctor);
-			REL::Relocation<func_t> func{ REL::ID(679373) };
+			static REL::Relocation<func_t> func{ REL::ID(679373) };
 			return func(this, a_inventoryRef, a_entry);
 		}
 	};
@@ -334,7 +334,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<LocksPicked::Event>* GetEventSource()
 		{
 			using func_t = decltype(&LocksPicked::GetEventSource);
-			REL::Relocation<func_t> func{ REL::ID(594991) };
+			static REL::Relocation<func_t> func{ REL::ID(594991) };
 			return func();
 		}
 	};
@@ -379,7 +379,7 @@ namespace RE
 
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(685859) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(685859) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -400,7 +400,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(2696280) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(2696280) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -440,7 +440,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(120809) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(120809) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -806,7 +806,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			REL::Relocation<EventSource_t**> singleton{ REL::ID(1067039) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::ID(1067039) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -855,7 +855,7 @@ namespace RE
 	public:
 		[[nodiscard]] static TESInitScriptEventSource* GetSingleton()
 		{
-			REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(2691330) };
+			static REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(2691330) };
 			return singleton.get();
 		}
 	};

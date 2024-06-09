@@ -6,7 +6,7 @@
 #include "RE/Bethesda/BSTHashMap.h"
 #include "RE/Bethesda/FormComponents.h"
 #include "RE/Bethesda/TESForms.h"
-#include "RE/NetImmerse/NiPoint2.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTMap.h"
 
@@ -117,7 +117,7 @@ namespace RE
 			if (root->worldWater) {
 				return root->worldWater;
 			} else {
-				REL::Relocation<TESWaterForm**> defaultWater{ REL::ID(289864) };
+				static REL::Relocation<TESWaterForm**> defaultWater{ REL::ID(289864) };
 				return *defaultWater;
 			}
 		}

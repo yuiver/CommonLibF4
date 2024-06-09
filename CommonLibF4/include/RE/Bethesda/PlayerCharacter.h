@@ -15,7 +15,7 @@
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/IMovementInterface.h"
 #include "RE/Havok/hkRefPtr.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTMap.h"
 
@@ -244,14 +244,14 @@ namespace RE
 			void ctor(bool a_suppressMessages, bool a_suppressAudio)
 			{
 				using func_t = decltype(&ScopedInventoryChangeMessageContext::ctor);
-				REL::Relocation<func_t> func{ REL::ID(1512872) };
+				static REL::Relocation<func_t> func{ REL::ID(1512872) };
 				return func(this, a_suppressMessages, a_suppressAudio);
 			}
 
 			void dtor()
 			{
 				using func_t = decltype(&ScopedInventoryChangeMessageContext::dtor);
-				REL::Relocation<func_t> func{ REL::ID(542100) };
+				static REL::Relocation<func_t> func{ REL::ID(542100) };
 				return func(this);
 			}
 		};
@@ -265,41 +265,41 @@ namespace RE
 
 		[[nodiscard]] static PlayerCharacter* GetSingleton()
 		{
-			REL::Relocation<NiPointer<PlayerCharacter>*> singleton{ REL::ID(2690919) };
+			static REL::Relocation<NiPointer<PlayerCharacter>*> singleton{ REL::ID(2690919) };
 			return singleton->get();
 		}
 
 		[[nodiscard]] static ActorHandle GetPlayerHandle()
 		{
-			REL::Relocation<ActorHandle*> singleton{ REL::ID(2698072) };
+			static REL::Relocation<ActorHandle*> singleton{ REL::ID(2698072) };
 			return *singleton;
 		}
 
 		DIFFICULTY_LEVEL GetDifficultyLevel()
 		{
 			using func_t = decltype(&PlayerCharacter::GetDifficultyLevel);
-			REL::Relocation<func_t> func{ REL::ID(2233056) };
+			static REL::Relocation<func_t> func{ REL::ID(2233056) };
 			return func(this);
 		}
 
 		bool IsGodMode()
 		{
 			using func_t = decltype(&PlayerCharacter::IsGodMode);
-			REL::Relocation<func_t> func{ REL::ID(2232986) };
+			static REL::Relocation<func_t> func{ REL::ID(2232986) };
 			return func(this);
 		}
 
 		bool IsHolotapePlaying(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::IsHolotapePlaying);
-			REL::Relocation<func_t> func{ REL::ID(2233206) };
+			static REL::Relocation<func_t> func{ REL::ID(2233206) };
 			return func(this, a_holotape);
 		}
 
 		bool IsImmortal()
 		{
 			using func_t = decltype(&PlayerCharacter::IsImmortal);
-			REL::Relocation<func_t> func{ REL::ID(2232988) };
+			static REL::Relocation<func_t> func{ REL::ID(2232988) };
 			return func(this);
 		}
 
@@ -308,7 +308,7 @@ namespace RE
 		bool IsPipboyLightOn()
 		{
 			using func_t = decltype(&PlayerCharacter::IsPipboyLightOn);
-			REL::Relocation<func_t> func{ REL::ID(426550) };
+			static REL::Relocation<func_t> func{ REL::ID(426550) };
 			return func(this);
 		}
 
@@ -317,70 +317,70 @@ namespace RE
 		void PauseHolotape(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::PauseHolotape);
-			REL::Relocation<func_t> func{ REL::ID(2233208) };
+			static REL::Relocation<func_t> func{ REL::ID(2233208) };
 			return func(this, a_holotape);
 		}
 
 		void PlayHolotape(BGSNote* a_holotape)
 		{
 			using func_t = decltype(&PlayerCharacter::PlayHolotape);
-			REL::Relocation<func_t> func{ REL::ID(2233207) };
+			static REL::Relocation<func_t> func{ REL::ID(2233207) };
 			return func(this, a_holotape);
 		}
 
 		void QueueFastTravel(ObjectRefHandle a_marker, bool a_allowAutoSave)
 		{
 			using func_t = decltype(&PlayerCharacter::QueueFastTravel);
-			REL::Relocation<func_t> func{ REL::ID(556824) };
+			static REL::Relocation<func_t> func{ REL::ID(556824) };
 			return func(this, a_marker, a_allowAutoSave);
 		}
 
 		void RemoveLastUsedPowerArmor()
 		{
 			using func_t = decltype(&PlayerCharacter::RemoveLastUsedPowerArmor);
-			REL::Relocation<func_t> func{ REL::ID(1488486) };
+			static REL::Relocation<func_t> func{ REL::ID(1488486) };
 			return func(this);
 		}
 
 		void SelectPerk(TESFormID a_formID, std::int8_t a_rank = 0)
 		{
 			using func_t = decltype(&PlayerCharacter::SelectPerk);
-			REL::Relocation<func_t> func{ REL::ID(1397326) };
+			static REL::Relocation<func_t> func{ REL::ID(1397326) };
 			return func(this, a_formID, a_rank);
 		}
 
 		void SetEscaping(bool a_flag, bool a_escaped)
 		{
 			using func_t = decltype(&PlayerCharacter::SetEscaping);
-			REL::Relocation<func_t> func{ REL::ID(25528) };
+			static REL::Relocation<func_t> func{ REL::ID(25528) };
 			return func(this, a_flag, a_escaped);
 		}
 
 		void SetVATSCriticalCount(uint32_t a_critCount)
 		{
 			using func_t = decltype(&PlayerCharacter::SetVATSCriticalCount);
-			REL::Relocation<func_t> func{ REL::ID(327338) };
+			static REL::Relocation<func_t> func{ REL::ID(327338) };
 			return func(this, a_critCount);
 		}
 
 		void ShowPipboyLight(bool a_show, bool a_skipEffects)
 		{
 			using func_t = decltype(&PlayerCharacter::ShowPipboyLight);
-			REL::Relocation<func_t> func{ REL::ID(1304102) };
+			static REL::Relocation<func_t> func{ REL::ID(1304102) };
 			return func(this, a_show, a_skipEffects);
 		}
 
 		void SetLastDialogueInput(uint32_t dialogueOption)
 		{
 			using func_t = decltype(&PlayerCharacter::SetLastDialogueInput);
-			REL::Relocation<func_t> func{ REL::ID(2233190) };
+			static REL::Relocation<func_t> func{ REL::ID(2233190) };
 			return func(this, dialogueOption);
 		}
 
 		void ClearPrison()
 		{
 			using func_t = decltype(&PlayerCharacter::ClearPrison);
-			REL::Relocation<func_t> func{ REL::ID(2233196) };
+			static REL::Relocation<func_t> func{ REL::ID(2233196) };
 			return func(this);
 		}
 

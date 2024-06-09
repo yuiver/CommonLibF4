@@ -284,9 +284,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
 	include/RE/NetImmerse/NiObjectNET.h
-	include/RE/NetImmerse/NiPoint2.h
-	include/RE/NetImmerse/NiPoint3.h
-	include/RE/NetImmerse/NiPoint4.h
+	include/RE/NetImmerse/NiPoint.h
 	include/RE/NetImmerse/NiProperty.h
 	include/RE/NetImmerse/NiQuaternion.h
 	include/RE/NetImmerse/NiRTTI.h
@@ -434,8 +432,9 @@ set(SOURCES
 	src/RE/Fallout.cpp
 	src/RE/NetImmerse/NiAVObject.cpp
 	src/RE/NetImmerse/NiBinaryStream.cpp
+	src/RE/NetImmerse/NiMatrix3.cpp
 	src/RE/NetImmerse/NiObjectNET.cpp
-	src/RE/NetImmerse/NiPoint3.cpp
+	src/RE/NetImmerse/NiPoint.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
 	src/REL/IAT.cpp

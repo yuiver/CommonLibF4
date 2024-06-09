@@ -9,7 +9,7 @@
 #include "RE/Bethesda/Movement.h"
 #include "RE/Bethesda/TESCondition.h"
 #include "RE/Bethesda/TESForms.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {

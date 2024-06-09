@@ -5,7 +5,7 @@
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/UIShaderFXInfo.h"
 #include "RE/NetImmerse/NiColor.h"
-#include "RE/NetImmerse/NiPoint2.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE
@@ -124,14 +124,14 @@ namespace RE
 			static Renderer* Create(const BSFixedString& a_name, RE::UI_DEPTH_PRIORITY a_depth, float a_fov, bool a_alwaysRenderWhenEnabled)
 			{
 				using func_t = decltype(&Renderer::Create);
-				REL::Relocation<func_t> func{ REL::ID(88488) };
+				static REL::Relocation<func_t> func{ REL::ID(88488) };
 				return func(a_name, a_depth, a_fov, a_alwaysRenderWhenEnabled);
 			}
 
 			[[nodiscard]] static Renderer* GetByName(const BSFixedString& a_name)
 			{
 				using func_t = decltype(&Renderer::GetByName);
-				REL::Relocation<func_t> func{ REL::ID(140387) };
+				static REL::Relocation<func_t> func{ REL::ID(140387) };
 				return func(a_name);
 			}
 
@@ -142,7 +142,7 @@ namespace RE
 				float a_dimmerVal)
 			{
 				using func_t = decltype(&Renderer::MainScreen_AddPointLight);
-				REL::Relocation<func_t> func{ REL::ID(1335675) };
+				static REL::Relocation<func_t> func{ REL::ID(1335675) };
 				return func(this, a_translation, a_diffuse, a_radius, a_dimmerVal);
 			}
 
@@ -157,14 +157,14 @@ namespace RE
 				bool a_castShadows)
 			{
 				using func_t = decltype(&Renderer::MainScreen_AddSpotLight);
-				REL::Relocation<func_t> func{ REL::ID(1056093) };
+				static REL::Relocation<func_t> func{ REL::ID(1056093) };
 				return func(this, a_translation, a_lookAtPosition, a_lookAtObject, a_fov, a_diffuse, a_radius, a_dimmerVal, a_castShadows);
 			}
 
 			void MainScreen_ClearLights()
 			{
 				using func_t = decltype(&Renderer::MainScreen_ClearLights);
-				REL::Relocation<func_t> func{ REL::ID(683530) };
+				static REL::Relocation<func_t> func{ REL::ID(683530) };
 				return func(this);
 			}
 
@@ -220,7 +220,7 @@ namespace RE
 			void MainScreen_SetScreenAttached3D(NiAVObject* a_root3D)
 			{
 				using func_t = decltype(&Renderer::MainScreen_SetScreenAttached3D);
-				REL::Relocation<func_t> func{ REL::ID(817727) };
+				static REL::Relocation<func_t> func{ REL::ID(817727) };
 				return func(this, a_root3D);
 			}
 
@@ -232,7 +232,7 @@ namespace RE
 			void MainScreen_SetWorldAttached3D(NiAVObject* a_root3D)
 			{
 				using func_t = decltype(&Renderer::MainScreen_SetWorldAttached3D);
-				REL::Relocation<func_t> func{ REL::ID(724778) };
+				static REL::Relocation<func_t> func{ REL::ID(724778) };
 				return func(this, a_root3D);
 			}
 
@@ -254,21 +254,21 @@ namespace RE
 				float a_dimmerVal)
 			{
 				using func_t = decltype(&Renderer::Offscreen_AddLight);
-				REL::Relocation<func_t> func{ REL::ID(1267198) };
+				static REL::Relocation<func_t> func{ REL::ID(1267198) };
 				return func(this, a_translation, a_diffuse, a_specular, a_dimmerVal);
 			}
 
 			void Offscreen_Clear3D()
 			{
 				using func_t = decltype(&Renderer::Offscreen_Clear3D);
-				REL::Relocation<func_t> func{ REL::ID(1533262) };
+				static REL::Relocation<func_t> func{ REL::ID(1533262) };
 				return func(this);
 			}
 
 			void Offscreen_ClearLights()
 			{
 				using func_t = decltype(&Renderer::Offscreen_ClearLights);
-				REL::Relocation<func_t> func{ REL::ID(1039253) };
+				static REL::Relocation<func_t> func{ REL::ID(1039253) };
 				return func(this);
 			}
 
@@ -280,21 +280,21 @@ namespace RE
 			std::uint32_t Offscreen_GetRenderTargetHeight()
 			{
 				using func_t = decltype(&Renderer::Offscreen_GetRenderTargetHeight);
-				REL::Relocation<func_t> func{ REL::ID(1280897) };
+				static REL::Relocation<func_t> func{ REL::ID(1280897) };
 				return func(this);
 			}
 
 			std::uint32_t Offscreen_GetRenderTargetWidth()
 			{
 				using func_t = decltype(&Renderer::Offscreen_GetRenderTargetWidth);
-				REL::Relocation<func_t> func{ REL::ID(403273) };
+				static REL::Relocation<func_t> func{ REL::ID(403273) };
 				return func(this);
 			}
 
 			void Offscreen_Set3D(NiAVObject* a_3D)
 			{
 				using func_t = decltype(&Renderer::Offscreen_Set3D);
-				REL::Relocation<func_t> func{ REL::ID(43983) };
+				static REL::Relocation<func_t> func{ REL::ID(43983) };
 				return func(this, a_3D);
 			}
 
@@ -316,7 +316,7 @@ namespace RE
 			void Offscreen_SetDebugMode(bool a_on, bool a_small, std::uint32_t a_target)
 			{
 				using func_t = decltype(&Renderer::Offscreen_SetDebugMode);
-				REL::Relocation<func_t> func{ REL::ID(1277879) };
+				static REL::Relocation<func_t> func{ REL::ID(1277879) };
 				return func(this, a_on, a_small, a_target);
 			}
 
@@ -327,7 +327,7 @@ namespace RE
 				float a_dimmerVal)
 			{
 				using func_t = decltype(&Renderer::Offscreen_SetDirectionalLight);
-				REL::Relocation<func_t> func{ REL::ID(987144) };
+				static REL::Relocation<func_t> func{ REL::ID(987144) };
 				return func(this, a_xyPlaneAngle, a_zAngle, a_diffuse, a_dimmerVal);
 			}
 
@@ -359,28 +359,28 @@ namespace RE
 			void Enable(bool a_unhideGeometries = false)
 			{
 				using func_t = decltype(&Renderer::Enable);
-				REL::Relocation<func_t> func{ REL::ID(326895) };
+				static REL::Relocation<func_t> func{ REL::ID(326895) };
 				return func(this, a_unhideGeometries);
 			}
 
 			void Disable()
 			{
 				using func_t = decltype(&Renderer::Disable);
-				REL::Relocation<func_t> func{ REL::ID(938370) };
+				static REL::Relocation<func_t> func{ REL::ID(938370) };
 				return func(this);
 			}
 
 			void Release()
 			{
 				using func_t = decltype(&Renderer::Release);
-				REL::Relocation<func_t> func{ REL::ID(74749) };
+				static REL::Relocation<func_t> func{ REL::ID(74749) };
 				return func(this);
 			}
 
 			void SetViewport(RE::Scaleform::GFx::Movie& a_ui, const NiRect<float>& a_renderArea)
 			{
 				using func_t = decltype(&Renderer::SetViewport);
-				REL::Relocation<func_t> func{ REL::ID(825410) };
+				static REL::Relocation<func_t> func{ REL::ID(825410) };
 				return func(this, a_ui, a_renderArea);
 			}
 

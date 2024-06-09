@@ -24,7 +24,7 @@ namespace RE
 			children(a_numChildren)
 		{
 			stl::emplace_vtable(this);
-			REL::Relocation<std::uintptr_t> childrenVTable{ REL::ID(390064) };
+			static REL::Relocation<std::uintptr_t> childrenVTable{ REL::ID(390064) };
 			reinterpret_cast<std::uintptr_t&>(children) = childrenVTable.address();
 		}
 

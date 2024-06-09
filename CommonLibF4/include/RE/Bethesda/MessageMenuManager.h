@@ -88,7 +88,7 @@ namespace RE
 	public:
 		[[nodiscard]] static MessageMenuManager* GetSingleton()
 		{
-			REL::Relocation<MessageMenuManager**> singleton{ REL::ID(959572) };
+			static REL::Relocation<MessageMenuManager**> singleton{ REL::ID(959572) };
 			return *singleton;
 		}
 
@@ -104,7 +104,7 @@ namespace RE
 			bool a_ensureUnique = false)
 		{
 			using func_t = decltype(&MessageMenuManager::Create);
-			REL::Relocation<func_t> func{ REL::ID(89563) };
+			static REL::Relocation<func_t> func{ REL::ID(89563) };
 			return func(this, a_headerText, a_bodyText, a_callback, a_warningContext, a_button1Text, a_button2Text, a_button3Text, a_button4Text, a_ensureUnique);
 		}
 

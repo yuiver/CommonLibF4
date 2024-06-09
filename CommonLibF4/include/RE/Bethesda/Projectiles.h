@@ -6,7 +6,7 @@
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/CELLJobs.h"
 #include "RE/Bethesda/TESObjectREFRs.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 #include "RE/NetImmerse/NiTransform.h"
 

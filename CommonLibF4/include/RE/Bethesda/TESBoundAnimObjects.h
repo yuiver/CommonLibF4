@@ -10,7 +10,7 @@
 #include "RE/Bethesda/TESBoundObjects.h"
 #include "RE/Bethesda/TESCondition.h"
 #include "RE/NetImmerse/NiColor.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {
@@ -277,7 +277,7 @@ namespace RE
 		[[nodiscard]] TESContainer* GetContainer()
 		{
 			using func_t = decltype(&TESFurniture::GetContainer);
-			REL::Relocation<func_t> func{ REL::ID(2198043) };
+			static REL::Relocation<func_t> func{ REL::ID(2198043) };
 			return func(this);
 		}
 
@@ -396,14 +396,14 @@ namespace RE
 
 		[[nodiscard]] static BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>& GetAlternateHeadPartListMap()
 		{
-			REL::Relocation<BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>*> map{ REL::ID(1306546), -0x8 };
+			static REL::Relocation<BSTHashMap<const TESNPC*, BSTArray<BGSHeadPart*>>*> map{ REL::ID(1306546), -0x8 };
 			return *map;
 		}
 
 		[[nodiscard]] static TESNPC* GetDefaultNPC(TESNPC* npc)
 		{
 			using func_t = decltype(&TESNPC::GetDefaultNPC);
-			REL::Relocation<func_t> func{ REL::ID(1073775) };
+			static REL::Relocation<func_t> func{ REL::ID(1073775) };
 			return func(npc);
 		}
 
@@ -452,7 +452,7 @@ namespace RE
 		[[nodiscard]] SEX GetSex() noexcept
 		{
 			using func_t = decltype(&TESNPC::GetSex);
-			REL::Relocation<func_t> func{ REL::ID(2207107) };
+			static REL::Relocation<func_t> func{ REL::ID(2207107) };
 			return func(this);
 		}
 
@@ -483,7 +483,7 @@ namespace RE
 		float GetFacialBoneMorphIntensity()
 		{
 			using func_t = decltype(&TESNPC::GetFacialBoneMorphIntensity);
-			REL::Relocation<func_t> func{ REL::ID(2207416) };
+			static REL::Relocation<func_t> func{ REL::ID(2207416) };
 			return func(this);
 		}
 
@@ -581,21 +581,21 @@ namespace RE
 		LOCK_LEVEL GetHackDifficultyLockLevel(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::GetHackDifficultyLockLevel);
-			REL::Relocation<func_t> func{ REL::ID(2197777) };
+			static REL::Relocation<func_t> func{ REL::ID(2197777) };
 			return func(this, a_refr);
 		}
 
 		static bool IsTerminalRefInUse(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::IsTerminalRefInUse);
-			REL::Relocation<func_t> func{ REL::ID(2197779) };
+			static REL::Relocation<func_t> func{ REL::ID(2197779) };
 			return func(a_refr);
 		}
 
 		static void Show(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::Show);
-			REL::Relocation<func_t> func{ REL::ID(2197776) };
+			static REL::Relocation<func_t> func{ REL::ID(2197776) };
 			return func(a_refr);
 		}
 
@@ -607,3 +607,28 @@ namespace RE
 	};
 	static_assert(sizeof(BGSTerminal) == 0x1E0);
 }
+
+template <>
+struct std::formatter<RE::SEX>
+{
+	template <class ParseContext>
+	constexpr auto parse(ParseContext& a_ctx)
+	{
+		return a_ctx.begin();
+	}
+
+	template <class FormatContext>
+	constexpr auto format(const RE::SEX& a_sex, FormatContext& a_ctx) const
+	{
+		switch (a_sex) {
+		case RE::SEX::kNone:
+			return format_to(a_ctx.out(), "None");
+		case RE::SEX::kMale:
+			return format_to(a_ctx.out(), "Male");
+		case RE::SEX::kFemale:
+			return format_to(a_ctx.out(), "Female");
+		}
+
+		return format_to(a_ctx.out(), "Unknown");
+	}
+};

@@ -17,7 +17,7 @@ namespace RE::BSResource
 
 		[[nodiscard]] static GlobalPaths* GetSingleton()
 		{
-			REL::Relocation<GlobalPaths**> singleton{ REL::ID(210868) };
+			static REL::Relocation<GlobalPaths**> singleton{ REL::ID(210868) };
 			return *singleton;
 		}
 

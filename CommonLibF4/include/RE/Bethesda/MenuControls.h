@@ -22,7 +22,7 @@ namespace RE
 	public:
 		[[nodiscard]] static MenuControls* GetSingleton()
 		{
-			REL::Relocation<MenuControls**> singleton{ REL::ID(520890) };
+			static REL::Relocation<MenuControls**> singleton{ REL::ID(520890) };
 			return *singleton;
 		}
 
