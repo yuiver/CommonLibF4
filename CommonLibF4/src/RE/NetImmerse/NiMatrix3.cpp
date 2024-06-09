@@ -89,7 +89,7 @@ namespace RE
 		entry[2] = NiPoint4::IDENTITY2;
 	}
 
-    NiMatrix3 NiMatrix3::Transpose() const noexcept
+	NiMatrix3 NiMatrix3::Transpose() const noexcept
 	{
 		NiMatrix3 result;
 		result[0][0] = entry[0][0];
@@ -114,35 +114,35 @@ namespace RE
 
 	bool NiMatrix3::ToEulerAnglesXYZ(float& a_x, float& a_y, float& a_z) const
 	{
-		using func_t = bool(*)(const NiMatrix3*, float&, float&, float&);
+		using func_t = bool (*)(const NiMatrix3*, float&, float&, float&);
 		static REL::Relocation<func_t> func{ REL::ID(2269806) };
 		return func(this, a_x, a_y, a_z);
 	}
 
 	bool NiMatrix3::ToEulerAnglesXZY(float& a_x, float& a_z, float& a_y) const
 	{
-		using func_t = bool(*)(const NiMatrix3*, float&, float&, float&);
+		using func_t = bool (*)(const NiMatrix3*, float&, float&, float&);
 		static REL::Relocation<func_t> func{ REL::ID(2269807) };
 		return func(this, a_x, a_z, a_y);
 	}
 
 	bool NiMatrix3::ToEulerAnglesYXZ(float& a_y, float& a_x, float& a_z) const
 	{
-		using func_t = bool(*)(const NiMatrix3*, float&, float&, float&);
+		using func_t = bool (*)(const NiMatrix3*, float&, float&, float&);
 		static REL::Relocation<func_t> func{ REL::ID(2269808) };
 		return func(this, a_y, a_x, a_z);
 	}
 
 	bool NiMatrix3::ToEulerAnglesYZX(float& a_y, float& a_z, float& a_x) const
 	{
-		using func_t = bool(*)(const NiMatrix3*, float&, float&, float&);
+		using func_t = bool (*)(const NiMatrix3*, float&, float&, float&);
 		static REL::Relocation<func_t> func{ REL::ID(2269809) };
 		return func(this, a_y, a_z, a_x);
 	}
 
 	bool NiMatrix3::ToEulerAnglesZYX(float& a_z, float& a_y, float& a_x) const
 	{
-		using func_t = bool(*)(const NiMatrix3*, float&, float&, float&);
+		using func_t = bool (*)(const NiMatrix3*, float&, float&, float&);
 		static REL::Relocation<func_t> func{ REL::ID(2269810) };
 		return func(this, a_z, a_y, a_x);
 	}
@@ -161,35 +161,35 @@ namespace RE
 
 	void NiMatrix3::FromEulerAnglesXYZ(float a_x, float a_y, float a_z)
 	{
-		using func_t = void(*)(NiMatrix3*, float, float, float);
+		using func_t = void (*)(NiMatrix3*, float, float, float);
 		static REL::Relocation<func_t> func{ REL::ID(2269813) };
 		return func(this, a_x, a_y, a_z);
 	}
 
 	void NiMatrix3::FromEulerAnglesXZY(float a_x, float a_z, float a_y)
 	{
-		using func_t = void(*)(NiMatrix3*, float, float, float);
+		using func_t = void (*)(NiMatrix3*, float, float, float);
 		static REL::Relocation<func_t> func{ REL::ID(2269814) };
 		return func(this, a_x, a_z, a_y);
 	}
 
 	void NiMatrix3::FromEulerAnglesYXZ(float a_y, float a_x, float a_z)
 	{
-		using func_t = void(*)(NiMatrix3*, float, float, float);
+		using func_t = void (*)(NiMatrix3*, float, float, float);
 		static REL::Relocation<func_t> func{ REL::ID(2269815) };
 		return func(this, a_y, a_x, a_z);
 	}
 
 	void NiMatrix3::FromEulerAnglesYZX(float a_y, float a_z, float a_x)
 	{
-		using func_t = void(*)(NiMatrix3*, float, float, float);
+		using func_t = void (*)(NiMatrix3*, float, float, float);
 		static REL::Relocation<func_t> func{ REL::ID(2269816) };
 		return func(this, a_y, a_z, a_x);
 	}
 
 	void NiMatrix3::FromEulerAnglesZYX(float a_z, float a_y, float a_x)
 	{
-		using func_t = void(*)(NiMatrix3*, float, float, float);
+		using func_t = void (*)(NiMatrix3*, float, float, float);
 		static REL::Relocation<func_t> func{ REL::ID(2269817) };
 		return func(this, a_z, a_y, a_x);
 	}
