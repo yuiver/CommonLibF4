@@ -1171,6 +1171,13 @@ namespace RE
 			return func(this);
 		}
 
+		bool IsSneaking()
+		{
+			using func_t = decltype(&Actor::IsSneaking);
+			static REL::Relocation<func_t> func{ REL::ID(2207655) };
+			return func(this);
+		}
+
 		bool IsVisible() const
 		{
 			constexpr auto all = std::to_underlying(ACTOR_VISIBILITY_MASK::kAll);
