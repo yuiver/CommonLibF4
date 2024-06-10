@@ -174,7 +174,7 @@ namespace RE
 
 		[[nodiscard]] static PlayerCamera* GetSingleton()
 		{
-			static REL::Relocation<PlayerCamera**> singleton{ REL::ID(1171980) };
+			static REL::Relocation<PlayerCamera**> singleton{ REL::ID(2688801) };
 			return *singleton;
 		}
 
@@ -193,50 +193,57 @@ namespace RE
 		TESCameraState* PopState()
 		{
 			using func_t = decltype(&PlayerCamera::PopState);
-			static REL::Relocation<func_t> func{ REL::ID(120998) };
+			static REL::Relocation<func_t> func{ REL::ID(2248424) };
 			return func(this);
 		}
 
 		TESCameraState* PushState(CameraState a_state)
 		{
 			using func_t = decltype(&PlayerCamera::PushState);
-			static REL::Relocation<func_t> func{ REL::ID(746523) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this, a_state);
 		}
 
 		void ToggleFreeCameraMode(bool a_freezeTime)
 		{
 			using func_t = decltype(&PlayerCamera::ToggleFreeCameraMode);
-			static REL::Relocation<func_t> func{ REL::ID(224913) };
+			static REL::Relocation<func_t> func{ REL::ID(2248368) };
 			return func(this, a_freezeTime);
 		}
 
 		void SetState(TESCameraState* a_newstate) const
 		{
 			using func_t = decltype(&PlayerCamera::SetState);
-			static REL::Relocation<func_t> func{ REL::ID(858847) };
+			static REL::Relocation<func_t> func{ REL::ID(2214742) };
 			return func(this, a_newstate);
 		}
 
 		void StartFurnitureMode(TESObjectREFR* a_furniture)
 		{
 			using func_t = decltype(&PlayerCamera::StartFurnitureMode);
-			static REL::Relocation<func_t> func{ REL::ID(10202) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this, a_furniture);
 		}
 
 		void StartPipboyMode(bool a_forcePipboyModeCamera)
 		{
 			using func_t = decltype(&PlayerCamera::StartPipboyMode);
-			static REL::Relocation<func_t> func{ REL::ID(998069) };
+			static REL::Relocation<func_t> func{ REL::ID(2248358) };
 			return func(this, a_forcePipboyModeCamera);
 		}
 
 		void StopPipboyMode()
 		{
 			using func_t = decltype(&PlayerCamera::StopPipboyMode);
-			static REL::Relocation<func_t> func{ REL::ID(811954) };
+			static REL::Relocation<func_t> func{ REL::ID(2248359) };
 			return func(this);
+		}
+
+		bool QCameraEquals(CameraState a_state)
+		{
+			using func_t = decltype(&PlayerCamera::QCameraEquals);
+			static REL::Relocation<func_t> func{ REL::ID(2248421) };
+			return func(this, a_state);
 		}
 
 		// members
