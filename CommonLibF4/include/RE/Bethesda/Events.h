@@ -593,16 +593,23 @@ namespace RE
 	};
 	static_assert(sizeof(TESDeathEvent) == 0x18);
 
-	struct TESEquipEvent
+	struct TESEnterSneakingEvent
 	{
-	public:
-		[[nodiscard]] static BSTEventSource<TESEquipEvent>* GetEventSource()
+		[[nodiscard]] static BSTEventSource<TESEnterSneakingEvent>* GetEventSource()
 		{
-			using func_t = decltype(&TESEquipEvent::GetEventSource);
+			using func_t = decltype(&TESEnterSneakingEvent::GetEventSource);
 			static REL::Relocation<func_t> func{ REL::ID(2201837) };
 			return func();
 		}
 
+		// members
+		NiPointer<TESObjectREFR> actor;  // 00
+	};
+	static_assert(sizeof(TESEnterSneakingEvent) == 0x8);
+
+	struct TESEquipEvent
+	{
+	public:
 		// members
 		NiPointer<TESObjectREFR> actor;  // 00
 		std::uint32_t baseObject;        // 08
@@ -642,6 +649,9 @@ namespace RE
 			static REL::Relocation<func_t> func{ REL::ID(2201844) };
 			return func();
 		}
+
+		[[nodiscard]] constexpr bool IsEnter() const noexcept { return type.all(FurnitureEventType::kEnter); }
+		[[nodiscard]] constexpr bool IsExit() const noexcept { return type.all(FurnitureEventType::kExit); }
 
 		// members
 		NiPointer<TESObjectREFR> actor;                       // 00

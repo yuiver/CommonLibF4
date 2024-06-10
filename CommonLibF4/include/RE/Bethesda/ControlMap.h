@@ -62,7 +62,7 @@ namespace RE
 
 		[[nodiscard]] static ControlMap* GetSingleton()
 		{
-			static REL::Relocation<ControlMap**> singleton{ REL::ID(325206) };
+			static REL::Relocation<ControlMap**> singleton{ REL::ID(2692014) };
 			return *singleton;
 		}
 
@@ -87,35 +87,35 @@ namespace RE
 		bool PopInputContext(UserEvents::INPUT_CONTEXT_ID a_context)
 		{
 			using func_t = decltype(&ControlMap::PopInputContext);
-			static REL::Relocation<func_t> func{ REL::ID(74587) };
+			static REL::Relocation<func_t> func{ REL::ID(2268336) };
 			return func(this, a_context);
 		}
 
 		void PushInputContext(UserEvents::INPUT_CONTEXT_ID a_context)
 		{
 			using func_t = decltype(&ControlMap::PushInputContext);
-			static REL::Relocation<func_t> func{ REL::ID(1404410) };
+			static REL::Relocation<func_t> func{ REL::ID(2268335) };
 			return func(this, a_context);
 		}
 
 		bool RemapButton(BSFixedString const& a_id, INPUT_DEVICE a_device, std::int32_t a_buttonID)
 		{
 			using func_t = decltype(&ControlMap::RemapButton);
-			static REL::Relocation<func_t> func{ REL::ID(11351) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this, a_id, a_device, a_buttonID);
 		}
 
 		void SaveRemappings()
 		{
 			using func_t = decltype(&ControlMap::SaveRemappings);
-			static REL::Relocation<func_t> func{ REL::ID(1141541) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this);
 		}
 
 		void SetTextEntryMode(bool a_enable)
 		{
 			using func_t = decltype(&ControlMap::SetTextEntryMode);
-			static REL::Relocation<func_t> func{ REL::ID(1270079) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this, a_enable);
 		}
 
