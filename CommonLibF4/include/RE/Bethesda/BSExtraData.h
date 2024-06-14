@@ -6,6 +6,7 @@
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
+#include "RE/Bethesda/FormComponents.h"
 #include "RE/Bethesda/MemoryManager.h"
 #include "RE/NetImmerse/NiPoint.h"
 
@@ -66,7 +67,7 @@ namespace RE
 		kRangeDistOverride,
 		kTimeLeft,
 		kCharge,
-		kLight,
+		kLight,		// ExtraLight
 		kLock,      // ExtraLock
 		kTeleport,  // ExtraTeleport
 		kMapMarker,
@@ -170,7 +171,7 @@ namespace RE
 		kOutfitItem,
 		kEditorLocation,
 		kLeveledItemBase,
-		kLightData,
+		kLightData,	// ExtraLightData
 		kScene,
 		kBadPosition,
 		kHeadTrackingWeight,
@@ -362,6 +363,39 @@ namespace RE
 		float health;  // 18
 	};
 	static_assert(sizeof(ExtraHealth) == 0x20);
+
+	class __declspec(novtable) ExtraCharge :
+		public BSExtraData	// 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraCharge };
+		static constexpr auto VTABLE{ VTABLE::ExtraCharge };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kCharge };
+
+		// members
+		float charge;	// 18
+	};
+	static_assert(sizeof(ExtraCharge) == 0x20);
+
+	struct __declspec(novtable) MapMarkerData :
+		public TESFullName	// 00
+	{
+		std::uint32_t flags;	// 10
+	};
+	static_assert(sizeof(MapMarkerData) == 0x18);
+
+	class __declspec(novtable) ExtraMapMarker :
+		public BSExtraData	// 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraMapMarker };
+		static constexpr auto VTABLE{ VTABLE::ExtraMapMarker };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kMapMarker };
+
+		// members
+		MapMarkerData* mapMarkerData;	// 18
+	};
+	static_assert(sizeof(ExtraMapMarker) == 0x20);
 
 	class __declspec(novtable) ExtraLock :
 		public BSExtraData  // 00

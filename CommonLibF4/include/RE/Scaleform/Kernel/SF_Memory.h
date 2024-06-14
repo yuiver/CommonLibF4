@@ -11,13 +11,13 @@ namespace RE::Scaleform
 	public:
 		static void SetGlobalHeap(MemoryHeap* a_heap)
 		{
-			static REL::Relocation<MemoryHeap**> heap{ REL::ID(939898) };
+			static REL::Relocation<MemoryHeap**> heap{ REL::ID(2707353) };
 			*heap = a_heap;
 		}
 
 		[[nodiscard]] static MemoryHeap* GetGlobalHeap()
 		{
-			static REL::Relocation<MemoryHeap**> heap{ REL::ID(939898) };
+			static REL::Relocation<MemoryHeap**> heap{ REL::ID(2707353) };
 			return *heap;
 		}
 
