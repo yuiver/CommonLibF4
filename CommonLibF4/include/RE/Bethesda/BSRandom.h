@@ -10,6 +10,5 @@ namespace RE
 			static REL::Relocation<func_t> func{ REL::ID(2267950) };
 			return func(a_min, a_max);
 		}
-		}
 	}
 }
