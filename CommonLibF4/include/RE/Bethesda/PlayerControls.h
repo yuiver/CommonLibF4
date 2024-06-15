@@ -22,7 +22,6 @@ namespace RE
 	struct AutoMoveHandler;
 	struct GrabRotationHandler;
 	struct JumpHandler;
-	struct LookHandler;
 	struct MeleeThrowHandler;
 	struct MovementHandler;
 	struct ReadyWeaponHandler;
@@ -138,6 +137,22 @@ namespace RE
 	};
 	static_assert(sizeof(HeldStateHandler) == 0x28);
 
+	class LookHandler :
+		public PlayerInputHandler
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::LookHandler };
+		static constexpr auto VTABLE{ VTABLE::LookHandler };
+
+		explicit constexpr LookHandler(PlayerControlsData& a_data) noexcept :
+			PlayerInputHandler(a_data)
+		{}
+
+		// members
+		float thumbstickMaxedSec{ 0.0f };  // 20
+	};
+	static_assert(sizeof(LookHandler) == 0x28);
+
 	class __declspec(novtable) PlayerControls :
 		BSInputEventReceiver,                    // 000
 		BSTEventSink<MenuOpenCloseEvent>,        // 010
@@ -154,7 +169,7 @@ namespace RE
 
 		static PlayerControls* GetSingleton()
 		{
-			static REL::Relocation<PlayerControls**> singleton{ REL::ID(544871) };
+			static REL::Relocation<PlayerControls**> singleton{ REL::ID(2692013) };
 			return *singleton;
 		}
 
