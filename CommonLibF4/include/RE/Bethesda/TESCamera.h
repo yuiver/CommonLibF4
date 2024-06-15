@@ -29,7 +29,7 @@ namespace RE
 
 	struct CameraStates
 	{
-		enum CameraState : unsigned
+		enum CameraState : std::uint32_t
 		{
 			kFirstPerson,
 			kAutoVanity,
@@ -50,14 +50,13 @@ namespace RE
 	};
 	using CameraState = CameraStates::CameraState;
 
-	class TESCameraState :
+	class __declspec(novtable) TESCameraState :
 		public BSIntrusiveRefCounted,  // 10
 		public BSInputEventUser        // 00
 	{
 	public:
-		static constexpr auto RTTI{ RTTI::TESCamera };
-		static constexpr auto VTABLE{ VTABLE::TESCamera };
-		static constexpr auto STATE{ CameraStates::k3rdPerson };
+		static constexpr auto RTTI{ RTTI::TESCameraState };
+		static constexpr auto VTABLE{ VTABLE::TESCameraState };
 
 		virtual ~TESCameraState();  // 00
 
@@ -77,12 +76,31 @@ namespace RE
 	};
 	static_assert(sizeof(TESCameraState) == 0x28);
 
+	class __declspec(novtable) FreeCameraState :
+		public TESCameraState
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::FreeCameraState };
+		static constexpr auto VTABLE{ VTABLE::FreeCameraState };
+		static constexpr auto STATE{ CameraStates::kFree };
+
+		NiPoint3 translation;
+		BSTPoint2<float> rotation;
+		BSTPoint2<float> upDown;
+		BSTPoint2<float> leftThumbstick;
+		BSTPoint2<float> rightThumbstick;
+		std::int16_t worldZDirection;
+		bool runInput;
+		bool lockToZPlane;
+	};
+	static_assert(sizeof(FreeCameraState) == 0x58);
+
 	class __declspec(novtable) ThirdPersonState :
 		public TESCameraState  // 000
 	{
 	public:
-		static constexpr auto RTTI{ RTTI::TESCamera };
-		static constexpr auto VTABLE{ VTABLE::TESCamera };
+		static constexpr auto RTTI{ RTTI::ThirdPersonState };
+		static constexpr auto VTABLE{ VTABLE::ThirdPersonState };
 		static constexpr auto STATE{ CameraStates::k3rdPerson };
 
 		// add
@@ -169,8 +187,8 @@ namespace RE
 		public BSTSingletonSDM<PlayerCamera>          // 060
 	{
 	public:
-		static constexpr auto RTTI{ RTTI::TESCamera };
-		static constexpr auto VTABLE{ VTABLE::TESCamera };
+		static constexpr auto RTTI{ RTTI::PlayerCamera };
+		static constexpr auto VTABLE{ VTABLE::PlayerCamera };
 
 		[[nodiscard]] static PlayerCamera* GetSingleton()
 		{
