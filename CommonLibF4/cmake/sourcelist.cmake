@@ -58,6 +58,7 @@ set(SOURCES
 	include/RE/Bethesda/BSModelDB.h
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
+	include/RE/Bethesda/BSRandom.h
 	include/RE/Bethesda/BSResource.h
 	include/RE/Bethesda/BSResource/AsyncStream.h
 	include/RE/Bethesda/BSResource/BSResourceEnums.h
