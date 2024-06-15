@@ -67,7 +67,7 @@ namespace RE
 		kRangeDistOverride,
 		kTimeLeft,
 		kCharge,
-		kLight,		// ExtraLight
+		kLight,     // ExtraLight
 		kLock,      // ExtraLock
 		kTeleport,  // ExtraTeleport
 		kMapMarker,
@@ -171,7 +171,7 @@ namespace RE
 		kOutfitItem,
 		kEditorLocation,
 		kLeveledItemBase,
-		kLightData,	// ExtraLightData
+		kLightData,  // ExtraLightData
 		kScene,
 		kBadPosition,
 		kHeadTrackingWeight,
@@ -365,7 +365,7 @@ namespace RE
 	static_assert(sizeof(ExtraHealth) == 0x20);
 
 	class __declspec(novtable) ExtraCharge :
-		public BSExtraData	// 00
+		public BSExtraData  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ExtraCharge };
@@ -373,19 +373,19 @@ namespace RE
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kCharge };
 
 		// members
-		float charge;	// 18
+		float charge;  // 18
 	};
 	static_assert(sizeof(ExtraCharge) == 0x20);
 
 	struct __declspec(novtable) MapMarkerData :
-		public TESFullName	// 00
+		public TESFullName  // 00
 	{
-		std::uint32_t flags;	// 10
+		std::uint32_t flags;  // 10
 	};
 	static_assert(sizeof(MapMarkerData) == 0x18);
 
 	class __declspec(novtable) ExtraMapMarker :
-		public BSExtraData	// 00
+		public BSExtraData  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ExtraMapMarker };
@@ -393,7 +393,7 @@ namespace RE
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kMapMarker };
 
 		// members
-		MapMarkerData* mapMarkerData;	// 18
+		MapMarkerData* mapMarkerData;  // 18
 	};
 	static_assert(sizeof(ExtraMapMarker) == 0x20);
 
