@@ -33,8 +33,8 @@ namespace RE::BSBTreeFile
 			union
 			{
 				typename Impl::InteriorNode* interior;
-				typename Impl::LeafNode* leaf;
-				void* ptr = nullptr;
+				typename Impl::LeafNode*     leaf;
+				void*                        ptr = nullptr;
 			};  // 0
 		};
 		// static_assert(sizeof(PagePtr) == 0x8);
@@ -46,20 +46,20 @@ namespace RE::BSBTreeFile
 			{
 			public:
 				// members
-				PagePtr page = {};            // 00
+				PagePtr       page = {};      // 00
 				std::uint64_t pageIndex = 0;  // 08
 			};
 			// static_assert(sizeof(PageEntry) == 0x10);
 
 			// members
-			PageEntry pages[MAX_DEPTH] = {};          // 00
+			PageEntry     pages[MAX_DEPTH] = {};      // 00
 			std::uint32_t positions[MAX_DEPTH] = {};  // ??
 			std::uint32_t depth = 0;                  // ??
 		};
 
 		// members
-		Pager* fpol = nullptr;            // 00
-		PagePtr* root = nullptr;          // 18
+		Pager*        fpol = nullptr;     // 00
+		PagePtr*      root = nullptr;     // 18
 		std::uint64_t rootPageIndex = 0;  // 10
 		std::uint32_t active = 0;         // 18
 		std::uint32_t depth = 0;          // 1C

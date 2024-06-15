@@ -39,8 +39,8 @@ namespace REX::W32
 {
 	struct D3D11_PACKED_MIP_DESC
 	{
-		std::uint8_t numStandardMips;
-		std::uint8_t numPackedMips;
+		std::uint8_t  numStandardMips;
+		std::uint8_t  numPackedMips;
 		std::uint32_t numTilesForPackedMips;
 		std::uint32_t startTileIndexInOverallResource;
 	};
@@ -64,7 +64,7 @@ namespace REX::W32
 	struct D3D11_TILE_REGION_SIZE
 	{
 		std::uint32_t numTiles;
-		BOOL bUseBox;
+		BOOL          bUseBox;
 		std::uint32_t width;
 		std::uint16_t height;
 		std::uint16_t depth;
@@ -83,9 +83,9 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("9d06dffa-d1e5-4d07-83a8-1bb123f2f841"))
 		ID3D11Device2 : public ID3D11Device1
 	{
-		virtual void GetImmediateContext2(ID3D11DeviceContext2** a_immediateContext) = 0;
+		virtual void    GetImmediateContext2(ID3D11DeviceContext2** a_immediateContext) = 0;
 		virtual HRESULT CreateDeferredContext2(std::uint32_t a_contextFlags, ID3D11DeviceContext2** a_deferredContext) = 0;
-		virtual void GetResourceTiling(ID3D11Resource* a_tiledResource, std::uint32_t* a_numTilesForEntireResource, D3D11_PACKED_MIP_DESC* a_packedMipDesc, D3D11_TILE_SHAPE* a_standardTileShapeForNonPackedMips, std::uint32_t* a_numSubresourceTilings, std::uint32_t a_firstSubResourceTilingToGet, D3D11_SUBRESOURCE_TILING* a_subResourceTilingsForNonPackedMips) = 0;
+		virtual void    GetResourceTiling(ID3D11Resource* a_tiledResource, std::uint32_t* a_numTilesForEntireResource, D3D11_PACKED_MIP_DESC* a_packedMipDesc, D3D11_TILE_SHAPE* a_standardTileShapeForNonPackedMips, std::uint32_t* a_numSubresourceTilings, std::uint32_t a_firstSubResourceTilingToGet, D3D11_SUBRESOURCE_TILING* a_subResourceTilingsForNonPackedMips) = 0;
 		virtual HRESULT CheckMultisampleQualityLevels1(DXGI_FORMAT a_format, std::uint32_t a_sampleCount, std::uint32_t a_flags, std::uint32_t* a_numQualityLevels) = 0;
 	};
 
@@ -94,14 +94,14 @@ namespace REX::W32
 	{
 		virtual HRESULT UpdateTileMappings(ID3D11Resource* a_tiledResource, std::uint32_t numTiledResourceRegions, const D3D11_TILED_RESOURCE_COORDINATE* a_tiledResourceRegionStartCoordinates, const D3D11_TILE_REGION_SIZE* a_tiledResourceRegionSizes, ID3D11Buffer* a_tilePool, std::uint32_t a_numRanges, const std::uint32_t* a_rangeFlags, const std::uint32_t* a_tilePoolStartOffsets, const std::uint32_t* a_rangeTileCounts, std::uint32_t a_flags) = 0;
 		virtual HRESULT CopyTileMappings(ID3D11Resource* a_destTiledResource, const D3D11_TILED_RESOURCE_COORDINATE* a_destRegionStartCoordinate, ID3D11Resource* a_sourceTiledResource, const D3D11_TILED_RESOURCE_COORDINATE* a_sourceRegionStartCoordinate, const D3D11_TILE_REGION_SIZE* a_tileRegionSize, std::uint32_t a_flags) = 0;
-		virtual void CopyTiles(ID3D11Resource* a_tiledResource, const D3D11_TILED_RESOURCE_COORDINATE* a_tileRegionStartCoordinate, const D3D11_TILE_REGION_SIZE* a_tileRegionSize, ID3D11Buffer* a_buffer, std::uint64_t a_bufferStartOffsetInBytes, std::uint32_t a_flags) = 0;
-		virtual void UpdateTiles(ID3D11Resource* a_destTiledResource, const D3D11_TILED_RESOURCE_COORDINATE* a_destTileRegionStartCoordinate, const D3D11_TILE_REGION_SIZE* a_destTileRegionSize, const void* a_sourceTileData, std::uint32_t a_flags) = 0;
+		virtual void    CopyTiles(ID3D11Resource* a_tiledResource, const D3D11_TILED_RESOURCE_COORDINATE* a_tileRegionStartCoordinate, const D3D11_TILE_REGION_SIZE* a_tileRegionSize, ID3D11Buffer* a_buffer, std::uint64_t a_bufferStartOffsetInBytes, std::uint32_t a_flags) = 0;
+		virtual void    UpdateTiles(ID3D11Resource* a_destTiledResource, const D3D11_TILED_RESOURCE_COORDINATE* a_destTileRegionStartCoordinate, const D3D11_TILE_REGION_SIZE* a_destTileRegionSize, const void* a_sourceTileData, std::uint32_t a_flags) = 0;
 		virtual HRESULT ResizeTilePool(ID3D11Buffer* a_tilePool, std::uint64_t a_newSizeInBytes) = 0;
-		virtual void TiledResourceBarrier(ID3D11DeviceChild* a_tiledResourceOrViewAccessBeforeBarrier, ID3D11DeviceChild* a_tiledResourceOrViewAccessAfterBarrier) = 0;
-		virtual BOOL IsAnnotationEnabled(void) = 0;
-		virtual void SetMarkerInt(const wchar_t* a_label, std::int32_t a_data) = 0;
-		virtual void BeginEventInt(const wchar_t* a_label, std::int32_t a_data) = 0;
-		virtual void EndEvent(void) = 0;
+		virtual void    TiledResourceBarrier(ID3D11DeviceChild* a_tiledResourceOrViewAccessBeforeBarrier, ID3D11DeviceChild* a_tiledResourceOrViewAccessAfterBarrier) = 0;
+		virtual BOOL    IsAnnotationEnabled(void) = 0;
+		virtual void    SetMarkerInt(const wchar_t* a_label, std::int32_t a_data) = 0;
+		virtual void    BeginEventInt(const wchar_t* a_label, std::int32_t a_data) = 0;
+		virtual void    EndEvent(void) = 0;
 	};
 }
 

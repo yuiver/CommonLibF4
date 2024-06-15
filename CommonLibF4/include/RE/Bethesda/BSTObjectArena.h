@@ -17,7 +17,7 @@ namespace RE
 	{
 	public:
 		[[nodiscard]] void* allocate_bytes(std::size_t a_bytes) { return scrapHeap->Allocate(a_bytes, 0x8); }
-		void deallocate_bytes(void* a_ptr) { scrapHeap->Deallocate(a_ptr); }
+		void                deallocate_bytes(void* a_ptr) { scrapHeap->Deallocate(a_ptr); }
 	};
 	static_assert(sizeof(BSTObjectArenaScrapAlloc) == 0x8);
 
@@ -42,17 +42,17 @@ namespace RE
 		public:
 			F4_HEAP_REDEFINE_NEW(Page);
 
-			[[nodiscard]] std::byte* begin() noexcept { return std::begin(buffer); }
+			[[nodiscard]] std::byte*       begin() noexcept { return std::begin(buffer); }
 			[[nodiscard]] const std::byte* begin() const noexcept { return std::begin(buffer); }
 			[[nodiscard]] const std::byte* cbegin() const noexcept { return begin(); }
 
-			[[nodiscard]] std::byte* end() noexcept { return std::end(buffer); }
+			[[nodiscard]] std::byte*       end() noexcept { return std::end(buffer); }
 			[[nodiscard]] const std::byte* end() const noexcept { return std::end(buffer); }
 			[[nodiscard]] const std::byte* cend() const noexcept { return end(); }
 
 			// members
 			std::byte buffer[sizeof(value_type) * N]{ static_cast<std::byte>(0) };  // 00
-			Page* next{ nullptr };                                                  // ??
+			Page*     next{ nullptr };                                              // ??
 		};
 
 	private:
@@ -131,7 +131,7 @@ namespace RE
 			iterator_base operator++(int) noexcept
 			{
 				iterator_base tmp{ *this };
-				operator++();
+							  operator++();
 				return tmp;
 			}
 
@@ -158,7 +158,7 @@ namespace RE
 				       _first != _proxy->cend();
 			}
 
-			Page* _proxy{ nullptr };
+			Page*      _proxy{ nullptr };
 			std::byte* _first{ nullptr };
 			std::byte* _last{ nullptr };
 		};
@@ -185,15 +185,15 @@ namespace RE
 
 		F4_HEAP_REDEFINE_NEW(BSTObjectArena<T, Allocator, N>);
 
-		[[nodiscard]] iterator begin() noexcept { return iterator{ _head, _begin, _end }; }
+		[[nodiscard]] iterator       begin() noexcept { return iterator{ _head, _begin, _end }; }
 		[[nodiscard]] const_iterator begin() const noexcept { return iterator{ _head, _begin, _end }; }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] iterator end() noexcept { return iterator{ _tail, _end, _end }; }
+		[[nodiscard]] iterator       end() noexcept { return iterator{ _tail, _end, _end }; }
 		[[nodiscard]] const_iterator end() const noexcept { return iterator{ _tail, _end, _end }; }
 		[[nodiscard]] const_iterator cend() const noexcept { return end(); }
 
-		[[nodiscard]] bool empty() const noexcept { return size() == 0; }
+		[[nodiscard]] bool      empty() const noexcept { return size() == 0; }
 		[[nodiscard]] size_type size() const noexcept { return _size; }
 		[[nodiscard]] size_type capacity() const noexcept { return N; }
 
@@ -265,12 +265,12 @@ namespace RE
 		}
 
 		// members
-		Page* _head{ nullptr };                 // 08 - head of active pages
-		Page** _next{ std::addressof(_head) };  // 10 - used to update next ptr when appending pages
-		Page* _tail{ nullptr };                 // 18 - tail of active pages
-		Page* _free{ nullptr };                 // 20 - local free list
-		std::byte* _end{ nullptr };             // 28 - ptr to end of active lifetime elements
-		std::byte* _begin{ nullptr };           // 30 - ptr to beginning of active lifetime elements
-		size_type _size{ 0 };                   // 38
+		Page*      _head{ nullptr };                // 08 - head of active pages
+		Page**     _next{ std::addressof(_head) };  // 10 - used to update next ptr when appending pages
+		Page*      _tail{ nullptr };                // 18 - tail of active pages
+		Page*      _free{ nullptr };                // 20 - local free list
+		std::byte* _end{ nullptr };                 // 28 - ptr to end of active lifetime elements
+		std::byte* _begin{ nullptr };               // 30 - ptr to beginning of active lifetime elements
+		size_type  _size{ 0 };                      // 38
 	};
 }

@@ -269,7 +269,7 @@ namespace REL
 		}
 
 		[[nodiscard]] constexpr std::uintptr_t address() const noexcept { return _impl; }
-		[[nodiscard]] std::size_t offset() const { return _impl - base(); }
+		[[nodiscard]] std::size_t              offset() const { return _impl - base(); }
 
 		[[nodiscard]] value_type get() const
 			noexcept(std::is_nothrow_copy_constructible_v<value_type>)

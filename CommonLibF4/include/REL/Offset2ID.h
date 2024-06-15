@@ -36,13 +36,13 @@ namespace REL
 			}
 
 			const IDDB::mapping_t elem{ 0, a_offset };
-			const auto it = std::lower_bound(
-				_offset2id.begin(),
-				_offset2id.end(),
-				elem,
-				[](auto&& a_lhs, auto&& a_rhs) {
-					return a_lhs.offset < a_rhs.offset;
-				});
+			const auto            it = std::lower_bound(
+						   _offset2id.begin(),
+						   _offset2id.end(),
+						   elem,
+						   [](auto&& a_lhs, auto&& a_rhs) {
+                    return a_lhs.offset < a_rhs.offset;
+                });
 			if (it == _offset2id.end()) {
 				stl::report_and_fail("offset not found"sv);
 			}

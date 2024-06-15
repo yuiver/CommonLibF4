@@ -23,9 +23,9 @@ namespace RE
 		virtual ~IMemoryStoreBase() = default;  // 00
 
 		// add
-		virtual std::size_t Size(void const* a_mem) const = 0;          // 01
-		virtual void GetMemoryStats(MemoryStats* a_stats) = 0;          // 02
-		virtual bool ContainsBlockImpl(const void* a_block) const = 0;  // 03
+		virtual std::size_t Size(void const* a_mem) const = 0;                 // 01
+		virtual void        GetMemoryStats(MemoryStats* a_stats) = 0;          // 02
+		virtual bool        ContainsBlockImpl(const void* a_block) const = 0;  // 03
 	};
 	static_assert(sizeof(IMemoryStoreBase) == 0x8);
 
@@ -41,7 +41,7 @@ namespace RE
 
 		// add
 		virtual void* AllocateAlignImpl(std::size_t a_size, std::uint32_t a_alignment) = 0;                                                 // 04
-		virtual void DeallocateAlignImpl(void*& a_block) = 0;                                                                               // 05
+		virtual void  DeallocateAlignImpl(void*& a_block) = 0;                                                                              // 05
 		virtual void* TryAllocateImpl([[maybe_unused]] std::size_t a_size, [[maybe_unused]] std::uint32_t a_alignment) { return nullptr; }  // 06
 	};
 	static_assert(sizeof(IMemoryStore) == 0x8);
@@ -57,19 +57,19 @@ namespace RE
 		virtual ~IMemoryHeap() = default;
 
 		// override (IMemoryStore)
-		bool ContainsBlockImpl(const void* a_block) const override { return PointerInHeap(a_block); }                              // 03
+		bool  ContainsBlockImpl(const void* a_block) const override { return PointerInHeap(a_block); }                             // 03
 		void* AllocateAlignImpl(std::size_t a_size, std::uint32_t a_alignment) override { return Allocate(a_size, a_alignment); }  // 04
-		void DeallocateAlignImpl(void*& a_block) override { Deallocate(a_block, 0); }                                              // 05
+		void  DeallocateAlignImpl(void*& a_block) override { Deallocate(a_block, 0); }                                             // 05
 
 		// add
-		virtual const char* GetName() const = 0;                                               // 07
-		virtual void* Allocate(std::size_t a_size, std::uint32_t a_alignment) = 0;             // 08
-		virtual void Deallocate(void* a_mem, std::uint32_t) = 0;                               // 09
-		virtual bool PointerInHeap(const void* a_pointer) const = 0;                           // 0A
-		virtual std::size_t TotalSize(const void* a_pointer) const = 0;                        // 0B
-		virtual void GetHeapStats(HeapStats* a_stats, bool a_fullBlockInfo) = 0;               // 0C
-		virtual bool ShouldTrySmallBlockPools(std::size_t a_size, MEM_CONTEXT a_context) = 0;  // 0D
-		virtual std::uint32_t GetPageSize() const = 0;                                         // 0E
+		virtual const char*   GetName() const = 0;                                                      // 07
+		virtual void*         Allocate(std::size_t a_size, std::uint32_t a_alignment) = 0;              // 08
+		virtual void          Deallocate(void* a_mem, std::uint32_t) = 0;                               // 09
+		virtual bool          PointerInHeap(const void* a_pointer) const = 0;                           // 0A
+		virtual std::size_t   TotalSize(const void* a_pointer) const = 0;                               // 0B
+		virtual void          GetHeapStats(HeapStats* a_stats, bool a_fullBlockInfo) = 0;               // 0C
+		virtual bool          ShouldTrySmallBlockPools(std::size_t a_size, MEM_CONTEXT a_context) = 0;  // 0D
+		virtual std::uint32_t GetPageSize() const = 0;                                                  // 0E
 	};
 	static_assert(sizeof(IMemoryHeap) == 0x8);
 
@@ -85,7 +85,7 @@ namespace RE
 		public:
 			// members
 			std::size_t sizeFlags;  // 00
-			Block* prev;            // 08
+			Block*      prev;       // 08
 		};
 		static_assert(sizeof(Block) == 0x10);
 
@@ -104,10 +104,10 @@ namespace RE
 		{
 		public:
 			// members
-			FreeTreeNode** root;         // 20
-			FreeTreeNode* leftNode;      // 28
-			FreeTreeNode* rightNode;     // 30
-			std::size_t parentAndBlack;  // 38
+			FreeTreeNode** root;            // 20
+			FreeTreeNode*  leftNode;        // 28
+			FreeTreeNode*  rightNode;       // 30
+			std::size_t    parentAndBlack;  // 38
 		};
 		static_assert(sizeof(FreeTreeNode) == 0x40);
 
@@ -116,10 +116,10 @@ namespace RE
 
 		// override (IMemoryStore)
 		std::size_t Size(void const* a_mem) const override { return *static_cast<const std::size_t*>(a_mem) & ~(std::size_t{ 3 } << 62); }  // 01
-		void GetMemoryStats(MemoryStats*) override { return; }                                                                              // 02
-		bool ContainsBlockImpl(const void* a_block) const override { return baseAddress <= a_block && a_block <= endAddress; }              // 03
-		void* AllocateAlignImpl(std::size_t a_size, std::uint32_t a_alignment) override { return Allocate(a_size, a_alignment); }           // 04
-		void DeallocateAlignImpl(void*& a_block) override { Deallocate(a_block), a_block = nullptr; }                                       // 05
+		void        GetMemoryStats(MemoryStats*) override { return; }                                                                       // 02
+		bool        ContainsBlockImpl(const void* a_block) const override { return baseAddress <= a_block && a_block <= endAddress; }       // 03
+		void*       AllocateAlignImpl(std::size_t a_size, std::uint32_t a_alignment) override { return Allocate(a_size, a_alignment); }     // 04
+		void        DeallocateAlignImpl(void*& a_block) override { Deallocate(a_block), a_block = nullptr; }                                // 05
 
 		void* Allocate(std::size_t a_size, std::size_t a_alignment)
 		{
@@ -136,15 +136,15 @@ namespace RE
 		}
 
 		// members
-		FreeBlock* smallBlocks[6]{ nullptr };     // 08
+		FreeBlock*    smallBlocks[6]{ nullptr };  // 08
 		FreeTreeNode* freeList{ nullptr };        // 38
-		Block* lastBlock{ nullptr };              // 40
-		std::byte* baseAddress{ nullptr };        // 48
-		std::byte* endAddress{ nullptr };         // 50
-		std::byte* commitEnd{ nullptr };          // 58
-		std::size_t reserveSize;                  // 60
-		std::size_t minCommit{ 1u << 17 };        // 68
-		std::size_t totalAllocated{ 0 };          // 70
+		Block*        lastBlock{ nullptr };       // 40
+		std::byte*    baseAddress{ nullptr };     // 48
+		std::byte*    endAddress{ nullptr };      // 50
+		std::byte*    commitEnd{ nullptr };       // 58
+		std::size_t   reserveSize;                // 60
+		std::size_t   minCommit{ 1u << 17 };      // 68
+		std::size_t   totalAllocated{ 0 };        // 70
 		std::uint32_t keepPagesRequest{ 0 };      // 78
 		std::uint32_t totalFreeBlocks{ 0 };       // 7C
 		std::uint32_t freeSmallBlocks{ 0 };       // 80
@@ -188,9 +188,9 @@ namespace RE
 		{
 		public:
 			// members
-			ScrapHeap heap;                                                // 00
-			ThreadScrapHeap* next{ nullptr };                              // 90
-			std::uint32_t owningThread{ REX::W32::GetCurrentThreadId() };  // 98
+			ScrapHeap        heap;                                            // 00
+			ThreadScrapHeap* next{ nullptr };                                 // 90
+			std::uint32_t    owningThread{ REX::W32::GetCurrentThreadId() };  // 98
 		};
 		static_assert(sizeof(ThreadScrapHeap) == 0xA0);
 
@@ -237,29 +237,29 @@ namespace RE
 		}
 
 		// members
-		bool initialized{ false };                              // 000
-		std::uint16_t numHeaps{ 0 };                            // 002
-		std::uint16_t numPhysicalHeaps{ 0 };                    // 004
-		IMemoryHeap** heaps{ nullptr };                         // 008
-		bool* allowOtherContextAllocs{ nullptr };               // 010
-		IMemoryHeap* heapsByContext[127]{ nullptr };            // 018
-		ThreadScrapHeap* threadScrapHeap{ nullptr };            // 410
-		IMemoryHeap** physicalHeaps{ nullptr };                 // 418
-		IMemoryHeap* bigAllocHeap{ nullptr };                   // 420
-		IMemoryHeap* emergencyHeap{ nullptr };                  // 428
-		BSSmallBlockAllocator* smallBlockAllocator{ nullptr };  // 430
-		CompactingStore::Store* compactingStore{ nullptr };     // 438
-		IMemoryHeap* externalHavokAllocator{ nullptr };         // 440
-		bool specialHeaps{ false };                             // 448
-		bool allowPoolUse{ true };                              // 449
-		std::uint32_t sysAllocBytes{ 0 };                       // 44C
-		std::uint32_t mallocBytes{ 0 };                         // 450
-		std::uint32_t alignmentForPools{ 4 };                   // 454
-		std::uint32_t mainThreadMemoryProblemPassSignal{ 0 };   // 458
-		std::size_t failedAllocationSize{ 0 };                  // 460
-		std::uint32_t numMemoryProblemPassesRun{ 0 };           // 468
-		std::size_t timeOfLastMemoryProblemPass{ 0 };           // 470
-		IMemoryHeap* defaultHeap{ nullptr };                    // 478
+		bool                    initialized{ false };                    // 000
+		std::uint16_t           numHeaps{ 0 };                           // 002
+		std::uint16_t           numPhysicalHeaps{ 0 };                   // 004
+		IMemoryHeap**           heaps{ nullptr };                        // 008
+		bool*                   allowOtherContextAllocs{ nullptr };      // 010
+		IMemoryHeap*            heapsByContext[127]{ nullptr };          // 018
+		ThreadScrapHeap*        threadScrapHeap{ nullptr };              // 410
+		IMemoryHeap**           physicalHeaps{ nullptr };                // 418
+		IMemoryHeap*            bigAllocHeap{ nullptr };                 // 420
+		IMemoryHeap*            emergencyHeap{ nullptr };                // 428
+		BSSmallBlockAllocator*  smallBlockAllocator{ nullptr };          // 430
+		CompactingStore::Store* compactingStore{ nullptr };              // 438
+		IMemoryHeap*            externalHavokAllocator{ nullptr };       // 440
+		bool                    specialHeaps{ false };                   // 448
+		bool                    allowPoolUse{ true };                    // 449
+		std::uint32_t           sysAllocBytes{ 0 };                      // 44C
+		std::uint32_t           mallocBytes{ 0 };                        // 450
+		std::uint32_t           alignmentForPools{ 4 };                  // 454
+		std::uint32_t           mainThreadMemoryProblemPassSignal{ 0 };  // 458
+		std::size_t             failedAllocationSize{ 0 };               // 460
+		std::uint32_t           numMemoryProblemPassesRun{ 0 };          // 468
+		std::size_t             timeOfLastMemoryProblemPass{ 0 };        // 470
+		IMemoryHeap*            defaultHeap{ nullptr };                  // 478
 	};
 	static_assert(sizeof(MemoryManager) == 0x480);
 

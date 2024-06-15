@@ -119,7 +119,7 @@ namespace REX::W32
 
 namespace REX::W32
 {
-	inline const auto D3D_COMPILE_STANDARD_FILE_INCLUDE{ reinterpret_cast<ID3DInclude*>(static_cast<std::uintptr_t>(1)) };
+	inline const auto     D3D_COMPILE_STANDARD_FILE_INCLUDE{ reinterpret_cast<ID3DInclude*>(static_cast<std::uintptr_t>(1)) };
 	inline constexpr auto D3D_COMPRESS_SHADER_KEEP_ALL_PARTS{ 0x00000001u };
 	inline constexpr auto D3D_GET_INST_OFFSETS_INCLUDE_NON_EXECUTABLE{ 0x00000001u };
 }

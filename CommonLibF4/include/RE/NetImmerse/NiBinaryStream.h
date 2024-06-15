@@ -10,7 +10,7 @@ namespace RE
 
 		struct BufferInfo
 		{
-			void* buffer;                 // 00
+			void*       buffer;           // 00
 			std::size_t fileSize;         // 08
 			std::size_t bufferAllocSize;  // 10
 			std::size_t bufferReadSize;   // 18
@@ -23,10 +23,10 @@ namespace RE
 		virtual ~NiBinaryStream();  // 00
 
 		// add
-		virtual explicit operator bool() const = 0;                                  // 01
-		virtual void Seek(std::ptrdiff_t a_numBytes) = 0;                            // 02
+		virtual explicit    operator bool() const = 0;                               // 01
+		virtual void        Seek(std::ptrdiff_t a_numBytes) = 0;                     // 02
 		virtual std::size_t GetPosition() const { return absoluteCurrentPos; }       // 03
-		virtual void GetBufferInfo(BufferInfo& a_info);                              // 04
+		virtual void        GetBufferInfo(BufferInfo& a_info);                       // 04
 		virtual std::size_t DoRead(void* a_buffer, std::size_t a_bytes) = 0;         // 05
 		virtual std::size_t DoWrite(const void* a_buffer, std::size_t a_bytes) = 0;  // 06
 
@@ -90,7 +90,7 @@ namespace std
 	{
 		a_str.erase();
 		CharT c;
-		auto notEOF = a_input.get(c);
+		auto  notEOF = a_input.get(c);
 		if (notEOF) {
 			do {
 				if (!std::char_traits<CharT>::eq(c, a_delim)) {

@@ -19,7 +19,7 @@ namespace REL
 			return *this;
 		}
 
-		[[nodiscard]] std::uintptr_t address() const { return base() + offset(); }
+		[[nodiscard]] std::uintptr_t        address() const { return base() + offset(); }
 		[[nodiscard]] constexpr std::size_t offset() const noexcept { return _offset; }
 
 	private:

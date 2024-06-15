@@ -70,8 +70,8 @@ namespace RE
 			{
 			public:
 				// members
-				BSTAutoPointer<MemoryPage> page;       // 00
-				std::uint32_t availableMemoryInBytes;  // 08
+				BSTAutoPointer<MemoryPage> page;                    // 00
+				std::uint32_t              availableMemoryInBytes;  // 08
 			};
 			static_assert(sizeof(MemoryPageData) == 0x10);
 
@@ -90,20 +90,20 @@ namespace RE
 			}
 
 			// members
-			IMemoryPagePolicy* policy;                             // 08
-			IProfilePolicy* profilePolicy;                         // 10
-			BSTSmallArray<MemoryPageData, 3> pages;                // 18
-			std::uint32_t frames;                                  // 58
-			StackFrame* top;                                       // 60
-			REX::EnumSet<State, std::int32_t> state;               // 68
-			REX::EnumSet<FreezeState, std::int32_t> freezeState;   // 6C
-			Variable returnValue;                                  // 70
-			std::uint32_t stackID;                                 // 80
-			REX::EnumSet<StackType, std::int32_t> stackType;       // 84
-			BSTSmartPointer<Internal::CodeTasklet> owningTasklet;  // 88
-			BSTSmartPointer<IStackCallbackFunctor> callback;       // 90
-			BSTSmartPointer<Object> objToUnbind;                   // 98
-			BSTSmartPointer<Stack> nextStack;                      // A0
+			IMemoryPagePolicy*                      policy;         // 08
+			IProfilePolicy*                         profilePolicy;  // 10
+			BSTSmallArray<MemoryPageData, 3>        pages;          // 18
+			std::uint32_t                           frames;         // 58
+			StackFrame*                             top;            // 60
+			REX::EnumSet<State, std::int32_t>       state;          // 68
+			REX::EnumSet<FreezeState, std::int32_t> freezeState;    // 6C
+			Variable                                returnValue;    // 70
+			std::uint32_t                           stackID;        // 80
+			REX::EnumSet<StackType, std::int32_t>   stackType;      // 84
+			BSTSmartPointer<Internal::CodeTasklet>  owningTasklet;  // 88
+			BSTSmartPointer<IStackCallbackFunctor>  callback;       // 90
+			BSTSmartPointer<Object>                 objToUnbind;    // 98
+			BSTSmartPointer<Stack>                  nextStack;      // A0
 		};
 		static_assert(sizeof(Stack) == 0xA8);
 	}

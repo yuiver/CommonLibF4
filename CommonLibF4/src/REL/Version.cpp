@@ -6,7 +6,7 @@ namespace REL
 {
 	std::optional<Version> GetFileVersion(std::string_view a_filename)
 	{
-		std::uint32_t dummy;
+		std::uint32_t     dummy;
 		std::vector<char> buf(REX::W32::GetFileVersionInfoSizeA(a_filename.data(), std::addressof(dummy)));
 		if (buf.empty()) {
 			return std::nullopt;
@@ -16,15 +16,15 @@ namespace REL
 			return std::nullopt;
 		}
 
-		void* verBuf{ nullptr };
+		void*         verBuf{ nullptr };
 		std::uint32_t verLen{ 0 };
 		if (!REX::W32::VerQueryValueA(buf.data(), "\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
 			return std::nullopt;
 		}
 
-		Version version;
+		Version             version;
 		std::wistringstream ss(std::wstring(static_cast<const wchar_t*>(verBuf), verLen));
-		std::wstring token;
+		std::wstring        token;
 		for (std::size_t i = 0; i < 4 && std::getline(ss, token, L'.'); ++i) {
 			version[i] = static_cast<std::uint16_t>(std::stoi(token));
 		}
@@ -34,7 +34,7 @@ namespace REL
 
 	std::optional<Version> GetFileVersion(std::wstring_view a_filename)
 	{
-		std::uint32_t dummy;
+		std::uint32_t     dummy;
 		std::vector<char> buf(REX::W32::GetFileVersionInfoSizeW(a_filename.data(), std::addressof(dummy)));
 		if (buf.empty()) {
 			return std::nullopt;
@@ -44,15 +44,15 @@ namespace REL
 			return std::nullopt;
 		}
 
-		void* verBuf{ nullptr };
+		void*         verBuf{ nullptr };
 		std::uint32_t verLen{ 0 };
 		if (!REX::W32::VerQueryValueW(buf.data(), L"\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
 			return std::nullopt;
 		}
 
-		Version version;
+		Version             version;
 		std::wistringstream ss(std::wstring(static_cast<const wchar_t*>(verBuf), verLen));
-		std::wstring token;
+		std::wstring        token;
 		for (std::size_t i = 0; i < 4 && std::getline(ss, token, L'.'); ++i) {
 			version[i] = static_cast<std::uint16_t>(std::stoi(token));
 		}

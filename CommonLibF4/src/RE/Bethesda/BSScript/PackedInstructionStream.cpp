@@ -14,11 +14,11 @@ namespace RE
 				instructions(nullptr)
 			{}
 			PackedInstructionStream::PackedInstructionStream(
-				void* a_instructions,
+				void*         a_instructions,
 				std::uint32_t a_numInstrBits,
 				std::uint16_t a_jumpTargetBitCount,
-				std::int8_t a_localVariableBitCount,
-				std::int8_t a_memberVariableBitCount) :
+				std::int8_t   a_localVariableBitCount,
+				std::int8_t   a_memberVariableBitCount) :
 				numInstructionBits(a_numInstrBits),
 				jumpTargetBitCount(a_jumpTargetBitCount),
 				localVariableBitCount(a_localVariableBitCount),

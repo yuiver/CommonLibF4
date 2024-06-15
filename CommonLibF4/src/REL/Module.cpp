@@ -50,11 +50,11 @@ namespace REL
 		const auto size = std::min<std::size_t>(ntHeader->fileHeader.sectionCount, _segments.size());
 		for (std::size_t i = 0; i < size; ++i) {
 			const auto& section = sections[i];
-			const auto it = std::find_if(SEGMENTS.begin(), SEGMENTS.end(), [&](auto&& a_elem) {
-				constexpr auto size = std::extent_v<decltype(section.name)>;
-				const auto len = std::min(a_elem.size(), size);
-				return std::memcmp(a_elem.data(), section.name, len) == 0;
-			});
+			const auto  it = std::find_if(SEGMENTS.begin(), SEGMENTS.end(), [&](auto&& a_elem) {
+                constexpr auto size = std::extent_v<decltype(section.name)>;
+                const auto     len = std::min(a_elem.size(), size);
+                return std::memcmp(a_elem.data(), section.name, len) == 0;
+            });
 			if (it != SEGMENTS.end()) {
 				const auto idx = static_cast<std::size_t>(std::distance(SEGMENTS.begin(), it));
 				_segments[idx] = Segment{ _base, _base + section.virtualAddress, section.virtualSize };

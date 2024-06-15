@@ -20,9 +20,9 @@ namespace REL
 			return *this;
 		}
 
-		[[nodiscard]] std::uintptr_t address() const { return base() + offset(); }
+		[[nodiscard]] std::uintptr_t          address() const { return base() + offset(); }
 		[[nodiscard]] constexpr std::uint64_t id() const noexcept { return _id; }
-		[[nodiscard]] std::size_t offset() const { return IDDB::get().id2offset(_id); }
+		[[nodiscard]] std::size_t             offset() const { return IDDB::get().id2offset(_id); }
 
 	private:
 		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }

@@ -18,12 +18,12 @@ namespace RE::BSResource::Archive2
 		{
 		public:
 			// members
-			MemoryManager::AutoScrapBuffer buffer;  // 00
-			BSTSmartPointer<Stream> stream;         // 08
-			std::uint64_t initialPosition;          // 10
-			std::uint64_t position;                 // 18
-			std::uint64_t ioBufferPos;              // 20
-			std::uint64_t ioBufferEnd;              // 28
+			MemoryManager::AutoScrapBuffer buffer;           // 00
+			BSTSmartPointer<Stream>        stream;           // 08
+			std::uint64_t                  initialPosition;  // 10
+			std::uint64_t                  position;         // 18
+			std::uint64_t                  ioBufferPos;      // 20
+			std::uint64_t                  ioBufferEnd;      // 28
 		};
 		static_assert(sizeof(DataLoader) == 0x30);
 
@@ -31,7 +31,7 @@ namespace RE::BSResource::Archive2
 			public DataLoader  // 000
 		{
 		public:
-			char currentString[260];            // 030
+			char          currentString[260];   // 030
 			std::uint32_t totalStrings;         // 134
 			std::uint32_t nextStringIndex;      // 138
 			std::uint16_t currentStringLength;  // 13C
@@ -39,10 +39,10 @@ namespace RE::BSResource::Archive2
 		static_assert(sizeof(StringLoader) == 0x140);
 
 		// members
-		BSTSmartPointer<Stream> stream;  // 00
-		DataLoader* dataLoader;          // 08
-		StringLoader* stringLoader;      // 10
-		std::uint32_t totalFiles;        // 18
+		BSTSmartPointer<Stream> stream;        // 00
+		DataLoader*             dataLoader;    // 08
+		StringLoader*           stringLoader;  // 10
+		std::uint32_t           totalFiles;    // 18
 	};
 	static_assert(sizeof(DataReader) == 0x20);
 
@@ -50,9 +50,9 @@ namespace RE::BSResource::Archive2
 	{
 	public:
 		// members
-		DataReader reader;             // 00
-		ID nameID;                     // 20
-		const char* nameText;          // 30
+		DataReader    reader;          // 00
+		ID            nameID;          // 20
+		const char*   nameText;        // 30
 		std::uint32_t contentsFormat;  // 38
 		std::uint32_t fileCount;       // 3C
 	};
@@ -89,8 +89,8 @@ namespace RE::BSResource::Archive2
 		{
 		public:
 			// members
-			Location* location = nullptr;  // 00
-			BSFixedString nameText;        // 08
+			Location*     location = nullptr;  // 00
+			BSFixedString nameText;            // 08
 		};
 		static_assert(sizeof(Loose) == 0x10);
 
@@ -101,9 +101,9 @@ namespace RE::BSResource::Archive2
 			[[nodiscard]] bool IsLoose() const noexcept { return this->chunkOffsetOrType == 0; }
 
 			// members
-			ID nameID;                            // 00
-			std::uint8_t dataFileIndex = 0;       // 0C
-			std::uint8_t chunkCount = 0;          // 0D
+			ID            nameID;                 // 00
+			std::uint8_t  dataFileIndex = 0;      // 0C
+			std::uint8_t  chunkCount = 0;         // 0D
 			std::uint16_t chunkOffsetOrType = 0;  // 0E
 		};
 		static_assert(sizeof(EntryHeader) == 0x10);
@@ -124,8 +124,8 @@ namespace RE::BSResource::Archive2
 			// members
 			union
 			{
-				Chunk chunk;
-				Loose loose;
+				Chunk     chunk;
+				Loose     loose;
 				std::byte buffer[std::max(sizeof(Chunk), sizeof(Loose))] = {};
 			};                         // 10
 			BSFixedString stringName;  // 20
@@ -142,13 +142,13 @@ namespace RE::BSResource::Archive2
 		static_assert(sizeof(CursorWithEntry) == 0x170);
 
 		// members
-		BSTSmallIndexScatterTable<ID, NameIDAccess> nameTable;                     // 0010
-		BSTSmartPointer<Stream> dataFiles[256];                                    // 0030
-		BSTSmartPointer<AsyncStream> asyncDataFiles[256];                          // 0830
-		ID dataFileNameIDs[256];                                                   // 1030
-		std::uint32_t dataFileCount;                                               // 1C30
-		BSBTreeFile::BPTree<Pager, BSBTreeFile::PGFSEDL<Entry, ID, 4096>, 16> tr;  // 1C38
-		BSReadWriteLock lock;                                                      // 1C58
+		BSTSmallIndexScatterTable<ID, NameIDAccess>                           nameTable;             // 0010
+		BSTSmartPointer<Stream>                                               dataFiles[256];        // 0030
+		BSTSmartPointer<AsyncStream>                                          asyncDataFiles[256];   // 0830
+		ID                                                                    dataFileNameIDs[256];  // 1030
+		std::uint32_t                                                         dataFileCount;         // 1C30
+		BSBTreeFile::BPTree<Pager, BSBTreeFile::PGFSEDL<Entry, ID, 4096>, 16> tr;                    // 1C38
+		BSReadWriteLock                                                       lock;                  // 1C58
 	};
 	static_assert(sizeof(Index) == 0x1C60);
 
@@ -249,13 +249,13 @@ namespace RE::BSResource::Archive2
 		{
 			StandardContext* standardCtx = nullptr;
 			PlatformContext* platformCtx;
-		};                                        // 18
-		const std::uint64_t startOffset = 0;      // 02
-		BSFixedString name;                       // 28
-		std::uint32_t currentRelativeOffset = 0;  // 30
-		std::uint32_t compressedSize = 0;         // 34
-		std::uint32_t uncompressedSize = 0;       // 38
-		std::uint32_t flags = 0;                  // 3C
+		};                                              // 18
+		const std::uint64_t startOffset = 0;            // 02
+		BSFixedString       name;                       // 28
+		std::uint32_t       currentRelativeOffset = 0;  // 30
+		std::uint32_t       compressedSize = 0;         // 34
+		std::uint32_t       uncompressedSize = 0;       // 38
+		std::uint32_t       flags = 0;                  // 3C
 	};
 	static_assert(sizeof(ReaderStream) == 0x40);
 
@@ -292,7 +292,7 @@ namespace RE::BSResource::Archive2
 		}
 
 		ErrorCode DoStartRead(
-			void* a_buffer,
+			void*         a_buffer,
 			std::uint64_t a_bytes,
 			std::uint64_t a_offset) const override  // 06
 		{
@@ -303,8 +303,8 @@ namespace RE::BSResource::Archive2
 
 		ErrorCode DoStartPacketAlignedBufferedRead(
 			PacketAlignedBuffer* a_buffer,
-			std::uint64_t a_bytes,
-			std::uint64_t a_offset) const override  // 07
+			std::uint64_t        a_bytes,
+			std::uint64_t        a_offset) const override  // 07
 		{
 			using func_t = decltype(&AsyncReaderStream::DoStartPacketAlignedBufferedRead);
 			static REL::Relocation<func_t> func{ REL::ID(603387) };
@@ -327,7 +327,7 @@ namespace RE::BSResource::Archive2
 
 		ErrorCode DoWait(
 			std::uint64_t& a_transferred,
-			bool a_block) override  // 0B
+			bool           a_block) override  // 0B
 		{
 			using func_t = decltype(&AsyncReaderStream::DoWait);
 			static REL::Relocation<func_t> func{ REL::ID(2269399) };
@@ -335,10 +335,10 @@ namespace RE::BSResource::Archive2
 		}
 
 		// members
-		BSTSmartPointer<AsyncStream> source;           // 18
-		std::uint64_t startOffset = 0;                 // 20
-		PacketAlignedBuffer* currentBuffer = nullptr;  // 28
-		BSFixedString nameText;                        // 30
+		BSTSmartPointer<AsyncStream> source;                   // 18
+		std::uint64_t                startOffset = 0;          // 20
+		PacketAlignedBuffer*         currentBuffer = nullptr;  // 28
+		BSFixedString                nameText;                 // 30
 	};
 	static_assert(sizeof(AsyncReaderStream) == 0x38);
 }

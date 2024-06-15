@@ -30,22 +30,22 @@ namespace RE
 		virtual void HandlePre3D(TESObjectREFR*) { return; }
 
 		// members
-		NiPoint3 location;                                // 08
-		NiPoint3 direction;                               // 14
-		TESBoundObject* object{ nullptr };                // 20
-		TESObjectCELL* interior{ nullptr };               // 28
-		TESWorldSpace* world{ nullptr };                  // 30
-		TESObjectREFR* reference{ nullptr };              // 38
-		BGSPrimitive* addPrimitive{ nullptr };            // 40
-		void* additionalData{ nullptr };                  // 48
-		BSTSmartPointer<ExtraDataList> extra{ nullptr };  // 50
-		INSTANCE_FILTER* instanceFilter{ nullptr };       // 58
-		BGSObjectInstanceExtra* modExtra{ nullptr };      // 60
-		std::uint16_t maxLevel{ 0 };                      // 68
-		bool forcePersist{ false };                       // 6A
-		bool clearStillLoadingFlag{ false };              // 6B
-		bool initializeScripts{ true };                   // 6C
-		bool initiallyDisabled{ false };                  // 6D
+		NiPoint3                       location;                        // 08
+		NiPoint3                       direction;                       // 14
+		TESBoundObject*                object{ nullptr };               // 20
+		TESObjectCELL*                 interior{ nullptr };             // 28
+		TESWorldSpace*                 world{ nullptr };                // 30
+		TESObjectREFR*                 reference{ nullptr };            // 38
+		BGSPrimitive*                  addPrimitive{ nullptr };         // 40
+		void*                          additionalData{ nullptr };       // 48
+		BSTSmartPointer<ExtraDataList> extra{ nullptr };                // 50
+		INSTANCE_FILTER*               instanceFilter{ nullptr };       // 58
+		BGSObjectInstanceExtra*        modExtra{ nullptr };             // 60
+		std::uint16_t                  maxLevel{ 0 };                   // 68
+		bool                           forcePersist{ false };           // 6A
+		bool                           clearStillLoadingFlag{ false };  // 6B
+		bool                           initializeScripts{ true };       // 6C
+		bool                           initiallyDisabled{ false };      // 6D
 	};
 	static_assert(sizeof(NEW_REFR_DATA) == 0x70);
 
@@ -210,29 +210,29 @@ namespace RE
 		}
 
 		// members
-		TESObjectList* objectList;                                                // 0060
-		BSTArray<TESForm*> formArrays[std::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
-		TESRegionList* regionList;                                                // 0F50
-		NiTPrimitiveArray<TESObjectCELL*> interiorCells;                          // 0F58
-		NiTPrimitiveArray<BGSAddonNode*> addonNodes;                              // 0F70
-		NiTList<TESForm*> badForms;                                               // 0F88
-		std::uint32_t nextID;                                                     // 0FA0
-		TESFile* activeFile;                                                      // 0FA8
-		BSSimpleList<TESFile*> files;                                             // 0FB0
-		TESFileCollection compiledFileCollection;                                 // 0FC0
-		BSTArray<std::uint32_t> releasedFormIDArray;                              // 0FF0
-		bool masterSave;                                                          // 1008
-		bool blockSave;                                                           // 1009
-		bool saveLoadGame;                                                        // 100A
-		bool autoSaving;                                                          // 100B
-		bool exportingPlugin;                                                     // 100C
-		bool clearingData;                                                        // 100D
-		bool hasDesiredFiles;                                                     // 100E
-		bool checkingModels;                                                      // 100F
-		bool loadingFiles;                                                        // 1010
-		bool dontRemoveIDs;                                                       // 1011
-		char gameSettingsLoadState;                                               // 1012
-		TESRegionDataManager* regionDataManager;                                  // 1018
+		TESObjectList*                    objectList;                                            // 0060
+		BSTArray<TESForm*>                formArrays[std::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
+		TESRegionList*                    regionList;                                            // 0F50
+		NiTPrimitiveArray<TESObjectCELL*> interiorCells;                                         // 0F58
+		NiTPrimitiveArray<BGSAddonNode*>  addonNodes;                                            // 0F70
+		NiTList<TESForm*>                 badForms;                                              // 0F88
+		std::uint32_t                     nextID;                                                // 0FA0
+		TESFile*                          activeFile;                                            // 0FA8
+		BSSimpleList<TESFile*>            files;                                                 // 0FB0
+		TESFileCollection                 compiledFileCollection;                                // 0FC0
+		BSTArray<std::uint32_t>           releasedFormIDArray;                                   // 0FF0
+		bool                              masterSave;                                            // 1008
+		bool                              blockSave;                                             // 1009
+		bool                              saveLoadGame;                                          // 100A
+		bool                              autoSaving;                                            // 100B
+		bool                              exportingPlugin;                                       // 100C
+		bool                              clearingData;                                          // 100D
+		bool                              hasDesiredFiles;                                       // 100E
+		bool                              checkingModels;                                        // 100F
+		bool                              loadingFiles;                                          // 1010
+		bool                              dontRemoveIDs;                                         // 1011
+		char                              gameSettingsLoadState;                                 // 1012
+		TESRegionDataManager*             regionDataManager;                                     // 1018
 	};
 	static_assert(sizeof(TESDataHandler) == 0x1020);
 }

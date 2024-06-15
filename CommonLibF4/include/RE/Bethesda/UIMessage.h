@@ -46,13 +46,13 @@ namespace RE
 
 		virtual ~UIMessage() = default;  // 00
 
-		virtual IUIMessageData* QData() { return nullptr; }              // 02
+		virtual IUIMessageData*       QData() { return nullptr; }        // 02
 		virtual const IUIMessageData* QData() const { return nullptr; }  // 01
 
 		F4_HEAP_REDEFINE_NEW(UIMessage);
 
 		// members
-		BSFixedString menu;                                                           // 08
+		BSFixedString                               menu;                             // 08
 		REX::EnumSet<UI_MESSAGE_TYPE, std::int32_t> type{ UI_MESSAGE_TYPE::kTotal };  // 10
 	};
 	static_assert(sizeof(UIMessage) == 0x18);
@@ -65,7 +65,7 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::IUIMessageData };
 
 		// override (UIMessage)
-		IUIMessageData* QData() override { return this; }              // 02
+		IUIMessageData*       QData() override { return this; }        // 02
 		const IUIMessageData* QData() const override { return this; }  // 01
 	};
 	static_assert(sizeof(IUIMessageData) == 0x18);
@@ -107,13 +107,13 @@ namespace RE
 
 		// members
 		BSStringT<char>* string{ nullptr };  // 18
-		BSFixedString fixedString;           // 20
+		BSFixedString    fixedString;        // 20
 		union
 		{
 			std::uint32_t u;
-			void* p{ nullptr };
-			float f;
-			bool b;
+			void*         p{ nullptr };
+			float         f;
+			bool          b;
 		} data;  // 28
 	};
 	static_assert(sizeof(BSUIMessageData) == 0x30);

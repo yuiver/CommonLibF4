@@ -71,14 +71,14 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::MessageBoxData };
 
 		// members
-		BSStringT<char> headerText;                                 // 18
-		BSStringT<char> bodyText;                                   // 28
-		BSTArray<BSStringT<char>> buttonText;                       // 38
-		REX::EnumSet<WARNING_TYPES, std::uint32_t> warningContext;  // 50
-		BSTSmartPointer<IMessageBoxCallback> callback;              // 58
-		REX::EnumSet<UI_DEPTH_PRIORITY, std::uint32_t> menuDepth;   // 60
-		bool modal;                                                 // 64
-		bool ensureUnique;                                          // 65
+		BSStringT<char>                                headerText;      // 18
+		BSStringT<char>                                bodyText;        // 28
+		BSTArray<BSStringT<char>>                      buttonText;      // 38
+		REX::EnumSet<WARNING_TYPES, std::uint32_t>     warningContext;  // 50
+		BSTSmartPointer<IMessageBoxCallback>           callback;        // 58
+		REX::EnumSet<UI_DEPTH_PRIORITY, std::uint32_t> menuDepth;       // 60
+		bool                                           modal;           // 64
+		bool                                           ensureUnique;    // 65
 	};
 	static_assert(sizeof(MessageBoxData) == 0x68);
 
@@ -93,15 +93,15 @@ namespace RE
 		}
 
 		void Create(
-			const char* a_headerText,
-			const char* a_bodyText,
+			const char*          a_headerText,
+			const char*          a_bodyText,
 			IMessageBoxCallback* a_callback,
-			WARNING_TYPES a_warningContext,
-			const char* a_button1Text = nullptr,
-			const char* a_button2Text = nullptr,
-			const char* a_button3Text = nullptr,
-			const char* a_button4Text = nullptr,
-			bool a_ensureUnique = false)
+			WARNING_TYPES        a_warningContext,
+			const char*          a_button1Text = nullptr,
+			const char*          a_button2Text = nullptr,
+			const char*          a_button3Text = nullptr,
+			const char*          a_button4Text = nullptr,
+			bool                 a_ensureUnique = false)
 		{
 			using func_t = decltype(&MessageMenuManager::Create);
 			static REL::Relocation<func_t> func{ REL::ID(89563) };
@@ -109,10 +109,10 @@ namespace RE
 		}
 
 		// members
-		BSReadWriteLock messageRWLock;                                     // 04
-		BSTArray<MessageBoxData*> messages;                                // 10
+		BSReadWriteLock                            messageRWLock;          // 04
+		BSTArray<MessageBoxData*>                  messages;               // 10
 		REX::EnumSet<WARNING_TYPES, std::uint32_t> currentWarningContext;  // 28
-		bool disabledWarnings[34];                                         // 2C
+		bool                                       disabledWarnings[34];   // 2C
 	};
 	static_assert(sizeof(MessageMenuManager) == 0x50);
 }

@@ -25,21 +25,21 @@ namespace F4SE
 
 			std::string_view pluginName{};
 			std::string_view pluginAuthor{};
-			REL::Version pluginVersion{};
+			REL::Version     pluginVersion{};
 
-			REL::Version f4seVersion{};
-			PluginHandle pluginHandle{ static_cast<PluginHandle>(-1) };
-			std::uint32_t releaseIndex{ 0 };
+			REL::Version                                     f4seVersion{};
+			PluginHandle                                     pluginHandle{ static_cast<PluginHandle>(-1) };
+			std::uint32_t                                    releaseIndex{ 0 };
 			std::function<const void*(F4SEAPI)(const char*)> pluginInfoAccessor;
-			std::string_view saveFolderName{};
+			std::string_view                                 saveFolderName{};
 
-			MessagingInterface* messagingInterface{ nullptr };
-			ScaleformInterface* scaleformInterface{ nullptr };
-			PapyrusInterface* papyrusInterface{ nullptr };
+			MessagingInterface*     messagingInterface{ nullptr };
+			ScaleformInterface*     scaleformInterface{ nullptr };
+			PapyrusInterface*       papyrusInterface{ nullptr };
 			SerializationInterface* serializationInterface{ nullptr };
-			TaskInterface* taskInterface{ nullptr };
-			ObjectInterface* objectInterface{ nullptr };
-			TrampolineInterface* trampolineInterface{ nullptr };
+			TaskInterface*          taskInterface{ nullptr };
+			ObjectInterface*        objectInterface{ nullptr };
+			TrampolineInterface*    trampolineInterface{ nullptr };
 
 		private:
 			APIStorage() noexcept = default;
@@ -66,7 +66,7 @@ namespace F4SE
 		(void)REL::Module::get();
 		(void)REL::IDDB::get();
 
-		auto& storage = detail::APIStorage::get();
+		auto&       storage = detail::APIStorage::get();
 		const auto& intfc = *a_intfc;
 
 		if (const auto pluginVersionData = PluginVersionData::GetSingleton()) {
@@ -181,7 +181,7 @@ namespace F4SE
 
 	void AllocTrampoline(std::size_t a_size) noexcept
 	{
-		auto& trampoline = GetTrampoline();
+		auto&      trampoline = GetTrampoline();
 		const auto interface = GetTrampolineInterface();
 		const auto mem = interface ? interface->AllocateFromBranchPool(a_size) : nullptr;
 		if (mem) {

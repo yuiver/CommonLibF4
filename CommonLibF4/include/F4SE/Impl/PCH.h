@@ -95,9 +95,9 @@ namespace F4SE
 		template <class C, class K>
 		concept transparent_comparator =
 			requires(
-				const K& a_transparent,
+				const K&                    a_transparent,
 				const typename C::key_type& a_key,
-				typename C::key_compare& a_compare)
+				typename C::key_compare&    a_compare)
 		{
 			typename C::key_compare::is_transparent;
 			// clang-format off
@@ -132,10 +132,10 @@ namespace F4SE
 				}
 
 				[[nodiscard]] consteval const_reference back() const noexcept { return (*this)[size() - 1]; }
-				[[nodiscard]] consteval const_pointer data() const noexcept { return c; }
+				[[nodiscard]] consteval const_pointer   data() const noexcept { return c; }
 				[[nodiscard]] consteval const_reference front() const noexcept { return (*this)[0]; }
-				[[nodiscard]] consteval size_type length() const noexcept { return N; }
-				[[nodiscard]] consteval size_type size() const noexcept { return length(); }
+				[[nodiscard]] consteval size_type       length() const noexcept { return N; }
+				[[nodiscard]] consteval size_type       size() const noexcept { return length(); }
 
 				char_type c[N]{ static_cast<char_type>('\0') };
 			};
@@ -254,13 +254,13 @@ namespace F4SE
 			counted_function_iterator operator++(int) noexcept
 			{
 				counted_function_iterator tmp{ *this };
-				operator++();
+										  operator++();
 				return tmp;
 			}
 
 		private:
 			std::optional<F> _fn;
-			std::size_t _left{ 0 };
+			std::size_t      _left{ 0 };
 		};
 
 		// backwards compat
@@ -355,7 +355,7 @@ namespace F4SE
 		template <class T>
 		void memzero(volatile T* a_ptr, std::size_t a_size = sizeof(T))
 		{
-			const auto begin = reinterpret_cast<volatile char*>(a_ptr);
+			const auto     begin = reinterpret_cast<volatile char*>(a_ptr);
 			constexpr char val{ 0 };
 			std::fill_n(begin, a_size, val);
 		}
@@ -369,12 +369,12 @@ namespace F4SE
 				};
 
 				const std::filesystem::path p = a_loc.file_name();
-				const auto filename = p.generic_string();
-				std::string_view fileview = filename;
+				const auto                  filename = p.generic_string();
+				std::string_view            fileview = filename;
 
 				constexpr auto npos = std::string::npos;
-				std::size_t pos = npos;
-				std::size_t off = 0;
+				std::size_t    pos = npos;
+				std::size_t    off = 0;
 				for (const auto& dir : directories) {
 					pos = fileview.find(dir);
 					if (pos != npos) {
@@ -453,7 +453,7 @@ namespace F4SE
 				union
 				{
 					std::remove_cv_t<std::remove_reference_t<From>> from;
-					std::remove_cv_t<std::remove_reference_t<To>> to;
+					std::remove_cv_t<std::remove_reference_t<To>>   to;
 				};
 
 				from = std::forward<From>(a_from);

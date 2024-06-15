@@ -9,12 +9,12 @@ namespace RE
 {
 	union SETTING_VALUE
 	{
-		std::int8_t c;
-		bool b;
-		float f;
-		std::uint8_t h;
-		std::int32_t i;
-		char* s;
+		std::int8_t   c;
+		bool          b;
+		float         f;
+		std::uint8_t  h;
+		std::int32_t  i;
+		char*         s;
 		std::uint32_t u;
 		std::uint32_t r;
 		std::uint32_t a;
@@ -249,7 +249,7 @@ namespace RE
 	private:
 		// members
 		SETTING_VALUE _value;  // 08
-		const char* _key;      // 10
+		const char*   _key;    // 10
 	};
 	static_assert(sizeof(Setting) == 0x18);
 
@@ -290,8 +290,8 @@ namespace RE
 		virtual bool ReadSettings() { return handle != nullptr; }           // 09
 
 		// members
-		char settingFile[260];  // 008
-		void* handle;           // 110
+		char  settingFile[260];  // 008
+		void* handle;            // 110
 	};
 
 	extern template class SettingCollection<Setting>;

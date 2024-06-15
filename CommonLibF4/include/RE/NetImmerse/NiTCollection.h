@@ -21,7 +21,7 @@ namespace RE
 	{
 	public:
 		[[nodiscard]] static T* allocate(std::size_t a_num) { return NiMalloc(sizeof(T) * a_num); }
-		static void deallocate(T* a_ptr) { NiFree(a_ptr); }
+		static void             deallocate(T* a_ptr) { NiFree(a_ptr); }
 	};
 
 	template <class T>
@@ -29,6 +29,6 @@ namespace RE
 	{
 	public:
 		[[nodiscard]] static T* allocate(std::size_t a_num) { return new T[a_num]; }
-		static void deallocate(T* a_ptr) { delete[] a_ptr; }
+		static void             deallocate(T* a_ptr) { delete[] a_ptr; }
 	};
 }

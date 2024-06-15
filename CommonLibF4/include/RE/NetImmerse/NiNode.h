@@ -42,9 +42,9 @@ namespace RE
 		F4_HEAP_REDEFINE_ALIGNED_NEW(NiNode);
 
 		// members
-		NiTObjectArray<NiPointer<NiAVObject>> children;  // 120
-		BSTAtomicValue<std::uint32_t> dirtyState;        // 138
-		float meshLODFadeAmount{ 0.0F };                 // 13C
+		NiTObjectArray<NiPointer<NiAVObject>> children;                   // 120
+		BSTAtomicValue<std::uint32_t>         dirtyState;                 // 138
+		float                                 meshLODFadeAmount{ 0.0F };  // 13C
 	};
 	static_assert(sizeof(NiNode) == 0x140);
 }

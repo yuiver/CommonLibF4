@@ -1278,7 +1278,7 @@ namespace REX::W32
 	struct D3D11_BUFFER_DESC
 	{
 		std::uint32_t byteWidth;
-		D3D11_USAGE usage;
+		D3D11_USAGE   usage;
 		std::uint32_t bindFlags;
 		std::uint32_t cpuAccessFlags;
 		std::uint32_t miscFlags;
@@ -1336,7 +1336,7 @@ namespace REX::W32
 		std::uint32_t baseConstantBufferOffset;
 		std::uint32_t baseTexture;
 		std::uint32_t baseSampler;
-		BOOL created;
+		BOOL          created;
 	};
 
 	struct D3D11_COUNTER_DESC
@@ -1349,7 +1349,7 @@ namespace REX::W32
 	{
 		D3D11_COUNTER lastDeviceDependentCounter;
 		std::uint32_t numSimultaneousCounters;
-		std::uint8_t numDetectableParallelUnits;
+		std::uint8_t  numDetectableParallelUnits;
 	};
 
 	struct D3D11_DRAW_INSTANCED_INDIRECT_ARGS
@@ -1365,7 +1365,7 @@ namespace REX::W32
 		std::uint32_t indexCountPerInstance;
 		std::uint32_t instanceCount;
 		std::uint32_t startIndexLocation;
-		std::int32_t baseVertexLocation;
+		std::int32_t  baseVertexLocation;
 		std::uint32_t startInstanceLocation;
 	};
 
@@ -1378,18 +1378,18 @@ namespace REX::W32
 
 	struct D3D11_INPUT_ELEMENT_DESC
 	{
-		const char* semanticName;
-		std::uint32_t semanticIndex;
-		DXGI_FORMAT format;
-		std::uint32_t inputSlot;
-		std::uint32_t alignedByteOffset;
+		const char*                semanticName;
+		std::uint32_t              semanticIndex;
+		DXGI_FORMAT                format;
+		std::uint32_t              inputSlot;
+		std::uint32_t              alignedByteOffset;
 		D3D11_INPUT_CLASSIFICATION inputSlotClass;
-		std::uint32_t instanceDataStepRate;
+		std::uint32_t              instanceDataStepRate;
 	};
 
 	struct D3D11_MAPPED_SUBRESOURCE
 	{
-		void* data;
+		void*         data;
 		std::uint32_t rowPitch;
 		std::uint32_t depthPitch;
 	};
@@ -1418,12 +1418,12 @@ namespace REX::W32
 	struct D3D11_QUERY_DATA_TIMESTAMP_DISJOINT
 	{
 		std::uint64_t frequency;
-		BOOL disjoint;
+		BOOL          disjoint;
 	};
 
 	struct D3D11_QUERY_DESC
 	{
-		D3D11_QUERY query;
+		D3D11_QUERY   query;
 		std::uint32_t miscFlags;
 	};
 
@@ -1431,62 +1431,62 @@ namespace REX::W32
 	{
 		D3D11_FILL_MODE fillMode;
 		D3D11_CULL_MODE cullMode;
-		BOOL frontCounterClockwise;
-		std::int32_t depthBias;
-		float depthBiasClamp;
-		float slopeScaledDepthBias;
-		BOOL depthClipEnable;
-		BOOL scissorEnable;
-		BOOL multisampleEnable;
-		BOOL antialiasedLineEnable;
+		BOOL            frontCounterClockwise;
+		std::int32_t    depthBias;
+		float           depthBiasClamp;
+		float           slopeScaledDepthBias;
+		BOOL            depthClipEnable;
+		BOOL            scissorEnable;
+		BOOL            multisampleEnable;
+		BOOL            antialiasedLineEnable;
 	};
 
 	struct D3D11_RENDER_TARGET_BLEND_DESC
 	{
-		BOOL blendEnable;
-		D3D11_BLEND srcBlend;
-		D3D11_BLEND destBlend;
+		BOOL           blendEnable;
+		D3D11_BLEND    srcBlend;
+		D3D11_BLEND    destBlend;
 		D3D11_BLEND_OP blendOp;
-		D3D11_BLEND srcBlendAlpha;
-		D3D11_BLEND destBlendAlpha;
+		D3D11_BLEND    srcBlendAlpha;
+		D3D11_BLEND    destBlendAlpha;
 		D3D11_BLEND_OP blendOpAlpha;
-		std::uint8_t renderTargetWriteMask;
+		std::uint8_t   renderTargetWriteMask;
 	};
 
 	struct D3D11_BLEND_DESC
 	{
-		BOOL alphaToCoverageEnable;
-		BOOL independentBlendEnable;
+		BOOL                           alphaToCoverageEnable;
+		BOOL                           independentBlendEnable;
 		D3D11_RENDER_TARGET_BLEND_DESC renderTarget[8];
 	};
 
 	struct D3D11_SO_DECLARATION_ENTRY
 	{
 		std::uint32_t stream;
-		const char* semanticName;
+		const char*   semanticName;
 		std::uint32_t semanticIndex;
-		std::uint8_t startComponent;
-		std::uint8_t componentCount;
-		std::uint8_t outputSlot;
+		std::uint8_t  startComponent;
+		std::uint8_t  componentCount;
+		std::uint8_t  outputSlot;
 	};
 
 	struct D3D11_SAMPLER_DESC
 	{
-		D3D11_FILTER filter;
+		D3D11_FILTER               filter;
 		D3D11_TEXTURE_ADDRESS_MODE addressU;
 		D3D11_TEXTURE_ADDRESS_MODE addressV;
 		D3D11_TEXTURE_ADDRESS_MODE addressW;
-		float mipLODBias;
-		std::uint32_t maxAnisotropy;
-		D3D11_COMPARISON_FUNC comparisonFunc;
-		float borderColor[4];
-		float minLOD;
-		float maxLOD;
+		float                      mipLODBias;
+		std::uint32_t              maxAnisotropy;
+		D3D11_COMPARISON_FUNC      comparisonFunc;
+		float                      borderColor[4];
+		float                      minLOD;
+		float                      maxLOD;
 	};
 
 	struct D3D11_SUBRESOURCE_DATA
 	{
-		const void* sysMem;
+		const void*   sysMem;
 		std::uint32_t sysMemPitch;
 		std::uint32_t sysMemSlicePitch;
 	};
@@ -1683,36 +1683,36 @@ namespace REX::W32
 
 	struct D3D11_DEPTH_STENCILOP_DESC
 	{
-		D3D11_STENCIL_OP stencilFailOp;
-		D3D11_STENCIL_OP stencilDepthFailOp;
-		D3D11_STENCIL_OP stencilPassOp;
+		D3D11_STENCIL_OP      stencilFailOp;
+		D3D11_STENCIL_OP      stencilDepthFailOp;
+		D3D11_STENCIL_OP      stencilPassOp;
 		D3D11_COMPARISON_FUNC stencilFunc;
 	};
 
 	struct D3D11_DEPTH_STENCIL_DESC
 	{
-		BOOL depthEnable;
-		D3D11_DEPTH_WRITE_MASK depthWriteMask;
-		D3D11_COMPARISON_FUNC depthFunc;
-		BOOL stencilEnable;
-		std::uint8_t stencilReadMask;
-		std::uint8_t stencilWriteMask;
+		BOOL                       depthEnable;
+		D3D11_DEPTH_WRITE_MASK     depthWriteMask;
+		D3D11_COMPARISON_FUNC      depthFunc;
+		BOOL                       stencilEnable;
+		std::uint8_t               stencilReadMask;
+		std::uint8_t               stencilWriteMask;
 		D3D11_DEPTH_STENCILOP_DESC frontFace;
 		D3D11_DEPTH_STENCILOP_DESC backFace;
 	};
 
 	struct D3D11_DEPTH_STENCIL_VIEW_DESC
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_DSV_DIMENSION viewDimension;
-		std::uint32_t flags;
+		std::uint32_t       flags;
 		union
 		{
-			D3D11_TEX1D_DSV texture1D;
-			D3D11_TEX1D_ARRAY_DSV texture1DArray;
-			D3D11_TEX2D_DSV texture2D;
-			D3D11_TEX2D_ARRAY_DSV texture2DArray;
-			D3D11_TEX2DMS_DSV texture2DMS;
+			D3D11_TEX1D_DSV         texture1D;
+			D3D11_TEX1D_ARRAY_DSV   texture1DArray;
+			D3D11_TEX2D_DSV         texture2D;
+			D3D11_TEX2D_ARRAY_DSV   texture2DArray;
+			D3D11_TEX2DMS_DSV       texture2DMS;
 			D3D11_TEX2DMS_ARRAY_DSV texture2DMSArray;
 		};
 	};
@@ -1724,47 +1724,47 @@ namespace REX::W32
 
 	struct D3D11_AUTHENTICATED_CONFIGURE_OUTPUT
 	{
-		D3D11_OMAC omac;
-		GUID configureType;
-		HANDLE channel;
+		D3D11_OMAC    omac;
+		GUID          configureType;
+		HANDLE        channel;
 		std::uint32_t sequenceNumber;
-		HRESULT returnCode;
+		HRESULT       returnCode;
 	};
 
 	struct D3D11_RENDER_TARGET_VIEW_DESC
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_RTV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_BUFFER_RTV buffer;
-			D3D11_TEX1D_RTV texture1D;
-			D3D11_TEX1D_ARRAY_RTV texture1DArray;
-			D3D11_TEX2D_RTV texture2D;
-			D3D11_TEX2D_ARRAY_RTV texture2DArray;
-			D3D11_TEX2DMS_RTV texture2DMS;
+			D3D11_BUFFER_RTV        buffer;
+			D3D11_TEX1D_RTV         texture1D;
+			D3D11_TEX1D_ARRAY_RTV   texture1DArray;
+			D3D11_TEX2D_RTV         texture2D;
+			D3D11_TEX2D_ARRAY_RTV   texture2DArray;
+			D3D11_TEX2DMS_RTV       texture2DMS;
 			D3D11_TEX2DMS_ARRAY_RTV texture2DMSArray;
-			D3D11_TEX3D_RTV texture3D;
+			D3D11_TEX3D_RTV         texture3D;
 		};
 	};
 
 	struct D3D11_SHADER_RESOURCE_VIEW_DESC
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_SRV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_BUFFER_SRV buffer;
-			D3D11_TEX1D_SRV texture1D;
-			D3D11_TEX1D_ARRAY_SRV texture1DArray;
-			D3D11_TEX2D_SRV texture2D;
-			D3D11_TEX2D_ARRAY_SRV texture2DArray;
-			D3D11_TEX2DMS_SRV texture2DMS;
+			D3D11_BUFFER_SRV        buffer;
+			D3D11_TEX1D_SRV         texture1D;
+			D3D11_TEX1D_ARRAY_SRV   texture1DArray;
+			D3D11_TEX2D_SRV         texture2D;
+			D3D11_TEX2D_ARRAY_SRV   texture2DArray;
+			D3D11_TEX2DMS_SRV       texture2DMS;
 			D3D11_TEX2DMS_ARRAY_SRV texture2DMSArray;
-			D3D11_TEX3D_SRV texture3D;
-			D3D11_TEXCUBE_SRV textureCube;
+			D3D11_TEX3D_SRV         texture3D;
+			D3D11_TEXCUBE_SRV       textureCube;
 			D3D11_TEXCUBE_ARRAY_SRV textureCubeArray;
-			D3D11_BUFFEREX_SRV bufferEx;
+			D3D11_BUFFEREX_SRV      bufferEx;
 		};
 	};
 
@@ -1773,8 +1773,8 @@ namespace REX::W32
 		std::uint32_t width;
 		std::uint32_t mipLevels;
 		std::uint32_t arraySize;
-		DXGI_FORMAT format;
-		D3D11_USAGE usage;
+		DXGI_FORMAT   format;
+		D3D11_USAGE   usage;
 		std::uint32_t bindFlags;
 		std::uint32_t cpuAccessFlags;
 		std::uint32_t miscFlags;
@@ -1782,16 +1782,16 @@ namespace REX::W32
 
 	struct D3D11_TEXTURE2D_DESC
 	{
-		std::uint32_t width;
-		std::uint32_t height;
-		std::uint32_t mipLevels;
-		std::uint32_t arraySize;
-		DXGI_FORMAT format;
+		std::uint32_t    width;
+		std::uint32_t    height;
+		std::uint32_t    mipLevels;
+		std::uint32_t    arraySize;
+		DXGI_FORMAT      format;
 		DXGI_SAMPLE_DESC sampleDesc;
-		D3D11_USAGE usage;
-		std::uint32_t bindFlags;
-		std::uint32_t cpuAccessFlags;
-		std::uint32_t miscFlags;
+		D3D11_USAGE      usage;
+		std::uint32_t    bindFlags;
+		std::uint32_t    cpuAccessFlags;
+		std::uint32_t    miscFlags;
 	};
 
 	struct D3D11_TEXTURE3D_DESC
@@ -1800,8 +1800,8 @@ namespace REX::W32
 		std::uint32_t height;
 		std::uint32_t depth;
 		std::uint32_t mipLevels;
-		DXGI_FORMAT format;
-		D3D11_USAGE usage;
+		DXGI_FORMAT   format;
+		D3D11_USAGE   usage;
 		std::uint32_t bindFlags;
 		std::uint32_t cpuAccessFlags;
 		std::uint32_t miscFlags;
@@ -1809,16 +1809,16 @@ namespace REX::W32
 
 	struct D3D11_UNORDERED_ACCESS_VIEW_DESC
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_UAV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_BUFFER_UAV buffer;
-			D3D11_TEX1D_UAV texture1D;
+			D3D11_BUFFER_UAV      buffer;
+			D3D11_TEX1D_UAV       texture1D;
 			D3D11_TEX1D_ARRAY_UAV texture1DArray;
-			D3D11_TEX2D_UAV texture2D;
+			D3D11_TEX2D_UAV       texture2D;
 			D3D11_TEX2D_ARRAY_UAV texture2DArray;
-			D3D11_TEX3D_UAV texture3D;
+			D3D11_TEX3D_UAV       texture3D;
 		};
 	};
 
@@ -1843,7 +1843,7 @@ namespace REX::W32
 		union
 		{
 			D3D11_VIDEO_COLOR_YCbCrA ycbcr;
-			D3D11_VIDEO_COLOR_RGBA rgba;
+			D3D11_VIDEO_COLOR_RGBA   rgba;
 		};
 	};
 
@@ -1858,26 +1858,26 @@ namespace REX::W32
 	struct D3D11_VIDEO_DECODER_BUFFER_DESC
 	{
 		D3D11_VIDEO_DECODER_BUFFER_TYPE bufferType;
-		std::uint32_t bufferIndex;
-		std::uint32_t dataOffset;
-		std::uint32_t dataSize;
-		std::uint32_t firstMBAddress;
-		std::uint32_t numMBsInBuffer;
-		std::uint32_t width;
-		std::uint32_t height;
-		std::uint32_t stride;
-		std::uint32_t reservedBits;
-		void* iv;
-		std::uint32_t ivSize;
-		BOOL partialEncryption;
-		D3D11_ENCRYPTED_BLOCK_INFO encryptedBlockInfo;
+		std::uint32_t                   bufferIndex;
+		std::uint32_t                   dataOffset;
+		std::uint32_t                   dataSize;
+		std::uint32_t                   firstMBAddress;
+		std::uint32_t                   numMBsInBuffer;
+		std::uint32_t                   width;
+		std::uint32_t                   height;
+		std::uint32_t                   stride;
+		std::uint32_t                   reservedBits;
+		void*                           iv;
+		std::uint32_t                   ivSize;
+		BOOL                            partialEncryption;
+		D3D11_ENCRYPTED_BLOCK_INFO      encryptedBlockInfo;
 	};
 
 	struct D3D11_VIDEO_DECODER_CONFIG
 	{
-		GUID guidConfigBitstreamEncryption;
-		GUID guidConfigMBControlEncryption;
-		GUID guidConfigResidDiffEncryption;
+		GUID          guidConfigBitstreamEncryption;
+		GUID          guidConfigMBControlEncryption;
+		GUID          guidConfigResidDiffEncryption;
 		std::uint32_t configBitstreamRaw;
 		std::uint32_t configMBControlRasterOrder;
 		std::uint32_t configResidDiffHost;
@@ -1896,26 +1896,26 @@ namespace REX::W32
 
 	struct D3D11_VIDEO_DECODER_DESC
 	{
-		GUID guid;
+		GUID          guid;
 		std::uint32_t sampleWidth;
 		std::uint32_t sampleHeight;
-		DXGI_FORMAT outputFormat;
+		DXGI_FORMAT   outputFormat;
 	};
 
 	struct D3D11_VIDEO_DECODER_EXTENSION
 	{
-		std::uint32_t function;
-		void* privateInputData;
-		std::uint32_t privateInputDataSize;
-		void* privateOutputData;
-		std::uint32_t privateOutputDataSize;
-		std::uint32_t resourceCount;
+		std::uint32_t    function;
+		void*            privateInputData;
+		std::uint32_t    privateInputDataSize;
+		void*            privateOutputData;
+		std::uint32_t    privateOutputDataSize;
+		std::uint32_t    resourceCount;
 		ID3D11Resource** resourceList;
 	};
 
 	struct D3D11_VIDEO_DECODER_OUTPUT_VIEW_DESC
 	{
-		GUID decodeProfile;
+		GUID                 decodeProfile;
 		D3D11_VDOV_DIMENSION viewDimension;
 		union
 		{
@@ -1949,20 +1949,20 @@ namespace REX::W32
 	struct D3D11_VIDEO_PROCESSOR_CONTENT_DESC
 	{
 		D3D11_VIDEO_FRAME_FORMAT inputFrameFormat;
-		DXGI_RATIONAL inputFrameRate;
-		std::uint32_t inputWidth;
-		std::uint32_t inputHeight;
-		DXGI_RATIONAL outputFrameRate;
-		std::uint32_t outputWidth;
-		std::uint32_t outputHeight;
-		D3D11_VIDEO_USAGE usage;
+		DXGI_RATIONAL            inputFrameRate;
+		std::uint32_t            inputWidth;
+		std::uint32_t            inputHeight;
+		DXGI_RATIONAL            outputFrameRate;
+		std::uint32_t            outputWidth;
+		std::uint32_t            outputHeight;
+		D3D11_VIDEO_USAGE        usage;
 	};
 
 	struct D3D11_VIDEO_PROCESSOR_CUSTOM_RATE
 	{
 		DXGI_RATIONAL customRate;
 		std::uint32_t outputFrames;
-		BOOL inputInterlaced;
+		BOOL          inputInterlaced;
 		std::uint32_t inputFramesOrFields;
 	};
 
@@ -1971,12 +1971,12 @@ namespace REX::W32
 		std::int32_t min;
 		std::int32_t max;
 		std::int32_t def;
-		float mult;
+		float        mult;
 	};
 
 	struct D3D11_VIDEO_PROCESSOR_INPUT_VIEW_DESC
 	{
-		std::uint32_t fourCC;
+		std::uint32_t        fourCC;
 		D3D11_VPIV_DIMENSION viewDimension;
 		union
 		{
@@ -1989,7 +1989,7 @@ namespace REX::W32
 		D3D11_VPOV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_TEX2D_VPOV texture2D;
+			D3D11_TEX2D_VPOV       texture2D;
 			D3D11_TEX2D_ARRAY_VPOV texture2DArray;
 		};
 	};
@@ -2005,16 +2005,16 @@ namespace REX::W32
 
 	struct D3D11_VIDEO_PROCESSOR_STREAM
 	{
-		BOOL enable;
-		std::uint32_t outputIndex;
-		std::uint32_t inputFrameOrField;
-		std::uint32_t pastFrames;
-		std::uint32_t futureFrames;
+		BOOL                            enable;
+		std::uint32_t                   outputIndex;
+		std::uint32_t                   inputFrameOrField;
+		std::uint32_t                   pastFrames;
+		std::uint32_t                   futureFrames;
 		ID3D11VideoProcessorInputView** pastSurfaces;
-		ID3D11VideoProcessorInputView* inputSurface;
+		ID3D11VideoProcessorInputView*  inputSurface;
 		ID3D11VideoProcessorInputView** futureSurfaces;
 		ID3D11VideoProcessorInputView** pastSurfacesRight;
-		ID3D11VideoProcessorInputView* inputSurfaceRight;
+		ID3D11VideoProcessorInputView*  inputSurfaceRight;
 		ID3D11VideoProcessorInputView** futureSurfacesRight;
 	};
 
@@ -2045,52 +2045,52 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("db6f6ddb-ac77-4e88-8253-819df9bbf140"))
 		ID3D11Device : public IUnknown
 	{
-		virtual HRESULT CreateBuffer(const D3D11_BUFFER_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Buffer** a_buffer) = 0;
-		virtual HRESULT CreateTexture1D(const D3D11_TEXTURE1D_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Texture1D** a_texture1D) = 0;
-		virtual HRESULT CreateTexture2D(const D3D11_TEXTURE2D_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Texture2D** a_texture2D) = 0;
-		virtual HRESULT CreateTexture3D(const D3D11_TEXTURE3D_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Texture3D** a_texture3D) = 0;
-		virtual HRESULT CreateShaderResourceView(ID3D11Resource* a_resource, const D3D11_SHADER_RESOURCE_VIEW_DESC* a_desc, ID3D11ShaderResourceView** a_srView) = 0;
-		virtual HRESULT CreateUnorderedAccessView(ID3D11Resource* a_resource, const D3D11_UNORDERED_ACCESS_VIEW_DESC* a_desc, ID3D11UnorderedAccessView** a_uaView) = 0;
-		virtual HRESULT CreateRenderTargetView(ID3D11Resource* a_resource, const D3D11_RENDER_TARGET_VIEW_DESC* a_desc, ID3D11RenderTargetView** a_rtView) = 0;
-		virtual HRESULT CreateDepthStencilView(ID3D11Resource* a_resource, const D3D11_DEPTH_STENCIL_VIEW_DESC* a_desc, ID3D11DepthStencilView** a_dsView) = 0;
-		virtual HRESULT CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* a_desc, std::uint32_t a_numElements, const void* a_shaderBytecodeWithInputSignature, std::size_t a_bytecodeLength, ID3D11InputLayout** a_inputLayout) = 0;
-		virtual HRESULT CreateVertexShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11VertexShader** a_vertexShader) = 0;
-		virtual HRESULT CreateGeometryShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11GeometryShader** a_geometryShader) = 0;
-		virtual HRESULT CreateGeometryShaderWithStreamOutput(const void* a_shaderBytecode, std::size_t a_bytecodeLength, const D3D11_SO_DECLARATION_ENTRY* a_soDeclaration, std::uint32_t a_numEntries, const std::uint32_t* a_bufferStrides, std::uint32_t a_numStrides, std::uint32_t a_rasterizedStream, ID3D11ClassLinkage* a_classLinkage, ID3D11GeometryShader** a_geometryShader) = 0;
-		virtual HRESULT CreatePixelShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11PixelShader** a_pixelShader) = 0;
-		virtual HRESULT CreateHullShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11HullShader** a_hullShader) = 0;
-		virtual HRESULT CreateDomainShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11DomainShader** a_domainShader) = 0;
-		virtual HRESULT CreateComputeShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11ComputeShader** a_computeShader) = 0;
-		virtual HRESULT CreateClassLinkage(ID3D11ClassLinkage** a_classLinkage) = 0;
-		virtual HRESULT CreateBlendState(const D3D11_BLEND_DESC* a_blendStateDesc, ID3D11BlendState** a_blendState) = 0;
-		virtual HRESULT CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* a_depthStencilDesc, ID3D11DepthStencilState** a_depthStencilState) = 0;
-		virtual HRESULT CreateRasterizerState(const D3D11_RASTERIZER_DESC* a_rasterizerDesc, ID3D11RasterizerState** a_rasterizerState) = 0;
-		virtual HRESULT CreateSamplerState(const D3D11_SAMPLER_DESC* a_samplerDesc, ID3D11SamplerState** a_samplerState) = 0;
-		virtual HRESULT CreateQuery(const D3D11_QUERY_DESC* a_queryDesc, ID3D11Query** a_query) = 0;
-		virtual HRESULT CreatePredicate(const D3D11_QUERY_DESC* a_predicateDesc, ID3D11Predicate** a_predicate) = 0;
-		virtual HRESULT CreateCounter(const D3D11_COUNTER_DESC* a_counterDesc, ID3D11Counter** a_counter) = 0;
-		virtual HRESULT CreateDeferredContext(std::uint32_t a_contextFlags, ID3D11DeviceContext** a_deferredContext) = 0;
-		virtual HRESULT OpenSharedResource(HANDLE a_resourceHandle, const IID& a_returnedInterface, void** a_resource) = 0;
-		virtual HRESULT CheckFormatSupport(DXGI_FORMAT a_format, std::uint32_t* a_formatSupport) = 0;
-		virtual HRESULT CheckMultisampleQualityLevels(DXGI_FORMAT a_format, std::uint32_t a_sampleCount, std::uint32_t* a_numQualityLevels) = 0;
-		virtual void CheckCounterInfo(D3D11_COUNTER_INFO* a_counterInfo) = 0;
-		virtual HRESULT CheckCounter(const D3D11_COUNTER_DESC* a_desc, D3D11_COUNTER_TYPE* a_type, std::uint32_t* a_activeCounters, char* a_name, std::uint32_t* a_nameLength, char* a_units, std::uint32_t* a_unitsLength, char* a_description, std::uint32_t* a_descriptionLength) = 0;
-		virtual HRESULT CheckFeatureSupport(D3D11_FEATURE a_feature, void* a_featureSupportData, std::uint32_t a_featureSupportDataSize) = 0;
-		virtual HRESULT GetPrivateData(const GUID& a_guid, std::uint32_t* a_dataSize, void* a_data) = 0;
-		virtual HRESULT SetPrivateData(const GUID& a_guid, std::uint32_t a_dataSize, const void* a_data) = 0;
-		virtual HRESULT SetPrivateDataInterface(const GUID& a_guid, const IUnknown* a_data) = 0;
+		virtual HRESULT           CreateBuffer(const D3D11_BUFFER_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Buffer** a_buffer) = 0;
+		virtual HRESULT           CreateTexture1D(const D3D11_TEXTURE1D_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Texture1D** a_texture1D) = 0;
+		virtual HRESULT           CreateTexture2D(const D3D11_TEXTURE2D_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Texture2D** a_texture2D) = 0;
+		virtual HRESULT           CreateTexture3D(const D3D11_TEXTURE3D_DESC* a_desc, const D3D11_SUBRESOURCE_DATA* a_initialData, ID3D11Texture3D** a_texture3D) = 0;
+		virtual HRESULT           CreateShaderResourceView(ID3D11Resource* a_resource, const D3D11_SHADER_RESOURCE_VIEW_DESC* a_desc, ID3D11ShaderResourceView** a_srView) = 0;
+		virtual HRESULT           CreateUnorderedAccessView(ID3D11Resource* a_resource, const D3D11_UNORDERED_ACCESS_VIEW_DESC* a_desc, ID3D11UnorderedAccessView** a_uaView) = 0;
+		virtual HRESULT           CreateRenderTargetView(ID3D11Resource* a_resource, const D3D11_RENDER_TARGET_VIEW_DESC* a_desc, ID3D11RenderTargetView** a_rtView) = 0;
+		virtual HRESULT           CreateDepthStencilView(ID3D11Resource* a_resource, const D3D11_DEPTH_STENCIL_VIEW_DESC* a_desc, ID3D11DepthStencilView** a_dsView) = 0;
+		virtual HRESULT           CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* a_desc, std::uint32_t a_numElements, const void* a_shaderBytecodeWithInputSignature, std::size_t a_bytecodeLength, ID3D11InputLayout** a_inputLayout) = 0;
+		virtual HRESULT           CreateVertexShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11VertexShader** a_vertexShader) = 0;
+		virtual HRESULT           CreateGeometryShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11GeometryShader** a_geometryShader) = 0;
+		virtual HRESULT           CreateGeometryShaderWithStreamOutput(const void* a_shaderBytecode, std::size_t a_bytecodeLength, const D3D11_SO_DECLARATION_ENTRY* a_soDeclaration, std::uint32_t a_numEntries, const std::uint32_t* a_bufferStrides, std::uint32_t a_numStrides, std::uint32_t a_rasterizedStream, ID3D11ClassLinkage* a_classLinkage, ID3D11GeometryShader** a_geometryShader) = 0;
+		virtual HRESULT           CreatePixelShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11PixelShader** a_pixelShader) = 0;
+		virtual HRESULT           CreateHullShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11HullShader** a_hullShader) = 0;
+		virtual HRESULT           CreateDomainShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11DomainShader** a_domainShader) = 0;
+		virtual HRESULT           CreateComputeShader(const void* a_shaderBytecode, std::size_t a_bytecodeLength, ID3D11ClassLinkage* a_classLinkage, ID3D11ComputeShader** a_computeShader) = 0;
+		virtual HRESULT           CreateClassLinkage(ID3D11ClassLinkage** a_classLinkage) = 0;
+		virtual HRESULT           CreateBlendState(const D3D11_BLEND_DESC* a_blendStateDesc, ID3D11BlendState** a_blendState) = 0;
+		virtual HRESULT           CreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* a_depthStencilDesc, ID3D11DepthStencilState** a_depthStencilState) = 0;
+		virtual HRESULT           CreateRasterizerState(const D3D11_RASTERIZER_DESC* a_rasterizerDesc, ID3D11RasterizerState** a_rasterizerState) = 0;
+		virtual HRESULT           CreateSamplerState(const D3D11_SAMPLER_DESC* a_samplerDesc, ID3D11SamplerState** a_samplerState) = 0;
+		virtual HRESULT           CreateQuery(const D3D11_QUERY_DESC* a_queryDesc, ID3D11Query** a_query) = 0;
+		virtual HRESULT           CreatePredicate(const D3D11_QUERY_DESC* a_predicateDesc, ID3D11Predicate** a_predicate) = 0;
+		virtual HRESULT           CreateCounter(const D3D11_COUNTER_DESC* a_counterDesc, ID3D11Counter** a_counter) = 0;
+		virtual HRESULT           CreateDeferredContext(std::uint32_t a_contextFlags, ID3D11DeviceContext** a_deferredContext) = 0;
+		virtual HRESULT           OpenSharedResource(HANDLE a_resourceHandle, const IID& a_returnedInterface, void** a_resource) = 0;
+		virtual HRESULT           CheckFormatSupport(DXGI_FORMAT a_format, std::uint32_t* a_formatSupport) = 0;
+		virtual HRESULT           CheckMultisampleQualityLevels(DXGI_FORMAT a_format, std::uint32_t a_sampleCount, std::uint32_t* a_numQualityLevels) = 0;
+		virtual void              CheckCounterInfo(D3D11_COUNTER_INFO* a_counterInfo) = 0;
+		virtual HRESULT           CheckCounter(const D3D11_COUNTER_DESC* a_desc, D3D11_COUNTER_TYPE* a_type, std::uint32_t* a_activeCounters, char* a_name, std::uint32_t* a_nameLength, char* a_units, std::uint32_t* a_unitsLength, char* a_description, std::uint32_t* a_descriptionLength) = 0;
+		virtual HRESULT           CheckFeatureSupport(D3D11_FEATURE a_feature, void* a_featureSupportData, std::uint32_t a_featureSupportDataSize) = 0;
+		virtual HRESULT           GetPrivateData(const GUID& a_guid, std::uint32_t* a_dataSize, void* a_data) = 0;
+		virtual HRESULT           SetPrivateData(const GUID& a_guid, std::uint32_t a_dataSize, const void* a_data) = 0;
+		virtual HRESULT           SetPrivateDataInterface(const GUID& a_guid, const IUnknown* a_data) = 0;
 		virtual D3D_FEATURE_LEVEL GetFeatureLevel(void) = 0;
-		virtual std::uint32_t GetCreationFlags(void) = 0;
-		virtual HRESULT GetDeviceRemovedReason(void) = 0;
-		virtual void GetImmediateContext(ID3D11DeviceContext** a_immediateContext) = 0;
-		virtual HRESULT SetExceptionMode(std::uint32_t a_raiseFlags) = 0;
-		virtual std::uint32_t GetExceptionMode(void) = 0;
+		virtual std::uint32_t     GetCreationFlags(void) = 0;
+		virtual HRESULT           GetDeviceRemovedReason(void) = 0;
+		virtual void              GetImmediateContext(ID3D11DeviceContext** a_immediateContext) = 0;
+		virtual HRESULT           SetExceptionMode(std::uint32_t a_raiseFlags) = 0;
+		virtual std::uint32_t     GetExceptionMode(void) = 0;
 	};
 
 	struct __declspec(novtable, uuid("1841e5c8-16b0-489b-bcc8-44cfb0d5deae"))
 		ID3D11DeviceChild : public IUnknown
 	{
-		virtual void GetDevice(ID3D11Device** a_device) = 0;
+		virtual void    GetDevice(ID3D11Device** a_device) = 0;
 		virtual HRESULT GetPrivateData(const GUID& a_guid, std::uint32_t* a_dataSize, void* a_data) = 0;
 		virtual HRESULT SetPrivateData(const GUID& a_guid, std::uint32_t a_dataSize, const void* a_data) = 0;
 		virtual HRESULT SetPrivateDataInterface(const GUID& a_guid, const IUnknown* a_data) = 0;
@@ -2099,114 +2099,114 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("c0bfa96c-e089-44fb-8eaf-26f8796190da"))
 		ID3D11DeviceContext : public ID3D11DeviceChild
 	{
-		virtual void VSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
-		virtual void PSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
-		virtual void PSSetShader(ID3D11PixelShader* a_pixelShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
-		virtual void PSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
-		virtual void VSSetShader(ID3D11VertexShader* a_vertexShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
-		virtual void DrawIndexed(std::uint32_t IndexCount, std::uint32_t a_startIndexLocation, std::int32_t a_baseVertexLocation) = 0;
-		virtual void Draw(std::uint32_t a_vertexCount, std::uint32_t a_startVertexLocation) = 0;
-		virtual HRESULT Map(ID3D11Resource* a_resource, std::uint32_t a_subResource, D3D11_MAP a_mapType, std::uint32_t a_mapFlags, D3D11_MAPPED_SUBRESOURCE* a_mappedResource) = 0;
-		virtual void Unmap(ID3D11Resource* a_resource, std::uint32_t a_subResource) = 0;
-		virtual void PSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
-		virtual void IASetInputLayout(ID3D11InputLayout* a_inputLayout) = 0;
-		virtual void IASetVertexBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_vertexBuffers, const std::uint32_t* a_strides, const std::uint32_t* a_offsets) = 0;
-		virtual void IASetIndexBuffer(ID3D11Buffer* a_indexBuffer, DXGI_FORMAT a_format, std::uint32_t a_offset) = 0;
-		virtual void DrawIndexedInstanced(std::uint32_t a_indexCountPerInstance, std::uint32_t a_instanceCount, std::uint32_t a_startIndexLocation, std::int32_t a_baseVertexLocation, std::uint32_t a_startInstanceLocation) = 0;
-		virtual void DrawInstanced(std::uint32_t a_vertexCountPerInstance, std::uint32_t a_instanceCount, std::uint32_t a_startVertexLocation, std::uint32_t a_startInstanceLocation) = 0;
-		virtual void GSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
-		virtual void GSSetShader(ID3D11GeometryShader* a_shader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
-		virtual void IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY a_topology) = 0;
-		virtual void VSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
-		virtual void VSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
-		virtual void Begin(ID3D11Asynchronous* a_async) = 0;
-		virtual void End(ID3D11Asynchronous* a_async) = 0;
-		virtual HRESULT GetData(ID3D11Asynchronous* a_async, void* a_data, std::uint32_t a_dataSize, std::uint32_t a_getDataFlags) = 0;
-		virtual void SetPredication(ID3D11Predicate* a_predicate, BOOL a_predicateValue) = 0;
-		virtual void GSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
-		virtual void GSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
-		virtual void OMSetRenderTargets(std::uint32_t a_numViews, ID3D11RenderTargetView* const* a_renderTargetViews, ID3D11DepthStencilView* a_depthStencilView) = 0;
-		virtual void OMSetRenderTargetsAndUnorderedAccessViews(std::uint32_t a_numRTVs, ID3D11RenderTargetView* const* a_renderTargetViews, ID3D11DepthStencilView* a_depthStencilView, std::uint32_t a_uavStartSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView* const* a_unorderedAccessViews, const std::uint32_t* a_uavInitialCounts) = 0;
-		virtual void OMSetBlendState(ID3D11BlendState* a_blendState, const float a_blendFactor[4], std::uint32_t a_sampleMask) = 0;
-		virtual void OMSetDepthStencilState(ID3D11DepthStencilState* a_depthStencilState, std::uint32_t a_stencilRef) = 0;
-		virtual void SOSetTargets(std::uint32_t a_numBuffers, ID3D11Buffer* const* a_soTargets, const std::uint32_t* a_offsets) = 0;
-		virtual void DrawAuto(void) = 0;
-		virtual void DrawIndexedInstancedIndirect(ID3D11Buffer* a_bufferForArgs, std::uint32_t a_alignedByteOffsetForArgs) = 0;
-		virtual void DrawInstancedIndirect(ID3D11Buffer* a_bufferForArgs, std::uint32_t a_alignedByteOffsetForArgs) = 0;
-		virtual void Dispatch(std::uint32_t a_threadGroupCountX, std::uint32_t a_threadGroupCountY, std::uint32_t a_threadGroupCountZ) = 0;
-		virtual void DispatchIndirect(ID3D11Buffer* a_bufferForArgs, std::uint32_t a_alignedByteOffsetForArgs) = 0;
-		virtual void RSSetState(ID3D11RasterizerState* a_rasterizerState) = 0;
-		virtual void RSSetViewports(std::uint32_t a_numViewports, const D3D11_VIEWPORT* a_viewports) = 0;
-		virtual void RSSetScissorRects(std::uint32_t a_numRects, const D3D11_RECT* a_rects) = 0;
-		virtual void CopySubresourceRegion(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, std::uint32_t a_dstX, std::uint32_t a_dstY, std::uint32_t a_dstZ, ID3D11Resource* a_srcResource, std::uint32_t a_srcSubresource, const D3D11_BOX* a_srcBox) = 0;
-		virtual void CopyResource(ID3D11Resource* a_dstResource, ID3D11Resource* a_srcResource) = 0;
-		virtual void UpdateSubresource(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, const D3D11_BOX* a_dstBox, const void* a_srcData, std::uint32_t a_srcRowPitch, std::uint32_t a_srcDepthPitch) = 0;
-		virtual void CopyStructureCount(ID3D11Buffer* a_dstBuffer, std::uint32_t a_dstAlignedByteOffset, ID3D11UnorderedAccessView* a_srcView) = 0;
-		virtual void ClearRenderTargetView(ID3D11RenderTargetView* a_renderTargetView, const float a_colorRGBA[4]) = 0;
-		virtual void ClearUnorderedAccessViewUint(ID3D11UnorderedAccessView* a_unorderedAccessView, const std::uint32_t a_values[4]) = 0;
-		virtual void ClearUnorderedAccessViewFloat(ID3D11UnorderedAccessView* a_unorderedAccessView, const float a_values[4]) = 0;
-		virtual void ClearDepthStencilView(ID3D11DepthStencilView* a_depthStencilView, std::uint32_t a_clearFlags, float a_depth, std::uint8_t a_stencil) = 0;
-		virtual void GenerateMips(ID3D11ShaderResourceView* a_shaderResourceView) = 0;
-		virtual void SetResourceMinLOD(ID3D11Resource* a_resource, float a_minLOD) = 0;
-		virtual float GetResourceMinLOD(ID3D11Resource* a_resource) = 0;
-		virtual void ResolveSubresource(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, ID3D11Resource* a_srcResource, std::uint32_t a_srcSubresource, DXGI_FORMAT a_format) = 0;
-		virtual void ExecuteCommandList(ID3D11CommandList* a_commandList, BOOL a_restoreContextState) = 0;
-		virtual void HSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
-		virtual void HSSetShader(ID3D11HullShader* a_hullShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
-		virtual void HSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
-		virtual void HSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
-		virtual void DSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
-		virtual void DSSetShader(ID3D11DomainShader* a_domainShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
-		virtual void DSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
-		virtual void DSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
-		virtual void CSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
-		virtual void CSSetUnorderedAccessViews(std::uint32_t a_startSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView* const* a_unorderedAccessViews, const std::uint32_t* a_uavInitialCounts) = 0;
-		virtual void CSSetShader(ID3D11ComputeShader* a_computeShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
-		virtual void CSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
-		virtual void CSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
-		virtual void VSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
-		virtual void PSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
-		virtual void PSGetShader(ID3D11PixelShader** a_pixelShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
-		virtual void PSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
-		virtual void VSGetShader(ID3D11VertexShader** a_vertexShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
-		virtual void PSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
-		virtual void IAGetInputLayout(ID3D11InputLayout** a_inputLayout) = 0;
-		virtual void IAGetVertexBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_vertexBuffers, std::uint32_t* a_strides, std::uint32_t* a_offsets) = 0;
-		virtual void IAGetIndexBuffer(ID3D11Buffer** a_indexBuffer, DXGI_FORMAT* a_format, std::uint32_t* a_offset) = 0;
-		virtual void GSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
-		virtual void GSGetShader(ID3D11GeometryShader** a_geometryShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
-		virtual void IAGetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY* a_topology) = 0;
-		virtual void VSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
-		virtual void VSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
-		virtual void GetPredication(ID3D11Predicate** a_predicate, BOOL* a_predicateValue) = 0;
-		virtual void GSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
-		virtual void GSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
-		virtual void OMGetRenderTargets(std::uint32_t a_numViews, ID3D11RenderTargetView** a_renderTargetViews, ID3D11DepthStencilView** a_depthStencilView) = 0;
-		virtual void OMGetRenderTargetsAndUnorderedAccessViews(std::uint32_t a_numRTVs, ID3D11RenderTargetView** a_renderTargetViews, ID3D11DepthStencilView** a_depthStencilView, std::uint32_t a_uavStartSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView** a_unorderedAccessViews) = 0;
-		virtual void OMGetBlendState(ID3D11BlendState** a_blendState, float a_blendFactor[4], std::uint32_t* a_sampleMask) = 0;
-		virtual void OMGetDepthStencilState(ID3D11DepthStencilState** a_depthStencilState, std::uint32_t* a_stencilRef) = 0;
-		virtual void SOGetTargets(std::uint32_t a_numBuffers, ID3D11Buffer** a_soTargets) = 0;
-		virtual void RSGetState(ID3D11RasterizerState** a_rasterizerState) = 0;
-		virtual void RSGetViewports(std::uint32_t* a_numViewports, D3D11_VIEWPORT* a_viewports) = 0;
-		virtual void RSGetScissorRects(std::uint32_t* a_numRects, D3D11_RECT* a_rects) = 0;
-		virtual void HSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
-		virtual void HSGetShader(ID3D11HullShader** a_hullShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
-		virtual void HSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
-		virtual void HSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
-		virtual void DSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
-		virtual void DSGetShader(ID3D11DomainShader** a_domainShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
-		virtual void DSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
-		virtual void DSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
-		virtual void CSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
-		virtual void CSGetUnorderedAccessViews(std::uint32_t a_startSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView** a_unorderedAccessViews) = 0;
-		virtual void CSGetShader(ID3D11ComputeShader** a_computeShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
-		virtual void CSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
-		virtual void CSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
-		virtual void ClearState(void) = 0;
-		virtual void Flush(void) = 0;
+		virtual void                      VSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
+		virtual void                      PSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
+		virtual void                      PSSetShader(ID3D11PixelShader* a_pixelShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
+		virtual void                      PSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
+		virtual void                      VSSetShader(ID3D11VertexShader* a_vertexShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
+		virtual void                      DrawIndexed(std::uint32_t IndexCount, std::uint32_t a_startIndexLocation, std::int32_t a_baseVertexLocation) = 0;
+		virtual void                      Draw(std::uint32_t a_vertexCount, std::uint32_t a_startVertexLocation) = 0;
+		virtual HRESULT                   Map(ID3D11Resource* a_resource, std::uint32_t a_subResource, D3D11_MAP a_mapType, std::uint32_t a_mapFlags, D3D11_MAPPED_SUBRESOURCE* a_mappedResource) = 0;
+		virtual void                      Unmap(ID3D11Resource* a_resource, std::uint32_t a_subResource) = 0;
+		virtual void                      PSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
+		virtual void                      IASetInputLayout(ID3D11InputLayout* a_inputLayout) = 0;
+		virtual void                      IASetVertexBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_vertexBuffers, const std::uint32_t* a_strides, const std::uint32_t* a_offsets) = 0;
+		virtual void                      IASetIndexBuffer(ID3D11Buffer* a_indexBuffer, DXGI_FORMAT a_format, std::uint32_t a_offset) = 0;
+		virtual void                      DrawIndexedInstanced(std::uint32_t a_indexCountPerInstance, std::uint32_t a_instanceCount, std::uint32_t a_startIndexLocation, std::int32_t a_baseVertexLocation, std::uint32_t a_startInstanceLocation) = 0;
+		virtual void                      DrawInstanced(std::uint32_t a_vertexCountPerInstance, std::uint32_t a_instanceCount, std::uint32_t a_startVertexLocation, std::uint32_t a_startInstanceLocation) = 0;
+		virtual void                      GSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
+		virtual void                      GSSetShader(ID3D11GeometryShader* a_shader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
+		virtual void                      IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY a_topology) = 0;
+		virtual void                      VSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
+		virtual void                      VSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
+		virtual void                      Begin(ID3D11Asynchronous* a_async) = 0;
+		virtual void                      End(ID3D11Asynchronous* a_async) = 0;
+		virtual HRESULT                   GetData(ID3D11Asynchronous* a_async, void* a_data, std::uint32_t a_dataSize, std::uint32_t a_getDataFlags) = 0;
+		virtual void                      SetPredication(ID3D11Predicate* a_predicate, BOOL a_predicateValue) = 0;
+		virtual void                      GSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
+		virtual void                      GSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
+		virtual void                      OMSetRenderTargets(std::uint32_t a_numViews, ID3D11RenderTargetView* const* a_renderTargetViews, ID3D11DepthStencilView* a_depthStencilView) = 0;
+		virtual void                      OMSetRenderTargetsAndUnorderedAccessViews(std::uint32_t a_numRTVs, ID3D11RenderTargetView* const* a_renderTargetViews, ID3D11DepthStencilView* a_depthStencilView, std::uint32_t a_uavStartSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView* const* a_unorderedAccessViews, const std::uint32_t* a_uavInitialCounts) = 0;
+		virtual void                      OMSetBlendState(ID3D11BlendState* a_blendState, const float a_blendFactor[4], std::uint32_t a_sampleMask) = 0;
+		virtual void                      OMSetDepthStencilState(ID3D11DepthStencilState* a_depthStencilState, std::uint32_t a_stencilRef) = 0;
+		virtual void                      SOSetTargets(std::uint32_t a_numBuffers, ID3D11Buffer* const* a_soTargets, const std::uint32_t* a_offsets) = 0;
+		virtual void                      DrawAuto(void) = 0;
+		virtual void                      DrawIndexedInstancedIndirect(ID3D11Buffer* a_bufferForArgs, std::uint32_t a_alignedByteOffsetForArgs) = 0;
+		virtual void                      DrawInstancedIndirect(ID3D11Buffer* a_bufferForArgs, std::uint32_t a_alignedByteOffsetForArgs) = 0;
+		virtual void                      Dispatch(std::uint32_t a_threadGroupCountX, std::uint32_t a_threadGroupCountY, std::uint32_t a_threadGroupCountZ) = 0;
+		virtual void                      DispatchIndirect(ID3D11Buffer* a_bufferForArgs, std::uint32_t a_alignedByteOffsetForArgs) = 0;
+		virtual void                      RSSetState(ID3D11RasterizerState* a_rasterizerState) = 0;
+		virtual void                      RSSetViewports(std::uint32_t a_numViewports, const D3D11_VIEWPORT* a_viewports) = 0;
+		virtual void                      RSSetScissorRects(std::uint32_t a_numRects, const D3D11_RECT* a_rects) = 0;
+		virtual void                      CopySubresourceRegion(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, std::uint32_t a_dstX, std::uint32_t a_dstY, std::uint32_t a_dstZ, ID3D11Resource* a_srcResource, std::uint32_t a_srcSubresource, const D3D11_BOX* a_srcBox) = 0;
+		virtual void                      CopyResource(ID3D11Resource* a_dstResource, ID3D11Resource* a_srcResource) = 0;
+		virtual void                      UpdateSubresource(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, const D3D11_BOX* a_dstBox, const void* a_srcData, std::uint32_t a_srcRowPitch, std::uint32_t a_srcDepthPitch) = 0;
+		virtual void                      CopyStructureCount(ID3D11Buffer* a_dstBuffer, std::uint32_t a_dstAlignedByteOffset, ID3D11UnorderedAccessView* a_srcView) = 0;
+		virtual void                      ClearRenderTargetView(ID3D11RenderTargetView* a_renderTargetView, const float a_colorRGBA[4]) = 0;
+		virtual void                      ClearUnorderedAccessViewUint(ID3D11UnorderedAccessView* a_unorderedAccessView, const std::uint32_t a_values[4]) = 0;
+		virtual void                      ClearUnorderedAccessViewFloat(ID3D11UnorderedAccessView* a_unorderedAccessView, const float a_values[4]) = 0;
+		virtual void                      ClearDepthStencilView(ID3D11DepthStencilView* a_depthStencilView, std::uint32_t a_clearFlags, float a_depth, std::uint8_t a_stencil) = 0;
+		virtual void                      GenerateMips(ID3D11ShaderResourceView* a_shaderResourceView) = 0;
+		virtual void                      SetResourceMinLOD(ID3D11Resource* a_resource, float a_minLOD) = 0;
+		virtual float                     GetResourceMinLOD(ID3D11Resource* a_resource) = 0;
+		virtual void                      ResolveSubresource(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, ID3D11Resource* a_srcResource, std::uint32_t a_srcSubresource, DXGI_FORMAT a_format) = 0;
+		virtual void                      ExecuteCommandList(ID3D11CommandList* a_commandList, BOOL a_restoreContextState) = 0;
+		virtual void                      HSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
+		virtual void                      HSSetShader(ID3D11HullShader* a_hullShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
+		virtual void                      HSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
+		virtual void                      HSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
+		virtual void                      DSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
+		virtual void                      DSSetShader(ID3D11DomainShader* a_domainShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
+		virtual void                      DSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
+		virtual void                      DSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
+		virtual void                      CSSetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView* const* a_shaderResourceViews) = 0;
+		virtual void                      CSSetUnorderedAccessViews(std::uint32_t a_startSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView* const* a_unorderedAccessViews, const std::uint32_t* a_uavInitialCounts) = 0;
+		virtual void                      CSSetShader(ID3D11ComputeShader* a_computeShader, ID3D11ClassInstance* const* a_classInstances, std::uint32_t a_numClassInstances) = 0;
+		virtual void                      CSSetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState* const* a_samplers) = 0;
+		virtual void                      CSSetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer* const* a_constantBuffers) = 0;
+		virtual void                      VSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
+		virtual void                      PSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
+		virtual void                      PSGetShader(ID3D11PixelShader** a_pixelShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
+		virtual void                      PSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
+		virtual void                      VSGetShader(ID3D11VertexShader** a_vertexShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
+		virtual void                      PSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
+		virtual void                      IAGetInputLayout(ID3D11InputLayout** a_inputLayout) = 0;
+		virtual void                      IAGetVertexBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_vertexBuffers, std::uint32_t* a_strides, std::uint32_t* a_offsets) = 0;
+		virtual void                      IAGetIndexBuffer(ID3D11Buffer** a_indexBuffer, DXGI_FORMAT* a_format, std::uint32_t* a_offset) = 0;
+		virtual void                      GSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
+		virtual void                      GSGetShader(ID3D11GeometryShader** a_geometryShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
+		virtual void                      IAGetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY* a_topology) = 0;
+		virtual void                      VSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
+		virtual void                      VSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
+		virtual void                      GetPredication(ID3D11Predicate** a_predicate, BOOL* a_predicateValue) = 0;
+		virtual void                      GSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
+		virtual void                      GSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
+		virtual void                      OMGetRenderTargets(std::uint32_t a_numViews, ID3D11RenderTargetView** a_renderTargetViews, ID3D11DepthStencilView** a_depthStencilView) = 0;
+		virtual void                      OMGetRenderTargetsAndUnorderedAccessViews(std::uint32_t a_numRTVs, ID3D11RenderTargetView** a_renderTargetViews, ID3D11DepthStencilView** a_depthStencilView, std::uint32_t a_uavStartSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView** a_unorderedAccessViews) = 0;
+		virtual void                      OMGetBlendState(ID3D11BlendState** a_blendState, float a_blendFactor[4], std::uint32_t* a_sampleMask) = 0;
+		virtual void                      OMGetDepthStencilState(ID3D11DepthStencilState** a_depthStencilState, std::uint32_t* a_stencilRef) = 0;
+		virtual void                      SOGetTargets(std::uint32_t a_numBuffers, ID3D11Buffer** a_soTargets) = 0;
+		virtual void                      RSGetState(ID3D11RasterizerState** a_rasterizerState) = 0;
+		virtual void                      RSGetViewports(std::uint32_t* a_numViewports, D3D11_VIEWPORT* a_viewports) = 0;
+		virtual void                      RSGetScissorRects(std::uint32_t* a_numRects, D3D11_RECT* a_rects) = 0;
+		virtual void                      HSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
+		virtual void                      HSGetShader(ID3D11HullShader** a_hullShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
+		virtual void                      HSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
+		virtual void                      HSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
+		virtual void                      DSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
+		virtual void                      DSGetShader(ID3D11DomainShader** a_domainShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
+		virtual void                      DSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
+		virtual void                      DSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
+		virtual void                      CSGetShaderResources(std::uint32_t a_startSlot, std::uint32_t a_numViews, ID3D11ShaderResourceView** a_shaderResourceViews) = 0;
+		virtual void                      CSGetUnorderedAccessViews(std::uint32_t a_startSlot, std::uint32_t a_numUAVs, ID3D11UnorderedAccessView** a_unorderedAccessViews) = 0;
+		virtual void                      CSGetShader(ID3D11ComputeShader** a_computeShader, ID3D11ClassInstance** a_classInstances, std::uint32_t* a_numClassInstances) = 0;
+		virtual void                      CSGetSamplers(std::uint32_t a_startSlot, std::uint32_t a_numSamplers, ID3D11SamplerState** a_samplers) = 0;
+		virtual void                      CSGetConstantBuffers(std::uint32_t a_startSlot, std::uint32_t a_numBuffers, ID3D11Buffer** a_constantBuffers) = 0;
+		virtual void                      ClearState(void) = 0;
+		virtual void                      Flush(void) = 0;
 		virtual D3D11_DEVICE_CONTEXT_TYPE GetType(void) = 0;
-		virtual std::uint32_t GetContextFlags(void) = 0;
-		virtual HRESULT FinishCommandList(BOOL a_restoreDeferredContextState, ID3D11CommandList** a_commandList) = 0;
+		virtual std::uint32_t             GetContextFlags(void) = 0;
+		virtual HRESULT                   FinishCommandList(BOOL a_restoreDeferredContextState, ID3D11CommandList** a_commandList) = 0;
 	};
 
 	struct __declspec(novtable, uuid("4b35d0cd-1e15-4258-9c98-1b1333f6dd3b"))
@@ -2220,7 +2220,7 @@ namespace REX::W32
 	{
 		virtual HRESULT GetCertificateSize(std::uint32_t* a_certificateSize) = 0;
 		virtual HRESULT GetCertificate(std::uint32_t a_certificateSize, std::uint8_t* a_certificate) = 0;
-		virtual void GetChannelHandle(HANDLE* a_channelHandle) = 0;
+		virtual void    GetChannelHandle(HANDLE* a_channelHandle) = 0;
 	};
 
 	struct __declspec(novtable, uuid("75b68faa-347d-4159-8f45-a0640f01cd9a"))
@@ -2264,11 +2264,11 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("9B32F9AD-BDCC-40a6-A39D-D5C865845720"))
 		ID3D11CryptoSession : public ID3D11DeviceChild
 	{
-		virtual void GetCryptoType(GUID* a_cryptoType) = 0;
-		virtual void GetDecoderProfile(GUID* a_decoderProfile) = 0;
+		virtual void    GetCryptoType(GUID* a_cryptoType) = 0;
+		virtual void    GetDecoderProfile(GUID* a_decoderProfile) = 0;
 		virtual HRESULT GetCertificateSize(std::uint32_t* a_certificateSize) = 0;
 		virtual HRESULT GetCertificate(std::uint32_t a_certificateSize, std::uint8_t* a_certificate) = 0;
-		virtual void GetCryptoSessionHandle(HANDLE* a_cryptoSessionHandle) = 0;
+		virtual void    GetCryptoSessionHandle(HANDLE* a_cryptoSessionHandle) = 0;
 	};
 
 	struct __declspec(novtable, uuid("03823efb-8d8f-4e1c-9aa2-f64bb2cbfdf1"))
@@ -2306,8 +2306,8 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("dc8e63f3-d12b-4952-b47b-5e45026a862d"))
 		ID3D11Resource : public ID3D11DeviceChild
 	{
-		virtual void GetType(D3D11_RESOURCE_DIMENSION* a_resourceDimension) = 0;
-		virtual void SetEvictionPriority(std::uint32_t a_evictionPriority) = 0;
+		virtual void          GetType(D3D11_RESOURCE_DIMENSION* a_resourceDimension) = 0;
+		virtual void          SetEvictionPriority(std::uint32_t a_evictionPriority) = 0;
 		virtual std::uint32_t GetEvictionPriority(void) = 0;
 	};
 
@@ -2394,58 +2394,58 @@ namespace REX::W32
 		virtual HRESULT DecoderEndFrame(ID3D11VideoDecoder* a_decoder) = 0;
 		virtual HRESULT SubmitDecoderBuffers(ID3D11VideoDecoder* a_decoder, std::uint32_t a_numBuffers, const D3D11_VIDEO_DECODER_BUFFER_DESC* a_bufferDesc) = 0;
 		virtual HRESULT DecoderExtension(ID3D11VideoDecoder* a_decoder, const D3D11_VIDEO_DECODER_EXTENSION* a_extensionData) = 0;
-		virtual void VideoProcessorSetOutputTargetRect(ID3D11VideoProcessor* a_videoProcessor, BOOL a_enable, const RECT* a_rect) = 0;
-		virtual void VideoProcessorSetOutputBackgroundColor(ID3D11VideoProcessor* a_videoProcessor, BOOL a_bYCbCr, const D3D11_VIDEO_COLOR* a_color) = 0;
-		virtual void VideoProcessorSetOutputColorSpace(ID3D11VideoProcessor* a_videoProcessor, const D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
-		virtual void VideoProcessorSetOutputAlphaFillMode(ID3D11VideoProcessor* a_videoProcessor, D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE a_alphaFillMode, std::uint32_t a_streamIndex) = 0;
-		virtual void VideoProcessorSetOutputConstriction(ID3D11VideoProcessor* a_videoProcessor, BOOL a_enable, SIZE a_size) = 0;
-		virtual void VideoProcessorSetOutputStereoMode(ID3D11VideoProcessor* a_videoProcessor, BOOL a_enable) = 0;
+		virtual void    VideoProcessorSetOutputTargetRect(ID3D11VideoProcessor* a_videoProcessor, BOOL a_enable, const RECT* a_rect) = 0;
+		virtual void    VideoProcessorSetOutputBackgroundColor(ID3D11VideoProcessor* a_videoProcessor, BOOL a_bYCbCr, const D3D11_VIDEO_COLOR* a_color) = 0;
+		virtual void    VideoProcessorSetOutputColorSpace(ID3D11VideoProcessor* a_videoProcessor, const D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
+		virtual void    VideoProcessorSetOutputAlphaFillMode(ID3D11VideoProcessor* a_videoProcessor, D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE a_alphaFillMode, std::uint32_t a_streamIndex) = 0;
+		virtual void    VideoProcessorSetOutputConstriction(ID3D11VideoProcessor* a_videoProcessor, BOOL a_enable, SIZE a_size) = 0;
+		virtual void    VideoProcessorSetOutputStereoMode(ID3D11VideoProcessor* a_videoProcessor, BOOL a_enable) = 0;
 		virtual HRESULT VideoProcessorSetOutputExtension(ID3D11VideoProcessor* a_videoProcessor, const GUID* a_extensionGuid, std::uint32_t a_dataSize, void* a_data) = 0;
-		virtual void VideoProcessorGetOutputTargetRect(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_enabled, RECT* a_rect) = 0;
-		virtual void VideoProcessorGetOutputBackgroundColor(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_bYCbCr, D3D11_VIDEO_COLOR* a_color) = 0;
-		virtual void VideoProcessorGetOutputColorSpace(ID3D11VideoProcessor* a_videoProcessor, D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
-		virtual void VideoProcessorGetOutputAlphaFillMode(ID3D11VideoProcessor* a_videoProcessor, D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE* a_alphaFillMode, std::uint32_t* a_streamIndex) = 0;
-		virtual void VideoProcessorGetOutputConstriction(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_enabled, SIZE* a_size) = 0;
-		virtual void VideoProcessorGetOutputStereoMode(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_enabled) = 0;
+		virtual void    VideoProcessorGetOutputTargetRect(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_enabled, RECT* a_rect) = 0;
+		virtual void    VideoProcessorGetOutputBackgroundColor(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_bYCbCr, D3D11_VIDEO_COLOR* a_color) = 0;
+		virtual void    VideoProcessorGetOutputColorSpace(ID3D11VideoProcessor* a_videoProcessor, D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
+		virtual void    VideoProcessorGetOutputAlphaFillMode(ID3D11VideoProcessor* a_videoProcessor, D3D11_VIDEO_PROCESSOR_ALPHA_FILL_MODE* a_alphaFillMode, std::uint32_t* a_streamIndex) = 0;
+		virtual void    VideoProcessorGetOutputConstriction(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_enabled, SIZE* a_size) = 0;
+		virtual void    VideoProcessorGetOutputStereoMode(ID3D11VideoProcessor* a_videoProcessor, BOOL* a_enabled) = 0;
 		virtual HRESULT VideoProcessorGetOutputExtension(ID3D11VideoProcessor* a_videoProcessor, const GUID* a_extensionGuid, std::uint32_t a_dataSize, void* a_data) = 0;
-		virtual void VideoProcessorSetStreamFrameFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_FRAME_FORMAT a_frameFormat) = 0;
-		virtual void VideoProcessorSetStreamColorSpace(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, const D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
-		virtual void VideoProcessorSetStreamOutputRate(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_OUTPUT_RATE a_outputRate, BOOL a_repeatFrame, const DXGI_RATIONAL* a_customRate) = 0;
-		virtual void VideoProcessorSetStreamSourceRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, const RECT* a_rect) = 0;
-		virtual void VideoProcessorSetStreamDestRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, const RECT* a_rect) = 0;
-		virtual void VideoProcessorSetStreamAlpha(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, float a_alpha) = 0;
-		virtual void VideoProcessorSetStreamPalette(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, std::uint32_t a_count, const std::uint32_t* a_entries) = 0;
-		virtual void VideoProcessorSetStreamPixelAspectRatio(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, const DXGI_RATIONAL* a_sourceAspectRatio, const DXGI_RATIONAL* a_destinationAspectRatio) = 0;
-		virtual void VideoProcessorSetStreamLumaKey(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t StreamIndex, BOOL a_enable, float a_lower, float a_upper) = 0;
-		virtual void VideoProcessorSetStreamStereoFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, D3D11_VIDEO_PROCESSOR_STEREO_FORMAT a_format, BOOL a_leftViewFrame0, BOOL a_baseViewFrame0, D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE a_flipMode, std::int32_t a_monoOffset) = 0;
-		virtual void VideoProcessorSetStreamAutoProcessingMode(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable) = 0;
-		virtual void VideoProcessorSetStreamFilter(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_FILTER a_filter, BOOL a_enable, std::int32_t a_level) = 0;
+		virtual void    VideoProcessorSetStreamFrameFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_FRAME_FORMAT a_frameFormat) = 0;
+		virtual void    VideoProcessorSetStreamColorSpace(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, const D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
+		virtual void    VideoProcessorSetStreamOutputRate(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_OUTPUT_RATE a_outputRate, BOOL a_repeatFrame, const DXGI_RATIONAL* a_customRate) = 0;
+		virtual void    VideoProcessorSetStreamSourceRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, const RECT* a_rect) = 0;
+		virtual void    VideoProcessorSetStreamDestRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, const RECT* a_rect) = 0;
+		virtual void    VideoProcessorSetStreamAlpha(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, float a_alpha) = 0;
+		virtual void    VideoProcessorSetStreamPalette(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, std::uint32_t a_count, const std::uint32_t* a_entries) = 0;
+		virtual void    VideoProcessorSetStreamPixelAspectRatio(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, const DXGI_RATIONAL* a_sourceAspectRatio, const DXGI_RATIONAL* a_destinationAspectRatio) = 0;
+		virtual void    VideoProcessorSetStreamLumaKey(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t StreamIndex, BOOL a_enable, float a_lower, float a_upper) = 0;
+		virtual void    VideoProcessorSetStreamStereoFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, D3D11_VIDEO_PROCESSOR_STEREO_FORMAT a_format, BOOL a_leftViewFrame0, BOOL a_baseViewFrame0, D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE a_flipMode, std::int32_t a_monoOffset) = 0;
+		virtual void    VideoProcessorSetStreamAutoProcessingMode(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable) = 0;
+		virtual void    VideoProcessorSetStreamFilter(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_FILTER a_filter, BOOL a_enable, std::int32_t a_level) = 0;
 		virtual HRESULT VideoProcessorSetStreamExtension(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, const GUID* a_extensionGuid, std::uint32_t a_dataSize, void* a_data) = 0;
-		virtual void VideoProcessorGetStreamFrameFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_FRAME_FORMAT* a_frameFormat) = 0;
-		virtual void VideoProcessorGetStreamColorSpace(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
-		virtual void VideoProcessorGetStreamOutputRate(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_OUTPUT_RATE* a_outputRate, BOOL* a_repeatFrame, DXGI_RATIONAL* a_customRate) = 0;
-		virtual void VideoProcessorGetStreamSourceRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, RECT* a_rect) = 0;
-		virtual void VideoProcessorGetStreamDestRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, RECT* a_rect) = 0;
-		virtual void VideoProcessorGetStreamAlpha(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, float* a_alpha) = 0;
-		virtual void VideoProcessorGetStreamPalette(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, std::uint32_t a_count, std::uint32_t* a_entries) = 0;
-		virtual void VideoProcessorGetStreamPixelAspectRatio(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, DXGI_RATIONAL* a_sourceAspectRatio, DXGI_RATIONAL* a_destinationAspectRatio) = 0;
-		virtual void VideoProcessorGetStreamLumaKey(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, float* a_lower, float* a_upper) = 0;
-		virtual void VideoProcessorGetStreamStereoFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enable, D3D11_VIDEO_PROCESSOR_STEREO_FORMAT* a_format, BOOL* a_leftViewFrame0, BOOL* a_baseViewFrame0, D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE* a_flipMode, std::int32_t* a_monoOffset) = 0;
-		virtual void VideoProcessorGetStreamAutoProcessingMode(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled) = 0;
-		virtual void VideoProcessorGetStreamFilter(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_FILTER a_filter, BOOL* a_enabled, std::int32_t* a_level) = 0;
+		virtual void    VideoProcessorGetStreamFrameFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_FRAME_FORMAT* a_frameFormat) = 0;
+		virtual void    VideoProcessorGetStreamColorSpace(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_COLOR_SPACE* a_colorSpace) = 0;
+		virtual void    VideoProcessorGetStreamOutputRate(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_OUTPUT_RATE* a_outputRate, BOOL* a_repeatFrame, DXGI_RATIONAL* a_customRate) = 0;
+		virtual void    VideoProcessorGetStreamSourceRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, RECT* a_rect) = 0;
+		virtual void    VideoProcessorGetStreamDestRect(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, RECT* a_rect) = 0;
+		virtual void    VideoProcessorGetStreamAlpha(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, float* a_alpha) = 0;
+		virtual void    VideoProcessorGetStreamPalette(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, std::uint32_t a_count, std::uint32_t* a_entries) = 0;
+		virtual void    VideoProcessorGetStreamPixelAspectRatio(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, DXGI_RATIONAL* a_sourceAspectRatio, DXGI_RATIONAL* a_destinationAspectRatio) = 0;
+		virtual void    VideoProcessorGetStreamLumaKey(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled, float* a_lower, float* a_upper) = 0;
+		virtual void    VideoProcessorGetStreamStereoFormat(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enable, D3D11_VIDEO_PROCESSOR_STEREO_FORMAT* a_format, BOOL* a_leftViewFrame0, BOOL* a_baseViewFrame0, D3D11_VIDEO_PROCESSOR_STEREO_FLIP_MODE* a_flipMode, std::int32_t* a_monoOffset) = 0;
+		virtual void    VideoProcessorGetStreamAutoProcessingMode(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enabled) = 0;
+		virtual void    VideoProcessorGetStreamFilter(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, D3D11_VIDEO_PROCESSOR_FILTER a_filter, BOOL* a_enabled, std::int32_t* a_level) = 0;
 		virtual HRESULT VideoProcessorGetStreamExtension(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, const GUID* a_extensionGuid, std::uint32_t a_dataSize, void* a_data) = 0;
 		virtual HRESULT VideoProcessorBlt(ID3D11VideoProcessor* a_videoProcessor, ID3D11VideoProcessorOutputView* a_view, std::uint32_t a_outputFrame, std::uint32_t a_streamCount, const D3D11_VIDEO_PROCESSOR_STREAM* a_streams) = 0;
 		virtual HRESULT NegotiateCryptoSessionKeyExchange(ID3D11CryptoSession* a_cryptoSession, std::uint32_t a_dataSize, void* a_data) = 0;
-		virtual void EncryptionBlt(ID3D11CryptoSession* a_cryptoSession, ID3D11Texture2D* a_srcSurface, ID3D11Texture2D* a_dstSurface, std::uint32_t a_ivSize, void* a_iv) = 0;
-		virtual void DecryptionBlt(ID3D11CryptoSession* a_cryptoSession, ID3D11Texture2D* a_srcSurface, ID3D11Texture2D* a_dstSurface, D3D11_ENCRYPTED_BLOCK_INFO* a_encryptedBlockInfo, std::uint32_t a_contentKeySize, const void* a_contentKey, std::uint32_t a_ivSize, void* a_iv) = 0;
-		virtual void StartSessionKeyRefresh(ID3D11CryptoSession* a_cryptoSession, std::uint32_t a_randomNumberSize, void* a_randomNumber) = 0;
-		virtual void FinishSessionKeyRefresh(ID3D11CryptoSession* a_cryptoSession) = 0;
+		virtual void    EncryptionBlt(ID3D11CryptoSession* a_cryptoSession, ID3D11Texture2D* a_srcSurface, ID3D11Texture2D* a_dstSurface, std::uint32_t a_ivSize, void* a_iv) = 0;
+		virtual void    DecryptionBlt(ID3D11CryptoSession* a_cryptoSession, ID3D11Texture2D* a_srcSurface, ID3D11Texture2D* a_dstSurface, D3D11_ENCRYPTED_BLOCK_INFO* a_encryptedBlockInfo, std::uint32_t a_contentKeySize, const void* a_contentKey, std::uint32_t a_ivSize, void* a_iv) = 0;
+		virtual void    StartSessionKeyRefresh(ID3D11CryptoSession* a_cryptoSession, std::uint32_t a_randomNumberSize, void* a_randomNumber) = 0;
+		virtual void    FinishSessionKeyRefresh(ID3D11CryptoSession* a_cryptoSession) = 0;
 		virtual HRESULT GetEncryptionBltKey(ID3D11CryptoSession* a_cryptoSession, std::uint32_t a_keySize, void* a_readbackKey) = 0;
 		virtual HRESULT NegotiateAuthenticatedChannelKeyExchange(ID3D11AuthenticatedChannel* a_channel, std::uint32_t a_dataSize, void* a_data) = 0;
 		virtual HRESULT QueryAuthenticatedChannel(ID3D11AuthenticatedChannel* a_channel, std::uint32_t a_inputSize, const void* a_input, std::uint32_t a_outputSize, void* a_output) = 0;
 		virtual HRESULT ConfigureAuthenticatedChannel(ID3D11AuthenticatedChannel* a_channel, std::uint32_t a_inputSize, const void* a_input, D3D11_AUTHENTICATED_CONFIGURE_OUTPUT* a_output) = 0;
-		virtual void VideoProcessorSetStreamRotation(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, D3D11_VIDEO_PROCESSOR_ROTATION a_rotation) = 0;
-		virtual void VideoProcessorGetStreamRotation(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enable, D3D11_VIDEO_PROCESSOR_ROTATION* a_rotation) = 0;
+		virtual void    VideoProcessorSetStreamRotation(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL a_enable, D3D11_VIDEO_PROCESSOR_ROTATION a_rotation) = 0;
+		virtual void    VideoProcessorGetStreamRotation(ID3D11VideoProcessor* a_videoProcessor, std::uint32_t a_streamIndex, BOOL* a_enable, D3D11_VIDEO_PROCESSOR_ROTATION* a_rotation) = 0;
 	};
 
 	struct __declspec(novtable, uuid("3C9C5B51-995D-48d1-9B8D-FA5CAEDED65C"))
@@ -2464,23 +2464,23 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("10EC4D5B-975A-4689-B9E4-D0AAC30FE333"))
 		ID3D11VideoDevice : public IUnknown
 	{
-		virtual HRESULT CreateVideoDecoder(const D3D11_VIDEO_DECODER_DESC* a_videoDesc, const D3D11_VIDEO_DECODER_CONFIG* a_config, ID3D11VideoDecoder** a_decoder) = 0;
-		virtual HRESULT CreateVideoProcessor(ID3D11VideoProcessorEnumerator* a_enum, std::uint32_t a_rateConversionIndex, ID3D11VideoProcessor** a_videoProcessor) = 0;
-		virtual HRESULT CreateAuthenticatedChannel(D3D11_AUTHENTICATED_CHANNEL_TYPE a_channelType, ID3D11AuthenticatedChannel** a_authenticatedChannel) = 0;
-		virtual HRESULT CreateCryptoSession(const GUID* a_cryptoType, const GUID* a_decoderProfile, const GUID* a_keyExchangeType, ID3D11CryptoSession** a_cryptoSession) = 0;
-		virtual HRESULT CreateVideoDecoderOutputView(ID3D11Resource* a_resource, const D3D11_VIDEO_DECODER_OUTPUT_VIEW_DESC* a_desc, ID3D11VideoDecoderOutputView** a_dvovView) = 0;
-		virtual HRESULT CreateVideoProcessorInputView(ID3D11Resource* a_resource, ID3D11VideoProcessorEnumerator* a_enum, const D3D11_VIDEO_PROCESSOR_INPUT_VIEW_DESC* a_desc, ID3D11VideoProcessorInputView** a_vpiView) = 0;
-		virtual HRESULT CreateVideoProcessorOutputView(ID3D11Resource* a_resource, ID3D11VideoProcessorEnumerator* a_enum, const D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC* a_desc, ID3D11VideoProcessorOutputView** a_vpoView) = 0;
-		virtual HRESULT CreateVideoProcessorEnumerator(const D3D11_VIDEO_PROCESSOR_CONTENT_DESC* a_desc, ID3D11VideoProcessorEnumerator** a_enum) = 0;
+		virtual HRESULT       CreateVideoDecoder(const D3D11_VIDEO_DECODER_DESC* a_videoDesc, const D3D11_VIDEO_DECODER_CONFIG* a_config, ID3D11VideoDecoder** a_decoder) = 0;
+		virtual HRESULT       CreateVideoProcessor(ID3D11VideoProcessorEnumerator* a_enum, std::uint32_t a_rateConversionIndex, ID3D11VideoProcessor** a_videoProcessor) = 0;
+		virtual HRESULT       CreateAuthenticatedChannel(D3D11_AUTHENTICATED_CHANNEL_TYPE a_channelType, ID3D11AuthenticatedChannel** a_authenticatedChannel) = 0;
+		virtual HRESULT       CreateCryptoSession(const GUID* a_cryptoType, const GUID* a_decoderProfile, const GUID* a_keyExchangeType, ID3D11CryptoSession** a_cryptoSession) = 0;
+		virtual HRESULT       CreateVideoDecoderOutputView(ID3D11Resource* a_resource, const D3D11_VIDEO_DECODER_OUTPUT_VIEW_DESC* a_desc, ID3D11VideoDecoderOutputView** a_dvovView) = 0;
+		virtual HRESULT       CreateVideoProcessorInputView(ID3D11Resource* a_resource, ID3D11VideoProcessorEnumerator* a_enum, const D3D11_VIDEO_PROCESSOR_INPUT_VIEW_DESC* a_desc, ID3D11VideoProcessorInputView** a_vpiView) = 0;
+		virtual HRESULT       CreateVideoProcessorOutputView(ID3D11Resource* a_resource, ID3D11VideoProcessorEnumerator* a_enum, const D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC* a_desc, ID3D11VideoProcessorOutputView** a_vpoView) = 0;
+		virtual HRESULT       CreateVideoProcessorEnumerator(const D3D11_VIDEO_PROCESSOR_CONTENT_DESC* a_desc, ID3D11VideoProcessorEnumerator** a_enum) = 0;
 		virtual std::uint32_t GetVideoDecoderProfileCount(void) = 0;
-		virtual HRESULT GetVideoDecoderProfile(std::uint32_t a_index, GUID* a_decoderProfile) = 0;
-		virtual HRESULT CheckVideoDecoderFormat(const GUID* a_decoderProfile, DXGI_FORMAT a_format, BOOL* a_supported) = 0;
-		virtual HRESULT GetVideoDecoderConfigCount(const D3D11_VIDEO_DECODER_DESC* a_desc, std::uint32_t* a_count) = 0;
-		virtual HRESULT GetVideoDecoderConfig(const D3D11_VIDEO_DECODER_DESC* a_desc, std::uint32_t a_index, D3D11_VIDEO_DECODER_CONFIG* a_config) = 0;
-		virtual HRESULT GetContentProtectionCaps(const GUID* a_cryptoType, const GUID* a_decoderProfile, D3D11_VIDEO_CONTENT_PROTECTION_CAPS* a_caps) = 0;
-		virtual HRESULT CheckCryptoKeyExchange(const GUID* a_cryptoType, const GUID* a_decoderProfile, std::uint32_t a_index, GUID* a_keyExchangeType) = 0;
-		virtual HRESULT SetPrivateData(const GUID& a_guid, std::uint32_t a_dataSize, const void* a_data) = 0;
-		virtual HRESULT SetPrivateDataInterface(const GUID& a_guid, const IUnknown* a_data) = 0;
+		virtual HRESULT       GetVideoDecoderProfile(std::uint32_t a_index, GUID* a_decoderProfile) = 0;
+		virtual HRESULT       CheckVideoDecoderFormat(const GUID* a_decoderProfile, DXGI_FORMAT a_format, BOOL* a_supported) = 0;
+		virtual HRESULT       GetVideoDecoderConfigCount(const D3D11_VIDEO_DECODER_DESC* a_desc, std::uint32_t* a_count) = 0;
+		virtual HRESULT       GetVideoDecoderConfig(const D3D11_VIDEO_DECODER_DESC* a_desc, std::uint32_t a_index, D3D11_VIDEO_DECODER_CONFIG* a_config) = 0;
+		virtual HRESULT       GetContentProtectionCaps(const GUID* a_cryptoType, const GUID* a_decoderProfile, D3D11_VIDEO_CONTENT_PROTECTION_CAPS* a_caps) = 0;
+		virtual HRESULT       CheckCryptoKeyExchange(const GUID* a_cryptoType, const GUID* a_decoderProfile, std::uint32_t a_index, GUID* a_keyExchangeType) = 0;
+		virtual HRESULT       SetPrivateData(const GUID& a_guid, std::uint32_t a_dataSize, const void* a_data) = 0;
+		virtual HRESULT       SetPrivateDataInterface(const GUID& a_guid, const IUnknown* a_data) = 0;
 	};
 
 	struct __declspec(novtable, uuid("1D7B0652-185F-41c6-85CE-0C5BE3D4AE6C"))

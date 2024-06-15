@@ -282,15 +282,15 @@ namespace RE
 			return *this;
 		}
 
-		[[nodiscard]] constexpr const value_type* operator->() const noexcept { return std::addressof(value()); }
-		[[nodiscard]] constexpr value_type* operator->() noexcept { return std::addressof(value()); }
-		[[nodiscard]] constexpr const value_type& operator*() const& noexcept { return value(); }
-		[[nodiscard]] constexpr value_type& operator*() & noexcept { return value(); }
+		[[nodiscard]] constexpr const value_type*  operator->() const noexcept { return std::addressof(value()); }
+		[[nodiscard]] constexpr value_type*        operator->() noexcept { return std::addressof(value()); }
+		[[nodiscard]] constexpr const value_type&  operator*() const& noexcept { return value(); }
+		[[nodiscard]] constexpr value_type&        operator*() & noexcept { return value(); }
 		[[nodiscard]] constexpr const value_type&& operator*() const&& noexcept { return std::move(*this).value(); }
-		[[nodiscard]] constexpr value_type&& operator*() && noexcept { return std::move(*this).value(); }
+		[[nodiscard]] constexpr value_type&&       operator*() && noexcept { return std::move(*this).value(); }
 
 		[[nodiscard]] constexpr explicit operator bool() const noexcept { return has_value(); }
-		[[nodiscard]] constexpr bool has_value() const noexcept { return _active; }
+		[[nodiscard]] constexpr bool     has_value() const noexcept { return _active; }
 
 		[[nodiscard]] constexpr value_type& value() & noexcept
 		{
@@ -375,7 +375,7 @@ namespace RE
 		union
 		{
 			std::remove_const_t<value_type> _value;
-			std::byte _buffer[sizeof(value_type)]{};
+			std::byte                       _buffer[sizeof(value_type)]{};
 		};                      // 00
 		bool _active{ false };  // ??
 	};

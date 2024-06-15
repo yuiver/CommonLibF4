@@ -18,12 +18,12 @@ namespace RE
 			{
 			public:
 				// members
-				std::uint32_t loadLevel;  // 00
-				bool isCubeMap;           // 04
-				bool replicateCubeMap;    // 05
-				bool isDDX;               // 06
-				bool isSRGB;              // 07
-				bool allowDegrade;        // 08
+				std::uint32_t loadLevel;         // 00
+				bool          isCubeMap;         // 04
+				bool          replicateCubeMap;  // 05
+				bool          isDDX;             // 06
+				bool          isSRGB;            // 07
+				bool          allowDegrade;      // 08
 			};
 			static_assert(sizeof(ArgsType) == 0x0C);
 

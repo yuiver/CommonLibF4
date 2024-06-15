@@ -22,9 +22,9 @@ namespace RE
 			virtual void Clear();  // 01
 
 			// members
-			NiPointer<NiNode> root;           // 08
-			NiPointer<NiAVObject> attaching;  // 10
-			std::uint32_t attachPoint;        // 18
+			NiPointer<NiNode>     root;         // 08
+			NiPointer<NiAVObject> attaching;    // 10
+			std::uint32_t         attachPoint;  // 18
 		};
 		static_assert(sizeof(AttachTechniqueInput) == 0x20);
 	}
@@ -37,11 +37,11 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::RefAttachTechniqueInput };
 
 		// members
-		TESObjectREFR* object;          // 20
-		TESRace* race;                  // 28
-		bhkWorld* havokWorld;           // 30
-		std::uint32_t collisionGroup;   // 38
-		BSFixedString techniqueSuffix;  // 40
+		TESObjectREFR* object;           // 20
+		TESRace*       race;             // 28
+		bhkWorld*      havokWorld;       // 30
+		std::uint32_t  collisionGroup;   // 38
+		BSFixedString  techniqueSuffix;  // 40
 	};
 	static_assert(sizeof(RefAttachTechniqueInput) == 0x48);
 }

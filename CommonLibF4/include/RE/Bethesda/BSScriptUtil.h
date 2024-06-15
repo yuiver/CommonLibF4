@@ -72,7 +72,7 @@ namespace RE::BSScript
 		{
 			if (_proxy && _proxy->type) {
 				const auto& mappings = _proxy->type->varNameIndexMap;
-				const auto it = mappings.find(a_name);
+				const auto  it = mappings.find(a_name);
 				if (it != mappings.end()) {
 					const auto& var = _proxy->variables[it->second];
 					return detail::UnpackVariable<T>(var);
@@ -90,7 +90,7 @@ namespace RE::BSScript
 		bool insert(std::string_view a_name, T&& a_val)
 		{
 			if (_proxy && _proxy->type) {
-				auto& mappings = _proxy->type->varNameIndexMap;
+				auto&      mappings = _proxy->type->varNameIndexMap;
 				const auto it = mappings.find(a_name);
 				if (it != mappings.end()) {
 					auto& var = _proxy->variables[it->second];
@@ -382,8 +382,8 @@ namespace RE::BSScript
 	template <detail::object T>
 	[[nodiscard]] std::optional<TypeInfo> GetTypeInfo()
 	{
-		const auto game = GameVM::GetSingleton();
-		const auto vm = game ? game->GetVM() : nullptr;
+		const auto                      game = GameVM::GetSingleton();
+		const auto                      vm = game ? game->GetVM() : nullptr;
 		BSTSmartPointer<ObjectTypeInfo> typeInfo;
 		if (!vm ||
 			!vm->GetScriptObjectType(GetVMTypeID<T>(), typeInfo) ||
@@ -399,8 +399,8 @@ namespace RE::BSScript
 	template <detail::eobject T>
 	[[nodiscard]] std::optional<TypeInfo> GetTypeInfo()
 	{
-		const auto game = GameVM::GetSingleton();
-		const auto vm = game ? game->GetVM() : nullptr;
+		const auto                      game = GameVM::GetSingleton();
+		const auto                      vm = game ? game->GetVM() : nullptr;
 		BSTSmartPointer<ObjectTypeInfo> typeInfo;
 		if (!vm ||
 			!vm->GetScriptObjectType(GetVMTypeID<T>(), typeInfo) ||
@@ -422,10 +422,10 @@ namespace RE::BSScript
 	template <detail::vmobject T>
 	[[nodiscard]] std::optional<TypeInfo> GetTypeInfo()
 	{
-		const auto game = GameVM::GetSingleton();
-		const auto vm = game ? game->GetVM() : nullptr;
+		const auto                                 game = GameVM::GetSingleton();
+		const auto                                 vm = game ? game->GetVM() : nullptr;
 		static REL::Relocation<RE::BSFixedString*> baseObjectName{ REL::ID(648543) };
-		BSTSmartPointer<ObjectTypeInfo> typeInfo;
+		BSTSmartPointer<ObjectTypeInfo>            typeInfo;
 		if (!vm ||
 			!vm->GetScriptObjectType(*baseObjectName, typeInfo) ||
 			!typeInfo) {
@@ -526,8 +526,8 @@ namespace RE::BSScript
 		}
 
 		const auto success = [&]() {
-			const auto game = GameVM::GetSingleton();
-			const auto vm = game ? game->GetVM() : nullptr;
+			const auto                      game = GameVM::GetSingleton();
+			const auto                      vm = game ? game->GetVM() : nullptr;
 			BSTSmartPointer<ObjectTypeInfo> typeInfo;
 			if (!vm ||
 				!vm->GetScriptObjectType(GetVMTypeID<T>(), typeInfo) ||
@@ -536,10 +536,10 @@ namespace RE::BSScript
 			}
 
 			const auto& handles = vm->GetObjectHandlePolicy();
-			const auto handle = handles.GetHandleForObject(
-				GetVMTypeID<T>(),
-				const_cast<const void*>(
-					static_cast<const volatile void*>(a_val)));
+			const auto  handle = handles.GetHandleForObject(
+				 GetVMTypeID<T>(),
+				 const_cast<const void*>(
+                    static_cast<const volatile void*>(a_val)));
 			if (handle == handles.EmptyHandle()) {
 				return false;
 			}
@@ -578,7 +578,7 @@ namespace RE::BSScript
 				return false;
 			}
 			const auto& container = *a_val.Container();
-			const auto uniqueID = a_val.UniqueID();
+			const auto  uniqueID = a_val.UniqueID();
 
 			const auto typeInfo = GetTypeInfo<GameScript::RefrOrInventoryObj>();
 			if (!typeInfo || !typeInfo->IsObject()) {
@@ -592,7 +592,7 @@ namespace RE::BSScript
 				return false;
 			}
 
-			const auto handle = GameScript::HandlePolicy::GetHandleForInventoryID(uniqueID, container.GetFormID());
+			const auto              handle = GameScript::HandlePolicy::GetHandleForInventoryID(uniqueID, container.GetFormID());
 			BSTSmartPointer<Object> object;
 			if (!vm->FindBoundObject(handle, objInfo.name.c_str(), false, object, false) &&
 				vm->CreateObject(objInfo.name, object)) {
@@ -669,10 +669,10 @@ namespace RE::BSScript
 				typename std::remove_cvref_t<T>::value_type&&>;
 
 		const auto success = [&]() {
-			const auto game = GameVM::GetSingleton();
-			const auto vm = game ? game->GetVM() : nullptr;
-			const auto typeInfo = GetTypeInfo<std::remove_cvref_t<T>>();
-			const auto size = a_val.size();
+			const auto             game = GameVM::GetSingleton();
+			const auto             vm = game ? game->GetVM() : nullptr;
+			const auto             typeInfo = GetTypeInfo<std::remove_cvref_t<T>>();
+			const auto             size = a_val.size();
 			BSTSmartPointer<Array> out;
 			if (!typeInfo ||
 				!vm ||
@@ -752,7 +752,7 @@ namespace RE::BSScript
 			}
 
 			const auto& handles = vm->GetObjectHandlePolicy();
-			const auto handle = object->GetHandle();
+			const auto  handle = object->GetHandle();
 			if (!handles.IsHandleLoaded(handle)) {
 				return nullptr;
 			}
@@ -780,7 +780,7 @@ namespace RE::BSScript
 			}
 
 			const auto& handles = vm->GetObjectHandlePolicy();
-			const auto handle = object->GetHandle();
+			const auto  handle = object->GetHandle();
 			if (!handles.HandleIsType(static_cast<uint32_t>(ENUM_FORM_ID::kActiveEffect), handle))
 				return nullptr;
 
@@ -815,7 +815,7 @@ namespace RE::BSScript
 				return std::nullopt;
 			}
 
-			auto& policy = vm->GetObjectHandlePolicy();
+			auto&      policy = vm->GetObjectHandlePolicy();
 			const auto handle = obj->GetHandle();
 			if (!policy.HandleIsType(GetVMTypeID<T>(), handle)) {
 				return std::nullopt;
@@ -916,7 +916,7 @@ namespace RE::BSScript
 
 		using value_type = typename T::value_type;
 
-		T out;
+		T          out;
 		const auto in = get<Array>(a_var);
 		for (const auto& var : in->elements) {
 			out.push_back(detail::UnpackVariable<value_type>(var));
@@ -1045,12 +1045,12 @@ namespace RE::BSScript
 			class F,
 			std::size_t... I>
 		decltype(auto) DispatchHelper(
-			Variable& a_self,
+			Variable&                 a_self,
 			Internal::VirtualMachine& a_vm,
-			std::uint32_t a_stackID,
-			const StackFrame& a_stackFrame,
-			Stack& a_stack,
-			const std::function<F>& a_callback,
+			std::uint32_t             a_stackID,
+			const StackFrame&         a_stackFrame,
+			Stack&                    a_stack,
+			const std::function<F>&   a_callback,
 			std::index_sequence<I...>)
 		{
 			const auto self = [&]() -> S {
@@ -1206,11 +1206,11 @@ namespace RE::BSScript
 
 	template <class F>
 	void IVirtualMachine::BindNativeMethod(
-		stl::zstring a_object,
-		stl::zstring a_function,
-		F a_func,
+		stl::zstring        a_object,
+		stl::zstring        a_function,
+		F                   a_func,
 		std::optional<bool> a_taskletCallable,
-		bool a_isLatent)
+		bool                a_isLatent)
 	{
 		const auto success =
 			BindNativeMethod(new NativeFunction(
@@ -1232,8 +1232,8 @@ namespace RE::BSScript
 		template <class... Args>
 		BSScrapArray<Variable> PackVariables(Args&&... a_args)
 		{
-			constexpr auto size = sizeof...(a_args);
-			auto args = std::make_tuple(std::forward<Args>(a_args)...);
+			constexpr auto         size = sizeof...(a_args);
+			auto                   args = std::make_tuple(std::forward<Args>(a_args)...);
 			BSScrapArray<Variable> result{ size };
 			[&]<std::size_t... p>(std::index_sequence<p...>)
 			{
@@ -1246,8 +1246,8 @@ namespace RE::BSScript
 
 	template <class... Args>
 	bool IVirtualMachine::DispatchStaticCall(
-		const BSFixedString& a_objName,
-		const BSFixedString& a_funcName,
+		const BSFixedString&                          a_objName,
+		const BSFixedString&                          a_funcName,
 		const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
 		Args... a_args)
 	{
@@ -1263,9 +1263,9 @@ namespace RE::BSScript
 
 	template <class... Args>
 	bool IVirtualMachine::DispatchMethodCall(
-		std::uint64_t a_objHandle,
-		const BSFixedString& a_objName,
-		const BSFixedString& a_funcName,
+		std::uint64_t                                 a_objHandle,
+		const BSFixedString&                          a_objName,
+		const BSFixedString&                          a_funcName,
 		const BSTSmartPointer<IStackCallbackFunctor>& a_callback,
 		Args... a_args)
 	{

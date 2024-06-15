@@ -37,7 +37,7 @@ namespace RE::BSScript
 			return nullptr;
 		}
 		IObjectHandlePolicy& policy = vm->GetObjectHandlePolicy();
-		auto myHandle = GetHandle();
+		auto                 myHandle = GetHandle();
 		if (policy.HandleIsType(a_typeID, myHandle) && policy.IsHandleObjectAvailable(myHandle)) {
 			return policy.GetObjectForHandle(a_typeID, myHandle);
 		} else {

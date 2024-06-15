@@ -54,7 +54,7 @@ namespace RE
 		}
 
 		// members
-		std::uint32_t layerID;           // 00
+		std::uint32_t         layerID;   // 00
 		mutable std::uint32_t refCount;  // 04
 	};
 	static_assert(sizeof(BSInputEnableLayer) == 0x08);
@@ -130,16 +130,16 @@ namespace RE
 		}
 
 		// members
-		BSSpinLock cacheLock;                                                 // 110
-		REX::EnumSet<UEFlag, std::uint32_t> cachedInputUserEventsFlags;       // 118
-		REX::EnumSet<OEFlag, std::uint32_t> cachedOtherInputEventsFlags;      // 11C
-		REX::EnumSet<UEFlag, std::uint32_t> forceEnableInputUserEventsFlags;  // 120
-		REX::EnumSet<OEFlag, std::uint32_t> forceOtherInputEventsFlags;       // 124
-		BSSpinLock layerLock;                                                 // 128
-		BSTArray<BSInputEnableManager::EnableLayer> layers;                   // 130
-		BSTArray<BSTSmartPointer<BSInputEnableLayer>> layerWrappers;          // 148
-		BSTArray<BSFixedString> debugNames;                                   // 160
-		bool isCurrentlyInSaveLoad;                                           // 178
+		BSSpinLock                                    cacheLock;                        // 110
+		REX::EnumSet<UEFlag, std::uint32_t>           cachedInputUserEventsFlags;       // 118
+		REX::EnumSet<OEFlag, std::uint32_t>           cachedOtherInputEventsFlags;      // 11C
+		REX::EnumSet<UEFlag, std::uint32_t>           forceEnableInputUserEventsFlags;  // 120
+		REX::EnumSet<OEFlag, std::uint32_t>           forceOtherInputEventsFlags;       // 124
+		BSSpinLock                                    layerLock;                        // 128
+		BSTArray<BSInputEnableManager::EnableLayer>   layers;                           // 130
+		BSTArray<BSTSmartPointer<BSInputEnableLayer>> layerWrappers;                    // 148
+		BSTArray<BSFixedString>                       debugNames;                       // 160
+		bool                                          isCurrentlyInSaveLoad;            // 178
 	};
 	static_assert(sizeof(BSInputEnableManager) == 0x180);
 }

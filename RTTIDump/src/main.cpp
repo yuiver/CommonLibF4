@@ -25,14 +25,14 @@ public:
 		_vtables = virtual_tables({ cols.data(), cols.size() });
 	}
 
-	[[nodiscard]] reference operator[](std::size_t a_idx) noexcept { return _vtables[a_idx]; }
+	[[nodiscard]] reference       operator[](std::size_t a_idx) noexcept { return _vtables[a_idx]; }
 	[[nodiscard]] const_reference operator[](std::size_t a_idx) const noexcept { return _vtables[a_idx]; }
 
-	[[nodiscard]] iterator begin() noexcept { return _vtables.begin(); }
+	[[nodiscard]] iterator       begin() noexcept { return _vtables.begin(); }
 	[[nodiscard]] const_iterator begin() const noexcept { return _vtables.begin(); }
 	[[nodiscard]] const_iterator cbegin() const noexcept { return _vtables.cbegin(); }
 
-	[[nodiscard]] iterator end() noexcept { return _vtables.end(); }
+	[[nodiscard]] iterator       end() noexcept { return _vtables.end(); }
 	[[nodiscard]] const_iterator end() const noexcept { return _vtables.end(); }
 	[[nodiscard]] const_iterator cend() const noexcept { return _vtables.cend(); }
 
@@ -41,7 +41,7 @@ public:
 private:
 	[[nodiscard]] static const RE::RTTI::TypeDescriptor* type_descriptor(std::string_view a_name)
 	{
-		const auto segment = REL::Module::get().segment(REL::Segment::data);
+		const auto      segment = REL::Module::get().segment(REL::Segment::data);
 		const std::span haystack{ segment.pointer<const char>(), segment.size() };
 
 		std::boyer_moore_horspool_searcher searcher(a_name.cbegin(), a_name.cend());
@@ -59,8 +59,8 @@ private:
 		assert(a_typeDesc != nullptr);
 
 		const auto& mod = REL::Module::get();
-		const auto typeDesc = reinterpret_cast<std::uintptr_t>(a_typeDesc);
-		const auto rva = static_cast<std::uint32_t>(typeDesc - mod.base());
+		const auto  typeDesc = reinterpret_cast<std::uintptr_t>(a_typeDesc);
+		const auto  rva = static_cast<std::uint32_t>(typeDesc - mod.base());
 
 		const auto segment = mod.segment(REL::Segment::rdata);
 		const auto base = segment.pointer<const std::byte>();
@@ -156,7 +156,7 @@ private:
 	assert(a_typeDesc != nullptr);
 
 	std::array<char, 0x1000> buf;
-	const auto len =
+	const auto               len =
 		REX::W32::UnDecorateSymbolName(
 			a_typeDesc->mangled_name() + 1,
 			buf.data(),
@@ -193,21 +193,21 @@ void dump_rtti()
 {
 	std::vector<std::tuple<std::string, std::uint64_t, std::vector<std::uint64_t>>> results;  // [ demangled name, rtti id, vtable ids ]
 
-	VTable typeInfo(".?AVtype_info@@"sv);
+	VTable      typeInfo(".?AVtype_info@@"sv);
 	const auto& mod = REL::Module::get();
-	const auto baseAddr = mod.base();
-	const auto data = mod.segment(REL::Segment::data);
-	const auto beg = data.pointer<const std::uintptr_t>();
-	const auto end = reinterpret_cast<const std::uintptr_t*>(data.address() + data.size());
+	const auto  baseAddr = mod.base();
+	const auto  data = mod.segment(REL::Segment::data);
+	const auto  beg = data.pointer<const std::uintptr_t>();
+	const auto  end = reinterpret_cast<const std::uintptr_t*>(data.address() + data.size());
 	const auto& iddb = get_iddb();
 	for (auto iter = beg; iter < end; ++iter) {
 		if (*iter == typeInfo[0].address()) {
 			const auto typeDescriptor = reinterpret_cast<const RE::RTTI::TypeDescriptor*>(iter);
 			try {
-				auto name = decode_name(typeDescriptor);
+				auto       name = decode_name(typeDescriptor);
 				const auto rid = iddb(reinterpret_cast<std::uintptr_t>(iter) - baseAddr);
 
-				VTable vtable{ typeDescriptor };
+				VTable                     vtable{ typeDescriptor };
 				std::vector<std::uint64_t> vids(vtable.size());
 				std::transform(
 					vtable.begin(),
@@ -247,14 +247,14 @@ void dump_rtti()
 		results.end());
 
 	std::ofstream file;
-	const auto openf = [&](std::string_view a_name) {
-		file.open(a_name.data() + "_IDs.h"s);
-		file << "#pragma once\n"sv
-			 << "\n"sv
-			 << "namespace RE\n"sv
-			 << "{\n"sv
-			 << "\tnamespace "sv << a_name << "\n"sv
-			 << "\t{\n"sv;
+	const auto    openf = [&](std::string_view a_name) {
+        file.open(a_name.data() + "_IDs.h"s);
+        file << "#pragma once\n"sv
+             << "\n"sv
+             << "namespace RE\n"sv
+             << "{\n"sv
+             << "\tnamespace "sv << a_name << "\n"sv
+             << "\t{\n"sv;
 	};
 	const auto closef = [&]() {
 		file << "\t}\n"sv
@@ -322,11 +322,11 @@ void dump_nirtti()
 	}
 
 	const auto& mod = REL::Module::get();
-	const auto base = mod.base();
-	const auto segment = mod.segment(REL::Segment::data);
-	const auto beg = segment.pointer<const std::uintptr_t>();
-	const auto end = reinterpret_cast<const std::uintptr_t*>(segment.address() + segment.size());
-	bool found = false;
+	const auto  base = mod.base();
+	const auto  segment = mod.segment(REL::Segment::data);
+	const auto  beg = segment.pointer<const std::uintptr_t>();
+	const auto  end = reinterpret_cast<const std::uintptr_t*>(segment.address() + segment.size());
+	bool        found = false;
 	do {
 		found = false;
 		for (auto iter = beg; iter < end; ++iter) {
@@ -340,7 +340,7 @@ void dump_nirtti()
 	} while (found);
 
 	std::vector<std::pair<std::string, std::uint64_t>> toPrint;
-	const auto& iddb = get_iddb();
+	const auto&                                        iddb = get_iddb();
 	for (const auto& result : results) {
 		const auto rtti = reinterpret_cast<const RE::NiRTTI*>(result);
 		try {

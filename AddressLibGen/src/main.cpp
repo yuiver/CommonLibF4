@@ -38,7 +38,7 @@ public:
 		_impl(a_version)
 	{}
 
-	[[nodiscard]] constexpr reference operator[](std::size_t a_idx) noexcept { return _impl[a_idx]; }
+	[[nodiscard]] constexpr reference       operator[](std::size_t a_idx) noexcept { return _impl[a_idx]; }
 	[[nodiscard]] constexpr const_reference operator[](std::size_t a_idx) const noexcept { return _impl[a_idx]; }
 
 	[[nodiscard]] int constexpr compare(const Version& a_rhs) const noexcept
@@ -108,7 +108,7 @@ public:
 	void link(Mapping* a_mapping) { _links.insert(a_mapping); }
 
 private:
-	std::set<Mapping*> _links;
+	std::set<Mapping*>           _links;
 	std::optional<std::uint64_t> _id;
 };
 
@@ -116,11 +116,11 @@ using files_t = std::vector<std::tuple<Version, Version, std::filesystem::path>>
 
 [[nodiscard]] files_t get_files(const std::filesystem::path& a_root)
 {
-	files_t results;
+	files_t     results;
 	std::wregex regex(L"(\\d+)\\.(\\d+)\\.(\\d+)_(\\d+)\\.(\\d+)\\.(\\d+)\\.txt"s, std::regex::ECMAScript);
 	for (const auto& entry : std::filesystem::directory_iterator(a_root)) {
 		if (entry.is_regular_file()) {
-			const auto filename = entry.path().filename();
+			const auto   filename = entry.path().filename();
 			std::wsmatch matches;
 			if (std::regex_match(filename.native(), matches, regex) && matches.size() == 7) {
 				results.emplace_back();
@@ -150,12 +150,12 @@ using version_map = std::map<Version, offset_map>;
 
 [[nodiscard]] version_map load_mappings(const files_t& a_files)
 {
-	version_map map;
-	std::ifstream file;
+	version_map       map;
+	std::ifstream     file;
 	std::stringstream ss;
-	std::string line;
-	std::string lbuf;
-	std::string rbuf;
+	std::string       line;
+	std::string       lbuf;
+	std::string       rbuf;
 
 	const auto find_or_emplace_version = [&map](const Version& a_version) -> offset_map& {
 		auto it = map.find(a_version);
@@ -221,13 +221,13 @@ void assign_ids(version_map& a_versionMap)
 void write_binaries(version_map& a_versionMap)
 {
 	std::ofstream file;
-	const auto binary_write = [&file](auto&& a_data) {
-		file.write(
-			reinterpret_cast<const char*>(std::addressof(a_data)),
-			sizeof(std::remove_reference_t<decltype(a_data)>));
+	const auto    binary_write = [&file](auto&& a_data) {
+        file.write(
+			   reinterpret_cast<const char*>(std::addressof(a_data)),
+			   sizeof(std::remove_reference_t<decltype(a_data)>));
 	};
 
-	std::string filename;
+	std::string                                    filename;
 	std::vector<std::pair<std::uint64_t, Mapping>> mappings;
 	for (const auto& [ver, offsetMap] : a_versionMap) {
 		filename = "version-"sv;

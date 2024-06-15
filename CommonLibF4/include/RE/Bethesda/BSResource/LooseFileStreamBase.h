@@ -16,11 +16,11 @@ namespace RE::BSResource
 		[[nodiscard]] std::string_view GetPrefix() const { return prefix; }
 
 		// members
-		BSFixedString prefix;             // 00
-		BSFixedString dirName;            // 08
-		BSFixedString fileName;           // 10
-		BSSystemFile file;                // 18
-		BSSystemFileStreamer::ID pathID;  // 28
+		BSFixedString            prefix;    // 00
+		BSFixedString            dirName;   // 08
+		BSFixedString            fileName;  // 10
+		BSSystemFile             file;      // 18
+		BSSystemFileStreamer::ID pathID;    // 28
 	};
 	static_assert(sizeof(LooseFileStreamBase) == 0x30);
 }

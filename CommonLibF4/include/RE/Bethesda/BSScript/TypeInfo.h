@@ -105,9 +105,9 @@ namespace RE
 			}
 			[[nodiscard]] bool IsObject() const { return GetRawType() == RawType::kObject; }
 			[[nodiscard]] bool IsStruct() const { return GetRawType() == RawType::kStruct; }
-			IComplexType* GetComplexType() const;
-			StructTypeInfo* GetStructTypeInfo() const;
-			ObjectTypeInfo* GetObjectTypeInfo() const;
+			IComplexType*      GetComplexType() const;
+			StructTypeInfo*    GetStructTypeInfo() const;
+			ObjectTypeInfo*    GetObjectTypeInfo() const;
 
 			void SetArray(bool a_set) noexcept
 			{
@@ -141,7 +141,7 @@ namespace RE
 				~D() noexcept { complexTypeInfo = nullptr; }
 
 				REX::EnumSet<RawType, std::uintptr_t> rawType;
-				IComplexType* complexTypeInfo;
+				IComplexType*                         complexTypeInfo;
 			} data;  // 0
 		};
 		static_assert(sizeof(TypeInfo) == 0x8);

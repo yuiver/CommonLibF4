@@ -129,7 +129,7 @@ namespace F4SE
 
 	private:
 		[[nodiscard]] static void* do_create(std::size_t a_size, std::uintptr_t a_address);
-		[[nodiscard]] void* do_allocate(std::size_t a_size);
+		[[nodiscard]] void*        do_allocate(std::size_t a_size);
 
 		void write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode);
 		void write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm);
@@ -195,11 +195,11 @@ namespace F4SE
 
 		std::map<std::uintptr_t, std::byte*> _5branches;
 		std::map<std::uintptr_t, std::byte*> _6branches;
-		std::string _name{ "Default Trampoline"sv };
-		deleter_type _deleter;
-		std::byte* _data{ nullptr };
-		std::size_t _capacity{ 0 };
-		std::size_t _size{ 0 };
+		std::string                          _name{ "Default Trampoline"sv };
+		deleter_type                         _deleter;
+		std::byte*                           _data{ nullptr };
+		std::size_t                          _capacity{ 0 };
+		std::size_t                          _size{ 0 };
 	};
 
 	[[nodiscard]] Trampoline& GetTrampoline() noexcept;

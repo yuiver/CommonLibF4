@@ -317,7 +317,7 @@ namespace RE
 
 			// members
 			MemoryManager::AutoScrapBuffer buffer;  // 00
-			std::size_t offset;                     // 08
+			std::size_t                    offset;  // 08
 		};
 		static_assert(sizeof(ScrapStringBuffer) == 0x10);
 	};

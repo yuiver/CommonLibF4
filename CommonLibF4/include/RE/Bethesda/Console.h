@@ -38,8 +38,8 @@ namespace RE
 		}
 
 		// members
-		BSStringT<char> buffer;  // 08
-		bool useConsoleOverlay;  // 18
+		BSStringT<char> buffer;             // 08
+		bool            useConsoleOverlay;  // 18
 	};
 	static_assert(sizeof(ConsoleLog) == 0x20);
 }

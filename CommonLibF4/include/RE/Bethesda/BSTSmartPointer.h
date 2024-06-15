@@ -49,7 +49,7 @@ namespace RE
 	{
 	public:
 		constexpr static void Acquire(stl::not_null<T*> a_ptr) { return; }
-		static void Release(stl::not_null<T*> a_ptr) { delete a_ptr; }
+		static void           Release(stl::not_null<T*> a_ptr) { delete a_ptr; }
 	};
 
 	template <class T>
@@ -57,7 +57,7 @@ namespace RE
 	{
 	public:
 		constexpr static void Acquire(stl::not_null<T*> a_ptr) { a_ptr->IncRefCount(); }
-		static void Release(stl::not_null<T*> a_ptr) { a_ptr->DecRefCount(); }
+		static void           Release(stl::not_null<T*> a_ptr) { a_ptr->DecRefCount(); }
 	};
 
 	template <class T, template <class> class RefManager = BSTSmartPointerIntrusiveRefCount>

@@ -4,7 +4,7 @@ namespace REX::W32
 {
 	inline constexpr std::uint16_t XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE{ 7849 };
 	inline constexpr std::uint16_t XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE{ 8689 };
-	inline constexpr std::uint8_t XINPUT_GAMEPAD_TRIGGER_THRESHOLD{ 30 };
+	inline constexpr std::uint8_t  XINPUT_GAMEPAD_TRIGGER_THRESHOLD{ 30 };
 }
 
 namespace REX::W32
@@ -40,12 +40,12 @@ namespace REX::W32
 	struct XINPUT_GAMEPAD
 	{
 		std::uint16_t buttons;
-		std::uint8_t leftTrigger;
-		std::uint8_t rightTrigger;
-		std::int16_t thumbLX;
-		std::int16_t thumbLY;
-		std::int16_t thumbRX;
-		std::int16_t thumbRY;
+		std::uint8_t  leftTrigger;
+		std::uint8_t  rightTrigger;
+		std::int16_t  thumbLX;
+		std::int16_t  thumbLY;
+		std::int16_t  thumbRX;
+		std::int16_t  thumbRY;
 	};
 
 	struct XINPUT_KEYSTROKE
@@ -53,13 +53,13 @@ namespace REX::W32
 		std::uint16_t virtualKey;
 		std::uint16_t unicode;
 		std::uint16_t flags;
-		std::uint8_t userIndex;
-		std::uint8_t hidCode;
+		std::uint8_t  userIndex;
+		std::uint8_t  hidCode;
 	};
 
 	struct XINPUT_STATE
 	{
-		std::uint32_t packetNumber;
+		std::uint32_t  packetNumber;
 		XINPUT_GAMEPAD gamepad;
 	};
 
@@ -71,10 +71,10 @@ namespace REX::W32
 
 	struct XINPUT_CAPABILITIES
 	{
-		std::uint8_t type;
-		std::uint8_t subType;
-		std::uint16_t flags;
-		XINPUT_GAMEPAD gamepad;
+		std::uint8_t     type;
+		std::uint8_t     subType;
+		std::uint16_t    flags;
+		XINPUT_GAMEPAD   gamepad;
 		XINPUT_VIBRATION vibration;
 	};
 }

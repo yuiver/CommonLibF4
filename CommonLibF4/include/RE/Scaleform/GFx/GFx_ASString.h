@@ -26,7 +26,7 @@ namespace RE::Scaleform::GFx
 	{
 	public:
 		// members
-		const char* data;          // 00
+		const char*      data;     // 00
 		ASStringManager* manager;  // 08
 		union
 		{
@@ -71,8 +71,8 @@ namespace RE::Scaleform::GFx
 	public:
 		// members
 		ASStringNodeHolder builtins[STAT];  // 00
-		ASStringManager* stringManager;     // ??
-		const char** staticStrings;         // ??+08
+		ASStringManager*   stringManager;   // ??
+		const char**       staticStrings;   // ??+08
 	};
 	static_assert(sizeof(ASStringBuiltinManagerT<void, 65>) == 0x218);
 }

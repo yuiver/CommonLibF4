@@ -168,8 +168,8 @@ namespace RE
 		virtual ~InputEvent() = default;  // 00
 
 		// add
-		virtual bool HasIDCode() const { return false; }  // 02
-		virtual const BSFixedString& QUserEvent() const;  // 03
+		virtual bool                 HasIDCode() const { return false; }  // 02
+		virtual const BSFixedString& QUserEvent() const;                  // 03
 
 		template <class T>
 		[[nodiscard]] T* As() noexcept  //
@@ -218,12 +218,12 @@ namespace RE
 		}
 
 		// members
-		REX::EnumSet<INPUT_DEVICE, std::int32_t> device{ INPUT_DEVICE::kNone };             // 08
-		std::int32_t deviceID{ 0 };                                                         // 0C
-		REX::EnumSet<INPUT_EVENT_TYPE, std::int32_t> eventType{ INPUT_EVENT_TYPE::kNone };  // 10
-		InputEvent* next{ nullptr };                                                        // 18
-		std::uint32_t timeCode{ static_cast<std::uint32_t>(-1) };                           // 20
-		REX::EnumSet<HANDLED_RESULT, std::int32_t> handled{ HANDLED_RESULT::kUnhandled };   // 24
+		REX::EnumSet<INPUT_DEVICE, std::int32_t>     device{ INPUT_DEVICE::kNone };               // 08
+		std::int32_t                                 deviceID{ 0 };                               // 0C
+		REX::EnumSet<INPUT_EVENT_TYPE, std::int32_t> eventType{ INPUT_EVENT_TYPE::kNone };        // 10
+		InputEvent*                                  next{ nullptr };                             // 18
+		std::uint32_t                                timeCode{ static_cast<std::uint32_t>(-1) };  // 20
+		REX::EnumSet<HANDLED_RESULT, std::int32_t>   handled{ HANDLED_RESULT::kUnhandled };       // 24
 	};
 	static_assert(sizeof(InputEvent) == 0x28);
 
@@ -243,7 +243,7 @@ namespace RE
 	};
 	static_assert(sizeof(CharacterEvent) == 0x30);
 
-	extern template CharacterEvent* InputEvent::As() noexcept;
+	extern template CharacterEvent*       InputEvent::As() noexcept;
 	extern template const CharacterEvent* InputEvent::As() const noexcept;
 
 	class __declspec(novtable) DeviceConnectEvent :
@@ -262,7 +262,7 @@ namespace RE
 	};
 	static_assert(sizeof(DeviceConnectEvent) == 0x30);
 
-	extern template DeviceConnectEvent* InputEvent::As() noexcept;
+	extern template DeviceConnectEvent*       InputEvent::As() noexcept;
 	extern template const DeviceConnectEvent* InputEvent::As() const noexcept;
 
 	class __declspec(novtable) IDEvent :
@@ -287,18 +287,18 @@ namespace RE
 			return "DISABLED"sv;
 		}
 
-		[[nodiscard]] const bool QDisabled() const noexcept { return disabled; }
-		[[nodiscard]] const std::uint32_t QIDCode() const noexcept { return idCode; }
+		[[nodiscard]] const bool           QDisabled() const noexcept { return disabled; }
+		[[nodiscard]] const std::uint32_t  QIDCode() const noexcept { return idCode; }
 		[[nodiscard]] const BSFixedString& QRawUserEvent() const noexcept { return strUserEvent; }
 
 		// members
-		BSFixedString strUserEvent;  // 28
-		std::int32_t idCode{ -1 };   // 30
-		bool disabled{ false };      // 34
+		BSFixedString strUserEvent;       // 28
+		std::int32_t  idCode{ -1 };       // 30
+		bool          disabled{ false };  // 34
 	};
 	static_assert(sizeof(IDEvent) == 0x38);
 
-	extern template IDEvent* InputEvent::As();
+	extern template IDEvent*       InputEvent::As();
 	extern template const IDEvent* InputEvent::As() const;
 
 	class __declspec(novtable) ButtonEvent :
@@ -324,13 +324,13 @@ namespace RE
 		}
 
 		[[nodiscard]] float QAnalogValue() const noexcept { return value; }
-		[[nodiscard]] bool QHeldDown(float a_heldDownSecs) const noexcept { return value != 0.0 && a_heldDownSecs <= heldDownSecs; }
-		[[nodiscard]] bool QHeldDown() const noexcept { return value != 0.0 && heldDownSecs > 0.0F; }
+		[[nodiscard]] bool  QHeldDown(float a_heldDownSecs) const noexcept { return value != 0.0 && a_heldDownSecs <= heldDownSecs; }
+		[[nodiscard]] bool  QHeldDown() const noexcept { return value != 0.0 && heldDownSecs > 0.0F; }
 		[[nodiscard]] float QHeldDownSecs() const noexcept { return heldDownSecs; }
-		[[nodiscard]] bool QJustPressed() const noexcept { return value != 0.0F && heldDownSecs == 0.0F; }
-		[[nodiscard]] bool QPressed() const noexcept { return value != 0.0F; }
-		[[nodiscard]] bool QReleased(float a_heldDownSecs) const noexcept { return value == 0.0F && a_heldDownSecs <= heldDownSecs; }
-		[[nodiscard]] bool QReleased() const noexcept { return value == 0.0F && heldDownSecs > 0.0F; }
+		[[nodiscard]] bool  QJustPressed() const noexcept { return value != 0.0F && heldDownSecs == 0.0F; }
+		[[nodiscard]] bool  QPressed() const noexcept { return value != 0.0F; }
+		[[nodiscard]] bool  QReleased(float a_heldDownSecs) const noexcept { return value == 0.0F && a_heldDownSecs <= heldDownSecs; }
+		[[nodiscard]] bool  QReleased() const noexcept { return value == 0.0F && heldDownSecs > 0.0F; }
 
 		// members
 		float value{ 0.0F };         // 38
@@ -338,7 +338,7 @@ namespace RE
 	};
 	static_assert(sizeof(ButtonEvent) == 0x40);
 
-	extern template ButtonEvent* InputEvent::As() noexcept;
+	extern template ButtonEvent*       InputEvent::As() noexcept;
 	extern template const ButtonEvent* InputEvent::As() const noexcept;
 
 	class __declspec(novtable) CursorMoveEvent :
@@ -358,7 +358,7 @@ namespace RE
 	};
 	static_assert(sizeof(CursorMoveEvent) == 0x40);
 
-	extern template CursorMoveEvent* InputEvent::As() noexcept;
+	extern template CursorMoveEvent*       InputEvent::As() noexcept;
 	extern template const CursorMoveEvent* InputEvent::As() const noexcept;
 
 	class __declspec(novtable) KinectEvent :
@@ -377,7 +377,7 @@ namespace RE
 	};
 	static_assert(sizeof(KinectEvent) == 0x40);
 
-	extern template KinectEvent* InputEvent::As() noexcept;
+	extern template KinectEvent*       InputEvent::As() noexcept;
 	extern template const KinectEvent* InputEvent::As() const noexcept;
 
 	class __declspec(novtable) MouseMoveEvent :
@@ -397,7 +397,7 @@ namespace RE
 	};
 	static_assert(sizeof(MouseMoveEvent) == 0x40);
 
-	extern template MouseMoveEvent* InputEvent::As() noexcept;
+	extern template MouseMoveEvent*       InputEvent::As() noexcept;
 	extern template const MouseMoveEvent* InputEvent::As() const noexcept;
 
 	class __declspec(novtable) ThumbstickEvent :
@@ -418,13 +418,13 @@ namespace RE
 		virtual ~ThumbstickEvent() = default;  // 00
 
 		// members
-		float xValue{ 0.0F };                           // 38
-		float yValue{ 0.0F };                           // 3C
+		float         xValue{ 0.0F };                   // 38
+		float         yValue{ 0.0F };                   // 3C
 		DIRECTION_VAL prevDir{ DIRECTION_VAL::kNone };  // 40
 		DIRECTION_VAL currDir{ DIRECTION_VAL::kNone };  // 44
 	};
 	static_assert(sizeof(ThumbstickEvent) == 0x48);
 
-	extern template ThumbstickEvent* InputEvent::As() noexcept;
+	extern template ThumbstickEvent*       InputEvent::As() noexcept;
 	extern template const ThumbstickEvent* InputEvent::As() const noexcept;
 }

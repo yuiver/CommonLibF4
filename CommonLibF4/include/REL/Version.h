@@ -19,7 +19,7 @@ namespace REL
 			_impl{ a_v1, a_v2, a_v3, a_v4 }
 		{}
 
-		[[nodiscard]] constexpr reference operator[](std::size_t a_idx) noexcept { return _impl[a_idx]; }
+		[[nodiscard]] constexpr reference       operator[](std::size_t a_idx) noexcept { return _impl[a_idx]; }
 		[[nodiscard]] constexpr const_reference operator[](std::size_t a_idx) const noexcept { return _impl[a_idx]; }
 
 		[[nodiscard]] constexpr decltype(auto) begin() const noexcept { return _impl.begin(); }

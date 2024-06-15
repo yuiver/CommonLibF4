@@ -13,7 +13,7 @@ namespace RE
 		{
 		public:
 			// members
-			const TESFurniture* workbench;
+			const TESFurniture*           workbench;
 			const BGSConstructibleObject* recipe;
 		};
 

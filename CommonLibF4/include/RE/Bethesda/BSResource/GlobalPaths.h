@@ -22,8 +22,8 @@ namespace RE::BSResource
 		}
 
 		// members
-		BSTArray<BSFixedString> names;  // 18
-		Location* rootLocation;         // 30
+		BSTArray<BSFixedString> names;         // 18
+		Location*               rootLocation;  // 30
 	};
 	static_assert(sizeof(GlobalPaths) == 0x38);
 }

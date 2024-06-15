@@ -31,7 +31,7 @@ namespace REX::W32
 	using NTSTATUS = std::int32_t;
 
 	// general constants
-	inline const auto INVALID_HANDLE_VALUE{ reinterpret_cast<HANDLE>(static_cast<std::intptr_t>(-1)) };
+	inline const auto     INVALID_HANDLE_VALUE{ reinterpret_cast<HANDLE>(static_cast<std::intptr_t>(-1)) };
 	inline constexpr auto MAX_PATH{ 260u };
 }
 
@@ -77,10 +77,10 @@ namespace REX::W32
 			return !(a_lhs == a_rhs);
 		}
 
-		std::uint32_t data1{};    // 00
-		std::uint16_t data2{};    // 04
-		std::uint16_t data3{};    // 08
-		std::uint8_t data4[8]{};  // 10
+		std::uint32_t data1{};     // 00
+		std::uint16_t data2{};     // 04
+		std::uint16_t data3{};     // 08
+		std::uint8_t  data4[8]{};  // 10
 	};
 	static_assert(sizeof(GUID) == 0x10);
 
@@ -136,20 +136,20 @@ namespace REX::W32
 {
 	struct CRITICAL_SECTION
 	{
-		void* debugInfo;              // 00
-		std::int32_t lockCount;       // 08
-		std::int32_t recursionCount;  // 0C
-		HANDLE owningThread;          // 10
-		HANDLE lockSemaphore;         // 18
-		std::uintptr_t spinCount;     // 20
+		void*          debugInfo;       // 00
+		std::int32_t   lockCount;       // 08
+		std::int32_t   recursionCount;  // 0C
+		HANDLE         owningThread;    // 10
+		HANDLE         lockSemaphore;   // 18
+		std::uintptr_t spinCount;       // 20
 	};
 	static_assert(sizeof(CRITICAL_SECTION) == 0x28);
 
 	struct SECURITY_ATTRIBUTES
 	{
-		std::uint32_t length;      // 00
-		void* securityDescriptor;  // 04
-		BOOL inheritHandle;        // 0C
+		std::uint32_t length;              // 00
+		void*         securityDescriptor;  // 04
+		BOOL          inheritHandle;       // 0C
 	};
 	static_assert(sizeof(SECURITY_ATTRIBUTES) == 0x18);
 
@@ -158,7 +158,7 @@ namespace REX::W32
 		struct
 		{
 			std::uint32_t lo;
-			std::int32_t hi;
+			std::int32_t  hi;
 		};
 		std::int64_t value;
 	};

@@ -234,28 +234,28 @@ namespace RE
 	template class GetCurrentPositionFunctor<float>;
 	static_assert(std::is_empty_v<GetCurrentPositionFunctor<float>>);
 
-	template CharacterEvent* InputEvent::As() noexcept;
+	template CharacterEvent*       InputEvent::As() noexcept;
 	template const CharacterEvent* InputEvent::As() const noexcept;
 
-	template DeviceConnectEvent* InputEvent::As() noexcept;
+	template DeviceConnectEvent*       InputEvent::As() noexcept;
 	template const DeviceConnectEvent* InputEvent::As() const noexcept;
 
-	template IDEvent* InputEvent::As<IDEvent>();
+	template IDEvent*       InputEvent::As<IDEvent>();
 	template const IDEvent* InputEvent::As<IDEvent>() const;
 
-	template ButtonEvent* InputEvent::As() noexcept;
+	template ButtonEvent*       InputEvent::As() noexcept;
 	template const ButtonEvent* InputEvent::As() const noexcept;
 
-	template CursorMoveEvent* InputEvent::As() noexcept;
+	template CursorMoveEvent*       InputEvent::As() noexcept;
 	template const CursorMoveEvent* InputEvent::As() const noexcept;
 
-	template KinectEvent* InputEvent::As() noexcept;
+	template KinectEvent*       InputEvent::As() noexcept;
 	template const KinectEvent* InputEvent::As() const noexcept;
 
-	template MouseMoveEvent* InputEvent::As() noexcept;
+	template MouseMoveEvent*       InputEvent::As() noexcept;
 	template const MouseMoveEvent* InputEvent::As() const noexcept;
 
-	template ThumbstickEvent* InputEvent::As() noexcept;
+	template ThumbstickEvent*       InputEvent::As() noexcept;
 	template const ThumbstickEvent* InputEvent::As() const noexcept;
 
 	template class SettingT<GameSettingCollection>;

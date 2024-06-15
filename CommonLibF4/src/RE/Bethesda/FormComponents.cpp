@@ -115,7 +115,7 @@ namespace RE
 			}
 
 			const auto& map = GetSparseFullNameMap();
-			const auto it = map.find(std::addressof(a_form));
+			const auto  it = map.find(std::addressof(a_form));
 			return it != map.end() ? it->second : ""sv;
 		}
 	}

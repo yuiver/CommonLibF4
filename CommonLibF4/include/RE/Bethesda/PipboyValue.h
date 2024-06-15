@@ -36,16 +36,16 @@ namespace RE
 		virtual ~PipboyValue();  // 00
 
 		// add
-		virtual void CleanDirtyToGame();                                                        // 01
-		virtual void Serialize(Json::Value* a_json) = 0;                                        // 02
-		virtual void SerializeChanges(BSBinarySerializer& a_serializer, bool a_fullSerialize);  // 03
-		virtual SERIALIZATION_DATA_TYPE GetType() = 0;                                          // 04
+		virtual void                    CleanDirtyToGame();                                                        // 01
+		virtual void                    Serialize(Json::Value* a_json) = 0;                                        // 02
+		virtual void                    SerializeChanges(BSBinarySerializer& a_serializer, bool a_fullSerialize);  // 03
+		virtual SERIALIZATION_DATA_TYPE GetType() = 0;                                                             // 04
 
 		// members
-		std::uint32_t id;          // 08
-		bool isDirtyGame;          // 0C
-		bool isDirtyToCompanion;   // 0D
-		PipboyValue* parentValue;  // 10
+		std::uint32_t id;                  // 08
+		bool          isDirtyGame;         // 0C
+		bool          isDirtyToCompanion;  // 0D
+		PipboyValue*  parentValue;         // 10
 	};
 	static_assert(sizeof(PipboyValue) == 0x18);
 
@@ -59,16 +59,16 @@ namespace RE
 		virtual ~PipboyObject();  // 00
 
 		// override
-		virtual void CleanDirtyToGame() override;                                                        // 01
-		virtual void Serialize(Json::Value* a_json) override;                                            // 02
-		virtual void SerializeChanges(BSBinarySerializer& a_serializer, bool a_fullSerialize) override;  // 03
-		virtual SERIALIZATION_DATA_TYPE GetType() override;                                              // 04
+		virtual void                    CleanDirtyToGame() override;                                                        // 01
+		virtual void                    Serialize(Json::Value* a_json) override;                                            // 02
+		virtual void                    SerializeChanges(BSBinarySerializer& a_serializer, bool a_fullSerialize) override;  // 03
+		virtual SERIALIZATION_DATA_TYPE GetType() override;                                                                 // 04
 
 		// members
-		BSTHashMap<BSFixedString, PipboyValue*> memberMap;  // 18
-		BSTSet<std::uint32_t> addedMemberIDs;               // 48
-		BSTArray<std::uint32_t> removedMemberIDs;           // 78
-		bool newlyCreated;                                  // 90
+		BSTHashMap<BSFixedString, PipboyValue*> memberMap;         // 18
+		BSTSet<std::uint32_t>                   addedMemberIDs;    // 48
+		BSTArray<std::uint32_t>                 removedMemberIDs;  // 78
+		bool                                    newlyCreated;      // 90
 	};
 	static_assert(sizeof(PipboyObject) == 0x98);
 }

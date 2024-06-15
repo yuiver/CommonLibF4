@@ -86,7 +86,7 @@ namespace RE
 			iterator_base operator++(int) noexcept
 			{
 				iterator_base tmp{ *this };
-				operator++();
+							  operator++();
 				return tmp;
 			}
 
@@ -102,7 +102,7 @@ namespace RE
 			iterator_base operator--(int) noexcept
 			{
 				iterator_base tmp{ *this };
-				operator--();
+							  operator--();
 				return tmp;
 			}
 
@@ -164,15 +164,15 @@ namespace RE
 
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
 
-		[[nodiscard]] iterator begin() noexcept { return make_iterator<iterator>(0); }
+		[[nodiscard]] iterator       begin() noexcept { return make_iterator<iterator>(0); }
 		[[nodiscard]] const_iterator begin() const noexcept { return make_iterator<const_iterator>(0); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return make_iterator<const_iterator>(0); }
 
-		[[nodiscard]] iterator end() noexcept { return make_iterator<iterator>(_capacity); }
+		[[nodiscard]] iterator       end() noexcept { return make_iterator<iterator>(_capacity); }
 		[[nodiscard]] const_iterator end() const noexcept { return make_iterator<const_iterator>(_capacity); }
 		[[nodiscard]] const_iterator cend() const noexcept { return make_iterator<const_iterator>(_capacity); }
 
-		[[nodiscard]] bool empty() const noexcept { return size() == 0; }
+		[[nodiscard]] bool      empty() const noexcept { return size() == 0; }
 		[[nodiscard]] size_type size() const noexcept { return _size; }
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
 
@@ -184,7 +184,7 @@ namespace RE
 		}
 
 		// members
-		pointer _data{ nullptr };    // 08
+		pointer   _data{ nullptr };  // 08
 		size_type _capacity{ 0 };    // 10
 		size_type _freeIdx{ 0 };     // 12
 		size_type _size{ 0 };        // 14

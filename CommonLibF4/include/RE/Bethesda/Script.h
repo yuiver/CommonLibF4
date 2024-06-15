@@ -116,9 +116,9 @@ namespace RE
 	{
 	public:
 		// members
-		const char* paramName{ "" };                              // 00
-		REX::EnumSet<SCRIPT_PARAM_TYPE, std::int32_t> paramType;  // 08
-		bool optional{ false };                                   // 0C
+		const char*                                   paramName{ "" };    // 00
+		REX::EnumSet<SCRIPT_PARAM_TYPE, std::int32_t> paramType;          // 08
+		bool                                          optional{ false };  // 0C
 	};
 	static_assert(sizeof(SCRIPT_PARAMETER) == 0x10);
 
@@ -126,7 +126,7 @@ namespace RE
 	{
 	public:
 		// members
-		TESForm* form;        // 00
+		TESForm*      form;   // 00
 		std::uint32_t flags;  // 08
 	};
 	static_assert(sizeof(ACTION_OBJECT) == 0x10);
@@ -135,9 +135,9 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t id;  // 0
-		float value;       // 4
-		bool isInteger;    // 8
+		std::uint32_t id;         // 0
+		float         value;      // 4
+		bool          isInteger;  // 8
 	};
 	static_assert(sizeof(SCRIPT_LOCAL) == 0xC);
 
@@ -145,9 +145,9 @@ namespace RE
 	{
 	public:
 		// members
-		bool scriptEffectStart;   // 0
-		bool scriptEffectFinish;  // 1
-		float secondsElapsed;     // 4
+		bool  scriptEffectStart;   // 0
+		bool  scriptEffectFinish;  // 1
+		float secondsElapsed;      // 4
 	};
 	static_assert(sizeof(SCRIPT_EFFECT_DATA) == 0x8);
 
@@ -155,11 +155,11 @@ namespace RE
 	{
 	public:
 		// members
-		Script* masterScript;                      // 00
-		std::int8_t flags;                         // 08
-		BSSimpleList<ACTION_OBJECT*>* actionList;  // 10
-		BSSimpleList<SCRIPT_LOCAL*>* localList;    // 18
-		SCRIPT_EFFECT_DATA* scriptEffectData;      // 20
+		Script*                       masterScript;      // 00
+		std::int8_t                   flags;             // 08
+		BSSimpleList<ACTION_OBJECT*>* actionList;        // 10
+		BSSimpleList<SCRIPT_LOCAL*>*  localList;         // 18
+		SCRIPT_EFFECT_DATA*           scriptEffectData;  // 20
 	};
 	static_assert(sizeof(ScriptLocals) == 0x28);
 
@@ -167,15 +167,15 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t lineNumber;                              // 000
-		char line[512];                                        // 004
-		std::uint32_t size;                                    // 204
-		std::uint32_t offset;                                  // 208
-		char output[512];                                      // 20C
-		std::uint32_t outputSize;                              // 40C
-		SCRIPT_OUTPUT expression;                              // 410
-		std::uint32_t refObjectIndex;                          // 414
-		REX::EnumSet<SCRIPT_ERROR, std::int32_t> scriptError;  // 418
+		std::uint32_t                            lineNumber;      // 000
+		char                                     line[512];       // 004
+		std::uint32_t                            size;            // 204
+		std::uint32_t                            offset;          // 208
+		char                                     output[512];     // 20C
+		std::uint32_t                            outputSize;      // 40C
+		SCRIPT_OUTPUT                            expression;      // 410
+		std::uint32_t                            refObjectIndex;  // 414
+		REX::EnumSet<SCRIPT_ERROR, std::int32_t> scriptError;     // 418
 	};
 	static_assert(sizeof(SCRIPT_LINE) == 0x41C);
 
@@ -183,13 +183,13 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t variableCount;   // 00
-		std::uint32_t refObjectCount;  // 04
-		std::uint32_t dataSize;        // 08
-		std::uint32_t lastID;          // 0C
-		bool isQuestScript;            // 10
-		bool isMagicEffectScript;      // 11
-		bool isCompiled;               // 12
+		std::uint32_t variableCount;        // 00
+		std::uint32_t refObjectCount;       // 04
+		std::uint32_t dataSize;             // 08
+		std::uint32_t lastID;               // 0C
+		bool          isQuestScript;        // 10
+		bool          isMagicEffectScript;  // 11
+		bool          isCompiled;           // 12
 	};
 	static_assert(sizeof(SCRIPT_HEADER) == 0x14);
 
@@ -197,7 +197,7 @@ namespace RE
 	{
 	public:
 		// members
-		SCRIPT_LOCAL data;     // 00
+		SCRIPT_LOCAL    data;  // 00
 		BSStringT<char> name;  // 10
 	};
 	static_assert(sizeof(ScriptVariable) == 0x20);
@@ -206,9 +206,9 @@ namespace RE
 	{
 	public:
 		// members
-		BSStringT<char> editorID;  // 00
-		TESForm* form;             // 10
-		std::uint32_t variableID;  // 18
+		BSStringT<char> editorID;    // 00
+		TESForm*        form;        // 10
+		std::uint32_t   variableID;  // 18
 	};
 	static_assert(sizeof(SCRIPT_REFERENCED_OBJECT) == 0x20);
 
@@ -216,20 +216,20 @@ namespace RE
 	{
 	public:
 		// members
-		const char* input;                                        // 00
-		std::uint32_t inputOffset;                                // 08
-		REX::EnumSet<COMPILER_NAME, std::int32_t> compilerIndex;  // 0C
-		BSStringT<char> scriptName;                               // 10
-		SCRIPT_ERROR lastError;                                   // 20
-		bool isPartialScript;                                     // 24
-		std::uint32_t uiLastLineNumber;                           // 28
-		char* output;                                             // 30
-		std::uint32_t outputOffset;                               // 38
-		SCRIPT_HEADER header;                                     // 3C
-		BSSimpleList<ScriptVariable*> listVariables;              // 50
-		BSSimpleList<SCRIPT_REFERENCED_OBJECT*> listRefObjects;   // 60
-		Script* currentScript;                                    // 70
-		BSSimpleList<SCRIPT_LINE*> listLines;                     // 78
+		const char*                               input;             // 00
+		std::uint32_t                             inputOffset;       // 08
+		REX::EnumSet<COMPILER_NAME, std::int32_t> compilerIndex;     // 0C
+		BSStringT<char>                           scriptName;        // 10
+		SCRIPT_ERROR                              lastError;         // 20
+		bool                                      isPartialScript;   // 24
+		std::uint32_t                             uiLastLineNumber;  // 28
+		char*                                     output;            // 30
+		std::uint32_t                             outputOffset;      // 38
+		SCRIPT_HEADER                             header;            // 3C
+		BSSimpleList<ScriptVariable*>             listVariables;     // 50
+		BSSimpleList<SCRIPT_REFERENCED_OBJECT*>   listRefObjects;    // 60
+		Script*                                   currentScript;     // 70
+		BSSimpleList<SCRIPT_LINE*>                listLines;         // 78
 	};
 	static_assert(sizeof(ScriptCompileData) == 0x88);
 
@@ -237,16 +237,16 @@ namespace RE
 	{
 	public:
 		// members
-		TESObjectREFR* actionRef{ nullptr };                      // 00
-		TESObjectREFR* targetRef{ nullptr };                      // 08
-		const TESQuest* scopeQuest{ nullptr };                    // 10
-		const BGSStoryEvent* scopeEvent{ nullptr };               // 18
-		Actor* scopeActor{ nullptr };                             // 20
+		TESObjectREFR*            actionRef{ nullptr };           // 00
+		TESObjectREFR*            targetRef{ nullptr };           // 08
+		const TESQuest*           scopeQuest{ nullptr };          // 10
+		const BGSStoryEvent*      scopeEvent{ nullptr };          // 18
+		Actor*                    scopeActor{ nullptr };          // 20
 		const BGSPackageDataList* runningPackageData{ nullptr };  // 28
-		BGSMod::Template::Item* objectTemplateItem{ nullptr };    // 30
-		const TESForm* extraForms[5]{ nullptr };                  // 38
-		std::uint32_t extraFormCount{ 0 };                        // 60
-		bool outDispFailure{ false };                             // 64
+		BGSMod::Template::Item*   objectTemplateItem{ nullptr };  // 30
+		const TESForm*            extraForms[5]{ nullptr };       // 38
+		std::uint32_t             extraFormCount{ 0 };            // 60
+		bool                      outDispFailure{ false };        // 64
 	};
 	static_assert(sizeof(ConditionCheckParams) == 0x68);
 
@@ -270,18 +270,18 @@ namespace RE
 		}
 
 		// members
-		const char* functionName{ "" };                                                                       // 00
-		const char* shortName{ "" };                                                                          // 08
-		REX::EnumSet<SCRIPT_OUTPUT, std::int32_t> output;                                                     // 10
-		const char* helpString{ "" };                                                                         // 18
-		bool referenceFunction{ false };                                                                      // 20
-		std::uint16_t paramCount{ 0 };                                                                        // 22
-		SCRIPT_PARAMETER* parameters{ nullptr };                                                              // 28
-		ExecuteFunction_t* executeFunction{ nullptr };                                                        // 30
-		CompileFunction_t* compileFunction{ REL::Relocation<CompileFunction_t*>{ REL::ID(2204343) }.get() };  // 38
-		ConditionFunction_t* conditionFunction{ nullptr };                                                    // 40
-		bool editorFilter{ false };                                                                           // 48
-		bool invalidatesCellList{ false };                                                                    // 49
+		const char*                               functionName{ "" };                                                                // 00
+		const char*                               shortName{ "" };                                                                   // 08
+		REX::EnumSet<SCRIPT_OUTPUT, std::int32_t> output;                                                                            // 10
+		const char*                               helpString{ "" };                                                                  // 18
+		bool                                      referenceFunction{ false };                                                        // 20
+		std::uint16_t                             paramCount{ 0 };                                                                   // 22
+		SCRIPT_PARAMETER*                         parameters{ nullptr };                                                             // 28
+		ExecuteFunction_t*                        executeFunction{ nullptr };                                                        // 30
+		CompileFunction_t*                        compileFunction{ REL::Relocation<CompileFunction_t*>{ REL::ID(2204343) }.get() };  // 38
+		ConditionFunction_t*                      conditionFunction{ nullptr };                                                      // 40
+		bool                                      editorFilter{ false };                                                             // 48
+		bool                                      invalidatesCellList{ false };                                                      // 49
 	};
 	static_assert(sizeof(SCRIPT_FUNCTION) == 0x50);
 
@@ -342,15 +342,15 @@ namespace RE
 		}
 
 		// members
-		SCRIPT_HEADER header;                                // 20
-		char* text;                                          // 38
-		std::byte* data;                                     // 40
-		float profilerTimer;                                 // 48
-		float questScriptDelay;                              // 4C
-		float questScriptGetSecondsBuffer;                   // 50
-		TESQuest* parentQuest;                               // 58
-		BSSimpleList<SCRIPT_REFERENCED_OBJECT*> refObjects;  // 60
-		BSSimpleList<ScriptVariable*> variables;             // 70
+		SCRIPT_HEADER                           header;                       // 20
+		char*                                   text;                         // 38
+		std::byte*                              data;                         // 40
+		float                                   profilerTimer;                // 48
+		float                                   questScriptDelay;             // 4C
+		float                                   questScriptGetSecondsBuffer;  // 50
+		TESQuest*                               parentQuest;                  // 58
+		BSSimpleList<SCRIPT_REFERENCED_OBJECT*> refObjects;                   // 60
+		BSSimpleList<ScriptVariable*>           variables;                    // 70
 	};
 	static_assert(sizeof(Script) == 0x80);
 }

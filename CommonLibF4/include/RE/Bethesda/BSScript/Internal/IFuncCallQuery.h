@@ -25,11 +25,11 @@ namespace RE
 
 				// add
 				virtual bool GetFunctionCallInfo(
-					CallType& a_callType,
+					CallType&                        a_callType,
 					BSTSmartPointer<ObjectTypeInfo>& a_objectTypeInfo,
-					BSFixedString& a_name,
-					Variable& a_self,
-					BSScrapArray<Variable>& a_args) const = 0;  // 01
+					BSFixedString&                   a_name,
+					Variable&                        a_self,
+					BSScrapArray<Variable>&          a_args) const = 0;  // 01
 
 				// members
 				std::uint32_t pad0C;  // 0C

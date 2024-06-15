@@ -122,13 +122,13 @@ namespace F4SE
 		}
 
 	public:
-		[[nodiscard]] REL::Version EditorVersion() const noexcept { return MakeVersion(GetProxy().editorVersion); }
-		[[nodiscard]] REL::Version F4SEVersion() const noexcept { return MakeVersion(GetProxy().f4seVersion); }
-		[[nodiscard]] PluginHandle GetPluginHandle() const { return GetProxy().GetPluginHandle(); }
-		[[nodiscard]] std::uint32_t GetReleaseIndex() const { return GetProxy().GetReleaseIndex(); }
+		[[nodiscard]] REL::Version     EditorVersion() const noexcept { return MakeVersion(GetProxy().editorVersion); }
+		[[nodiscard]] REL::Version     F4SEVersion() const noexcept { return MakeVersion(GetProxy().f4seVersion); }
+		[[nodiscard]] PluginHandle     GetPluginHandle() const { return GetProxy().GetPluginHandle(); }
+		[[nodiscard]] std::uint32_t    GetReleaseIndex() const { return GetProxy().GetReleaseIndex(); }
 		[[nodiscard]] std::string_view GetSaveFolderName() const { return GetProxy().GetSaveFolderName(); }
-		[[nodiscard]] bool IsEditor() const noexcept { return GetProxy().isEditor != 0; }
-		[[nodiscard]] REL::Version RuntimeVersion() const noexcept { return MakeVersion(GetProxy().runtimeVersion); }
+		[[nodiscard]] bool             IsEditor() const noexcept { return GetProxy().isEditor != 0; }
+		[[nodiscard]] REL::Version     RuntimeVersion() const noexcept { return MakeVersion(GetProxy().runtimeVersion); }
 	};
 
 	class LoadInterface :
@@ -181,10 +181,10 @@ namespace F4SE
 
 		struct Message
 		{
-			const char* sender;
+			const char*   sender;
 			std::uint32_t type;
 			std::uint32_t dataLen;
-			void* data;
+			void*         data;
 		};
 
 		using EventCallback = void F4SEAPI(Message* a_msg);
@@ -236,7 +236,7 @@ namespace F4SE
 			kVersion = 1,
 		};
 
-		using EventCallback = void F4SEAPI(const SerializationInterface* a_intfc);
+		using EventCallback = void      F4SEAPI(const SerializationInterface* a_intfc);
 		using FormDeleteCallback = void F4SEAPI(std::uint64_t a_handle);
 
 		[[nodiscard]] std::uint32_t Version() const noexcept { return GetProxy().version; }
@@ -398,9 +398,9 @@ namespace F4SE
 			kVersion = 1
 		};
 
-		[[nodiscard]] std::uint32_t Version() const noexcept { return GetProxy().interfaceVersion; }
-		[[nodiscard]] DelayFunctorManager& GetDelayFunctorManager() const { return GetProxy().GetDelayFunctorManager(); }
-		[[nodiscard]] ObjectRegistry& GetObjectRegistry() const { return GetProxy().GetObjectRegistry(); }
+		[[nodiscard]] std::uint32_t            Version() const noexcept { return GetProxy().interfaceVersion; }
+		[[nodiscard]] DelayFunctorManager&     GetDelayFunctorManager() const { return GetProxy().GetDelayFunctorManager(); }
+		[[nodiscard]] ObjectRegistry&          GetObjectRegistry() const { return GetProxy().GetObjectRegistry(); }
 		[[nodiscard]] PersistentObjectStorage& GetPersistentObjectStorage() const { return GetProxy().GetPersistentObjectStorage(); }
 	};
 
@@ -419,8 +419,8 @@ namespace F4SE
 		};
 
 		[[nodiscard]] std::uint32_t Version() const noexcept { return GetProxy().interfaceVersion; }
-		[[nodiscard]] void* AllocateFromBranchPool(std::size_t a_size) const;
-		[[nodiscard]] void* AllocateFromLocalPool(std::size_t a_size) const;
+		[[nodiscard]] void*         AllocateFromBranchPool(std::size_t a_size) const;
+		[[nodiscard]] void*         AllocateFromLocalPool(std::size_t a_size) const;
 	};
 
 	struct PluginInfo
@@ -431,7 +431,7 @@ namespace F4SE
 		};
 
 		std::uint32_t infoVersion;
-		const char* name;
+		const char*   name;
 		std::uint32_t version;
 	};
 
@@ -478,16 +478,16 @@ namespace F4SE
 		[[nodiscard]] static const PluginVersionData* GetSingleton() noexcept;
 
 		const std::uint32_t dataVersion{ kVersion };
-		std::uint32_t pluginVersion = 0;
-		char pluginName[256] = {};
-		char author[256] = {};
-		std::uint32_t addressIndependence;
-		std::uint32_t structureIndependence;
-		std::uint32_t compatibleVersions[16] = {};
-		std::uint32_t xseMinimum = 0;
+		std::uint32_t       pluginVersion = 0;
+		char                pluginName[256] = {};
+		char                author[256] = {};
+		std::uint32_t       addressIndependence;
+		std::uint32_t       structureIndependence;
+		std::uint32_t       compatibleVersions[16] = {};
+		std::uint32_t       xseMinimum = 0;
 		const std::uint32_t reservedNonBreaking = 0;
 		const std::uint32_t reservedBreaking = 0;
-		const std::uint8_t reserved[512] = {};
+		const std::uint8_t  reserved[512] = {};
 
 	private:
 		static constexpr void SetCharBuffer(std::string_view a_src, std::span<char> a_dst) noexcept

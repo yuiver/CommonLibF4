@@ -39,13 +39,13 @@ namespace RE
 			virtual ~Stack();  // 00
 
 			[[nodiscard]] std::uint32_t GetCount() const noexcept { return count; }
-			[[nodiscard]] bool IsEquipped() const noexcept { return flags.any(Flag::kSlotMask); }
+			[[nodiscard]] bool          IsEquipped() const noexcept { return flags.any(Flag::kSlotMask); }
 
 			// members
-			BSTSmartPointer<Stack> nextStack;         // 10
-			BSTSmartPointer<ExtraDataList> extra;     // 18
-			std::uint32_t count;                      // 20
-			REX::EnumSet<Flag, std::uint16_t> flags;  // 24
+			BSTSmartPointer<Stack>            nextStack;  // 10
+			BSTSmartPointer<ExtraDataList>    extra;      // 18
+			std::uint32_t                     count;      // 20
+			REX::EnumSet<Flag, std::uint16_t> flags;      // 24
 		};
 		static_assert(sizeof(Stack) == 0x28);
 
@@ -118,12 +118,12 @@ namespace RE
 			void WriteDataImpl(TESBoundObject&, BGSInventoryItem::Stack&) override;  // 01
 
 			// members
-			BGSMod::Attachment::Mod* mod;         // 10
-			TESBoundObject* foundObj{ nullptr };  // 18
-			bool* success;                        // 20
-			const std::int8_t slotIndex;          // 28
-			const bool attach;                    // 29
-			bool equipLocked{ false };            // 2A
+			BGSMod::Attachment::Mod* mod;                   // 10
+			TESBoundObject*          foundObj{ nullptr };   // 18
+			bool*                    success;               // 20
+			const std::int8_t        slotIndex;             // 28
+			const bool               attach;                // 29
+			bool                     equipLocked{ false };  // 2A
 		};
 		static_assert(sizeof(ModifyModDataFunctor) == 0x30);
 
@@ -135,7 +135,7 @@ namespace RE
 		}
 
 		[[nodiscard]] std::uint32_t GetCount() const noexcept;
-		[[nodiscard]] Stack* GetStackByID(std::uint32_t a_stackID) const
+		[[nodiscard]] Stack*        GetStackByID(std::uint32_t a_stackID) const
 		{
 			auto iter = stackData.get();
 			while (a_stackID--) {
@@ -167,7 +167,7 @@ namespace RE
 		}
 
 		// members
-		TESBoundObject* object;            // 00
+		TESBoundObject*        object;     // 00
 		BSTSmartPointer<Stack> stackData;  // 08
 	};
 	static_assert(sizeof(BGSInventoryItem) == 0x10);
@@ -188,13 +188,13 @@ namespace RE
 		}
 
 		// members
-		BGSObjectInstanceExtra* extra;       // 10
-		TESBoundObject* object;              // 18
-		const BGSMod::Attachment::Mod* mod;  // 20
-		std::uint8_t rank;                   // 28
-		bool remove;                         // 29
-		bool excludeTemporary;               // 2A
-		std::int8_t favoriteIndex;           // 2B
+		BGSObjectInstanceExtra*        extra;             // 10
+		TESBoundObject*                object;            // 18
+		const BGSMod::Attachment::Mod* mod;               // 20
+		std::uint8_t                   rank;              // 28
+		bool                           remove;            // 29
+		bool                           excludeTemporary;  // 2A
+		std::int8_t                    favoriteIndex;     // 2B
 	};
 	static_assert(sizeof(ApplyChangesFunctor) == 0x30);
 }

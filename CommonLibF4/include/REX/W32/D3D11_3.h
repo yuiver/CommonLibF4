@@ -98,105 +98,105 @@ namespace REX::W32
 
 	struct D3D11_QUERY_DESC1
 	{
-		D3D11_QUERY query;
-		std::uint32_t miscFlags;
+		D3D11_QUERY        query;
+		std::uint32_t      miscFlags;
 		D3D11_CONTEXT_TYPE contextType;
 	};
 
 	struct D3D11_RASTERIZER_DESC2
 	{
-		D3D11_FILL_MODE fillMode;
-		D3D11_CULL_MODE cullMode;
-		BOOL frontCounterClockwise;
-		std::int32_t depthBias;
-		float depthBiasClamp;
-		float slopeScaledDepthBias;
-		BOOL depthClipEnable;
-		BOOL scissorEnable;
-		BOOL multisampleEnable;
-		BOOL antialiasedLineEnable;
-		std::uint32_t forcedSampleCount;
+		D3D11_FILL_MODE                       fillMode;
+		D3D11_CULL_MODE                       cullMode;
+		BOOL                                  frontCounterClockwise;
+		std::int32_t                          depthBias;
+		float                                 depthBiasClamp;
+		float                                 slopeScaledDepthBias;
+		BOOL                                  depthClipEnable;
+		BOOL                                  scissorEnable;
+		BOOL                                  multisampleEnable;
+		BOOL                                  antialiasedLineEnable;
+		std::uint32_t                         forcedSampleCount;
 		D3D11_CONSERVATIVE_RASTERIZATION_MODE conservativeRaster;
 	};
 
 	struct D3D11_RENDER_TARGET_VIEW_DESC1
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_RTV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_BUFFER_RTV buffer;
-			D3D11_TEX1D_RTV texture1D;
-			D3D11_TEX1D_ARRAY_RTV texture1DArray;
-			D3D11_TEX2D_RTV1 texture2D;
-			D3D11_TEX2D_ARRAY_RTV1 texture2DArray;
-			D3D11_TEX2DMS_RTV texture2DMS;
+			D3D11_BUFFER_RTV        buffer;
+			D3D11_TEX1D_RTV         texture1D;
+			D3D11_TEX1D_ARRAY_RTV   texture1DArray;
+			D3D11_TEX2D_RTV1        texture2D;
+			D3D11_TEX2D_ARRAY_RTV1  texture2DArray;
+			D3D11_TEX2DMS_RTV       texture2DMS;
 			D3D11_TEX2DMS_ARRAY_RTV texture2DMSArray;
-			D3D11_TEX3D_RTV texture3D;
+			D3D11_TEX3D_RTV         texture3D;
 		};
 	};
 
 	struct D3D11_TEXTURE2D_DESC1
 	{
-		std::uint32_t width;
-		std::uint32_t height;
-		std::uint32_t mipLevels;
-		std::uint32_t arraySize;
-		DXGI_FORMAT format;
-		DXGI_SAMPLE_DESC sampleDesc;
-		D3D11_USAGE usage;
-		std::uint32_t bindFlags;
-		std::uint32_t cpuAccessFlags;
-		std::uint32_t miscFlags;
+		std::uint32_t        width;
+		std::uint32_t        height;
+		std::uint32_t        mipLevels;
+		std::uint32_t        arraySize;
+		DXGI_FORMAT          format;
+		DXGI_SAMPLE_DESC     sampleDesc;
+		D3D11_USAGE          usage;
+		std::uint32_t        bindFlags;
+		std::uint32_t        cpuAccessFlags;
+		std::uint32_t        miscFlags;
 		D3D11_TEXTURE_LAYOUT textureLayout;
 	};
 
 	struct D3D11_TEXTURE3D_DESC1
 	{
-		std::uint32_t width;
-		std::uint32_t height;
-		std::uint32_t depth;
-		std::uint32_t mipLevels;
-		DXGI_FORMAT format;
-		D3D11_USAGE usage;
-		std::uint32_t bindFlags;
-		std::uint32_t cpuAccessFlags;
-		std::uint32_t miscFlags;
+		std::uint32_t        width;
+		std::uint32_t        height;
+		std::uint32_t        depth;
+		std::uint32_t        mipLevels;
+		DXGI_FORMAT          format;
+		D3D11_USAGE          usage;
+		std::uint32_t        bindFlags;
+		std::uint32_t        cpuAccessFlags;
+		std::uint32_t        miscFlags;
 		D3D11_TEXTURE_LAYOUT textureLayout;
 	};
 
 	struct D3D11_SHADER_RESOURCE_VIEW_DESC1
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_SRV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_BUFFER_SRV buffer;
-			D3D11_TEX1D_SRV texture1D;
-			D3D11_TEX1D_ARRAY_SRV texture1DArray;
-			D3D11_TEX2D_SRV1 texture2D;
-			D3D11_TEX2D_ARRAY_SRV1 texture2DArray;
-			D3D11_TEX2DMS_SRV texture2DMS;
+			D3D11_BUFFER_SRV        buffer;
+			D3D11_TEX1D_SRV         texture1D;
+			D3D11_TEX1D_ARRAY_SRV   texture1DArray;
+			D3D11_TEX2D_SRV1        texture2D;
+			D3D11_TEX2D_ARRAY_SRV1  texture2DArray;
+			D3D11_TEX2DMS_SRV       texture2DMS;
 			D3D11_TEX2DMS_ARRAY_SRV texture2DMSArray;
-			D3D11_TEX3D_SRV texture3D;
-			D3D11_TEXCUBE_SRV textureCube;
+			D3D11_TEX3D_SRV         texture3D;
+			D3D11_TEXCUBE_SRV       textureCube;
 			D3D11_TEXCUBE_ARRAY_SRV textureCubeArray;
-			D3D11_BUFFEREX_SRV bufferEx;
+			D3D11_BUFFEREX_SRV      bufferEx;
 		};
 	};
 
 	struct D3D11_UNORDERED_ACCESS_VIEW_DESC1
 	{
-		DXGI_FORMAT format;
+		DXGI_FORMAT         format;
 		D3D11_UAV_DIMENSION viewDimension;
 		union
 		{
-			D3D11_BUFFER_UAV buffer;
-			D3D11_TEX1D_UAV texture1D;
-			D3D11_TEX1D_ARRAY_UAV texture1DArray;
-			D3D11_TEX2D_UAV1 texture2D;
+			D3D11_BUFFER_UAV       buffer;
+			D3D11_TEX1D_UAV        texture1D;
+			D3D11_TEX1D_ARRAY_UAV  texture1DArray;
+			D3D11_TEX2D_UAV1       texture2D;
 			D3D11_TEX2D_ARRAY_UAV1 texture2DArray;
-			D3D11_TEX3D_UAV texture3D;
+			D3D11_TEX3D_UAV        texture3D;
 		};
 	};
 }
@@ -213,10 +213,10 @@ namespace REX::W32
 		virtual HRESULT CreateUnorderedAccessView1(ID3D11Resource* a_resource, const D3D11_UNORDERED_ACCESS_VIEW_DESC1* a_desc1, ID3D11UnorderedAccessView1** a_uaView1) = 0;
 		virtual HRESULT CreateRenderTargetView1(ID3D11Resource* a_resource, const D3D11_RENDER_TARGET_VIEW_DESC1* a_desc1, ID3D11RenderTargetView1** a_rtView1) = 0;
 		virtual HRESULT CreateQuery1(const D3D11_QUERY_DESC1* a_queryDesc1, ID3D11Query1** a_query1) = 0;
-		virtual void GetImmediateContext3(ID3D11DeviceContext3** a_immediateContext) = 0;
+		virtual void    GetImmediateContext3(ID3D11DeviceContext3** a_immediateContext) = 0;
 		virtual HRESULT CreateDeferredContext3(std::uint32_t a_contextFlags, ID3D11DeviceContext3** a_deferredContext) = 0;
-		virtual void WriteToSubresource(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, const D3D11_BOX* a_dstBox, const void* a_srcData, std::uint32_t a_srcRowPitch, std::uint32_t a_srcDepthPitch) = 0;
-		virtual void ReadFromSubresource(void* a_dstData, std::uint32_t a_dstRowPitch, std::uint32_t a_dstDepthPitch, ID3D11Resource* a_srcResource, std::uint32_t a_srcSubresource, const D3D11_BOX* a_srcBox) = 0;
+		virtual void    WriteToSubresource(ID3D11Resource* a_dstResource, std::uint32_t a_dstSubresource, const D3D11_BOX* a_dstBox, const void* a_srcData, std::uint32_t a_srcRowPitch, std::uint32_t a_srcDepthPitch) = 0;
+		virtual void    ReadFromSubresource(void* a_dstData, std::uint32_t a_dstRowPitch, std::uint32_t a_dstDepthPitch, ID3D11Resource* a_srcResource, std::uint32_t a_srcSubresource, const D3D11_BOX* a_srcBox) = 0;
 	};
 
 	struct __declspec(novtable, uuid("b4e3c01d-e79e-4637-91b2-510e9f4c9b8f"))
@@ -237,9 +237,9 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("affde9d1-1df7-4bb7-8a34-0f46251dab80"))
 		ID3D11Fence : public ID3D11DeviceChild
 	{
-		virtual HRESULT CreateSharedHandle(const SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_access, const wchar_t* a_name, HANDLE* a_handle) = 0;
+		virtual HRESULT       CreateSharedHandle(const SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_access, const wchar_t* a_name, HANDLE* a_handle) = 0;
 		virtual std::uint64_t GetCompletedValue(void) = 0;
-		virtual HRESULT SetEventOnCompletion(std::uint64_t a_value, HANDLE a_event) = 0;
+		virtual HRESULT       SetEventOnCompletion(std::uint64_t a_value, HANDLE a_event) = 0;
 	};
 
 	struct __declspec(novtable, uuid("631b4766-36dc-461d-8db6-c47e13e60916"))

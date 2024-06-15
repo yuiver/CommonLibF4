@@ -46,9 +46,9 @@ namespace RE
 			}
 
 			// members
-			NiPoint3 lookPos;           // 00
-			NiPoint3 lookDir;           // 0C
-			float zAngle;               // 18
+			NiPoint3       lookPos;     // 00
+			NiPoint3       lookDir;     // 0C
+			float          zAngle;      // 18
 			TESObjectCELL* parentCell;  // 20
 			TESWorldSpace* worldSpace;  // 28
 		};
@@ -60,8 +60,8 @@ namespace RE
 			~DeletedItemInfo() noexcept {}  // NOLINT(modernize-use-equals-default)
 
 			// members
-			TESFormID formID;     // 0
-			std::uint32_t count;  // 4
+			TESFormID     formID;  // 0
+			std::uint32_t count;   // 4
 		};
 		static_assert(sizeof(DeletedItemInfo) == 0x8);
 
@@ -74,11 +74,11 @@ namespace RE
 			static constexpr auto TYPE{ EXTRA_DATA_TYPE::kWorkshop };
 
 			// members
-			PowerUtils::PowerGrid* currentPowerGrid;            // 18
-			BSTArray<PowerUtils::PowerGrid*> powerGrid;         // 20
-			BSTArray<Workshop::DeletedItemInfo*> deletedItems;  // 38
-			std::int32_t powerRating;                           // 50
-			bool offGridItems;                                  // 54
+			PowerUtils::PowerGrid*               currentPowerGrid;  // 18
+			BSTArray<PowerUtils::PowerGrid*>     powerGrid;         // 20
+			BSTArray<Workshop::DeletedItemInfo*> deletedItems;      // 38
+			std::int32_t                         powerRating;       // 50
+			bool                                 offGridItems;      // 54
 		};
 		static_assert(sizeof(ExtraData) == 0x58);
 
@@ -120,32 +120,32 @@ namespace RE
 			}
 
 			// members
-			ObjectRefHandle placementItem;         // 00
-			BSTArray<hknpShape*> dropProxy;        // 08
-			BSTArray<bhkNPCollisionObject*> body;  // 20
-			std::byte pad38[0x80 - 0x38];          // 38 - TODO
-			float sinkDepth;                       // 80
-			float zOffset;                         // 84
-			float intersectTolerance;              // 88
-			float snapPointQueryRadius;            // 8C
-			float forwardCastZRot;                 // 90
-			float xyBoundOverride;                 // 94
-			float xBoundMinOverride;               // 98
-			float xBoundMaxOverride;               // 9C
-			float yBoundMinOverride;               // A0
-			float yBoundMaxOverride;               // A4
-			float zBoundMinOverride;               // A8
-			float zBoundMaxOverride;               // AC
-			std::uint32_t dropProxyIndex;          // B0
-			bool anythingIsGround;                 // B4
-			bool clampUp;                          // B5
-			bool forwardCast;                      // B6
-			bool recenter;                         // B7
-			bool ignoreSimpleIntersection;         // B8
-			bool allowUnsupportedStacking;         // B9
-			bool isSet;                            // BA
-			bool mustSnap;                         // BB
-			bool stacksWhenSnapped;                // BC
+			ObjectRefHandle                 placementItem;             // 00
+			BSTArray<hknpShape*>            dropProxy;                 // 08
+			BSTArray<bhkNPCollisionObject*> body;                      // 20
+			std::byte                       pad38[0x80 - 0x38];        // 38 - TODO
+			float                           sinkDepth;                 // 80
+			float                           zOffset;                   // 84
+			float                           intersectTolerance;        // 88
+			float                           snapPointQueryRadius;      // 8C
+			float                           forwardCastZRot;           // 90
+			float                           xyBoundOverride;           // 94
+			float                           xBoundMinOverride;         // 98
+			float                           xBoundMaxOverride;         // 9C
+			float                           yBoundMinOverride;         // A0
+			float                           yBoundMaxOverride;         // A4
+			float                           zBoundMinOverride;         // A8
+			float                           zBoundMaxOverride;         // AC
+			std::uint32_t                   dropProxyIndex;            // B0
+			bool                            anythingIsGround;          // B4
+			bool                            clampUp;                   // B5
+			bool                            forwardCast;               // B6
+			bool                            recenter;                  // B7
+			bool                            ignoreSimpleIntersection;  // B8
+			bool                            allowUnsupportedStacking;  // B9
+			bool                            isSet;                     // BA
+			bool                            mustSnap;                  // BB
+			bool                            stacksWhenSnapped;         // BC
 		};
 		static_assert(sizeof(PlacementItemData) == 0xC0);
 
@@ -175,16 +175,16 @@ namespace RE
 			F4_HEAP_REDEFINE_NEW(WorkshopMenuNode);
 
 			// members
-			BGSKeyword* filterKeyword{ nullptr };                      // 00
-			WorkshopMenuNode* parent{ nullptr };                       // 08
-			BSTArray<msvc::unique_ptr<WorkshopMenuNode>> children;     // 10
-			BGSConstructibleObject* recipe{ nullptr };                 // 28
-			BGSConstructibleObject* sourceFormListRecipe{ nullptr };   // 30
-			TESForm* form{ nullptr };                                  // 38
-			std::uint32_t uniqueID{ static_cast<std::uint32_t>(-1) };  // 40
-			std::uint16_t row{ 0 };                                    // 44
-			std::uint16_t column{ 0 };                                 // 46
-			bool selected{ false };                                    // 48
+			BGSKeyword*                                  filterKeyword{ nullptr };                    // 00
+			WorkshopMenuNode*                            parent{ nullptr };                           // 08
+			BSTArray<msvc::unique_ptr<WorkshopMenuNode>> children;                                    // 10
+			BGSConstructibleObject*                      recipe{ nullptr };                           // 28
+			BGSConstructibleObject*                      sourceFormListRecipe{ nullptr };             // 30
+			TESForm*                                     form{ nullptr };                             // 38
+			std::uint32_t                                uniqueID{ static_cast<std::uint32_t>(-1) };  // 40
+			std::uint16_t                                row{ 0 };                                    // 44
+			std::uint16_t                                column{ 0 };                                 // 46
+			bool                                         selected{ false };                           // 48
 		};
 		static_assert(sizeof(WorkshopMenuNode) == 0x50);
 
@@ -193,7 +193,7 @@ namespace RE
 		public:
 			// members
 			NiPointer<TESObjectREFR> workshop;  // 00
-			bool start;                         // 08
+			bool                     start;     // 08
 		};
 		static_assert(sizeof(WorkshopModeEvent) == 0x10);
 
@@ -345,7 +345,7 @@ namespace RE
 		}
 
 		inline REL::Relocation<PlacementItemData*> CurrentPlacementItemData{ REL::ID(1279207) };
-		inline REL::Relocation<std::uint16_t*> CurrentRow{ REL::ID(833923) };
-		inline REL::Relocation<ObjectRefHandle*> PlacementItem{ REL::ID(526727) };
+		inline REL::Relocation<std::uint16_t*>     CurrentRow{ REL::ID(833923) };
+		inline REL::Relocation<ObjectRefHandle*>   PlacementItem{ REL::ID(526727) };
 	}
 }

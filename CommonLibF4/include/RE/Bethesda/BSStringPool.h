@@ -25,7 +25,7 @@ namespace RE
 			void acquire()
 			{
 				stl::atomic_ref flags{ _flags };
-				std::uint16_t expected{ 0 };
+				std::uint16_t   expected{ 0 };
 				do {
 					expected = flags;
 					if ((expected & kRefCountMask) >= kRefCountMask) {
@@ -66,7 +66,7 @@ namespace RE
 				return entry ? entry->_length : 0;
 			}
 
-			[[nodiscard]] bool shallow() const noexcept { return _flags & kShallow; }
+			[[nodiscard]] bool          shallow() const noexcept { return _flags & kShallow; }
 			[[nodiscard]] std::uint32_t size() const noexcept { return length(); }
 
 			[[nodiscard]] const char* u8() const noexcept
@@ -94,13 +94,13 @@ namespace RE
 			[[nodiscard]] bool wide() const noexcept { return _flags & kWide; }
 
 			// members
-			Entry* _left;                 // 00
-			std::uint16_t _flags;         // 08
-			volatile std::uint16_t _crc;  // 08
+			Entry*                 _left;   // 00
+			std::uint16_t          _flags;  // 08
+			volatile std::uint16_t _crc;    // 08
 			union
 			{
 				std::uint32_t _length;
-				Entry* _right;
+				Entry*        _right;
 			};  // 10
 		};
 		static_assert(sizeof(Entry) == 0x18);
@@ -126,9 +126,9 @@ namespace RE
 		}
 
 		// members
-		BSStringPool::Entry* buckets[0x10000];  // 00000
-		AlignedLock locks[0x10000 / 0x200];     // 80000
-		bool initialized;                       // 80800
+		BSStringPool::Entry* buckets[0x10000];        // 00000
+		AlignedLock          locks[0x10000 / 0x200];  // 80000
+		bool                 initialized;             // 80800
 	};
 	static_assert(sizeof(BucketTable) == 0x80810);
 

@@ -83,7 +83,7 @@ namespace RE::msvc
 				a_rhs._pointer = typename unique_ptr<U, E>::pointer();
 			}
 
-			[[nodiscard]] deleter_type& get_deleter() noexcept { return _deleter; }
+			[[nodiscard]] deleter_type&       get_deleter() noexcept { return _deleter; }
 			[[nodiscard]] const deleter_type& get_deleter() const noexcept { return _deleter; }
 
 		protected:
@@ -156,7 +156,7 @@ namespace RE::msvc
 				a_rhs._pointer = typename unique_ptr<U, E>::pointer();
 			}
 
-			[[nodiscard]] deleter_type& get_deleter() noexcept { return *this; }
+			[[nodiscard]] deleter_type&       get_deleter() noexcept { return *this; }
 			[[nodiscard]] const deleter_type& get_deleter() const noexcept { return *this; }
 
 		protected:

@@ -120,27 +120,27 @@ namespace RE
 		static_assert(sizeof(RenderPassArray) == 0x8);
 
 		// add
-		virtual RenderPassArray* GetRenderPasses(BSGeometry* a_geom, std::uint32_t a_renderMode, BSShaderAccumulator* a_accumulator) = 0;  // 2B
-		virtual RenderPassArray* GetRenderPasses_ShadowMapOrMask(BSGeometry*, std::uint32_t, BSShaderAccumulator*) { return nullptr; }     // 2C
-		virtual RenderPassArray* GetRenderPasses_LocalMap(BSGeometry*, std::uint32_t, BSShaderAccumulator*) { return nullptr; }            // 2D
-		virtual BSRenderPass* CreateVatsMaskRenderPass(BSGeometry*) { return nullptr; }                                                    // 2E
-		virtual std::uint16_t GetNumberofPasses([[maybe_unused]] BSGeometry* a_geom) { return 1; }                                         // 2F
-		virtual BSRenderPass* GetRenderDepthPass(BSGeometry*) { return nullptr; }                                                          // 30
-		virtual bool CanMerge(const BSShaderProperty* a_prop);                                                                             // 31
-		virtual void SetMaterialAlpha(float) { return; }                                                                                   // 32
-		virtual float QMaterialAlpha() const { return 1.0F; }                                                                              // 33
-		virtual const BSFixedString& GetRootName() const;                                                                                  // 34
-		virtual std::int32_t ForEachTexture(ForEachVisitor&) { return 1; }                                                                 // 35
-		virtual std::int32_t QShader() const { return 0; }                                                                                 // 36
-		virtual void ClearUnusedMaterialValues() { return; }                                                                               // 37
-		virtual BSShaderProperty* ClarifyShader(BSGeometry*, bool, bool) { return nullptr; }                                               // 38
-		virtual NiTexture* GetBaseTexture() const { return nullptr; }                                                                      // 39
-		virtual RenderPassArray* GetWaterFogPassList(BSGeometry*) { return nullptr; }                                                      // 3A
-		virtual bool AcceptsEffectData() const { return false; }                                                                           // 3B
-		virtual void PrecacheTextures() { return; }                                                                                        // 3C
-		virtual std::uint32_t DetermineUtilityShaderDecl() const { return 0; }                                                             // 3D
-		virtual std::uint32_t GetMaterialType() const { return 0; }                                                                        // 3E
-		virtual void DoClearRenderPasses() { return; }                                                                                     // 3F
+		virtual RenderPassArray*     GetRenderPasses(BSGeometry* a_geom, std::uint32_t a_renderMode, BSShaderAccumulator* a_accumulator) = 0;  // 2B
+		virtual RenderPassArray*     GetRenderPasses_ShadowMapOrMask(BSGeometry*, std::uint32_t, BSShaderAccumulator*) { return nullptr; }     // 2C
+		virtual RenderPassArray*     GetRenderPasses_LocalMap(BSGeometry*, std::uint32_t, BSShaderAccumulator*) { return nullptr; }            // 2D
+		virtual BSRenderPass*        CreateVatsMaskRenderPass(BSGeometry*) { return nullptr; }                                                 // 2E
+		virtual std::uint16_t        GetNumberofPasses([[maybe_unused]] BSGeometry* a_geom) { return 1; }                                      // 2F
+		virtual BSRenderPass*        GetRenderDepthPass(BSGeometry*) { return nullptr; }                                                       // 30
+		virtual bool                 CanMerge(const BSShaderProperty* a_prop);                                                                 // 31
+		virtual void                 SetMaterialAlpha(float) { return; }                                                                       // 32
+		virtual float                QMaterialAlpha() const { return 1.0F; }                                                                   // 33
+		virtual const BSFixedString& GetRootName() const;                                                                                      // 34
+		virtual std::int32_t         ForEachTexture(ForEachVisitor&) { return 1; }                                                             // 35
+		virtual std::int32_t         QShader() const { return 0; }                                                                             // 36
+		virtual void                 ClearUnusedMaterialValues() { return; }                                                                   // 37
+		virtual BSShaderProperty*    ClarifyShader(BSGeometry*, bool, bool) { return nullptr; }                                                // 38
+		virtual NiTexture*           GetBaseTexture() const { return nullptr; }                                                                // 39
+		virtual RenderPassArray*     GetWaterFogPassList(BSGeometry*) { return nullptr; }                                                      // 3A
+		virtual bool                 AcceptsEffectData() const { return false; }                                                               // 3B
+		virtual void                 PrecacheTextures() { return; }                                                                            // 3C
+		virtual std::uint32_t        DetermineUtilityShaderDecl() const { return 0; }                                                          // 3D
+		virtual std::uint32_t        GetMaterialType() const { return 0; }                                                                     // 3E
+		virtual void                 DoClearRenderPasses() { return; }                                                                         // 3F
 
 		void SetMaterial(BSShaderMaterial* a_material, bool a_unique)
 		{
@@ -150,17 +150,17 @@ namespace RE
 		}
 
 		// members
-		float alpha;                                             // 28
-		std::int32_t lastRenderPassState;                        // 2C
-		REX::EnumSet<EShaderPropertyFlag, std::uint64_t> flags;  // 30
-		RenderPassArray renderPassList;                          // 38
-		RenderPassArray debugRenderPassList;                     // 40
-		BSFadeNode* fadeNode;                                    // 48
-		BSEffectShaderData* effectData;                          // 50
-		BSShaderMaterial* material;                              // 58
-		std::uint32_t lastAccumTime;                             // 60
-		float lodFade;                                           // 64
-		BSNonReentrantSpinLock clearRenderPassesLock;            // 68
+		float                                            alpha;                  // 28
+		std::int32_t                                     lastRenderPassState;    // 2C
+		REX::EnumSet<EShaderPropertyFlag, std::uint64_t> flags;                  // 30
+		RenderPassArray                                  renderPassList;         // 38
+		RenderPassArray                                  debugRenderPassList;    // 40
+		BSFadeNode*                                      fadeNode;               // 48
+		BSEffectShaderData*                              effectData;             // 50
+		BSShaderMaterial*                                material;               // 58
+		std::uint32_t                                    lastAccumTime;          // 60
+		float                                            lodFade;                // 64
+		BSNonReentrantSpinLock                           clearRenderPassesLock;  // 68
 	};
 	static_assert(sizeof(BSShaderProperty) == 0x70);
 
@@ -173,21 +173,21 @@ namespace RE
 		static constexpr auto Ni_RTTI{ Ni_RTTI::BSLightingShaderProperty };
 
 		// members
-		NiColorA projectedUVParams;                                    // 70
-		NiColorA projectedUVColor;                                     // 80
+		NiColorA                          projectedUVParams;           // 70
+		NiColorA                          projectedUVColor;            // 80
 		BSShaderProperty::RenderPassArray depthMapRenderPassListA[3];  // 90
-		BSRenderPass* depthRenderPass;                                 // A8
+		BSRenderPass*                     depthRenderPass;             // A8
 		BSShaderProperty::RenderPassArray forwardPassList;             // B0
-		NiColor* emitColor;                                            // B8
-		BSFixedString rootName;                                        // C0
-		float emitColorScale;                                          // C8
-		float forcedDarkness;                                          // CC
-		float specularLODFade;                                         // D0
-		float envmapLODFade;                                           // D4
-		std::uint32_t baseTechniqueID;                                 // D8
-		std::uint32_t clearCommandBufferCount;                         // DC
-		std::uint16_t debugTintIndex;                                  // E0
-		std::uint32_t stencilRef;                                      // E4
+		NiColor*                          emitColor;                   // B8
+		BSFixedString                     rootName;                    // C0
+		float                             emitColorScale;              // C8
+		float                             forcedDarkness;              // CC
+		float                             specularLODFade;             // D0
+		float                             envmapLODFade;               // D4
+		std::uint32_t                     baseTechniqueID;             // D8
+		std::uint32_t                     clearCommandBufferCount;     // DC
+		std::uint16_t                     debugTintIndex;              // E0
+		std::uint32_t                     stencilRef;                  // E4
 	};
 	static_assert(sizeof(BSLightingShaderProperty) == 0xE8);
 }

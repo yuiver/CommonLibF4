@@ -34,9 +34,9 @@ namespace RE
 		[[nodiscard]] NiExtraData* GetExtraData(BSFixedString a_key) const noexcept;
 
 		// members
-		BSFixedString name{ "" };                 // 10
-		NiPointer<NiTimeController> controllers;  // 18
-		NiExtraDataContainer* extra{ nullptr };   // 20
+		BSFixedString               name{ "" };        // 10
+		NiPointer<NiTimeController> controllers;       // 18
+		NiExtraDataContainer*       extra{ nullptr };  // 20
 	};
 	static_assert(sizeof(NiObjectNET) == 0x28);
 }

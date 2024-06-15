@@ -51,7 +51,7 @@ namespace RE::BGSMod
 			public:
 				// members
 				std::int32_t i;
-				float f;
+				float        f;
 			};
 			static_assert(sizeof(FLOATINT) == 0x4);
 
@@ -69,7 +69,7 @@ namespace RE::BGSMod
 			public:
 				// members
 				TESFormID formID;  // 0
-				float value;       // 4
+				float     value;   // 4
 			};
 			static_assert(sizeof(FormValuePair) == 0x8);
 
@@ -85,18 +85,18 @@ namespace RE::BGSMod
 
 				// members
 				BSFixedString str;
-				TESForm* form;
-				MinMax mm;
+				TESForm*      form;
+				MinMax        mm;
 				FormValuePair fv;
 			};
 			static_assert(sizeof(DATATYPE) == 0x8);
 
 			// members
-			DATATYPE data;             // 00
+			DATATYPE      data;        // 00
 			std::uint32_t target: 11;  // 08:00
-			OP op: 2;                  // 08:11
-			TYPE type: 3;              // 08:13
-			std::int16_t step;         // 0C
+			OP            op: 2;       // 08:11
+			TYPE          type: 3;     // 08:13
+			std::int16_t  step;        // 0C
 		};
 		static_assert(sizeof(Mod) == 0x10);
 	}
@@ -111,10 +111,10 @@ namespace RE::BGSMod
 		{
 		public:
 			// members
-			Attachment::Instance* attachments;  // 00
-			Property::Mod* propertyMods;        // 08
-			std::uint32_t attachmentCount;      // 10
-			std::uint32_t propertyModCount;     // 14
+			Attachment::Instance* attachments;       // 00
+			Property::Mod*        propertyMods;      // 08
+			std::uint32_t         attachmentCount;   // 10
+			std::uint32_t         propertyModCount;  // 14
 		};
 		static_assert(sizeof(Data) == 0x18);
 	};
@@ -124,9 +124,9 @@ namespace RE::BGSMod
 	{
 	public:
 		std::uint32_t objectID;  // 0
-		std::uint8_t index;      // 4
-		std::uint8_t rank;       // 5
-		std::uint8_t disabled;   // 6
+		std::uint8_t  index;     // 4
+		std::uint8_t  rank;      // 5
+		std::uint8_t  disabled;  // 6
 	};
 	static_assert(sizeof(ObjectIndexData) == 0x8);
 
@@ -155,11 +155,11 @@ namespace RE::BGSMod
 			{
 			public:
 				// members
-				REX::EnumSet<ENUM_FORM_ID, std::uint8_t> targetFormType;  // 18
-				std::int8_t maxRank;                                      // 19
-				std::int8_t lvlsPerTierScaledOffset;                      // 1A
-				bool optional;                                            // 1B
-				bool childrenExclusive;                                   // 1C
+				REX::EnumSet<ENUM_FORM_ID, std::uint8_t> targetFormType;           // 18
+				std::int8_t                              maxRank;                  // 19
+				std::int8_t                              lvlsPerTierScaledOffset;  // 1A
+				bool                                     optional;                 // 1B
+				bool                                     childrenExclusive;        // 1C
 			};
 			static_assert(sizeof(Data) == 0x20);
 
@@ -192,15 +192,15 @@ namespace RE::BGSMod
 			}
 
 			// members
-			BGSAttachParentArray attachParents;                                           // 98
-			BGSTypedKeywordValueArray<KeywordType::kInstantiationFilter> filterKeywords;  // B0
-			BGSTypedKeywordValue<KeywordType::kAttachPoint> attachPoint;                  // C0
-			REX::EnumSet<ENUM_FORM_ID, std::uint8_t> targetFormType;                      // C2
-			std::uint8_t maxRank;                                                         // C3
-			std::uint8_t lvlsPerTierScaledOffset;                                         // C4
-			std::int8_t priority;                                                         // C5
-			bool optional: 1;                                                             // C6:0
-			bool childrenExclusive: 1;                                                    // C6:1
+			BGSAttachParentArray                                         attachParents;            // 98
+			BGSTypedKeywordValueArray<KeywordType::kInstantiationFilter> filterKeywords;           // B0
+			BGSTypedKeywordValue<KeywordType::kAttachPoint>              attachPoint;              // C0
+			REX::EnumSet<ENUM_FORM_ID, std::uint8_t>                     targetFormType;           // C2
+			std::uint8_t                                                 maxRank;                  // C3
+			std::uint8_t                                                 lvlsPerTierScaledOffset;  // C4
+			std::int8_t                                                  priority;                 // C5
+			bool                                                         optional: 1;              // C6:0
+			bool                                                         childrenExclusive: 1;     // C6:1
 		};
 		static_assert(sizeof(Mod) == 0xC8);
 
@@ -208,10 +208,10 @@ namespace RE::BGSMod
 		{
 		public:
 			// members
-			Mod* mod;                   // 00
-			std::uint8_t index;         // 08
-			bool optional: 1;           // 09:0
-			bool childrenExclusive: 1;  // 09:1
+			Mod*         mod;                   // 00
+			std::uint8_t index;                 // 08
+			bool         optional: 1;           // 09:0
+			bool         childrenExclusive: 1;  // 09:1
 		};
 		static_assert(sizeof(Instance) == 0x10);
 	}
@@ -227,16 +227,16 @@ namespace RE::BGSMod
 			static constexpr auto VTABLE{ VTABLE::BGSMod__Template__Item };
 
 			// members
-			BGSMod::Template::Items* parentTemplate;  // 20
-			BGSKeyword** nameKeywordA;                // 28
-			std::uint16_t parent;                     // 30
-			std::int8_t levelMin;                     // 32
-			std::int8_t levelMax;                     // 33
-			std::int8_t keywords;                     // 34
-			std::int8_t tierStartLevel;               // 35
-			std::int8_t altLevelsPerTier;             // 36
-			bool isDefault: 1;                        // 37:1
-			bool fullNameEditorOnly: 1;               // 37:2
+			BGSMod::Template::Items* parentTemplate;         // 20
+			BGSKeyword**             nameKeywordA;           // 28
+			std::uint16_t            parent;                 // 30
+			std::int8_t              levelMin;               // 32
+			std::int8_t              levelMax;               // 33
+			std::int8_t              keywords;               // 34
+			std::int8_t              tierStartLevel;         // 35
+			std::int8_t              altLevelsPerTier;       // 36
+			bool                     isDefault: 1;           // 37:1
+			bool                     fullNameEditorOnly: 1;  // 37:2
 		};
 		static_assert(sizeof(Item) == 0x38);
 
@@ -256,11 +256,11 @@ namespace RE::BGSMod
 
 			// override (BaseFormComponent)
 			std::uint32_t GetFormComponentType() const override { return 'TJBO'; }  // 01
-			void InitializeDataComponent() override { return; }                     // 02
-			void ClearDataComponent() override;                                     // 03
-			void InitComponent() override;                                          // 04
-			void CopyComponent(BaseFormComponent*) override { return; }             // 06
-			void CopyComponent(BaseFormComponent*, TESForm*) override;              // 05
+			void          InitializeDataComponent() override { return; }            // 02
+			void          ClearDataComponent() override;                            // 03
+			void          InitComponent() override;                                 // 04
+			void          CopyComponent(BaseFormComponent*) override { return; }    // 06
+			void          CopyComponent(BaseFormComponent*, TESForm*) override;     // 05
 
 			// members
 			BSTArray<Item*> items;  // 08

@@ -40,7 +40,7 @@ namespace RE
 		void unlock()
 		{
 			stl::atomic_ref lockCount{ _lockCount };
-			std::uint32_t expected{ 1 };
+			std::uint32_t   expected{ 1 };
 			if (lockCount == expected) {
 				_owningThread = 0;
 				lockCount.compare_exchange_strong(expected, 0);
@@ -51,8 +51,8 @@ namespace RE
 
 	private:
 		// members
-		std::uint32_t _owningThread{ 0 };        // 0
-		volatile std::uint32_t _lockCount{ 0 };  // 4
+		std::uint32_t          _owningThread{ 0 };  // 0
+		volatile std::uint32_t _lockCount{ 0 };     // 4
 	};
 	static_assert(sizeof(BSSpinLock) == 0x8);
 
@@ -106,8 +106,8 @@ namespace RE
 
 	private:
 		// members
-		std::uint32_t _writerThread{ 0 };   // 0
-		volatile std::uint32_t _lock{ 0 };  // 4
+		std::uint32_t          _writerThread{ 0 };  // 0
+		volatile std::uint32_t _lock{ 0 };          // 4
 	};
 	static_assert(sizeof(BSReadWriteLock) == 0x8);
 

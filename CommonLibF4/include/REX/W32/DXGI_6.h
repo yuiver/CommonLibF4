@@ -43,36 +43,36 @@ namespace REX::W32
 {
 	struct DXGI_ADAPTER_DESC3
 	{
-		wchar_t description[128];
-		std::uint32_t vendorID;
-		std::uint32_t deviceID;
-		std::uint32_t subSysID;
-		std::uint32_t revision;
-		std::size_t dedicatedVideoMemory;
-		std::size_t dedicatedSystemMemory;
-		std::size_t sharedSystemMemory;
-		LUID adapterLUID;
-		DXGI_ADAPTER_FLAG3 flags;
+		wchar_t                              description[128];
+		std::uint32_t                        vendorID;
+		std::uint32_t                        deviceID;
+		std::uint32_t                        subSysID;
+		std::uint32_t                        revision;
+		std::size_t                          dedicatedVideoMemory;
+		std::size_t                          dedicatedSystemMemory;
+		std::size_t                          sharedSystemMemory;
+		LUID                                 adapterLUID;
+		DXGI_ADAPTER_FLAG3                   flags;
 		DXGI_GRAPHICS_PREEMPTION_GRANULARITY graphicsPreemptionGranularity;
-		DXGI_COMPUTE_PREEMPTION_GRANULARITY computePreemptionGranularity;
+		DXGI_COMPUTE_PREEMPTION_GRANULARITY  computePreemptionGranularity;
 	};
 
 	struct DXGI_OUTPUT_DESC1
 	{
-		wchar_t deviceName[32];
-		RECT desktopCoordinates;
-		BOOL attachedToDesktop;
-		DXGI_MODE_ROTATION rotation;
-		HMONITOR monitor;
-		std::uint32_t bitsPerColor;
+		wchar_t               deviceName[32];
+		RECT                  desktopCoordinates;
+		BOOL                  attachedToDesktop;
+		DXGI_MODE_ROTATION    rotation;
+		HMONITOR              monitor;
+		std::uint32_t         bitsPerColor;
 		DXGI_COLOR_SPACE_TYPE colorSpace;
-		float redPrimary[2];
-		float greenPrimary[2];
-		float bluePrimary[2];
-		float whitePoint[2];
-		float minLuminance;
-		float maxLuminance;
-		float maxFullFrameLuminance;
+		float                 redPrimary[2];
+		float                 greenPrimary[2];
+		float                 bluePrimary[2];
+		float                 whitePoint[2];
+		float                 minLuminance;
+		float                 maxLuminance;
+		float                 maxFullFrameLuminance;
 	};
 }
 

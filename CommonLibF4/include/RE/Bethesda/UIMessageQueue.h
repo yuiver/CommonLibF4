@@ -26,8 +26,8 @@ namespace RE
 		}
 
 		// members
-		BSTSmallArray<msvc::unique_ptr<UIMessage>, 64> messages;  // 008
-		BSSpinLock uiMessagesLock;                                // 218
+		BSTSmallArray<msvc::unique_ptr<UIMessage>, 64> messages;        // 008
+		BSSpinLock                                     uiMessagesLock;  // 218
 	};
 	static_assert(sizeof(UIMessageQueue) == 0x220);
 }

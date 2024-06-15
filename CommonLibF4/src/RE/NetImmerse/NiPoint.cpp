@@ -134,7 +134,7 @@ namespace RE
 
 namespace RE
 {
-	const NiPoint3 NiPoint3::ZERO = { 0.0F, 0.0F, 0.0F };
+	const NiPoint3  NiPoint3::ZERO = { 0.0F, 0.0F, 0.0F };
 	const NiPoint3A NiPoint3A::ZERO = { 0.0F, 0.0F, 0.0F };
 
 	NiPoint3::NiPoint3(const NiPoint2& a_point) noexcept :

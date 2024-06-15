@@ -19,9 +19,9 @@ namespace RE
 				Scaleform::GFx::Value& a_newEntry,
 				const BSFixedStringCS& a_textID,
 				Scaleform::GFx::Value& a_value,
-				float a_difference = 0.0F,
-				float a_totalDamage = FLT_MAX,
-				float a_compareDamage = FLT_MAX)
+				float                  a_difference = 0.0F,
+				float                  a_totalDamage = FLT_MAX,
+				float                  a_compareDamage = FLT_MAX)
 			{
 				using func_t = decltype(&detail::AddItemCardInfoEntry);
 				static REL::Relocation<func_t> func{ REL::ID(489521) };

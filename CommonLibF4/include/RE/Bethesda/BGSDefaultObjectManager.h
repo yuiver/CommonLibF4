@@ -420,11 +420,11 @@ namespace RE
 	{
 	public:
 		// members
-		const char* name;                                        // 00
-		REX::EnumSet<ENUM_FORM_ID, std::uint8_t> type;           // 08
-		std::uint32_t uniqueID;                                  // 0C
-		REX::EnumSet<DEFAULT_OBJECT_TYPE, std::int32_t> doType;  // 10
-		const char* newObjectName;                               // 18
+		const char*                                     name;           // 00
+		REX::EnumSet<ENUM_FORM_ID, std::uint8_t>        type;           // 08
+		std::uint32_t                                   uniqueID;       // 0C
+		REX::EnumSet<DEFAULT_OBJECT_TYPE, std::int32_t> doType;         // 10
+		const char*                                     newObjectName;  // 18
 	};
 	static_assert(sizeof(DEFAULT_OBJECT_DATA) == 0x20);
 
@@ -469,8 +469,8 @@ namespace RE
 		}
 
 		// members
-		TESForm* objectArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];  // 020
-		bool objectInitArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];  // C70
+		TESForm* objectArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];      // 020
+		bool     objectInitArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];  // C70
 	};
 	static_assert(sizeof(BGSDefaultObjectManager) == 0xE00);
 
@@ -500,9 +500,9 @@ namespace RE
 		}
 
 		// members
-		TESForm* form;                                  // 20
-		REX::EnumSet<ENUM_FORM_ID, std::uint8_t> type;  // 28
-		BSFixedString formEditorID;                     // 30
+		TESForm*                                 form;          // 20
+		REX::EnumSet<ENUM_FORM_ID, std::uint8_t> type;          // 28
+		BSFixedString                            formEditorID;  // 30
 
 	private:
 		BGSDefaultObject* ctor(const char* a_name, ENUM_FORM_ID a_formType, const char* a_description)

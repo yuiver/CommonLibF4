@@ -78,15 +78,15 @@ namespace F4SE
 	// https://stackoverflow.com/a/54732489
 	void* Trampoline::do_create(std::size_t a_size, std::uintptr_t a_address)
 	{
-		constexpr std::size_t gigabyte = static_cast<std::size_t>(1) << 30;
-		constexpr std::size_t minRange = gigabyte * 2;
+		constexpr std::size_t    gigabyte = static_cast<std::size_t>(1) << 30;
+		constexpr std::size_t    minRange = gigabyte * 2;
 		constexpr std::uintptr_t maxAddr = std::numeric_limits<std::uintptr_t>::max();
 
 		REX::W32::SYSTEM_INFO si;
 		REX::W32::GetSystemInfo(&si);
 		const std::uint32_t granularity = si.allocationGranularity;
 
-		std::uintptr_t min = a_address >= minRange ? detail::roundup(a_address - minRange, granularity) : 0;
+		std::uintptr_t       min = a_address >= minRange ? detail::roundup(a_address - minRange, granularity) : 0;
 		const std::uintptr_t max = a_address < (maxAddr - minRange) ? detail::rounddown(a_address + minRange, granularity) : maxAddr;
 
 		REX::W32::MEMORY_BASIC_INFORMATION mbi;
@@ -147,10 +147,10 @@ namespace F4SE
 		struct TrampolineAssembly
 		{
 			// jmp [rip]
-			std::uint8_t jmp{ 0 };    // 0 - 0xFF
-			std::uint8_t modrm{ 0 };  // 1 - 0x25
-			std::int32_t disp{ 0 };   // 2 - 0x00000000
-			std::uint64_t addr{ 0 };  // 6 - [rip]
+			std::uint8_t  jmp{ 0 };    // 0 - 0xFF
+			std::uint8_t  modrm{ 0 };  // 1 - 0x25
+			std::int32_t  disp{ 0 };   // 2 - 0x00000000
+			std::uint64_t addr{ 0 };   // 6 - [rip]
 		};
 		static_assert(offsetof(TrampolineAssembly, jmp) == 0x0);
 		static_assert(offsetof(TrampolineAssembly, modrm) == 0x1);

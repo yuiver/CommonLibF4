@@ -24,7 +24,7 @@ int main(int a_argc, char* a_argv[])
 {
 	try {
 		mmio::mapped_file_source input;
-		std::ofstream output;
+		std::ofstream            output;
 
 		for (int i = 1; i < a_argc; ++i) {
 			std::filesystem::path filename = a_argv[static_cast<std::size_t>(i)];

@@ -40,7 +40,7 @@ namespace RE
 		{
 		public:
 			// members
-			std::uint32_t node{ 0 };    // 0
+			std::uint32_t  node{ 0 };   // 0
 			GridConnection connection;  // 4
 		};
 		static_assert(sizeof(GridSaveLoadData) == 0xC);
@@ -49,12 +49,12 @@ namespace RE
 		{
 		public:
 			// members
-			BSTHashMap<std::uint32_t, BSTSet<GridConnection>*> adjacencyMap;  // 00 - maps powered objects to the objects they connect to
-			BSTArray<GridSaveLoadData> loadGameData;                          // 30
-			std::uint32_t loadElement{ 0 };                                   // 48
-			BSTArray<std::uint32_t> currentlyPowered;                         // 50
-			float capacity{ 0.0 };                                            // 68
-			float load{ 0.0 };                                                // 6C
+			BSTHashMap<std::uint32_t, BSTSet<GridConnection>*> adjacencyMap;      // 00 - maps powered objects to the objects they connect to
+			BSTArray<GridSaveLoadData>                         loadGameData;      // 30
+			std::uint32_t                                      loadElement{ 0 };  // 48
+			BSTArray<std::uint32_t>                            currentlyPowered;  // 50
+			float                                              capacity{ 0.0 };   // 68
+			float                                              load{ 0.0 };       // 6C
 		};
 		static_assert(sizeof(PowerGrid) == 0x70);
 	}

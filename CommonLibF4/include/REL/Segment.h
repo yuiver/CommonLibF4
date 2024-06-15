@@ -26,8 +26,8 @@ namespace REL
 		{}
 
 		[[nodiscard]] constexpr std::uintptr_t address() const noexcept { return _address; }
-		[[nodiscard]] constexpr std::size_t offset() const noexcept { return address() - _proxyBase; }
-		[[nodiscard]] constexpr std::size_t size() const noexcept { return _size; }
+		[[nodiscard]] constexpr std::size_t    offset() const noexcept { return address() - _proxyBase; }
+		[[nodiscard]] constexpr std::size_t    size() const noexcept { return _size; }
 
 		[[nodiscard]] void* pointer() const noexcept { return reinterpret_cast<void*>(address()); }
 
@@ -40,6 +40,6 @@ namespace REL
 	private:
 		std::uintptr_t _proxyBase{ 0 };
 		std::uintptr_t _address{ 0 };
-		std::size_t _size{ 0 };
+		std::size_t    _size{ 0 };
 	};
 }

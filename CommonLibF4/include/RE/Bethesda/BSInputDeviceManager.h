@@ -16,9 +16,9 @@ namespace RE
 		{
 		public:
 			// members
-			BSFixedStringCS name;   // 00
-			float heldDownSecs;     // 08
-			std::uint32_t keyCode;  // 0C
+			BSFixedStringCS name;          // 00
+			float           heldDownSecs;  // 08
+			std::uint32_t   keyCode;       // 0C
 		};
 		static_assert(sizeof(InputButton) == 0x10);
 
@@ -31,9 +31,9 @@ namespace RE
 		virtual void ClearInputState() = 0;                // 05
 
 		// members
-		REX::EnumSet<INPUT_DEVICE, std::int32_t> deviceType;         // 08
-		std::int32_t deviceID;                                       // 0C
-		BSTHashMap<std::uint32_t, InputButton*> deviceButtons;       // 10
+		REX::EnumSet<INPUT_DEVICE, std::int32_t>   deviceType;       // 08
+		std::int32_t                               deviceID;         // 0C
+		BSTHashMap<std::uint32_t, InputButton*>    deviceButtons;    // 10
 		BSTHashMap<BSFixedStringCS, std::uint32_t> buttonNameIDMap;  // 40
 	};
 	static_assert(sizeof(BSInputDevice) == 0x70);
@@ -72,10 +72,10 @@ namespace RE
 
 		// members
 		BSInputDevice* devices[std::to_underlying(INPUT_DEVICE::kTotal)];  // 08
-		bool deviceLightStates[3];                                         // 30
-		bool queuedGamepadEnableValue;                                     // 33
-		bool valueQueued;                                                  // 34
-		bool pollingEnabled;                                               // 35
+		bool           deviceLightStates[3];                               // 30
+		bool           queuedGamepadEnableValue;                           // 33
+		bool           valueQueued;                                        // 34
+		bool           pollingEnabled;                                     // 35
 	};
 	static_assert(sizeof(BSInputDeviceManager) == 0x38);
 }

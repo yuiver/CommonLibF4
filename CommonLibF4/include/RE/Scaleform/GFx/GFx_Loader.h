@@ -192,11 +192,11 @@ namespace RE::Scaleform::GFx
 		};
 
 		// members
-		Flags<FileTypeConstants::FileFormatType> format;  // 00
-		const char* prefix;                               // 08
-		const char* swfName;                              // 10
-		std::uint16_t version;                            // 18
-		Flags<ExportFlagConstants> exportFlags;           // 1C
+		Flags<FileTypeConstants::FileFormatType> format;       // 00
+		const char*                              prefix;       // 08
+		const char*                              swfName;      // 10
+		std::uint16_t                            version;      // 18
+		Flags<ExportFlagConstants>               exportFlags;  // 1C
 	};
 	static_assert(sizeof(ExporterInfo) == 0x20);
 
@@ -234,9 +234,9 @@ namespace RE::Scaleform::GFx
 		}
 
 		// members
-		LoaderImpl* impl;                   // 08
-		ResourceLib* strongResourceLib;     // 10
-		Flags<LoadConstants> defLoadFlags;  // 18
+		LoaderImpl*          impl;               // 08
+		ResourceLib*         strongResourceLib;  // 10
+		Flags<LoadConstants> defLoadFlags;       // 18
 	};
 	static_assert(sizeof(Loader) == 0x20);
 

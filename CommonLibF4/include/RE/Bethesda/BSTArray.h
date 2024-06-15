@@ -35,19 +35,19 @@ namespace RE
 		}
 
 		[[nodiscard]] void* allocate(uint32_t a_bytes) { return malloc(a_bytes); }
-		void deallocate(void* a_ptr) { free(a_ptr); }
+		void                deallocate(void* a_ptr) { free(a_ptr); }
 
-		[[nodiscard]] void* data() noexcept { return _data; }
+		[[nodiscard]] void*       data() noexcept { return _data; }
 		[[nodiscard]] const void* data() const noexcept { return _data; }
-		void set_data(void* a_data) noexcept { _data = a_data; }
+		void                      set_data(void* a_data) noexcept { _data = a_data; }
 
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
-		void set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
+		void                    set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
 
 	private:
 		// members
-		void* _data{ nullptr };    // 00
-		size_type _capacity{ 0 };  // 08
+		void*     _data{ nullptr };  // 00
+		size_type _capacity{ 0 };    // 08
 	};
 
 	template <std::uint32_t N>
@@ -83,18 +83,18 @@ namespace RE
 			}
 
 			[[nodiscard]] void* allocate(uint32_t a_bytes) { return aligned_alloc(N, a_bytes); }
-			void deallocate(void* a_ptr) { aligned_free(a_ptr); }
+			void                deallocate(void* a_ptr) { aligned_free(a_ptr); }
 
-			[[nodiscard]] void* data() noexcept { return _data; }
+			[[nodiscard]] void*       data() noexcept { return _data; }
 			[[nodiscard]] const void* data() const noexcept { return _data; }
-			void set_data(void* a_data) noexcept { _data = a_data; }
+			void                      set_data(void* a_data) noexcept { _data = a_data; }
 
 			[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
-			void set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
+			void                    set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
 
 		private:
-			void* _data{ nullptr };    // 00
-			size_type _capacity{ 0 };  // 08
+			void*     _data{ nullptr };  // 00
+			size_type _capacity{ 0 };    // 08
 		};
 	};
 
@@ -133,7 +133,7 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] void* data() noexcept { return _local ? _stack : _heap; }
+		[[nodiscard]] void*       data() noexcept { return _local ? _stack : _heap; }
 		[[nodiscard]] const void* data() const noexcept { return _local ? _stack : _heap; }
 
 		void set_data(void* a_data) noexcept
@@ -157,7 +157,7 @@ namespace RE
 		size_type _local: 1 { 0 };      // 00:31
 		union
 		{
-			void* _heap{ nullptr };
+			void*     _heap{ nullptr };
 			std::byte _stack[N];
 		};  // 08
 	};
@@ -206,18 +206,18 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] void* data() noexcept { return _data; }
+		[[nodiscard]] void*       data() noexcept { return _data; }
 		[[nodiscard]] const void* data() const noexcept { return _data; }
-		void set_data(void* a_data) noexcept { _data = a_data; }
+		void                      set_data(void* a_data) noexcept { _data = a_data; }
 
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
-		void set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
+		void                    set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
 
 	private:
 		// members
 		ScrapHeap* _allocator{ nullptr };  // 00
-		void* _data{ nullptr };            // 08
-		size_type _capacity{ 0 };          // 10
+		void*      _data{ nullptr };       // 08
+		size_type  _capacity{ 0 };         // 10
 	};
 
 	template <
@@ -342,31 +342,31 @@ namespace RE
 			return begin()[a_pos];
 		}
 
-		[[nodiscard]] constexpr reference operator[](size_type a_pos) noexcept { return begin()[a_pos]; }
+		[[nodiscard]] constexpr reference       operator[](size_type a_pos) noexcept { return begin()[a_pos]; }
 		[[nodiscard]] constexpr const_reference operator[](size_type a_pos) const noexcept { return begin()[a_pos]; }
 
-		[[nodiscard]] constexpr reference front() noexcept { return operator[](0); }
+		[[nodiscard]] constexpr reference       front() noexcept { return operator[](0); }
 		[[nodiscard]] constexpr const_reference front() const noexcept { return operator[](0); }
 
-		[[nodiscard]] constexpr reference back() noexcept { return operator[](size() - 1); }
+		[[nodiscard]] constexpr reference       back() noexcept { return operator[](size() - 1); }
 		[[nodiscard]] constexpr const_reference back() const noexcept { return operator[](size() - 1); }
 
-		[[nodiscard]] constexpr pointer data() noexcept { return static_cast<pointer>(_allocator.data()); }
+		[[nodiscard]] constexpr pointer       data() noexcept { return static_cast<pointer>(_allocator.data()); }
 		[[nodiscard]] constexpr const_pointer data() const noexcept { return static_cast<const_pointer>(_allocator.data()); }
 
-		[[nodiscard]] constexpr iterator begin() noexcept { return data(); }
+		[[nodiscard]] constexpr iterator       begin() noexcept { return data(); }
 		[[nodiscard]] constexpr const_iterator begin() const noexcept { return data(); }
 		[[nodiscard]] constexpr const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] constexpr iterator end() noexcept { return begin() + size(); }
+		[[nodiscard]] constexpr iterator       end() noexcept { return begin() + size(); }
 		[[nodiscard]] constexpr const_iterator end() const noexcept { return begin() + size(); }
 		[[nodiscard]] constexpr const_iterator cend() const noexcept { return end(); }
 
-		[[nodiscard]] constexpr reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+		[[nodiscard]] constexpr reverse_iterator       rbegin() noexcept { return reverse_iterator(end()); }
 		[[nodiscard]] constexpr const_reverse_iterator rbegin() const noexcept { return rbegin(); }
 		[[nodiscard]] constexpr const_reverse_iterator crbegin() const noexcept { return rbegin(); }
 
-		[[nodiscard]] constexpr reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+		[[nodiscard]] constexpr reverse_iterator       rend() noexcept { return reverse_iterator(begin()); }
 		[[nodiscard]] constexpr const_reverse_iterator rend() const noexcept { return rend(); }
 		[[nodiscard]] constexpr const_reverse_iterator crend() const noexcept { return rend(); }
 
@@ -389,7 +389,7 @@ namespace RE
 		template <class ForwardIt>
 		void assign(ForwardIt a_first, ForwardIt a_last)
 		{
-			auto out = begin();
+			auto       out = begin();
 			auto const out_last = end();
 			for (; out != out_last && a_first != a_last; ++a_first, ++out) {
 				*out = *a_first;
@@ -573,7 +573,7 @@ namespace RE
 
 		// members
 		allocator_type _allocator;  // 00
-		size_type _size{ 0 };       // ??
+		size_type      _size{ 0 };  // ??
 	};
 
 	template <class T, std::uint32_t N = alignof(T)>
@@ -624,20 +624,20 @@ namespace RE
 			return _data[a_pos];
 		}
 
-		[[nodiscard]] reference front() noexcept { return operator[](0); }
+		[[nodiscard]] reference       front() noexcept { return operator[](0); }
 		[[nodiscard]] const_reference front() const noexcept { return operator[](0); }
 
-		[[nodiscard]] reference back() noexcept { return operator[](size() - 1); }
+		[[nodiscard]] reference       back() noexcept { return operator[](size() - 1); }
 		[[nodiscard]] const_reference back() const noexcept { return operator[](size() - 1); }
 
-		[[nodiscard]] pointer data() noexcept { return _data; }
+		[[nodiscard]] pointer       data() noexcept { return _data; }
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
 
-		[[nodiscard]] iterator begin() noexcept { return empty() ? nullptr : data(); }
+		[[nodiscard]] iterator       begin() noexcept { return empty() ? nullptr : data(); }
 		[[nodiscard]] const_iterator begin() const noexcept { return empty() ? nullptr : data(); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] iterator end() noexcept { return empty() ? nullptr : data() + size(); }
+		[[nodiscard]] iterator       end() noexcept { return empty() ? nullptr : data() + size(); }
 		[[nodiscard]] const_iterator end() const noexcept { return empty() ? nullptr : data() + size(); }
 		[[nodiscard]] const_iterator cend() const noexcept { return end(); }
 
@@ -647,8 +647,8 @@ namespace RE
 
 	private:
 		// members
-		pointer _data{ nullptr };  // 00
-		std::uint32_t _size{ 0 };  // 08
+		pointer       _data{ nullptr };  // 00
+		std::uint32_t _size{ 0 };        // 08
 	};
 
 	template <class T>
@@ -688,11 +688,11 @@ namespace RE
 			return size() > 1 ? heap : std::addressof(local);
 		}
 
-		[[nodiscard]] iterator begin() noexcept { return data(); }
+		[[nodiscard]] iterator       begin() noexcept { return data(); }
 		[[nodiscard]] const_iterator begin() const noexcept { return data(); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] iterator end() noexcept { return data() + size(); }
+		[[nodiscard]] iterator       end() noexcept { return data() + size(); }
 		[[nodiscard]] const_iterator end() const noexcept { return data() + size(); }
 		[[nodiscard]] const_iterator cend() const noexcept { return end(); }
 
@@ -705,7 +705,7 @@ namespace RE
 		std::uint32_t _size{ 0 };  // 00
 		union
 		{
-			pointer heap{ 0 };
+			pointer    heap{ 0 };
 			value_type local;
 		};  // 08
 	};
@@ -732,7 +732,7 @@ namespace RE
 			}
 
 			std::uint32_t offset = 0;
-			const auto blocks = reinterpret_cast<const Block*>(buffer + size);
+			const auto    blocks = reinterpret_cast<const Block*>(buffer + size);
 			for (std::uint32_t i = 0; i < N && blocks[i].id != 0xFFu; ++i) {
 				if (blocks[i].id == a_id) {
 					return { blocks + i, offset };
@@ -756,8 +756,8 @@ namespace RE
 		}
 
 		// members
-		std::byte* buffer;   // 00
-		std::uint32_t size;  // 08
+		std::byte*    buffer;  // 00
+		std::uint32_t size;    // 08
 	};
 
 	extern template class BSTDataBuffer<1>;

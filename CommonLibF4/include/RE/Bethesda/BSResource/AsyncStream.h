@@ -15,17 +15,17 @@ namespace RE::BSResource
 		struct PacketAlignedBuffer
 		{
 		public:
-			std::uint64_t resultOffset = 0;     // 00
-			std::uint32_t bufferSize = 0;       // 08
-			void* packetBuffer = nullptr;       // 10
-			std::uint32_t dataRequestSize = 0;  // 18
-			std::uint32_t dataSize = 0;         // 1C
-			void* dataStart = nullptr;          // 20
+			std::uint64_t resultOffset = 0;        // 00
+			std::uint32_t bufferSize = 0;          // 08
+			void*         packetBuffer = nullptr;  // 10
+			std::uint32_t dataRequestSize = 0;     // 18
+			std::uint32_t dataSize = 0;            // 1C
+			void*         dataStart = nullptr;     // 20
 		};
 		static_assert(sizeof(PacketAlignedBuffer) == 0x28);
 
 		// add
-		virtual void DoClone(BSTSmartPointer<AsyncStream>& a_result) const = 0;                                                                      // 05
+		virtual void      DoClone(BSTSmartPointer<AsyncStream>& a_result) const = 0;                                                                 // 05
 		virtual ErrorCode DoStartRead(void* a_buffer, std::uint64_t a_bytes, std::uint64_t a_offset) const = 0;                                      // 06
 		virtual ErrorCode DoStartPacketAlignedBufferedRead(PacketAlignedBuffer* a_buffer, std::uint64_t a_bytes, std::uint64_t a_offset) const = 0;  // 07
 		virtual ErrorCode DoStartWrite(const void* a_buffer, std::uint64_t a_bytes, std::uint64_t a_offset) const = 0;                               // 08

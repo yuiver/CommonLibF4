@@ -34,9 +34,9 @@ namespace RE
 		}
 
 		// members
-		BSTArray<NiPointer<QueuedPromoteReferencesTask>> taskArray;  // 00
-		BSSpinLock taskArrayLock;                                    // 18
-		volatile std::int32_t pauseCount;                            // 20
+		BSTArray<NiPointer<QueuedPromoteReferencesTask>> taskArray;      // 00
+		BSSpinLock                                       taskArrayLock;  // 18
+		volatile std::int32_t                            pauseCount;     // 20
 	};
 	static_assert(sizeof(BGSDynamicPersistenceManager) == 0x28);
 }

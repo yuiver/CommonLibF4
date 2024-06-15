@@ -26,10 +26,10 @@ namespace RE
 
 		struct STARTSCENEACTIONDATA
 		{
-			BGSScene* pScene;
+			BGSScene*     pScene;
 			std::uint16_t sceneStartPhase;
-			TESQuest* parentQuest;
-			TESCondition sceneConditions;
+			TESQuest*     parentQuest;
+			TESCondition  sceneConditions;
 		};
 
 		enum SCENE_ACTION_PLAYER_RESPONSE_TYPE : std::uint32_t
@@ -76,35 +76,35 @@ namespace RE
 		virtual ~BGSSceneAction();  // 00
 
 		// add
-		virtual void Unk_01(void);                                                         // 01
-		virtual void Unk_02(void);                                                         // 02
-		virtual void Unk_03(void);                                                         // 03
-		virtual void Unk_04(void);                                                         // 04
-		virtual void Unk_05(void);                                                         // 05
-		virtual bool QIsLooping(void);                                                     // 06
-		virtual bool QFaceHeadTrackTarget(const BGSScene* scene);                          // 07
-		virtual SCENE_ACTION_TYPE GetActionType() const = 0;                               // 08
-		virtual bool QActionCanEnd();                                                      // 09
-		virtual bool IsPackageActive(BGSScene* scene, TESPackage* package, Actor* actor);  // 0A
-		virtual void Unk_0B(void);                                                         // 0B
-		virtual void Unk_0C(void);                                                         // 0C
-		virtual void Unk_0D(void);                                                         // 0D
-		virtual void Unk_0E(void);                                                         // 0E
-		virtual void Unk_0F(void);                                                         // 0F
-		virtual void Unk_10(void);                                                         // 10
-		virtual void Unk_11(void);                                                         // 11
-		virtual void StartAction(BGSScene* scene);                                         // 12
-		virtual void EndAction(BGSScene* scene);                                           // 13
-		virtual void CleanUpActionActor(void);                                             // 14
-		virtual void UpdateAction(BGSScene* scene);                                        // 14
+		virtual void              Unk_01(void);                                                         // 01
+		virtual void              Unk_02(void);                                                         // 02
+		virtual void              Unk_03(void);                                                         // 03
+		virtual void              Unk_04(void);                                                         // 04
+		virtual void              Unk_05(void);                                                         // 05
+		virtual bool              QIsLooping(void);                                                     // 06
+		virtual bool              QFaceHeadTrackTarget(const BGSScene* scene);                          // 07
+		virtual SCENE_ACTION_TYPE GetActionType() const = 0;                                            // 08
+		virtual bool              QActionCanEnd();                                                      // 09
+		virtual bool              IsPackageActive(BGSScene* scene, TESPackage* package, Actor* actor);  // 0A
+		virtual void              Unk_0B(void);                                                         // 0B
+		virtual void              Unk_0C(void);                                                         // 0C
+		virtual void              Unk_0D(void);                                                         // 0D
+		virtual void              Unk_0E(void);                                                         // 0E
+		virtual void              Unk_0F(void);                                                         // 0F
+		virtual void              Unk_10(void);                                                         // 10
+		virtual void              Unk_11(void);                                                         // 11
+		virtual void              StartAction(BGSScene* scene);                                         // 12
+		virtual void              EndAction(BGSScene* scene);                                           // 13
+		virtual void              CleanUpActionActor(void);                                             // 14
+		virtual void              UpdateAction(BGSScene* scene);                                        // 14
 
 		// members
-		std::uint32_t actorID;                      // 08
-		std::uint16_t startPhase;                   // 0C
-		std::uint16_t endPhase;                     // 0E
-		REX::EnumSet<Flag, std::uint32_t> flags;    // 10
-		REX::EnumSet<Status, std::uint8_t> status;  // 14
-		std::uint32_t uniqueID;                     // 18
+		std::uint32_t                      actorID;     // 08
+		std::uint16_t                      startPhase;  // 0C
+		std::uint16_t                      endPhase;    // 0E
+		REX::EnumSet<Flag, std::uint32_t>  flags;       // 10
+		REX::EnumSet<Status, std::uint8_t> status;      // 14
+		std::uint32_t                      uniqueID;    // 18
 	};
 	static_assert(sizeof(BGSSceneAction) == 0x20);
 
@@ -116,17 +116,17 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSSceneActionDialogue };
 
 		// members
-		TESTopic* topic;                                  // 20
-		float maxLoopTime;                                // 28
-		float minLoopTime;                                // 2C
-		BSTArray<std::uint32_t> headTrackTargetA;         // 30
-		float currentLoopTimer;                           // 48
-		BGSKeyword* pAnimFaceArchType;                    // 50
-		BGSKeyword* pSubtypeKeyword;                      // 58
-		BGSSoundOutput* outputModel;                      // 60
-		BSTSmartPointer<BSInputEnableLayer> pInputLayer;  // 68
-		std::uint32_t headTargetValue;                    // 74
-		float headTrackChangeTimer;                       // 78
+		TESTopic*                           topic;                 // 20
+		float                               maxLoopTime;           // 28
+		float                               minLoopTime;           // 2C
+		BSTArray<std::uint32_t>             headTrackTargetA;      // 30
+		float                               currentLoopTimer;      // 48
+		BGSKeyword*                         pAnimFaceArchType;     // 50
+		BGSKeyword*                         pSubtypeKeyword;       // 58
+		BGSSoundOutput*                     outputModel;           // 60
+		BSTSmartPointer<BSInputEnableLayer> pInputLayer;           // 68
+		std::uint32_t                       headTargetValue;       // 74
+		float                               headTrackChangeTimer;  // 78
 	};
 	static_assert(sizeof(BGSSceneActionDialogue) == 0x78);
 
@@ -137,13 +137,13 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSSceneActionConversationBase };
 		static constexpr auto VTABLE{ VTABLE::BGSSceneActionConversationBase };
 
-		TESTopic* responseTopics[4];               // 20
-		BGSKeyword* pResponseSubtypeKeywords[4];   // 40
-		BGSSoundOutput* pOutputModel;              // 60
-		BSTArray<std::uint32_t> headTrackTargetA;  // 68
-		std::uint32_t headTargetValue;             // 80
-		float headTrackChangeTimer;                // 84
-		TESTopic* currentTopic;                    // 88
+		TESTopic*               responseTopics[4];            // 20
+		BGSKeyword*             pResponseSubtypeKeywords[4];  // 40
+		BGSSoundOutput*         pOutputModel;                 // 60
+		BSTArray<std::uint32_t> headTrackTargetA;             // 68
+		std::uint32_t           headTargetValue;              // 80
+		float                   headTrackChangeTimer;         // 84
+		TESTopic*               currentTopic;                 // 88
 	};
 	static_assert(sizeof(BGSSceneActionConversationBase) == 0x90);
 
@@ -154,11 +154,11 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSSceneActionPlayerDialogue };
 		static constexpr auto VTABlE{ VTABLE::BGSSceneActionPlayerDialogue };
 
-		std::uint64_t dialogueTarget;                   // 90
-		TESTopic* pNPCResponseTopics[4];                // 98
-		BGSKeyword* pNPCResponseSubtypeKeywords[4];     // B8
-		TESTopic* pTopic;                               // D8
-		SCENE_ACTION_PLAYER_RESPONSE_TYPE playerInput;  // E0
+		std::uint64_t                     dialogueTarget;                  // 90
+		TESTopic*                         pNPCResponseTopics[4];           // 98
+		BGSKeyword*                       pNPCResponseSubtypeKeywords[4];  // B8
+		TESTopic*                         pTopic;                          // D8
+		SCENE_ACTION_PLAYER_RESPONSE_TYPE playerInput;                     // E0
 	};
 	static_assert(sizeof(BGSSceneActionPlayerDialogue) == 0xE8);
 
@@ -172,10 +172,10 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSSceneActionStartScene };
 		static constexpr auto VTABlE{ VTABLE::BGSSceneActionStartScene };
 
-		BSTArray<STARTSCENEACTIONDATA*> scenesA;  // 20
-		BGSScene* scene;                          // 38
-		std::uint16_t sceneStartPhase;            // 40
-		bool endSceneSayGreeting;                 // 42
+		BSTArray<STARTSCENEACTIONDATA*> scenesA;              // 20
+		BGSScene*                       scene;                // 38
+		std::uint16_t                   sceneStartPhase;      // 40
+		bool                            endSceneSayGreeting;  // 42
 	};
 	static_assert(sizeof(BGSSceneActionStartScene) == 0x48);
 
@@ -189,8 +189,8 @@ namespace RE
 		float seconds;         // 20
 		float minSeconds;      // 24
 		float timer;           // 28
-		bool scriptEndRun;     // 2C
-		bool runEnd;           // 2D
+		bool  scriptEndRun;    // 2C
+		bool  runEnd;          // 2D
 		float currentSeconds;  // 30
 	};
 	static_assert(sizeof(BGSSceneActionTimer) == 0x38);
@@ -202,16 +202,16 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSSceneActionRadio };
 		static constexpr auto VTABlE{ VTABLE::BGSSceneActionRadio };
 
-		TESTopic* topic;                     // 20
-		BGSSoundDescriptorForm* sound;       // 28
-		BGSSoundOutput* outputModel;         // 30
-		BGSKeyword* subtypeKeyword;          // 38
-		BGSSoundDescriptorForm* topicSound;  // 40
-		float soundDuration;                 // 48
-		std::uint32_t soundID;               // 4C
-		bool soundDone;                      // 50
-		TESTopic* currentTopic;              // 58
-		float failTimer;                     // 60
+		TESTopic*               topic;           // 20
+		BGSSoundDescriptorForm* sound;           // 28
+		BGSSoundOutput*         outputModel;     // 30
+		BGSKeyword*             subtypeKeyword;  // 38
+		BGSSoundDescriptorForm* topicSound;      // 40
+		float                   soundDuration;   // 48
+		std::uint32_t           soundID;         // 4C
+		bool                    soundDone;       // 50
+		TESTopic*               currentTopic;    // 58
+		float                   failTimer;       // 60
 	};
 	static_assert(sizeof(BGSSceneActionRadio) == 0x68);
 
@@ -222,8 +222,8 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::BGSSceneActionPackage };
 		static constexpr auto VTABlE{ VTABLE::BGSSceneActionPackage };
 
-		std::uint32_t currentPackIndex;  // 20
-		BSTArray<TESPackage*> packages;  // 28
+		std::uint32_t         currentPackIndex;  // 20
+		BSTArray<TESPackage*> packages;          // 28
 	};
 	static_assert(sizeof(BGSSceneActionPackage) == 0x40);
 }

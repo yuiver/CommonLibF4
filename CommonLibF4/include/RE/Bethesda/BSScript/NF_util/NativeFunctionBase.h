@@ -41,9 +41,9 @@ namespace RE
 				NativeFunctionBase(
 					std::string_view a_object,
 					std::string_view a_function,
-					std::uint16_t a_paramCount,
-					bool a_isStatic,
-					bool a_isLatent) :
+					std::uint16_t    a_paramCount,
+					bool             a_isStatic,
+					bool             a_isLatent) :
 					name(a_function),
 					objName(a_object),
 					descTable(a_paramCount, 0),
@@ -56,11 +56,11 @@ namespace RE
 				}
 
 				// override (IFunction)
-				const BSFixedString& GetName() const override { return name; }                   // 01
-				const BSFixedString& GetObjectTypeName() const override { return objName; }      // 02
-				const BSFixedString& GetStateName() const override { return stateName; }         // 03
-				TypeInfo GetReturnType() const override { return retType; }                      // 04
-				std::uint32_t GetParamCount() const override { return descTable.totalEntries; }  // 05
+				const BSFixedString& GetName() const override { return name; }                          // 01
+				const BSFixedString& GetObjectTypeName() const override { return objName; }             // 02
+				const BSFixedString& GetStateName() const override { return stateName; }                // 03
+				TypeInfo             GetReturnType() const override { return retType; }                 // 04
+				std::uint32_t        GetParamCount() const override { return descTable.totalEntries; }  // 05
 
 				void GetParam(std::uint32_t a_param, BSFixedString& a_paramName, TypeInfo& a_paramType) const override  // 06
 				{
@@ -75,14 +75,14 @@ namespace RE
 					}
 				}
 
-				std::uint32_t GetStackFrameSize() const override { return descTable.totalEntries; }  // 07
-				bool GetIsNative() const override { return true; }                                   // 08
-				bool GetIsStatic() const override { return isStatic; }                               // 09
-				bool GetIsEmpty() const override { return false; }                                   // 0A
-				FunctionType GetFunctionType() const override { return FunctionType::kNormal; }      // 0B
-				std::uint32_t GetUserFlags() const override { return userFlags; }                    // 0C
-				const BSFixedString& GetDocString() const override { return docString; }             // 0D
-				void InsertLocals(StackFrame&) const override { return; }                            // 0E
+				std::uint32_t        GetStackFrameSize() const override { return descTable.totalEntries; }  // 07
+				bool                 GetIsNative() const override { return true; }                          // 08
+				bool                 GetIsStatic() const override { return isStatic; }                      // 09
+				bool                 GetIsEmpty() const override { return false; }                          // 0A
+				FunctionType         GetFunctionType() const override { return FunctionType::kNormal; }     // 0B
+				std::uint32_t        GetUserFlags() const override { return userFlags; }                    // 0C
+				const BSFixedString& GetDocString() const override { return docString; }                    // 0D
+				void                 InsertLocals(StackFrame&) const override { return; }                   // 0E
 
 				CallResult Call(const BSTSmartPointer<Stack>& a_stack, ErrorLogger& a_errorLogger, Internal::VirtualMachine& a_vm, bool a_inScriptTasklet) const override  // 0F
 				{
@@ -123,16 +123,16 @@ namespace RE
 				virtual bool MarshallAndDispatch(Variable& a_self, Internal::VirtualMachine& a_vm, std::uint32_t a_stackID, Variable& a_retVal, const StackFrame& a_stackFrame) const = 0;  // 16
 
 				// members
-				BSFixedString name;                   // 10
-				BSFixedString objName;                // 18
-				BSFixedString stateName{ "" };        // 20
-				TypeInfo retType;                     // 28
-				Internal::VDescTable descTable;       // 30
-				bool isStatic;                        // 40
-				bool isCallableFromTasklet{ false };  // 41
-				bool isLatent;                        // 42
-				std::uint32_t userFlags{ 0 };         // 44
-				BSFixedString docString;              // 48
+				BSFixedString        name;                            // 10
+				BSFixedString        objName;                         // 18
+				BSFixedString        stateName{ "" };                 // 20
+				TypeInfo             retType;                         // 28
+				Internal::VDescTable descTable;                       // 30
+				bool                 isStatic;                        // 40
+				bool                 isCallableFromTasklet{ false };  // 41
+				bool                 isLatent;                        // 42
+				std::uint32_t        userFlags{ 0 };                  // 44
+				BSFixedString        docString;                       // 48
 			};
 			static_assert(sizeof(NativeFunctionBase) == 0x50);
 		}

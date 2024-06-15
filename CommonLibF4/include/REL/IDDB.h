@@ -31,13 +31,13 @@ namespace REL
 			}
 
 			const mapping_t elem{ a_id, 0 };
-			const auto it = std::lower_bound(
-				_id2offset.begin(),
-				_id2offset.end(),
-				elem,
-				[](auto&& a_lhs, auto&& a_rhs) {
-					return a_lhs.id < a_rhs.id;
-				});
+			const auto      it = std::lower_bound(
+					 _id2offset.begin(),
+					 _id2offset.end(),
+					 elem,
+					 [](auto&& a_lhs, auto&& a_rhs) {
+                    return a_lhs.id < a_rhs.id;
+                });
 			if (it == _id2offset.end()) {
 				stl::report_and_fail("id not found"sv);
 			}
@@ -54,7 +54,7 @@ namespace REL
 		IDDB();
 		~IDDB() = default;
 
-		mmio::mapped_file_source _mmap;
+		mmio::mapped_file_source   _mmap;
 		std::span<const mapping_t> _id2offset;
 	};
 }

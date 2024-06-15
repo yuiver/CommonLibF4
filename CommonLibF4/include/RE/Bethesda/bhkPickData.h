@@ -13,7 +13,7 @@ namespace RE
 	public:
 		bhkPickData()
 		{
-			typedef bhkPickData* func_t(bhkPickData*);
+			typedef bhkPickData*           func_t(bhkPickData*);
 			static REL::Relocation<func_t> func{ REL::ID(526783) };
 			func(this);
 		}
@@ -84,23 +84,23 @@ namespace RE
 		}
 
 		// members
-		std::uint64_t field_0;
-		std::uint16_t field_8;
-		CFilter collisionFilter;
-		std::uint64_t field_10;
-		std::uint32_t field_18;
-		hkVector4f rayOrigin;
-		hkVector4f rayDest;
-		char gap40[16];
-		int field_50;
-		hknpCollisionResult result;
+		std::uint64_t        field_0;
+		std::uint16_t        field_8;
+		CFilter              collisionFilter;
+		std::uint64_t        field_10;
+		std::uint32_t        field_18;
+		hkVector4f           rayOrigin;
+		hkVector4f           rayDest;
+		char                 gap40[16];
+		int                  field_50;
+		hknpCollisionResult  result;
 		hknpCollisionResult* field_C0;
-		std::uint64_t collisionLayer;
-		__int64 collector;
-		int field_D8;
-		__int16 field_DC;
-		char field_DE;
-		char field_DF;
+		std::uint64_t        collisionLayer;
+		__int64              collector;
+		int                  field_D8;
+		__int16              field_DC;
+		char                 field_DE;
+		char                 field_DF;
 	};
 	static_assert(sizeof(bhkPickData) == 0xE0);
 };

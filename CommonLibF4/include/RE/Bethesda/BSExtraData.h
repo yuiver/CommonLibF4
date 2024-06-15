@@ -311,8 +311,8 @@ namespace RE
 		[[nodiscard]] EXTRA_DATA_TYPE GetExtraType() const noexcept { return *type; }
 
 		// members
-		BSExtraData* next{ nullptr };                                                // 08
-		std::uint16_t flags{ 0 };                                                    // 10
+		BSExtraData*                                next{ nullptr };                 // 08
+		std::uint16_t                               flags{ 0 };                      // 10
 		REX::EnumSet<EXTRA_DATA_TYPE, std::uint8_t> type{ EXTRA_DATA_TYPE::kNone };  // 12
 	};
 	static_assert(sizeof(BSExtraData) == 0x18);
@@ -414,11 +414,11 @@ namespace RE
 	{
 	public:
 		// members
-		TESObjectCELL* transitionCell;  // 00
-		ObjectRefHandle linkedDoor;     // 08
-		NiPoint3 position;              // 0C
-		NiPoint3 rotation;              // 18
-		std::uint8_t flags;             // 24
+		TESObjectCELL*  transitionCell;  // 00
+		ObjectRefHandle linkedDoor;      // 08
+		NiPoint3        position;        // 0C
+		NiPoint3        rotation;        // 18
+		std::uint8_t    flags;           // 24
 	};
 	static_assert(sizeof(DoorTeleportData) == 0x28);
 
@@ -461,8 +461,8 @@ namespace RE
 		ExtraInstanceData(const TESBoundObject* a_base, BSTSmartPointer<TBO_InstanceData> a_data);
 
 		// members
-		const TESBoundObject* base{ nullptr };   // 18
-		BSTSmartPointer<TBO_InstanceData> data;  // 20
+		const TESBoundObject*             base{ nullptr };  // 18
+		BSTSmartPointer<TBO_InstanceData> data;             // 20
 	};
 	static_assert(sizeof(ExtraInstanceData) == 0x28);
 
@@ -526,7 +526,7 @@ namespace RE
 
 		// members
 		const BSTDataBuffer<1>* values{ nullptr };  // 18
-		std::uint16_t itemIndex{ 0 };               // 20
+		std::uint16_t           itemIndex{ 0 };     // 20
 
 	private:
 		BGSObjectInstanceExtra* ctor(const BGSMod::Template::Item* a_item, TESForm* a_parentForm, const INSTANCE_FILTER* a_filter)
@@ -579,8 +579,8 @@ namespace RE
 	{
 	public:
 		// members
-		TESQuest* quest;                           // 00
-		BGSRefAlias* alias;                        // 08
+		TESQuest*              quest;              // 00
+		BGSRefAlias*           alias;              // 08
 		BSTArray<TESPackage*>* instancedPackages;  // 10
 	};
 	static_assert(sizeof(BGSRefAliasInstanceData) == 0x18);
@@ -594,8 +594,8 @@ namespace RE
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kAliasInstanceArray };
 
 		// members
-		BSTArray<BGSRefAliasInstanceData> aliasArray;  // 18
-		BSReadWriteLock aliasArrayLock;                // 30
+		BSTArray<BGSRefAliasInstanceData> aliasArray;      // 18
+		BSReadWriteLock                   aliasArrayLock;  // 30
 	};
 	static_assert(sizeof(ExtraAliasInstanceArray) == 0x38);
 
@@ -653,12 +653,12 @@ namespace RE
 		}
 
 		// members
-		BSFixedStringCS displayName;                                // 18
-		BGSMessage* displayNameText;                                // 20
-		TESQuest* ownerQuest;                                       // 28
-		REX::EnumSet<DisplayDataType, std::int32_t> ownerInstance;  // 30
-		BSTArray<BSTTuple<BSFixedString, TESForm*>>* textPairs;     // 38
-		std::uint16_t customNameLength;                             // 40
+		BSFixedStringCS                              displayName;       // 18
+		BGSMessage*                                  displayNameText;   // 20
+		TESQuest*                                    ownerQuest;        // 28
+		REX::EnumSet<DisplayDataType, std::int32_t>  ownerInstance;     // 30
+		BSTArray<BSTTuple<BSFixedString, TESForm*>>* textPairs;         // 38
+		std::uint16_t                                customNameLength;  // 40
 	};
 	static_assert(sizeof(ExtraTextDisplayData) == 0x48);
 
@@ -688,7 +688,7 @@ namespace RE
 		{
 		public:
 			// members
-			TESFormID formID;        // 0
+			TESFormID     formID;    // 0
 			std::uint32_t linkType;  // 4
 		};
 		static_assert(sizeof(Element) == 0x8);
@@ -709,8 +709,8 @@ namespace RE
 		struct ParamData_Untilv13
 		{
 			// members
-			float slack;           // 00
-			float thickness;       // 04
+			float    slack;        // 00
+			float    thickness;    // 04
 			NiPoint3 halfExtents;  // 08
 		};
 		static_assert(sizeof(ParamData_Untilv13) == 0x14);
@@ -843,7 +843,7 @@ namespace RE
 		}
 
 		// members
-		BSExtraData* _head{ nullptr };                 // 00
+		BSExtraData*  _head{ nullptr };                // 00
 		BSExtraData** _tail{ std::addressof(_head) };  // 08
 		std::uint8_t* _flags{ nullptr };               // 10
 	};
@@ -977,7 +977,7 @@ namespace RE
 		}
 
 		// members
-		BaseExtraList extraData;              // 08
+		BaseExtraList           extraData;    // 08
 		mutable BSReadWriteLock extraRWLock;  // 20
 	};
 	static_assert(sizeof(ExtraDataList) == 0x28);

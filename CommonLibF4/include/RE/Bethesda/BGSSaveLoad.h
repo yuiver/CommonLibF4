@@ -38,7 +38,7 @@ namespace RE
 			{
 				union
 				{
-					std::uint8_t data1;
+					std::uint8_t                      data1;
 					REX::EnumSet<Flags, std::uint8_t> flags;
 				};                   // 0
 				std::uint8_t data2;  // 1
@@ -59,18 +59,18 @@ namespace RE
 			using TaskFinishedCallback_t = void (*)(bool);
 
 			// members
-			std::uint32_t taskTypeID;                     // 00
-			BGSSaveLoadFile* savefile;                    // 08
+			std::uint32_t          taskTypeID;            // 00
+			BGSSaveLoadFile*       savefile;              // 08
 			TaskFinishedCallback_t taskFinishedCallback;  // 10
-			BSFixedString previousSaveToDelete;           // 18
+			BSFixedString          previousSaveToDelete;  // 18
 		};
 		static_assert(sizeof(AsyncRequest) == 0x20);
 
 		virtual ~BGSSaveLoadThread();  // 00
 
 		// members
-		bool running;          // 50
-		bool busy;             // 51
+		bool        running;   // 50
+		bool        busy;      // 51
 		BSEventFlag haveTask;  // 58
 		// BSTCommonStaticMessageQueue<AsyncRequest, 8> asyncSaveLoadOperationQueue;  // 80
 		std::byte pad80[0x780 - 0x80];
@@ -84,7 +84,7 @@ namespace RE
 		std::uint32_t size;    // 00
 		std::uint32_t width;   // 04
 		std::uint32_t height;  // 08
-		char* buffer;          // 10
+		char*         buffer;  // 10
 	};
 	static_assert(sizeof(BSSaveDataSystemUtilityImage) == 0x18);
 
@@ -135,40 +135,40 @@ namespace RE
 		}
 
 		// members
-		BSTArray<BGSSaveLoadFileEntry*> saveGameList;                  // 008
-		bool isSaveListBuilt;                                          // 020
-		std::uint32_t saveGameCount;                                   // 024
-		std::uint32_t currentSaveGameNumber;                           // 028
-		std::uint64_t saveGameListBuildID;                             // 030
-		std::int32_t currentAutoSaveNumber;                            // 038
-		bool simulatedMode;                                            // 03C
-		bool autosaveDisabledForDiskspace;                             // 03D
-		std::uint32_t queuedTasks;                                     // 040
-		std::uint32_t saveOperationDelayCounter;                       // 044
-		BGSSaveLoadFileEntry* queuedEntryToLoad;                       // 048
-		std::uint64_t lastSaveTime;                                    // 050
-		bool savingAllowed;                                            // 058
-		char* mostRecentSaveGame;                                      // 060
-		std::int32_t mostRecentSaveGameDeviceID;                       // 068
-		BSTHashMap<std::uint64_t, BSFixedString> playerIDNameMap;      // 070
-		BSTHashMap<BSFixedString, BSFixedString> editorIdLocationMap;  // 0A0
-		std::uint64_t currentPlayerID;                                 // 0D0
-		std::uint64_t displayPlayerID;                                 // 0D8
-		BSFixedString savefileNameToDelete;                            // 0E0
-		BSTHashMap<std::uint32_t, BSFixedString> autosaveFileNames;    // 0E8
-		BSFixedString quicksaveFileName;                               // 118
-		BSFixedString exitsaveFileName;                                // 120
-		bool hasSaveData;                                              // 128
-		BGSSaveLoadFile* saveLoadFile;                                 // 130
-		bool returnedFromSysUtil;                                      // 138
-		bool sysUtilLoadDataComplete;                                  // 139
-		SaveCompleteCallback_t sysUtilSaveCompleteCallback;            // 140
-		LoadCompleteCallback_t sysUtilLoadCompleteCallback;            // 148
-		BSSaveDataSystemUtilityImage saveDataCreateImage;              // 150
-		BSSaveDataSystemUtilityImage saveDataBackgroundImage;          // 168
-		BSSaveDataSystemUtilityImage saveDataIconEncodedImage;         // 180
-		NiPointer<NiTexture> screenshot[1];                            // 198
-		BGSSaveLoadThread saveLoadTasksThread;                         // 200
+		BSTArray<BGSSaveLoadFileEntry*>          saveGameList;                  // 008
+		bool                                     isSaveListBuilt;               // 020
+		std::uint32_t                            saveGameCount;                 // 024
+		std::uint32_t                            currentSaveGameNumber;         // 028
+		std::uint64_t                            saveGameListBuildID;           // 030
+		std::int32_t                             currentAutoSaveNumber;         // 038
+		bool                                     simulatedMode;                 // 03C
+		bool                                     autosaveDisabledForDiskspace;  // 03D
+		std::uint32_t                            queuedTasks;                   // 040
+		std::uint32_t                            saveOperationDelayCounter;     // 044
+		BGSSaveLoadFileEntry*                    queuedEntryToLoad;             // 048
+		std::uint64_t                            lastSaveTime;                  // 050
+		bool                                     savingAllowed;                 // 058
+		char*                                    mostRecentSaveGame;            // 060
+		std::int32_t                             mostRecentSaveGameDeviceID;    // 068
+		BSTHashMap<std::uint64_t, BSFixedString> playerIDNameMap;               // 070
+		BSTHashMap<BSFixedString, BSFixedString> editorIdLocationMap;           // 0A0
+		std::uint64_t                            currentPlayerID;               // 0D0
+		std::uint64_t                            displayPlayerID;               // 0D8
+		BSFixedString                            savefileNameToDelete;          // 0E0
+		BSTHashMap<std::uint32_t, BSFixedString> autosaveFileNames;             // 0E8
+		BSFixedString                            quicksaveFileName;             // 118
+		BSFixedString                            exitsaveFileName;              // 120
+		bool                                     hasSaveData;                   // 128
+		BGSSaveLoadFile*                         saveLoadFile;                  // 130
+		bool                                     returnedFromSysUtil;           // 138
+		bool                                     sysUtilLoadDataComplete;       // 139
+		SaveCompleteCallback_t                   sysUtilSaveCompleteCallback;   // 140
+		LoadCompleteCallback_t                   sysUtilLoadCompleteCallback;   // 148
+		BSSaveDataSystemUtilityImage             saveDataCreateImage;           // 150
+		BSSaveDataSystemUtilityImage             saveDataBackgroundImage;       // 168
+		BSSaveDataSystemUtilityImage             saveDataIconEncodedImage;      // 180
+		NiPointer<NiTexture>                     screenshot[1];                 // 198
+		BGSSaveLoadThread                        saveLoadTasksThread;           // 200
 	};
 	static_assert(sizeof(BGSSaveLoadManager) == 0x980);
 }

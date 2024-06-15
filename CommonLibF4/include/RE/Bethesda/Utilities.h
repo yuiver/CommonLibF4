@@ -12,14 +12,14 @@ namespace RE
 	namespace CombatUtilities
 	{
 		inline bool CalculateProjectileLOS(
-			Actor* a_actor,
-			BGSProjectile* a_projectile,
-			float a_projectileSpeed,
+			Actor*          a_actor,
+			BGSProjectile*  a_projectile,
+			float           a_projectileSpeed,
 			const NiPoint3& a_launchPos,
 			const NiPoint3& a_targetPos,
-			NiPoint3* a_hitPos,
+			NiPoint3*       a_hitPos,
 			TESObjectREFR** a_collidee,
-			float* a_distanceFraction)
+			float*          a_distanceFraction)
 		{
 			using func_t = bool (*)(Actor*, BGSProjectile*, float, const NiPoint3&, const NiPoint3&, NiPoint3*, TESObjectREFR**, float*);
 			static REL::Relocation<func_t> func{ REL::ID(798616) };
@@ -36,10 +36,10 @@ namespace RE
 		inline bool CalculateProjectileTrajectory(
 			const NiPoint3& a_projectilePos,
 			const NiPoint3& a_projectileVelocity,
-			float a_projectileGravity,
+			float           a_projectileGravity,
 			const NiPoint3& a_targetPos,
-			float a_heading,
-			NiPoint3& a_trajectoryPos)
+			float           a_heading,
+			NiPoint3&       a_trajectoryPos)
 		{
 			using func_t = decltype(&CalculateProjectileTrajectory);
 			static REL::Relocation<func_t> func{ REL::ID(1575156) };
@@ -65,10 +65,10 @@ namespace RE
 		{
 		public:
 			// members
-			BSTObjectArena<BSTTuple<BSFixedString, float>> otherSyncInfo;  // 00
-			float currentAnimTime;                                         // 40
-			float animSpeedMult;                                           // 44
-			float totalAnimTime;                                           // 48
+			BSTObjectArena<BSTTuple<BSFixedString, float>> otherSyncInfo;    // 00
+			float                                          currentAnimTime;  // 40
+			float                                          animSpeedMult;    // 44
+			float                                          totalAnimTime;    // 48
 		};
 		static_assert(sizeof(ActiveSyncInfo) == 0x50);
 

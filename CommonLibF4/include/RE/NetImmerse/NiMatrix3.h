@@ -17,16 +17,16 @@ namespace RE
 			float a_x1, float a_y1, float a_z1, float a_w1,
 			float a_x2, float a_y2, float a_z2, float a_w2) noexcept;
 
-		NiPoint4& operator[](std::size_t a_pos) noexcept;
+		NiPoint4&       operator[](std::size_t a_pos) noexcept;
 		const NiPoint4& operator[](std::size_t a_pos) const noexcept;
-		bool operator==(const NiMatrix3& a_rhs) const noexcept;
-		bool operator!=(const NiMatrix3& a_rhs) const noexcept;
+		bool            operator==(const NiMatrix3& a_rhs) const noexcept;
+		bool            operator!=(const NiMatrix3& a_rhs) const noexcept;
 
 		NiMatrix3 operator*(const NiMatrix3& a_rhs) const noexcept;
 		NiMatrix3 operator*(float a_scalar) const noexcept;
-		NiPoint3 operator*(const NiPoint3& a_rhs) const noexcept;
+		NiPoint3  operator*(const NiPoint3& a_rhs) const noexcept;
 
-		void MakeIdentity() noexcept;
+		void      MakeIdentity() noexcept;
 		NiMatrix3 Transpose() const noexcept;
 
 		bool ToEulerAnglesXYZ(NiPoint3& a_point) const;

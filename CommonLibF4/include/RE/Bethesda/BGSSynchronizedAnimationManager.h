@@ -40,9 +40,9 @@ namespace RE
 
 		// members
 		BSTArray<BSTSmartPointer<BGSSynchronizedAnimationInstance>> currentSynchAnims;  // 18
-		BSReadWriteLock synchAnimsLock;                                                 // 30
-		std::int32_t atomicSyncLock;                                                    // 38
-		BSSpinLock internalsLock;                                                       // 3C
+		BSReadWriteLock                                             synchAnimsLock;     // 30
+		std::int32_t                                                atomicSyncLock;     // 38
+		BSSpinLock                                                  internalsLock;      // 3C
 	};
 	static_assert(sizeof(BGSSynchronizedAnimationManager) == 0x48);
 }

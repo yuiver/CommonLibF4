@@ -29,20 +29,20 @@ namespace RE
 			REX::W32::TlsSetValue(*slot, a_router);
 		}
 
-		void SetDebug(Allocator* a_val) noexcept { debug = a_val; }
-		void SetHeap(Allocator* a_val) noexcept { heap = a_val; }
-		void SetSolver(Allocator* a_val) noexcept { solver = a_val; }
-		void SetTemp(Allocator* a_val) noexcept { temp = a_val; }
+		void                 SetDebug(Allocator* a_val) noexcept { debug = a_val; }
+		void                 SetHeap(Allocator* a_val) noexcept { heap = a_val; }
+		void                 SetSolver(Allocator* a_val) noexcept { solver = a_val; }
+		void                 SetTemp(Allocator* a_val) noexcept { temp = a_val; }
 		[[nodiscard]] Stack& GetStack() noexcept { return stack; }
 
 		// members
-		Stack stack;                           // 00
-		hkMemoryAllocator* temp{ nullptr };    // 50
-		hkMemoryAllocator* heap{ nullptr };    // 58
-		hkMemoryAllocator* debug{ nullptr };   // 60
-		hkMemoryAllocator* solver{ nullptr };  // 68
-		void* userData{ nullptr };             // 70
-		std::uint32_t refObjLocalStore{ 0 };   // 78
+		Stack              stack;                  // 00
+		hkMemoryAllocator* temp{ nullptr };        // 50
+		hkMemoryAllocator* heap{ nullptr };        // 58
+		hkMemoryAllocator* debug{ nullptr };       // 60
+		hkMemoryAllocator* solver{ nullptr };      // 68
+		void*              userData{ nullptr };    // 70
+		std::uint32_t      refObjLocalStore{ 0 };  // 78
 	};
 	static_assert(sizeof(hkMemoryRouter) == 0x80);
 }

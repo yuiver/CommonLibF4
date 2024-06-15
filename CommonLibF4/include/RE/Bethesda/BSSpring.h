@@ -9,8 +9,8 @@ namespace RE::BSSpring
 	{
 	public:
 		// members
-		T position;            // 00
-		T velocity;            // ??
+		T     position;        // 00
+		T     velocity;        // ??
 		float springConstant;  // ??
 	};
 

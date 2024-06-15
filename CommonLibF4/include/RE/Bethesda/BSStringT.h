@@ -102,7 +102,7 @@ namespace RE
 		}
 
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
-		[[nodiscard]] pointer data() noexcept { return _data; }
+		[[nodiscard]] pointer       data() noexcept { return _data; }
 
 		[[nodiscard]] const_pointer c_str() const noexcept { return data(); }
 
@@ -148,9 +148,9 @@ namespace RE
 			a_rhs._capacity = 0;
 		}
 
-		pointer _data{ nullptr };  // ??
-		size_type _size{ 0 };      // ??
-		size_type _capacity{ 0 };  // ??
+		pointer   _data{ nullptr };  // ??
+		size_type _size{ 0 };        // ??
+		size_type _capacity{ 0 };    // ??
 	};
 
 	template <std::uint16_t N>

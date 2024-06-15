@@ -7,8 +7,8 @@ namespace RE
 	{
 	public:
 		// members
-		std::byte rawElem[sizeof(T)];  // 00
-		BSTFreeListElem<T>* next;      // ??
+		std::byte           rawElem[sizeof(T)];  // 00
+		BSTFreeListElem<T>* next;                // ??
 	};
 
 	template <class T>
@@ -18,7 +18,7 @@ namespace RE
 		virtual ~BSTFreeList();  // 00
 
 		// members
-		std::uint32_t lock;        // 08
+		std::uint32_t       lock;  // 08
 		BSTFreeListElem<T>* free;  // 10
 	};
 	//static_assert(sizeof(BSTFreeList<void*>) == 0x18);

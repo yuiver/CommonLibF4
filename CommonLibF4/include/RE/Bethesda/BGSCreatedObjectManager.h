@@ -46,8 +46,8 @@ namespace RE
 		{
 		public:
 			// members
-			MagicItem* createdItem;  // 00
-			std::uint32_t count;     // 08
+			MagicItem*    createdItem;  // 00
+			std::uint32_t count;        // 08
 		};
 		static_assert(sizeof(CreatedMagicItemData) == 0x10);
 
@@ -72,12 +72,12 @@ namespace RE
 		}
 
 		// members
-		BSTArray<CreatedMagicItemData> weaponEnchantments;        // 08
-		BSTArray<CreatedMagicItemData> armorEnchantments;         // 20
-		BSTHashMap<std::uint32_t, CreatedMagicItemData> potions;  // 38
-		BSTHashMap<std::uint32_t, CreatedMagicItemData> poisons;  // 68
-		BSTSet<MagicItem*> queuedDeleteMagicItems;                // 98
-		BSSpinLock dataLock;                                      // C8
+		BSTArray<CreatedMagicItemData>                  weaponEnchantments;      // 08
+		BSTArray<CreatedMagicItemData>                  armorEnchantments;       // 20
+		BSTHashMap<std::uint32_t, CreatedMagicItemData> potions;                 // 38
+		BSTHashMap<std::uint32_t, CreatedMagicItemData> poisons;                 // 68
+		BSTSet<MagicItem*>                              queuedDeleteMagicItems;  // 98
+		BSSpinLock                                      dataLock;                // C8
 	};
 	static_assert(sizeof(BGSCreatedObjectManager) == 0xD0);
 

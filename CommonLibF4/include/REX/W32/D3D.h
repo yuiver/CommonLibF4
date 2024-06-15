@@ -710,7 +710,7 @@ namespace REX::W32
 	struct __declspec(novtable, uuid("8BA5FB08-5195-40e2-AC58-0D989C3A0102"))
 		ID3DBlob : public IUnknown
 	{
-		virtual void* GetBufferPointer(void) = 0;
+		virtual void*       GetBufferPointer(void) = 0;
 		virtual std::size_t GetBufferSize(void) = 0;
 	};
 

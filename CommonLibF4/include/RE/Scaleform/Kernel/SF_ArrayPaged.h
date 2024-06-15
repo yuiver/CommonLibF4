@@ -49,7 +49,7 @@ namespace RE::Scaleform
 		std::uint64_t size;      // 08
 		std::uint64_t numPages;  // 10
 		std::uint64_t maxPages;  // 18
-		T** pages;               // 20
+		T**           pages;     // 20
 	};
 	static_assert(sizeof(ArrayPagedBase<void*>) == 0x28);
 

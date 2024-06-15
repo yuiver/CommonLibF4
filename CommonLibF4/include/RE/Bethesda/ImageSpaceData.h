@@ -54,16 +54,16 @@ namespace RE
 			static_assert(sizeof(ColorF) == 0xC);
 
 			// members
-			float amount;  // 00
-			ColorF color;  // 04
+			float  amount;  // 00
+			ColorF color;   // 04
 		};
 		static_assert(sizeof(Tint) == 0x10);
 
 		// members
-		HDR hdrData;              // 00
+		HDR       hdrData;        // 00
 		Cinematic cinematicData;  // 24
-		Tint tintData;            // 30
-		float dofData[6];         // 40
+		Tint      tintData;       // 30
+		float     dofData[6];     // 40
 	};
 	static_assert(sizeof(ImageSpaceBaseData) == 0x58);
 
@@ -71,8 +71,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSFixedString filename[4];          // 00
-		float weight[4];                    // 20
+		BSFixedString        filename[4];   // 00
+		float                weight[4];     // 20
 		NiPointer<NiTexture> niTexture[4];  // 30
 		BSGraphics::Texture* texture[4];    // 50
 	};
@@ -90,10 +90,10 @@ namespace RE
 	{
 	public:
 		// members
-		ImageSpaceBaseData baseData;  //00
-		ImageSpaceModData modData;    //58
-		float highestTintAmount;      //A8
-		float highestFadeAmount;      //AC
+		ImageSpaceBaseData baseData;           //00
+		ImageSpaceModData  modData;            //58
+		float              highestTintAmount;  //A8
+		float              highestFadeAmount;  //AC
 	};
 	static_assert(sizeof(ImageSpaceData) == 0xB0);
 }

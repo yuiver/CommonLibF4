@@ -83,7 +83,7 @@ namespace RE
 		virtual ~PowerArmorGeometry();  // 00
 
 		// override
-		virtual void BackgroundTaskFinishedLoading() override;                                                                                            // 01
+		virtual void                 BackgroundTaskFinishedLoading() override;                                                                            // 01
 		virtual BSEventNotifyControl ProcessEvent(const PreloadPowerArmor::Event& a_event, BSTEventSource<PreloadPowerArmor::Event>* a_source) override;  // 02
 		virtual BSEventNotifyControl ProcessEvent(const ExitPowerArmor::Event& a_event, BSTEventSource<ExitPowerArmor::Event>* a_source) override;        // 03
 
@@ -108,32 +108,32 @@ namespace RE
 		}
 
 		// members
-		BSTValueEventSink<PipboyLightEvent> pipboySpotLightEvent;             // 030
-		BSTValueEventSink<PlayerAmmoCountEvent> nextAmmoCount;                // 048
-		BSTValueEventSink<PlayerWeaponReloadEvent> playerReloaded;            // 068
-		BSTValueEventSink<CurrentRadsDisplayMagnitude> radsCount;             // 080
-		BSTValueEventSink<CurrentRadsPercentOfLethal> radsPercentOfLethal;    // 0A0
-		BSTValueEventSink<CurrentRadiationSourceCount> radiationSourceCount;  // 0C0
-		TESImageSpaceModifier* paPipboyEffect;                                // 0E0
-		NiPointer<NiNode> paDashDials;                                        // 0E8
-		NiPointer<NiNode> pipboyPAGlass;                                      // 0F0
-		NiAVObject* paDashLightSpot;                                          // 0F8
-		NiAVObject* paDashLightScope;                                         // 100
-		NiAVObject* paDashLightAux;                                           // 108
-		NiAVObject* paDash;                                                   // 110
-		NiAVObject* plane;                                                    // 118
-		NiAVObject* compass;                                                  // 120
-		BSTArray<void*> queued3D;                                             // 128
-		HUDModes validHUDModes;                                               // 140
-		float radiationSmoother;                                              // 160
-		NiPointer<NiNode> dbHUDRain;                                          // 168
-		bool hudRain;                                                         // 170
-		bool prevShouldBeVisible;                                             // 171
-		bool powerArmorEmergencyLightOn;                                      // 172
-		bool queueInit;                                                       // 173
-		bool prevIsFirstPerson;                                               // 174
-		bool ammoDirty;                                                       // 175
-		bool initialized;                                                     // 176
+		BSTValueEventSink<PipboyLightEvent>            pipboySpotLightEvent;        // 030
+		BSTValueEventSink<PlayerAmmoCountEvent>        nextAmmoCount;               // 048
+		BSTValueEventSink<PlayerWeaponReloadEvent>     playerReloaded;              // 068
+		BSTValueEventSink<CurrentRadsDisplayMagnitude> radsCount;                   // 080
+		BSTValueEventSink<CurrentRadsPercentOfLethal>  radsPercentOfLethal;         // 0A0
+		BSTValueEventSink<CurrentRadiationSourceCount> radiationSourceCount;        // 0C0
+		TESImageSpaceModifier*                         paPipboyEffect;              // 0E0
+		NiPointer<NiNode>                              paDashDials;                 // 0E8
+		NiPointer<NiNode>                              pipboyPAGlass;               // 0F0
+		NiAVObject*                                    paDashLightSpot;             // 0F8
+		NiAVObject*                                    paDashLightScope;            // 100
+		NiAVObject*                                    paDashLightAux;              // 108
+		NiAVObject*                                    paDash;                      // 110
+		NiAVObject*                                    plane;                       // 118
+		NiAVObject*                                    compass;                     // 120
+		BSTArray<void*>                                queued3D;                    // 128
+		HUDModes                                       validHUDModes;               // 140
+		float                                          radiationSmoother;           // 160
+		NiPointer<NiNode>                              dbHUDRain;                   // 168
+		bool                                           hudRain;                     // 170
+		bool                                           prevShouldBeVisible;         // 171
+		bool                                           powerArmorEmergencyLightOn;  // 172
+		bool                                           queueInit;                   // 173
+		bool                                           prevIsFirstPerson;           // 174
+		bool                                           ammoDirty;                   // 175
+		bool                                           initialized;                 // 176
 	};
 	static_assert(sizeof(PowerArmorGeometry) == 0x178);
 }

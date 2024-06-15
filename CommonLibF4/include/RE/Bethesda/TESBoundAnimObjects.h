@@ -35,9 +35,9 @@ namespace RE
 		{
 		public:
 			// members
-			float minDelay;  // 0
-			float maxDelay;  // 4
-			bool stackable;  // 8
+			float minDelay;   // 0
+			float maxDelay;   // 4
+			bool  stackable;  // 8
 		};
 		static_assert(sizeof(RepeaterData) == 0xC);
 	}
@@ -51,7 +51,7 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kSOUN };
 
 		// members
-		BGSSoundDescriptorForm* descriptor;     // 68
+		BGSSoundDescriptorForm*    descriptor;  // 68
 		TESSoundDefs::RepeaterData repeatData;  // 70
 	};
 	static_assert(sizeof(TESEyes) == 0x48);
@@ -77,8 +77,8 @@ namespace RE
 		// members
 		BGSSoundDescriptorForm* soundLoop;      // 128
 		BGSSoundDescriptorForm* soundActivate;  // 130
-		TESWaterForm* waterForm;                // 138
-		std::uint16_t flags;                    // 140
+		TESWaterForm*           waterForm;      // 138
+		std::uint16_t           flags;          // 140
 	};
 	static_assert(sizeof(TESObjectACTI) == 0x148);
 
@@ -94,8 +94,8 @@ namespace RE
 		virtual bool GetReflectedByAutoWater() { return false; }  // 67
 
 		// members
-		TESObjectREFR* tempRef;   // 148
-		BGSVoiceType* voiceType;  // 150
+		TESObjectREFR* tempRef;    // 148
+		BGSVoiceType*  voiceType;  // 150
 	};
 	static_assert(sizeof(BGSTalkingActivator) == 0x158);
 
@@ -128,11 +128,11 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kCONT };
 
 		// members
-		CONT_DATA data;                        // 149
-		BGSSoundDescriptorForm* openSound;     // 150
-		BGSSoundDescriptorForm* closeSound;    // 158
-		BGSSoundDescriptorForm* takeAllSound;  // 160
-		BGSListForm* containsOnlyList;         // 168
+		CONT_DATA               data;              // 149
+		BGSSoundDescriptorForm* openSound;         // 150
+		BGSSoundDescriptorForm* closeSound;        // 158
+		BGSSoundDescriptorForm* takeAllSound;      // 160
+		BGSListForm*            containsOnlyList;  // 168
 	};
 	static_assert(sizeof(TESObjectCONT) == 0x170);
 
@@ -153,13 +153,13 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kDOOR };
 
 		// members
-		BGSLocalizedString altOpenText;      // 108
-		BGSLocalizedString altCloseText;     // 110
-		BGSSoundDescriptorForm* openSound;   // 118
-		BGSSoundDescriptorForm* closeSound;  // 120
-		BGSSoundDescriptorForm* loopSound;   // 128
-		std::int8_t flags;                   // 130
-		BSTArray<TESForm*> randomTeleports;  // 138
+		BGSLocalizedString      altOpenText;      // 108
+		BGSLocalizedString      altCloseText;     // 110
+		BGSSoundDescriptorForm* openSound;        // 118
+		BGSSoundDescriptorForm* closeSound;       // 120
+		BGSSoundDescriptorForm* loopSound;        // 128
+		std::int8_t             flags;            // 130
+		BSTArray<TESForm*>      randomTeleports;  // 138
 	};
 	static_assert(sizeof(TESObjectDOOR) == 0x150);
 
@@ -167,20 +167,20 @@ namespace RE
 	{
 	public:
 		// members
-		std::int32_t time;                // 00
-		std::uint32_t radius;             // 04
-		std::uint32_t color;              // 08
-		std::uint32_t flags;              // 0C
-		float fallOffExponent;            // 10
-		float fov;                        // 14
-		float nearDistance;               // 18
-		float flickerPeriodRecip;         // 1C
-		float flickerIntensityAmplitude;  // 20
-		float flickerMovementAmplitude;   // 24
-		float attenConstant;              // 28
-		float attenScalar;                // 2C
-		float attenExponent;              // 30
-		float godrayNearClipDistance;     // 34
+		std::int32_t  time;                       // 00
+		std::uint32_t radius;                     // 04
+		std::uint32_t color;                      // 08
+		std::uint32_t flags;                      // 0C
+		float         fallOffExponent;            // 10
+		float         fov;                        // 14
+		float         nearDistance;               // 18
+		float         flickerPeriodRecip;         // 1C
+		float         flickerIntensityAmplitude;  // 20
+		float         flickerMovementAmplitude;   // 24
+		float         attenConstant;              // 28
+		float         attenScalar;                // 2C
+		float         attenExponent;              // 30
+		float         godrayNearClipDistance;     // 34
 	};
 	static_assert(sizeof(OBJ_LIGH) == 0x38);
 
@@ -203,13 +203,13 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kLIGH };
 
 		// members
-		OBJ_LIGH data;                  // 148
-		float fade;                     // 180
-		BGSSoundDescriptorForm* sound;  // 188
-		TESTexture goboTexture;         // 190
-		NiColor emittanceColor;         // 1A0
-		BGSLensFlare* lensFlare;        // 1B0
-		BGSGodRays* godRays;            // 1B8
+		OBJ_LIGH                data;            // 148
+		float                   fade;            // 180
+		BGSSoundDescriptorForm* sound;           // 188
+		TESTexture              goboTexture;     // 190
+		NiColor                 emittanceColor;  // 1A0
+		BGSLensFlare*           lensFlare;       // 1B0
+		BGSGodRays*             godRays;         // 1B8
 	};
 	static_assert(sizeof(TESObjectLIGH) == 0x1C0);
 
@@ -250,10 +250,10 @@ namespace RE
 	{
 	public:
 		// members
-		NiPoint3 position;                 // 00
-		BGSKeyword* actorMustHaveKeyword;  // 10
-		float heading;                     // 18
-		std::uint32_t allowedAnimations;   // 1C
+		NiPoint3      position;              // 00
+		BGSKeyword*   actorMustHaveKeyword;  // 10
+		float         heading;               // 18
+		std::uint32_t allowedAnimations;     // 1C
 	};
 	static_assert(sizeof(BSFurnitureMarker) == 0x20);
 
@@ -282,12 +282,12 @@ namespace RE
 		}
 
 		// members
-		BSTArray<EntryPointData> entryPointDataArray;  // 148
-		BGSAttachParentArray attachParents;            // 160
-		WorkbenchData wbData;                          // 178
-		std::uint32_t furnFlags;                       // 17C
-		TESForm* associatedForm;                       // 180
-		BSTArray<BSFurnitureMarker> markersArray;      // 188
+		BSTArray<EntryPointData>    entryPointDataArray;  // 148
+		BGSAttachParentArray        attachParents;        // 160
+		WorkbenchData               wbData;               // 178
+		std::uint32_t               furnFlags;            // 17C
+		TESForm*                    associatedForm;       // 180
+		BSTArray<BSFurnitureMarker> markersArray;         // 188
 	};
 	static_assert(sizeof(TESFurniture) == 0x1A0);
 
@@ -312,10 +312,10 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kNONE };
 
 		// add
-		virtual bool GetHasPLSpecTex() const { return false; }        // 67
-		virtual TESCombatStyle* GetCombatStyle() { return nullptr; }  // 68
-		virtual void SetCombatStyle(TESCombatStyle*) { return; }      // 69
-		virtual TESForm* GetAsForm() { return nullptr; }              // 6A
+		virtual bool            GetHasPLSpecTex() const { return false; }    // 67
+		virtual TESCombatStyle* GetCombatStyle() { return nullptr; }         // 68
+		virtual void            SetCombatStyle(TESCombatStyle*) { return; }  // 69
+		virtual TESForm*        GetAsForm() { return nullptr; }              // 6A
 	};
 	static_assert(sizeof(TESActorBase) == 0x1B0);
 
@@ -323,10 +323,10 @@ namespace RE
 	{
 	public:
 		// members
-		std::int16_t autoCalcHealth;        // 0
-		std::int16_t autoCalcActionPoints;  // 2
-		std::uint16_t farDistance;          // 4
-		std::int8_t gearedUpWeapons;        // 6
+		std::int16_t  autoCalcHealth;        // 0
+		std::int16_t  autoCalcActionPoints;  // 2
+		std::uint16_t farDistance;           // 4
+		std::int8_t   gearedUpWeapons;       // 6
 	};
 	static_assert(sizeof(NPC_DATA) == 0x8);
 
@@ -334,8 +334,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSTArray<CREATURE_SOUND> consciousLoops;  // 00
-		bool stopLoopWhenUnconscious;             // 18
+		BSTArray<CREATURE_SOUND> consciousLoops;           // 00
+		bool                     stopLoopWhenUnconscious;  // 18
 	};
 	static_assert(sizeof(CreatureSounds) == 0x20);
 
@@ -365,9 +365,9 @@ namespace RE
 		{
 		public:
 			// members
-			BGSColorForm* hairColor;        // 00
-			BGSColorForm* facialHairColor;  // 08
-			BGSTextureSet* faceDetails;     // 10
+			BGSColorForm*  hairColor;        // 00
+			BGSColorForm*  facialHairColor;  // 08
+			BGSTextureSet* faceDetails;      // 10
 		};
 		static_assert(sizeof(HeadRelatedData) == 0x18);
 
@@ -410,7 +410,7 @@ namespace RE
 		[[nodiscard]] std::span<BGSHeadPart*> GetHeadParts(bool a_alternate = true) const
 		{
 			if (a_alternate && UsingAlternateHeadPartList()) {
-				auto& map = GetAlternateHeadPartListMap();
+				auto&      map = GetAlternateHeadPartListMap();
 				const auto it = map.find(this);
 				if (it != map.end()) {
 					return { it->second.data(), it->second.size() };
@@ -488,42 +488,42 @@ namespace RE
 		}
 
 		// members
-		BGSAttachParentArray attachParents;  // 220
-		NPC_DATA data;                       // 238
-		TESClass* cl;                        // 240
-		HeadRelatedData* headRelatedData;    // 248
-		BGSListForm* giftFilter;             // 250
-		TESCombatStyle* combatStyle;         // 258
-		std::uint32_t fileOffset;            // 260
-		TESRace* originalRace;               // 268
-		TESNPC* faceNPC;                     // 270
-		NiPoint3 morphWeight;                // 278
-		float height;                        // 284
-		float heightMax;                     // 288
+		BGSAttachParentArray attachParents;    // 220
+		NPC_DATA             data;             // 238
+		TESClass*            cl;               // 240
+		HeadRelatedData*     headRelatedData;  // 248
+		BGSListForm*         giftFilter;       // 250
+		TESCombatStyle*      combatStyle;      // 258
+		std::uint32_t        fileOffset;       // 260
+		TESRace*             originalRace;     // 268
+		TESNPC*              faceNPC;          // 270
+		NiPoint3             morphWeight;      // 278
+		float                height;           // 284
+		float                heightMax;        // 288
 		union
 		{
-			TESNPC* soundCreature;
+			TESNPC*         soundCreature;
 			CreatureSounds* creatureSounds;
 		};                                                                                      // 290
-		BGSLocalizedString shortName;                                                           // 298
-		TESObjectARMO* farSkin;                                                                 // 2A0
-		TESFurniture* powerArmorFurn;                                                           // 2A8
-		BGSOutfit* defOutfit;                                                                   // 2B0
-		BGSOutfit* sleepOutfit;                                                                 // 2B8
-		BGSListForm* defaultPackList;                                                           // 2C0
-		TESFaction* crimeFaction;                                                               // 2C8
-		BGSHeadPart** headParts;                                                                // 2D0
-		BSTArray<float>* morphRegionSliderValues;                                               // 2D8
+		BGSLocalizedString                                       shortName;                     // 298
+		TESObjectARMO*                                           farSkin;                       // 2A0
+		TESFurniture*                                            powerArmorFurn;                // 2A8
+		BGSOutfit*                                               defOutfit;                     // 2B0
+		BGSOutfit*                                               sleepOutfit;                   // 2B8
+		BGSListForm*                                             defaultPackList;               // 2C0
+		TESFaction*                                              crimeFaction;                  // 2C8
+		BGSHeadPart**                                            headParts;                     // 2D0
+		BSTArray<float>*                                         morphRegionSliderValues;       // 2D8
 		BSTHashMap<std::uint32_t, BGSCharacterMorph::Transform>* facialBoneRegionSliderValues;  // 2E0
-		std::int8_t numHeadParts;                                                               // 2E8
-		std::int8_t soundLevel;                                                                 // 2E9
-		std::int8_t bodyTintColorR;                                                             // 2EA
-		std::int8_t bodyTintColorG;                                                             // 2EN
-		std::int8_t bodyTintColorB;                                                             // 2EC
-		std::int8_t bodyTintColorA;                                                             // 2ED
-		BSTArray<BGSRelationship*>* relationships;                                              // 2F0
-		BSTHashMap<std::uint32_t, float>* morphSliderValues;                                    // 2F8
-		BGSCharacterTint::Entries* tintingData;                                                 // 300
+		std::int8_t                                              numHeadParts;                  // 2E8
+		std::int8_t                                              soundLevel;                    // 2E9
+		std::int8_t                                              bodyTintColorR;                // 2EA
+		std::int8_t                                              bodyTintColorG;                // 2EN
+		std::int8_t                                              bodyTintColorB;                // 2EC
+		std::int8_t                                              bodyTintColorA;                // 2ED
+		BSTArray<BGSRelationship*>*                              relationships;                 // 2F0
+		BSTHashMap<std::uint32_t, float>*                        morphSliderValues;             // 2F8
+		BGSCharacterTint::Entries*                               tintingData;                   // 300
 	};
 	static_assert(sizeof(TESNPC) == 0x308);
 
@@ -551,8 +551,8 @@ namespace RE
 		{
 		public:
 			// members
-			BGSLocalizedString itemText;  // 00
-			TESCondition conditions;      // 08
+			BGSLocalizedString itemText;    // 00
+			TESCondition       conditions;  // 08
 		};
 		static_assert(sizeof(BodyTextItem) == 0x10);
 
@@ -561,20 +561,20 @@ namespace RE
 		public:
 			union USelectionResult
 			{
-				BGSTerminal* subMenu;
+				BGSTerminal*        subMenu;
 				BGSLocalizedString* displayText;
-				TESTexture* displayImage;
-				BGSNote* holotape;
+				TESTexture*         displayImage;
+				BGSNote*            holotape;
 			};
 			static_assert(sizeof(USelectionResult) == 0x8);
 
 			// members
-			BGSLocalizedString itemText;       // 00
-			BGSLocalizedString responseText;   // 08
-			USelectionResult selectionResult;  // 10
-			TESCondition conditions;           // 18
-			std::uint16_t id;                  // 20
-			std::int8_t flags;                 // 22
+			BGSLocalizedString itemText;         // 00
+			BGSLocalizedString responseText;     // 08
+			USelectionResult   selectionResult;  // 10
+			TESCondition       conditions;       // 18
+			std::uint16_t      id;               // 20
+			std::int8_t        flags;            // 22
 		};
 		static_assert(sizeof(MenuItem) == 0x28);
 
@@ -600,10 +600,10 @@ namespace RE
 		}
 
 		// members
-		BSTArray<BodyTextItem> bodyTextItems;   // 1A0
-		BSTArray<MenuItem> menuItems;           // 1B8
-		BGSLocalizedString headerTextOverride;  // 1D0
-		BGSLocalizedString welcomeText;         // 1D8
+		BSTArray<BodyTextItem> bodyTextItems;       // 1A0
+		BSTArray<MenuItem>     menuItems;           // 1B8
+		BGSLocalizedString     headerTextOverride;  // 1D0
+		BGSLocalizedString     welcomeText;         // 1D8
 	};
 	static_assert(sizeof(BGSTerminal) == 0x1E0);
 }

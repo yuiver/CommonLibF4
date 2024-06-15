@@ -76,33 +76,33 @@ namespace RE
 		{
 		public:
 			// members
-			NiPoint2 uvOffset;         // 00
-			float burstAmount;         // 08
-			float brightness;          // 0C
-			float vScanState;          // 10
-			float vScanRate;           // 14
-			float pulseIntensity;      // 18
-			float pulseRate;           // 1C
-			float flickerMinDelay;     // 20
-			float flickerMaxDelay;     // 24
-			float flickerMinDuration;  // 28
-			float flickerMaxDuration;  // 2C
-			float flickerFrequency;    // 30
-			float flickerBrightness;   // 34
-			float vScanDelayMin;       // 38
-			float vScanDelayMax;       // 3C
-			bool doScanlines;          // 40
-			float burstState;          // 44
-			float burstFadeRate;       // 48
-			float shudderState;        // 4C
-			float vScanDelay;          // 50
-			float flickerDelay;        // 54
-			float vHoldState;          // 58
-			float shudderScale;        // 5C
-			float shudderLength;       // 60
-			float vHoldRate;           // 64
-			float time;                // 68
-			bool flickering;           // 6C
+			NiPoint2 uvOffset;            // 00
+			float    burstAmount;         // 08
+			float    brightness;          // 0C
+			float    vScanState;          // 10
+			float    vScanRate;           // 14
+			float    pulseIntensity;      // 18
+			float    pulseRate;           // 1C
+			float    flickerMinDelay;     // 20
+			float    flickerMaxDelay;     // 24
+			float    flickerMinDuration;  // 28
+			float    flickerMaxDuration;  // 2C
+			float    flickerFrequency;    // 30
+			float    flickerBrightness;   // 34
+			float    vScanDelayMin;       // 38
+			float    vScanDelayMax;       // 3C
+			bool     doScanlines;         // 40
+			float    burstState;          // 44
+			float    burstFadeRate;       // 48
+			float    shudderState;        // 4C
+			float    vScanDelay;          // 50
+			float    flickerDelay;        // 54
+			float    vHoldState;          // 58
+			float    shudderScale;        // 5C
+			float    shudderLength;       // 60
+			float    vHoldRate;           // 64
+			float    time;                // 68
+			bool     flickering;          // 6C
 		};
 		static_assert(sizeof(OldScreenEffectControl) == 0x70);
 
@@ -113,11 +113,11 @@ namespace RE
 			{
 			public:
 				// members
-				REX::EnumSet<LightType, std::int32_t> type;  // 00
-				float spotFOV;                               // 04
-				NiPoint3 lookAtPos;                          // 08
-				NiPointer<NiAVObject> lookAtObject;          // 18
-				NiPointer<NiLight> light;                    // 20
+				REX::EnumSet<LightType, std::int32_t> type;          // 00
+				float                                 spotFOV;       // 04
+				NiPoint3                              lookAtPos;     // 08
+				NiPointer<NiAVObject>                 lookAtObject;  // 18
+				NiPointer<NiLight>                    light;         // 20
 			};
 			static_assert(sizeof(LightParams) == 0x28);
 
@@ -137,9 +137,9 @@ namespace RE
 
 			void MainScreen_AddPointLight(
 				NiPoint3 a_translation,
-				NiColor a_diffuse,
-				float a_radius,
-				float a_dimmerVal)
+				NiColor  a_diffuse,
+				float    a_radius,
+				float    a_dimmerVal)
 			{
 				using func_t = decltype(&Renderer::MainScreen_AddPointLight);
 				static REL::Relocation<func_t> func{ REL::ID(1335675) };
@@ -147,14 +147,14 @@ namespace RE
 			}
 
 			void MainScreen_AddSpotLight(
-				NiPoint3 a_translation,
-				NiPoint3 a_lookAtPosition,
+				NiPoint3    a_translation,
+				NiPoint3    a_lookAtPosition,
 				NiAVObject* a_lookAtObject,
-				float a_fov,
-				NiColor a_diffuse,
-				float a_radius,
-				float a_dimmerVal,
-				bool a_castShadows)
+				float       a_fov,
+				NiColor     a_diffuse,
+				float       a_radius,
+				float       a_dimmerVal,
+				bool        a_castShadows)
 			{
 				using func_t = decltype(&Renderer::MainScreen_AddSpotLight);
 				static REL::Relocation<func_t> func{ REL::ID(1056093) };
@@ -249,9 +249,9 @@ namespace RE
 
 			void Offscreen_AddLight(
 				NiPoint3 a_translation,
-				NiColor a_diffuse,
-				NiColor a_specular,
-				float a_dimmerVal)
+				NiColor  a_diffuse,
+				NiColor  a_specular,
+				float    a_dimmerVal)
 			{
 				using func_t = decltype(&Renderer::Offscreen_AddLight);
 				static REL::Relocation<func_t> func{ REL::ID(1267198) };
@@ -321,10 +321,10 @@ namespace RE
 			}
 
 			void Offscreen_SetDirectionalLight(
-				float a_xyPlaneAngle,
-				float a_zAngle,
+				float   a_xyPlaneAngle,
+				float   a_zAngle,
 				NiColor a_diffuse,
-				float a_dimmerVal)
+				float   a_dimmerVal)
 			{
 				using func_t = decltype(&Renderer::Offscreen_SetDirectionalLight);
 				static REL::Relocation<func_t> func{ REL::ID(987144) };
@@ -332,7 +332,7 @@ namespace RE
 			}
 
 			void Offscreen_SetDisplayMode(
-				ScreenMode a_mode,
+				ScreenMode  a_mode,
 				const char* a_screenGeomName,
 				const char* a_screenMaterialName)
 			{
@@ -385,62 +385,62 @@ namespace RE
 			}
 
 			// members
-			BSTAlignedArray<UIShaderFXInfo> colorFXInfos;                  // 000
-			BSTAlignedArray<UIShaderFXInfo> backgroundFXInfos;             // 018
-			BSReadWriteLock cachedQuadsLock;                               // 030
-			NiColorA clearColor;                                           // 038
-			float opacityAlpha;                                            // 048
-			bool enabled;                                                  // 04C
-			bool offscreen3DEnabled;                                       // 04D
-			bool hideScreenWhenDisabled;                                   // 04E
-			bool usePremultAlpha;                                          // 04F
-			bool clearRenderTarget;                                        // 050
-			bool clearDepthStencilMainScreen;                              // 051
-			bool clearDepthStencilOffscreen;                               // 052
-			bool postAA;                                                   // 053
-			bool useFullPremultAlpha;                                      // 054
-			bool alwaysRenderWhenEnabled;                                  // 055
-			bool defRenderMainScreen;                                      // 056
-			bool enableAO;                                                 // 057
-			bool useLongRangeCamera;                                       // 058
-			bool needsLightSetup;                                          // 059
-			bool needsLightSetupOffscreen;                                 // 05A
-			REX::EnumSet<BackgroundMode, std::int32_t> bgmode;             // 05C
-			REX::EnumSet<PostEffect, std::int32_t> postfx;                 // 060
-			REX::EnumSet<HighlightEffect, std::int32_t> highlightfx;       // 064
-			REX::EnumSet<OffscreenMenuSize, std::int32_t> omsize;          // 068
-			REX::EnumSet<ScreenMode, std::int32_t> screenmode;             // 06C
-			REX::EnumSet<OffscreenMenuBlendMode, std::int32_t> menuBlend;  // 070
-			REX::EnumSet<UI_DEPTH_PRIORITY, std::int32_t> depth;           // 074
-			NiPointer<NiAVObject> worldAttachedElementRoot;                // 078
-			NiPointer<NiAVObject> screenAttachedElementRoot;               // 080
-			NiPointer<NiAVObject> offscreenElement;                        // 088
-			BSTArray<NiPointer<BSGeometry>> displayGeometry;               // 090
-			NiAVObject* elementRequiringFullVieport;                       // 0A8
-			NiAVObject* highlightedElement;                                // 0B0
-			bool highlightOffscreen;                                       // 0B8
-			OldScreenEffectControl pipfx;                                  // 0BC
-			OldScreenEffectControl vatsfx;                                 // 12C
-			NiPointer<BSShaderAccumulator> accum;                          // 1A0
-			NiPointer<NiCamera> pipboyAspect;                              // 1A8
-			NiPointer<NiCamera> nativeAspect;                              // 1B0
-			NiPointer<NiCamera> nativeAspectLongRange;                     // 1B8
-			std::int32_t customRenderTarget;                               // 1C0
-			std::int32_t customSwapTarget;                                 // 1C4
-			BSTArray<LightParams> mainLights;                              // 1C8
-			BSTArray<LightParams> offscreenLights;                         // 1E0
-			float menuDiffuseIntensity;                                    // 1F8
-			float menuEmitIntensity;                                       // 1FC
-			float menuDiffuseIntensityWA;                                  // 200
-			float menuEmitIntensityWA;                                     // 204
-			BSFixedString name;                                            // 208
-			BSFixedString screenGeomName;                                  // 210
-			BSFixedString screenMaterialName;                              // 218
-			BSFixedString maskedGeomName;                                  // 220
-			BSFixedString maskedMaterialName;                              // 228
-			NiDirectionalLight* directionalLight;                          // 230
-			NiPointer<ShadowSceneNode> screenSSN;                          // 238
-			NiPointer<ShadowSceneNode> offscreenSSN;                       // 240
+			BSTAlignedArray<UIShaderFXInfo>                    colorFXInfos;                 // 000
+			BSTAlignedArray<UIShaderFXInfo>                    backgroundFXInfos;            // 018
+			BSReadWriteLock                                    cachedQuadsLock;              // 030
+			NiColorA                                           clearColor;                   // 038
+			float                                              opacityAlpha;                 // 048
+			bool                                               enabled;                      // 04C
+			bool                                               offscreen3DEnabled;           // 04D
+			bool                                               hideScreenWhenDisabled;       // 04E
+			bool                                               usePremultAlpha;              // 04F
+			bool                                               clearRenderTarget;            // 050
+			bool                                               clearDepthStencilMainScreen;  // 051
+			bool                                               clearDepthStencilOffscreen;   // 052
+			bool                                               postAA;                       // 053
+			bool                                               useFullPremultAlpha;          // 054
+			bool                                               alwaysRenderWhenEnabled;      // 055
+			bool                                               defRenderMainScreen;          // 056
+			bool                                               enableAO;                     // 057
+			bool                                               useLongRangeCamera;           // 058
+			bool                                               needsLightSetup;              // 059
+			bool                                               needsLightSetupOffscreen;     // 05A
+			REX::EnumSet<BackgroundMode, std::int32_t>         bgmode;                       // 05C
+			REX::EnumSet<PostEffect, std::int32_t>             postfx;                       // 060
+			REX::EnumSet<HighlightEffect, std::int32_t>        highlightfx;                  // 064
+			REX::EnumSet<OffscreenMenuSize, std::int32_t>      omsize;                       // 068
+			REX::EnumSet<ScreenMode, std::int32_t>             screenmode;                   // 06C
+			REX::EnumSet<OffscreenMenuBlendMode, std::int32_t> menuBlend;                    // 070
+			REX::EnumSet<UI_DEPTH_PRIORITY, std::int32_t>      depth;                        // 074
+			NiPointer<NiAVObject>                              worldAttachedElementRoot;     // 078
+			NiPointer<NiAVObject>                              screenAttachedElementRoot;    // 080
+			NiPointer<NiAVObject>                              offscreenElement;             // 088
+			BSTArray<NiPointer<BSGeometry>>                    displayGeometry;              // 090
+			NiAVObject*                                        elementRequiringFullVieport;  // 0A8
+			NiAVObject*                                        highlightedElement;           // 0B0
+			bool                                               highlightOffscreen;           // 0B8
+			OldScreenEffectControl                             pipfx;                        // 0BC
+			OldScreenEffectControl                             vatsfx;                       // 12C
+			NiPointer<BSShaderAccumulator>                     accum;                        // 1A0
+			NiPointer<NiCamera>                                pipboyAspect;                 // 1A8
+			NiPointer<NiCamera>                                nativeAspect;                 // 1B0
+			NiPointer<NiCamera>                                nativeAspectLongRange;        // 1B8
+			std::int32_t                                       customRenderTarget;           // 1C0
+			std::int32_t                                       customSwapTarget;             // 1C4
+			BSTArray<LightParams>                              mainLights;                   // 1C8
+			BSTArray<LightParams>                              offscreenLights;              // 1E0
+			float                                              menuDiffuseIntensity;         // 1F8
+			float                                              menuEmitIntensity;            // 1FC
+			float                                              menuDiffuseIntensityWA;       // 200
+			float                                              menuEmitIntensityWA;          // 204
+			BSFixedString                                      name;                         // 208
+			BSFixedString                                      screenGeomName;               // 210
+			BSFixedString                                      screenMaterialName;           // 218
+			BSFixedString                                      maskedGeomName;               // 220
+			BSFixedString                                      maskedMaterialName;           // 228
+			NiDirectionalLight*                                directionalLight;             // 230
+			NiPointer<ShadowSceneNode>                         screenSSN;                    // 238
+			NiPointer<ShadowSceneNode>                         offscreenSSN;                 // 240
 		};
 		static_assert(sizeof(Renderer) == 0x248);
 	}

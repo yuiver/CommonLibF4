@@ -32,9 +32,9 @@ namespace RE::Scaleform
 	{
 	public:
 		// members
-		T* data;            // 00
-		std::size_t size;   // 08
-		SizePolicy policy;  // 10
+		T*          data;    // 00
+		std::size_t size;    // 08
+		SizePolicy  policy;  // 10
 	};
 
 	template <class T, class Allocator, class SizePolicy>

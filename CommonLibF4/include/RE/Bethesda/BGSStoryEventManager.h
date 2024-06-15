@@ -35,10 +35,10 @@ namespace RE
 		}
 
 		// members
-		BSTArray<BGSRegisteredStoryEvent> registeredEventArray;         // 00
+		BSTArray<BGSRegisteredStoryEvent>        registeredEventArray;  // 00
 		BSTHashMap<std::uint32_t, std::uint32_t> registeredEventIDMap;  // 18
-		BSTArray<BGSStoryEvent> eventArray;                             // 48
-		BSSpinLock eventArrayLock;                                      // 60
+		BSTArray<BGSStoryEvent>                  eventArray;            // 48
+		BSSpinLock                               eventArrayLock;        // 60
 	};
 	static_assert(sizeof(BGSStoryEventManager) == 0x68);
 
@@ -60,9 +60,9 @@ namespace RE
 		}
 
 		// members
-		ObjectRefHandle workbench;  // 00
-		BGSLocation* location;      // 08
-		TESForm* createdItemBase;   // 10
+		ObjectRefHandle workbench;        // 00
+		BGSLocation*    location;         // 08
+		TESForm*        createdItemBase;  // 10
 	};
 	static_assert(sizeof(BGSCraftItemEvent) == 0x18);
 
@@ -85,7 +85,7 @@ namespace RE
 
 		// members
 		ObjectRefHandle terminal;  // 00
-		std::uint32_t success;     // 04
+		std::uint32_t   success;   // 04
 	};
 	static_assert(sizeof(BGSHackTerminal) == 0x08);
 
@@ -106,7 +106,7 @@ namespace RE
 		// members
 		ObjectRefHandle actor;       // 00
 		ObjectRefHandle lockObject;  // 04
-		std::uint32_t isCrime;       // 08
+		std::uint32_t   isCrime;     // 08
 
 	private:
 		BGSPickLockEvent* ctor(TESObjectREFR* a_actor, TESObjectREFR* a_lockRef, bool a_isCrime)

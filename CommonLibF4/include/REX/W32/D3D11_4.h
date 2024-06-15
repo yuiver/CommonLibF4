@@ -58,23 +58,23 @@ namespace REX::W32
 
 	struct D3D11_FEATURE_DATA_VIDEO_DECODER_HISTOGRAM
 	{
-		D3D11_VIDEO_DECODER_DESC decoderDesc;
+		D3D11_VIDEO_DECODER_DESC                      decoderDesc;
 		D3D11_VIDEO_DECODER_HISTOGRAM_COMPONENT_FLAGS components;
-		std::uint32_t binCount;
-		std::uint32_t counterBitDepth;
+		std::uint32_t                                 binCount;
+		std::uint32_t                                 counterBitDepth;
 	};
 
 	struct D3D11_VIDEO_DECODER_BUFFER_DESC2
 	{
-		D3D11_VIDEO_DECODER_BUFFER_TYPE bufferType;
-		std::uint32_t dataOffset;
-		std::uint32_t dataSize;
-		void* iv;
-		std::uint32_t ivSize;
+		D3D11_VIDEO_DECODER_BUFFER_TYPE               bufferType;
+		std::uint32_t                                 dataOffset;
+		std::uint32_t                                 dataSize;
+		void*                                         iv;
+		std::uint32_t                                 ivSize;
 		D3D11_VIDEO_DECODER_SUB_SAMPLE_MAPPING_BLOCK* subSampleMappingBlock;
-		std::uint32_t subSampleMappingCount;
-		std::uint32_t cBlocksStripeEncrypted;
-		std::uint32_t cBlocksStripeClear;
+		std::uint32_t                                 subSampleMappingCount;
+		std::uint32_t                                 cBlocksStripeEncrypted;
+		std::uint32_t                                 cBlocksStripeClear;
 	};
 }
 
@@ -84,7 +84,7 @@ namespace REX::W32
 		ID3D11Device4 : public ID3D11Device3
 	{
 		virtual HRESULT RegisterDeviceRemovedEvent(HANDLE a_event, std::uint32_t* a_cookie) = 0;
-		virtual void UnregisterDeviceRemoved(std::uint32_t a_cookie) = 0;
+		virtual void    UnregisterDeviceRemoved(std::uint32_t a_cookie) = 0;
 	};
 
 	struct __declspec(novtable, uuid("8ffde202-a0e7-45df-9e01-e837801b5ea0"))

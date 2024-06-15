@@ -230,14 +230,14 @@ namespace RE
 				}
 
 				BSTSmartPointer<Object> o;
-				BSFixedString s;
-				std::uint32_t u;
-				std::int32_t i;
-				float f;
-				bool b;
-				stl::owner<Variable*> v;
+				BSFixedString           s;
+				std::uint32_t           u;
+				std::int32_t            i;
+				float                   f;
+				bool                    b;
+				stl::owner<Variable*>   v;
 				BSTSmartPointer<Struct> t;
-				BSTSmartPointer<Array> a;
+				BSTSmartPointer<Array>  a;
 			} value;  // 08
 		};
 		static_assert(sizeof(Variable) == 0x10);

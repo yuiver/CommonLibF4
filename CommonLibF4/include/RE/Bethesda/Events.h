@@ -44,10 +44,10 @@ namespace RE
 		struct Event
 		{
 			// members
-			REX::EnumSet<Type, std::uint16_t> changeType;  // 00
-			const BGSObjectInstance* itemAffected;         // 08
-			Actor* actorAffected;                          // 10
-			std::uint32_t stackID;                         // 18
+			REX::EnumSet<Type, std::uint16_t> changeType;     // 00
+			const BGSObjectInstance*          itemAffected;   // 08
+			Actor*                            actorAffected;  // 10
+			std::uint32_t                     stackID;        // 18
 		};
 		static_assert(sizeof(Event) == 0x20);
 	}
@@ -70,8 +70,8 @@ namespace RE
 		};
 
 		// members
-		std::uint32_t cellID;                         // 04
-		REX::EnumSet<CellFlag, std::uint32_t> flags;  // 08
+		std::uint32_t                         cellID;  // 04
+		REX::EnumSet<CellFlag, std::uint32_t> flags;   // 08
 	};
 	static_assert(sizeof(BGSActorCellEvent) == 0xC);
 
@@ -80,7 +80,7 @@ namespace RE
 	public:
 		// members
 		ActorHandle attacker;  // 04
-		float damage;          // 08
+		float       damage;    // 08
 	};
 	static_assert(sizeof(BGSActorDeathEvent) == 0xC);
 
@@ -107,13 +107,13 @@ namespace RE
 	public:
 		// members
 		NiMatrix3 deltaRotation;
-		NiPoint4 deltaTranslation;
-		NiPoint4 previousTranslation;
-		NiPoint4 previousRotation;
-		NiPoint4 previousScale;
-		NiPoint4 currentTranslation;
-		NiPoint4 currentRotation;
-		NiPoint4 currentScale;
+		NiPoint4  deltaTranslation;
+		NiPoint4  previousTranslation;
+		NiPoint4  previousRotation;
+		NiPoint4  previousScale;
+		NiPoint4  currentTranslation;
+		NiPoint4  currentRotation;
+		NiPoint4  currentScale;
 	};
 	static_assert(sizeof(BSTransformDeltaEvent) == 0xA0);
 
@@ -168,7 +168,7 @@ namespace RE
 		};
 
 		// members
-		TESObjectCELL* cell;                          // 00
+		TESObjectCELL*                         cell;  // 00
 		REX::EnumSet<EVENT_TYPE, std::int32_t> type;  // 08
 	};
 	static_assert(sizeof(CellAttachDetachEvent) == 0x10);
@@ -282,7 +282,7 @@ namespace RE
 	{
 	public:
 		InventoryItemDisplayData(
-			const ObjectRefHandle a_inventoryRef,
+			const ObjectRefHandle                a_inventoryRef,
 			const InventoryUserUIInterfaceEntry& a_entry)
 		{
 			ctor(a_inventoryRef, a_entry);
@@ -301,18 +301,18 @@ namespace RE
 		}
 
 		// members
-		BSFixedStringCS itemName;                // 00
-		std::uint32_t itemCount{ 0 };            // 08
-		std::uint32_t equipState{ 0 };           // 0C
-		std::uint32_t filterFlag{ 0 };           // 10
-		bool isLegendary{ false };               // 14
-		bool isFavorite{ false };                // 15
-		bool isTaggedForSearch{ false };         // 16
-		bool isBetterThanEquippedItem{ false };  // 17
+		BSFixedStringCS itemName;                           // 00
+		std::uint32_t   itemCount{ 0 };                     // 08
+		std::uint32_t   equipState{ 0 };                    // 0C
+		std::uint32_t   filterFlag{ 0 };                    // 10
+		bool            isLegendary{ false };               // 14
+		bool            isFavorite{ false };                // 15
+		bool            isTaggedForSearch{ false };         // 16
+		bool            isBetterThanEquippedItem{ false };  // 17
 
 	private:
 		InventoryItemDisplayData* ctor(
-			const ObjectRefHandle a_inventoryRef,
+			const ObjectRefHandle                a_inventoryRef,
 			const InventoryUserUIInterfaceEntry& a_entry)
 		{
 			using func_t = decltype(&InventoryItemDisplayData::ctor);
@@ -344,8 +344,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSFixedString menuName;  // 00
-		bool enteringMenuMode;   // 08
+		BSFixedString menuName;          // 00
+		bool          enteringMenuMode;  // 08
 	};
 	static_assert(sizeof(MenuModeChangeEvent) == 0x10);
 
@@ -353,8 +353,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSFixedString menuName;  // 00
-		bool incrementing;       // 08
+		BSFixedString menuName;      // 00
+		bool          incrementing;  // 08
 	};
 	static_assert(sizeof(MenuModeCounterChangedEvent) == 0x10);
 
@@ -363,7 +363,7 @@ namespace RE
 	public:
 		// members
 		BSFixedString menuName;  // 00
-		bool opening;            // 08
+		bool          opening;   // 08
 	};
 	static_assert(sizeof(MenuOpenCloseEvent) == 0x10);
 
@@ -456,22 +456,22 @@ namespace RE
 	{
 	public:
 		// members
-		BSTSmallArray<InventoryItemDisplayData, 5> itemData;  // 00
-		ObjectRefHandle containerRef;                         // 88
-		ObjectRefHandle inventoryRef;                         // 8C
-		BSFixedStringCS aButtonText;                          // 90
-		BSFixedString containerName;                          // 98
-		BSFixedStringCS perkButtonText;                       // A0
-		std::int32_t selectedClipIndex;                       // A8
-		REX::EnumSet<QuickContainerMode, std::int32_t> mode;  // AC
-		bool perkButtonEnabled;                               // B0
-		bool isNewContainer;                                  // B1
-		bool addedDroppedItems;                               // B2
-		bool isLocked;                                        // B3
-		bool buttonAEnabled;                                  // B4
-		bool buttonXEnabled;                                  // B5
-		bool refreshContainerSize;                            // B6
-		bool containerActivated;                              // B7
+		BSTSmallArray<InventoryItemDisplayData, 5>     itemData;              // 00
+		ObjectRefHandle                                containerRef;          // 88
+		ObjectRefHandle                                inventoryRef;          // 8C
+		BSFixedStringCS                                aButtonText;           // 90
+		BSFixedString                                  containerName;         // 98
+		BSFixedStringCS                                perkButtonText;        // A0
+		std::int32_t                                   selectedClipIndex;     // A8
+		REX::EnumSet<QuickContainerMode, std::int32_t> mode;                  // AC
+		bool                                           perkButtonEnabled;     // B0
+		bool                                           isNewContainer;        // B1
+		bool                                           addedDroppedItems;     // B2
+		bool                                           isLocked;              // B3
+		bool                                           buttonAEnabled;        // B4
+		bool                                           buttonXEnabled;        // B5
+		bool                                           refreshContainerSize;  // B6
+		bool                                           containerActivated;    // B7
 	};
 	static_assert(sizeof(QuickContainerStateData) == 0xB8);
 
@@ -486,11 +486,11 @@ namespace RE
 	{
 	public:
 		// members
-		BSFixedString SwfName;
+		BSFixedString                 SwfName;
 		const BGSSoundDescriptorForm* soundForm;
-		bool VATSCritAppliedAnim;
-		bool VATSCritFillenAnim;
-		bool dialogueSpeechChallengeAnim;
+		bool                          VATSCritAppliedAnim;
+		bool                          VATSCritFillenAnim;
+		bool                          dialogueSpeechChallengeAnim;
 	};
 	static_assert(sizeof(HUDPerkVaultBoyData) == 0x18);
 
@@ -514,8 +514,8 @@ namespace RE
 		{
 		public:
 			// members
-			const char* fullName;  // 00
-			bool committed;        // 08
+			const char* fullName;   // 00
+			bool        committed;  // 08
 		};
 		static_assert(sizeof(NameChangedEvent) == 0x10);
 	}
@@ -570,7 +570,7 @@ namespace RE
 		std::uint32_t oldContainerFormID;  // 00
 		std::uint32_t newContainerFormID;  // 04
 		std::uint32_t baseObjectFormID;    // 08
-		std::int32_t itemCount;            // 0C
+		std::int32_t  itemCount;           // 0C
 		std::uint32_t referenceFormID;     // 10
 		std::uint16_t uniqueID;            // 14
 	};
@@ -589,7 +589,7 @@ namespace RE
 		// members
 		NiPointer<TESObjectREFR> actorDying;   // 00
 		NiPointer<TESObjectREFR> actorKiller;  // 08
-		bool dead;                             // 10
+		bool                     dead;         // 10
 	};
 	static_assert(sizeof(TESDeathEvent) == 0x18);
 
@@ -611,11 +611,11 @@ namespace RE
 	{
 	public:
 		// members
-		NiPointer<TESObjectREFR> actor;  // 00
-		std::uint32_t baseObject;        // 08
-		std::uint32_t originalRefr;      // 0C
-		std::uint16_t uniqueID;          // 10
-		bool equipped;                   // 12
+		NiPointer<TESObjectREFR> actor;         // 00
+		std::uint32_t            baseObject;    // 08
+		std::uint32_t            originalRefr;  // 0C
+		std::uint16_t            uniqueID;      // 10
+		bool                     equipped;      // 12
 	};
 	static_assert(sizeof(TESEquipEvent) == 0x18);
 
@@ -654,9 +654,9 @@ namespace RE
 		[[nodiscard]] constexpr bool IsExit() const noexcept { return type.all(FurnitureEventType::kExit); }
 
 		// members
-		NiPointer<TESObjectREFR> actor;                       // 00
-		NiPointer<TESObjectREFR> targetFurniture;             // 08
-		REX::EnumSet<FurnitureEventType, std::int32_t> type;  // 10
+		NiPointer<TESObjectREFR>                       actor;            // 00
+		NiPointer<TESObjectREFR>                       targetFurniture;  // 08
+		REX::EnumSet<FurnitureEventType, std::int32_t> type;             // 10
 	};
 	static_assert(sizeof(TESFurnitureEvent) == 0x18);
 
@@ -664,10 +664,10 @@ namespace RE
 	{
 	public:
 		// members
-		NiPoint3A location;                      // 00
-		NiPoint3A normal;                        // 10
-		NiPoint3A velocity;                      // 20
-		NiPointer<bhkNPCollisionObject> colObj;  // 30
+		NiPoint3A                       location;  // 00
+		NiPoint3A                       normal;    // 10
+		NiPoint3A                       velocity;  // 20
+		NiPointer<bhkNPCollisionObject> colObj;    // 30
 	};
 	static_assert(sizeof(DamageImpactData) == 0x40);
 
@@ -700,34 +700,34 @@ namespace RE
 		};
 
 		// members
-		DamageImpactData impactData;                                                  // 00
-		ActorHandle aggressor;                                                        // 40
-		ActorHandle target;                                                           // 44
-		ObjectRefHandle sourceRef;                                                    // 48
-		NiPointer<BGSAttackData> attackData;                                          // 50
-		BGSObjectInstanceT<TESObjectWEAP> weapon;                                     // 58
-		SpellItem* criticalEffect;                                                    // 68
-		SpellItem* hitEffect;                                                         // 70
-		BSTSmartPointer<VATSCommand> VATSCommand;                                     // 78
-		const TESAmmo* ammo;                                                          // 80
-		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;  // 88
-		float healthDamage;                                                           // 90
-		float totalDamage;                                                            // 94
-		float physicalDamage;                                                         // 98
-		float targetedLimbDamage;                                                     // 9C
-		float percentBlocked;                                                         // A0
-		float resistedPhysicalDamage;                                                 // A4
-		float resistedTypedDamage;                                                    // A8
-		REX::EnumSet<STAGGER_MAGNITUDE, std::uint32_t> stagger;                       // AC
-		float sneakAttackBonus;                                                       // B0
-		float bonusHealthDamageMult;                                                  // B4
-		float pushBack;                                                               // B8
-		float reflectedDamage;                                                        // BC
-		float criticalDamageMult;                                                     // C0
-		REX::EnumSet<Flag, std::uint32_t> flags;                                      // C4
-		BGSEquipIndex equipIndex;                                                     // C8
-		std::uint32_t material;                                                       // D0
-		REX::EnumSet<BGSBodyPartDefs::LIMB_ENUM, std::uint32_t> damageLimb;           // D4
+		DamageImpactData                                                impactData;              // 00
+		ActorHandle                                                     aggressor;               // 40
+		ActorHandle                                                     target;                  // 44
+		ObjectRefHandle                                                 sourceRef;               // 48
+		NiPointer<BGSAttackData>                                        attackData;              // 50
+		BGSObjectInstanceT<TESObjectWEAP>                               weapon;                  // 58
+		SpellItem*                                                      criticalEffect;          // 68
+		SpellItem*                                                      hitEffect;               // 70
+		BSTSmartPointer<VATSCommand>                                    VATSCommand;             // 78
+		const TESAmmo*                                                  ammo;                    // 80
+		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;             // 88
+		float                                                           healthDamage;            // 90
+		float                                                           totalDamage;             // 94
+		float                                                           physicalDamage;          // 98
+		float                                                           targetedLimbDamage;      // 9C
+		float                                                           percentBlocked;          // A0
+		float                                                           resistedPhysicalDamage;  // A4
+		float                                                           resistedTypedDamage;     // A8
+		REX::EnumSet<STAGGER_MAGNITUDE, std::uint32_t>                  stagger;                 // AC
+		float                                                           sneakAttackBonus;        // B0
+		float                                                           bonusHealthDamageMult;   // B4
+		float                                                           pushBack;                // B8
+		float                                                           reflectedDamage;         // BC
+		float                                                           criticalDamageMult;      // C0
+		REX::EnumSet<Flag, std::uint32_t>                               flags;                   // C4
+		BGSEquipIndex                                                   equipIndex;              // C8
+		std::uint32_t                                                   material;                // D0
+		REX::EnumSet<BGSBodyPartDefs::LIMB_ENUM, std::uint32_t>         damageLimb;              // D4
 	};
 	static_assert(sizeof(HitData) == 0xE0);
 
@@ -742,13 +742,13 @@ namespace RE
 		}
 
 		// members
-		HitData hitData;                  // 000
-		NiPointer<TESObjectREFR> target;  // 0E0
-		NiPointer<TESObjectREFR> cause;   // 0E8
-		BSFixedString material;           // 0F0
-		std::uint32_t sourceFormID;       // 0F8
-		std::uint32_t projectileFormID;   // 0FC
-		bool usesHitData;                 // 100
+		HitData                  hitData;           // 000
+		NiPointer<TESObjectREFR> target;            // 0E0
+		NiPointer<TESObjectREFR> cause;             // 0E8
+		BSFixedString            material;          // 0F0
+		std::uint32_t            sourceFormID;      // 0F8
+		std::uint32_t            projectileFormID;  // 0FC
+		bool                     usesHitData;       // 100
 	};
 	static_assert(sizeof(TESHitEvent) == 0x110);
 
@@ -763,9 +763,9 @@ namespace RE
 		}
 
 		// members
-		NiPointer<TESObjectREFR> target;  // 00
-		NiPointer<TESObjectREFR> caster;  // 08
-		std::uint32_t magicEffectFormID;  // 10
+		NiPointer<TESObjectREFR> target;             // 00
+		NiPointer<TESObjectREFR> caster;             // 08
+		std::uint32_t            magicEffectFormID;  // 10
 	};
 	static_assert(sizeof(TESMagicEffectApplyEvent) == 0x18);
 
@@ -781,7 +781,7 @@ namespace RE
 
 		// members
 		TESFormID formID;  // 00
-		bool loaded;       // 04
+		bool      loaded;  // 04
 	};
 	static_assert(sizeof(TESObjectLoadedEvent) == 0x8);
 
@@ -803,8 +803,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSFixedString eventName;     // 00
-		const BGSMessage* assocMsg;  // 08
+		BSFixedString     eventName;  // 00
+		const BGSMessage* assocMsg;   // 08
 	};
 	static_assert(sizeof(TutorialEvent) == 0x10);
 
@@ -831,7 +831,7 @@ namespace RE
 		// members
 		REX::EnumSet<UserEvents::USER_EVENT_FLAG, std::int32_t> newUserEventFlag;  // 0
 		REX::EnumSet<UserEvents::USER_EVENT_FLAG, std::int32_t> oldUserEventFlag;  // 4
-		REX::EnumSet<UserEvents::SENDER_ID, std::int32_t> senderID;                // 8
+		REX::EnumSet<UserEvents::SENDER_ID, std::int32_t>       senderID;          // 8
 	};
 	static_assert(sizeof(UserEventEnabledEvent) == 0xC);
 
@@ -848,7 +848,7 @@ namespace RE
 
 		// members
 		EVENT_TYPE type;
-		bool NoLoadScreen;
+		bool       NoLoadScreen;
 	};
 	static_assert(sizeof(PositionPlayerEvent) == 0x08);
 

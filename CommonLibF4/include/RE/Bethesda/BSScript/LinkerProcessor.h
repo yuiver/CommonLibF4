@@ -26,16 +26,16 @@ namespace RE
 			virtual ~LinkerProcessor();  // 00
 
 			// override (IObjectProcessor)
-			virtual IObjectProcessor* Clone() override;                       // 01
-			virtual void SetLoader(ILoader* a_loader) override;               // 02 - { loader = a_loader; }
-			virtual bool Process(const BSFixedString& a_className) override;  // 03
+			virtual IObjectProcessor* Clone() override;                                    // 01
+			virtual void              SetLoader(ILoader* a_loader) override;               // 02 - { loader = a_loader; }
+			virtual bool              Process(const BSFixedString& a_className) override;  // 03
 
 			// members
-			Internal::VirtualMachine* virtualMachine;        // 08  //size 0x8
-			ErrorLogger* errorLogger;                        // 10  //size 0x8
-			ILoader* loader;                                 // 18  //size 0x8
-			std::uint64_t unk20;                             // 20
-			char* unk28;                                     // 28
+			Internal::VirtualMachine*   virtualMachine;      // 08  //size 0x8
+			ErrorLogger*                errorLogger;         // 10  //size 0x8
+			ILoader*                    loader;              // 18  //size 0x8
+			std::uint64_t               unk20;               // 20
+			char*                       unk28;               // 28
 			BSScrapArray<BSFixedString> loadedParents;       // 30 //size 0x20
 			BSScrapArray<BSFixedString> objectsToTypecheck;  // 50 //size 0x20
 			BSScrapArray<BSFixedString> processQueue;        // 70 //size 0x20
