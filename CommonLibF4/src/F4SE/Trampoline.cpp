@@ -5,6 +5,7 @@
 #ifdef F4SE_SUPPORT_XBYAK
 #	include <xbyak/xbyak.h>
 #endif
+#undef max
 
 namespace F4SE
 {
@@ -43,12 +44,12 @@ namespace F4SE
 			auto baseAddr = reinterpret_cast<std::uintptr_t>(mbi.baseAddress);
 			min = baseAddr + mbi.regionSize;
 
-			if (mbi.state == WinAPI::MEM_FREE) {
+			if (mbi.state == MEM_FREE) {
 				addr = detail::roundup(baseAddr, granularity);
 
 				// if rounding didn't advance us into the next region and the region is the required size
 				if (addr < min && (min - addr) >= a_size) {
-					auto mem = WinAPI::VirtualAlloc(reinterpret_cast<void*>(addr), a_size, WinAPI::MEM_COMMIT | WinAPI::MEM_RESERVE, WinAPI::PAGE_EXECUTE_READWRITE);
+					auto mem = WinAPI::VirtualAlloc(reinterpret_cast<void*>(addr), a_size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 					if (mem) {
 						return mem;
 					} else {
