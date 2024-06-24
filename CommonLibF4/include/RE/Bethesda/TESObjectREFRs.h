@@ -62,7 +62,14 @@ namespace RE
 
 	namespace ActorValueEvents
 	{
-		struct ActorValueChangedEvent;
+		struct ActorValueChangedEvent
+		{
+		public:
+			// members
+			const ActorValueInfo& actorValue;  // 00
+			TESObjectREFR* owner;              // 08
+		};
+		static_assert(sizeof(ActorValueChangedEvent) == 0x10);
 	}
 
 	namespace BGSInventoryListEvent
@@ -875,6 +882,13 @@ namespace RE
 			using func_t = decltype(&TESObjectREFR::SetScale);
 			REL::Relocation<func_t> func{ REL::ID(817930) };
 			return func(this, scale);
+		}
+
+		[[nodiscard]] const char* GetReferenceName()
+		{
+			using func_t = decltype(&TESObjectREFR::GetReferenceName);
+			REL::Relocation<func_t> func{ REL::ID(1212056) };
+			return func(this);
 		}
 
 		// members

@@ -592,7 +592,7 @@ namespace RE
 
 		virtual ~BSGFxShaderFXTarget()
 		{
-			if (auto source = ApplyColorUpdateEvent::GetEventSource(); source) {
+			if (auto source = ApplyColorUpdateEvent::GetEventSource()) {
 				source->UnregisterSink(this);
 			}
 		}
@@ -667,7 +667,7 @@ namespace RE
 				}
 			}
 
-			if (auto source = ApplyColorUpdateEvent::GetEventSource(); source) {
+			if (auto source = ApplyColorUpdateEvent::GetEventSource()) {
 				source->RegisterSink(this);
 			}
 		}
@@ -776,7 +776,7 @@ namespace RE
 		BSTAlignedArray<UIShaderFXInfo> cachedColorFXInfos;       // 98
 		BSTAlignedArray<UIShaderFXInfo> cachedBackgroundFXInfos;  // B0
 		BSReadWriteLock cachedQuadsLock;                          // C8
-		BSTOptional<HUDModeType> menuHUDMode{ "All" };            // D0
+		BSTOptional<HUDModeType> menuHUDMode{ std::nullopt };     // D0
 	};
 	static_assert(sizeof(GameMenuBase) == 0xE0);
 

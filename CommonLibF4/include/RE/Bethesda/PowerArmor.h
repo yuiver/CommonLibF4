@@ -52,6 +52,13 @@ namespace RE
 			return func();
 		}
 
+		[[nodiscard]] inline bool IsPowerArmorBattery(const TESBoundObject* a_itemData)
+		{
+			using func_t = decltype(&IsPowerArmorBattery);
+			REL::Relocation<func_t> func{ REL::ID(1012910) };
+			return func(a_itemData);
+		}
+
 		inline void SyncFurnitureVisualsToInventory(TESObjectREFR* a_furniture, bool a_force3DUpdate, BGSInventoryItem* a_tempItemToAdd, bool a_hideCore)
 		{
 			using func_t = decltype(&SyncFurnitureVisualsToInventory);
