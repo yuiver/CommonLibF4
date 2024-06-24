@@ -178,4 +178,21 @@ namespace RE
 		virtual bool ProcessBeforeSave() { return false; }                              // 4D
 	};
 	static_assert(sizeof(NavMesh) == 0x230);
+
+	class DynamicNavmesh
+	{
+	public:
+		static DynamicNavmesh* GetSingleton()
+		{
+			REL::Relocation<DynamicNavmesh**> singleton{ REL::ID(908540) };
+			return *singleton;
+		}
+
+		void ForceUpdate()
+		{
+			using func_t = decltype(&DynamicNavmesh::ForceUpdate);
+			REL::Relocation<func_t> func{ REL::ID(854653) };
+			return func(this);
+		}
+	};
 }

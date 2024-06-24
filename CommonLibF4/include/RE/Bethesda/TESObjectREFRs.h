@@ -685,6 +685,13 @@ namespace RE
 			return func(this);
 		}
 
+		void UpdateDynamicNavmesh(bool a_active)
+		{
+			using func_t = decltype(&RE::TESObjectREFR::UpdateDynamicNavmesh);
+			REL::Relocation<func_t> func{ REL::ID(1518094) };
+			return func(this, a_active);
+		}
+
 		void Enable(bool a_resetInventory)
 		{
 			using func_t = decltype(&TESObjectREFR::Enable);

@@ -198,6 +198,7 @@
 #include "RE/Bethesda/TESBoundAnimObjects.h"
 #include "RE/Bethesda/TESBoundObjects.h"
 #include "RE/Bethesda/TESCamera.h"
+#include "RE/Bethesda/TESCellAttachDetachEvent.h"
 #include "RE/Bethesda/TESCombatStyle.h"
 #include "RE/Bethesda/TESCondition.h"
 #include "RE/Bethesda/TESDataHandler.h"

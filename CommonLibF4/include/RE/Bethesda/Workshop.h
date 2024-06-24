@@ -232,6 +232,13 @@ namespace RE
 			return func(a_workshop, a_location);
 		}
 
+		inline bool IsWorkshopItem(const TESObjectREFR* a_refr)
+		{
+			using func_t = decltype(&IsWorkshopItem);
+			REL::Relocation<func_t> func{ REL::ID(1386903) };
+			return func(a_refr);
+		}
+
 		inline bool PlaceCurrentReference(const ContextData& a_context)
 		{
 			using func_t = decltype(&Workshop::PlaceCurrentReference);
