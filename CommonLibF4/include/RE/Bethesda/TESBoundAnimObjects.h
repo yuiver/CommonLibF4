@@ -16,6 +16,35 @@ namespace RE
 	enum class CREATURE_SOUND;
 	enum class LOCK_LEVEL;
 
+	enum class TES_LIGHT_FLAGS
+	{
+		kNone = 0,
+		kDynamic = 1 << 0,
+		kCanCarry = 1 << 1,
+		kNegative = 1 << 2,
+		kFlicker = 1 << 3,
+		kDeepCopy = 1 << 4,
+		kOffByDefault = 1 << 5,
+		kFlickerSlow = 1 << 6,
+		kPulse = 1 << 7,
+		kPulseSlow = 1 << 8,
+		kSpotlight = 1 << 9,
+		kSpotShadow = 1 << 10,
+		kHemiShadow = 1 << 11,
+		kOmniShadow = 1 << 12,
+		kPortalStrict = 1 << 13,
+		kNonShadowSpot = 1 << 14,
+		kNonSpecular = 1 << 15,
+		kAttenutationOnly = 1 << 16,
+		kNonShadowBox = 1 << 17,
+		kIgnoreRougness = 1 << 18,
+		kNoRimLighting = 1 << 19,
+		kAmbientOnly = 1 << 20,
+		kUnknown = 1 << 21, // only in [001C7F0C] <RandomSpot01GR>
+
+		kType = kNonShadowBox | kNonShadowSpot | kOmniShadow | kHemiShadow | kSpotShadow
+	};
+
 	class MenuOpenCloseEvent;
 
 	namespace BGSCharacterTint
@@ -167,24 +196,35 @@ namespace RE
 	};
 	static_assert(sizeof(TESObjectDOOR) == 0x150);
 
+	struct ColorStruct
+	{
+	public:
+		// members
+		std::uint8_t red;    // 0
+		std::uint8_t green;  // 1
+		std::uint8_t blue;   // 2
+		std::uint8_t alpha;  // 3
+	};
+	static_assert(sizeof(ColorStruct) == 0x4);
+
 	struct OBJ_LIGH
 	{
 	public:
 		// members
-		std::int32_t time;                // 00
-		std::uint32_t radius;             // 04
-		std::uint32_t color;              // 08
-		std::uint32_t flags;              // 0C
-		float fallOffExponent;            // 10
-		float fov;                        // 14
-		float nearDistance;               // 18
-		float flickerPeriodRecip;         // 1C
-		float flickerIntensityAmplitude;  // 20
-		float flickerMovementAmplitude;   // 24
-		float attenConstant;              // 28
-		float attenScalar;                // 2C
-		float attenExponent;              // 30
-		float godrayNearClipDistance;     // 34
+		std::int32_t time;										 // 00
+		std::uint32_t radius;									 // 04
+		ColorStruct color;                                       // 08
+		stl::enumeration<TES_LIGHT_FLAGS, std::uint32_t> flags;  // 0C
+		float fallOffExponent;									 // 10
+		float fov;												 // 14
+		float nearClip;											 // 18
+		float flickerPeriodRecip;								 // 1C
+		float flickerIntensityAmplitude;						 // 20
+		float flickerMovementAmplitude;							 // 24
+		float attenConstant;									 // 28
+		float attenScalar;										 // 2C
+		float attenExponent;									 // 30
+		float godrayNearClip;									 // 34
 	};
 	static_assert(sizeof(OBJ_LIGH) == 0x38);
 

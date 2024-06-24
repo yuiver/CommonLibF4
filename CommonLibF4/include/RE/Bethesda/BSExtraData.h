@@ -6,8 +6,10 @@
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
+#include "RE/Bethesda/FormComponents.h"
 #include "RE/Bethesda/MemoryManager.h"
 #include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE
 {
@@ -16,6 +18,9 @@ namespace RE
 	class ExtraAliasInstanceArray;
 	class ExtraCellWaterType;
 	class ExtraInstanceData;
+	class ExtraLightData;
+	class NiLight;
+	class ExtraLight;
 	class ExtraLocation;
 	class ExtraMaterialSwap;
 	class ExtraPowerLinks;
@@ -66,7 +71,7 @@ namespace RE
 		kRangeDistOverride,
 		kTimeLeft,
 		kCharge,
-		kLight,
+		kLight,		// ExtraLight
 		kLock,      // ExtraLock
 		kTeleport,  // ExtraTeleport
 		kMapMarker,
@@ -170,7 +175,7 @@ namespace RE
 		kOutfitItem,
 		kEditorLocation,
 		kLeveledItemBase,
-		kLightData,
+		kLightData,			// ExtraLightData
 		kScene,
 		kBadPosition,
 		kHeadTrackingWeight,
@@ -354,6 +359,39 @@ namespace RE
 		float health;  // 18
 	};
 	static_assert(sizeof(ExtraHealth) == 0x20);
+
+	class __declspec(novtable) ExtraCharge :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraCharge };
+		static constexpr auto VTABLE{ VTABLE::ExtraCharge };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kCharge};
+
+		// members
+		float charge;  // 18
+	};
+	static_assert(sizeof(ExtraCharge) == 0x20);
+
+	struct __declspec(novtable) MapMarkerData :
+		public TESFullName  // 00
+	{
+		std::uint32_t flags;  // 10
+	};
+	static_assert(sizeof(MapMarkerData) == 0x18);
+
+	class __declspec(novtable) ExtraMapMarker :
+		public BSExtraData  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraMapMarker };
+		static constexpr auto VTABLE{ VTABLE::ExtraMapMarker };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kMapMarker };
+
+		// members
+		MapMarkerData* mapMarkerData;  // 18
+	};
+	static_assert(sizeof(ExtraMapMarker) == 0x20);
 
 	class __declspec(novtable) ExtraLock :
 		public BSExtraData  // 00
@@ -542,6 +580,66 @@ namespace RE
 		BSReadWriteLock aliasArrayLock;                // 30
 	};
 	static_assert(sizeof(ExtraAliasInstanceArray) == 0x38);
+
+	class __declspec(novtable) ExtraKeywords :
+		public BSExtraData // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraKeywords };
+		static constexpr auto VTABLE{ VTABLE::ExtraKeywords };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kKeywords};
+
+		BSTArray<RE::BGSKeyword*> keywordArray_maybe;	// 18
+		BSReadWriteLock extraRWLock;					// 28
+	};
+	static_assert(sizeof(ExtraKeywords) == 0x38);
+	
+	// TODO: finish RE'ing 
+	struct ExtraLightDataStruct
+	{
+		ExtraLightDataStruct();
+		~ExtraLightDataStruct() = default;
+
+		float fov;					// 00
+		float fade;					// 04
+		float endDistanceCap;		// 08
+		float shadowDepthBias;		// 0C
+		float spotNear;				// 10
+		float volumetricIntensity;	// 14
+	};
+	static_assert(sizeof(ExtraLightDataStruct) == 0x18);
+
+	class __declspec(novtable) ExtraLightData :
+		public BSExtraData // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ExtraLightData };
+		static constexpr auto VTABLE{ VTABLE::ExtraLightData };
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kLightData };
+
+		ExtraLightDataStruct data;	// 18
+	};
+	static_assert(sizeof(ExtraLightData) == 0x30);
+	
+	struct REFR_LIGHT
+	{
+		NiPointer<NiLight> light;		// 00
+		float			   wantDimmer;	// 08
+		std::uint32_t	   pad0C;		// 0C
+	};
+	static_assert(sizeof(REFR_LIGHT) == 0x10);
+
+	class __declspec(novtable) ExtraLight :
+		public BSExtraData  // 00
+	{
+		inline static constexpr auto RTTI{ RTTI::ExtraLight };
+		static constexpr auto VTABLE{ VTABLE::ExtraLight };
+		inline static constexpr auto TYPE{ EXTRA_DATA_TYPE::kLight };
+
+		// members
+		REFR_LIGHT* lightData;	// 18
+	};
+	static_assert(sizeof(ExtraLight) == 0x20);
 
 	class __declspec(novtable) ExtraLocation :
 		public BSExtraData  // 00
@@ -878,6 +976,13 @@ namespace RE
 			return func(this, a_form);
 		}
 
+		float GetHealthPercent()
+		{
+			using func_t = decltype(&ExtraDataList::GetHealthPercent);
+			REL::Relocation<func_t> func{ REL::ID(196530) };
+			return func(this);
+		}
+
 		void SetHealthPercent(float a_healthPerc)
 		{
 			using func_t = decltype(&ExtraDataList::SetHealthPercent);
@@ -897,6 +1002,27 @@ namespace RE
 			using func_t = decltype(&ExtraDataList::IsFavorite);
 			REL::Relocation<func_t> func{ REL::ID(786568) };
 			return func(this);
+		}
+
+		float GetScale()
+		{
+			using func_t = decltype(&ExtraDataList::GetScale);
+			REL::Relocation<func_t> func{ REL::ID(1499172) };
+			return func(this);
+		}
+
+		float GetCurrentCharge()
+		{
+			using func_t = decltype(&ExtraDataList::GetCurrentCharge);
+			REL::Relocation<func_t> func{ REL::ID(980329) };
+			return func(this);
+		}
+
+		void SetCurrentCharge(float a_charge)
+		{
+			using func_t = decltype(&ExtraDataList::SetCurrentCharge);
+			REL::Relocation<func_t> func{ REL::ID(648722) };
+			return func(this, a_charge);
 		}
 
 		// members

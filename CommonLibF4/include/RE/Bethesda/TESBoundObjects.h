@@ -247,6 +247,13 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESObjectBOOK };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kBOOK };
 
+		void SetPerkToAdd(BGSPerk* a_perk)
+		{
+			using func_t = decltype(&TESObjectBOOK::SetPerkToAdd);
+			REL::Relocation<func_t> func{ REL::ID(472219) };
+			return func(this, a_perk);
+		}
+
 		// members
 		OBJ_BOOK data;                       // 170
 		TESObjectSTAT* inventoryModel;       // 188
@@ -614,6 +621,13 @@ namespace RE
 			return func(a_speed);
 		}
 
+		float GetShotsPerSecond(InstanceData* a_instanceData)
+		{
+			using func_t = decltype(&TESObjectWEAP::GetShotsPerSecond);
+			REL::Relocation<func_t> func{ REL::ID(752116) };
+			return func(this, a_instanceData);
+		}
+
 		// members
 		TESObjectWEAP::Data weaponData;              // 198
 		BGSModelMaterialSwap* firstPersonModel;      // 2D0
@@ -807,20 +821,31 @@ namespace RE
 	struct BGSHazardData
 	{
 	public:
+		enum class BGSHazardFlags
+		{
+			kNone = 0,
+			kPlayerOnly = 1 << 0,	
+			kInheritDuration = 1 << 1,
+			kAlignToNormal = 1 << 2,
+			kInheritRadius = 1 << 3,
+			kDropToGround = 1 << 4,
+			kTaperEffectiveness = 1 << 5
+		};
+
 		// members
-		std::uint32_t limit;              // 00
-		float radius;                     // 04
-		float lifetime;                   // 08
-		float imageSpaceRadius;           // 0C
-		float targetInterval;             // 10
-		std::uint32_t flags;              // 14
-		MagicItem* spell;                 // 18
-		TESObjectLIGH* light;             // 20
-		BGSImpactDataSet* impactDataSet;  // 28
-		BGSSoundDescriptorForm* sound;    // 30
-		float fullEffectRadius;           // 38
-		float taperWeight;                // 3C
-		float taperCurve;                 // 40
+		std::uint32_t limit;									// 00
+		float radius;											// 04
+		float lifetime;											// 08
+		float imageSpaceRadius;									// 0C
+		float targetInterval;									// 10
+		stl::enumeration<BGSHazardFlags, std::uint32_t> flags;  // 14
+		SpellItem* spell;										// 18
+		TESObjectLIGH* light;									// 20
+		BGSImpactDataSet* impactDataSet;						// 28
+		BGSSoundDescriptorForm* sound;							// 30
+		float fullEffectRadius;									// 38
+		float taperWeight;										// 3C
+		float taperCurve;										// 40
 	};
 	static_assert(sizeof(BGSHazardData) == 0x48);
 

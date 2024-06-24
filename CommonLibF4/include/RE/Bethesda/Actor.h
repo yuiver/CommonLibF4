@@ -241,6 +241,27 @@ namespace RE
 	};
 	static_assert(sizeof(SubGraphIdleRootData) == 0x18);
 
+	class __declspec(novtable) AimModel
+	{
+	public:
+		BGSAimModel::Data aimModelData;					// 00 // confirmed
+		NiPoint2 unk_1;									// 40
+		NiPoint2 unk_2;									// 48
+		float aimModelRecoilSpringForce;				// 50
+		NiPoint2 postSpringStateOrientation;			// 54
+		NiPoint2 unk_4;									// 5C
+		float aimModelRecoilDiminishSightsSpringMult;	// 64
+		NiPoint2 aimModelOrientation;					// 68
+		NiPoint2 unk_7;									// 70
+		NiPoint2 unk_8;									// 78
+		NiPoint2 playerViewAnglesRad;					// 80 confirmed
+		Actor* owningActor;								// 88
+		float currentAimModelConeSize;					// 90
+		float msSinceLastShot;							// 94 
+		int successiveShotsFired;						// 98 confirmed
+	};
+	static_assert(sizeof(AimModel) == 0xA0);
+
 	class __declspec(novtable) EquippedItemData :
 		public NiRefObject  // 00
 	{
@@ -585,6 +606,13 @@ namespace RE
 			return func(this, a_actor, a_stateToSet, a_weaponCullType);
 		}
 
+		TESPackage* GetPackageThatIsRunning()
+		{
+			using func_t = decltype(&AIProcess::GetPackageThatIsRunning);
+			REL::Relocation<func_t> func{ REL::ID(148295) };
+			return func(this);
+		}
+
 		// members
 		MiddleLowProcessData* middleLow;                    // 00
 		MiddleHighProcessData* middleHigh;                  // 08
@@ -845,6 +873,16 @@ namespace RE
 			kForceAnimGraphUpdate = 1 << 29,
 			kCheckAddEffectDualCast = 1 << 30,
 			kUnderwater = 1 << 31,
+		};
+
+		enum class DETECTION_PRIORITY
+		{
+			kNone = 0,
+			kVeryLow = 1,
+			kLow = 2,
+			kNormal = 3,
+			kHigh = 4,
+			kCritical = 5
 		};
 
 		// add
@@ -1179,6 +1217,40 @@ namespace RE
 		{
 			using func_t = decltype(&Actor::IsQuadruped);
 			REL::Relocation<func_t> func{ REL::ID(1552322) };
+			return func(this);
+		}
+
+		float GetHealthPercent()
+		{
+			using func_t = decltype(&Actor::GetHealthPercent);
+			REL::Relocation<func_t> func{ REL::ID(260817) };
+			return func(this);
+		}
+
+		int32_t RequestDetectionLevel(Actor* a_target, DETECTION_PRIORITY a_priority = DETECTION_PRIORITY::kNormal)
+		{
+			using func_t = decltype(&Actor::RequestDetectionLevel);
+			REL::Relocation<func_t> func{ REL::ID(943772) };
+			return func(this, a_target, a_priority);
+		}
+
+		bool GetOfferBarter() {
+			using func_t = decltype(&Actor::GetOfferBarter);
+			REL::Relocation<func_t> func{ REL::ID(1482717) };
+			return func(this);
+		}
+
+		ActorHandle GetActorHandle()
+		{
+			using func_t = decltype(&Actor::GetActorHandle);
+			REL::Relocation<func_t> func{ REL::ID(1145222) };
+			return func(this);
+		}
+
+		bool IsSneaking()
+		{
+			using func_t = decltype(&Actor::IsSneaking);
+			REL::Relocation<func_t> func{ REL::ID(1173627) };
 			return func(this);
 		}
 

@@ -514,8 +514,8 @@ namespace RE
 		virtual void InitializeDataComponent() = 0;                                                                            // 02
 		virtual void ClearDataComponent() = 0;                                                                                 // 03
 		virtual void InitComponent() { return; }                                                                               // 04
-		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy) { return; }                                     // 06
 		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy, [[maybe_unused]] TESForm* a_owner) { return; }  // 05
+		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy) { return; }                                     // 06
 	};
 	static_assert(sizeof(BaseFormComponent) == 0x8);
 
@@ -1671,6 +1671,13 @@ namespace RE
 			return func(this);
 		}
 
+		void RemoveAllScriptAddedLeveledObjects()
+		{
+			using func_t = decltype(&TESLeveledList::RemoveAllScriptAddedLeveledObjects);
+			REL::Relocation<func_t> func{ REL::ID(1500052) };
+			return func(this);
+		}
+
 		// members
 		TESGlobal* chanceGlobal;                                                         // 08
 		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* keywordChances;  // 10
@@ -1729,13 +1736,21 @@ namespace RE
 	};
 	static_assert(sizeof(TESRaceForm) == 0x10);
 
+	enum class FIGHT_REACTION
+	{
+		kNeutral = 0,
+		kEnemy = 1,
+		kAlly = 2,
+		kFriend = 3
+	};
+
 	struct GROUP_REACTION
 	{
 	public:
 		// members
-		TESForm* form;               // 00
-		std::int32_t reaction;       // 08
-		std::int32_t fightReaction;  // 0C
+		TESForm* form;                 // 00
+		std::int32_t reaction;         // 08
+		FIGHT_REACTION fightReaction;  // 0C
 	};
 	static_assert(sizeof(GROUP_REACTION) == 0x10);
 

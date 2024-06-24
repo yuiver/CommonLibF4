@@ -381,6 +381,13 @@ namespace RE
 			return func(this, a_show, a_skipEffects);
 		}
 
+		void TogglePipBoyLight(bool a_unk)
+		{
+			using func_t = decltype(&PlayerCharacter::TogglePipBoyLight);
+			REL::Relocation<func_t> func{ REL::ID(520007) };
+			return func(this, a_unk);
+		}
+
 		// members
 		BSSpinLock actorToDisplayOnHUDLock;                                                     // 628
 		BSSpinLock questTargetLock;                                                             // 630

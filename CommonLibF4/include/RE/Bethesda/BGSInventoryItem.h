@@ -166,6 +166,20 @@ namespace RE
 			return func(this, a_stackID, a_scale);
 		}
 
+		bool GetStackCount()
+		{
+			using func_t = decltype(&BGSInventoryItem::GetStackCount);
+			REL::Relocation<func_t> func{ REL::ID(82050) };
+			return func(this);
+		}
+
+		bool IsQuestObject(std::int32_t a_stackIterations)
+		{
+			using func_t = decltype(&BGSInventoryItem::IsQuestObject);
+			REL::Relocation<func_t> func{ REL::ID(823447) };
+			return func(this, a_stackIterations);
+		}
+
 		// members
 		TESBoundObject* object;            // 00
 		BSTSmartPointer<Stack> stackData;  // 08

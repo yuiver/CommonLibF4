@@ -116,8 +116,22 @@ namespace RE
 
 		TESForm* LookupForm(std::uint32_t a_rawFormID, std::string_view a_modName)
 		{
-			auto formID = LookupFormID(a_rawFormID, a_modName);
-			return formID != 0 ? TESForm::GetFormByID(formID) : nullptr;
+			auto file = LookupLoadedFile(a_modName);
+			if (!file.first) {
+				return nullptr;
+			}
+
+			uint32_t formID = 0;
+			if (file.second) {
+				formID = file.first->compileIndex << 24;
+				formID += (a_rawFormID & 0x00FFFFFF);
+			} else {
+				formID = 0xFE000000;
+				formID += file.first->smallFileCompileIndex << 12;
+				formID += (a_rawFormID & 0x00000FFF);
+			}
+
+			return TESForm::GetFormByID(formID);
 		}
 
 		template <class T>
@@ -129,6 +143,24 @@ namespace RE
 			}
 
 			return form->Is(T::FORM_ID) ? form->As<T>() : nullptr;
+		}
+
+		const std::pair<TESFile*, bool> LookupLoadedFile(std::string_view a_fileName)
+		{
+			std::pair<TESFile*, bool> result;
+			for (auto fullFile : compiledFileCollection.files) {
+				if (a_fileName.size() == strlen(fullFile->filename) &&
+					_strnicmp(fullFile->filename, a_fileName.data(), a_fileName.size()) == 0) {
+					return { fullFile, true };
+				}
+			}
+			for (auto smallFile : compiledFileCollection.smallFiles) {
+				if (a_fileName.size() == strlen(smallFile->filename) &&
+					_strnicmp(smallFile->filename, a_fileName.data(), a_fileName.size()) == 0) {
+					return { smallFile, false };
+				}
+			}
+			return { nullptr, false };
 		}
 
 		const TESFile* LookupModByName(std::string_view a_modName)
@@ -202,9 +234,9 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
-		bool IsFormIDInuse(std::uint32_t a_formID)
+		bool IsFormIDInUse(std::uint32_t a_formID)
 		{
-			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
+			using func_t = decltype(&TESDataHandler::IsFormIDInUse);
 			REL::Relocation<func_t> func{ REL::ID(1448838) };
 			return func(this, a_formID);
 		}

@@ -29,4 +29,13 @@ namespace RE
 	{
 		return values->GetBuffer<BGSMod::ObjectIndexData>(0);
 	}
+
+	ExtraLightDataStruct::ExtraLightDataStruct() :
+		fov(0.0),
+		fade(0.0),
+		endDistanceCap(0.0),
+		shadowDepthBias(0.0),
+		spotNear(0.0),
+		volumetricIntensity(0.0)
+	{}
 }
