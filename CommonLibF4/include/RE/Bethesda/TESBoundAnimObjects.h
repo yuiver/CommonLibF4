@@ -40,7 +40,7 @@ namespace RE
 		kIgnoreRougness = 1 << 18,
 		kNoRimLighting = 1 << 19,
 		kAmbientOnly = 1 << 20,
-		kUnknown = 1 << 21, // only in [001C7F0C] <RandomSpot01GR>
+		kUnknown = 1 << 21,  // only in [001C7F0C] <RandomSpot01GR>
 
 		kType = kNonShadowBox | kNonShadowSpot | kOmniShadow | kHemiShadow | kSpotShadow
 	};
@@ -211,20 +211,20 @@ namespace RE
 	{
 	public:
 		// members
-		std::int32_t time;										 // 00
-		std::uint32_t radius;									 // 04
+		std::int32_t time;                                       // 00
+		std::uint32_t radius;                                    // 04
 		ColorStruct color;                                       // 08
 		stl::enumeration<TES_LIGHT_FLAGS, std::uint32_t> flags;  // 0C
-		float fallOffExponent;									 // 10
-		float fov;												 // 14
-		float nearClip;											 // 18
-		float flickerPeriodRecip;								 // 1C
-		float flickerIntensityAmplitude;						 // 20
-		float flickerMovementAmplitude;							 // 24
-		float attenConstant;									 // 28
-		float attenScalar;										 // 2C
-		float attenExponent;									 // 30
-		float godrayNearClip;									 // 34
+		float fallOffExponent;                                   // 10
+		float fov;                                               // 14
+		float nearClip;                                          // 18
+		float flickerPeriodRecip;                                // 1C
+		float flickerIntensityAmplitude;                         // 20
+		float flickerMovementAmplitude;                          // 24
+		float attenConstant;                                     // 28
+		float attenScalar;                                       // 2C
+		float attenExponent;                                     // 30
+		float godrayNearClip;                                    // 34
 	};
 	static_assert(sizeof(OBJ_LIGH) == 0x38);
 

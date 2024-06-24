@@ -360,7 +360,6 @@ namespace RE
 			auto it = settings.find(a_name);
 			return it != settings.end() ? it->second : nullptr;
 		}
-
 	};
 	static_assert(sizeof(GameSettingCollection) == 0x138);
 

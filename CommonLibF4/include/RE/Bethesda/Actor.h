@@ -244,21 +244,21 @@ namespace RE
 	class __declspec(novtable) AimModel
 	{
 	public:
-		BGSAimModel::Data aimModelData;					// 00 // confirmed
-		NiPoint2 unk_1;									// 40
-		NiPoint2 unk_2;									// 48
-		float aimModelRecoilSpringForce;				// 50
-		NiPoint2 postSpringStateOrientation;			// 54
-		NiPoint2 unk_4;									// 5C
-		float aimModelRecoilDiminishSightsSpringMult;	// 64
-		NiPoint2 aimModelOrientation;					// 68
-		NiPoint2 unk_7;									// 70
-		NiPoint2 unk_8;									// 78
-		NiPoint2 playerViewAnglesRad;					// 80 confirmed
-		Actor* owningActor;								// 88
-		float currentAimModelConeSize;					// 90
-		float msSinceLastShot;							// 94 
-		int successiveShotsFired;						// 98 confirmed
+		BGSAimModel::Data aimModelData;                // 00 // confirmed
+		NiPoint2 unk_1;                                // 40
+		NiPoint2 unk_2;                                // 48
+		float aimModelRecoilSpringForce;               // 50
+		NiPoint2 postSpringStateOrientation;           // 54
+		NiPoint2 unk_4;                                // 5C
+		float aimModelRecoilDiminishSightsSpringMult;  // 64
+		NiPoint2 aimModelOrientation;                  // 68
+		NiPoint2 unk_7;                                // 70
+		NiPoint2 unk_8;                                // 78
+		NiPoint2 playerViewAnglesRad;                  // 80 confirmed
+		Actor* owningActor;                            // 88
+		float currentAimModelConeSize;                 // 90
+		float msSinceLastShot;                         // 94
+		int successiveShotsFired;                      // 98 confirmed
 	};
 	static_assert(sizeof(AimModel) == 0xA0);
 
@@ -1234,7 +1234,8 @@ namespace RE
 			return func(this, a_target, a_priority);
 		}
 
-		bool GetOfferBarter() {
+		bool GetOfferBarter()
+		{
 			using func_t = decltype(&Actor::GetOfferBarter);
 			REL::Relocation<func_t> func{ REL::ID(1482717) };
 			return func(this);

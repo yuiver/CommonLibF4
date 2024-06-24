@@ -71,7 +71,7 @@ namespace RE
 		kRangeDistOverride,
 		kTimeLeft,
 		kCharge,
-		kLight,		// ExtraLight
+		kLight,     // ExtraLight
 		kLock,      // ExtraLock
 		kTeleport,  // ExtraTeleport
 		kMapMarker,
@@ -175,7 +175,7 @@ namespace RE
 		kOutfitItem,
 		kEditorLocation,
 		kLeveledItemBase,
-		kLightData,			// ExtraLightData
+		kLightData,  // ExtraLightData
 		kScene,
 		kBadPosition,
 		kHeadTrackingWeight,
@@ -366,7 +366,7 @@ namespace RE
 	public:
 		static constexpr auto RTTI{ RTTI::ExtraCharge };
 		static constexpr auto VTABLE{ VTABLE::ExtraCharge };
-		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kCharge};
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kCharge };
 
 		// members
 		float charge;  // 18
@@ -582,50 +582,50 @@ namespace RE
 	static_assert(sizeof(ExtraAliasInstanceArray) == 0x38);
 
 	class __declspec(novtable) ExtraKeywords :
-		public BSExtraData // 00
+		public BSExtraData  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ExtraKeywords };
 		static constexpr auto VTABLE{ VTABLE::ExtraKeywords };
-		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kKeywords};
+		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kKeywords };
 
-		BSTArray<RE::BGSKeyword*> keywordArray_maybe;	// 18
-		BSReadWriteLock extraRWLock;					// 28
+		BSTArray<RE::BGSKeyword*> keywordArray_maybe;  // 18
+		BSReadWriteLock extraRWLock;                   // 28
 	};
 	static_assert(sizeof(ExtraKeywords) == 0x38);
-	
-	// TODO: finish RE'ing 
+
+	// TODO: finish RE'ing
 	struct ExtraLightDataStruct
 	{
 		ExtraLightDataStruct();
 		~ExtraLightDataStruct() = default;
 
-		float fov;					// 00
-		float fade;					// 04
-		float endDistanceCap;		// 08
-		float shadowDepthBias;		// 0C
-		float spotNear;				// 10
-		float volumetricIntensity;	// 14
+		float fov;                  // 00
+		float fade;                 // 04
+		float endDistanceCap;       // 08
+		float shadowDepthBias;      // 0C
+		float spotNear;             // 10
+		float volumetricIntensity;  // 14
 	};
 	static_assert(sizeof(ExtraLightDataStruct) == 0x18);
 
 	class __declspec(novtable) ExtraLightData :
-		public BSExtraData // 00
+		public BSExtraData  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ExtraLightData };
 		static constexpr auto VTABLE{ VTABLE::ExtraLightData };
 		static constexpr auto TYPE{ EXTRA_DATA_TYPE::kLightData };
 
-		ExtraLightDataStruct data;	// 18
+		ExtraLightDataStruct data;  // 18
 	};
 	static_assert(sizeof(ExtraLightData) == 0x30);
-	
+
 	struct REFR_LIGHT
 	{
-		NiPointer<NiLight> light;		// 00
-		float			   wantDimmer;	// 08
-		std::uint32_t	   pad0C;		// 0C
+		NiPointer<NiLight> light;  // 00
+		float wantDimmer;          // 08
+		std::uint32_t pad0C;       // 0C
 	};
 	static_assert(sizeof(REFR_LIGHT) == 0x10);
 
@@ -637,7 +637,7 @@ namespace RE
 		inline static constexpr auto TYPE{ EXTRA_DATA_TYPE::kLight };
 
 		// members
-		REFR_LIGHT* lightData;	// 18
+		REFR_LIGHT* lightData;  // 18
 	};
 	static_assert(sizeof(ExtraLight) == 0x20);
 
