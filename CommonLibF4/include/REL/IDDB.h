@@ -24,26 +24,7 @@ namespace REL
 			return singleton;
 		}
 
-		[[nodiscard]] std::size_t id2offset(std::uint64_t a_id) const
-		{
-			if (_id2offset.empty()) {
-				stl::report_and_fail("data is empty"sv);
-			}
-
-			const mapping_t elem{ a_id, 0 };
-			const auto      it = std::lower_bound(
-					 _id2offset.begin(),
-					 _id2offset.end(),
-					 elem,
-					 [](auto&& a_lhs, auto&& a_rhs) {
-                    return a_lhs.id < a_rhs.id;
-                });
-			if (it == _id2offset.end()) {
-				stl::report_and_fail("id not found"sv);
-			}
-
-			return static_cast<std::size_t>(it->offset);
-		}
+		[[nodiscard]] std::size_t id2offset(std::uint64_t a_id) const;
 
 	protected:
 		friend class Offset2ID;

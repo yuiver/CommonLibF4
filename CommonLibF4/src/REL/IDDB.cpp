@@ -1,4 +1,5 @@
 #include "REL/IDDB.h"
+#include "REL/Module.h"
 #include "REL/Version.h"
 
 #include "REX/W32/BCRYPT.h"
@@ -104,5 +105,28 @@ namespace REL
 			reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
 			*reinterpret_cast<const std::uint64_t*>(_mmap.data())
 		};
+	}
+
+	std::size_t IDDB::id2offset(std::uint64_t a_id) const
+	{
+		if (_id2offset.empty()) {
+			stl::report_and_fail("data is empty"sv);
+		}
+
+		const mapping_t elem{ a_id, 0 };
+		const auto      it = std::lower_bound(
+            _id2offset.begin(),
+            _id2offset.end(),
+            elem,
+            [](auto&& a_lhs, auto&& a_rhs) {
+                return a_lhs.id < a_rhs.id;
+            });
+		if (it == _id2offset.end()) {
+			const auto version = Module::get().version();
+			const auto str = std::format("id {} not found!\ngame version: {}"sv, a_id, version.string());
+			stl::report_and_fail(str);
+		}
+
+		return static_cast<std::size_t>(it->offset);
 	}
 }

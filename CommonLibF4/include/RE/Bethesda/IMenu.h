@@ -400,7 +400,7 @@ namespace RE
 		bool                                                     menuCanBeVisible{ true };                             // 61
 		bool                                                     hasQuadsForCumstomRenderer{ false };                  // 62
 		bool                                                     hasDoneFirstAdvanceMovie{ false };                    // 63
-		REX::EnumSet<UI_DEPTH_PRIORITY, std::uint8_t>            depthPriority{ UI_DEPTH_PRIORITY::kStandard };        // 64
+		UI_DEPTH_PRIORITY                                        depthPriority{ UI_DEPTH_PRIORITY::kStandard };        // 64
 		REX::EnumSet<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
 	};
 	static_assert(sizeof(IMenu) == 0x70);
