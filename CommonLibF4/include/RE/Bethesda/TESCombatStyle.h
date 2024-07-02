@@ -52,17 +52,17 @@ namespace RE
 	{
 	public:
 		// members
-		float circleMult;               // 00
-		float fallbackMult;             // 04
-		float flankDistanceMult;        // 08
-		float stalkTimeMult;            // 0C
-		float chargeDistanceMult;       // 10
-		float flipThrowProbability;     // 14
-		float sprintChargeProbability;  // 18
-		float sideswipeProbability;     // 1C
-		float disengageProbability;     // 20
-		std::uint32_t throwMaxTargets;  // 24
-		float flankVarianceMult;        // 28
+		float         circleMult;               // 00
+		float         fallbackMult;             // 04
+		float         flankDistanceMult;        // 08
+		float         stalkTimeMult;            // 0C
+		float         chargeDistanceMult;       // 10
+		float         flipThrowProbability;     // 14
+		float         sprintChargeProbability;  // 18
+		float         sideswipeProbability;     // 1C
+		float         disengageProbability;     // 20
+		std::uint32_t throwMaxTargets;          // 24
+		float         flankVarianceMult;        // 28
 	};
 	static_assert(sizeof(CombatStyleCloseRangeData) == 0x2C);
 
@@ -110,14 +110,14 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kCSTY };
 
 		// members
-		CombatStyleGeneralData generalData;        // 20
-		CombatStyleMeleeData meleeData;            // 50
-		CombatStyleRangedData rangedData;          // 78
+		CombatStyleGeneralData    generalData;     // 20
+		CombatStyleMeleeData      meleeData;       // 50
+		CombatStyleRangedData     rangedData;      // 78
 		CombatStyleCloseRangeData closeRangeData;  // 7C
-		CombatStyleLongRangeData longRangeData;    // A8
-		CombatStyleCoverData coverData;            // BC
-		CombatStyleFlightData flightData;          // C0
-		std::uint32_t flags;                       // E0
+		CombatStyleLongRangeData  longRangeData;   // A8
+		CombatStyleCoverData      coverData;       // BC
+		CombatStyleFlightData     flightData;      // C0
+		std::uint32_t             flags;           // E0
 	};
 	static_assert(sizeof(TESCombatStyle) == 0xE8);
 }

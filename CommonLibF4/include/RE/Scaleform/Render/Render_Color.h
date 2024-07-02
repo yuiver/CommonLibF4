@@ -21,7 +21,7 @@ namespace RE::Scaleform::Render
 		// members
 		union
 		{
-			Rgb32 channels;
+			Rgb32         channels;
 			std::uint32_t raw;
 		};  // 0
 	};

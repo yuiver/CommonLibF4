@@ -94,8 +94,15 @@ namespace RE
 			return *this;
 		}
 
+		bool Set(const char* apString, std::uint64_t auiMaxLen)
+		{
+			using func_t = decltype(&BSStringT::Set);
+			static REL::Relocation<func_t> func{ REL::ID(2189084) };
+			return func(this, apString, auiMaxLen);
+		}
+
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
-		[[nodiscard]] pointer data() noexcept { return _data; }
+		[[nodiscard]] pointer       data() noexcept { return _data; }
 
 		[[nodiscard]] const_pointer c_str() const noexcept { return data(); }
 
@@ -141,9 +148,9 @@ namespace RE
 			a_rhs._capacity = 0;
 		}
 
-		pointer _data{ nullptr };  // ??
-		size_type _size{ 0 };      // ??
-		size_type _capacity{ 0 };  // ??
+		pointer   _data{ nullptr };  // ??
+		size_type _size{ 0 };        // ??
+		size_type _capacity{ 0 };    // ??
 	};
 
 	template <std::uint16_t N>

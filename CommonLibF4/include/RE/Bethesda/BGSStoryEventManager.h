@@ -17,14 +17,14 @@ namespace RE
 	public:
 		[[nodiscard]] static BGSStoryEventManager* GetSingleton()
 		{
-			REL::Relocation<BGSStoryEventManager**> singleton{ REL::ID(1160067) };
+			static REL::Relocation<BGSStoryEventManager**> singleton{ REL::ID(2693504) };
 			return *singleton;
 		}
 
 		std::uint32_t AddEvent(std::uint32_t a_index, const void* a_event)
 		{
 			using func_t = std::uint32_t (BGSStoryEventManager::*)(std::uint32_t, const void*);
-			REL::Relocation<func_t> func{ REL::ID(312533) };
+			static REL::Relocation<func_t> func{ REL::ID(2214088) };
 			return func(this, a_index, a_event);
 		}
 
@@ -35,10 +35,10 @@ namespace RE
 		}
 
 		// members
-		BSTArray<BGSRegisteredStoryEvent> registeredEventArray;         // 00
+		BSTArray<BGSRegisteredStoryEvent>        registeredEventArray;  // 00
 		BSTHashMap<std::uint32_t, std::uint32_t> registeredEventIDMap;  // 18
-		BSTArray<BGSStoryEvent> eventArray;                             // 48
-		BSSpinLock eventArrayLock;                                      // 60
+		BSTArray<BGSStoryEvent>                  eventArray;            // 48
+		BSSpinLock                               eventArrayLock;        // 60
 	};
 	static_assert(sizeof(BGSStoryEventManager) == 0x68);
 
@@ -55,14 +55,14 @@ namespace RE
 
 		[[nodiscard]] static std::uint32_t EVENT_INDEX()
 		{
-			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(1382765) };
+			static REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(2663409) };
 			return *eventIdx;
 		}
 
 		// members
-		ObjectRefHandle workbench;  // 00
-		BGSLocation* location;      // 08
-		TESForm* createdItemBase;   // 10
+		ObjectRefHandle workbench;        // 00
+		BGSLocation*    location;         // 08
+		TESForm*        createdItemBase;  // 10
 	};
 	static_assert(sizeof(BGSCraftItemEvent) == 0x18);
 
@@ -79,13 +79,13 @@ namespace RE
 
 		[[nodiscard]] static std::uint32_t EVENT_INDEX()
 		{
-			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(1186942) };
+			static REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(1186942) };
 			return *eventIdx;
 		}
 
 		// members
 		ObjectRefHandle terminal;  // 00
-		std::uint32_t success;     // 04
+		std::uint32_t   success;   // 04
 	};
 	static_assert(sizeof(BGSHackTerminal) == 0x08);
 
@@ -99,20 +99,20 @@ namespace RE
 
 		[[nodiscard]] static std::uint32_t EVENT_INDEX()
 		{
-			REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(701969) };
+			static REL::Relocation<std::uint32_t*> eventIdx{ REL::ID(701969) };
 			return *eventIdx;
 		}
 
 		// members
 		ObjectRefHandle actor;       // 00
 		ObjectRefHandle lockObject;  // 04
-		std::uint32_t isCrime;       // 08
+		std::uint32_t   isCrime;     // 08
 
 	private:
 		BGSPickLockEvent* ctor(TESObjectREFR* a_actor, TESObjectREFR* a_lockRef, bool a_isCrime)
 		{
 			using func_t = decltype(&BGSPickLockEvent::ctor);
-			REL::Relocation<func_t> func{ REL::ID(193329) };
+			static REL::Relocation<func_t> func{ REL::ID(193329) };
 			return func(this, a_actor, a_lockRef, a_isCrime);
 		}
 	};

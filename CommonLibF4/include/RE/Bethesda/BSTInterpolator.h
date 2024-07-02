@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RE/NetImmerse/NiPoint2.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {
@@ -25,13 +25,13 @@ namespace RE
 	class BSTInterpolator
 	{
 	public:
-		Interpolator interpolate;  // 00
-		GetCurrent<T> getCurr;     // ??
-		T start;                   // ??
-		T finish;                  // ??
-		float duration;            // ??
-		float startTime;           // ??
-		bool finished;             // ??
+		Interpolator  interpolate;  // 00
+		GetCurrent<T> getCurr;      // ??
+		T             start;        // ??
+		T             finish;       // ??
+		float         duration;     // ??
+		float         startTime;    // ??
+		bool          finished;     // ??
 	};
 
 	extern template class BSTInterpolator<float, EaseOutInterpolator, GetCurrentPositionFunctor>;

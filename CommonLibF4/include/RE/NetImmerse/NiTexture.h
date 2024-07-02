@@ -36,23 +36,23 @@ namespace RE
 		static void SetAllowDegrade(bool a_allow)
 		{
 			using func_t = decltype(&NiTexture::SetAllowDegrade);
-			REL::Relocation<func_t> func{ REL::ID(948181) };
+			static REL::Relocation<func_t> func{ REL::ID(948181) };
 			return func(a_allow);
 		}
 
 		[[nodiscard]] std::string_view GetName() const { return name; }
 
 		// members
-		BSFixedString name;                          // 10
-		std::uint32_t flags;                         // 18
-		NiTexture* prev;                             // 29
-		NiTexture* next;                             // 28
-		BSTSmartPointer<BSResource::Stream> stream;  // 30
-		BSGraphics::Texture* rendererTexture;        // 38
-		std::int8_t desiredDegradeLevel;             // 40
-		std::int8_t savedDegradeLevel;               // 41
-		bool isDDX: 1;                               // 42:0
-		bool isSRGB: 1;                              // 42:1
+		BSFixedString                       name;                 // 10
+		std::uint32_t                       flags;                // 18
+		NiTexture*                          prev;                 // 29
+		NiTexture*                          next;                 // 28
+		BSTSmartPointer<BSResource::Stream> stream;               // 30
+		BSGraphics::Texture*                rendererTexture;      // 38
+		std::int8_t                         desiredDegradeLevel;  // 40
+		std::int8_t                         savedDegradeLevel;    // 41
+		bool                                isDDX: 1;             // 42:0
+		bool                                isSRGB: 1;            // 42:1
 	};
 	static_assert(sizeof(NiTexture) == 0x48);
 }

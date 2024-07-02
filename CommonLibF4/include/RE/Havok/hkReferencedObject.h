@@ -14,8 +14,8 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::hkReferencedObject };
 
 		// add
-		virtual const hkClass* GetClassType() const { return nullptr; }   // 02
-		virtual void DeleteThisReferencedObject() const { delete this; }  // 03
+		virtual const hkClass* GetClassType() const { return nullptr; }             // 02
+		virtual void           DeleteThisReferencedObject() const { delete this; }  // 03
 
 		// members
 		std::uint32_t memSizeAndRefCount;  // 08

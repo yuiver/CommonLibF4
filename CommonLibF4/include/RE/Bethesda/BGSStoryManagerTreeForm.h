@@ -15,7 +15,6 @@
 namespace RE
 {
 	class BGSBaseAlias;
-	class BGSQuestInstanceText;
 	class BGSQuestObjective;
 	class BGSRegisteredStoryEvent;
 	class BGSStoryEvent;
@@ -39,14 +38,14 @@ namespace RE
 		virtual VisitControl VisitBranchNode(BGSStoryManagerBranchNode& a_node) = 0;                 // 01
 		virtual VisitControl VisitQuestNode(BGSStoryManagerQuestNode& a_node, bool a_canReset) = 0;  // 02
 		virtual VisitControl VisitQuest(TESQuest& a_quest) = 0;                                      // 03
-		virtual void Revert() = 0;                                                                   // 04
+		virtual void         Revert() = 0;                                                           // 04
 
 		// members
-		PeriodicUpdateTimer* timer;                         // 08
-		std::int32_t currentCursorDepth;                    // 10
-		BGSStoryManagerQuestNode* lastQuestParent;          // 18
-		BSTArray<BGSStoryManagerTreeForm*> cursorAncestry;  // 20
-		std::uint32_t queryID;                              // 38
+		PeriodicUpdateTimer*               timer;               // 08
+		std::int32_t                       currentCursorDepth;  // 10
+		BGSStoryManagerQuestNode*          lastQuestParent;     // 18
+		BSTArray<BGSStoryManagerTreeForm*> cursorAncestry;      // 20
+		std::uint32_t                      queryID;             // 38
 	};
 	static_assert(sizeof(BGSStoryManagerTreeVisitor) == 0x40);
 
@@ -59,10 +58,10 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kNONE };
 
 		// add
-		virtual std::uint32_t QChildCount() const { return 0; }                                                      // 4A
-		virtual BGSStoryManagerTreeForm* GetChild([[maybe_unused]] std::uint32_t a_index) const { return nullptr; }  // 4B
-		virtual TESCondition* QConditions() = 0;                                                                     // 4C
-		virtual BGSStoryManagerTreeVisitor::VisitControl AcceptVisitor(BGSStoryManagerTreeVisitor& a_visitor) = 0;   // 4D
+		virtual std::uint32_t                            QChildCount() const { return 0; }                                           // 4A
+		virtual BGSStoryManagerTreeForm*                 GetChild([[maybe_unused]] std::uint32_t a_index) const { return nullptr; }  // 4B
+		virtual TESCondition*                            QConditions() = 0;                                                          // 4C
+		virtual BGSStoryManagerTreeVisitor::VisitControl AcceptVisitor(BGSStoryManagerTreeVisitor& a_visitor) = 0;                   // 4D
 
 		// members
 		std::uint32_t lastVisitorID;  // 20
@@ -73,12 +72,49 @@ namespace RE
 	{
 	public:
 		// members
-		float questDelayTime;   // 0
-		std::uint16_t flags;    // 4
-		std::int8_t priority;   // 6
-		std::int8_t questType;  // 7
+		float         questDelayTime;  // 00
+		std::uint16_t flags;           // 04
+		std::int8_t   priority;        // 06
+		std::int8_t   questType;       // 07
 	};
 	static_assert(sizeof(QUEST_DATA) == 0x8);
+
+	class BGSQuestInstanceText
+	{
+	public:
+		struct StringData
+		{
+		public:
+			// members
+			std::uint32_t aliasID;         // 00
+			std::uint32_t fullNameFormID;  // 04
+		};
+		static_assert(sizeof(StringData) == 0x8);
+
+		struct GlobabValueData
+		{
+		public:
+			// members
+			const TESGlobal* global;  // 00
+			float            value;   // 08
+		};
+		static_assert(sizeof(GlobabValueData) == 0x10);
+
+		static void ParseString(BSStringT<char>* a_inOutText, const TESQuest* a_quest, std::uint32_t a_instanceID)
+		{
+			using func_t = decltype(&BGSQuestInstanceText::ParseString);
+			static REL::Relocation<func_t> func{ REL::ID(2206630) };
+			return func(a_inOutText, a_quest, a_instanceID);
+		}
+
+		// Members
+		std::uint32_t                                   id;                // 00
+		BSTArray<BGSQuestInstanceText::StringData>      stringData;        // 08
+		BSTArray<BGSQuestInstanceText::GlobabValueData> valueData;         // 20
+		std::uint16_t                                   journalStage;      // 38
+		std::uint16_t                                   journalStageItem;  // 3A
+	};
+	static_assert(sizeof(BGSQuestInstanceText) == 0x40);
 
 	class __declspec(novtable) TESQuest :
 		public BGSStoryManagerTreeForm,  // 000
@@ -89,48 +125,55 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESQuest };
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kQUST };
 
-		bool SetStage(uint16_t stage)
-		{
-			using func_t = decltype(&TESQuest::SetStage);
-			REL::Relocation<func_t> func{ REL::ID(952799) };
-			return func(this, stage);
-		}
-
 		struct AliasesAccess;
 		struct ListObjectivesAccess;
 		struct ListStagesAccess;
 
+		bool SetStage(std::uint16_t a_stage)
+		{
+			using func_t = decltype(&TESQuest::SetStage);
+			static REL::Relocation<func_t> func{ REL::ID(2207743) };
+			return func(this, a_stage);
+		}
+
+		BSPointerHandle<TESObjectREFR>* GetAliasedRef(BSPointerHandle<TESObjectREFR>* a_result, std::uint32_t a_aiAliasID)
+		{
+			using func_t = decltype(&TESQuest::GetAliasedRef);
+			static REL::Relocation<func_t> func{ REL::ID(2207810) };
+			return func(this, a_result, a_aiAliasID);
+		}
+
 		// members
-		BSTArray<BGSQuestInstanceText*> instanceData;                                                  // 038
-		std::uint32_t currentInstanceID;                                                               // 050
-		BSTArray<BSTTuple<TESFile*, std::uint32_t>> fileOffsets;                                       // 058
-		BSTArray<BGSBaseAlias*> aliases;                                                               // 070
-		BSTHashMap<std::uint32_t, BGSLocation*> aliasedLocMap;                                         // 088
-		BSTArray<BSTSmallArray<ObjectRefHandle>> aliasedHandles;                                       // 0B8
-		BSReadWriteLock aliasAccessLock;                                                               // 0D0
-		BGSLocation* nonDormantLocation;                                                               // 0D8
-		TESGlobal* questCompleteXPGlobal;                                                              // 0E0
-		BSFixedString swfFile;                                                                         // 0E8
-		QUEST_DATA data;                                                                               // 0F0
-		std::uint32_t eventID;                                                                         // 0F8
-		BSTArray<TESQuestStage*> stages;                                                               // 100
-		BSTArray<BGSQuestObjective*> objectives;                                                       // 118
-		BSTSmallIndexScatterTable<BSTArray<TESQuestStage*>, ListStagesAccess> stageTable;              // 130
-		BSTSmallIndexScatterTable<BSTArray<BGSQuestObjective*>, ListObjectivesAccess> objectiveTable;  // 150
-		BSTSmallIndexScatterTable<BSTArray<BGSBaseAlias*>, AliasesAccess> aliasesTable;                // 170
-		TESCondition objConditions;                                                                    // 190
-		TESCondition storyManagerConditions;                                                           // 198
-		BSTHashMap<BGSDialogueBranch*, BSTArray<TESTopic*>*> branchedDialogues[2];                     // 1A0
-		BSTArray<TESTopic*> topics[6];                                                                 // 200
-		BSTArray<BGSScene*> scenes;                                                                    // 290
-		BSTArray<TESGlobal*>* textGlobal;                                                              // 2A8
-		std::uint32_t totalRefsAliased;                                                                // 2B0
-		std::uint16_t currentStage;                                                                    // 2B4
-		bool alreadyRun;                                                                               // 2B6
-		BSStringT<char> formEditorID;                                                                  // 2B8
-		const BGSStoryEvent* startEventData;                                                           // 2C8
-		NiPointer<QueuedPromoteQuestTask> promoteTask;                                                 // 2D0
-		BSTArray<ObjectRefHandle> promotedRefsArray;                                                   // 2D8
+		BSTArray<BGSQuestInstanceText*>                                               instanceData;            // 038
+		std::uint32_t                                                                 currentInstanceID;       // 050
+		BSTArray<BSTTuple<TESFile*, std::uint32_t>>                                   fileOffsets;             // 058
+		BSTArray<BGSBaseAlias*>                                                       aliases;                 // 070
+		BSTHashMap<std::uint32_t, BGSLocation*>                                       aliasedLocMap;           // 088
+		BSTArray<BSTSmallArray<ObjectRefHandle>>                                      aliasedHandles;          // 0B8
+		BSReadWriteLock                                                               aliasAccessLock;         // 0D0
+		BGSLocation*                                                                  nonDormantLocation;      // 0D8
+		TESGlobal*                                                                    questCompleteXPGlobal;   // 0E0
+		BSFixedString                                                                 swfFile;                 // 0E8
+		QUEST_DATA                                                                    data;                    // 0F0
+		std::uint32_t                                                                 eventID;                 // 0F8
+		BSTArray<TESQuestStage*>                                                      stages;                  // 100
+		BSTArray<BGSQuestObjective*>                                                  objectives;              // 118
+		BSTSmallIndexScatterTable<BSTArray<TESQuestStage*>, ListStagesAccess>         stageTable;              // 130
+		BSTSmallIndexScatterTable<BSTArray<BGSQuestObjective*>, ListObjectivesAccess> objectiveTable;          // 150
+		BSTSmallIndexScatterTable<BSTArray<BGSBaseAlias*>, AliasesAccess>             aliasesTable;            // 170
+		TESCondition                                                                  objConditions;           // 190
+		TESCondition                                                                  storyManagerConditions;  // 198
+		BSTHashMap<BGSDialogueBranch*, BSTArray<TESTopic*>*>                          branchedDialogues[2];    // 1A0
+		BSTArray<TESTopic*>                                                           topics[6];               // 200
+		BSTArray<BGSScene*>                                                           scenes;                  // 290
+		BSTArray<TESGlobal*>*                                                         textGlobal;              // 2A8
+		std::uint32_t                                                                 totalRefsAliased;        // 2B0
+		std::uint16_t                                                                 currentStage;            // 2B4
+		bool                                                                          alreadyRun;              // 2B6
+		BSStringT<char>                                                               formEditorID;            // 2B8
+		const BGSStoryEvent*                                                          startEventData;          // 2C8
+		NiPointer<QueuedPromoteQuestTask>                                             promoteTask;             // 2D0
+		BSTArray<ObjectRefHandle>                                                     promotedRefsArray;       // 2D8
 	};
 	static_assert(sizeof(TESQuest) == 0x2F0);
 
@@ -146,11 +189,11 @@ namespace RE
 		virtual std::uint32_t GetQuestsStarted() const = 0;  // 4E
 
 		// members
-		BGSStoryManagerBranchNode* parent;     // 28
-		BGSStoryManagerNodeBase* prevSibling;  // 30
-		std::uint32_t maxQuests;               // 38
-		std::uint32_t flags;                   // 3C
-		TESCondition conditions;               // 40
+		BGSStoryManagerBranchNode* parent;       // 28
+		BGSStoryManagerNodeBase*   prevSibling;  // 30
+		std::uint32_t              maxQuests;    // 38
+		std::uint32_t              flags;        // 3C
+		TESCondition               conditions;   // 40
 	};
 	static_assert(sizeof(BGSStoryManagerNodeBase) == 0x48);
 
@@ -176,11 +219,11 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kSMQN };
 
 		// members
-		BSTArray<TESQuest*> children;                          // 48
-		BSTHashMap<TESQuest*, std::uint32_t> perQuestFlags;    // 60
-		BSTHashMap<TESQuest*, float> perQuestHoursUntilReset;  // 90
-		std::uint32_t numQuestsToStart;                        // C0
-		BSTArray<float> childrenLastRun;                       // C8
+		BSTArray<TESQuest*>                  children;                 // 48
+		BSTHashMap<TESQuest*, std::uint32_t> perQuestFlags;            // 60
+		BSTHashMap<TESQuest*, float>         perQuestHoursUntilReset;  // 90
+		std::uint32_t                        numQuestsToStart;         // C0
+		BSTArray<float>                      childrenLastRun;          // C8
 	};
 	static_assert(sizeof(BGSStoryManagerQuestNode) == 0xE0);
 

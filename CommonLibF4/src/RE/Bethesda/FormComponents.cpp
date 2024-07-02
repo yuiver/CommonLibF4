@@ -13,48 +13,82 @@ namespace RE
 		{
 			return BGSKeyword::GetTypedKeywordByIndex(a_type, a_index);
 		}
-		uint16_t BGSKeywordGetIndexForTypedKeyword(BGSKeyword* a_keyword, KeywordType a_type)
+		std::uint16_t BGSKeywordGetIndexForTypedKeyword(BGSKeyword* a_keyword, KeywordType a_type)
 		{
 			return BGSKeyword::GetIndexForTypedKeyword(a_keyword, a_type);
 		}
 	}
 
-	bool BGSKeywordForm::ContainsKeywordString(std::string_view a_editorID) const
+	void BGSKeywordForm::CopyKeywords(const std::vector<RE::BGSKeyword*>& a_copiedData)
 	{
-		if (keywords) {
-			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
-				if (keywords[idx] && keywords[idx]->formEditorID.contains(a_editorID)) {
-					return true;
-				}
-			}
-		}
+		const auto oldData = keywords;
 
-		return false;
+		const auto newSize = a_copiedData.size();
+		const auto newData = calloc<BGSKeyword*>(newSize);
+		std::ranges::copy(a_copiedData, newData);
+
+		numKeywords = static_cast<std::uint32_t>(newSize);
+		keywords = newData;
+
+		free(oldData);
 	}
 
-	bool BGSKeywordForm::HasKeywordID(std::uint32_t a_formID) const
+	bool BGSKeywordForm::AddKeywords(const std::vector<BGSKeyword*>& a_keywords)
 	{
-		if (keywords) {
-			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
-				if (keywords[idx] && keywords[idx]->formID == a_formID) {
-					return true;
-				}
-			}
-		}
+		std::vector<BGSKeyword*> copiedData{ keywords, keywords + numKeywords };
+		std::ranges::remove_copy_if(a_keywords, std::back_inserter(copiedData), [&](auto& keyword) {
+			return std::ranges::find(copiedData, keyword) != copiedData.end();
+		});
+		CopyKeywords(copiedData);
+		return true;
+	}
 
-		return false;
+	bool BGSKeywordForm::ContainsKeywordString(std::string_view a_editorID) const
+	{
+		bool result = false;
+		ForEachKeyword([&](const BGSKeyword* a_keyword) {
+			if (a_keyword->formEditorID.contains(a_editorID)) {
+				result = true;
+				return BSContainer::ForEachResult::kStop;
+			}
+			return BSContainer::ForEachResult::kContinue;
+		});
+		return result;
+	}
+
+	bool BGSKeywordForm::HasKeywordID(TESFormID a_formID) const
+	{
+		bool result = false;
+		ForEachKeyword([&](const BGSKeyword* a_keyword) {
+			if (a_keyword->GetFormID() == a_formID) {
+				result = true;
+				return BSContainer::ForEachResult::kStop;
+			}
+			return BSContainer::ForEachResult::kContinue;
+		});
+		return result;
 	}
 
 	bool BGSKeywordForm::HasKeywordString(std::string_view a_editorID) const
 	{
-		if (keywords) {
-			for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
-				if (keywords[idx] && keywords[idx]->formEditorID == a_editorID) {
-					return true;
-				}
+		bool result = false;
+		ForEachKeyword([&](const BGSKeyword* a_keyword) {
+			if (a_keyword->formEditorID == a_editorID) {
+				result = true;
+				return BSContainer::ForEachResult::kStop;
 			}
-		}
+			return BSContainer::ForEachResult::kContinue;
+		});
+		return result;
+	}
 
+	bool BGSKeywordForm::RemoveKeywords(const std::vector<BGSKeyword*>& a_keywords)
+	{
+		std::vector<BGSKeyword*> copiedData{ keywords, keywords + numKeywords };
+		if (std::erase_if(copiedData, [&](auto& keyword) { return std::ranges::find(a_keywords, keyword) != a_keywords.end(); }) > 0) {
+			CopyKeywords(copiedData);
+			return true;
+		}
 		return false;
 	}
 
@@ -81,7 +115,7 @@ namespace RE
 			}
 
 			const auto& map = GetSparseFullNameMap();
-			const auto it = map.find(std::addressof(a_form));
+			const auto  it = map.find(std::addressof(a_form));
 			return it != map.end() ? it->second : ""sv;
 		}
 	}

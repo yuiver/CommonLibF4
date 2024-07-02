@@ -24,19 +24,19 @@ namespace RE
 		virtual ~IFormFactory();  // 00
 
 		// add
-		[[nodiscard]] virtual TESForm* DoCreate() = 0;                                                  // 01
-		[[nodiscard]] virtual const char* GetFormName() const = 0;                                      // 02
-		[[nodiscard]] virtual ENUM_FORM_ID GetFormID() const = 0;                                       // 03
-		[[nodiscard]] virtual const char* GetObjectName() const { return nullptr; }                     // 04
-		[[nodiscard]] virtual OBJECT_TYPE GetObjectType() const;                                        // 05
-		[[nodiscard]] virtual OBJECT_CATEGORY_TYPE GetObjectCategory() const;                           // 06
+		[[nodiscard]] virtual TESForm*                   DoCreate() = 0;                                // 01
+		[[nodiscard]] virtual const char*                GetFormName() const = 0;                       // 02
+		[[nodiscard]] virtual ENUM_FORM_ID               GetFormID() const = 0;                         // 03
+		[[nodiscard]] virtual const char*                GetObjectName() const { return nullptr; }      // 04
+		[[nodiscard]] virtual OBJECT_TYPE                GetObjectType() const;                         // 05
+		[[nodiscard]] virtual OBJECT_CATEGORY_TYPE       GetObjectCategory() const;                     // 06
 		[[nodiscard]] virtual BGSMod::Property::BridgeI* GetPropertyBridge() const { return nullptr; }  // 07
 
 		[[nodiscard]] static auto GetFormFactories()
-			-> std::span<IFormFactory*, stl::to_underlying(ENUM_FORM_ID::kTotal)>
+			-> std::span<IFormFactory*, std::to_underlying(ENUM_FORM_ID::kTotal)>
 		{
-			constexpr auto len = stl::to_underlying(ENUM_FORM_ID::kTotal);
-			REL::Relocation<IFormFactory*(*)[len]> factories{ REL::ID(228366) };
+			constexpr auto                                len = std::to_underlying(ENUM_FORM_ID::kTotal);
+			static REL::Relocation<IFormFactory*(*)[len]> factories{ REL::ID(2689177) };
 			return { *factories };
 		}
 	};
@@ -50,7 +50,7 @@ namespace RE
 		[[nodiscard]] static ConcreteFormFactory* GetFormFactory()
 		{
 			const auto factories = GetFormFactories();
-			return static_cast<ConcreteFormFactory*>(factories[stl::to_underlying(ID)]);
+			return static_cast<ConcreteFormFactory*>(factories[std::to_underlying(ID)]);
 		}
 
 		[[nodiscard]] T* Create() { return static_cast<T*>(DoCreate()); }
@@ -81,11 +81,11 @@ namespace RE
 			return new BGSDefaultObject("", ENUM_FORM_ID::kNONE, "");
 		}
 
-		[[nodiscard]] const char* GetFormName() const override { return "DefaultObject"; }     // 02
-		[[nodiscard]] ENUM_FORM_ID GetFormID() const override { return ENUM_FORM_ID::kDFOB; }  // 03
-		[[nodiscard]] const char* GetObjectName() const override { return "DefaultObject"; }   // 04
-		[[nodiscard]] OBJECT_TYPE GetObjectType() const override;                              // 05
-		[[nodiscard]] OBJECT_CATEGORY_TYPE GetObjectCategory() const override;                 // 06
+		[[nodiscard]] const char*          GetFormName() const override { return "DefaultObject"; }    // 02
+		[[nodiscard]] ENUM_FORM_ID         GetFormID() const override { return ENUM_FORM_ID::kDFOB; }  // 03
+		[[nodiscard]] const char*          GetObjectName() const override { return "DefaultObject"; }  // 04
+		[[nodiscard]] OBJECT_TYPE          GetObjectType() const override;                             // 05
+		[[nodiscard]] OBJECT_CATEGORY_TYPE GetObjectCategory() const override;                         // 06
 
 		[[nodiscard]] static BGSDefaultObject* Create(const char* a_name, const char* a_description, ENUM_FORM_ID a_formType)
 		{

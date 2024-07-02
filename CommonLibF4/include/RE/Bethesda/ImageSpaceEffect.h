@@ -16,7 +16,7 @@ namespace RE
 	class ImageSpaceTexture;
 	class NiTexture;
 
-	class ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffect
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffect };
@@ -26,11 +26,11 @@ namespace RE
 		{
 		public:
 			// members
-			std::uint32_t startEffect;       // 00
-			std::uint32_t lastEffect;        // 04
+			std::uint32_t     startEffect;   // 00
+			std::uint32_t     lastEffect;    // 04
 			ImageSpaceEffect* parentEffect;  // 08
-			std::uint64_t labelWait;         // 10
-			std::uint64_t* writeLabel;       // 18
+			std::uint64_t     labelWait;     // 10
+			std::uint64_t*    writeLabel;    // 18
 		};
 		static_assert(sizeof(EffectDesc) == 0x20);
 
@@ -38,7 +38,7 @@ namespace RE
 		{
 		public:
 			// members
-			std::int32_t texIndex;                     // 00
+			std::int32_t                  texIndex;    // 00
 			BSGraphics::TextureFilterMode filterMode;  // 04
 		};
 		static_assert(sizeof(EffectInput) == 0x08);
@@ -59,17 +59,17 @@ namespace RE
 		virtual bool RestoreRenderStates(ImageSpaceEffectParam* a_param);                                                              // 0B
 
 		// members
-		bool isActive;                                              // 08
-		bool paramsChanged;                                         // 09
-		NiTPrimitiveArray<ImageSpaceEffect*> effectList;            // 10
-		NiTPrimitiveArray<ImageSpaceEffectParam*> effectParamList;  // 28
-		NiTPrimitiveArray<ImageSpaceTexture*> textures;             // 40
-		NiTPrimitiveArray<ImageSpaceTexture*> vsTextures;           // 58
-		NiTPrimitiveArray<EffectInput*> effectInputs;               // 70
-		NiTPrimitiveArray<std::int32_t*> effectOutput;              // 88
-		bool isComputeShader;                                       // A0
-		std::uint32_t nbOutput;                                     // A4
-		bool useDynamicResolution;                                  // A8
+		bool                                      isActive;              // 08
+		bool                                      paramsChanged;         // 09
+		NiTPrimitiveArray<ImageSpaceEffect*>      effectList;            // 10
+		NiTPrimitiveArray<ImageSpaceEffectParam*> effectParamList;       // 28
+		NiTPrimitiveArray<ImageSpaceTexture*>     textures;              // 40
+		NiTPrimitiveArray<ImageSpaceTexture*>     vsTextures;            // 58
+		NiTPrimitiveArray<EffectInput*>           effectInputs;          // 70
+		NiTPrimitiveArray<std::int32_t*>          effectOutput;          // 88
+		bool                                      isComputeShader;       // A0
+		std::uint32_t                             nbOutput;              // A4
+		bool                                      useDynamicResolution;  // A8
 	};
 	static_assert(sizeof(ImageSpaceEffect) == 0xB0);
 
@@ -77,25 +77,37 @@ namespace RE
 	{
 	public:
 		// members
-		bool forceAniso;                           // 00
-		NiTexture* texture;                        // 08
-		std::int32_t renderTarget;                 // 10
-		std::int32_t depthBuffer;                  // 14
-		std::int32_t stencilBuffer;                // 18
-		BSGraphics::TextureFilterMode filterMode;  // 1C
-		BSGraphics::TextureAddressMode clampMode;  // 20
-		bool acquiredTarget;                       // 24
+		bool                           forceAniso;      // 00
+		NiTexture*                     texture;         // 08
+		std::int32_t                   renderTarget;    // 10
+		std::int32_t                   depthBuffer;     // 14
+		std::int32_t                   stencilBuffer;   // 18
+		BSGraphics::TextureFilterMode  filterMode;      // 1C
+		BSGraphics::TextureAddressMode clampMode;       // 20
+		bool                           acquiredTarget;  // 24
 	};
 	static_assert(sizeof(ImageSpaceTexture) == 0x28);
 
-	class ImageSpaceEffectFullScreenBlur :
-		public ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffectOption :
+		public ImageSpaceEffect  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::ImageSpaceEffectOption };
+		static constexpr auto VTABLE{ VTABLE::ImageSpaceEffectOption };
+
+		// members
+		NiTPrimitiveArray<bool> effectOn;  // B0
+	};
+	static_assert(sizeof(ImageSpaceEffectOption) == 0xC8);
+
+	class __declspec(novtable) ImageSpaceEffectFullScreenBlur :
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectFullScreenBlur };
 		static constexpr auto VTABLE{ VTABLE::ImageSpaceEffectFullScreenBlur };
 
-		virtual ~ImageSpaceEffectFullScreenBlur();  // 00
+		virtual ~ImageSpaceEffectFullScreenBlur() override;  // 00
 
 		// override (ImageSpaceEffect)
 		virtual void Render(BSTriShape* a_geometry, ImageSpaceEffectParam* a_param) override;       // 01
@@ -105,15 +117,15 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(372489) };
+		inline static REL::Relocation<bool*> bDisable{ REL::ID(2713225) };
 
 		// members
 		ImageSpaceTexture buffer[3];  // B0
 	};
 	static_assert(sizeof(ImageSpaceEffectFullScreenBlur) == 0x128);
 
-	class ImageSpaceEffectGetHit :
-		public ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffectGetHit :
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectGetHit };
@@ -129,16 +141,16 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(1523708) };
+		inline static REL::Relocation<bool*> bDisable{ REL::ID(2713237) };
 
 		// members
-		float* data;                  // B0
+		float*            data;       // B0
 		ImageSpaceTexture buffer[2];  // B8
 	};
 	static_assert(sizeof(ImageSpaceEffectGetHit) == 0x108);
 
-	class ImageSpaceEffectMotionBlur :
-		public ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffectMotionBlur :
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectMotionBlur };
@@ -153,8 +165,8 @@ namespace RE
 	};
 	static_assert(sizeof(ImageSpaceEffectMotionBlur) == 0xB0);
 
-	class ImageSpaceEffectPipboyScreen :
-		public ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffectPipboyScreen :
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectPipboyScreen };
@@ -175,8 +187,8 @@ namespace RE
 	};
 	static_assert(sizeof(ImageSpaceEffectPipboyScreen) == 0xC0);
 
-	class ImageSpaceEffectRadialBlur :
-		public ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffectRadialBlur :
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectRadialBlur };
@@ -189,12 +201,12 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(1500590) };
+		inline static REL::Relocation<bool*> bDisable{ REL::ID(2713225) };
 	};
 	static_assert(sizeof(ImageSpaceEffectRadialBlur) == 0xB0);
 
-	class ImageSpaceEffectTemporalAA :
-		public ImageSpaceEffect
+	class __declspec(novtable) ImageSpaceEffectTemporalAA :
+		public ImageSpaceEffect  // 00
 	{
 	public:
 		static constexpr auto RTTI{ RTTI::ImageSpaceEffectTemporalAA };

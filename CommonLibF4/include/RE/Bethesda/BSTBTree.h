@@ -29,18 +29,18 @@ namespace RE
 			using iterator = value_type*;
 			using const_iterator = const value_type*;
 
-			[[nodiscard]] iterator begin() noexcept { return entries; }
+			[[nodiscard]] iterator       begin() noexcept { return entries; }
 			[[nodiscard]] const_iterator begin() const noexcept { return entries; }
 			[[nodiscard]] const_iterator cbegin() const noexcept { return entries; }
 
-			[[nodiscard]] iterator end() noexcept { return entries + usedEntries; }
+			[[nodiscard]] iterator       end() noexcept { return entries + usedEntries; }
 			[[nodiscard]] const_iterator end() const noexcept { return entries + usedEntries; }
 			[[nodiscard]] const_iterator cend() const noexcept { return entries + usedEntries; }
 
 			// members
 			value_type entries[4];           // 00
 			node_type* nodes[5]{ nullptr };  // ??
-			size_type usedEntries{ 0 };      // ??
+			size_type  usedEntries{ 0 };     // ??
 		};
 
 	private:
@@ -58,7 +58,8 @@ namespace RE
 
 			template <class V>
 			iterator_base(const iterator_base<V>& a_rhs)  //
-				requires(std::convertible_to<typename iterator_base<V>::reference, reference>) :
+				requires(std::convertible_to<typename iterator_base<V>::reference, reference>)
+				:
 				_queued(a_rhs._queued),
 				_cur(a_rhs._cur),
 				_pos(a_rhs._pos)
@@ -66,7 +67,8 @@ namespace RE
 
 			template <class V>
 			iterator_base(iterator_base<V>&& a_rhs) noexcept  //
-				requires(std::convertible_to<typename iterator_base<V>::reference, reference>) :
+				requires(std::convertible_to<typename iterator_base<V>::reference, reference>)
+				:
 				_queued(std::move(a_rhs._queued)),
 				_cur(std::exchange(a_rhs._cur, nullptr)),
 				_pos(std::exchange(a_rhs._pos, 0))
@@ -176,23 +178,23 @@ namespace RE
 			}
 
 			std::stack<node_type*> _queued;
-			node_type* _cur{ nullptr };
-			size_type _pos{ 0 };
+			node_type*             _cur{ nullptr };
+			size_type              _pos{ 0 };
 		};
 
 	public:
 		using iterator = iterator_base<value_type>;
 		using const_iterator = iterator_base<const value_type>;
 
-		[[nodiscard]] iterator begin() noexcept { return iterator{ _root }; }
+		[[nodiscard]] iterator       begin() noexcept { return iterator{ _root }; }
 		[[nodiscard]] const_iterator begin() const noexcept { return const_iterator{ _root }; }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return const_iterator{ _root }; }
 
-		[[nodiscard]] iterator end() noexcept { return {}; }
+		[[nodiscard]] iterator       end() noexcept { return {}; }
 		[[nodiscard]] const_iterator end() const noexcept { return {}; }
 		[[nodiscard]] const_iterator cend() const noexcept { return {}; }
 
-		[[nodiscard]] iterator find(const key_type& a_key) { return do_find<iterator>(a_key); }
+		[[nodiscard]] iterator       find(const key_type& a_key) { return do_find<iterator>(a_key); }
 		[[nodiscard]] const_iterator find(const key_type& a_key) const { return do_find<const_iterator>(a_key); }
 
 		template <class K>
@@ -239,10 +241,10 @@ namespace RE
 			return Iter();
 		}
 
-		std::uint64_t pad{ 0 };             // 00
-		size_type _activeEntry{ 0 };        // 08
-		size_type _allocatedSize{ 0 };      // 0C
-		node_type* _root{ nullptr };        // 10
-		node_type* _availNodes{ nullptr };  // 18
+		std::uint64_t pad{ 0 };                // 00
+		size_type     _activeEntry{ 0 };       // 08
+		size_type     _allocatedSize{ 0 };     // 0C
+		node_type*    _root{ nullptr };        // 10
+		node_type*    _availNodes{ nullptr };  // 18
 	};
 }

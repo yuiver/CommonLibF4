@@ -44,22 +44,22 @@ namespace RE
 		virtual ~BGSBaseAlias();  // 00
 
 		// add
-		virtual bool Load() = 0;                                         // 01
-		virtual void InitItem() = 0;                                     // 02
-		[[nodiscard]] virtual const BSFixedString& QType() const = 0;    // 03
-		[[nodiscard]] virtual TESQuest* QExternalQuest() const = 0;      // 04
-		virtual void ClearExternalQuest() = 0;                           // 05
-		virtual void UpdateFromExternalAlias() const = 0;                // 06
-		[[nodiscard]] virtual BGSBaseAlias* GetLinkedAlias() const = 0;  // 07
+		virtual bool                               Load() = 0;                           // 01
+		virtual void                               InitItem() = 0;                       // 02
+		[[nodiscard]] virtual const BSFixedString& QType() const = 0;                    // 03
+		[[nodiscard]] virtual TESQuest*            QExternalQuest() const = 0;           // 04
+		virtual void                               ClearExternalQuest() = 0;             // 05
+		virtual void                               UpdateFromExternalAlias() const = 0;  // 06
+		[[nodiscard]] virtual BGSBaseAlias*        GetLinkedAlias() const = 0;           // 07
 
 		[[nodiscard]] bool IsQuestObject() const noexcept { return flags.all(FLAGS::kQuestObject); }
 
 		// mmebers
-		BSFixedString aliasName;                       // 08
-		TESQuest* owningQuest;                         // 10
-		std::uint32_t aliasID;                         // 18
-		stl::enumeration<FLAGS, std::uint32_t> flags;  // 1C
-		std::uint16_t fillType;                        // 20
+		BSFixedString                      aliasName;    // 08
+		TESQuest*                          owningQuest;  // 10
+		std::uint32_t                      aliasID;      // 18
+		REX::EnumSet<FLAGS, std::uint32_t> flags;        // 1C
+		std::uint16_t                      fillType;     // 20
 	};
 	static_assert(sizeof(BGSBaseAlias) == 0x28);
 
@@ -92,8 +92,8 @@ namespace RE
 		static_assert(sizeof(GenericFillData) == 0x18);
 
 		// members
-		GenericFillData fillData;  // 28
-		TESCondition* conditions;  // 40
+		GenericFillData fillData;    // 28
+		TESCondition*   conditions;  // 40
 	};
 	static_assert(sizeof(BGSRefAlias) == 0x48);
 }

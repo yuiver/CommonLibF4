@@ -121,7 +121,7 @@ macro(add_project)
 	set_target_properties(
 		"${PROJECT_NAME}"
 		PROPERTIES
-			CXX_STANDARD 20
+			CXX_STANDARD 23
 			CXX_STANDARD_REQUIRED ON
 			INTERPROCEDURAL_OPTIMIZATION ON
 			INTERPROCEDURAL_OPTIMIZATION_DEBUG OFF
@@ -155,6 +155,8 @@ macro(add_project)
 				"/Zi"	# Debug Information Format
 
 				"/permissive-"	# Standards conformance
+			PUBLIC
+				"/wd4702" # unreachable code
 		)
 
 		target_link_options(

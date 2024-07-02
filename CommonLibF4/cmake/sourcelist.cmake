@@ -2,8 +2,7 @@ set(SOURCES
 	include/F4SE/API.h
 	include/F4SE/F4SE.h
 	include/F4SE/Impl/PCH.h
-	include/F4SE/Impl/WinAPI.h
-	include/F4SE/Impl/WinSTL.h
+	include/F4SE/InputMap.h
 	include/F4SE/Interfaces.h
 	include/F4SE/Logger.h
 	include/F4SE/Trampoline.h
@@ -28,22 +27,28 @@ set(SOURCES
 	include/RE/Bethesda/BGSMod.h
 	include/RE/Bethesda/BGSPrimitive.h
 	include/RE/Bethesda/BGSSaveLoad.h
+	include/RE/Bethesda/BGSSceneAction.h
 	include/RE/Bethesda/BGSStoryEventManager.h
 	include/RE/Bethesda/BGSStoryManagerTreeForm.h
 	include/RE/Bethesda/BGSSynchronizedAnimationManager.h
 	include/RE/Bethesda/BGSTextureSet.h
 	include/RE/Bethesda/BSAnimationGraph.h
+	include/RE/Bethesda/BSAttachTechniques.h
 	include/RE/Bethesda/BSAudioManager.h
 	include/RE/Bethesda/BSAudioUtil.h
 	include/RE/Bethesda/BSBTreeFile.h
 	include/RE/Bethesda/BSBound.h
 	include/RE/Bethesda/BSContainer.h
+	include/RE/Bethesda/BSCoreTypes.h
 	include/RE/Bethesda/BSExtraData.h
 	include/RE/Bethesda/BSFadeNode.h
 	include/RE/Bethesda/BSFixedString.h
+	include/RE/Bethesda/BSGeometry.h
 	include/RE/Bethesda/BSGraphics.h
+	include/RE/Bethesda/BSGraphicsUtility.h
 	include/RE/Bethesda/BSHavok.h
 	include/RE/Bethesda/BSInputDeviceManager.h
+	include/RE/Bethesda/BSInputEnableManager.h
 	include/RE/Bethesda/BSInputEventReceiver.h
 	include/RE/Bethesda/BSInputEventSingleUser.h
 	include/RE/Bethesda/BSInputEventUser.h
@@ -53,6 +58,7 @@ set(SOURCES
 	include/RE/Bethesda/BSModelDB.h
 	include/RE/Bethesda/BSPointerHandle.h
 	include/RE/Bethesda/BSPreCulledObjects.h
+	include/RE/Bethesda/BSRandom.h
 	include/RE/Bethesda/BSResource.h
 	include/RE/Bethesda/BSResource/AsyncStream.h
 	include/RE/Bethesda/BSResource/BSResourceEnums.h
@@ -122,6 +128,8 @@ set(SOURCES
 	include/RE/Bethesda/BSScriptUtil.h
 	include/RE/Bethesda/BSSemaphore.h
 	include/RE/Bethesda/BSShader.h
+	include/RE/Bethesda/BSShaderMaterial.h
+	include/RE/Bethesda/BSShaderProperty.h
 	include/RE/Bethesda/BSSoundHandle.h
 	include/RE/Bethesda/BSSpring.h
 	include/RE/Bethesda/BSStorage.h
@@ -147,11 +155,13 @@ set(SOURCES
 	include/RE/Bethesda/BSTSmartPointer.h
 	include/RE/Bethesda/BSTTuple.h
 	include/RE/Bethesda/BSTempEffect.h
-	include/RE/Bethesda/BSTempEffectDebris.h
+	include/RE/Bethesda/BSTextureDB.h
 	include/RE/Bethesda/BSTextureSet.h
 	include/RE/Bethesda/BSTextureStreamer.h
 	include/RE/Bethesda/BSThread.h
 	include/RE/Bethesda/BSTimer.h
+	include/RE/Bethesda/BSUtilities.h
+	include/RE/Bethesda/BSVisit.h
 	include/RE/Bethesda/CELLJobs.h
 	include/RE/Bethesda/CRC.h
 	include/RE/Bethesda/Calendar.h
@@ -182,24 +192,29 @@ set(SOURCES
 	include/RE/Bethesda/MemoryManager.h
 	include/RE/Bethesda/MenuControls.h
 	include/RE/Bethesda/MenuCursor.h
+	include/RE/Bethesda/MenuTopicManager.h
 	include/RE/Bethesda/MessageMenuManager.h
 	include/RE/Bethesda/Movement.h
 	include/RE/Bethesda/NavMesh.h
 	include/RE/Bethesda/NavMeshInfoMap.h
+	include/RE/Bethesda/PipboyDataGroup.h
 	include/RE/Bethesda/PipboyInventoryUtils.h
 	include/RE/Bethesda/PipboyManager.h
+	include/RE/Bethesda/PipboyValue.h
 	include/RE/Bethesda/PlayerCharacter.h
 	include/RE/Bethesda/PlayerControls.h
 	include/RE/Bethesda/PowerArmor.h
 	include/RE/Bethesda/PowerUtils.h
 	include/RE/Bethesda/ProcessLists.h
 	include/RE/Bethesda/Projectiles.h
+	include/RE/Bethesda/ReferenceEffectController.h
 	include/RE/Bethesda/SCRIPT_OUTPUT.h
 	include/RE/Bethesda/SDirectory2.h
 	include/RE/Bethesda/SWFToCodeFunctionHandler.h
 	include/RE/Bethesda/Script.h
 	include/RE/Bethesda/SendHUDMessage.h
 	include/RE/Bethesda/Settings.h
+	include/RE/Bethesda/Sky.h
 	include/RE/Bethesda/SplineUtils.h
 	include/RE/Bethesda/TESBoundAnimObjects.h
 	include/RE/Bethesda/TESBoundObjects.h
@@ -271,9 +286,7 @@ set(SOURCES
 	include/RE/NetImmerse/NiNode.h
 	include/RE/NetImmerse/NiObject.h
 	include/RE/NetImmerse/NiObjectNET.h
-	include/RE/NetImmerse/NiPoint2.h
-	include/RE/NetImmerse/NiPoint3.h
-	include/RE/NetImmerse/NiPoint4.h
+	include/RE/NetImmerse/NiPoint.h
 	include/RE/NetImmerse/NiProperty.h
 	include/RE/NetImmerse/NiQuaternion.h
 	include/RE/NetImmerse/NiRTTI.h
@@ -307,11 +320,15 @@ set(SOURCES
 	include/RE/Scaleform/GFx/GFx_Loader.h
 	include/RE/Scaleform/GFx/GFx_Log.h
 	include/RE/Scaleform/GFx/GFx_Player.h
+	include/RE/Scaleform/GFx/GFx_PlayerImpl.h
+	include/RE/Scaleform/GFx/GFx_PlayerStats.h
 	include/RE/Scaleform/GFx/GFx_Resource.h
+	include/RE/Scaleform/GFx/GFx_Stats.h
 	include/RE/Scaleform/GFx/GFx_Types.h
 	include/RE/Scaleform/Kernel/SF_AllocInfo.h
 	include/RE/Scaleform/Kernel/SF_Allocator.h
 	include/RE/Scaleform/Kernel/SF_Array.h
+	include/RE/Scaleform/Kernel/SF_ArrayPaged.h
 	include/RE/Scaleform/Kernel/SF_Atomic.h
 	include/RE/Scaleform/Kernel/SF_List.h
 	include/RE/Scaleform/Kernel/SF_Log.h
@@ -322,6 +339,7 @@ set(SOURCES
 	include/RE/Scaleform/Kernel/SF_SysAlloc.h
 	include/RE/Scaleform/Kernel/SF_System.h
 	include/RE/Scaleform/Kernel/SF_Threads.h
+	include/RE/Scaleform/Kernel/SF_Types.h
 	include/RE/Scaleform/Render/Render_Color.h
 	include/RE/Scaleform/Render/Render_Constants.h
 	include/RE/Scaleform/Render/Render_Containers.h
@@ -329,18 +347,58 @@ set(SOURCES
 	include/RE/Scaleform/Render/Render_Matrix2x4.h
 	include/RE/Scaleform/Render/Render_Matrix3x4.h
 	include/RE/Scaleform/Render/Render_Matrix4x4.h
+	include/RE/Scaleform/Render/Render_ScreenToWorld.h
 	include/RE/Scaleform/Render/Render_ThreadCommandQueue.h
 	include/RE/Scaleform/Render/Render_TreeNode.h
+	include/RE/Scaleform/Render/Render_TreeShape.h
 	include/RE/Scaleform/Render/Render_Types2D.h
 	include/RE/Scaleform/Render/Render_Viewport.h
 	include/RE/VTABLE_IDs.h
-	include/RE/msvc/functional.h
 	include/RE/msvc/memory.h
 	include/RE/msvc/typeinfo.h
+	include/REL/IAT.h
+	include/REL/ID.h
+	include/REL/IDDB.h
+	include/REL/Module.h
+	include/REL/Offset.h
+	include/REL/Offset2ID.h
+	include/REL/REL.h
 	include/REL/Relocation.h
+	include/REL/Segment.h
+	include/REL/Version.h
+	include/REX/PS4.h
+	include/REX/PS4/SCEPAD.h
+	include/REX/REX.h
+	include/REX/W32.h
+	include/REX/W32/ADVAPI32.h
+	include/REX/W32/BASE.h
+	include/REX/W32/BCRYPT.h
+	include/REX/W32/COM.h
+	include/REX/W32/COMPTR.h
+	include/REX/W32/D3D.h
+	include/REX/W32/D3D11.h
+	include/REX/W32/D3D11_1.h
+	include/REX/W32/D3D11_2.h
+	include/REX/W32/D3D11_3.h
+	include/REX/W32/D3D11_4.h
+	include/REX/W32/D3DCOMPILER.h
+	include/REX/W32/DBGHELP.h
+	include/REX/W32/DINPUT.h
+	include/REX/W32/DXGI.h
+	include/REX/W32/DXGI_2.h
+	include/REX/W32/DXGI_3.h
+	include/REX/W32/DXGI_4.h
+	include/REX/W32/DXGI_5.h
+	include/REX/W32/DXGI_6.h
+	include/REX/W32/KERNEL32.h
+	include/REX/W32/OLE32.h
+	include/REX/W32/SHELL32.h
+	include/REX/W32/USER32.h
+	include/REX/W32/VERSION.h
+	include/REX/W32/XINPUT.h
 	src/F4SE/API.cpp
 	src/F4SE/Impl/PCH.cpp
-	src/F4SE/Impl/WinAPI.cpp
+	src/F4SE/InputMap.cpp
 	src/F4SE/Interfaces.cpp
 	src/F4SE/Logger.cpp
 	src/F4SE/Trampoline.cpp
@@ -363,6 +421,7 @@ set(SOURCES
 	src/RE/Bethesda/BSScript/StructTypeInfo.cpp
 	src/RE/Bethesda/BSScript/TypeInfo.cpp
 	src/RE/Bethesda/BSScript/Variable.cpp
+	src/RE/Bethesda/BSVisit.cpp
 	src/RE/Bethesda/CRC.cpp
 	src/RE/Bethesda/Calendar.cpp
 	src/RE/Bethesda/FormComponents.cpp
@@ -375,9 +434,15 @@ set(SOURCES
 	src/RE/Fallout.cpp
 	src/RE/NetImmerse/NiAVObject.cpp
 	src/RE/NetImmerse/NiBinaryStream.cpp
+	src/RE/NetImmerse/NiMatrix3.cpp
 	src/RE/NetImmerse/NiObjectNET.cpp
-	src/RE/NetImmerse/NiPoint3.cpp
+	src/RE/NetImmerse/NiPoint.cpp
 	src/RE/NetImmerse/NiRect.cpp
 	src/RE/Scaleform/GFx/GFx_Player.cpp
+	src/REL/IAT.cpp
+	src/REL/IDDB.cpp
+	src/REL/Module.cpp
 	src/REL/Relocation.cpp
+	src/REL/Version.cpp
+	src/REX/W32.cpp
 )

@@ -1,12 +1,9 @@
-target("AddressLibGen")
+target("commonlibf4-addresslibgen")
     -- set build by default
     set_default(false)
 
     -- set build group
-    set_group("tools")
-
-    -- add packages
-    add_packages("srell")
+    set_group("commonlibf4/tool")
 
     -- add source files
     add_files("src/**.cpp")

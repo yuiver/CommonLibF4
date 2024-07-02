@@ -13,15 +13,15 @@ namespace RE
 		NiRefObject()
 		{
 			stl::emplace_vtable(this);
-			REL::Relocation<std::uint32_t*> objects{ REL::ID(1161724) };
-			stl::atomic_ref myObjects{ *objects };
+			static REL::Relocation<std::uint32_t*> objects{ REL::ID(1161724) };
+			stl::atomic_ref                        myObjects{ *objects };
 			++myObjects;
 		}
 
 		virtual ~NiRefObject()  // 00
 		{
-			REL::Relocation<std::uint32_t*> objects{ REL::ID(1161724) };
-			stl::atomic_ref myObjects{ *objects };
+			static REL::Relocation<std::uint32_t*> objects{ REL::ID(1161724) };
+			stl::atomic_ref                        myObjects{ *objects };
 			--myObjects;
 		}
 
@@ -33,7 +33,7 @@ namespace RE
 		std::uint32_t DecRefCount()
 		{
 			stl::atomic_ref myRefCount{ refCount };
-			const auto newRefCount = --myRefCount;
+			const auto      newRefCount = --myRefCount;
 			if (newRefCount == 0) {
 				DeleteThis();
 			}

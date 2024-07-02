@@ -16,21 +16,20 @@ namespace RE
 		hknpClosestHitCollector()
 		{
 			typedef hknpClosestHitCollector* func_t(hknpClosestHitCollector*);
-			REL::Relocation<func_t> func{ REL::ID(951692), 0x10 };
+			static REL::Relocation<func_t>   func{ REL::ID(951692), 0x10 };
 			func(this);
 		}
 
 		// override (hknpCollisionQueryCollector)
-		void Reset() override;                                // 01
-		void AddHit(const hknpCollisionResult&) override;     // 02
-		bool HasHit() const override;                         // 03
-		std::int32_t GetNumHits() const override;             // 04
-		const hknpCollisionResult* GetHits() const override;  // 05
+		void                       Reset() override;                             // 01
+		void                       AddHit(const hknpCollisionResult&) override;  // 02
+		bool                       HasHit() const override;                      // 03
+		std::int32_t               GetNumHits() const override;                  // 04
+		const hknpCollisionResult* GetHits() const override;                     // 05
 
 		// members
-		hknpCollisionResult result;  //0x20
-		bool hasHit;                 //0x80
-		int8_t pad[15];
+		hknpCollisionResult result;  // 20
+		bool                hasHit;  // 80
 	};
 	static_assert(sizeof(hknpClosestHitCollector) == 0x90);
 }

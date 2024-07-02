@@ -12,8 +12,8 @@ namespace RE
 		{
 		public:
 			// members
-			NiAVObject* obj{ nullptr };  // 00
-			std::uint32_t flags{ 0 };    // 08
+			NiAVObject*   obj{ nullptr };  // 00
+			std::uint32_t flags{ 0 };      // 08
 		};
 		static_assert(sizeof(ObjectRecord) == 0x10);
 	};

@@ -70,40 +70,40 @@ namespace RE
 			{
 			public:
 				// members
-				BSTAutoPointer<MemoryPage> page;       // 00
-				std::uint32_t availableMemoryInBytes;  // 08
+				BSTAutoPointer<MemoryPage> page;                    // 00
+				std::uint32_t              availableMemoryInBytes;  // 08
 			};
 			static_assert(sizeof(MemoryPageData) == 0x10);
 
 			[[nodiscard]] std::uint32_t GetPageForFrame(const StackFrame* a_frame) const
 			{
 				using func_t = decltype(&Stack::GetPageForFrame);
-				REL::Relocation<func_t> func{ REL::ID(1429302) };
+				static REL::Relocation<func_t> func{ REL::ID(1429302) };
 				return func(this, a_frame);
 			}
 
 			[[nodiscard]] Variable& GetStackFrameVariable(const StackFrame* a_frame, std::uint32_t a_index, std::uint32_t a_pageHint)
 			{
 				using func_t = decltype(&Stack::GetStackFrameVariable);
-				REL::Relocation<func_t> func{ REL::ID(897539) };
+				static REL::Relocation<func_t> func{ REL::ID(2314681) };
 				return func(this, a_frame, a_index, a_pageHint);
 			}
 
 			// members
-			IMemoryPagePolicy* policy;                                // 08
-			IProfilePolicy* profilePolicy;                            // 10
-			BSTSmallArray<MemoryPageData, 3> pages;                   // 18
-			std::uint32_t frames;                                     // 58
-			StackFrame* top;                                          // 60
-			stl::enumeration<State, std::int32_t> state;              // 68
-			stl::enumeration<FreezeState, std::int32_t> freezeState;  // 6C
-			Variable returnValue;                                     // 70
-			std::uint32_t stackID;                                    // 80
-			stl::enumeration<StackType, std::int32_t> stackType;      // 84
-			BSTSmartPointer<Internal::CodeTasklet> owningTasklet;     // 88
-			BSTSmartPointer<IStackCallbackFunctor> callback;          // 90
-			BSTSmartPointer<Object> objToUnbind;                      // 98
-			BSTSmartPointer<Stack> nextStack;                         // A0
+			IMemoryPagePolicy*                      policy;         // 08
+			IProfilePolicy*                         profilePolicy;  // 10
+			BSTSmallArray<MemoryPageData, 3>        pages;          // 18
+			std::uint32_t                           frames;         // 58
+			StackFrame*                             top;            // 60
+			REX::EnumSet<State, std::int32_t>       state;          // 68
+			REX::EnumSet<FreezeState, std::int32_t> freezeState;    // 6C
+			Variable                                returnValue;    // 70
+			std::uint32_t                           stackID;        // 80
+			REX::EnumSet<StackType, std::int32_t>   stackType;      // 84
+			BSTSmartPointer<Internal::CodeTasklet>  owningTasklet;  // 88
+			BSTSmartPointer<IStackCallbackFunctor>  callback;       // 90
+			BSTSmartPointer<Object>                 objToUnbind;    // 98
+			BSTSmartPointer<Stack>                  nextStack;      // A0
 		};
 		static_assert(sizeof(Stack) == 0xA8);
 	}

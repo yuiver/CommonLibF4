@@ -30,22 +30,22 @@ namespace RE
 		virtual void HandlePre3D(TESObjectREFR*) { return; }
 
 		// members
-		NiPoint3 location;                                // 08
-		NiPoint3 direction;                               // 14
-		TESBoundObject* object{ nullptr };                // 20
-		TESObjectCELL* interior{ nullptr };               // 28
-		TESWorldSpace* world{ nullptr };                  // 30
-		TESObjectREFR* reference{ nullptr };              // 38
-		BGSPrimitive* addPrimitive{ nullptr };            // 40
-		void* additionalData{ nullptr };                  // 48
-		BSTSmartPointer<ExtraDataList> extra{ nullptr };  // 50
-		INSTANCE_FILTER* instanceFilter{ nullptr };       // 58
-		BGSObjectInstanceExtra* modExtra{ nullptr };      // 60
-		std::uint16_t maxLevel{ 0 };                      // 68
-		bool forcePersist{ false };                       // 6A
-		bool clearStillLoadingFlag{ false };              // 6B
-		bool initializeScripts{ true };                   // 6C
-		bool initiallyDisabled{ false };                  // 6D
+		NiPoint3                       location;                        // 08
+		NiPoint3                       direction;                       // 14
+		TESBoundObject*                object{ nullptr };               // 20
+		TESObjectCELL*                 interior{ nullptr };             // 28
+		TESWorldSpace*                 world{ nullptr };                // 30
+		TESObjectREFR*                 reference{ nullptr };            // 38
+		BGSPrimitive*                  addPrimitive{ nullptr };         // 40
+		void*                          additionalData{ nullptr };       // 48
+		BSTSmartPointer<ExtraDataList> extra{ nullptr };                // 50
+		INSTANCE_FILTER*               instanceFilter{ nullptr };       // 58
+		BGSObjectInstanceExtra*        modExtra{ nullptr };             // 60
+		std::uint16_t                  maxLevel{ 0 };                   // 68
+		bool                           forcePersist{ false };           // 6A
+		bool                           clearStillLoadingFlag{ false };  // 6B
+		bool                           initializeScripts{ true };       // 6C
+		bool                           initiallyDisabled{ false };      // 6D
 	};
 	static_assert(sizeof(NEW_REFR_DATA) == 0x70);
 
@@ -65,28 +65,28 @@ namespace RE
 	public:
 		[[nodiscard]] static TESDataHandler* GetSingleton()
 		{
-			REL::Relocation<TESDataHandler**> singleton{ REL::ID(711558) };
+			static REL::Relocation<TESDataHandler**> singleton{ REL::ID(2688883) };
 			return *singleton;
 		}
 
 		[[nodiscard]] bool AddFormToDataHandler(TESForm* a_form)
 		{
 			using func_t = decltype(&TESDataHandler::AddFormToDataHandler);
-			REL::Relocation<func_t> func{ REL::ID(350112) };
+			static REL::Relocation<func_t> func{ REL::ID(2192271) };
 			return func(this, a_form);
 		}
 
 		[[nodiscard]] bool CheckModsLoaded(bool a_everModded)
 		{
 			using func_t = decltype(&TESDataHandler::CheckModsLoaded);
-			REL::Relocation<func_t> func{ REL::ID(1432894) };
+			static REL::Relocation<func_t> func{ REL::ID(2192323) };
 			return func(this, a_everModded);
 		}
 
 		[[nodiscard]] ObjectRefHandle CreateReferenceAtLocation(NEW_REFR_DATA& a_data)
 		{
 			using func_t = decltype(&TESDataHandler::CreateReferenceAtLocation);
-			REL::Relocation<func_t> func{ REL::ID(500304) };
+			static REL::Relocation<func_t> func{ REL::ID(500304) };
 			return func(this, a_data);
 		}
 
@@ -97,24 +97,24 @@ namespace RE
 					 !std::is_reference_v<T>)
 		{
 			assert(T::FORM_ID < ENUM_FORM_ID::kTotal);
-			return reinterpret_cast<BSTArray<T*>&>(formArrays[stl::to_underlying(T::FORM_ID)]);
+			return reinterpret_cast<BSTArray<T*>&>(formArrays[std::to_underlying(T::FORM_ID)]);
 		}
 
-		std::uint32_t LookupFormID(std::uint32_t a_rawFormID, std::string_view a_modName)
+		TESFormID LookupFormID(TESFormID a_rawFormID, std::string_view a_modName)
 		{
 			auto file = LookupModByName(a_modName);
 			if (!file || file->compileIndex == 0xFF) {
 				return 0;
 			}
 
-			std::uint32_t formID = file->compileIndex << 24;
+			TESFormID formID = file->compileIndex << 24;
 			formID += file->smallFileCompileIndex << 12;
 			formID += a_rawFormID;
 
 			return formID;
 		}
 
-		TESForm* LookupForm(std::uint32_t a_rawFormID, std::string_view a_modName)
+		TESForm* LookupForm(TESFormID a_rawFormID, std::string_view a_modName)
 		{
 			auto file = LookupLoadedFile(a_modName);
 			if (!file.first) {
@@ -135,7 +135,7 @@ namespace RE
 		}
 
 		template <class T>
-		T* LookupForm(std::uint32_t a_rawFormID, std::string_view a_modName)
+		T* LookupForm(TESFormID a_rawFormID, std::string_view a_modName)
 		{
 			auto form = LookupForm(a_rawFormID, a_modName);
 			if (!form) {
@@ -234,37 +234,37 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
-		bool IsFormIDInUse(std::uint32_t a_formID)
+		bool IsFormIDInuse(TESFormID a_formID)
 		{
-			using func_t = decltype(&TESDataHandler::IsFormIDInUse);
-			REL::Relocation<func_t> func{ REL::ID(1448838) };
+			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
+			static REL::Relocation<func_t> func{ REL::ID(2192351) };
 			return func(this, a_formID);
 		}
 
 		// members
-		TESObjectList* objectList;                                                // 0060
-		BSTArray<TESForm*> formArrays[stl::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
-		TESRegionList* regionList;                                                // 0F50
-		NiTPrimitiveArray<TESObjectCELL*> interiorCells;                          // 0F58
-		NiTPrimitiveArray<BGSAddonNode*> addonNodes;                              // 0F70
-		NiTList<TESForm*> badForms;                                               // 0F88
-		std::uint32_t nextID;                                                     // 0FA0
-		TESFile* activeFile;                                                      // 0FA8
-		BSSimpleList<TESFile*> files;                                             // 0FB0
-		TESFileCollection compiledFileCollection;                                 // 0FC0
-		BSTArray<std::uint32_t> releasedFormIDArray;                              // 0FF0
-		bool masterSave;                                                          // 1008
-		bool blockSave;                                                           // 1009
-		bool saveLoadGame;                                                        // 100A
-		bool autoSaving;                                                          // 100B
-		bool exportingPlugin;                                                     // 100C
-		bool clearingData;                                                        // 100D
-		bool hasDesiredFiles;                                                     // 100E
-		bool checkingModels;                                                      // 100F
-		bool loadingFiles;                                                        // 1010
-		bool dontRemoveIDs;                                                       // 1011
-		char gameSettingsLoadState;                                               // 1012
-		TESRegionDataManager* regionDataManager;                                  // 1018
+		TESObjectList*                    objectList;                                            // 0060
+		BSTArray<TESForm*>                formArrays[std::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
+		TESRegionList*                    regionList;                                            // 0F50
+		NiTPrimitiveArray<TESObjectCELL*> interiorCells;                                         // 0F58
+		NiTPrimitiveArray<BGSAddonNode*>  addonNodes;                                            // 0F70
+		NiTList<TESForm*>                 badForms;                                              // 0F88
+		std::uint32_t                     nextID;                                                // 0FA0
+		TESFile*                          activeFile;                                            // 0FA8
+		BSSimpleList<TESFile*>            files;                                                 // 0FB0
+		TESFileCollection                 compiledFileCollection;                                // 0FC0
+		BSTArray<std::uint32_t>           releasedFormIDArray;                                   // 0FF0
+		bool                              masterSave;                                            // 1008
+		bool                              blockSave;                                             // 1009
+		bool                              saveLoadGame;                                          // 100A
+		bool                              autoSaving;                                            // 100B
+		bool                              exportingPlugin;                                       // 100C
+		bool                              clearingData;                                          // 100D
+		bool                              hasDesiredFiles;                                       // 100E
+		bool                              checkingModels;                                        // 100F
+		bool                              loadingFiles;                                          // 1010
+		bool                              dontRemoveIDs;                                         // 1011
+		char                              gameSettingsLoadState;                                 // 1012
+		TESRegionDataManager*             regionDataManager;                                     // 1018
 	};
 	static_assert(sizeof(TESDataHandler) == 0x1020);
 }

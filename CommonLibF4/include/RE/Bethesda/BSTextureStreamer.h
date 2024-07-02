@@ -13,8 +13,8 @@ namespace RE
 			struct FreeBlock;
 
 			// members
-			std::byte* memoryBase;          // 00
-			FreeBlock* freeList;            // 08
+			std::byte*    memoryBase;       // 00
+			FreeBlock*    freeList;         // 08
 			std::uint32_t freeBlocks;       // 10
 			std::uint32_t allocatedBlocks;  // 14
 		};
@@ -37,10 +37,10 @@ namespace RE
 		{
 		public:
 			// members
-			BSResource::ID id;           // 00
-			std::uint8_t dataFileIndex;  // 0C
-			std::uint8_t chunkCount;     // 0D
-			std::uint16_t chunkOffset;   // 0E
+			BSResource::ID id;             // 00
+			std::uint8_t   dataFileIndex;  // 0C
+			std::uint8_t   chunkCount;     // 0D
+			std::uint16_t  chunkOffset;    // 0E
 		};
 		static_assert(sizeof(TextureDescHeader) == 0x10);
 
@@ -50,8 +50,8 @@ namespace RE
 		{
 		public:
 			// members
-			T info;                    // 10
-			ChunkDesc chunks[4];       // ??
+			T             info;        // 10
+			ChunkDesc     chunks[4];   // ??
 			BSFixedString streamName;  // ??
 		};
 	}

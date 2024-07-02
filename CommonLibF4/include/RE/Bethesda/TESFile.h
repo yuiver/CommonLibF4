@@ -30,22 +30,22 @@ namespace RE
 		class PageCache;
 
 		// members
-		bool useAuxBuffer;                     // 050
-		std::byte* auxBuffer;                  // 058
-		std::int32_t auxTrueFilePos;           // 060
-		std::uint32_t auxBufferMinIndex;       // 064
-		std::uint32_t auxBufferMaxIndex;       // 068
-		char fileName[260];                    // 06C
-		std::size_t result;                    // 170
-		std::size_t ioSize;                    // 178
-		std::size_t trueFilePos;               // 180
-		std::size_t fileSize;                  // 188
-		bool virtualAlloc;                     // 190
-		BSTSmartPointer<PageCache> pageCache;  // 198
-		BSSystemFileStreamer::ID pathID;       // 1A0
-		std::uint32_t streamerPriority;        // 1A4
-		std::int8_t basePageOffset;            // 1A8
-		bool readThroughStreamer;              // 1A9
+		bool                       useAuxBuffer;         // 050
+		std::byte*                 auxBuffer;            // 058
+		std::int32_t               auxTrueFilePos;       // 060
+		std::uint32_t              auxBufferMinIndex;    // 064
+		std::uint32_t              auxBufferMaxIndex;    // 068
+		char                       fileName[260];        // 06C
+		std::size_t                result;               // 170
+		std::size_t                ioSize;               // 178
+		std::size_t                trueFilePos;          // 180
+		std::size_t                fileSize;             // 188
+		bool                       virtualAlloc;         // 190
+		BSTSmartPointer<PageCache> pageCache;            // 198
+		BSSystemFileStreamer::ID   pathID;               // 1A0
+		std::uint32_t              streamerPriority;     // 1A4
+		std::int8_t                basePageOffset;       // 1A8
+		bool                       readThroughStreamer;  // 1A9
 	};
 	static_assert(sizeof(BSFile) == 0x1B0);
 
@@ -56,7 +56,7 @@ namespace RE
 		std::uint32_t form;            // 00
 		std::uint32_t length;          // 04
 		std::uint32_t flags;           // 08
-		std::uint32_t formID;          // 0C
+		TESFormID     formID;          // 0C
 		std::uint32_t versionControl;  // 10
 		std::uint16_t formVersion;     // 14
 		std::uint16_t vcVersion;       // 16
@@ -67,7 +67,7 @@ namespace RE
 	{
 	public:
 		// members
-		float version;             // 0
+		float         version;     // 0
 		std::uint32_t formCount;   // 4
 		std::uint32_t nextFormID;  // 8
 	};
@@ -92,23 +92,23 @@ namespace RE
 			kSmallFile = 1 << 9
 		};
 
-		[[nodiscard]] std::uint8_t GetCompileIndex() const noexcept { return compileIndex; }
+		[[nodiscard]] std::uint8_t     GetCompileIndex() const noexcept { return compileIndex; }
 		[[nodiscard]] std::string_view GetFilename() const noexcept { return { filename }; }
-		[[nodiscard]] std::uint16_t GetSmallFileCompileIndex() const noexcept { return smallFileCompileIndex; }
-		[[nodiscard]] bool IsActive() const noexcept { return GetCompileIndex() != 0xFF; }
-		[[nodiscard]] bool IsLight() const noexcept { return flags.all(RecordFlag::kSmallFile); };
+		[[nodiscard]] std::uint16_t    GetSmallFileCompileIndex() const noexcept { return smallFileCompileIndex; }
+		[[nodiscard]] bool             IsActive() const noexcept { return GetCompileIndex() != 0xFF; }
+		[[nodiscard]] bool             IsLight() const noexcept { return flags.all(RecordFlag::kSmallFile); };
 
 		[[nodiscard]] bool CloseTES(bool a_forceClose)
 		{
 			using func_t = decltype(&TESFile::CloseTES);
-			REL::Relocation<func_t> func{ REL::ID(766555) };
+			static REL::Relocation<func_t> func{ REL::ID(2192491) };
 			return func(this, a_forceClose);
 		}
 
 		[[nodiscard]] bool GetChunkData(void* a_data, std::uint32_t a_maxSize)
 		{
 			using func_t = bool (TESFile::*)(void*, uint32_t);
-			REL::Relocation<func_t> func{ REL::ID(188910) };
+			static REL::Relocation<func_t> func{ REL::ID(2192538) };
 			return func(this, a_data, a_maxSize);
 		}
 
@@ -117,7 +117,7 @@ namespace RE
 			return GetChunkData(a_data, 0);
 		}
 
-		[[nodiscard]] bool IsFormInMod(std::uint32_t a_formID) const
+		[[nodiscard]] bool IsFormInMod(TESFormID a_formID) const
 		{
 			if (!IsLight() && (a_formID >> 24) == compileIndex) {
 				return true;
@@ -131,35 +131,35 @@ namespace RE
 		[[nodiscard]] std::uint32_t GetTESChunk()
 		{
 			using func_t = decltype(&TESFile::GetTESChunk);
-			REL::Relocation<func_t> func{ REL::ID(641361) };
+			static REL::Relocation<func_t> func{ REL::ID(2192536) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool NextChunk()
 		{
 			using func_t = decltype(&TESFile::NextChunk);
-			REL::Relocation<func_t> func{ REL::ID(1252764) };
+			static REL::Relocation<func_t> func{ REL::ID(2192537) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool NextForm(bool a_skipIgnored)
 		{
 			using func_t = decltype(&TESFile::NextForm);
-			REL::Relocation<func_t> func{ REL::ID(644374) };
+			static REL::Relocation<func_t> func{ REL::ID(2192527) };
 			return func(this, a_skipIgnored);
 		}
 
 		[[nodiscard]] bool NextGroup()
 		{
 			using func_t = decltype(&TESFile::NextGroup);
-			REL::Relocation<func_t> func{ REL::ID(339855) };
+			static REL::Relocation<func_t> func{ REL::ID(2192522) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool OpenTES(char* a_path, const char* a_filename, NiFile::OpenMode a_accessMode, bool a_lock)
 		{
 			using func_t = bool (TESFile::*)(char*, const char*, NiFile::OpenMode, bool);
-			REL::Relocation<func_t> func{ REL::ID(728465) };
+			static REL::Relocation<func_t> func{ REL::ID(2192490) };
 			return func(this, a_path, a_filename, a_accessMode, a_lock);
 		}
 
@@ -169,52 +169,52 @@ namespace RE
 		}
 
 		// members
-		stl::enumeration<TES_RETURN_CODE, std::int32_t> lastError;       // 000
-		TESFile* threadSafeParent;                                       // 008
-		BSTHashMap<std::uint32_t, TESFile*> threadSafeFileMap;           // 010
-		BSTSmartPointer<BSFile::PageCache> pageCache;                    // 040
-		BSFile* lockedFile;                                              // 048
-		BSFile* file;                                                    // 050
-		TESBitArrayFile* formUserDataBitArray;                           // 058
-		TESBitArrayFile* formVersionBitArray;                            // 060
-		TESBitArrayFile* formIDBitArray;                                 // 068
-		char filename[260];                                              // 070
-		char path[260];                                                  // 174
-		char* buffer;                                                    // 278
-		std::uint32_t bufferAllocSize;                                   // 280
-		std::uint32_t firstCellOffset;                                   // 284
-		std::uint32_t currCellOffset;                                    // 288
-		TESObjectCELL* currCell;                                         // 290
-		std::uint32_t currRefOffset;                                     // 298
-		FORM currentform;                                                // 29C
-		stl::enumeration<CHUNK_ID, std::int32_t> currentchunkID;         // 2B4
-		std::uint32_t actualChunkSize;                                   // 2B8
-		std::uint32_t filesize;                                          // 2BC
-		std::uint32_t fileoffset;                                        // 2C0
-		std::uint32_t formoffset;                                        // 2C4
-		std::uint32_t chunkoffset;                                       // 2C8
-		FORM saveform;                                                   // 2CC
-		std::uint32_t saveformoffset;                                    // 2E4
-		std::uint32_t savechunkoffset;                                   // 2E8
-		BSSimpleList<FORM_GROUP*> groups;                                // 2F0
-		bool hasGroups;                                                  // 300
-		BSSystemFile::Info fileInfo;                                     // 308
-		FILE_HEADER fileHeaderInfo;                                      // 328
-		stl::enumeration<RecordFlag, std::uint32_t> flags;               // 334
-		BSSimpleList<char*> masters;                                     // 338
-		BSSimpleList<_ULARGE_INTEGER*> mastersData;                      // 348
-		std::uint32_t masterCount;                                       // 358
-		TESFile** masterPtrs;                                            // 360
-		F4SE::WinAPI::FILETIME deletedFormTime;                          // 368
-		std::uint8_t compileIndex;                                       // 370
-		std::uint16_t smallFileCompileIndex;                             // 372
-		BSStringT<char> createdBy;                                       // 378
-		BSStringT<char> summary;                                         // 388
-		char* decompressedFormBuffer;                                    // 398
-		std::uint32_t decompressedFormBufferSize;                        // 3A0
-		void* reservedDecompressionBuffer;                               // 3A8
-		std::uint32_t reservedDecompressionBufferSize;                   // 3B0
-		BSTArray<InteriorCellOffsetDataStruct>* interiorCellOffsetData;  // 3B8
+		REX::EnumSet<TES_RETURN_CODE, std::int32_t> lastError;                        // 000
+		TESFile*                                    threadSafeParent;                 // 008
+		BSTHashMap<std::uint32_t, TESFile*>         threadSafeFileMap;                // 010
+		BSTSmartPointer<BSFile::PageCache>          pageCache;                        // 040
+		BSFile*                                     lockedFile;                       // 048
+		BSFile*                                     file;                             // 050
+		TESBitArrayFile*                            formUserDataBitArray;             // 058
+		TESBitArrayFile*                            formVersionBitArray;              // 060
+		TESBitArrayFile*                            formIDBitArray;                   // 068
+		char                                        filename[REX::W32::MAX_PATH];     // 070
+		char                                        path[REX::W32::MAX_PATH];         // 174
+		char*                                       buffer;                           // 278
+		std::uint32_t                               bufferAllocSize;                  // 280
+		std::uint32_t                               firstCellOffset;                  // 284
+		std::uint32_t                               currCellOffset;                   // 288
+		TESObjectCELL*                              currCell;                         // 290
+		std::uint32_t                               currRefOffset;                    // 298
+		FORM                                        currentform;                      // 29C
+		REX::EnumSet<CHUNK_ID, std::int32_t>        currentchunkID;                   // 2B4
+		std::uint32_t                               actualChunkSize;                  // 2B8
+		std::uint32_t                               filesize;                         // 2BC
+		std::uint32_t                               fileoffset;                       // 2C0
+		std::uint32_t                               formoffset;                       // 2C4
+		std::uint32_t                               chunkoffset;                      // 2C8
+		FORM                                        saveform;                         // 2CC
+		std::uint32_t                               saveformoffset;                   // 2E4
+		std::uint32_t                               savechunkoffset;                  // 2E8
+		BSSimpleList<FORM_GROUP*>                   groups;                           // 2F0
+		bool                                        hasGroups;                        // 300
+		BSSystemFile::Info                          fileInfo;                         // 308
+		FILE_HEADER                                 fileHeaderInfo;                   // 328
+		REX::EnumSet<RecordFlag, std::uint32_t>     flags;                            // 334
+		BSSimpleList<char*>                         masters;                          // 338
+		BSSimpleList<_ULARGE_INTEGER*>              mastersData;                      // 348
+		std::uint32_t                               masterCount;                      // 358
+		TESFile**                                   masterPtrs;                       // 360
+		REX::W32::FILETIME                          deletedFormTime;                  // 368
+		std::uint8_t                                compileIndex;                     // 370
+		std::uint16_t                               smallFileCompileIndex;            // 372
+		BSStringT<char>                             createdBy;                        // 378
+		BSStringT<char>                             summary;                          // 388
+		char*                                       decompressedFormBuffer;           // 398
+		std::uint32_t                               decompressedFormBufferSize;       // 3A0
+		void*                                       reservedDecompressionBuffer;      // 3A8
+		std::uint32_t                               reservedDecompressionBufferSize;  // 3B0
+		BSTArray<InteriorCellOffsetDataStruct>*     interiorCellOffsetData;           // 3B8
 	};
 	static_assert(sizeof(TESFile) == 0x3C0);
 }

@@ -35,19 +35,19 @@ namespace RE
 		}
 
 		[[nodiscard]] void* allocate(uint32_t a_bytes) { return malloc(a_bytes); }
-		void deallocate(void* a_ptr) { free(a_ptr); }
+		void                deallocate(void* a_ptr) { free(a_ptr); }
 
-		[[nodiscard]] void* data() noexcept { return _data; }
+		[[nodiscard]] void*       data() noexcept { return _data; }
 		[[nodiscard]] const void* data() const noexcept { return _data; }
-		void set_data(void* a_data) noexcept { _data = a_data; }
+		void                      set_data(void* a_data) noexcept { _data = a_data; }
 
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
-		void set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
+		void                    set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
 
 	private:
 		// members
-		void* _data{ nullptr };    // 00
-		size_type _capacity{ 0 };  // 08
+		void*     _data{ nullptr };  // 00
+		size_type _capacity{ 0 };    // 08
 	};
 
 	template <std::uint32_t N>
@@ -83,18 +83,18 @@ namespace RE
 			}
 
 			[[nodiscard]] void* allocate(uint32_t a_bytes) { return aligned_alloc(N, a_bytes); }
-			void deallocate(void* a_ptr) { aligned_free(a_ptr); }
+			void                deallocate(void* a_ptr) { aligned_free(a_ptr); }
 
-			[[nodiscard]] void* data() noexcept { return _data; }
+			[[nodiscard]] void*       data() noexcept { return _data; }
 			[[nodiscard]] const void* data() const noexcept { return _data; }
-			void set_data(void* a_data) noexcept { _data = a_data; }
+			void                      set_data(void* a_data) noexcept { _data = a_data; }
 
 			[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
-			void set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
+			void                    set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
 
 		private:
-			void* _data{ nullptr };    // 00
-			size_type _capacity{ 0 };  // 08
+			void*     _data{ nullptr };  // 00
+			size_type _capacity{ 0 };    // 08
 		};
 	};
 
@@ -133,7 +133,7 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] void* data() noexcept { return _local ? _stack : _heap; }
+		[[nodiscard]] void*       data() noexcept { return _local ? _stack : _heap; }
 		[[nodiscard]] const void* data() const noexcept { return _local ? _stack : _heap; }
 
 		void set_data(void* a_data) noexcept
@@ -157,7 +157,7 @@ namespace RE
 		size_type _local: 1 { 0 };      // 00:31
 		union
 		{
-			void* _heap{ nullptr };
+			void*     _heap{ nullptr };
 			std::byte _stack[N];
 		};  // 08
 	};
@@ -206,34 +206,25 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] void* data() noexcept { return _data; }
+		[[nodiscard]] void*       data() noexcept { return _data; }
 		[[nodiscard]] const void* data() const noexcept { return _data; }
-		void set_data(void* a_data) noexcept { _data = a_data; }
+		void                      set_data(void* a_data) noexcept { _data = a_data; }
 
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
-		void set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
+		void                    set_capacity(size_type a_capacity, size_type) noexcept { _capacity = a_capacity; }
 
 	private:
 		// members
 		ScrapHeap* _allocator{ nullptr };  // 00
-		void* _data{ nullptr };            // 08
-		size_type _capacity{ 0 };          // 10
+		void*      _data{ nullptr };       // 08
+		size_type  _capacity{ 0 };         // 10
 	};
 
 	template <
 		class T,
 		class Allocator = BSTArrayHeapAllocator>
-	class BSTArray :
-		public boost::stl_interfaces::sequence_container_interface<
-			BSTArray<T, Allocator>,
-			boost::stl_interfaces::element_layout::contiguous>
+	class BSTArray
 	{
-	private:
-		using super =
-			boost::stl_interfaces::sequence_container_interface<
-				BSTArray<T, Allocator>,
-				boost::stl_interfaces::element_layout::contiguous>;
-
 	public:
 		using value_type = T;
 		using allocator_type = Allocator;
@@ -247,29 +238,6 @@ namespace RE
 		using const_iterator = const_pointer;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-
-		using super::operator=;
-		using super::operator[];
-
-		using super::assign;
-		using super::at;
-		using super::back;
-		using super::begin;
-		using super::cbegin;
-		using super::cend;
-		using super::clear;
-		using super::crbegin;
-		using super::crend;
-		using super::data;
-		using super::empty;
-		using super::end;
-		using super::erase;
-		using super::front;
-		using super::insert;
-		using super::push_back;
-		using super::rbegin;
-		using super::rend;
-		using super::size;
 
 		// 1)
 		BSTArray() noexcept = default;
@@ -358,13 +326,54 @@ namespace RE
 
 		F4_HEAP_REDEFINE_NEW(BSTArray<T, Allocator>);
 
-		[[nodiscard]] iterator begin() noexcept { return static_cast<pointer>(_allocator.data()); }
-		[[nodiscard]] iterator end() noexcept { return begin() + _size; }
-#undef max
-		[[nodiscard]] size_type max_size() const noexcept
+		constexpr reference at(size_type a_pos)
 		{
-			return std::numeric_limits<size_type>::max();
+			if (size() <= a_pos)
+				throw std::out_of_range("bounds check failed in BSTArray::at()");
+
+			return begin()[a_pos];
 		}
+
+		constexpr reference at(size_type a_pos) const
+		{
+			if (size() <= a_pos)
+				throw std::out_of_range("bounds check failed in BSTArray::at()");
+
+			return begin()[a_pos];
+		}
+
+		[[nodiscard]] constexpr reference       operator[](size_type a_pos) noexcept { return begin()[a_pos]; }
+		[[nodiscard]] constexpr const_reference operator[](size_type a_pos) const noexcept { return begin()[a_pos]; }
+
+		[[nodiscard]] constexpr reference       front() noexcept { return operator[](0); }
+		[[nodiscard]] constexpr const_reference front() const noexcept { return operator[](0); }
+
+		[[nodiscard]] constexpr reference       back() noexcept { return operator[](size() - 1); }
+		[[nodiscard]] constexpr const_reference back() const noexcept { return operator[](size() - 1); }
+
+		[[nodiscard]] constexpr pointer       data() noexcept { return static_cast<pointer>(_allocator.data()); }
+		[[nodiscard]] constexpr const_pointer data() const noexcept { return static_cast<const_pointer>(_allocator.data()); }
+
+		[[nodiscard]] constexpr iterator       begin() noexcept { return data(); }
+		[[nodiscard]] constexpr const_iterator begin() const noexcept { return data(); }
+		[[nodiscard]] constexpr const_iterator cbegin() const noexcept { return begin(); }
+
+		[[nodiscard]] constexpr iterator       end() noexcept { return begin() + size(); }
+		[[nodiscard]] constexpr const_iterator end() const noexcept { return begin() + size(); }
+		[[nodiscard]] constexpr const_iterator cend() const noexcept { return end(); }
+
+		[[nodiscard]] constexpr reverse_iterator       rbegin() noexcept { return reverse_iterator(end()); }
+		[[nodiscard]] constexpr const_reverse_iterator rbegin() const noexcept { return rbegin(); }
+		[[nodiscard]] constexpr const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+
+		[[nodiscard]] constexpr reverse_iterator       rend() noexcept { return reverse_iterator(begin()); }
+		[[nodiscard]] constexpr const_reverse_iterator rend() const noexcept { return rend(); }
+		[[nodiscard]] constexpr const_reverse_iterator crend() const noexcept { return rend(); }
+
+		[[nodiscard]] constexpr size_type size() const noexcept { return _size; }
+		[[nodiscard]] constexpr size_type max_size() const noexcept { return std::numeric_limits<size_type>::max(); }
+
+		[[nodiscard]] constexpr bool empty() const noexcept { size() == 0; }
 
 		void reserve(size_type a_capacity)
 		{
@@ -373,9 +382,28 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] size_type capacity() const noexcept { return _allocator.capacity(); }
+		[[nodiscard]] constexpr size_type capacity() const noexcept { return _allocator.capacity(); }
 
 		void shrink_to_fit() { reserve_exact(size()); }
+
+		template <class ForwardIt>
+		void assign(ForwardIt a_first, ForwardIt a_last)
+		{
+			auto       out = begin();
+			auto const out_last = end();
+			for (; out != out_last && a_first != a_last; ++a_first, ++out) {
+				*out = *a_first;
+			}
+			if (out != out_last)
+				erase(out, out_last);
+			if (a_first != a_last)
+				insert(end(), a_first, a_last);
+		}
+
+		void assign(std::initializer_list<value_type> a_init)
+		{
+			assign(a_init.begin(), a_init.end());
+		}
 
 		template <class ForwardIt>
 		iterator insert(const_iterator a_pos, ForwardIt a_first, ForwardIt a_last)  //
@@ -394,9 +422,24 @@ namespace RE
 			return iter;
 		}
 
+		iterator insert(const_iterator a_pos, value_type const& a_value)
+		{
+			return emplace(a_pos, a_value);
+		}
+
+		iterator insert(const_iterator a_pos, value_type&& a_value)
+		{
+			return emplace(a_pos, std::move(a_value));
+		}
+
+		iterator insert(const_iterator a_pos, std::initializer_list<value_type> a_init)
+		{
+			return insert(a_pos, a_init.begin(), a_init.end());
+		}
+
 		template <class... Args>
 		iterator emplace(const_iterator a_pos, Args&&... a_args)  //
-			requires(std::constructible_from<value_type, Args&&...>)
+			requires(std::constructible_from<value_type, Args && ...>)
 		{
 			const auto pos = static_cast<size_type>(std::distance(cbegin(), a_pos));
 			if (pos < size()) {
@@ -427,11 +470,31 @@ namespace RE
 			return end();
 		}
 
+		iterator erase(const_iterator a_pos)
+		{
+			return erase(a_pos, std::next(a_pos));
+		}
+
+		void clear()
+		{
+			erase(begin(), end());
+		}
+
 		template <class... Args>
-		reference emplace_back(Args&&... a_args)  //
-			requires(std::constructible_from<value_type, Args&&...>)
+		reference emplace_back(Args&&... a_args)
+			requires(std::constructible_from<value_type, Args && ...>)
 		{
 			return *emplace(end(), std::forward<Args>(a_args)...);
+		}
+
+		void push_back(value_type const& a_value)
+		{
+			emplace_back(a_value);
+		}
+
+		void push_back(value_type&& a_value)
+		{
+			emplace_back(std::move(a_value));
 		}
 
 		void pop_back() { erase(std::prev(end())); }
@@ -444,6 +507,12 @@ namespace RE
 			auto tmp = std::move(*this);
 			*this = std::move(a_rhs);
 			a_rhs = std::move(tmp);
+		}
+
+		auto operator=(std::initializer_list<value_type> a_init)
+		{
+			assign(a_init.begin(), a_init.end());
+			return *this;
 		}
 
 	private:
@@ -505,7 +574,7 @@ namespace RE
 
 		// members
 		allocator_type _allocator;  // 00
-		size_type _size{ 0 };       // ??
+		size_type      _size{ 0 };  // ??
 	};
 
 	template <class T, std::uint32_t N = alignof(T)>
@@ -556,20 +625,20 @@ namespace RE
 			return _data[a_pos];
 		}
 
-		[[nodiscard]] reference front() noexcept { return operator[](0); }
+		[[nodiscard]] reference       front() noexcept { return operator[](0); }
 		[[nodiscard]] const_reference front() const noexcept { return operator[](0); }
 
-		[[nodiscard]] reference back() noexcept { return operator[](size() - 1); }
+		[[nodiscard]] reference       back() noexcept { return operator[](size() - 1); }
 		[[nodiscard]] const_reference back() const noexcept { return operator[](size() - 1); }
 
-		[[nodiscard]] pointer data() noexcept { return _data; }
+		[[nodiscard]] pointer       data() noexcept { return _data; }
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
 
-		[[nodiscard]] iterator begin() noexcept { return empty() ? nullptr : data(); }
+		[[nodiscard]] iterator       begin() noexcept { return empty() ? nullptr : data(); }
 		[[nodiscard]] const_iterator begin() const noexcept { return empty() ? nullptr : data(); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] iterator end() noexcept { return empty() ? nullptr : data() + size(); }
+		[[nodiscard]] iterator       end() noexcept { return empty() ? nullptr : data() + size(); }
 		[[nodiscard]] const_iterator end() const noexcept { return empty() ? nullptr : data() + size(); }
 		[[nodiscard]] const_iterator cend() const noexcept { return end(); }
 
@@ -579,8 +648,8 @@ namespace RE
 
 	private:
 		// members
-		pointer _data{ nullptr };  // 00
-		std::uint32_t _size{ 0 };  // 08
+		pointer       _data{ nullptr };  // 00
+		std::uint32_t _size{ 0 };        // 08
 	};
 
 	template <class T>
@@ -620,11 +689,11 @@ namespace RE
 			return size() > 1 ? heap : std::addressof(local);
 		}
 
-		[[nodiscard]] iterator begin() noexcept { return data(); }
+		[[nodiscard]] iterator       begin() noexcept { return data(); }
 		[[nodiscard]] const_iterator begin() const noexcept { return data(); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] iterator end() noexcept { return data() + size(); }
+		[[nodiscard]] iterator       end() noexcept { return data() + size(); }
 		[[nodiscard]] const_iterator end() const noexcept { return data() + size(); }
 		[[nodiscard]] const_iterator cend() const noexcept { return end(); }
 
@@ -637,7 +706,7 @@ namespace RE
 		std::uint32_t _size{ 0 };  // 00
 		union
 		{
-			pointer heap{ 0 };
+			pointer    heap{ 0 };
 			value_type local;
 		};  // 08
 	};
@@ -664,7 +733,7 @@ namespace RE
 			}
 
 			std::uint32_t offset = 0;
-			const auto blocks = reinterpret_cast<const Block*>(buffer + size);
+			const auto    blocks = reinterpret_cast<const Block*>(buffer + size);
 			for (std::uint32_t i = 0; i < N && blocks[i].id != 0xFFu; ++i) {
 				if (blocks[i].id == a_id) {
 					return { blocks + i, offset };
@@ -688,8 +757,8 @@ namespace RE
 		}
 
 		// members
-		std::byte* buffer;   // 00
-		std::uint32_t size;  // 08
+		std::byte*    buffer;  // 00
+		std::uint32_t size;    // 08
 	};
 
 	extern template class BSTDataBuffer<1>;

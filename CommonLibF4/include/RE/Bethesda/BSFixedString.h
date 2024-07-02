@@ -317,9 +317,19 @@ namespace RE
 
 			// members
 			MemoryManager::AutoScrapBuffer buffer;  // 00
-			std::size_t offset;                     // 08
+			std::size_t                    offset;  // 08
 		};
 		static_assert(sizeof(ScrapStringBuffer) == 0x10);
 	};
 	static_assert(std::is_empty_v<BGSLocalizedStrings>);
 }
+
+template <class CharT, bool CS>
+struct std::formatter<RE::detail::BSFixedString<CharT, CS>, CharT> : formatter<std::string, CharT>
+{
+	template <class FormatContext>
+	constexpr auto format(const RE::detail::BSFixedString<CharT, CS>& a_version, FormatContext& a_ctx) const
+	{
+		return formatter<std::string, CharT>::format(a_version.c_str(), a_ctx);
+	}
+};

@@ -9,11 +9,11 @@
 namespace RE
 {
 	bool BSScaleformManager::LoadMovieEx(
-		IMenu& a_menu,
-		stl::zstring a_filePath,
-		stl::zstring a_menuObjPath,
+		IMenu&        a_menu,
+		stl::zstring  a_filePath,
+		stl::zstring  a_menuObjPath,
 		ScaleModeType a_scaleMode,
-		float a_backgroundAlpha)
+		float         a_backgroundAlpha)
 	{
 		if (REL::Relocation<SettingT<INISettingCollection>*> fileUncacheOnMenuOpen{ REL::ID(454316) };
 			fileUncacheOnMenuOpen->GetBinary()) {
@@ -21,7 +21,7 @@ namespace RE
 		}
 
 		using LoadConstants = Scaleform::GFx::Loader::LoadConstants;
-		stl::enumeration loadConstants{ LoadConstants::kWaitFrame1, LoadConstants::kKeepBindData };
+		stl::enumeration     loadConstants{ LoadConstants::kWaitFrame1, LoadConstants::kKeepBindData };
 		const Scaleform::Ptr def{ loader->CreateMovie(a_filePath.data(), loadConstants.get()) };
 		if (!def) {
 			return false;

@@ -27,22 +27,22 @@ namespace RE
 
 		[[nodiscard]] static BGSSynchronizedAnimationManager* GetSingleton()
 		{
-			REL::Relocation<BGSSynchronizedAnimationManager**> singleton{ REL::ID(1346879) };
+			static REL::Relocation<BGSSynchronizedAnimationManager**> singleton{ REL::ID(2690996) };
 			return *singleton;
 		}
 
 		[[nodiscard]] bool IsReferenceInSynchronizedScene(ObjectRefHandle a_ref)
 		{
 			using func_t = decltype(&BGSSynchronizedAnimationManager::IsReferenceInSynchronizedScene);
-			REL::Relocation<func_t> func{ REL::ID(915329) };
+			static REL::Relocation<func_t> func{ REL::ID(2214437) };
 			return func(this, a_ref);
 		}
 
 		// members
 		BSTArray<BSTSmartPointer<BGSSynchronizedAnimationInstance>> currentSynchAnims;  // 18
-		BSReadWriteLock synchAnimsLock;                                                 // 30
-		std::int32_t atomicSyncLock;                                                    // 38
-		BSSpinLock internalsLock;                                                       // 3C
+		BSReadWriteLock                                             synchAnimsLock;     // 30
+		std::int32_t                                                atomicSyncLock;     // 38
+		BSSpinLock                                                  internalsLock;      // 3C
 	};
 	static_assert(sizeof(BGSSynchronizedAnimationManager) == 0x48);
 }

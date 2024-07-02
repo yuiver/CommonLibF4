@@ -28,28 +28,28 @@ namespace RE
 		inline bool CanHackGateCheck(LOCK_LEVEL a_lockLevel)
 		{
 			using func_t = decltype(&GamePlayFormulas::CanHackGateCheck);
-			REL::Relocation<func_t> func{ REL::ID(269668) };
+			static REL::Relocation<func_t> func{ REL::ID(269668) };
 			return func(a_lockLevel);
 		}
 
 		inline bool CanPickLockGateCheck(LOCK_LEVEL a_lockLevel)
 		{
 			using func_t = decltype(&GamePlayFormulas::CanPickLockGateCheck);
-			REL::Relocation<func_t> func{ REL::ID(1160841) };
+			static REL::Relocation<func_t> func{ REL::ID(1160841) };
 			return func(a_lockLevel);
 		}
 
 		inline float GetExperienceReward(EXPERIENCE_ACTIVITY a_activity, DIFFICULTY_LEVEL a_difficulty, float a_xpBase)
 		{
 			using func_t = decltype(&GamePlayFormulas::GetExperienceReward);
-			REL::Relocation<func_t> func{ REL::ID(853500) };
+			static REL::Relocation<func_t> func{ REL::ID(853500) };
 			return func(a_activity, a_difficulty, a_xpBase);
 		}
 
 		inline float GetLockXPReward(LOCK_LEVEL a_lockLevel)
 		{
 			using func_t = decltype(&GamePlayFormulas::GetLockXPReward);
-			REL::Relocation<func_t> func{ REL::ID(880926) };
+			static REL::Relocation<func_t> func{ REL::ID(880926) };
 			return func(a_lockLevel);
 		}
 	}

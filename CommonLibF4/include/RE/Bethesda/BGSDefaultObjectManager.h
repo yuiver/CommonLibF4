@@ -420,17 +420,17 @@ namespace RE
 	{
 	public:
 		// members
-		const char* name;                                            // 00
-		stl::enumeration<ENUM_FORM_ID, std::uint8_t> type;           // 08
-		std::uint32_t uniqueID;                                      // 0C
-		stl::enumeration<DEFAULT_OBJECT_TYPE, std::int32_t> doType;  // 10
-		const char* newObjectName;                                   // 18
+		const char*                                     name;           // 00
+		REX::EnumSet<ENUM_FORM_ID, std::uint8_t>        type;           // 08
+		std::uint32_t                                   uniqueID;       // 0C
+		REX::EnumSet<DEFAULT_OBJECT_TYPE, std::int32_t> doType;         // 10
+		const char*                                     newObjectName;  // 18
 	};
 	static_assert(sizeof(DEFAULT_OBJECT_DATA) == 0x20);
 
 	[[nodiscard]] inline std::span<DEFAULT_OBJECT_DATA, 394> GetDefaultObjectData()
 	{
-		REL::Relocation<DEFAULT_OBJECT_DATA(*)[394]> data{ REL::ID(838886) };
+		static REL::Relocation<DEFAULT_OBJECT_DATA(*)[394]> data{ REL::ID(838886) };
 		return { *data };
 	}
 
@@ -446,15 +446,15 @@ namespace RE
 		[[nodiscard]] static BGSDefaultObjectManager* GetSingleton()
 		{
 			using func_t = decltype(&BGSDefaultObjectManager::GetSingleton);
-			REL::Relocation<func_t> func{ REL::ID(484974) };
+			static REL::Relocation<func_t> func{ REL::ID(484974) };
 			return func();
 		}
 
 		[[nodiscard]] TESForm* GetDefaultObject(DEFAULT_OBJECT a_obj) const noexcept
 		{
 			assert(a_obj < DEFAULT_OBJECT::kTotal);
-			return objectInitArray[stl::to_underlying(a_obj)] ?
-			           objectArray[stl::to_underlying(a_obj)] :
+			return objectInitArray[std::to_underlying(a_obj)] ?
+			           objectArray[std::to_underlying(a_obj)] :
 			           nullptr;
 		}
 
@@ -469,8 +469,8 @@ namespace RE
 		}
 
 		// members
-		TESForm* objectArray[stl::to_underlying(DEFAULT_OBJECT::kTotal)];  // 020
-		bool objectInitArray[stl::to_underlying(DEFAULT_OBJECT::kTotal)];  // C70
+		TESForm* objectArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];      // 020
+		bool     objectInitArray[std::to_underlying(DEFAULT_OBJECT::kTotal)];  // C70
 	};
 	static_assert(sizeof(BGSDefaultObjectManager) == 0xE00);
 
@@ -489,7 +489,7 @@ namespace RE
 
 		[[nodiscard]] static BSTArray<BGSDefaultObject*>* GetSingleton()
 		{
-			REL::Relocation<BSTArray<BGSDefaultObject*>**> singleton{ REL::ID(561749) };
+			static REL::Relocation<BSTArray<BGSDefaultObject*>**> singleton{ REL::ID(2690473) };
 			return *singleton;
 		}
 
@@ -500,15 +500,15 @@ namespace RE
 		}
 
 		// members
-		TESForm* form;                                      // 20
-		stl::enumeration<ENUM_FORM_ID, std::uint8_t> type;  // 28
-		BSFixedString formEditorID;                         // 30
+		TESForm*                                 form;          // 20
+		REX::EnumSet<ENUM_FORM_ID, std::uint8_t> type;          // 28
+		BSFixedString                            formEditorID;  // 30
 
 	private:
 		BGSDefaultObject* ctor(const char* a_name, ENUM_FORM_ID a_formType, const char* a_description)
 		{
 			using func_t = decltype(&BGSDefaultObject::ctor);
-			REL::Relocation<func_t> func{ REL::ID(1144014) };
+			static REL::Relocation<func_t> func{ REL::ID(2197003) };
 			return func(this, a_name, a_formType, a_description);
 		}
 	};

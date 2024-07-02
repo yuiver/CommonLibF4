@@ -61,11 +61,11 @@ namespace RE
 		{
 		public:
 			// members
-			std::byte* buffer[1u << 13];    // 00000
-			std::byte** currentBuffer;      // 10000
-			CommandBufferPassesData* next;  // 10008
-			std::uint32_t frame;            // 10010
-			std::uint32_t ownerIndex;       // 10014
+			std::byte*               buffer[1u << 13];  // 00000
+			std::byte**              currentBuffer;     // 10000
+			CommandBufferPassesData* next;              // 10008
+			std::uint32_t            frame;             // 10010
+			std::uint32_t            ownerIndex;        // 10014
 		};
 		static_assert(sizeof(CommandBufferPassesData) == 0x10018);
 
@@ -73,8 +73,8 @@ namespace RE
 		{
 		public:
 			// members
-			CommandBufferPassesData* data;  // 00
-			std::uint64_t groupAndPass;     // 08
+			CommandBufferPassesData* data;          // 00
+			std::uint64_t            groupAndPass;  // 08
 		};
 		static_assert(sizeof(CommandBufferPassesDataEntry) == 0x10);
 
@@ -82,12 +82,12 @@ namespace RE
 		{
 		public:
 			// members
-			BSBatchRenderer* batchRenderer;  // 00
-			PersistentPassList passList;     // 08
-			float depth;                     // 18
-			std::uint32_t count;             // 1C
-			std::uint8_t flags;              // 20
-			std::int8_t group;               // 21
+			BSBatchRenderer*   batchRenderer;  // 00
+			PersistentPassList passList;       // 08
+			float              depth;          // 18
+			std::uint32_t      count;          // 1C
+			std::uint8_t       flags;          // 20
+			std::int8_t        group;          // 21
 		};
 		static_assert(sizeof(GeometryGroup) == 0x28);
 
@@ -104,22 +104,22 @@ namespace RE
 
 		virtual ~BSBatchRenderer();  // 00
 
-		BSTArray<PassGroup> renderPasses[13];                                                                                  // 008
-		BSTSmallIndexScatterTable<BSTArray<PassGroup>, RenderPassMapAccess> renderPassMap[13];                                 // 140
-		std::uint32_t activePassIndexLists[13][2];                                                                             // 2E0
-		std::uint32_t currentFirstPass;                                                                                        // 348
-		std::uint32_t currentLastPass;                                                                                         // 34C
-		bool autoClearPasses;                                                                                                  // 350
-		GeometryGroup* geometryGroups[stl::to_underlying(GEOMETRY_GROUP_ENUM::kTotal)];                                        // 358
-		GeometryGroup* alphaGroup;                                                                                             // 410
-		std::uint32_t groupingAlphasGroupCount;                                                                                // 418
-		GeometryGroup* groupingAlphasGroup;                                                                                    // 420
-		BSTArray<CommandBufferPassesDataEntry> commandBufferPasses;                                                            // 428
-		BSTSmallIndexScatterTable<BSTArray<CommandBufferPassesDataEntry>, CommandBufferPassesMapAccess> commandBufferPassMap;  // 440
-		CommandBufferPassesData* bufferPassesCurr;                                                                             // 460
-		CommandBufferPassesData* bufferPassesHead;                                                                             // 468
-		CommandBufferPassesData** bufferPassesTail;                                                                            // 470
-		std::uint32_t bufferPassesCurrAllocFrame;                                                                              // 478
+		BSTArray<PassGroup>                                                                             renderPasses[13];                                                 // 008
+		BSTSmallIndexScatterTable<BSTArray<PassGroup>, RenderPassMapAccess>                             renderPassMap[13];                                                // 140
+		std::uint32_t                                                                                   activePassIndexLists[13][2];                                      // 2E0
+		std::uint32_t                                                                                   currentFirstPass;                                                 // 348
+		std::uint32_t                                                                                   currentLastPass;                                                  // 34C
+		bool                                                                                            autoClearPasses;                                                  // 350
+		GeometryGroup*                                                                                  geometryGroups[std::to_underlying(GEOMETRY_GROUP_ENUM::kTotal)];  // 358
+		GeometryGroup*                                                                                  alphaGroup;                                                       // 410
+		std::uint32_t                                                                                   groupingAlphasGroupCount;                                         // 418
+		GeometryGroup*                                                                                  groupingAlphasGroup;                                              // 420
+		BSTArray<CommandBufferPassesDataEntry>                                                          commandBufferPasses;                                              // 428
+		BSTSmallIndexScatterTable<BSTArray<CommandBufferPassesDataEntry>, CommandBufferPassesMapAccess> commandBufferPassMap;                                             // 440
+		CommandBufferPassesData*                                                                        bufferPassesCurr;                                                 // 460
+		CommandBufferPassesData*                                                                        bufferPassesHead;                                                 // 468
+		CommandBufferPassesData**                                                                       bufferPassesTail;                                                 // 470
+		std::uint32_t                                                                                   bufferPassesCurrAllocFrame;                                       // 478
 	};
 	static_assert(sizeof(BSBatchRenderer) == 0x480);
 
@@ -145,7 +145,7 @@ namespace RE
 		public:
 			// members
 			BSBatchRenderer* batchRenderer;  // 00
-			BSRenderPass* renderPass;        // 08
+			BSRenderPass*    renderPass;     // 08
 		};
 		static_assert(sizeof(RegisterBatchRendererPassTask) == 0x10);
 
@@ -153,11 +153,11 @@ namespace RE
 		{
 		public:
 			// members
-			BSBatchRenderer* batchRenderer;                                               // 00
-			BSRenderPass* renderPass;                                                     // 08
-			BSBatchRenderer::GeometryGroup* geometryGroup;                                // 10
-			stl::enumeration<BSBatchRenderer::GEOMETRY_GROUP_ENUM, std::uint32_t> group;  // 18
-			bool addToFront;                                                              // 1C
+			BSBatchRenderer*                                                  batchRenderer;  // 00
+			BSRenderPass*                                                     renderPass;     // 08
+			BSBatchRenderer::GeometryGroup*                                   geometryGroup;  // 10
+			REX::EnumSet<BSBatchRenderer::GEOMETRY_GROUP_ENUM, std::uint32_t> group;          // 18
+			bool                                                              addToFront;     // 1C
 		};
 		static_assert(sizeof(RegisterGeometryGroupPassTask) == 0x20);
 
@@ -167,7 +167,7 @@ namespace RE
 			// members
 			BSTArray<RegisterBatchRendererPassTask> registerBatchRendererPasses;  // 00
 			BSTArray<RegisterGeometryGroupPassTask> registerGeometryGroupPasses;  // 18
-			BSEventFlag finishedEvent;                                            // 30
+			BSEventFlag                             finishedEvent;                // 30
 		};
 		static_assert(sizeof(JobData) == 0x38);
 
@@ -175,15 +175,15 @@ namespace RE
 		{
 		public:
 			// members
-			BSGeometry* geometry;                               // 00
-			std::int32_t groupingAlphas;                        // 08
-			BSBatchRenderer::GeometryGroup* currentAlphaGroup;  // 10
-			bool alphaGroupZPrePass;                            // 18
-			JobData* owner;                                     // 20
-			std::uint32_t registerBatchRendererPassIndex;       // 28
-			std::uint32_t registerBatchRendererPassCount;       // 2C
-			std::uint32_t registerGeometryGroupPassIndex;       // 30
-			std::uint32_t registerGeometryGroupPassCount;       // 34
+			BSGeometry*                     geometry;                        // 00
+			std::int32_t                    groupingAlphas;                  // 08
+			BSBatchRenderer::GeometryGroup* currentAlphaGroup;               // 10
+			bool                            alphaGroupZPrePass;              // 18
+			JobData*                        owner;                           // 20
+			std::uint32_t                   registerBatchRendererPassIndex;  // 28
+			std::uint32_t                   registerBatchRendererPassCount;  // 2C
+			std::uint32_t                   registerGeometryGroupPassIndex;  // 30
+			std::uint32_t                   registerGeometryGroupPassCount;  // 34
 		};
 		static_assert(sizeof(RegisterObjectTask) == 0x38);
 	}

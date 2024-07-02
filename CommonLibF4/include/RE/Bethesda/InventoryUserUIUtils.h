@@ -19,12 +19,12 @@ namespace RE
 				Scaleform::GFx::Value& a_newEntry,
 				const BSFixedStringCS& a_textID,
 				Scaleform::GFx::Value& a_value,
-				float a_difference = 0.0F,
-				float a_totalDamage = FLT_MAX,
-				float a_compareDamage = FLT_MAX)
+				float                  a_difference = 0.0F,
+				float                  a_totalDamage = FLT_MAX,
+				float                  a_compareDamage = FLT_MAX)
 			{
 				using func_t = decltype(&detail::AddItemCardInfoEntry);
-				REL::Relocation<func_t> func{ REL::ID(489521) };
+				static REL::Relocation<func_t> func{ REL::ID(489521) };
 				return func(a_array, a_newEntry, a_textID, a_value, a_difference, a_totalDamage, a_compareDamage);
 			}
 		}
@@ -51,7 +51,7 @@ namespace RE
 		inline void GetEffectDisplayInfo(MagicItem* a_item, EffectItem* a_effect, float& a_magnitude, float& a_duration)
 		{
 			using func_t = decltype(&StatsMenuUtils::GetEffectDisplayInfo);
-			REL::Relocation<func_t> func{ REL::ID(294691) };
+			static REL::Relocation<func_t> func{ REL::ID(294691) };
 			return func(a_item, a_effect, a_magnitude, a_duration);
 		}
 	}
@@ -63,21 +63,21 @@ namespace RE
 		inline void GetComparisonItems(const TESBoundObject* a_object, ComparisonItems& a_comparisonItems)
 		{
 			using func_t = decltype(&GetComparisonItems);
-			REL::Relocation<func_t> func{ REL::ID(593818) };
+			static REL::Relocation<func_t> func{ REL::ID(593818) };
 			return func(a_object, a_comparisonItems);
 		}
 
 		inline void PlayPipboySound(const char* a_soundName)
 		{
 			using func_t = decltype(&PlayPipboySound);
-			REL::Relocation<func_t> func{ REL::ID(1320952) };
+			static REL::Relocation<func_t> func{ REL::ID(1320952) };
 			return func(a_soundName);
 		}
 
 		inline void PlayMenuSound(const char* a_soundName)
 		{
 			using func_t = decltype(&PlayMenuSound);
-			REL::Relocation<func_t> func{ REL::ID(1227993) };
+			static REL::Relocation<func_t> func{ REL::ID(1227993) };
 			return func(a_soundName);
 		}
 	}

@@ -26,9 +26,9 @@ namespace RE
 		{
 		public:
 			// members
-			ID name;                             // 00
-			BSTAtomicValue<std::uint32_t> ctrl;  // 0C
-			BSTSmartPointer<Stream> stream;      // 10
+			ID                            name;    // 00
+			BSTAtomicValue<std::uint32_t> ctrl;    // 0C
+			BSTSmartPointer<Stream>       stream;  // 10
 		};
 		static_assert(sizeof(EntryBase) == 0x18);
 
@@ -38,14 +38,14 @@ namespace RE
 			static bool ReleaseEntryAction(EntryBase* a_entry)
 			{
 				using func_t = decltype(&EntryDBBaseUtil::ReleaseEntryAction);
-				REL::Relocation<func_t> func{ REL::ID(777279) };
+				static REL::Relocation<func_t> func{ REL::ID(777279) };
 				return func(a_entry);
 			}
 
 			// members
-			Location* rootLocation;              // 00
-			std::uint32_t resourcePriorityBase;  // 08
-			bool allowDeadLoadSkipping;          // 0C
+			Location*     rootLocation;           // 00
+			std::uint32_t resourcePriorityBase;   // 08
+			bool          allowDeadLoadSkipping;  // 0C
 		};
 		static_assert(sizeof(EntryDBBaseUtil) == 0x10);
 
@@ -55,8 +55,8 @@ namespace RE
 		public:
 			// members
 			BSNonReentrantSpinLock lock;  // 00
-			T* head;                      // 08
-			T** tail;                     // 10
+			T*                     head;  // 08
+			T**                    tail;  // 10
 		};
 		static_assert(sizeof(EntryQueue<void>) == 0x18);
 
@@ -65,8 +65,8 @@ namespace RE
 		{
 		public:
 			// members
-			EntryQueue<T> buckets[SIZE];  // 00
-			volatile std::uint32_t step;  // ??
+			EntryQueue<T>          buckets[SIZE];  // 00
+			volatile std::uint32_t step;           // ??
 		};
 		static_assert(sizeof(EntryBucketQueue<void, 8>) == 0xC8);
 
@@ -93,18 +93,18 @@ namespace RE
 				virtual void DoOnFinalize() = 0;  // 02
 
 				// members
-				std::uint32_t state;    // 08
-				PostFlushNotify* next;  // 10
+				std::uint32_t    state;  // 08
+				PostFlushNotify* next;   // 10
 			};
 			static_assert(sizeof(PostFlushNotify) == 0x18);
 
 			virtual ~IEntryDB();  // 00
 
 			// add
-			virtual void CancelLoads() = 0;                                                              // 01
-			virtual void FlushReleases() = 0;                                                            // 02
-			virtual bool DoLoadIfSameOrBetter(std::uint32_t a_priority) = 0;                             // 03
-			virtual void DoMergeLoadsFromTo(std::uint32_t a_from, std::uint32_t a_to) = 0;               // 04
+			virtual void          CancelLoads() = 0;                                                     // 01
+			virtual void          FlushReleases() = 0;                                                   // 02
+			virtual bool          DoLoadIfSameOrBetter(std::uint32_t a_priority) = 0;                    // 03
+			virtual void          DoMergeLoadsFromTo(std::uint32_t a_from, std::uint32_t a_to) = 0;      // 04
 			virtual std::uint32_t UserFlush(NotifyLoadDone* a_notify, std::uint32_t a_maxPriority) = 0;  // 05
 
 			// members
@@ -121,9 +121,9 @@ namespace RE
 			using U_EntryDBTraitsCArgs = T_EntryDBTraitsCArgs;
 
 			// members
-			Entry<T_Type, T_EntryDBTraitsCArgs>* next;  // 00
-			T_Type data;                                // ??
-			std::uint32_t flags;                        // ??
+			Entry<T_Type, T_EntryDBTraitsCArgs>* next;   // 00
+			T_Type                               data;   // ??
+			std::uint32_t                        flags;  // ??
 		};
 
 		template <class T_DBTraits, class T_EntryDB>
@@ -138,7 +138,7 @@ namespace RE
 			public:
 				// members
 				T_DBTraits::ArgsType args;  // 00
-				BSFixedString name;         // ??
+				BSFixedString        name;  // ??
 			};
 		};
 		static_assert(std::is_empty_v<EntryDBTraits<void, void>>);
@@ -158,13 +158,13 @@ namespace RE
 			using U_EntryCacheTraits = T_EntryCacheTraits;
 
 			// members
-			BSTAtomicValue<std::uint32_t> ctrl;   // 00
-			T_EntryCacheTraits::U_Entry** table;  // 08
-			std::uint32_t tableSize;              // 10
-			std::uint32_t tombstoneCount;         // 14
-			std::uint32_t active;                 // 18
-			std::uint32_t maxActive;              // 1C
-			std::uint32_t misses;                 // 20
+			BSTAtomicValue<std::uint32_t> ctrl;            // 00
+			T_EntryCacheTraits::U_Entry** table;           // 08
+			std::uint32_t                 tableSize;       // 10
+			std::uint32_t                 tombstoneCount;  // 14
+			std::uint32_t                 active;          // 18
+			std::uint32_t                 maxActive;       // 1C
+			std::uint32_t                 misses;          // 20
 		};
 
 		template <class T_Entry, class T_EntryDB>
@@ -194,14 +194,14 @@ namespace RE
 			{
 			public:
 				// members
-				std::uint64_t keyHigh;         // 00
-				std::uint64_t keyLow;          // 08
-				StreamRequest* left;           // 10
-				StreamRequest* right;          // 18
-				StreamRequest** root;          // 20
-				std::uint64_t parentAndBlack;  // 28
-				StreamRequest** tableSlot;     // 30
-				void* entry;                   // 38
+				std::uint64_t   keyHigh;         // 00
+				std::uint64_t   keyLow;          // 08
+				StreamRequest*  left;            // 10
+				StreamRequest*  right;           // 18
+				StreamRequest** root;            // 20
+				std::uint64_t   parentAndBlack;  // 28
+				StreamRequest** tableSlot;       // 30
+				void*           entry;           // 38
 			};
 			static_assert(sizeof(StreamRequest) == 0x40);
 
@@ -225,17 +225,17 @@ namespace RE
 			// members
 			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* table[T_SIZE * 2];  // 00
 																					  //	BSTLocklessQueue::ObjMultiProdCons<StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest, T_SIZE, 0> queue;  // ??
-			std::byte pad10000[0x70400 - 0x10000];
-			typename T_RHandleType::U_Entry::U_EntryDBTraitsCArgs cargs[T_SIZE];  // ??
-			BSNonReentrantSpinLock schedProtect;                                  // ??
-			std::byte pad88404[0x88440 - 0x88404];
+			std::byte                                                        pad10000[0x70400 - 0x10000];
+			typename T_RHandleType::U_Entry::U_EntryDBTraitsCArgs            cargs[T_SIZE];  // ??
+			BSNonReentrantSpinLock                                           schedProtect;   // ??
+			std::byte                                                        pad88404[0x88440 - 0x88404];
 			BSResource::StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest rescheduleSearchRequest;  // ??
-			BSTAtomicValue<std::uint32_t> IDGen;                                                       // ??
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* root;                                // ??
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* lowest;                              // ??
-			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest* tombstone;                           // ??
-			std::uint32_t tableActive;                                                                 // ??
-			std::byte pad884A4[0x88500 - 0x884A4];
+			BSTAtomicValue<std::uint32_t>                                    IDGen;                    // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest*            root;                     // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest*            lowest;                   // ??
+			StreamerTraits<T_RHandleType, T_SIZE>::StreamRequest*            tombstone;                // ??
+			std::uint32_t                                                    tableActive;              // ??
+			std::byte                                                        pad884A4[0x88500 - 0x884A4];
 		};
 
 		template <class T_EntryDBTraits>
@@ -245,9 +245,9 @@ namespace RE
 		{
 		public:
 			// members
-			REntryCache<EntryCacheTraits<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs, DAP, 64>> cache;                                                // 00
-			Streamer<RHandleType<Entry<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs>, EntryDB<typename T_EntryDBTraits::U_DBTraits>>, 4096> streamer;  // ?? : 80
-			EntryBucketQueue<Entry<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs>, 512> releaseQueue;                                                   // ??
+			REntryCache<EntryCacheTraits<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs, DAP, 64>>                                            cache;         // 00
+			Streamer<RHandleType<Entry<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs>, EntryDB<typename T_EntryDBTraits::U_DBTraits>>, 4096> streamer;      // ?? : 80
+			EntryBucketQueue<Entry<typename T_EntryDBTraits::U_DBTraits::U_Type, typename T_EntryDBTraits::CArgs>, 512>                                                      releaseQueue;  // ??
 		};
 
 		template <class T_DBTraits>
@@ -260,10 +260,10 @@ namespace RE
 			virtual ~EntryDB();  // 00
 
 			// override (IEntryDB)
-			virtual void CancelLoads() override;                                                              // 01
-			virtual void FlushReleases() override;                                                            // 02
-			virtual bool DoLoadIfSameOrBetter(std::uint32_t a_priority) override;                             // 03
-			virtual void DoMergeLoadsFromTo(std::uint32_t a_from, std::uint32_t a_to) override;               // 04
+			virtual void          CancelLoads() override;                                                     // 01
+			virtual void          FlushReleases() override;                                                   // 02
+			virtual bool          DoLoadIfSameOrBetter(std::uint32_t a_priority) override;                    // 03
+			virtual void          DoMergeLoadsFromTo(std::uint32_t a_from, std::uint32_t a_to) override;      // 04
 			virtual std::uint32_t UserFlush(NotifyLoadDone* a_notify, std::uint32_t a_maxPriority) override;  // 05
 		};
 	}

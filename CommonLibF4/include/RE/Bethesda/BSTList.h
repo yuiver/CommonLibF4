@@ -129,7 +129,7 @@ namespace RE
 			[[nodiscard]] auto make_mutable() const noexcept { return iterator_base<std::remove_const_t<value_type>>{ _proxy, _cur }; }
 
 		private:
-			BSSimpleList<T>* _proxy{ nullptr };
+			BSSimpleList<T>*          _proxy{ nullptr };
 			std::optional<node_type*> _cur{ nullptr };
 		};
 
@@ -212,15 +212,15 @@ namespace RE
 		// 2)
 		[[nodiscard]] const_reference front() const noexcept { return mutable_reference().front(); }
 
-		[[nodiscard]] iterator before_begin() noexcept { return iterator{ this, std::nullopt }; }
+		[[nodiscard]] iterator       before_begin() noexcept { return iterator{ this, std::nullopt }; }
 		[[nodiscard]] const_iterator before_begin() const noexcept { return mutable_reference().before_begin(); }
 		[[nodiscard]] const_iterator cbefore_begin() const noexcept { return before_begin(); }
 
-		[[nodiscard]] iterator begin() noexcept { return !empty() ? iterator{ this, std::addressof(_root) } : end(); }
+		[[nodiscard]] iterator       begin() noexcept { return !empty() ? iterator{ this, std::addressof(_root) } : end(); }
 		[[nodiscard]] const_iterator begin() const noexcept { mutable_reference().begin(); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { begin(); }
 
-		[[nodiscard]] iterator end() noexcept { return iterator{ this, nullptr }; }
+		[[nodiscard]] iterator       end() noexcept { return iterator{ this, nullptr }; }
 		[[nodiscard]] const_iterator end() const noexcept { return mutable_reference().end(); }
 		[[nodiscard]] const_iterator cend() const noexcept { return end(); }
 
@@ -323,8 +323,8 @@ namespace RE
 		// 2)
 		void resize(size_type a_count, const value_type& a_value)
 		{
-			size_type n = static_cast<size_type>(-1);
-			auto iter = cbefore_begin();
+			size_type      n = static_cast<size_type>(-1);
+			auto           iter = cbefore_begin();
 			const_iterator prev;
 			while (++n != a_count) {
 				prev = iter;

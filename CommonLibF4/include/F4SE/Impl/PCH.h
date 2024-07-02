@@ -22,9 +22,8 @@
 #include <format>
 #include <fstream>
 #include <functional>
-#include <iomanip>
-#include <ios>
-#include <istream>
+#include <initializer_list>
+#include <intrin.h>
 #include <iterator>
 #include <limits>
 #include <locale>
@@ -36,8 +35,7 @@
 #include <numeric>
 #include <optional>
 #include <random>
-#include <regex>
-#include <set>
+#include <ranges>
 #include <source_location>
 #include <span>
 #include <sstream>
@@ -59,15 +57,13 @@ static_assert(
 	"wrap std::time_t instead");
 
 #pragma warning(push, 0)
-#include <binary_io/file_stream.hpp>
-#include <boost/stl_interfaces/sequence_container_interface.hpp>
-#include <fmt/format.h>
 #include <mmio/mmio.hpp>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
-#include "F4SE/Impl/WinAPI.h"
-#include "F4SE/Impl/WinSTL.h"
+#include "REX/REX.h"
+#include "REX/W32/KERNEL32.h"
+#include "REX/W32/USER32.h"
 
 namespace F4SE
 {
@@ -114,16 +110,15 @@ namespace F4SE
 		template <class C, class K>
 		concept transparent_comparator =
 			requires(
-				const K& a_transparent,
+				const K&                    a_transparent,
 				const typename C::key_type& a_key,
-				typename C::key_compare& a_compare)
-		{
-			typename C::key_compare::is_transparent;
-			// clang-format off
+				typename C::key_compare&    a_compare) {
+				typename C::key_compare::is_transparent;
+				// clang-format off
 			{ a_compare(a_transparent, a_key) } -> std::convertible_to<bool>;
 			{ a_compare(a_key, a_transparent) } -> std::convertible_to<bool>;
-			// clang-format on
-		};
+				// clang-format on
+			};
 
 		namespace nttp
 		{
@@ -159,11 +154,10 @@ namespace F4SE
 				}
 
 				[[nodiscard]] consteval const_reference back() const noexcept { return (*this)[size() - 1]; }
-				[[nodiscard]] consteval const_pointer data() const noexcept { return c; }
-				[[nodiscard]] consteval bool empty() const noexcept { return this->size() == 0; }
+				[[nodiscard]] consteval const_pointer   data() const noexcept { return c; }
 				[[nodiscard]] consteval const_reference front() const noexcept { return (*this)[0]; }
-				[[nodiscard]] consteval size_type length() const noexcept { return N; }
-				[[nodiscard]] consteval size_type size() const noexcept { return length(); }
+				[[nodiscard]] consteval size_type       length() const noexcept { return N; }
+				[[nodiscard]] consteval size_type       size() const noexcept { return length(); }
 
 				template <std::size_t POS = 0, std::size_t COUNT = npos>
 				[[nodiscard]] consteval auto substr() const noexcept
@@ -178,9 +172,9 @@ namespace F4SE
 			string(const CharT (&)[N]) -> string<CharT, N - 1>;
 		}
 
-		template <class EF>                                    //
-		requires(std::invocable<std::remove_reference_t<EF>>)  //
-			class scope_exit
+		template <class EF>                                        //
+			requires(std::invocable<std::remove_reference_t<EF>>)  //
+		class scope_exit
 		{
 		public:
 			// 1)
@@ -294,100 +288,24 @@ namespace F4SE
 
 		private:
 			std::optional<F> _fn;
-			std::size_t _left{ 0 };
+			std::size_t      _left{ 0 };
 		};
 
+		// backwards compat
 		template <
-			class Enum,
-			class Underlying = std::underlying_type_t<Enum>>
-		class enumeration
+			class E,
+			class U = std::underlying_type_t<E>>
+		class enumeration : public REX::EnumSet<E, U>
 		{
+			using super = REX::EnumSet<E, U>;
+
 		public:
-			using enum_type = Enum;
-			using underlying_type = Underlying;
+			using enum_type = E;
+			using underlying_type = U;
 
-			static_assert(std::is_enum_v<enum_type>, "enum_type must be an enum");
-			static_assert(std::is_integral_v<underlying_type>, "underlying_type must be an integral");
-
-			constexpr enumeration() noexcept = default;
-
-			constexpr enumeration(const enumeration&) noexcept = default;
-
-			constexpr enumeration(enumeration&&) noexcept = default;
-
-			template <class U2>  // NOLINTNEXTLINE(google-explicit-constructor)
-			constexpr enumeration(enumeration<Enum, U2> a_rhs) noexcept :
-				_impl(static_cast<underlying_type>(a_rhs.get()))
-			{}
-
-			template <class... Args>
-			constexpr enumeration(Args... a_values) noexcept  //
-				requires(std::same_as<Args, enum_type>&&...) :
-				_impl((static_cast<underlying_type>(a_values) | ...))
-			{}
-
-			~enumeration() noexcept = default;
-
-			constexpr enumeration& operator=(const enumeration&) noexcept = default;
-			constexpr enumeration& operator=(enumeration&&) noexcept = default;
-
-			template <class U2>
-			constexpr enumeration& operator=(enumeration<Enum, U2> a_rhs) noexcept
-			{
-				_impl = static_cast<underlying_type>(a_rhs.get());
-			}
-
-			constexpr enumeration& operator=(enum_type a_value) noexcept
-			{
-				_impl = static_cast<underlying_type>(a_value);
-				return *this;
-			}
-
-			[[nodiscard]] explicit constexpr operator bool() const noexcept { return _impl != static_cast<underlying_type>(0); }
-
-			[[nodiscard]] constexpr enum_type operator*() const noexcept { return get(); }
-			[[nodiscard]] constexpr enum_type get() const noexcept { return static_cast<enum_type>(_impl); }
-			[[nodiscard]] constexpr underlying_type underlying() const noexcept { return _impl; }
-
-			template <class... Args>
-			constexpr enumeration& set(Args... a_args) noexcept  //
-				requires(std::same_as<Args, enum_type>&&...)
-			{
-				_impl |= (static_cast<underlying_type>(a_args) | ...);
-				return *this;
-			}
-
-			template <class... Args>
-			constexpr enumeration& reset(Args... a_args) noexcept  //
-				requires(std::same_as<Args, enum_type>&&...)
-			{
-				_impl &= ~(static_cast<underlying_type>(a_args) | ...);
-				return *this;
-			}
-
-			template <class... Args>
-			[[nodiscard]] constexpr bool any(Args... a_args) const noexcept  //
-				requires(std::same_as<Args, enum_type>&&...)
-			{
-				return (_impl & (static_cast<underlying_type>(a_args) | ...)) != static_cast<underlying_type>(0);
-			}
-
-			template <class... Args>
-			[[nodiscard]] constexpr bool all(Args... a_args) const noexcept  //
-				requires(std::same_as<Args, enum_type>&&...)
-			{
-				return (_impl & (static_cast<underlying_type>(a_args) | ...)) == (static_cast<underlying_type>(a_args) | ...);
-			}
-
-			template <class... Args>
-			[[nodiscard]] constexpr bool none(Args... a_args) const noexcept  //
-				requires(std::same_as<Args, enum_type>&&...)
-			{
-				return (_impl & (static_cast<underlying_type>(a_args) | ...)) == static_cast<underlying_type>(0);
-			}
-
-		private:
-			underlying_type _impl{ 0 };
+			using super::super;
+			using super::operator=;
+			using super::operator*;
 		};
 
 		template <class... Args>
@@ -398,125 +316,10 @@ namespace F4SE
 	}
 }
 
-#define F4SE_MAKE_LOGICAL_OP(a_op, a_result)                                                                    \
-	template <class E, class U1, class U2>                                                                      \
-	[[nodiscard]] constexpr a_result operator a_op(enumeration<E, U1> a_lhs, enumeration<E, U2> a_rhs) noexcept \
-	{                                                                                                           \
-		return a_lhs.get() a_op a_rhs.get();                                                                    \
-	}                                                                                                           \
-                                                                                                                \
-	template <class E, class U>                                                                                 \
-	[[nodiscard]] constexpr a_result operator a_op(enumeration<E, U> a_lhs, E a_rhs) noexcept                   \
-	{                                                                                                           \
-		return a_lhs.get() a_op a_rhs;                                                                          \
-	}
-
-#define F4SE_MAKE_ARITHMETIC_OP(a_op)                                                        \
-	template <class E, class U>                                                              \
-	[[nodiscard]] constexpr auto operator a_op(enumeration<E, U> a_enum, U a_shift) noexcept \
-		->enumeration<E, U>                                                                  \
-	{                                                                                        \
-		return static_cast<E>(static_cast<U>(a_enum.get()) a_op a_shift);                    \
-	}                                                                                        \
-                                                                                             \
-	template <class E, class U>                                                              \
-	constexpr auto operator a_op##=(enumeration<E, U>& a_enum, U a_shift) noexcept           \
-		->enumeration<E, U>&                                                                 \
-	{                                                                                        \
-		return a_enum = a_enum a_op a_shift;                                                 \
-	}
-
-#define F4SE_MAKE_ENUMERATION_OP(a_op)                                                                      \
-	template <class E, class U1, class U2>                                                                  \
-	[[nodiscard]] constexpr auto operator a_op(enumeration<E, U1> a_lhs, enumeration<E, U2> a_rhs) noexcept \
-		->enumeration<E, std::common_type_t<U1, U2>>                                                        \
-	{                                                                                                       \
-		return static_cast<E>(static_cast<U1>(a_lhs.get()) a_op static_cast<U2>(a_rhs.get()));              \
-	}                                                                                                       \
-                                                                                                            \
-	template <class E, class U>                                                                             \
-	[[nodiscard]] constexpr auto operator a_op(enumeration<E, U> a_lhs, E a_rhs) noexcept                   \
-		->enumeration<E, U>                                                                                 \
-	{                                                                                                       \
-		return static_cast<E>(static_cast<U>(a_lhs.get()) a_op static_cast<U>(a_rhs));                      \
-	}                                                                                                       \
-                                                                                                            \
-	template <class E, class U>                                                                             \
-	[[nodiscard]] constexpr auto operator a_op(E a_lhs, enumeration<E, U> a_rhs) noexcept                   \
-		->enumeration<E, U>                                                                                 \
-	{                                                                                                       \
-		return static_cast<E>(static_cast<U>(a_lhs) a_op static_cast<U>(a_rhs.get()));                      \
-	}                                                                                                       \
-                                                                                                            \
-	template <class E, class U1, class U2>                                                                  \
-	constexpr auto operator a_op##=(enumeration<E, U1>& a_lhs, enumeration<E, U2> a_rhs) noexcept           \
-		->enumeration<E, U1>&                                                                               \
-	{                                                                                                       \
-		return a_lhs = a_lhs a_op a_rhs;                                                                    \
-	}                                                                                                       \
-                                                                                                            \
-	template <class E, class U>                                                                             \
-	constexpr auto operator a_op##=(enumeration<E, U>& a_lhs, E a_rhs) noexcept                             \
-		->enumeration<E, U>&                                                                                \
-	{                                                                                                       \
-		return a_lhs = a_lhs a_op a_rhs;                                                                    \
-	}                                                                                                       \
-                                                                                                            \
-	template <class E, class U>                                                                             \
-	constexpr auto operator a_op##=(E& a_lhs, enumeration<E, U> a_rhs) noexcept                             \
-		->E&                                                                                                \
-	{                                                                                                       \
-		return a_lhs = *(a_lhs a_op a_rhs);                                                                 \
-	}
-
-#define F4SE_MAKE_INCREMENTER_OP(a_op)                                                       \
-	template <class E, class U>                                                              \
-	constexpr auto operator a_op##a_op(enumeration<E, U>& a_lhs) noexcept                    \
-		->enumeration<E, U>&                                                                 \
-	{                                                                                        \
-		return a_lhs a_op## = static_cast<E>(1);                                             \
-	}                                                                                        \
-                                                                                             \
-	template <class E, class U>                                                              \
-	[[nodiscard]] constexpr auto operator a_op##a_op(enumeration<E, U>& a_lhs, int) noexcept \
-		->enumeration<E, U>                                                                  \
-	{                                                                                        \
-		const auto tmp = a_lhs;                                                              \
-		a_op##a_op a_lhs;                                                                    \
-		return tmp;                                                                          \
-	}
-
 namespace F4SE
 {
 	namespace stl
 	{
-		template <
-			class E,
-			class U>
-		[[nodiscard]] constexpr auto operator~(enumeration<E, U> a_enum) noexcept
-			-> enumeration<E, U>
-		{
-			return static_cast<E>(~static_cast<U>(a_enum.get()));
-		}
-
-		F4SE_MAKE_LOGICAL_OP(==, bool);
-		F4SE_MAKE_LOGICAL_OP(<=>, std::strong_ordering);
-
-		F4SE_MAKE_ARITHMETIC_OP(<<);
-		F4SE_MAKE_ENUMERATION_OP(<<);
-		F4SE_MAKE_ARITHMETIC_OP(>>);
-		F4SE_MAKE_ENUMERATION_OP(>>);
-
-		F4SE_MAKE_ENUMERATION_OP(|);
-		F4SE_MAKE_ENUMERATION_OP(&);
-		F4SE_MAKE_ENUMERATION_OP(^);
-
-		F4SE_MAKE_ENUMERATION_OP(+);
-		F4SE_MAKE_ENUMERATION_OP(-);
-
-		F4SE_MAKE_INCREMENTER_OP(+);  // ++
-		F4SE_MAKE_INCREMENTER_OP(-);  // --
-
 		template <class T>
 		class atomic_ref :
 			public std::atomic_ref<T>
@@ -598,19 +401,19 @@ namespace F4SE
 		template <class T>
 		void memzero(volatile T* a_ptr, std::size_t a_size = sizeof(T))
 		{
-			const auto begin = reinterpret_cast<volatile char*>(a_ptr);
+			const auto     begin = reinterpret_cast<volatile char*>(a_ptr);
 			constexpr char val{ 0 };
 			std::fill_n(begin, a_size, val);
 		}
 
 		template <class... Args>
 		[[nodiscard]] inline auto pun_bits(Args... a_args)  //
-			requires(std::same_as<std::remove_cv_t<Args>, bool>&&...)
+			requires(std::same_as<std::remove_cv_t<Args>, bool> && ...)
 		{
 			constexpr auto ARGC = sizeof...(Args);
 
 			std::bitset<ARGC> bits;
-			std::size_t i = 0;
+			std::size_t       i = 0;
 			((bits[i++] = a_args), ...);
 
 			if constexpr (ARGC <= std::numeric_limits<unsigned long>::digits) {
@@ -694,8 +497,8 @@ namespace F4SE
 			static constexpr source_location current(
 				const uint_least32_t a_line = __builtin_LINE(),
 				const uint_least32_t a_column = __builtin_COLUMN(),
-				const char* const a_file = __builtin_FILE(),
-				const char* const a_function = __builtin_FUNCTION()) noexcept
+				const char* const    a_file = __builtin_FILE(),
+				const char* const    a_function = __builtin_FUNCTION()) noexcept
 			{
 				source_location result;
 				result._line = a_line;
@@ -730,8 +533,8 @@ namespace F4SE
 
 			uint_least32_t _line{};
 			uint_least32_t _column{};
-			const char* _file = "";
-			const char* _function = "";
+			const char*    _file = "";
+			const char*    _function = "";
 		};
 #endif
 
@@ -740,33 +543,36 @@ namespace F4SE
 		{
 			const auto body = [&]() -> std::wstring {
 				const std::filesystem::path p = a_loc.file_name();
-				auto filename = p.lexically_normal().generic_string();
+				const auto                  filename = p.generic_string();
+				std::string_view            fileview = filename;
 
-				const std::regex r{ R"((?:^|[\\\/])(?:include|src)[\\\/](.*)$)" };
-				std::smatch matches;
-				if (std::regex_search(filename, matches, r)) {
-					filename = matches[1].str();
+				constexpr auto npos = std::string::npos;
+				std::size_t    pos = npos;
+				std::size_t    off = 0;
+				for (const auto& dir : directories) {
+					pos = fileview.find(dir);
+					if (pos != npos) {
+						off = dir.length();
+						break;
+					}
 				}
 
-				return utf8_to_utf16(
-					std::format(
-						"{}({}): {}"sv,
-						filename,
-						a_loc.line(),
-						a_msg))
-				    .value_or(L"<character encoding error>"s);
+				if (pos != npos) {
+					fileview = fileview.substr(pos + off);
+				}
+
+				return std::format("{}({}): {}", fileview, a_loc.line(), a_msg);
 			}();
 
-			const auto caption = []() {
-				const auto maxPath = WinAPI::GetMaxPath();
-				std::vector<wchar_t> buf;
-				buf.reserve(maxPath);
-				buf.resize(maxPath / 2);
+			const auto caption = []() -> std::string {
+				std::vector<char> buf;
+				buf.reserve(REX::W32::MAX_PATH);
+				buf.resize(REX::W32::MAX_PATH / 2);
 				std::uint32_t result = 0;
 				do {
 					buf.resize(buf.size() * 2);
-					result = WinAPI::GetModuleFileName(
-						WinAPI::GetCurrentModule(),
+					result = REX::W32::GetModuleFileNameA(
+						REX::W32::GetCurrentModule(),
 						buf.data(),
 						static_cast<std::uint32_t>(buf.size()));
 				} while (result && result == buf.size() && buf.size() <= (std::numeric_limits<std::uint32_t>::max)());
@@ -786,29 +592,8 @@ namespace F4SE
 					a_loc.function_name() },
 				spdlog::level::critical,
 				a_msg);
-
-			if (a_fail) {
-#ifdef COMMONLIBF4_ENABLE_TESTING
-				throw std::runtime_error(utf16_to_utf8(caption.empty() ? body.c_str() : caption.c_str())->c_str());
-#else
-				WinAPI::MessageBox(nullptr, body.c_str(), (caption.empty() ? nullptr : caption.c_str()), 0);
-				WinAPI::TerminateProcess(WinAPI::GetCurrentProcess(), EXIT_FAILURE);
-#endif
-			}
-			return true;
-		}
-
-		[[noreturn]] inline void report_and_fail(std::string_view a_msg,
-			F4SE::stl::source_location a_loc = F4SE::stl::source_location::current())
-		{
-			report_and_error(a_msg, true, a_loc);
-		}
-
-		template <class Enum>
-		[[nodiscard]] constexpr auto to_underlying(Enum a_val) noexcept  //
-			requires(std::is_enum_v<Enum>)
-		{
-			return static_cast<std::underlying_type_t<Enum>>(a_val);
+			REX::W32::MessageBoxA(nullptr, body.c_str(), (caption.empty() ? nullptr : caption.c_str()), 0);
+			REX::W32::TerminateProcess(REX::W32::GetCurrentProcess(), EXIT_FAILURE);
 		}
 
 		template <class To, class From>
@@ -842,44 +627,90 @@ namespace F4SE
 				union
 				{
 					std::remove_cv_t<std::remove_reference_t<From>> from;
-					std::remove_cv_t<std::remove_reference_t<To>> to;
+					std::remove_cv_t<std::remove_reference_t<To>>   to;
 				};
 
 				from = std::forward<From>(a_from);
 				return to;
 			}
 		}
+
+		[[nodiscard]] inline auto utf8_to_utf16(std::string_view a_in) noexcept
+			-> std::optional<std::wstring>
+		{
+			const auto cvt = [&](wchar_t* a_dst, std::size_t a_length) {
+				return REX::W32::MultiByteToWideChar(
+					REX::W32::CP_UTF8,
+					0,
+					a_in.data(),
+					static_cast<int>(a_in.length()),
+					a_dst,
+					static_cast<int>(a_length));
+			};
+
+			const auto len = cvt(nullptr, 0);
+			if (len == 0) {
+				return std::nullopt;
+			}
+
+			std::wstring out(len, '\0');
+			if (cvt(out.data(), out.length()) == 0) {
+				return std::nullopt;
+			}
+
+			return out;
+		}
+
+		[[nodiscard]] inline auto utf16_to_utf8(std::wstring_view a_in) noexcept
+			-> std::optional<std::string>
+		{
+			const auto cvt = [&](char* a_dst, std::size_t a_length) {
+				return REX::W32::WideCharToMultiByte(
+					REX::W32::CP_UTF8,
+					0,
+					a_in.data(),
+					static_cast<int>(a_in.length()),
+					a_dst,
+					static_cast<int>(a_length),
+					nullptr,
+					nullptr);
+			};
+
+			const auto len = cvt(nullptr, 0);
+			if (len == 0) {
+				return std::nullopt;
+			}
+
+			std::string out(len, '\0');
+			if (cvt(out.data(), out.length()) == 0) {
+				return std::nullopt;
+			}
+
+			return out;
+		}
 	}
 }
-
-#undef F4SE_MAKE_INCREMENTER_OP
-#undef F4SE_MAKE_ENUMERATION_OP
-#undef F4SE_MAKE_ARITHMETIC_OP
-#undef F4SE_MAKE_LOGICAL_OP
 
 namespace RE
 {
 	using namespace std::literals;
 	namespace stl = F4SE::stl;
-	namespace WinAPI = F4SE::WinAPI;
-	namespace WinSTL = F4SE::WinSTL;
 }
 
 namespace REL
 {
 	using namespace std::literals;
 	namespace stl = F4SE::stl;
-	namespace WinAPI = F4SE::WinAPI;
-	namespace WinSTL = F4SE::WinSTL;
 }
 
-#include "REL/Relocation.h"
+#include "REL/REL.h"
 
 #include "RE/NiRTTI_IDs.h"
 #include "RE/RTTI_IDs.h"
 #include "RE/VTABLE_IDs.h"
 
-#include "RE/msvc/functional.h"
+#include "RE/Bethesda/BSCoreTypes.h"
+
 #include "RE/msvc/memory.h"
 #include "RE/msvc/typeinfo.h"
 

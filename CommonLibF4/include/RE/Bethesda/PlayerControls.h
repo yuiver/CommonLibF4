@@ -8,8 +8,7 @@
 #include "RE/Bethesda/BSTEvent.h"
 #include "RE/Bethesda/BSTSingleton.h"
 #include "RE/Bethesda/IMovementInterface.h"
-#include "RE/NetImmerse/NiPoint2.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {
@@ -23,7 +22,6 @@ namespace RE
 	struct AutoMoveHandler;
 	struct GrabRotationHandler;
 	struct JumpHandler;
-	struct LookHandler;
 	struct MeleeThrowHandler;
 	struct MovementHandler;
 	struct ReadyWeaponHandler;
@@ -52,8 +50,8 @@ namespace RE
 		public:
 			union
 			{
-				float f;
-				std::int32_t i;
+				float         f;
+				std::int32_t  i;
 				std::uint32_t ui;
 			};  //00
 		};
@@ -61,11 +59,11 @@ namespace RE
 		virtual ~ActionInput();  // 00
 
 		// members
-		NiPointer<TESObjectREFR> ref;                              // 08
-		NiPointer<TESObjectREFR> targetRef;                        // 10
-		BGSAction* action;                                         // 18
-		stl::enumeration<ACTIONPRIORITY, std::uint32_t> priority;  // 20
-		Data ActionData;                                           // 24
+		NiPointer<TESObjectREFR>                    ref;         // 08
+		NiPointer<TESObjectREFR>                    targetRef;   // 10
+		BGSAction*                                  action;      // 18
+		REX::EnumSet<ACTIONPRIORITY, std::uint32_t> priority;    // 20
+		Data                                        ActionData;  // 24
 	};
 	static_assert(sizeof(ActionInput) == 0x28);
 
@@ -73,18 +71,18 @@ namespace RE
 	{
 	public:
 		// members
-		NiPoint2 moveInputVec;                                // 00
-		NiPoint2 lookInputVec;                                // 08
-		NiPoint2 lookInputVecNormalized;                      // 10
-		NiPoint2 prevMoveVec;                                 // 18
-		NiPoint2 prevLookVec;                                 // 20
-		BSSpring::SpringState<NiPoint3> rotationSpeedSpring;  // 28
-		bool autoMove;                                        // 44
-		bool running;                                         // 45
-		bool togglePOV;                                       // 46
-		bool vanityModeEnabled;                               // 47
-		bool checkHeldStates;                                 // 48
-		bool setupHeldStatesForRelease;                       // 49
+		NiPoint2                        moveInputVec;               // 00
+		NiPoint2                        lookInputVec;               // 08
+		NiPoint2                        lookInputVecNormalized;     // 10
+		NiPoint2                        prevMoveVec;                // 18
+		NiPoint2                        prevLookVec;                // 20
+		BSSpring::SpringState<NiPoint3> rotationSpeedSpring;        // 28
+		bool                            autoMove;                   // 44
+		bool                            running;                    // 45
+		bool                            togglePOV;                  // 46
+		bool                            vanityModeEnabled;          // 47
+		bool                            checkHeldStates;            // 48
+		bool                            setupHeldStatesForRelease;  // 49
 	};
 	static_assert(sizeof(PlayerControlsData) == 0x4C);
 
@@ -106,8 +104,8 @@ namespace RE
 		virtual void PerFrameUpdate() { return; };  // 09
 
 		// members
-		PlayerControlsData& data;        // 10
-		bool inQuickContainer{ false };  // 18
+		PlayerControlsData& data;                       // 10
+		bool                inQuickContainer{ false };  // 18
 	};
 	static_assert(sizeof(PlayerInputHandler) == 0x20);
 
@@ -139,6 +137,22 @@ namespace RE
 	};
 	static_assert(sizeof(HeldStateHandler) == 0x28);
 
+	class LookHandler :
+		public PlayerInputHandler
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::LookHandler };
+		static constexpr auto VTABLE{ VTABLE::LookHandler };
+
+		explicit constexpr LookHandler(PlayerControlsData& a_data) noexcept :
+			PlayerInputHandler(a_data)
+		{}
+
+		// members
+		float thumbstickMaxedSec{ 0.0f };  // 20
+	};
+	static_assert(sizeof(LookHandler) == 0x28);
+
 	class __declspec(novtable) PlayerControls :
 		BSInputEventReceiver,                    // 000
 		BSTEventSink<MenuOpenCloseEvent>,        // 010
@@ -155,21 +169,21 @@ namespace RE
 
 		static PlayerControls* GetSingleton()
 		{
-			REL::Relocation<PlayerControls**> singleton{ REL::ID(544871) };
+			static REL::Relocation<PlayerControls**> singleton{ REL::ID(2692013) };
 			return *singleton;
 		}
 
-		bool CanPerformAction(DEFAULT_OBJECT id)
+		bool CanPerformAction(DEFAULT_OBJECT a_action)
 		{
 			using func_t = decltype(&PlayerControls::CanPerformAction);
-			REL::Relocation<func_t> func{ REL::ID(565925) };
-			return func(this, id);
+			static REL::Relocation<func_t> func{ REL::ID(565925) };
+			return func(this, a_action);
 		}
 
 		bool DoAction(DEFAULT_OBJECT a_action, ActionInput::ACTIONPRIORITY a_priority)
 		{
 			using func_t = decltype(&PlayerControls::DoAction);
-			REL::Relocation<func_t> func{ REL::ID(818081) };
+			static REL::Relocation<func_t> func{ REL::ID(818081) };
 			return func(this, a_action, a_priority);
 		}
 
@@ -177,37 +191,37 @@ namespace RE
 		void RegisterHandler(HeldStateHandler* a_handler) { DoRegisterHandler(a_handler, true); }
 
 		// members
-		PlayerControlsData data;                        // 044
-		BSTArray<PlayerInputHandler*> handlers;         // 090
-		BSTArray<HeldStateHandler*> heldStateHandlers;  // 0A8
-		std::uint32_t topGraphPoint[3];                 // 0C0
-		float graphPoints[3][10][2];                    // 0CC
-		BSTArray<ActorHandle> actionInterestedActors;   // 1C0
-		BSSpinLock actorArraySpinLock;                  // 1D8
-		MovementHandler* movementHandler;               // 1E0
-		LookHandler* lookHandler;                       // 1E8
-		SprintHandler* sprintHandler;                   // 1F0
-		ReadyWeaponHandler* readyWeaponHandler;         // 1F8
-		AutoMoveHandler* autoMoveHandler;               // 200
-		ToggleRunHandler* toggleRunHandler;             // 208
-		ActivateHandler* activateHandler;               // 210
-		JumpHandler* jumpHandler;                       // 218
-		AttackBlockHandler* attackHandler;              // 220
-		RunHandler* runHandler;                         // 228
-		SneakHandler* sneakHandler;                     // 230
-		TogglePOVHandler* togglePOVHandler;             // 238
-		MeleeThrowHandler* meleeThrowHandler;           // 240
-		GrabRotationHandler* grabRotationHandler;       // 248
-		bool notifyingHandlers;                         // 250
-		bool blockPlayerInput;                          // 251
-		float cameraAutoRotationX;                      // 254
-		float cameraAutoRotationY;                      // 258
+		PlayerControlsData            data;                    // 044
+		BSTArray<PlayerInputHandler*> handlers;                // 090
+		BSTArray<HeldStateHandler*>   heldStateHandlers;       // 0A8
+		std::uint32_t                 topGraphPoint[3];        // 0C0
+		float                         graphPoints[3][10][2];   // 0CC
+		BSTArray<ActorHandle>         actionInterestedActors;  // 1C0
+		BSSpinLock                    actorArraySpinLock;      // 1D8
+		MovementHandler*              movementHandler;         // 1E0
+		LookHandler*                  lookHandler;             // 1E8
+		SprintHandler*                sprintHandler;           // 1F0
+		ReadyWeaponHandler*           readyWeaponHandler;      // 1F8
+		AutoMoveHandler*              autoMoveHandler;         // 200
+		ToggleRunHandler*             toggleRunHandler;        // 208
+		ActivateHandler*              activateHandler;         // 210
+		JumpHandler*                  jumpHandler;             // 218
+		AttackBlockHandler*           attackHandler;           // 220
+		RunHandler*                   runHandler;              // 228
+		SneakHandler*                 sneakHandler;            // 230
+		TogglePOVHandler*             togglePOVHandler;        // 238
+		MeleeThrowHandler*            meleeThrowHandler;       // 240
+		GrabRotationHandler*          grabRotationHandler;     // 248
+		bool                          notifyingHandlers;       // 250
+		bool                          blockPlayerInput;        // 251
+		float                         cameraAutoRotationX;     // 254
+		float                         cameraAutoRotationY;     // 258
 
 	private:
 		void DoRegisterHandler(PlayerInputHandler* a_handler, bool a_isHeldStateHandler)
 		{
 			using func_t = decltype(&PlayerControls::DoRegisterHandler);
-			REL::Relocation<func_t> func{ REL::ID(177801) };
+			static REL::Relocation<func_t> func{ REL::ID(177801) };
 			return func(this, a_handler, a_isHeldStateHandler);
 		}
 	};

@@ -26,10 +26,10 @@ namespace RE
 	{
 	public:
 		// members
-		BSTArray<AnimVariableCacheInfo> variableCache;         // 00
-		BSTArray<hkbVariableValue*> variableQuickLookup;       // 18
-		BSSpinLock* lock;                                      // 30
-		BSTSmartPointer<BShkbAnimationGraph> graphToCacheFor;  // 38
+		BSTArray<AnimVariableCacheInfo>      variableCache;        // 00
+		BSTArray<hkbVariableValue*>          variableQuickLookup;  // 18
+		BSSpinLock*                          lock;                 // 30
+		BSTSmartPointer<BShkbAnimationGraph> graphToCacheFor;      // 38
 	};
 	static_assert(sizeof(BSAnimationGraphVariableCache) == 0x40);
 
@@ -47,16 +47,16 @@ namespace RE
 		static_assert(sizeof(DependentManagerSmartPtr) == 0x08);
 
 		// members
-		BSTArray<BSTSmartPointer<BSAnimationGraphChannel>> boundChannel;   // 10
-		BSTArray<BSTSmartPointer<BSAnimationGraphChannel>> bumpedChannel;  // 28
-		BSTSmallArray<BSTSmartPointer<BShkbAnimationGraph>, 1> graph;      // 40
-		BSTArray<DependentManagerSmartPtr> subManagers;                    // 58
-		BSTArray<BSTTuple<BSFixedString, BSFixedString>> eventQueuea;      // 70
-		BSAnimationGraphVariableCache variableCache;                       // 88
-		BSSpinLock updateLock;                                             // C8
-		BSSpinLock dependentManagerLock;                                   // D0
-		std::uint32_t activeGraph;                                         // D8
-		std::uint32_t generateDepth;                                       // DC
+		BSTArray<BSTSmartPointer<BSAnimationGraphChannel>>     boundChannel;          // 10
+		BSTArray<BSTSmartPointer<BSAnimationGraphChannel>>     bumpedChannel;         // 28
+		BSTSmallArray<BSTSmartPointer<BShkbAnimationGraph>, 1> graph;                 // 40
+		BSTArray<DependentManagerSmartPtr>                     subManagers;           // 58
+		BSTArray<BSTTuple<BSFixedString, BSFixedString>>       eventQueuea;           // 70
+		BSAnimationGraphVariableCache                          variableCache;         // 88
+		BSSpinLock                                             updateLock;            // C8
+		BSSpinLock                                             dependentManagerLock;  // D0
+		std::uint32_t                                          activeGraph;           // D8
+		std::uint32_t                                          generateDepth;         // DC
 	};
 	static_assert(sizeof(BSAnimationGraphManager) == 0xE0);
 }

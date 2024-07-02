@@ -23,13 +23,13 @@ namespace RE
 	{
 	public:
 		// members
-		bool arrest;                        // 00
-		bool attackOnSight;                 // 01
+		bool          arrest;               // 00
+		bool          attackOnSight;        // 01
 		std::uint16_t murderCrimeGold;      // 02
 		std::uint16_t assaultCrimeGold;     // 04
 		std::uint16_t trespassCrimeGold;    // 06
 		std::uint16_t pickpocketCrimeGold;  // 08
-		float stealCrimeGoldMult;           // 0C
+		float         stealCrimeGoldMult;   // 0C
 		std::uint16_t escapeCrimeGold;      // 10
 		std::uint16_t unused;               // 12
 	};
@@ -39,13 +39,13 @@ namespace RE
 	{
 	public:
 		// members
-		TESObjectREFR* factionJailMarker;                // 00
-		TESObjectREFR* factionWaitMarker;                // 08
-		TESObjectREFR* factionStolenContainer;           // 10
-		TESObjectREFR* factionPlayerInventoryContainer;  // 18
-		BGSListForm* crimeGroup;                         // 20
-		BGSOutfit* jailOutfit;                           // 28
-		FACTION_CRIME_DATA_VALUES crimevalues;           // 30
+		TESObjectREFR*            factionJailMarker;                // 00
+		TESObjectREFR*            factionWaitMarker;                // 08
+		TESObjectREFR*            factionStolenContainer;           // 10
+		TESObjectREFR*            factionPlayerInventoryContainer;  // 18
+		BGSListForm*              crimeGroup;                       // 20
+		BGSOutfit*                jailOutfit;                       // 28
+		FACTION_CRIME_DATA_VALUES crimevalues;                      // 30
 	};
 	static_assert(sizeof(FACTION_CRIME_DATA) == 0x48);
 
@@ -56,9 +56,9 @@ namespace RE
 		std::uint16_t startHour;       // 0
 		std::uint16_t endHour;         // 2
 		std::uint32_t locationRadius;  // 4
-		bool buysStolen;               // 8
-		bool notBuySell;               // 9
-		bool buysNonStolen;            // A
+		bool          buysStolen;      // 8
+		bool          notBuySell;      // 9
+		bool          buysNonStolen;   // A
 	};
 	static_assert(sizeof(FACTION_VENDOR_DATA_VALUES) == 0xC);
 
@@ -66,12 +66,12 @@ namespace RE
 	{
 	public:
 		// members
-		FACTION_VENDOR_DATA_VALUES vendorValues;  // 00
-		PackageLocation* vendorLocation;          // 10
-		TESCondition* vendorConditions;           // 18
-		BGSListForm* vendorSellBuyList;           // 20
-		TESObjectREFR* merchantContainer;         // 28
-		std::uint32_t lastDayReset;               // 30
+		FACTION_VENDOR_DATA_VALUES vendorValues;       // 00
+		PackageLocation*           vendorLocation;     // 10
+		TESCondition*              vendorConditions;   // 18
+		BGSListForm*               vendorSellBuyList;  // 20
+		TESObjectREFR*             merchantContainer;  // 28
+		std::uint32_t              lastDayReset;       // 30
 	};
 	static_assert(sizeof(FACTION_VENDOR_DATA) == 0x38);
 
@@ -81,7 +81,7 @@ namespace RE
 		// members
 		BGSLocalizedString maleRankTitle;    // 00
 		BGSLocalizedString femaleRankTitle;  // 08
-		TESTexture textureInsignia;          // 10
+		TESTexture         textureInsignia;  // 10
 	};
 	static_assert(sizeof(RANK_DATA) == 0x20);
 
@@ -96,15 +96,15 @@ namespace RE
 		static constexpr auto FORM_ID{ ENUM_FORM_ID::kFACT };
 
 		// members
-		BSTHashMap<const TESNPC*, std::uint32_t>* crimeGoldMap;  // 50
-		FACTION_DATA data;                                       // 58
-		FACTION_CRIME_DATA crimeData;                            // 60
-		FACTION_VENDOR_DATA vendorData;                          // A8
-		BSSimpleList<RANK_DATA*> rankDataList;                   // E0
-		std::int32_t majorCrime;                                 // F0
-		std::int32_t minorCrime;                                 // F4
-		AITimeStamp resistArrestTimeStamp;                       // F8
-		float enemyFlagTimeStamp;                                // FC
+		BSTHashMap<const TESNPC*, std::uint32_t>* crimeGoldMap;           // 50
+		FACTION_DATA                              data;                   // 58
+		FACTION_CRIME_DATA                        crimeData;              // 60
+		FACTION_VENDOR_DATA                       vendorData;             // A8
+		BSSimpleList<RANK_DATA*>                  rankDataList;           // E0
+		std::int32_t                              majorCrime;             // F0
+		std::int32_t                              minorCrime;             // F4
+		AITimeStamp                               resistArrestTimeStamp;  // F8
+		float                                     enemyFlagTimeStamp;     // FC
 	};
 	static_assert(sizeof(TESFaction) == 0x100);
 }

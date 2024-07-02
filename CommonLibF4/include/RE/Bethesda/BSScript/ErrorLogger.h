@@ -52,8 +52,8 @@ namespace RE
 			virtual void ResetImpl() { return; }                                                       // 02
 
 			// members
-			const BSFixedString logName;                                                // 60
-			BSSpinLock dataLock;                                                        // 68
+			const BSFixedString                                          logName;       // 60
+			BSSpinLock                                                   dataLock;      // 68
 			BSTHashMap<std::uint32_t, ErrorLogger::PerThreadErrorCounts> threadErrors;  // 70
 		};
 		static_assert(sizeof(ErrorLogger) == 0xA0);

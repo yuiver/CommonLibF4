@@ -109,7 +109,7 @@ namespace RE
 			union
 			{
 				value_type value;
-				std::byte buffer[sizeof(value_type)]{ static_cast<std::byte>(0) };
+				std::byte  buffer[sizeof(value_type)]{ static_cast<std::byte>(0) };
 			};
 			entry_type* next{ nullptr };
 		};
@@ -128,7 +128,8 @@ namespace RE
 
 			template <class V>
 			iterator_base(const iterator_base<V>& a_rhs) noexcept  //
-				requires(std::convertible_to<typename iterator_base<V>::reference, reference>) :
+				requires(std::convertible_to<typename iterator_base<V>::reference, reference>)
+				:
 				_first(a_rhs._first),
 				_last(a_rhs._last)
 			{}
@@ -227,7 +228,8 @@ namespace RE
 		BSTScatterTable(const BSTScatterTable& a_rhs) { insert(a_rhs.begin(), a_rhs.end()); }
 
 		BSTScatterTable(BSTScatterTable&& a_rhs) noexcept  //
-			requires(std::same_as<typename allocator_type::propagate_on_container_move_assignment, std::true_type>) :
+			requires(std::same_as<typename allocator_type::propagate_on_container_move_assignment, std::true_type>)
+			:
 			_capacity(std::exchange(a_rhs._capacity, 0)),
 			_free(std::exchange(a_rhs._free, 0)),
 			_good(std::exchange(a_rhs._good, 0)),
@@ -265,15 +267,15 @@ namespace RE
 			return *this;
 		}
 
-		[[nodiscard]] iterator begin() noexcept { return make_iterator<iterator>(get_entries()); }
+		[[nodiscard]] iterator       begin() noexcept { return make_iterator<iterator>(get_entries()); }
 		[[nodiscard]] const_iterator begin() const noexcept { return make_iterator<const_iterator>(get_entries()); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return make_iterator<const_iterator>(get_entries()); }
 
-		[[nodiscard]] iterator end() noexcept { return make_iterator<iterator>(); }
+		[[nodiscard]] iterator       end() noexcept { return make_iterator<iterator>(); }
 		[[nodiscard]] const_iterator end() const noexcept { return make_iterator<const_iterator>(); }
 		[[nodiscard]] const_iterator cend() const noexcept { return make_iterator<const_iterator>(); }
 
-		[[nodiscard]] bool empty() const noexcept { return size() == 0; }
+		[[nodiscard]] bool      empty() const noexcept { return size() == 0; }
 		[[nodiscard]] size_type size() const noexcept { return _capacity - _free; }
 
 		void clear()
@@ -321,7 +323,7 @@ namespace RE
 			return result != end() ? 1 : 0;
 		}
 
-		[[nodiscard]] iterator find(const key_type& a_key) { return do_find<iterator>(a_key); }
+		[[nodiscard]] iterator       find(const key_type& a_key) { return do_find<iterator>(a_key); }
 		[[nodiscard]] const_iterator find(const key_type& a_key) const { return do_find<const_iterator>(a_key); }
 
 		[[nodiscard]] bool contains(const key_type& a_key) const { return find(a_key) != end(); }
@@ -464,7 +466,7 @@ namespace RE
 			}
 
 			const stl::scope_exit decrement{ [&]() noexcept { --_free; } };
-			const auto entry = &get_entry_for(unwrap_key(a_value));
+			const auto            entry = &get_entry_for(unwrap_key(a_value));
 			if (entry->has_value()) {  // slot is taken, resolve conflict
 				const auto free = &get_free_entry();
 				const auto wouldve = &get_entry_for(unwrap_key(entry->value));
@@ -572,13 +574,13 @@ namespace RE
 		void set_entries(entry_type* a_entries) noexcept { _allocator.set_entries(a_entries); }
 
 		// members
-		std::uint64_t _pad00{ 0 };                                                                            // 00
-		std::uint32_t _pad08{ 0 };                                                                            // 08
-		size_type _capacity{ 0 };                                                                             // 0C - total # of slots, always a power of 2
-		size_type _free{ 0 };                                                                                 // 10 - # of free slots
-		size_type _good{ 0 };                                                                                 // 14 - last free index
+		std::uint64_t     _pad00{ 0 };                                                                        // 00
+		std::uint32_t     _pad08{ 0 };                                                                        // 08
+		size_type         _capacity{ 0 };                                                                     // 0C - total # of slots, always a power of 2
+		size_type         _free{ 0 };                                                                         // 10 - # of free slots
+		size_type         _good{ 0 };                                                                         // 14 - last free index
 		const entry_type* _sentinel{ reinterpret_cast<const entry_type*>(detail::BSTScatterTableSentinel) };  // 18 - signals end of chain
-		allocator_type _allocator;                                                                            // 20
+		allocator_type    _allocator;                                                                         // 20
 	};
 
 	template <class Key, class T>
@@ -640,12 +642,12 @@ namespace RE
 		void deallocate_bytes(void* a_ptr) { free(a_ptr); }
 
 		[[nodiscard]] void* get_entries() const noexcept { return _entries; }
-		void set_entries(void* a_entries) noexcept { _entries = static_cast<std::byte*>(a_entries); }
+		void                set_entries(void* a_entries) noexcept { _entries = static_cast<std::byte*>(a_entries); }
 
 	private:
 		// members
-		std::uint64_t _pad00{ 0 };       // 00 (20)
-		std::byte* _entries{ nullptr };  // 08 (28)
+		std::uint64_t _pad00{ 0 };          // 00 (20)
+		std::byte*    _entries{ nullptr };  // 08 (28)
 	};
 
 	template <std::uint32_t N>
@@ -722,7 +724,7 @@ namespace RE
 		}
 
 		[[nodiscard]] void* get_entries() const noexcept { return _entries; }
-		void set_entries(void* a_entries) noexcept { _entries = static_cast<std::byte*>(a_entries); }
+		void                set_entries(void* a_entries) noexcept { _entries = static_cast<std::byte*>(a_entries); }
 
 	private:
 		// members

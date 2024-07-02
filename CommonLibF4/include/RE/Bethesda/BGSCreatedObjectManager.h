@@ -46,38 +46,38 @@ namespace RE
 		{
 		public:
 			// members
-			MagicItem* createdItem;  // 00
-			std::uint32_t count;     // 08
+			MagicItem*    createdItem;  // 00
+			std::uint32_t count;        // 08
 		};
 		static_assert(sizeof(CreatedMagicItemData) == 0x10);
 
 		[[nodiscard]] static BGSCreatedObjectManager* GetSingleton()
 		{
-			REL::Relocation<BGSCreatedObjectManager**> singleton{ REL::ID(1000678) };
+			static REL::Relocation<BGSCreatedObjectManager**> singleton{ REL::ID(1000678) };
 			return *singleton;
 		}
 
 		void DecrementRef(AlchemyItem* a_alchItem)
 		{
 			using func_t = decltype(&BGSCreatedObjectManager::DecrementRef);
-			REL::Relocation<func_t> func{ REL::ID(230928) };
+			static REL::Relocation<func_t> func{ REL::ID(230928) };
 			return func(this, a_alchItem);
 		}
 
 		void IncrementRef(AlchemyItem* a_alchItem)
 		{
 			using func_t = decltype(&BGSCreatedObjectManager::IncrementRef);
-			REL::Relocation<func_t> func{ REL::ID(1042515) };
+			static REL::Relocation<func_t> func{ REL::ID(1042515) };
 			return func(this, a_alchItem);
 		}
 
 		// members
-		BSTArray<CreatedMagicItemData> weaponEnchantments;        // 08
-		BSTArray<CreatedMagicItemData> armorEnchantments;         // 20
-		BSTHashMap<std::uint32_t, CreatedMagicItemData> potions;  // 38
-		BSTHashMap<std::uint32_t, CreatedMagicItemData> poisons;  // 68
-		BSTSet<MagicItem*> queuedDeleteMagicItems;                // 98
-		BSSpinLock dataLock;                                      // C8
+		BSTArray<CreatedMagicItemData>                  weaponEnchantments;      // 08
+		BSTArray<CreatedMagicItemData>                  armorEnchantments;       // 20
+		BSTHashMap<std::uint32_t, CreatedMagicItemData> potions;                 // 38
+		BSTHashMap<std::uint32_t, CreatedMagicItemData> poisons;                 // 68
+		BSTSet<MagicItem*>                              queuedDeleteMagicItems;  // 98
+		BSSpinLock                                      dataLock;                // C8
 	};
 	static_assert(sizeof(BGSCreatedObjectManager) == 0xD0);
 

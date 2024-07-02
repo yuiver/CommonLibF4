@@ -5,7 +5,7 @@
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSTArray.h"
 #include "RE/Bethesda/BSTHashMap.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {
@@ -17,8 +17,8 @@ namespace RE
 		{
 		public:
 			// members
-			BSFixedString morphNames[2];   // 00
-			const std::uint32_t uniqueID;  // 10
+			BSFixedString       morphNames[2];  // 00
+			const std::uint32_t uniqueID;       // 10
 		};
 		static_assert(sizeof(Slider) == 0x18);
 
@@ -26,11 +26,11 @@ namespace RE
 		{
 		public:
 			// members
-			BGSLocalizedString name;    // 00
-			BSFixedString morph;        // 08
-			BGSTextureSet* textureSet;  // 10
-			std::int8_t flags;          // 18
-			std::uint32_t id;           // 1C
+			BGSLocalizedString name;        // 00
+			BSFixedString      morph;       // 08
+			BGSTextureSet*     textureSet;  // 10
+			std::int8_t        flags;       // 18
+			std::uint32_t      id;          // 1C
 		};
 		static_assert(sizeof(Preset) == 0x20);
 
@@ -38,10 +38,10 @@ namespace RE
 		{
 		public:
 			// members
-			BSFixedString name;               // 00
-			BSTArray<Preset> presets;         // 08
-			BSTArray<std::uint32_t> sliders;  // 20
-			std::uint16_t presetMaskID;       // 38
+			BSFixedString           name;          // 00
+			BSTArray<Preset>        presets;       // 08
+			BSTArray<std::uint32_t> sliders;       // 20
+			std::uint16_t           presetMaskID;  // 38
 		};
 		static_assert(sizeof(Group) == 0x40);
 
@@ -68,14 +68,14 @@ namespace RE
 		{
 		public:
 			// members
-			Transform defaultTransform;                                 // 00
-			BGSLocalizedString name;                                    // 28
-			BSFixedString associatedMorphGroupName;                     // 30
-			BGSCharacterTint::EntrySlot associatedTintSlot;             // 38
-			BGSHeadPart::HeadPartType associatedHeadPartType;           // 3C
-			BSTHashMap<BSFixedString, TransformMinMax*> boneMinMaxMap;  // 40
-			BSTArray<std::uint32_t> associatedMorphSliders;             // 70
-			const std::uint32_t id;                                     // 88
+			Transform                                   defaultTransform;          // 00
+			BGSLocalizedString                          name;                      // 28
+			BSFixedString                               associatedMorphGroupName;  // 30
+			BGSCharacterTint::EntrySlot                 associatedTintSlot;        // 38
+			BGSHeadPart::HeadPartType                   associatedHeadPartType;    // 3C
+			BSTHashMap<BSFixedString, TransformMinMax*> boneMinMaxMap;             // 40
+			BSTArray<std::uint32_t>                     associatedMorphSliders;    // 70
+			const std::uint32_t                         id;                        // 88
 		};
 		static_assert(sizeof(FacialBoneRegion) == 0x90);
 

@@ -45,16 +45,16 @@ namespace RE
 		[[nodiscard]] bool IsExtraPart() const noexcept { return flags.all(Flag::kExtraPart); }
 
 		// members
-		stl::enumeration<Flag, std::uint8_t> flags;         // 070
-		stl::enumeration<HeadPartType, std::int32_t> type;  // 074
-		BSTArray<BGSHeadPart*> extraParts;                  // 078
-		BGSTextureSet* textureSet;                          // 090
-		TESModel ChargenModel;                              // 098
-		TESModelTri morphs[3];                              // 0C8
-		BGSColorForm* colorForm;                            // 158
-		BGSListForm* validRaces;                            // 160
-		TESCondition chargenConditions;                     // 168
-		BSFixedString formEditorID;                         // 170
+		REX::EnumSet<Flag, std::uint8_t>         flags;              // 070
+		REX::EnumSet<HeadPartType, std::int32_t> type;               // 074
+		BSTArray<BGSHeadPart*>                   extraParts;         // 078
+		BGSTextureSet*                           textureSet;         // 090
+		TESModel                                 ChargenModel;       // 098
+		TESModelTri                              morphs[3];          // 0C8
+		BGSColorForm*                            colorForm;          // 158
+		BGSListForm*                             validRaces;         // 160
+		TESCondition                             chargenConditions;  // 168
+		BSFixedString                            formEditorID;       // 170
 	};
 	static_assert(sizeof(BGSHeadPart) == 0x178);
 }

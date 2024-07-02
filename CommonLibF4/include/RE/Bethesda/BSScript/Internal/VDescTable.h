@@ -40,8 +40,8 @@ namespace RE
 
 				// members
 				value_type* entries{ nullptr };  // 00
-				size_type paramCount{ 0 };       // 08
-				size_type totalEntries{ 0 };     // 0A
+				size_type   paramCount{ 0 };     // 08
+				size_type   totalEntries{ 0 };   // 0A
 			};
 			static_assert(sizeof(VDescTable) == 0x10);
 		}

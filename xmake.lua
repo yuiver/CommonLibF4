@@ -1,22 +1,21 @@
-set_xmakever("2.8.1")
+-- set minimum xmake version
+set_xmakever("2.8.2")
 
 -- set project
-set_project("CommonLibF4")
-set_arch("x64")
-set_languages("c++20")
-set_optimize("faster")
-set_warnings("allextra", "error")
+set_project("commonlibf4")
+set_languages("c++23")
+set_warnings("allextra")
+set_encodings("utf-8")
 
 -- add rules
-add_rules("mode.debug", "mode.release")
+add_rules("mode.debug", "mode.releasedbg")
 
 -- require packages
-add_requires("boost", "catch2", "fmt", "rapidcsv", "rsm-binary-io", "rsm-mmio", "srell", "xbyak")
-add_requires("spdlog", { configs = { header_only = false, fmt_external = true } })
+add_requires("rsm-binary-io", "rsm-mmio", "xbyak")
+add_requires("spdlog", { configs = { header_only = false, wchar = true, std_format = true } })
 
 -- include subprojects
 includes("CommonLibF4")
 includes("AddressLibDecoder")
 includes("AddressLibGen")
 includes("RTTIDump")
-includes("Tests")

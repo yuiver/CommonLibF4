@@ -71,4 +71,6 @@ namespace RE
 			kScript
 		};
 	}
+
+	using UEFlag = UserEvents::USER_EVENT_FLAG;
 }

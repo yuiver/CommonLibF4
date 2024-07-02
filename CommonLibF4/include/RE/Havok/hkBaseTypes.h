@@ -11,10 +11,10 @@ namespace RE
 	};
 
 	template <class E, class U>
-	using hkEnum = stl::enumeration<E, U>;
+	using hkEnum = REX::EnumSet<E, U>;
 
 	template <class E, class U>
-	using hkFlags = stl::enumeration<E, U>;
+	using hkFlags = REX::EnumSet<E, U>;
 
 	template <class T>
 	class hkPadSpu

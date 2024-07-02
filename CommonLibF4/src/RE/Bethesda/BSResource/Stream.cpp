@@ -36,12 +36,12 @@ namespace RE
 		}
 
 		ErrorCode Stream::DoStartTaggedPrioritizedRead([[maybe_unused]] void* a_buf,
-			[[maybe_unused]] std::uint64_t a_v,
-			[[maybe_unused]] std::uint64_t b_v,
-			[[maybe_unused]] std::uint32_t c_v,
-			[[maybe_unused]] std::uint32_t volatile* d_v,
-			[[maybe_unused]] std::uint32_t& e_v,
-			[[maybe_unused]] BSEventFlag* event_flag) const
+			[[maybe_unused]] std::uint64_t                                    a_v,
+			[[maybe_unused]] std::uint64_t                                    b_v,
+			[[maybe_unused]] std::uint32_t                                    c_v,
+			[[maybe_unused]] std::uint32_t volatile*                          d_v,
+			[[maybe_unused]] std::uint32_t&                                   e_v,
+			[[maybe_unused]] BSEventFlag*                                     event_flag) const
 		{
 			return ErrorCode::kUnsupported;
 		}
@@ -62,8 +62,8 @@ namespace RE
 			return false;
 		}
 		ErrorCode Stream::DoWaitTags([[maybe_unused]] volatile std::uint32_t* a_completionTag,
-			[[maybe_unused]] std::uint32_t a_completionTagWaitValue,
-			[[maybe_unused]] BSEventFlag* a_eventFlag) const
+			[[maybe_unused]] std::uint32_t                                    a_completionTagWaitValue,
+			[[maybe_unused]] BSEventFlag*                                     a_eventFlag) const
 		{
 			return ErrorCode::kUnsupported;
 		}
@@ -79,9 +79,9 @@ namespace RE
 		}
 
 		ErrorCode Stream::DoReadAt([[maybe_unused]] void* a_buffer,
-			[[maybe_unused]] std::uint64_t a_offset,
-			[[maybe_unused]] std::uint64_t a_toRead,
-			[[maybe_unused]] std::uint64_t& a_read) const
+			[[maybe_unused]] std::uint64_t                a_offset,
+			[[maybe_unused]] std::uint64_t                a_toRead,
+			[[maybe_unused]] std::uint64_t&               a_read) const
 		{
 			return ErrorCode::kUnsupported;
 		}
@@ -118,7 +118,7 @@ namespace RE
 				_flags |= kBuffered | kFullReadHint;
 			}
 			static std::atomic_ref myflags{ flags };
-			uint32_t old_flags = flags;
+			uint32_t               old_flags = flags;
 			while (!myflags.compare_exchange_strong(old_flags, (old_flags | _flags))) {
 				old_flags = flags;
 			}

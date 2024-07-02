@@ -23,9 +23,9 @@ namespace RE::Scaleform::Render
 	public:
 		// members
 		TextureManager* textureManager;  // 00
-		HAL* hal;                        // 08
-		Renderer2D* renderer2D;          // 10
-		ThreadId renderThreadID;         // 18
+		HAL*            hal;             // 08
+		Renderer2D*     renderer2D;      // 10
+		ThreadId        renderThreadID;  // 18
 	};
 	static_assert(sizeof(Interfaces) == 0x20);
 

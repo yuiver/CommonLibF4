@@ -13,6 +13,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/BSTimer.h"
+#include "RE/Bethesda/Events.h"
 #include "RE/Bethesda/MemoryManager.h"
 #include "RE/Bethesda/TESFile.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
@@ -20,7 +21,7 @@
 namespace RE
 {
 	template <class F>
-	using BSTThreadScrapFunction = msvc::function<F>;
+	using BSTThreadScrapFunction = std::function<F>;
 
 	namespace BSScript
 	{
@@ -102,7 +103,6 @@ namespace RE
 	struct TESFormIDRemapEvent;
 	struct TESFurnitureEvent;
 	struct TESGrabReleaseEvent;
-	struct TESInitScriptEvent;
 	struct TESLimbCrippleEvent;
 	struct TESLoadGameEvent;
 	struct TESLocationClearedEvent;
@@ -139,14 +139,14 @@ namespace RE
 		}
 
 		inline void LogFormError(
-			const TESForm* a_obj,
-			const char* a_error,
-			BSScript::IVirtualMachine* a_vm,
-			std::uint32_t a_stackID,
+			const TESForm*                  a_obj,
+			const char*                     a_error,
+			BSScript::IVirtualMachine*      a_vm,
+			std::uint32_t                   a_stackID,
 			BSScript::ErrorLogger::Severity a_severity = BSScript::ErrorLogger::Severity::kError)
 		{
 			using func_t = decltype(&LogFormError);
-			REL::Relocation<func_t> func{ REL::ID(1081933) };
+			static REL::Relocation<func_t> func{ REL::ID(2251028) };
 			return func(a_obj, a_error, a_vm, a_stackID, a_severity);
 		}
 
@@ -195,12 +195,12 @@ namespace RE
 			virtual ~DelayFunctor();  // 00
 
 			// add
-			[[nodiscard]] virtual BSScript::Variable operator()() = 0;                                                    // 01
-			[[nodiscard]] virtual bool IsLatent() const = 0;                                                              // 02
-			[[nodiscard]] virtual bool WantsRequeue() const { return false; }                                             // 03
-			[[nodiscard]] virtual FunctorType GetType() const = 0;                                                        // 04
-			virtual bool SaveImpl(BSStorage& a_storage) const = 0;                                                        // 05
-			virtual bool LoadImpl(const BSStorage& a_storage, std::uint32_t a_scriptSaveVersion, bool& a_dataValid) = 0;  // 06
+			[[nodiscard]] virtual BSScript::Variable operator()() = 0;                                                                                // 01
+			[[nodiscard]] virtual bool               IsLatent() const = 0;                                                                            // 02
+			[[nodiscard]] virtual bool               WantsRequeue() const { return false; }                                                           // 03
+			[[nodiscard]] virtual FunctorType        GetType() const = 0;                                                                             // 04
+			virtual bool                             SaveImpl(BSStorage& a_storage) const = 0;                                                        // 05
+			virtual bool                             LoadImpl(const BSStorage& a_storage, std::uint32_t a_scriptSaveVersion, bool& a_dataValid) = 0;  // 06
 
 			F4_HEAP_REDEFINE_NEW(DelayFunctor);
 
@@ -221,7 +221,7 @@ namespace RE
 
 			// members
 			BSFixedString logFolder;  // A0
-			BSLog* log;               // A8
+			BSLog*        log;        // A8
 		};
 		static_assert(sizeof(Logger) == 0xB0);
 
@@ -233,21 +233,21 @@ namespace RE
 			static constexpr auto VTABLE{ VTABLE::GameScript__HandlePolicy };
 
 			// override (BSScript::IObjectHandlePolicy)
-			bool HandleIsType(std::uint32_t a_type, std::size_t a_handle) const override;               // 01
-			bool GetHandleType(std::size_t a_handle, std::uint32_t& a_type) const override;             // 02
-			bool IsHandleLoaded(std::size_t a_handle) const override;                                   // 03
-			bool IsHandleObjectAvailable(std::size_t a_handle) const override;                          // 04
-			bool ShouldAttemptToCleanHandle(std::size_t a_handle) const override;                       // 05
-			std::size_t EmptyHandle() const override { return 0xFFFF00000000; }                         // 06
-			std::size_t GetHandleForObject(std::uint32_t a_type, const void* a_object) const override;  // 07
-			bool HasParent(std::size_t a_childHandle) const override;                                   // 08
-			std::size_t GetParentHandle(std::size_t a_childHandle) const override;                      // 09
-			std::size_t GetHandleScriptsMovedFrom(std::size_t a_newHandle) const override;              // 0A
-			std::size_t GetSaveRemappedHandle(std::size_t a_saveHandle) const override;                 // 0B
-			void* GetObjectForHandle(std::uint32_t a_type, std::size_t a_handle) const override;        // 0C
-			void PersistHandle(std::size_t a_handle) override;                                          // 0D
-			void ReleaseHandle(std::size_t a_handle) override;                                          // 0E
-			void ConvertHandleToString(std::size_t a_handle, BSFixedString& a_string) const override;   // 0F
+			bool        HandleIsType(std::uint32_t a_type, std::size_t a_handle) const override;              // 01
+			bool        GetHandleType(std::size_t a_handle, std::uint32_t& a_type) const override;            // 02
+			bool        IsHandleLoaded(std::size_t a_handle) const override;                                  // 03
+			bool        IsHandleObjectAvailable(std::size_t a_handle) const override;                         // 04
+			bool        ShouldAttemptToCleanHandle(std::size_t a_handle) const override;                      // 05
+			std::size_t EmptyHandle() const override { return 0xFFFF00000000; }                               // 06
+			std::size_t GetHandleForObject(std::uint32_t a_type, const void* a_object) const override;        // 07
+			bool        HasParent(std::size_t a_childHandle) const override;                                  // 08
+			std::size_t GetParentHandle(std::size_t a_childHandle) const override;                            // 09
+			std::size_t GetHandleScriptsMovedFrom(std::size_t a_newHandle) const override;                    // 0A
+			std::size_t GetSaveRemappedHandle(std::size_t a_saveHandle) const override;                       // 0B
+			void*       GetObjectForHandle(std::uint32_t a_type, std::size_t a_handle) const override;        // 0C
+			void        PersistHandle(std::size_t a_handle) override;                                         // 0D
+			void        ReleaseHandle(std::size_t a_handle) override;                                         // 0E
+			void        ConvertHandleToString(std::size_t a_handle, BSFixedString& a_string) const override;  // 0F
 
 			[[nodiscard]] static std::uint64_t GetHandleForInventoryID(std::uint16_t a_uniqueID, std::uint32_t a_containerFormID) noexcept
 			{
@@ -259,30 +259,30 @@ namespace RE
 			void DropSaveLoadRemapData()
 			{
 				using func_t = decltype(&HandlePolicy::DropSaveLoadRemapData);
-				REL::Relocation<func_t> func{ REL::ID(647657) };
+				static REL::Relocation<func_t> func{ REL::ID(2249995) };
 				return func(this);
 			}
 
 			void GetInventoryObjFromHandle(std::uint64_t a_cobj, TESObjectREFR*& a_container, std::uint16_t& a_uniqueID, TESObjectREFR*& a_inWorldREFR)
 			{
 				using func_t = decltype(&HandlePolicy::GetInventoryObjFromHandle);
-				REL::Relocation<func_t> func{ REL::ID(66597) };
+				static REL::Relocation<func_t> func{ REL::ID(2249989) };
 				return func(this, a_cobj, a_container, a_uniqueID, a_inWorldREFR);
 			}
 
 			void UpdatePersistence()
 			{
 				using func_t = decltype(&HandlePolicy::UpdatePersistence);
-				REL::Relocation<func_t> func{ REL::ID(11020) };
+				static REL::Relocation<func_t> func{ REL::ID(2249991) };
 				return func(this);
 			}
 
 			// members
-			BSSpinLock persistLock;                                   // 08
-			BSTHashMap<std::size_t, std::uint32_t> persistRefCount;   // 10
-			BSTHashMap<std::size_t, bool> queuedPromotes;             // 40
-			BSSpinLock remapLock;                                     // 70
-			BSTHashMap<std::uint32_t, std::uint32_t> changedFormIDs;  // 78
+			BSSpinLock                               persistLock;      // 08
+			BSTHashMap<std::size_t, std::uint32_t>   persistRefCount;  // 10
+			BSTHashMap<std::size_t, bool>            queuedPromotes;   // 40
+			BSSpinLock                               remapLock;        // 70
+			BSTHashMap<std::uint32_t, std::uint32_t> changedFormIDs;   // 78
 		};
 		static_assert(sizeof(HandlePolicy) == 0xA8);
 
@@ -298,42 +298,42 @@ namespace RE
 			public:
 				// members
 				BSTSmartPointer<BSScript::Object> createdObject;  // 00
-				BSScript::MergedBoundScript boundInfo;            // 08
+				BSScript::MergedBoundScript       boundInfo;      // 08
 			};
 			static_assert(sizeof(QueuedObject) == 0x18);
 
 			// override (BSScript::ObjectBindPolicy)
-			void EnsureBaseDataLoaded(std::size_t a_objHandle) override;                                                                                                                                                                                               // 01
-			void ObjectNoLongerNeeded(std::size_t a_objHandle) override;                                                                                                                                                                                               // 02
-			void AddBoundInfoImpl(std::size_t a_objHandle) override;                                                                                                                                                                                                   // 03
-			void ClearBoundInfoImpl(std::size_t a_objHandle) override;                                                                                                                                                                                                 // 04
-			void ClearDiskLoadedBoundInfoImpl(std::size_t a_objHandle) override;                                                                                                                                                                                       // 05
-			void ClearAllBoundInfoImpl() override;                                                                                                                                                                                                                     // 06
-			void PostBindObject(std::size_t a_objHandle) override;                                                                                                                                                                                                     // 07
-			std::uint32_t GetExtraInfoSize(std::size_t) const override { return 0; }                                                                                                                                                                                   // 08
-			void WriteExtraInfo(std::size_t, const BSScript::IHandleReaderWriter&, BSStorage&) const override { return; }                                                                                                                                              // 09
-			void ReadExtraInfo(std::size_t a_objHandle, std::uint16_t a_handleVersion, const BSScript::IHandleReaderWriter& a_handleReaderWriter, const BSStorage& a_storage) override;                                                                                // 0A
-			bool IsIgnoringClear() const override;                                                                                                                                                                                                                     // 0B
-			void ResolveProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::Object>& a_object, const BSTSmartPointer<BSScript::BoundScript>& a_boundScript, bool a_postSaveConstOnly) override;                                                        // 0D
-			void ResolveProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::Object>& a_object, const BSScript::MergedBoundScript& a_boundScript, bool a_postSaveConstOnly) override;                                                                   // 0C
-			void ConvertProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::BoundScript>& a_boundScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, BSScript::Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const override;  // 0F
-			void ConvertProperties(std::size_t a_objTarget, const BSScript::MergedBoundScript& a_mergedScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, BSScript::Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const override;            // 0E
+			void          EnsureBaseDataLoaded(std::size_t a_objHandle) override;                                                                                                                                                                                               // 01
+			void          ObjectNoLongerNeeded(std::size_t a_objHandle) override;                                                                                                                                                                                               // 02
+			void          AddBoundInfoImpl(std::size_t a_objHandle) override;                                                                                                                                                                                                   // 03
+			void          ClearBoundInfoImpl(std::size_t a_objHandle) override;                                                                                                                                                                                                 // 04
+			void          ClearDiskLoadedBoundInfoImpl(std::size_t a_objHandle) override;                                                                                                                                                                                       // 05
+			void          ClearAllBoundInfoImpl() override;                                                                                                                                                                                                                     // 06
+			void          PostBindObject(std::size_t a_objHandle) override;                                                                                                                                                                                                     // 07
+			std::uint32_t GetExtraInfoSize(std::size_t) const override { return 0; }                                                                                                                                                                                            // 08
+			void          WriteExtraInfo(std::size_t, const BSScript::IHandleReaderWriter&, BSStorage&) const override { return; }                                                                                                                                              // 09
+			void          ReadExtraInfo(std::size_t a_objHandle, std::uint16_t a_handleVersion, const BSScript::IHandleReaderWriter& a_handleReaderWriter, const BSStorage& a_storage) override;                                                                                // 0A
+			bool          IsIgnoringClear() const override;                                                                                                                                                                                                                     // 0B
+			void          ResolveProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::Object>& a_object, const BSTSmartPointer<BSScript::BoundScript>& a_boundScript, bool a_postSaveConstOnly) override;                                                        // 0D
+			void          ResolveProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::Object>& a_object, const BSScript::MergedBoundScript& a_boundScript, bool a_postSaveConstOnly) override;                                                                   // 0C
+			void          ConvertProperties(std::size_t a_objTarget, const BSTSmartPointer<BSScript::BoundScript>& a_boundScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, BSScript::Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const override;  // 0F
+			void          ConvertProperties(std::size_t a_objTarget, const BSScript::MergedBoundScript& a_mergedScript, bool a_constOnly, BSTScrapHashMap<BSFixedString, BSScript::Variable>& a_properties, std::uint32_t& a_nonConvertedProperties) const override;            // 0E
 
 			void EndSaveLoad()
 			{
 				using func_t = decltype(&ObjectBindPolicy::EndSaveLoad);
-				REL::Relocation<func_t> func{ REL::ID(1558837) };
+				static REL::Relocation<func_t> func{ REL::ID(2250482) };
 				return func(this);
 			}
 
 			// members
-			BSSpinLock queueLock;                                                      // 50
-			bool resolveCalled;                                                        // 58
-			bool ignoringClear;                                                        // 59
-			bool initialLoadDone;                                                      // 5A
-			BSTHashMap<std::size_t, BSTSmallSharedArray<QueuedObject>> queuedObjects;  // 60
-			BSTArray<std::size_t> queuedAliases;                                       // 90
-			BSTSet<std::size_t> initiallyLoadedObjects;                                // A8
+			BSSpinLock                                                 queueLock;               // 50
+			bool                                                       resolveCalled;           // 58
+			bool                                                       ignoringClear;           // 59
+			bool                                                       initialLoadDone;         // 5A
+			BSTHashMap<std::size_t, BSTSmallSharedArray<QueuedObject>> queuedObjects;           // 60
+			BSTArray<std::size_t>                                      queuedAliases;           // 90
+			BSTSet<std::size_t>                                        initiallyLoadedObjects;  // A8
 		};
 		static_assert(sizeof(ObjectBindPolicy) == 0xD8);
 
@@ -383,10 +383,10 @@ namespace RE
 			{
 			public:
 				// members
-				BSTSmartPointer<Fragment> beginFragment;                                       // 08
-				BSTSmartPointer<Fragment> endFragment;                                         // 10
-				BSTHashMap<std::uint32_t, BSTSmartPointer<Fragment>> actionFragments;          // 18
-				BSTHashMap<std::uint32_t, BSTSmartPointer<BeginEndFragments>> phaseFragments;  // 48
+				BSTSmartPointer<Fragment>                                     beginFragment;    // 08
+				BSTSmartPointer<Fragment>                                     endFragment;      // 10
+				BSTHashMap<std::uint32_t, BSTSmartPointer<Fragment>>          actionFragments;  // 18
+				BSTHashMap<std::uint32_t, BSTSmartPointer<BeginEndFragments>> phaseFragments;   // 48
 			};
 			static_assert(sizeof(SceneFragments) == 0x78);
 
@@ -420,20 +420,20 @@ namespace RE
 			static_assert(sizeof(TerminalFragments) == 0x38);
 
 			// members
-			BSTHashMap<std::uint32_t, BSTSmartPointer<QuestFragments>> questFragments;         // 000
-			BSSpinLock kQuestFragmentSpinLock;                                                 // 030
-			BSTHashMap<std::uint32_t, BSTSmartPointer<BeginEndFragments>> topicInfoFragments;  // 038
-			BSSpinLock kTopicInfoFragmentSpinLock;                                             // 068
-			BSTHashMap<std::uint32_t, BSTSmartPointer<SceneFragments>> sceneFragments;         // 070
-			BSSpinLock kSceneFragmentSpinLock;                                                 // 0A0
-			BSTHashMap<std::uint32_t, BSTSmartPointer<PackageFragments>> packageFragments;     // 0A8
-			BSSpinLock kPackageFragmentSpinLock;                                               // 0D8
-			BSTHashMap<std::uint32_t, BSTSmartPointer<PerkFragments>> perkFragments;           // 0E0
-			BSSpinLock kPerkFragmentSpinLock;                                                  // 110
-			BSTHashMap<std::uint32_t, BSTSmartPointer<TerminalFragments>> terminalFragments;   // 118
-			BSSpinLock kTerminalFragmentSpinLock;                                              // 148
-			BSTHashMap<std::uint32_t, BSTSmartPointer<BSScript::BoundScript>> boundScripts;    // 150
-			BSSpinLock kBindInfoSpinLock;                                                      // 180
+			BSTHashMap<std::uint32_t, BSTSmartPointer<QuestFragments>>        questFragments;              // 000
+			BSSpinLock                                                        kQuestFragmentSpinLock;      // 030
+			BSTHashMap<std::uint32_t, BSTSmartPointer<BeginEndFragments>>     topicInfoFragments;          // 038
+			BSSpinLock                                                        kTopicInfoFragmentSpinLock;  // 068
+			BSTHashMap<std::uint32_t, BSTSmartPointer<SceneFragments>>        sceneFragments;              // 070
+			BSSpinLock                                                        kSceneFragmentSpinLock;      // 0A0
+			BSTHashMap<std::uint32_t, BSTSmartPointer<PackageFragments>>      packageFragments;            // 0A8
+			BSSpinLock                                                        kPackageFragmentSpinLock;    // 0D8
+			BSTHashMap<std::uint32_t, BSTSmartPointer<PerkFragments>>         perkFragments;               // 0E0
+			BSSpinLock                                                        kPerkFragmentSpinLock;       // 110
+			BSTHashMap<std::uint32_t, BSTSmartPointer<TerminalFragments>>     terminalFragments;           // 118
+			BSSpinLock                                                        kTerminalFragmentSpinLock;   // 148
+			BSTHashMap<std::uint32_t, BSTSmartPointer<BSScript::BoundScript>> boundScripts;                // 150
+			BSSpinLock                                                        kBindInfoSpinLock;           // 180
 		};
 		static_assert(sizeof(FragmentSystem) == 0x188);
 
@@ -451,13 +451,13 @@ namespace RE
 			void StackFramePopped(std::uint32_t a_stackID, std::uint32_t a_frameNumber, const BSScript::Variable& a_self, const BSFixedString& a_scriptName, const BSFixedString& a_stateName, const BSFixedString& a_functionName) override;     // 04
 
 			// members
-			BSSpinLock dataLock;                                               // 008
-			BSLog* globalProfilingLog;                                         // 010
-			BSTHashMap<std::uint32_t, BSLog*> watchedStacks;                   // 018
-			BSTHashMap<BSFixedString, BSLog*> watchedScripts;                  // 048
-			BSTHashMap<std::size_t, BSLog*> watchedObjects;                    // 078
-			BSTArray<BSTTuple<BSFixedString, std::size_t>> watchedStackRoots;  // 0A8
-			BSTimer timer;                                                     // 0C0
+			BSSpinLock                                     dataLock;            // 008
+			BSLog*                                         globalProfilingLog;  // 010
+			BSTHashMap<std::uint32_t, BSLog*>              watchedStacks;       // 018
+			BSTHashMap<BSFixedString, BSLog*>              watchedScripts;      // 048
+			BSTHashMap<std::size_t, BSLog*>                watchedObjects;      // 078
+			BSTArray<BSTTuple<BSFixedString, std::size_t>> watchedStackRoots;   // 0A8
+			BSTimer                                        timer;               // 0C0
 		};
 		static_assert(sizeof(Profiler) == 0x100);
 
@@ -494,7 +494,7 @@ namespace RE
 
 		[[nodiscard]] static GameVM* GetSingleton()
 		{
-			REL::Relocation<GameVM**> singleton{ REL::ID(996227) };
+			static REL::Relocation<GameVM**> singleton{ REL::ID(2689134) };
 			return *singleton;
 		}
 
@@ -503,72 +503,72 @@ namespace RE
 		bool QueuePostRenderCall(const BSTSmartPointer<GameScript::DelayFunctor>& a_functor)
 		{
 			using func_t = decltype(&GameVM::QueuePostRenderCall);
-			REL::Relocation<func_t> func{ REL::ID(34412) };
+			static REL::Relocation<func_t> func{ REL::ID(2251314) };
 			return func(this, a_functor);
 		}
 
 		void RegisterForAllGameEvents()
 		{
 			using func_t = decltype(&GameVM::RegisterForAllGameEvents);
-			REL::Relocation<func_t> func{ REL::ID(680454) };
+			static REL::Relocation<func_t> func{ REL::ID(2251353) };
 			return func(this);
 		}
 
 		void SendEventToObjectAndRelated(
-			std::size_t a_object,
-			const BSFixedString& a_eventName,
-			const BSTThreadScrapFunction<bool(BSScrapArray<BSScript::Variable>&)>& a_args,
+			std::size_t                                                                   a_object,
+			const BSFixedString&                                                          a_eventName,
+			const BSTThreadScrapFunction<bool(BSScrapArray<BSScript::Variable>&)>&        a_args,
 			const BSTThreadScrapFunction<bool(const BSTSmartPointer<BSScript::Object>&)>& a_filter,
-			const BSTSmartPointer<BSScript::IStackCallbackFunctor>& a_callback)
+			const BSTSmartPointer<BSScript::IStackCallbackFunctor>&                       a_callback)
 		{
 			using func_t = decltype(&GameVM::SendEventToObjectAndRelated);
-			REL::Relocation<func_t> func{ REL::ID(367992) };
+			static REL::Relocation<func_t> func{ REL::ID(367992) };
 			return func(this, a_object, a_eventName, a_args, a_filter, a_callback);
 		}
 
 		// members
-		BSTSmartPointer<BSScript::IVirtualMachine> impl;                                                // 00B0
-		BSScript::IVMSaveLoadInterface* saveLoadInterface;                                              // 00B8
-		BSScript::IVMDebugInterface* debugInterface;                                                    // 00C0
-		BSScript::SimpleAllocMemoryPagePolicy memoryPagePolicy;                                         // 00C8
-		BSScript::CompiledScriptLoader scriptLoader;                                                    // 00F8
-		GameScript::Logger logger;                                                                      // 0130
-		GameScript::HandlePolicy handlePolicy;                                                          // 01E0
-		GameScript::ObjectBindPolicy objectBindPolicy;                                                  // 0288
-		BSTSmartPointer<BSScript::IStore> scriptStore;                                                  // 0360
-		GameScript::FragmentSystem fragmentSystem;                                                      // 0368
-		GameScript::Profiler profiler;                                                                  // 04F0
-		GameScript::SavePatcher savePatcher;                                                            // 05F0
-		BSSpinLock freezeLock;                                                                          // 05F8
-		bool frozen;                                                                                    // 0600
-		BSSpinLock vmTimeLock;                                                                          // 0604
-		std::uint32_t currentTime;                                                                      // 060C
-		std::uint32_t currentMenuModeTime;                                                              // 0610
-		std::uint32_t currentGameTime;                                                                  // 0614
-		bool updateHasBeenRun;                                                                          // 0618
-		bool saveLoad;                                                                                  // 0619
-		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512> renderSafeFunctorPool1;       // 0620
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>> renderSafeFunctorQueue1;     // 2638
-		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512> renderSafeFunctorPool2;       // 2660
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>> renderSafeFunctorQueue2;     // 4678
-		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512> postRenderFunctorPool1;       // 46A0
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>> postRenderFunctorQueue1;     // 66B8
-		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512> postRenderFunctorPool2;       // 66E0
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>> postRenderFunctorQueue2;     // 86F8
-		BSSpinLock renderSafeQueueLock;                                                                 // 8720
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* renderSafeQueueToReadFrom;  // 8728
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* renderSafeQueueToWriteTo;   // 8730
-		BSSpinLock postRenderQueueLock;                                                                 // 8738
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* postRenderQueueToReadFrom;  // 8740
-		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* postRenderQueueToWriteTo;   // 8748
-		BSSpinLock userLogLock;                                                                         // 8750
-		BSTHashMap<BSFixedString, BSScript::ErrorLogger*> userLogs;                                     // 8758
-		BSSpinLock statsWarningLock;                                                                    // 8788
-		std::uint32_t initialSuspendOverageTime;                                                        // 8790
-		std::uint32_t initialRunningOverageTime;                                                        // 8794
-		std::uint32_t initialStackMemoryOverageTime;                                                    // 8798
-		std::uint32_t lastWarningTime;                                                                  // 879C
-		std::uint32_t overflowFlags;                                                                    // 87A0
+		BSTSmartPointer<BSScript::IVirtualMachine>                          impl;                           // 00B0
+		BSScript::IVMSaveLoadInterface*                                     saveLoadInterface;              // 00B8
+		BSScript::IVMDebugInterface*                                        debugInterface;                 // 00C0
+		BSScript::SimpleAllocMemoryPagePolicy                               memoryPagePolicy;               // 00C8
+		BSScript::CompiledScriptLoader                                      scriptLoader;                   // 00F8
+		GameScript::Logger                                                  logger;                         // 0130
+		GameScript::HandlePolicy                                            handlePolicy;                   // 01E0
+		GameScript::ObjectBindPolicy                                        objectBindPolicy;               // 0288
+		BSTSmartPointer<BSScript::IStore>                                   scriptStore;                    // 0360
+		GameScript::FragmentSystem                                          fragmentSystem;                 // 0368
+		GameScript::Profiler                                                profiler;                       // 04F0
+		GameScript::SavePatcher                                             savePatcher;                    // 05F0
+		BSSpinLock                                                          freezeLock;                     // 05F8
+		bool                                                                frozen;                         // 0600
+		BSSpinLock                                                          vmTimeLock;                     // 0604
+		std::uint32_t                                                       currentTime;                    // 060C
+		std::uint32_t                                                       currentMenuModeTime;            // 0610
+		std::uint32_t                                                       currentGameTime;                // 0614
+		bool                                                                updateHasBeenRun;               // 0618
+		bool                                                                saveLoad;                       // 0619
+		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512>   renderSafeFunctorPool1;         // 0620
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>  renderSafeFunctorQueue1;        // 2638
+		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512>   renderSafeFunctorPool2;         // 2660
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>  renderSafeFunctorQueue2;        // 4678
+		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512>   postRenderFunctorPool1;         // 46A0
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>  postRenderFunctorQueue1;        // 66B8
+		BSTStaticFreeList<BSTSmartPointer<GameScript::DelayFunctor>, 512>   postRenderFunctorPool2;         // 66E0
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>  postRenderFunctorQueue2;        // 86F8
+		BSSpinLock                                                          renderSafeQueueLock;            // 8720
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* renderSafeQueueToReadFrom;      // 8728
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* renderSafeQueueToWriteTo;       // 8730
+		BSSpinLock                                                          postRenderQueueLock;            // 8738
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* postRenderQueueToReadFrom;      // 8740
+		BSTCommonLLMessageQueue<BSTSmartPointer<GameScript::DelayFunctor>>* postRenderQueueToWriteTo;       // 8748
+		BSSpinLock                                                          userLogLock;                    // 8750
+		BSTHashMap<BSFixedString, BSScript::ErrorLogger*>                   userLogs;                       // 8758
+		BSSpinLock                                                          statsWarningLock;               // 8788
+		std::uint32_t                                                       initialSuspendOverageTime;      // 8790
+		std::uint32_t                                                       initialRunningOverageTime;      // 8794
+		std::uint32_t                                                       initialStackMemoryOverageTime;  // 8798
+		std::uint32_t                                                       lastWarningTime;                // 879C
+		std::uint32_t                                                       overflowFlags;                  // 87A0
 	};
 	static_assert(sizeof(GameVM) == 0x87A8);
 
@@ -644,11 +644,11 @@ namespace RE
 			static constexpr auto VTABLE{ VTABLE::GameScript__BasicEventHandler };
 
 			// members
-			GameVM* gameVM;                                 // 1F8
-			FragmentSystem* fragmentSystem;                 // 200
-			HandlePolicy* handlePolicy;                     // 208
-			ObjectBindPolicy* objectBindPolicy;             // 210
-			BSTSmartPointer<BSScript::IVirtualMachine> vm;  // 218
+			GameVM*                                    gameVM;            // 1F8
+			FragmentSystem*                            fragmentSystem;    // 200
+			HandlePolicy*                              handlePolicy;      // 208
+			ObjectBindPolicy*                          objectBindPolicy;  // 210
+			BSTSmartPointer<BSScript::IVirtualMachine> vm;                // 218
 		};
 		static_assert(sizeof(BasicEventHandler) == 0x220);
 
@@ -663,13 +663,13 @@ namespace RE
 			static constexpr auto VTABLE{ VTABLE::GameScript__CombatEventHandler };
 
 			// members
-			BSTSmartPointer<BSScript::IVirtualMachine> vm;                                                                  // 20
-			BSSpinLock hitLock;                                                                                             // 28
-			BSTHashMap<std::uint64_t, BSTSmartPointer<Internal::HitRegistrationList>> hitEvents;                            // 30
-			BSSpinLock magicEffectApplyLock;                                                                                // 60
+			BSTSmartPointer<BSScript::IVirtualMachine>                                             vm;                      // 20
+			BSSpinLock                                                                             hitLock;                 // 28
+			BSTHashMap<std::uint64_t, BSTSmartPointer<Internal::HitRegistrationList>>              hitEvents;               // 30
+			BSSpinLock                                                                             magicEffectApplyLock;    // 60
 			BSTHashMap<std::uint64_t, BSTSmartPointer<Internal::MagicEffectApplyRegistrationList>> magicEffectApplyEvents;  // 68
-			BSSpinLock radiationDamageLock;                                                                                 // 98
-			BSTHashMap<std::uint64_t, BSTSmartPointer<Internal::RadiationDamageRegistrationList>> radiationDamageEvents;    // A0
+			BSSpinLock                                                                             radiationDamageLock;     // 98
+			BSTHashMap<std::uint64_t, BSTSmartPointer<Internal::RadiationDamageRegistrationList>>  radiationDamageEvents;   // A0
 		};
 		static_assert(sizeof(CombatEventHandler) == 0xD0);
 
@@ -686,20 +686,20 @@ namespace RE
 
 			[[nodiscard]] TESObjectREFR* Container() const noexcept { return _container; }
 			[[nodiscard]] TESObjectREFR* Reference() const noexcept { return _ref; }
-			[[nodiscard]] std::uint16_t UniqueID() const noexcept { return _uniqueID; }
+			[[nodiscard]] std::uint16_t  UniqueID() const noexcept { return _uniqueID; }
 
 		private:
 			// members
 			TESObjectREFR* _ref{ nullptr };        // 00
 			TESObjectREFR* _container{ nullptr };  // 08
-			std::uint16_t _uniqueID{ 0 };          // 10
+			std::uint16_t  _uniqueID{ 0 };         // 10
 		};
 		static_assert(sizeof(RefrOrInventoryObj) == 0x18);
 
 		inline void BindCObject(const BSTSmartPointer<BSScript::Object>& a_scriptObj, const RefrOrInventoryObj& a_cobj, BSScript::IVirtualMachine& a_vm)
 		{
 			using func_t = decltype(&BindCObject);
-			REL::Relocation<func_t> func{ REL::ID(81787) };
+			static REL::Relocation<func_t> func{ REL::ID(81787) };
 			return func(a_scriptObj, a_cobj, a_vm);
 		}
 
@@ -710,11 +710,11 @@ namespace RE
 			inline static constexpr auto RTTI = { RTTI::GameScript__BaseHandleReaderWriter };
 			inline static constexpr auto VTABLE = { VTABLE::GameScript__BaseHandleReaderWriter };
 
-			~BaseHandleReaderWriter() override;                                                       // 0
-			virtual std::uint16_t GetHandleVersion() const override;                                  // 142D8E390
-			virtual bool WriteHandle(BSStorage& storage, std::uint64_t) const override;               // 142D8E398
-			virtual bool ReadHandle(BSStorage const& storage, std::uint64_t&) const override;         // 142D8E3A0
-			virtual bool ReadHandleNoRemap(BSStorage const& storage, std::uint64_t&) const override;  // 142D8E3A8
+			~BaseHandleReaderWriter() override;                                                                // 0
+			virtual std::uint16_t GetHandleVersion() const override;                                           // 142D8E390
+			virtual bool          WriteHandle(BSStorage& storage, std::uint64_t) const override;               // 142D8E398
+			virtual bool          ReadHandle(BSStorage const& storage, std::uint64_t&) const override;         // 142D8E3A0
+			virtual bool          ReadHandleNoRemap(BSStorage const& storage, std::uint64_t&) const override;  // 142D8E3A8
 
 			virtual bool WriteFormID(BSStorage& storage, std::uint32_t) const = 0;        // 142D8E3B0
 			virtual bool ReadFormID(const BSStorage& storage, std::uint32_t&) const = 0;  // 142D8E3B8

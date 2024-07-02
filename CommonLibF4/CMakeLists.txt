@@ -27,19 +27,20 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(FATAL_ERROR "in-source builds are not allowed")
 endif()
 
-find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
+find_package(mmio REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 find_package(mmio REQUIRED CONFIG)
 
 include(cmake/sourcelist.cmake)
-#include(cmake/testlist.cmake)
 
+# include(cmake/testlist.cmake)
 source_group(
 	TREE "${CMAKE_CURRENT_SOURCE_DIR}"
 	FILES ${SOURCES}
 )
 
 check_ipo_supported(RESULT USE_IPO OUTPUT IPO_OUTPUT)
+
 if(USE_IPO)
 	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION "$<$<CONFIG:RELEASE>:ON>")
 endif()
@@ -57,62 +58,67 @@ add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 target_compile_definitions(
 	"${PROJECT_NAME}"
 	PUBLIC
-		"$<$<BOOL:${F4SE_SUPPORT_XBYAK}>:F4SE_SUPPORT_XBYAK=1>"
-		"$<$<BOOL:${FALLOUT_SUPPORT_F4}>:FALLOUT_SUPPORT_F4=1>"
-		"$<$<BOOL:${FALLOUT_SUPPORT_VR}>:FALLOUT_SUPPORT_VR=1>"
+	WINVER=0x0601 # windows 7, minimum supported version by fallout 4
+	_WIN32_WINNT=0x0601
+	"$<$<BOOL:${F4SE_SUPPORT_XBYAK}>:F4SE_SUPPORT_XBYAK=1>"
+	"$<$<BOOL:${FALLOUT_SUPPORT_F4}>:FALLOUT_SUPPORT_F4=1>"
+	"$<$<BOOL:${FALLOUT_SUPPORT_VR}>:FALLOUT_SUPPORT_VR=1>"
 )
 
 target_compile_features(
 	"${PROJECT_NAME}"
 	PUBLIC
-		cxx_std_20
+	cxx_std_23
 )
 
-if (MSVC)
+if(MSVC)
 	target_compile_options(
 		"${PROJECT_NAME}"
 		PUBLIC
-			# warnings -> errors
-			/we4715	# 'function' : not all control paths return a value
 
-			# disable warnings
-			/wd4005 # macro redefinition
-			/wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by a case label
-			/wd4200 # nonstandard extension used : zero-sized array in struct/union
-			/wd4201 # nonstandard extension used : nameless struct/union
-			/wd4265 # 'type': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
-			/wd4266 # 'function' : no override available for virtual member function from base 'type'; function is hidden
-			/wd4324 # 'struct_name' : structure was padded due to __declspec(align())
-			/wd4371 # 'classname': layout of class may have changed from a previous version of the compiler due to better packing of member 'member'
-			/wd4514 # 'function' : unreferenced inline function has been removed
-			/wd4582 # 'type': constructor is not implicitly called
-			/wd4583 # 'type': destructor is not implicitly called
-			/wd4623 # 'derived class' : default constructor was implicitly defined as deleted because a base class default constructor is inaccessible or deleted
-			/wd4625 # 'derived class' : copy constructor was implicitly defined as deleted because a base class copy constructor is inaccessible or deleted
-			/wd4626 # 'derived class' : assignment operator was implicitly defined as deleted because a base class assignment operator is inaccessible or deleted
-			/wd4710 # 'function' : function not inlined
-			/wd4711 # function 'function' selected for inline expansion
-			/wd4820 # 'bytes' bytes padding added after construct 'member_name'
-			/wd5026 # 'type': move constructor was implicitly defined as deleted
-			/wd5027 # 'type': move assignment operator was implicitly defined as deleted
-			/wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
-			/wd5053 # support for 'explicit(<expr>)' in C++17 and earlier is a vendor extension
-			/wd5204 # 'type-name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
-			/wd5220 # 'member': a non-static data member with a volatile qualified type no longer implies that compiler generated copy / move constructors and copy / move assignment operators are not trivial
+		# warnings -> errors
+		/we4715 # 'function' : not all control paths return a value
+
+		# disable warnings
+		/wd4005 # macro redefinition
+		/wd4061 # enumerator 'identifier' in switch of enum 'enumeration' is not explicitly handled by a case label
+		/wd4200 # nonstandard extension used : zero-sized array in struct/union
+		/wd4201 # nonstandard extension used : nameless struct/union
+		/wd4265 # 'type': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+		/wd4266 # 'function' : no override available for virtual member function from base 'type'; function is hidden
+		/wd4324 # 'struct_name' : structure was padded due to __declspec(align())
+		/wd4371 # 'classname': layout of class may have changed from a previous version of the compiler due to better packing of member 'member'
+		/wd4514 # 'function' : unreferenced inline function has been removed
+		/wd4582 # 'type': constructor is not implicitly called
+		/wd4583 # 'type': destructor is not implicitly called
+		/wd4623 # 'derived class' : default constructor was implicitly defined as deleted because a base class default constructor is inaccessible or deleted
+		/wd4625 # 'derived class' : copy constructor was implicitly defined as deleted because a base class copy constructor is inaccessible or deleted
+		/wd4626 # 'derived class' : assignment operator was implicitly defined as deleted because a base class assignment operator is inaccessible or deleted
+		/wd4686 # 'user-defined type' : possible change in behavior, change in UDT return calling convention
+		/wd4702 # unreachable code
+		/wd4710 # 'function' : function not inlined
+		/wd4711 # function 'function' selected for inline expansion
+		/wd4820 # 'bytes' bytes padding added after construct 'member_name'
+		/wd5026 # 'type': move constructor was implicitly defined as deleted
+		/wd5027 # 'type': move assignment operator was implicitly defined as deleted
+		/wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+		/wd5053 # support for 'explicit(<expr>)' in C++17 and earlier is a vendor extension
+		/wd5204 # 'type-name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+		/wd5220 # 'member': a non-static data member with a volatile qualified type no longer implies that compiler generated copy / move constructors and copy / move assignment operators are not trivial
 	)
 endif()
 
 target_include_directories(
 	"${PROJECT_NAME}"
 	PUBLIC
-		"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+	"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 
 target_include_directories(
 	"${PROJECT_NAME}"
 	PRIVATE
-		${RAPIDCSV_INCLUDE_DIRS}
+	${RAPIDCSV_INCLUDE_DIRS}
 )
 
 target_compile_definitions(
@@ -123,16 +129,22 @@ target_compile_definitions(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
-		spdlog::spdlog
-		mmio::mmio
-		Version.lib
-		Dbghelp.lib
+	advapi32.lib
+	bcrypt.lib
+	d3d11.lib
+	d3dcompiler.lib
+	dbghelp.lib
+	dxgi.lib
+	mmio::mmio
+	ole32.lib
+	spdlog::spdlog
+	version.lib
 )
 
 target_precompile_headers(
 	"${PROJECT_NAME}"
 	PRIVATE
-		include/F4SE/Impl/PCH.h
+	include/F4SE/Impl/PCH.h
 )
 
 install(
@@ -159,9 +171,9 @@ install(
 
 install(
 	DIRECTORY
-		"include/RE"
-		"include/REL"
-		"include/F4SE"
+	"include/RE"
+	"include/REL"
+	"include/REX"
 	DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
 
@@ -172,42 +184,42 @@ if(BUILD_TESTS)
 
 	add_executable(
 		"${PROJECT_NAME}Tests"
-			${TESTS}
+		${TESTS}
 	)
 
 	target_include_directories(
 		"${PROJECT_NAME}Tests"
 		PUBLIC
-			"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-			"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+		"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+		"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 	)
 
 	target_include_directories(
 		"${PROJECT_NAME}Tests"
 		PRIVATE
-			${Catch2_INCLUDE_DIRS}
-			${fmt_INCLUDE_DIRS}
-			${spdlog_INCLUDE_DIRS}
-			${RAPIDCSV_INCLUDE_DIRS}
+		${Catch2_INCLUDE_DIRS}
+		${fmt_INCLUDE_DIRS}
+		${spdlog_INCLUDE_DIRS}
+		${RAPIDCSV_INCLUDE_DIRS}
 	)
 
 	target_compile_definitions(
 		"${PROJECT_NAME}Tests"
 		PUBLIC
-			COMMONLIBF4_ENABLE_TESTING=1
+		COMMONLIBF4_ENABLE_TESTING=1
 	)
 
 	target_link_libraries(
 		"${PROJECT_NAME}Tests"
 		PRIVATE
-			${PROJECT_NAME}
-			Catch2::Catch2
+		${PROJECT_NAME}
+		Catch2::Catch2
 	)
 
 	target_precompile_headers(
 		"${PROJECT_NAME}Tests"
 		PRIVATE
-			include/F4SE/Impl/PCH.h
+		include/F4SE/Impl/PCH.h
 	)
 
 	file(COPY

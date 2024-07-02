@@ -45,9 +45,9 @@ namespace RE
 	{
 	public:
 		// members
-		BSTFreeList<T>* freeList;   // 10
-		BSTFreeListElem<T>* head;   // 18
-		BSTFreeListElem<T>** tail;  // 20
+		BSTFreeList<T>*      freeList;  // 10
+		BSTFreeListElem<T>*  head;      // 18
+		BSTFreeListElem<T>** tail;      // 20
 	};
 
 	template <class T>
@@ -60,9 +60,9 @@ namespace RE
 		virtual bool DoTryPop([[maybe_unused]] T& a_message) override;         // 06
 
 		// members
-		ScrapHeap* scrapHeap;            // 10
-		BSScrapHeapQueueElem<T>* head;   // 18
-		BSScrapHeapQueueElem<T>** tail;  // 20
+		ScrapHeap*                scrapHeap;  // 10
+		BSScrapHeapQueueElem<T>*  head;       // 18
+		BSScrapHeapQueueElem<T>** tail;       // 20
 	};
 
 	struct BSTLocklessQueue
@@ -86,9 +86,9 @@ namespace RE
 		{
 		public:
 			// members
-			T data[SIZE];           // 00
-			QueueContainer queued;  // ??
-			QueueContainer free;    // ??
+			T              data[SIZE];  // 00
+			QueueContainer queued;      // ??
+			QueueContainer free;        // ??
 		};
 		static_assert(sizeof(ObjQueueBase<PtrMultiProdCons<void*, 128, 0>, void*, 64, 0>) == 0xE00);
 

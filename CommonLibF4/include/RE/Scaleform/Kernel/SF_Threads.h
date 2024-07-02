@@ -42,8 +42,8 @@ namespace RE::Scaleform
 		{
 		public:
 			// members
-			WaitHandler* handler;  // 00
-			void* userData;        // 08
+			WaitHandler* handler;   // 00
+			void*        userData;  // 08
 		};
 		static_assert(sizeof(HandlerStruct) == 0x10);
 
@@ -60,9 +60,9 @@ namespace RE::Scaleform
 			}
 
 			// members
-			AtomicInt<std::int32_t> refCount;  // 00
-			HandlerArrayType handlers;         // 08
-			Lock handlersLock;                 // 20
+			AtomicInt<std::int32_t> refCount;      // 00
+			HandlerArrayType        handlers;      // 08
+			Lock                    handlersLock;  // 20
 		};
 		static_assert(sizeof(HandlerArray) == 0x48);
 
@@ -107,6 +107,6 @@ namespace RE::Scaleform
 	inline ThreadId GetCurrentThreadId()
 	{
 		return reinterpret_cast<ThreadId>(
-			static_cast<std::uintptr_t>(WinAPI::GetCurrentThreadID()));
+			static_cast<std::uintptr_t>(REX::W32::GetCurrentThreadId()));
 	}
 }

@@ -3,7 +3,7 @@
 #include "RE/Scaleform/GFx/GFx_ASMovieRootBase.h"
 #include "RE/Scaleform/GFx/GFx_ASString.h"
 #include "RE/Scaleform/Kernel/SF_Allocator.h"
-#include "RE/Scaleform/Kernel/SF_Array.h"
+#include "RE/Scaleform/Kernel/SF_ArrayPaged.h"
 #include "RE/Scaleform/Kernel/SF_Memory.h"
 
 namespace RE::Scaleform
@@ -13,8 +13,8 @@ namespace RE::Scaleform
 	{
 	public:
 		// members
-		T* object;   // 00
-		bool owner;  // 08
+		T*   object;  // 00
+		bool owner;   // 08
 	};
 	static_assert(sizeof(AutoPtr<void>) == 0x10);
 
@@ -25,9 +25,9 @@ namespace RE::Scaleform
 		{
 		public:
 			// members
-			std::uint64_t size;              // 00
+			std::uint64_t         size;      // 00
 			volatile std::int32_t refCount;  // 08
-			char data[1];                    // 0C
+			char                  data[1];   // 0C
 		};
 		static_assert(sizeof(DataDesc) == 0x10);
 
@@ -44,7 +44,7 @@ namespace RE::Scaleform
 		// members
 		union
 		{
-			DataDesc* data;
+			DataDesc*     data;
 			std::uint64_t heapTypeBits;
 		};  // 00
 	};
@@ -54,7 +54,7 @@ namespace RE::Scaleform
 	{
 	public:
 		// members
-		const char* str;     // 00
+		const char*   str;   // 00
 		std::uint64_t size;  // 08
 	};
 	static_assert(sizeof(StringDataPtr) == 0x10);
@@ -118,10 +118,10 @@ namespace RE::Scaleform::GFx::AS3
 		{
 		public:
 			// members
-			std::uint32_t doubleCount;         // 00
-			const std::uint8_t* doubles;       // 08
-			std::byte pad10[0xA0 - 0x10];      // 10
-			const NamespaceInfo anyNamespace;  // A0
+			std::uint32_t       doubleCount;         // 00
+			const std::uint8_t* doubles;             // 08
+			std::byte           pad10[0xA0 - 0x10];  // 10
+			const NamespaceInfo anyNamespace;        // A0
 		};
 		static_assert(sizeof(ConstPool) == 0xB8);
 
@@ -178,17 +178,17 @@ namespace RE::Scaleform::GFx::AS3
 			virtual ~File();  // 00
 
 			// members
-			std::uint32_t dataSize;        // 010
-			Scaleform::String source;      // 018
-			std::uint16_t minorVersion;    // 020
-			std::uint16_t majorVersion;    // 022
-			ConstPool constPool;           // 028
-			MethodTable methods;           // 0E0
-			MetadataTable metadata;        // 0F8
-			TraitTable traits;             // 110
-			ClassTable classes;            // 128
-			ScriptTable scripts;           // 140
-			MethodBodyTable methodBodies;  // 158
+			std::uint32_t     dataSize;      // 010
+			Scaleform::String source;        // 018
+			std::uint16_t     minorVersion;  // 020
+			std::uint16_t     majorVersion;  // 022
+			ConstPool         constPool;     // 028
+			MethodTable       methods;       // 0E0
+			MetadataTable     metadata;      // 0F8
+			TraitTable        traits;        // 110
+			ClassTable        classes;       // 128
+			ScriptTable       scripts;       // 140
+			MethodBodyTable   methodBodies;  // 158
 		};
 		static_assert(sizeof(File) == 0x170);
 	}
@@ -219,7 +219,7 @@ namespace RE::Scaleform::GFx::AS3
 		// members
 		union
 		{
-			void* rcc;
+			void*         rcc;
 			std::uint64_t rccRaw;
 		};  // 08
 		union
@@ -265,22 +265,22 @@ namespace RE::Scaleform::GFx::AS3
 
 		union V1U
 		{
-			bool vbool;
-			std::int32_t vint;
-			std::uint32_t vuint;
-			ASStringNode* vstr;
-			Object* vobj;
-			Class* vclass;
-			Instances::Function* vfunct;
-			const ThunkInfo* vthunk;
+			bool                      vbool;
+			std::int32_t              vint;
+			std::uint32_t             vuint;
+			ASStringNode*             vstr;
+			Object*                   vobj;
+			Class*                    vclass;
+			Instances::Function*      vfunct;
+			const ThunkInfo*          vthunk;
 			Instances::ThunkFunction* vthunkfunct;
-			InstanceTraits::Traits* instanceTraits;
-			ClassTraits::Traits* classTraits;
+			InstanceTraits::Traits*   instanceTraits;
+			ClassTraits::Traits*      classTraits;
 		};
 
 		union V2U
 		{
-			Object* vobj;
+			Object*       vobj;
 			const Traits* traits;
 		};
 
@@ -296,13 +296,13 @@ namespace RE::Scaleform::GFx::AS3
 		union VU
 		{
 			long double number;
-			VStruct VS;
+			VStruct     VS;
 		};
 
 		// members
 		std::uint32_t flags;  // 00
-		Extra bonus;          // 08
-		VU value;             // 10
+		Extra         bonus;  // 08
+		VU            value;  // 10
 	};
 	static_assert(sizeof(Value) == 0x20);
 
@@ -311,21 +311,21 @@ namespace RE::Scaleform::GFx::AS3
 	{
 	public:
 		// members
-		bool discardResult;                // 00
-		bool aCopy;                        // 01
-		std::uint64_t scopeStackBaseInd;   // 08
-		const std::uint64_t* cp;           // 10
-		ValueRegisterFile* registerValue;  // 18
-		MemoryHeap* heap;                  // 20
-		VMAbcFile* file;                   // 28
-		Abc::MbiInd MBIIndex;              // 30
-		const void* savedScope;            // 38 - TODO
-		const Traits* originationTraits;   // 40
-		void* scopeStack;                  // 48 - TODO
-		Value* prevInitialStackPos;        // 50
-		void* defXMLNamespace;             // 58 - TODO
-		Value* prevFirstStackPos;          // 60
-		Value Invoker;                     // 68
+		bool                 discardResult;        // 00
+		bool                 aCopy;                // 01
+		std::uint64_t        scopeStackBaseInd;    // 08
+		const std::uint64_t* cp;                   // 10
+		ValueRegisterFile*   registerValue;        // 18
+		MemoryHeap*          heap;                 // 20
+		VMAbcFile*           file;                 // 28
+		Abc::MbiInd          MBIIndex;             // 30
+		const void*          savedScope;           // 38 - TODO
+		const Traits*        originationTraits;    // 40
+		void*                scopeStack;           // 48 - TODO
+		Value*               prevInitialStackPos;  // 50
+		void*                defXMLNamespace;      // 58 - TODO
+		Value*               prevFirstStackPos;    // 60
+		Value                Invoker;              // 68
 	};
 	static_assert(sizeof(CallFrame) == 0x88);
 
@@ -355,8 +355,8 @@ namespace RE::Scaleform::GFx::AS3
 		virtual bool OnOpCode(std::uint64_t a_opCode) = 0;                     // 02
 
 		// members
-		StateType state;   // 08
-		bool needToCheck;  // 0C
+		StateType state;        // 08
+		bool      needToCheck;  // 0C
 	};
 	static_assert(sizeof(FlashUI) == 0x10);
 
@@ -374,9 +374,9 @@ namespace RE::Scaleform::GFx::AS3
 		static_assert(sizeof(MemContextPtr) == 0x08);
 
 		// members
-		MemContextPtr memContext;        // 040
-		AutoPtr<ASVM> asVM;              // 048
-		std::byte pad058[0x4A8 - 0x58];  // 058 - TODO
+		MemContextPtr memContext;            // 040
+		AutoPtr<ASVM> asVM;                  // 048
+		std::byte     pad058[0x4A8 - 0x58];  // 058 - TODO
 	};
 	static_assert(sizeof(MovieRoot) == 0x4A8);
 
@@ -391,16 +391,16 @@ namespace RE::Scaleform::GFx::AS3
 	{
 	public:
 		// members
-		std::uint32_t flags;              // 00
-		std::uint16_t instanceSize;       // 04
-		std::uint16_t classMethodNum;     // 06
-		std::uint16_t classMemberNum;     // 08
-		std::uint16_t instanceMethodNum;  // 0A
-		std::uint16_t instanceMemberNum;  // 0C
-		const char* name;                 // 10
-		const char* packageName;          // 18
-		const TypeInfo* parent;           // 20
-		const TypeInfo** implements;      // 28
+		std::uint32_t    flags;              // 00
+		std::uint16_t    instanceSize;       // 04
+		std::uint16_t    classMethodNum;     // 06
+		std::uint16_t    classMemberNum;     // 08
+		std::uint16_t    instanceMethodNum;  // 0A
+		std::uint16_t    instanceMemberNum;  // 0C
+		const char*      name;               // 10
+		const char*      packageName;        // 18
+		const TypeInfo*  parent;             // 20
+		const TypeInfo** implements;         // 28
 	};
 	static_assert(sizeof(TypeInfo) == 0x30);
 
@@ -572,7 +572,7 @@ namespace RE::Scaleform::GFx::AS3
 		{
 		public:
 			// members
-			ErrorID id;        // 04
+			ErrorID  id;       // 04
 			ASString message;  // 08
 		};
 		static_assert(sizeof(Error) == 0x10);
@@ -590,13 +590,13 @@ namespace RE::Scaleform::GFx::AS3
 		}
 
 		// members
-		bool initialized;                               // 008
-		bool inDestructor;                              // 009
-		bool loadingAbcFile;                            // 00A
-		StringManager* stringManagerRef;                // 010
-		std::byte pad008[0xE8 - 0x18];                  // 018 - TODO
-		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;  // 0E8
-		std::byte pad198[0x2D0 - 0x198];                // 198 - TODO
+		bool                                initialized;            // 008
+		bool                                inDestructor;           // 009
+		bool                                loadingAbcFile;         // 00A
+		StringManager*                      stringManagerRef;       // 010
+		std::byte                           pad008[0xE8 - 0x18];    // 018 - TODO
+		ArrayPagedCC<CallFrame, 6, 64, 329> callStack;              // 0E8
+		std::byte                           pad198[0x2D0 - 0x198];  // 198 - TODO
 	};
 	static_assert(sizeof(VM) == 0x2D0);
 
@@ -614,7 +614,7 @@ namespace RE::Scaleform::GFx::AS3
 	{
 	public:
 		// members
-		VM* vmRef;                     // 28
+		VM*       vmRef;               // 28
 		std::byte pad30[0x98 - 0x30];  // 30
 	};
 	static_assert(sizeof(VMFile) == 0x98);
@@ -624,8 +624,8 @@ namespace RE::Scaleform::GFx::AS3
 	{
 	public:
 		// members
-		Ptr<Abc::File> file;           // 98
-		std::byte padA0[0xE8 - 0xA0];  // A0
+		Ptr<Abc::File> file;                // 98
+		std::byte      padA0[0xE8 - 0xA0];  // A0
 	};
 	static_assert(sizeof(VMAbcFile) == 0xE8);
 }

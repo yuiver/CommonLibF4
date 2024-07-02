@@ -1,6 +1,10 @@
 #pragma once
 
-#include <rapidcsv.h>
+#include "F4SE/Trampoline.h"
+
+#include "REL/ID.h"
+#include "REL/Module.h"
+#include "REL/Offset.h"
 
 #define REL_MAKE_MEMBER_FUNCTION_POD_TYPE_HELPER_IMPL(a_nopropQual, a_propQual, ...)              \
 	template <                                                                                    \
@@ -181,6 +185,9 @@
 
 namespace REL
 {
+	template <class>
+	class Relocation;
+
 	namespace detail
 	{
 		class memory_map
@@ -323,6 +330,8 @@ namespace REL
 
 			return func(std::forward<First>(a_first), std::addressof(result), std::forward<Rest>(a_rest)...);
 		}
+
+		std::optional<std::string> sha512(std::span<const std::byte> a_data);
 	}
 
 	inline constexpr std::uint8_t NOP = 0x90;
@@ -347,27 +356,7 @@ namespace REL
 		}
 	}
 
-	inline void safe_write(std::uintptr_t a_dst, const void* a_src, std::size_t a_count)
-	{
-		std::uint32_t old{ 0 };
-		auto success =
-			WinAPI::VirtualProtect(
-				reinterpret_cast<void*>(a_dst),
-				a_count,
-				(WinAPI::PAGE_EXECUTE_READWRITE),
-				std::addressof(old));
-		if (success != 0) {
-			std::memcpy(reinterpret_cast<void*>(a_dst), a_src, a_count);
-			success =
-				WinAPI::VirtualProtect(
-					reinterpret_cast<void*>(a_dst),
-					a_count,
-					old,
-					std::addressof(old));
-		}
-
-		assert(success != 0);
-	}
+	void safe_write(std::uintptr_t a_dst, const void* a_src, std::size_t a_count);
 
 	template <std::integral T>
 	void safe_write(std::uintptr_t a_dst, const T& a_data)
@@ -381,1217 +370,9 @@ namespace REL
 		safe_write(a_dst, a_data.data(), a_data.size_bytes());
 	}
 
-	inline void safe_fill(std::uintptr_t a_dst, std::uint8_t a_value, std::size_t a_count)
-	{
-		std::uint32_t old{ 0 };
-		auto success =
-			WinAPI::VirtualProtect(
-				reinterpret_cast<void*>(a_dst),
-				a_count,
-				(WinAPI::PAGE_EXECUTE_READWRITE),
-				std::addressof(old));
-		if (success != 0) {
-			std::fill_n(reinterpret_cast<std::uint8_t*>(a_dst), a_count, a_value);
-			success =
-				WinAPI::VirtualProtect(
-					reinterpret_cast<void*>(a_dst),
-					a_count,
-					old,
-					std::addressof(old));
-		}
+	void safe_fill(std::uintptr_t a_dst, std::uint8_t a_value, std::size_t a_count);
 
-		assert(success != 0);
-	}
-
-	class Version
-	{
-	public:
-		using value_type = std::uint16_t;
-		using reference = value_type&;
-		using const_reference = const value_type&;
-
-		constexpr Version() noexcept = default;
-
-		explicit constexpr Version(std::array<value_type, 4> a_version) noexcept :
-			_impl(a_version) {}
-
-		constexpr Version(value_type a_v1, value_type a_v2 = 0, value_type a_v3 = 0, value_type a_v4 = 0) noexcept :
-			_impl{ a_v1, a_v2, a_v3, a_v4 } {}
-
-		explicit constexpr Version(std::string_view a_version)
-		{
-			std::array<value_type, 4> powers{ 1, 1, 1, 1 };
-			std::size_t position = 0;
-			for (std::size_t i = 0; i < a_version.size(); ++i) {
-				if (a_version[i] == '.') {
-					if (++position == powers.size()) {
-						throw std::invalid_argument("Too many parts in version number.");
-					}
-				} else {
-					powers[position] *= 10;
-				}
-			}
-			position = 0;
-			for (std::size_t i = 0; i < a_version.size(); ++i) {
-				if (a_version[i] == '.') {
-					++position;
-				} else if (a_version[i] < '0' || a_version[i] > '9') {
-					throw std::invalid_argument("Invalid character in version number.");
-				} else {
-					powers[position] /= 10;
-					_impl[position] += static_cast<value_type>((a_version[i] - '0') * powers[position]);
-				}
-			}
-		}
-
-		[[nodiscard]] constexpr reference operator[](std::size_t a_idx) noexcept { return _impl[a_idx]; }
-
-		[[nodiscard]] constexpr const_reference operator[](std::size_t a_idx) const noexcept { return _impl[a_idx]; }
-
-		[[nodiscard]] constexpr decltype(auto) begin() const noexcept { return _impl.begin(); }
-
-		[[nodiscard]] constexpr decltype(auto) cbegin() const noexcept { return _impl.cbegin(); }
-
-		[[nodiscard]] constexpr decltype(auto) end() const noexcept { return _impl.end(); }
-
-		[[nodiscard]] constexpr decltype(auto) cend() const noexcept { return _impl.cend(); }
-
-		[[nodiscard]] std::strong_ordering constexpr compare(const Version& a_rhs) const noexcept
-		{
-			for (std::size_t i = 0; i < _impl.size(); ++i) {
-				if ((*this)[i] != a_rhs[i]) {
-					return (*this)[i] < a_rhs[i] ? std::strong_ordering::less : std::strong_ordering::greater;
-				}
-			}
-			return std::strong_ordering::equal;
-		}
-
-		[[nodiscard]] constexpr std::uint32_t pack() const noexcept
-		{
-			return static_cast<std::uint32_t>(
-				(_impl[0] & 0x0FF) << 24u |
-				(_impl[1] & 0x0FF) << 16u |
-				(_impl[2] & 0xFFF) << 4u |
-				(_impl[3] & 0x00F) << 0u);
-		}
-
-		[[nodiscard]] constexpr value_type major() const noexcept
-		{
-			return _impl[0];
-		}
-
-		[[nodiscard]] constexpr value_type minor() const noexcept
-		{
-			return _impl[1];
-		}
-
-		[[nodiscard]] constexpr value_type patch() const noexcept
-		{
-			return _impl[2];
-		}
-
-		[[nodiscard]] constexpr value_type build() const noexcept
-		{
-			return _impl[3];
-		}
-
-		[[nodiscard]] std::string string(std::string_view a_separator = "-"sv) const
-		{
-			std::string result;
-			for (auto&& ver : _impl) {
-				result += std::to_string(ver);
-				result.append(a_separator.data(), a_separator.size());
-			}
-			result.erase(result.size() - a_separator.size(), a_separator.size());
-			return result;
-		}
-
-		[[nodiscard]] std::wstring wstring(std::wstring_view a_separator = L"-"sv) const
-		{
-			std::wstring result;
-			for (auto&& ver : _impl) {
-				result += std::to_wstring(ver);
-				result.append(a_separator.data(), a_separator.size());
-			}
-			result.erase(result.size() - a_separator.size(), a_separator.size());
-			return result;
-		}
-
-		[[nodiscard]] static constexpr Version unpack(std::uint32_t a_packedVersion) noexcept
-		{
-			return REL::Version{
-				static_cast<value_type>((a_packedVersion >> 24) & 0x0FF),
-				static_cast<value_type>((a_packedVersion >> 16) & 0x0FF),
-				static_cast<value_type>((a_packedVersion >> 4) & 0xFFF),
-				static_cast<value_type>(a_packedVersion & 0x0F)
-			};
-		}
-
-	private:
-		std::array<value_type, 4> _impl{ 0, 0, 0, 0 };
-	};
-
-	[[nodiscard]] constexpr bool operator==(const Version& a_lhs, const Version& a_rhs) noexcept
-	{
-		return a_lhs.compare(a_rhs) == std::strong_ordering::equal;
-	}
-
-	[[nodiscard]] constexpr std::strong_ordering
-		operator<=>(const Version& a_lhs, const Version& a_rhs) noexcept { return a_lhs.compare(a_rhs); }
-
-	namespace literals
-	{
-		namespace detail
-		{
-			template <std::size_t Index, char C>
-			constexpr uint8_t read_version(std::array<typename REL::Version::value_type, 4>& result)
-			{
-				static_assert(C >= '0' && C <= '9', "Invalid character in semantic version literal.");
-				static_assert(Index < 4, "Too many components in semantic version literal.");
-				result[Index] += (C - '0');
-				return 10;
-			}
-
-			template <std::size_t Index, char C, char... Rest>
-			requires(sizeof...(Rest) > 0) constexpr uint8_t read_version(std::array<typename REL::Version::value_type, 4>& result)
-			{
-				static_assert(C == '.' || (C >= '0' && C <= '9'), "Invalid character in semantic version literal.");
-				static_assert(Index < 4, "Too many components in semantic version literal.");
-				if constexpr (C == '.') {
-					read_version<Index + 1, Rest...>(result);
-					return 1;
-				} else {
-					auto position = read_version<Index, Rest...>(result);
-					result[Index] += (C - '0') * position;
-					return position * 10;
-				}
-			}
-		}
-
-		template <char... C>
-		[[nodiscard]] constexpr REL::Version operator""_v() noexcept
-		{
-			std::array<typename REL::Version::value_type, 4> result{ 0, 0, 0, 0 };
-			detail::read_version<0, C...>(result);
-			return REL::Version(result);
-		}
-
-		[[nodiscard]] constexpr REL::Version operator""_v(const char* str, std::size_t len)
-		{
-			return Version(std::string_view(str, len));
-		}
-	}
-
-	[[nodiscard]] inline std::optional<Version> get_file_version(stl::zwstring a_filename)
-	{
-		std::uint32_t dummy;
-		std::vector<char> buf(WinAPI::GetFileVersionInfoSize(a_filename.data(), std::addressof(dummy)));
-		if (buf.empty()) {
-			return std::nullopt;
-		}
-
-		if (!WinAPI::GetFileVersionInfo(a_filename.data(), 0, static_cast<std::uint32_t>(buf.size()), buf.data())) {
-			return std::nullopt;
-		}
-
-		void* verBuf{ nullptr };
-		std::uint32_t verLen{ 0 };
-		if (!WinAPI::VerQueryValue(buf.data(), L"\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
-			return std::nullopt;
-		}
-
-		Version version;
-		std::wistringstream ss(
-			std::wstring(static_cast<const wchar_t*>(verBuf), verLen));
-		std::wstring token;
-		for (std::size_t i = 0; i < 4 && std::getline(ss, token, L'.'); ++i) {
-			version[i] = static_cast<std::uint16_t>(std::stoi(token));
-		}
-
-		return version;
-	}
-
-	class Segment
-	{
-	public:
-		enum Name : std::size_t
-		{
-			text,
-			interpr,
-			idata,
-			rdata,
-			data,
-			pdata,
-			tls,
-			total
-		};
-
-		Segment() noexcept = default;
-
-		Segment(std::uintptr_t a_proxyBase, std::uintptr_t a_address, std::uintptr_t a_size) noexcept :
-			_proxyBase(a_proxyBase),
-			_address(a_address),
-			_size(a_size) {}
-
-		[[nodiscard]] std::uintptr_t address() const noexcept { return _address; }
-
-		[[nodiscard]] std::size_t offset() const noexcept { return address() - _proxyBase; }
-
-		[[nodiscard]] std::size_t size() const noexcept { return _size; }
-
-		[[nodiscard]] void* pointer() const noexcept { return reinterpret_cast<void*>(address()); }
-
-		template <class T>
-		[[nodiscard]] T* pointer() const noexcept
-		{
-			return static_cast<T*>(pointer());
-		}
-
-	private:
-		friend class Module;
-
-		std::uintptr_t _proxyBase{ 0 };
-		std::uintptr_t _address{ 0 };
-		std::size_t _size{ 0 };
-	};
-
-	class Module
-	{
-	public:
-		/**
-         * Identifies a FALLOUT runtime.
-         */
-		enum class Runtime : uint8_t
-		{
-			Unknown = 0,
-
-			/**
-             * The FALLOUT 4 runtime
-             */
-			F4 = 1 << 0,
-
-			/**
-             * The FALLOUT runtime is FALLOUT VR.
-             */
-			VR = 1 << 1
-		};
-
-		[[nodiscard]] static Module& get()
-		{
-			if (_initialized.load(std::memory_order_relaxed) && _instance._filename != L"") {
-				return _instance;
-			}
-			[[maybe_unused]] std::unique_lock lock(_initLock);
-			_instance.init();
-			_initialized.store(true, std::memory_order_relaxed);
-			return _instance;
-		}
-
-#ifdef COMMONLIBF4_ENABLE_TESTING
-		/**
-         * Forcibly set the singleton <code>Module</code> instance to a specific executable file.
-         *
-         * <p>
-         * This function should only be used in a unit testing environment, where there is no FALLOUT process hosting
-         * the F4SE plugin. It is not thread-safe and assumes it will be run synchronously with serial test execution.
-         * </p>
-         *
-         * @param a_filePath The path to the executable to use a Fallout executable.
-         * @return <code>true</code> if the module injection works; <code>false</code> otherwise.
-         */
-		static bool inject(std::wstring_view a_filePath)
-		{
-			_instance.clear();
-			_initialized = true;
-			return _instance.init(a_filePath);
-		}
-
-		/**
-         * Forcibly set the singleton <code>Module</code> instance to an installed Fallout executable.
-         *
-         * <p>
-         * This overload accepts only a <code>Runtime</code> value, and based on that value attempts to find the
-         * executable, using the Windows registry to find an installed copy of Fallout of the given runtime. Using
-         * <code>Runtime::Unknown</code> causes an attempt to discover Fallout 4 first, and if that fails,
-         * attempts to discover FALLOUT VR.
-         * </p>
-         *
-         * <p>
-         * This function should only be used in a unit testing environment, where there is no Fallout process hosting
-         * the F4SE plugin. It is not thread-safe and assumes it will be run synchronously with serial test execution.
-         * </p>
-         *
-         * @param a_runtime The type of FALLOUT runtime to inject.
-         */
-		static bool inject(Runtime a_runtime = Runtime::Unknown)
-		{
-			if (a_runtime == Runtime::Unknown) {
-				return inject(Runtime::F4) || inject(Runtime::VR);
-			}
-
-			constexpr std::size_t bufferSize = 4096;  // Max NTFS path length.
-			const wchar_t* subKey =
-				a_runtime == Runtime::VR ?
-					LR"(SOFTWARE\Bethesda Softworks\Fallout 4 VR)" :
-					LR"(SOFTWARE\Bethesda Softworks\Fallout 4)";
-			unsigned long length = bufferSize * sizeof(wchar_t);
-			std::uint8_t value[bufferSize];
-			if (WinAPI::RegGetValue(WinAPI::HKEY_LOCAL_MACHINE, subKey, L"Installed Path", 0x20002, nullptr, value, &length) !=
-				0) {
-				return false;
-			}
-			std::filesystem::path installPath(reinterpret_cast<wchar_t*>(value));
-			installPath /= a_runtime == Runtime::VR ? L"Fallout4VR.exe" : L"Fallout4.exe";
-			return inject(installPath.c_str());
-		}
-
-		static bool mock(
-			REL::Version a_version,
-			Runtime a_runtime = Runtime::Unknown,
-			std::wstring_view a_filename = L"Fallout4.exe"sv,
-			std::uintptr_t a_base = 0,
-			std::array<std::uintptr_t, Segment::total> a_segmentSizes = { 0x1603000, 0, 0x8ee000, 0x1887000, 0x15c000, 0x3000, 0x2000, 0x1000 })
-		{
-			_instance.clear();
-			_initialized = true;
-
-			if (a_filename.empty() || !a_segmentSizes[0]) {
-				return false;
-			}
-
-			_instance._filename = _instance._filePath = a_filename.data();
-			_instance._version = a_version;
-			if (a_runtime == Runtime::Unknown) {
-				switch (a_version[1]) {
-				case 2:
-					_instance._runtime = Runtime::VR;
-					break;
-				default:
-					_instance._runtime = Runtime::F4;
-				}
-			} else {
-				_instance._runtime = a_runtime;
-			}
-			_instance._base = a_base;
-
-			auto currentAddress = a_base + 0x1000;
-			for (std::size_t i = 0; i < a_segmentSizes.size(); ++i) {
-				auto& segment = _instance._segments[i];
-				segment._size = a_segmentSizes[i];
-				if (segment._size) {
-					segment._proxyBase = a_base;
-					segment._address = (currentAddress += segment._size);
-				}
-			}
-
-			return true;
-		}
-#endif
-
-		static void reset()
-		{
-			_initialized = false;
-			_instance.clear();
-		}
-
-		[[nodiscard]] std::uintptr_t base() const noexcept { return _base; }
-
-		[[nodiscard]] stl::zwstring filename() const noexcept { return _filename; }
-
-		[[nodiscard]] stl::zwstring filePath() const noexcept { return _filePath; }
-
-		[[nodiscard]] Version version() const noexcept { return _version; }
-
-		[[nodiscard]] Segment segment(Segment::Name a_segment) const noexcept { return _segments[a_segment]; }
-
-		[[nodiscard]] void* pointer() const noexcept { return reinterpret_cast<void*>(base()); }
-
-		template <class T>
-		[[nodiscard]] T* pointer() const noexcept
-		{
-			return static_cast<T*>(pointer());
-		}
-
-		/**
-         * Get the type of runtime the currently-loaded FALLOUT module is.
-         */
-		[[nodiscard]] static FALLOUT_REL Runtime GetRuntime() noexcept
-		{
-#if !defined(FALLOUT_SUPPORT_VR)
-			return Runtime::F4;
-#elif !defined(FALLOUT_SUPPORT_F4)
-			return Runtime::VR;
-#else
-			return get()._runtime;
-#endif
-		}
-
-		/**
-         * Returns whether the current FALLOUT runtime is a FALLOUT F4 release.
-         */
-		[[nodiscard]] static FALLOUT_REL bool IsF4() noexcept
-		{
-			return GetRuntime() == Runtime::F4;
-		}
-
-		/**
-         * Returns whether the current FALLOUT runtime is a FALLOUT VR release.
-         */
-		[[nodiscard]] static FALLOUT_REL_VR bool IsVR() noexcept
-		{
-#if !defined(FALLOUT_SUPPORT_VR)
-			return false;
-#elif !defined(FALLOUT_SUPPORT_F4)
-			return true;
-#else
-			return GetRuntime() == Runtime::VR;
-#endif
-		}
-
-	private:
-		Module() = default;
-		Module(const Module&) = delete;
-		Module(Module&&) = delete;
-
-		~Module() noexcept = default;
-
-		Module& operator=(const Module&) = delete;
-		Module& operator=(Module&&) = delete;
-
-		bool init()
-		{
-			auto sz = _filename.size();
-			_filename = WinSTL::GetEnvironmentVariable(ENVIRONMENT, sz);
-			void* moduleHandle = nullptr;
-			if (_filename.empty() || _filename.size() != sz) {
-				for (auto runtime : RUNTIMES) {
-					_filename = runtime;
-					moduleHandle = WinAPI::GetModuleHandle(_filename.c_str());
-					if (moduleHandle) {
-						break;
-					}
-				}
-			}
-			_filePath = _filename;
-			if (!moduleHandle) {
-				stl::report_and_fail(
-					std::format(
-						"Failed to obtain module handle for: \"{0}\".\n"
-						"You have likely renamed the executable to something unexpected. "
-						"Renaming the executable back to \"{0}\" may resolve the issue."sv,
-						stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
-			}
-			return load(moduleHandle, true);
-		}
-
-		bool init(std::wstring_view a_filePath)
-		{
-			std::filesystem::path exePath(a_filePath);
-			_filename = exePath.filename().wstring();
-			_filePath = exePath.wstring();
-			_injectedModule = WinAPI::LoadLibrary(_filePath.c_str());
-			if (_injectedModule) {
-				return load(_injectedModule, false);
-			}
-			return false;
-		}
-
-		[[nodiscard]] bool load(void* a_handle, bool a_failOnError)
-		{
-			_base = reinterpret_cast<std::uintptr_t>(a_handle);
-			if (!load_version(a_failOnError)) {
-				return false;
-			}
-			load_segments();
-			return true;
-		}
-
-		void load_segments();
-
-		bool load_version(bool a_failOnError)
-		{
-			const auto version = get_file_version(_filePath);
-			if (version) {
-				_version = *version;
-				switch (_version[1]) {
-				case 2:  // search for 2 in 1.2.72.0
-					_runtime = Runtime::VR;
-					break;
-				default:
-					_runtime = Runtime::F4;
-				}
-				return true;
-			}
-			return stl::report_and_error(
-				std::format(
-					"Failed to obtain file version info for: {}\n"
-					"Please contact the author of this script extender plugin for further assistance."sv,
-					stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)),
-				a_failOnError);
-		}
-
-		void clear();
-
-		static constexpr std::array SEGMENTS{
-			std::make_pair(".text"sv, WinAPI::IMAGE_SCN_MEM_EXECUTE),
-			std::make_pair(".interpr"sv, static_cast<std::uint32_t>(0)),
-			std::make_pair(".idata"sv, static_cast<std::uint32_t>(0)),
-			std::make_pair(".rdata"sv, static_cast<std::uint32_t>(0)),
-			std::make_pair(".data"sv, static_cast<std::uint32_t>(0)),
-			std::make_pair(".pdata"sv, static_cast<std::uint32_t>(0)),
-			std::make_pair(".tls"sv, static_cast<std::uint32_t>(0))
-		};
-
-		static constexpr auto ENVIRONMENT = L"F4SE_RUNTIME"sv;
-
-		static constexpr std::array<std::wstring_view, 2> RUNTIMES{ { L"Fallout4VR.exe",
-			L"Fallout4.exe" } };
-
-		static Module _instance;
-		static inline std::atomic_bool _initialized{ false };
-		static inline std::mutex _initLock;
-		WinAPI::HMODULE _injectedModule{ nullptr };
-		std::wstring _filename;
-		std::wstring _filePath;
-		std::array<Segment, Segment::total> _segments;
-		Version _version;
-		std::uintptr_t _base{ 0 };
-		Runtime _runtime{ Runtime::F4 };
-	};
-
-	class IDDatabase
-	{
-	private:
-		struct mapping_t
-		{
-			std::uint64_t id;
-			std::uint64_t offset;
-		};
-
-	public:
-		enum class Format
-		{
-			F4,
-			VR
-		};
-
-		class Offset2ID
-		{
-		public:
-			using value_type = mapping_t;
-			using container_type = std::vector<value_type>;
-			using size_type = typename container_type::size_type;
-			using const_iterator = typename container_type::const_iterator;
-			using const_reverse_iterator = typename container_type::const_reverse_iterator;
-
-			template <class ExecutionPolicy>
-			explicit Offset2ID(ExecutionPolicy&& a_policy)  //
-				requires(std::is_execution_policy_v<std::decay_t<ExecutionPolicy>>)
-			{
-				const std::span<const mapping_t> id2offset = IDDatabase::get()._id2offset;
-				_offset2id.reserve(id2offset.size());
-				_offset2id.insert(_offset2id.begin(), id2offset.begin(), id2offset.end());
-				std::sort(
-					a_policy,
-					_offset2id.begin(),
-					_offset2id.end(),
-					[](auto&& a_lhs, auto&& a_rhs) {
-						return a_lhs.offset < a_rhs.offset;
-					});
-			}
-
-			Offset2ID() :
-				Offset2ID(std::execution::sequenced_policy{}) {}
-
-			[[nodiscard]] std::uint64_t operator()(std::size_t a_offset) const
-			{
-				const mapping_t elem{ 0, a_offset };
-				const auto it = std::lower_bound(
-					_offset2id.begin(),
-					_offset2id.end(),
-					elem,
-					[](auto&& a_lhs, auto&& a_rhs) {
-						return a_lhs.offset < a_rhs.offset;
-					});
-				if (it == _offset2id.end()) {
-					stl::report_and_fail(
-						std::format(
-							"Failed to find the offset within the database: 0x{:08X}"sv,
-							a_offset));
-				}
-
-				return it->id;
-			}
-
-			[[nodiscard]] const_iterator begin() const noexcept { return _offset2id.begin(); }
-
-			[[nodiscard]] const_iterator cbegin() const noexcept { return _offset2id.cbegin(); }
-
-			[[nodiscard]] const_iterator end() const noexcept { return _offset2id.end(); }
-
-			[[nodiscard]] const_iterator cend() const noexcept { return _offset2id.cend(); }
-
-			[[nodiscard]] const_reverse_iterator rbegin() const noexcept { return _offset2id.rbegin(); }
-
-			[[nodiscard]] const_reverse_iterator crbegin() const noexcept { return _offset2id.crbegin(); }
-
-			[[nodiscard]] const_reverse_iterator rend() const noexcept { return _offset2id.rend(); }
-
-			[[nodiscard]] const_reverse_iterator crend() const noexcept { return _offset2id.crend(); }
-
-			[[nodiscard]] size_type size() const noexcept { return _offset2id.size(); }
-
-		private:
-			container_type _offset2id;
-		};
-
-		[[nodiscard]] static IDDatabase& get()
-		{
-			if (_initialized.load(std::memory_order_relaxed) && _instance.size()) {
-				return _instance;
-			}
-			[[maybe_unused]] std::unique_lock lock(_initLock);
-			_instance.load();
-			_initialized.store(true, std::memory_order_relaxed);
-			return _instance;
-		}
-
-#ifdef COMMONLIBF4_ENABLE_TESTING
-		[[nodiscard]] static bool inject(std::wstring_view a_filePath, Format a_format)
-		{
-			return inject(a_filePath, a_format, Module::get().version());
-		}
-
-		[[nodiscard]] static bool inject(std::wstring_view a_filePath, Format a_format, Version a_version)
-		{
-			_initialized = true;
-			_instance.clear();
-			switch (a_format) {
-			case Format::F4:
-				return _instance.load_file(a_filePath.data(), a_version, 1, false);
-			case Format::VR:
-				return _instance.load_csv(a_filePath.data(), a_version, false);
-			default:
-				return false;
-			}
-		}
-
-		static void reset()
-		{
-			_instance.clear();
-			_initialized = false;
-		}
-#endif
-
-		[[nodiscard]] inline std::size_t id2offset(std::uint64_t a_id) const
-		{
-			mapping_t elem{ a_id, 0 };
-			const auto it = std::lower_bound(
-				_id2offset.begin(),
-				_id2offset.end(),
-				elem,
-				[](auto&& a_lhs, auto&& a_rhs) {
-					return a_lhs.id < a_rhs.id;
-				});
-
-			bool failed = false;
-			if (it == _id2offset.end()) {
-				failed = true;
-			} else if FALLOUT_REL_VR_CONSTEXPR (Module::IsVR()) {
-				if (it->id != a_id) {
-					failed = true;
-				}
-			}
-			if (failed) {
-				stl::report_and_fail(
-					std::format(
-						"Failed to find the id within the address library: {}\n"
-						"This means this script extender plugin is incompatible with the address "
-						"library for this version of the game, and thus does not support it."sv,
-						a_id));
-			}
-
-			return static_cast<std::size_t>(it->offset);
-		}
-
-		[[nodiscard]] inline std::size_t size() const
-		{
-			return _id2offset.size();
-		}
-
-	private:
-		friend class Module;
-
-		friend Offset2ID;
-
-		class istream_t
-		{
-		public:
-			using stream_type = std::ifstream;
-			using pointer = stream_type*;
-			using const_pointer = const stream_type*;
-			using reference = stream_type&;
-			using const_reference = const stream_type&;
-
-			inline istream_t(stl::zwstring a_filename, std::ios_base::openmode a_mode) :
-				_stream(a_filename.data(), a_mode)
-			{
-				if (!_stream.is_open()) {
-					stl::report_and_fail("failed to open address library file");
-				}
-
-				_stream.exceptions(std::ios::badbit | std::ios::failbit | std::ios::eofbit);
-			}
-
-			inline void ignore(std::streamsize a_count) { _stream.ignore(a_count); }
-
-			template <class T>
-			inline void readin(T& a_val)
-			{
-				_stream.read(reinterpret_cast<char*>(std::addressof(a_val)), sizeof(T));
-			}
-
-			template <
-				class T,
-				std::enable_if_t<
-					std::is_arithmetic_v<T>,
-					int> = 0>
-			inline T readout()
-			{
-				T val{};
-				readin(val);
-				return val;
-			}
-
-		private:
-			stream_type _stream;
-		};
-
-		class header_t
-		{
-		public:
-			void read(istream_t& a_in, std::uint8_t a_formatVersion)
-			{
-				std::int32_t format{};
-				a_in.readin(format);
-				if (format != a_formatVersion) {
-					stl::report_and_fail(
-						std::format(
-							"Unsupported address library format: {}\n"
-							"This means this script extender plugin is incompatible with the address "
-							"library available for this version of the game, and thus does not "
-							"support it."sv,
-							format));
-				}
-
-				std::int32_t version[4]{};
-				std::int32_t nameLen{};
-				a_in.readin(version);
-				a_in.readin(nameLen);
-				a_in.ignore(nameLen);
-
-				a_in.readin(_pointerSize);
-				a_in.readin(_addressCount);
-
-				for (std::size_t i = 0; i < std::extent_v<decltype(version)>; ++i) {
-					_version[i] = static_cast<std::uint16_t>(version[i]);
-				}
-			}
-
-			[[nodiscard]] std::size_t address_count() const noexcept { return static_cast<std::size_t>(_addressCount); }
-
-			[[nodiscard]] std::uint64_t
-				pointer_size() const noexcept { return static_cast<std::uint64_t>(_pointerSize); }
-
-			[[nodiscard]] Version version() const noexcept { return _version; }
-
-		private:
-			Version _version;
-			std::int32_t _pointerSize{ 0 };
-			std::int32_t _addressCount{ 0 };
-		};
-
-		IDDatabase() = default;
-		IDDatabase(const IDDatabase&) = delete;
-		IDDatabase(IDDatabase&&) = delete;
-
-		~IDDatabase() = default;
-
-		IDDatabase& operator=(const IDDatabase&) = delete;
-		IDDatabase& operator=(IDDatabase&&) = delete;
-
-		void load()
-		{
-			const auto version = Module::get().version();
-			if FALLOUT_REL_CONSTEXPR (Module::IsVR()) {
-				const auto filename =
-					stl::utf8_to_utf16(
-						std::format(
-							"Data/F4SE/Plugins/version-{}.csv"sv,
-							version.string()))
-						.value_or(L"<unknown filename>"s);
-				load_csv(filename, version, true);
-			} else {
-				const auto filename =
-					stl::utf8_to_utf16(
-						std::format("Data/F4SE/Plugins/version-{}.bin"sv,
-							version.string()))
-						.value_or(L"<unknown filename>"s);
-				load_file(filename, true);
-			}
-		}
-
-		bool load_file(stl::zwstring a_filename, bool a_failOnError)
-		{
-			try {
-				if (!_mmiomap.open(a_filename)) {
-					stl::report_and_fail(std::format("failed to open: {}", stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)));
-				}
-				// Add the offset and remove the const qualifer
-				std::byte* _start = const_cast<std::byte*>(_mmiomap.data() + sizeof(std::uint64_t));
-				_id2offset = std::span{
-					reinterpret_cast<mapping_t*>(_start),
-					*reinterpret_cast<const std::uint64_t*>(_mmiomap.data())
-				};
-			} catch (const std::system_error&) {
-				return stl::report_and_error(
-					std::format(
-						"Failed to locate an appropriate address library with the path: {}\n"
-						"This means you are missing the address library for this specific version of "
-						"the game. Please continue to the mod page for address library to download "
-						"an appropriate version. If one is not available, then it is likely that "
-						"address library has not yet added support for this version of the game."sv,
-						stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)),
-					a_failOnError);
-				return false;
-			}
-			return true;
-		}
-
-		bool load_csv(stl::zwstring a_filename, Version a_version, bool a_failOnError)
-		{
-			auto nstring = F4SE::stl::utf16_to_utf8(a_filename).value_or(""s);
-			if (!std::filesystem::exists(nstring)) {
-				return stl::report_and_error(
-					std::format("Required VR Address Library file {} does not exist"sv, nstring),
-					a_failOnError);
-			}
-			rapidcsv::Document in(nstring);
-			std::size_t id, address_count;
-			std::string version, offset;
-			auto mapname = L"CommonLibF4Offsets-v2-"s;
-			mapname += a_version.wstring();
-			address_count = in.GetCell<std::size_t>(0, 0);
-			version = in.GetCell<std::string>(1, 0);
-			const auto byteSize = static_cast<std::size_t>(address_count * sizeof(mapping_t));
-			if (!_mmap.open(mapname, byteSize) &&
-				!_mmap.create(mapname, byteSize)) {
-				return stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
-			}
-			_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
-			if (in.GetRowCount() > address_count + 1) {
-				return stl::report_and_error(
-					std::format("VR Address Library {} tried to exceed {} allocated entries."sv,
-						version, address_count),
-					a_failOnError);
-			} else if (in.GetRowCount() < address_count + 1) {
-				return stl::report_and_error(
-					std::format(
-						"VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv,
-						version, in.GetRowCount() - 1, address_count),
-					a_failOnError);
-			}
-			std::size_t index = 1;
-			for (; index < in.GetRowCount(); ++index) {
-				id = in.GetCell<std::size_t>(0, index);
-				offset = in.GetCell<std::string>(1, index);
-				_id2offset[index - 1] = { static_cast<const std::uint64_t>(id),
-					static_cast<const std::uint64_t>(std::stoul(offset, nullptr, 16)) };
-			}
-			std::sort(
-				_id2offset.begin(),
-				_id2offset.end(),
-				[](auto&& a_lhs, auto&& a_rhs) {
-					return a_lhs.id < a_rhs.id;
-				});
-			return true;
-		}
-
-		bool unpack_file(istream_t& a_in, header_t a_header, bool a_failOnError)
-		{
-			std::uint8_t type = 0;
-			std::uint64_t id = 0;
-			std::uint64_t offset = 0;
-			std::uint64_t prevID = 0;
-			std::uint64_t prevOffset = 0;
-			for (auto& mapping : _id2offset) {
-				a_in.readin(type);
-				const auto lo = static_cast<std::uint8_t>(type & 0xF);
-				const auto hi = static_cast<std::uint8_t>(type >> 4);
-
-				switch (lo) {
-				case 0:
-					a_in.readin(id);
-					break;
-				case 1:
-					id = prevID + 1;
-					break;
-				case 2:
-					id = prevID + a_in.readout<std::uint8_t>();
-					break;
-				case 3:
-					id = prevID - a_in.readout<std::uint8_t>();
-					break;
-				case 4:
-					id = prevID + a_in.readout<std::uint16_t>();
-					break;
-				case 5:
-					id = prevID - a_in.readout<std::uint16_t>();
-					break;
-				case 6:
-					id = a_in.readout<std::uint16_t>();
-					break;
-				case 7:
-					id = a_in.readout<std::uint32_t>();
-					break;
-				default:
-					return stl::report_and_error("unhandled type"sv, a_failOnError);
-				}
-
-				const std::uint64_t tmp = (hi & 8) != 0 ? (prevOffset / a_header.pointer_size()) : prevOffset;
-
-				switch (hi & 7) {
-				case 0:
-					a_in.readin(offset);
-					break;
-				case 1:
-					offset = tmp + 1;
-					break;
-				case 2:
-					offset = tmp + a_in.readout<std::uint8_t>();
-					break;
-				case 3:
-					offset = tmp - a_in.readout<std::uint8_t>();
-					break;
-				case 4:
-					offset = tmp + a_in.readout<std::uint16_t>();
-					break;
-				case 5:
-					offset = tmp - a_in.readout<std::uint16_t>();
-					break;
-				case 6:
-					offset = a_in.readout<std::uint16_t>();
-					break;
-				case 7:
-					offset = a_in.readout<std::uint32_t>();
-					break;
-				default:
-					return stl::report_and_error("unhandled type"sv, a_failOnError);
-				}
-
-				if ((hi & 8) != 0) {
-					offset *= a_header.pointer_size();
-				}
-
-				mapping = { id, offset };
-
-				prevOffset = offset;
-				prevID = id;
-			}
-			return true;
-		}
-
-		void clear()
-		{
-			_mmap.close();
-			_mmiomap.close();
-			_id2offset = {};
-		}
-
-		static IDDatabase _instance;
-		static inline std::atomic_bool _initialized{ false };
-		static inline std::mutex _initLock;
-		detail::memory_map _mmap;
-		mmio::mapped_file_source _mmiomap;
-		std::span<mapping_t> _id2offset;
-	};
-
-	class Offset
-	{
-	public:
-		constexpr Offset() noexcept = default;
-
-		explicit constexpr Offset(std::size_t a_offset) noexcept :
-			_offset(a_offset) {}
-
-		constexpr Offset& operator=(std::size_t a_offset) noexcept
-		{
-			_offset = a_offset;
-			return *this;
-		}
-
-		[[nodiscard]] std::uintptr_t address() const { return base() + offset(); }
-
-		[[nodiscard]] constexpr std::size_t offset() const noexcept { return _offset; }
-
-	private:
-		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
-
-		std::size_t _offset{ 0 };
-	};
-
-	class Offset2
-	{
-	public:
-		constexpr Offset2() noexcept = default;
-
-		explicit constexpr Offset2(
-			[[maybe_unused]] std::size_t a_f4Offset,
-			[[maybe_unused]] std::size_t a_vrOffset) noexcept
-		{
-#ifdef FALLOUT_SUPPORT_F4
-			_f4Offset = a_f4Offset;
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-			_vrOffset = a_vrOffset;
-#endif
-		}
-
-		[[nodiscard]] std::uintptr_t address() const
-		{
-			return offset() ? base() + offset() : 0;
-		}
-
-		[[nodiscard]] FALLOUT_REL std::size_t offset() const noexcept
-		{
-			switch (Module::GetRuntime()) {
-#ifdef FALLOUT_SUPPORT_F4
-			case Module::Runtime::F4:
-				return _f4Offset;
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-			case Module::Runtime::VR:
-				return _vrOffset;
-#endif
-			default:
-				return 0;
-			}
-		}
-
-		[[nodiscard]] FALLOUT_REL explicit operator Offset() const noexcept { return Offset(offset()); }
-
-	private:
-		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
-
-#ifdef FALLOUT_SUPPORT_F4
-		std::size_t _f4Offset{ 0 };
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-		std::size_t _vrOffset{ 0 };
-#endif
-	};
-
-	using VariantOffset = Offset2;  // deprecated
-
-	class ID
-	{
-	public:
-		constexpr ID() noexcept = default;
-
-		explicit constexpr ID(std::uint64_t a_id) noexcept :
-			_id(a_id) {}
-
-		constexpr ID& operator=(std::uint64_t a_id) noexcept
-		{
-			_id = a_id;
-			return *this;
-		}
-
-		[[nodiscard]] std::uintptr_t address() const { return base() + offset(); }
-
-		[[nodiscard]] constexpr std::uint64_t id() const noexcept { return _id; }
-
-		[[nodiscard]] std::size_t offset() const { return IDDatabase::get().id2offset(_id); }
-
-	private:
-		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
-
-		std::uint64_t _id{ 0 };
-	};
-
-	class ID2
-	{
-	public:
-		constexpr ID2() noexcept = default;
-
-		explicit constexpr ID2(
-			[[maybe_unused]] std::uint64_t a_f4ID) noexcept
-		{
-#ifdef FALLOUT_SUPPORT_F4
-			_f4ID = a_f4ID;
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-			_vrID = a_f4ID;
-#endif
-		}
-
-		explicit constexpr ID2(
-			[[maybe_unused]] std::uint64_t a_f4ID,
-			[[maybe_unused]] std::uint64_t a_vrID) noexcept
-		{
-#ifdef FALLOUT_SUPPORT_F4
-			_f4ID = a_f4ID;
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-			_vrID = a_vrID;
-#endif
-		}
-
-		[[nodiscard]] std::uintptr_t address() const
-		{
-			return offset() ? base() + offset() : 0;
-		}
-
-		[[nodiscard]] std::size_t offset() const
-		{
-			return id() ? IDDatabase::get().id2offset(id()) : 0;
-		}
-
-		[[nodiscard]] FALLOUT_REL std::uint64_t id() const noexcept
-		{
-			switch (Module::GetRuntime()) {
-#ifdef FALLOUT_SUPPORT_F4
-			case Module::Runtime::F4:
-				return _f4ID;
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-			case Module::Runtime::VR:
-				return _vrID;
-#endif
-			default:
-				return 0;
-			}
-		}
-
-		[[nodiscard]] FALLOUT_REL explicit operator ID() const noexcept
-		{
-			return ID(id());
-		}
-
-	private:
-		[[nodiscard]] static std::uintptr_t base() { return Module::get().base(); }
-
-#ifdef FALLOUT_SUPPORT_F4
-		std::uint64_t _f4ID{ 0 };
-#endif
-#ifdef FALLOUT_SUPPORT_VR
-		std::uint64_t _vrID{ 0 };
-#endif
-	};
-
-	using RelocationID = ID2;  // deprecated
-
-	template <class T>
+	template <class T = std::uintptr_t>
 	class Relocation
 	{
 	public:
@@ -1667,46 +448,99 @@ namespace REL
 		}
 
 		template <class U = value_type>
-		[[nodiscard]] decltype(auto) operator*() const noexcept  //
+		[[nodiscard]] decltype(auto) operator*() const noexcept
 			requires(std::is_pointer_v<U>)
 		{
 			return *get();
 		}
 
 		template <class U = value_type>
-		[[nodiscard]] auto operator->() const noexcept  //
+		[[nodiscard]] auto operator->() const noexcept
 			requires(std::is_pointer_v<U>)
 		{
 			return get();
 		}
 
 		template <class... Args>
-		std::invoke_result_t<const value_type&, Args...> operator()(Args&&... a_args) const  //
-			noexcept(std::is_nothrow_invocable_v<const value_type&, Args...>)                //
+		std::invoke_result_t<const value_type&, Args...> operator()(Args&&... a_args) const
+			noexcept(std::is_nothrow_invocable_v<const value_type&, Args...>)
 			requires(std::invocable<const value_type&, Args...>)
 		{
 			return REL::invoke(get(), std::forward<Args>(a_args)...);
 		}
 
-		[[nodiscard]]
+		[[nodiscard]] constexpr std::uintptr_t address() const noexcept { return _impl; }
+		[[nodiscard]] std::size_t              offset() const { return _impl - base(); }
 
-		constexpr std::uintptr_t
-			address() const noexcept
-		{
-			return _impl;
-		}
-
-		[[nodiscard]] std::size_t offset() const { return _impl - base(); }
-
-		[[nodiscard]] value_type get() const  //
+		[[nodiscard]] value_type get() const
 			noexcept(std::is_nothrow_copy_constructible_v<value_type>)
 		{
 			assert(_impl != 0);
 			return stl::unrestricted_cast<value_type>(_impl);
 		}
 
+		void write(const void* a_src, std::size_t a_count)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_write(address(), a_src, a_count);
+		}
+
+		template <std::integral U>
+		void write(const U& a_data)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_write(address(), std::addressof(a_data), sizeof(U));
+		}
+
+		void write(const std::initializer_list<std::uint8_t> a_data)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_write(address(), a_data.begin(), a_data.size());
+		}
+
+		template <class U>
+		void write(const std::span<U> a_data)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_write(address(), a_data.data(), a_data.size_bytes());
+		}
+
+		template <std::size_t N>
+		std::uintptr_t write_branch(const std::uintptr_t a_dst)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			return F4SE::GetTrampoline().write_branch<N>(address(), a_dst);
+		}
+
+		template <std::size_t N, class F>
+		std::uintptr_t write_branch(const F a_dst)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			return F4SE::GetTrampoline().write_branch<N>(address(), stl::unrestricted_cast<std::uintptr_t>(a_dst));
+		}
+
+		template <std::size_t N>
+		std::uintptr_t write_call(const std::uintptr_t a_dst)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			return F4SE::GetTrampoline().write_call<N>(address(), a_dst);
+		}
+
+		template <std::size_t N, class F>
+		std::uintptr_t write_call(const F a_dst)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			return F4SE::GetTrampoline().write_call<N>(address(), stl::unrestricted_cast<std::uintptr_t>(a_dst));
+		}
+
+		void write_fill(const std::uint8_t a_value, const std::size_t a_count)
+			requires(std::same_as<value_type, std::uintptr_t>)
+		{
+			safe_fill(address(), a_value, a_count);
+		}
+
 		template <class U = value_type>
-		std::uintptr_t write_vfunc(std::size_t a_idx, std::uintptr_t a_newFunc)  //
+		std::uintptr_t write_vfunc(std::size_t a_idx, std::uintptr_t a_newFunc)
 			requires(std::same_as<U, std::uintptr_t>)
 		{
 			const auto addr = address() + (sizeof(void*) * a_idx);
@@ -1716,7 +550,7 @@ namespace REL
 		}
 
 		template <class F>
-		std::uintptr_t write_vfunc(std::size_t a_idx, F a_newFunc)  //
+		std::uintptr_t write_vfunc(std::size_t a_idx, F a_newFunc)
 			requires(std::same_as<value_type, std::uintptr_t>)
 		{
 			return write_vfunc(a_idx, stl::unrestricted_cast<std::uintptr_t>(a_newFunc));
@@ -1849,7 +683,7 @@ namespace REL
 			}
 
 			void match_or_fail(std::uintptr_t a_address,
-				F4SE::stl::source_location a_loc = F4SE::stl::source_location::current()) const noexcept
+				F4SE::stl::source_location    a_loc = F4SE::stl::source_location::current()) const noexcept
 			{
 				if (!this->match(a_address)) {
 					const auto version = Module::get().version();

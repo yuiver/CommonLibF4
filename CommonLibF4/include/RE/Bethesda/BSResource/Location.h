@@ -19,26 +19,26 @@ namespace RE::BSResource
 
 		// add
 		virtual ErrorCode DoMount() { return ErrorCode::kNone; }                                                                                                              // 01
-		virtual void DoUnmount() { return; }                                                                                                                                  // 02
+		virtual void      DoUnmount() { return; }                                                                                                                             // 02
 		virtual ErrorCode DoCreateStream(const char* a_path, BSTSmartPointer<Stream>& a_result, Location*& a_location, bool a_writable, LocationTraverser* a_traverser) = 0;  // 03
 		virtual ErrorCode DoCreateAsyncStream(
-			[[maybe_unused]] const char* a_path,
+			[[maybe_unused]] const char*                   a_path,
 			[[maybe_unused]] BSTSmartPointer<AsyncStream>& a_result,
-			[[maybe_unused]] Location*& a_location,
-			[[maybe_unused]] bool a_writable,
-			[[maybe_unused]] LocationTraverser* a_traverser) { return ErrorCode::kUnsupported; }       // 04
+			[[maybe_unused]] Location*&                    a_location,
+			[[maybe_unused]] bool                          a_writable,
+			[[maybe_unused]] LocationTraverser*            a_traverser) { return ErrorCode::kUnsupported; }       // 04
 		virtual ErrorCode DoTraversePrefix(char const* a_prefix, LocationTraverser& a_traverser) = 0;  // 05
 		virtual ErrorCode DoGetInfo(
-			[[maybe_unused]] char const* a_path,
-			[[maybe_unused]] Info& a_result,
+			[[maybe_unused]] char const*        a_path,
+			[[maybe_unused]] Info&              a_result,
 			[[maybe_unused]] LocationTraverser* a_traverser) { return ErrorCode::kUnsupported; }  // 07
 		virtual ErrorCode DoGetInfo(
 			[[maybe_unused]] char const* a_path,
-			[[maybe_unused]] Info& a_result,
-			[[maybe_unused]] Location*& a_location) { return ErrorCode::kUnsupported; }  // 06
+			[[maybe_unused]] Info&       a_result,
+			[[maybe_unused]] Location*&  a_location) { return ErrorCode::kUnsupported; }  // 06
 		virtual ErrorCode DoDelete(
 			[[maybe_unused]] char const* a_path) { return ErrorCode::kUnsupported; }                 // 08
-		[[nodiscard]] virtual char const* DoGetName() const { return nullptr; }                      // 09
+		[[nodiscard]] virtual char const*   DoGetName() const { return nullptr; }                    // 09
 		[[nodiscard]] virtual std::uint32_t DoQBufferHint() const { return 0x10000; }                // 0A
 		[[nodiscard]] virtual std::uint32_t DoGetMinimumAsyncPacketSize() const { return 0x10000; }  // 0B
 

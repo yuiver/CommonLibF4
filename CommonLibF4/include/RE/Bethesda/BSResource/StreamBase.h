@@ -29,15 +29,15 @@ namespace RE::BSResource
 		virtual ~StreamBase() = default;  // 00
 
 		// add
-		virtual ErrorCode DoOpen() = 0;                        // 01
-		virtual void DoClose() = 0;                            // 02
-		[[nodiscard]] virtual std::uint64_t DoGetKey() const;  // 03 - { return 0; }
-		virtual ErrorCode DoGetInfo(Info& a_info);             // 04 - { return ErrorCode::kUnsupported; }
+		virtual ErrorCode                   DoOpen() = 0;             // 01
+		virtual void                        DoClose() = 0;            // 02
+		[[nodiscard]] virtual std::uint64_t DoGetKey() const;         // 03 - { return 0; }
+		virtual ErrorCode                   DoGetInfo(Info& a_info);  // 04 - { return ErrorCode::kUnsupported; }
 
 		F4_HEAP_REDEFINE_NEW(StreamBase);
 
-		std::uint32_t DecRef();
-		std::uint32_t IncRef();
+		std::uint32_t      DecRef();
+		std::uint32_t      IncRef();
 		[[nodiscard]] bool IsWritable() const;
 
 		// members

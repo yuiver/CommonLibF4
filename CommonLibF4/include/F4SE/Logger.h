@@ -8,7 +8,7 @@
 		a_func() = delete;                                                \
                                                                           \
 		explicit a_func(                                                  \
-			fmt::format_string<Args...> a_fmt,                            \
+			spdlog::format_string_t<Args...> a_fmt,                       \
 			Args&&... a_args,                                             \
 			std::source_location a_loc = std::source_location::current()) \
 		{                                                                 \
@@ -24,7 +24,7 @@
 	};                                                                    \
                                                                           \
 	template <class... Args>                                              \
-	a_func(fmt::format_string<Args...>, Args&&...) -> a_func<Args...>;
+	a_func(spdlog::format_string_t<Args...>, Args&&...) -> a_func<Args...>;
 
 namespace F4SE::log
 {
@@ -36,6 +36,8 @@ namespace F4SE::log
 	F4SE_MAKE_SOURCE_LOGGER(critical, critical);
 
 	[[nodiscard]] std::optional<std::filesystem::path> log_directory();
+
+	void init();
 }
 
 #undef F4SE_MAKE_SOURCE_LOGGER

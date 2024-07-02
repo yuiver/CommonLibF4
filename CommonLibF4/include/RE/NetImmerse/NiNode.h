@@ -24,7 +24,7 @@ namespace RE
 			children(a_numChildren)
 		{
 			stl::emplace_vtable(this);
-			REL::Relocation<std::uintptr_t> childrenVTable{ REL::ID(390064) };
+			static REL::Relocation<std::uintptr_t> childrenVTable{ REL::ID(390064) };
 			reinterpret_cast<std::uintptr_t&>(children) = childrenVTable.address();
 		}
 
@@ -42,9 +42,9 @@ namespace RE
 		F4_HEAP_REDEFINE_ALIGNED_NEW(NiNode);
 
 		// members
-		NiTObjectArray<NiPointer<NiAVObject>> children;  // 120
-		BSTAtomicValue<std::uint32_t> dirtyState;        // 138
-		float meshLODFadeAmount{ 0.0F };                 // 13C
+		NiTObjectArray<NiPointer<NiAVObject>> children;                   // 120
+		BSTAtomicValue<std::uint32_t>         dirtyState;                 // 138
+		float                                 meshLODFadeAmount{ 0.0F };  // 13C
 	};
 	static_assert(sizeof(NiNode) == 0x140);
 }

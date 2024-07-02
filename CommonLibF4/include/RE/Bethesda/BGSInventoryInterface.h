@@ -17,8 +17,8 @@ namespace RE
 			// members
 			std::uint32_t inventoryOwnerID;  // 00
 			std::uint32_t itemID;            // 04
-			std::int32_t newCount;           // 08
-			std::int32_t oldCount;           // 0C
+			std::int32_t  newCount;          // 08
+			std::int32_t  oldCount;          // 0C
 		};
 		static_assert(sizeof(CountChangedEvent) == 0x10);
 
@@ -53,23 +53,23 @@ namespace RE
 		{
 		public:
 			// members
-			std::uint32_t handleID;     // 0
+			std::uint32_t   handleID;   // 0
 			ObjectRefHandle itemOwner;  // 4
-			std::uint16_t listIndex;    // 8
-			std::uint16_t refCount;     // A
+			std::uint16_t   listIndex;  // 8
+			std::uint16_t   refCount;   // A
 		};
 		static_assert(sizeof(Agent) == 0xC);
 
 		[[nodiscard]] static BGSInventoryInterface* GetSingleton()
 		{
-			REL::Relocation<BGSInventoryInterface**> singleton{ REL::ID(501899) };
+			static REL::Relocation<BGSInventoryInterface**> singleton{ REL::ID(2689299) };
 			return *singleton;
 		}
 
 		[[nodiscard]] const BGSInventoryItem* RequestInventoryItem(const std::uint32_t& a_handleID) const
 		{
 			using func_t = decltype(&BGSInventoryInterface::RequestInventoryItem);
-			REL::Relocation<func_t> func{ REL::ID(1200959) };
+			static REL::Relocation<func_t> func{ REL::ID(2194009) };
 			return func(this, a_handleID);
 		}
 

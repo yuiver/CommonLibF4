@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RE/NetImmerse/NiExtraData.h>
+#include "RE/NetImmerse/NiExtraData.h"
 
 namespace RE
 {
@@ -11,6 +11,8 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::NiStringExtraData };
 		static constexpr auto Ni_RTTI{ Ni_RTTI::NiStringExtraData };
 
-		BSFixedString data;  //0x18
+		// members
+		BSFixedString data;  // 18
 	};
+	static_assert(sizeof(NiStringExtraData) == 0x20);
 }

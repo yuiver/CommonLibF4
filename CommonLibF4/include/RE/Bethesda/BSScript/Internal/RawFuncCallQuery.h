@@ -26,19 +26,19 @@ namespace RE
 
 				// override (IFuncCallQuery)
 				virtual bool GetFunctionCallInfo(
-					CallType& a_callType,
+					CallType&                        a_callType,
 					BSTSmartPointer<ObjectTypeInfo>& a_objectTypeInfo,
-					BSFixedString& a_name,
-					Variable& a_self,
-					BSScrapArray<Variable>& a_args) const override;  // 01
+					BSFixedString&                   a_name,
+					Variable&                        a_self,
+					BSScrapArray<Variable>&          a_args) const override;  // 01
 
 				// members
-				CallType callType;                        // 10
-				std::uint32_t pad14;                      // 14
-				BSTSmartPointer<ObjectTypeInfo> objType;  // 18
-				BSFixedString name;                       // 20
-				Variable self;                            // 28
-				BSTArray<Variable> args;                  // 38
+				CallType                        callType;  // 10
+				std::uint32_t                   pad14;     // 14
+				BSTSmartPointer<ObjectTypeInfo> objType;   // 18
+				BSFixedString                   name;      // 20
+				Variable                        self;      // 28
+				BSTArray<Variable>              args;      // 38
 			};
 			static_assert(sizeof(RawFuncCallQuery) == 0x50);
 		}

@@ -5,7 +5,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/FormComponents.h"
 #include "RE/Bethesda/TESForms.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
 namespace RE
@@ -32,11 +32,11 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint16_t vertices[3];    // 00
-		std::uint16_t triangles[3];   // 06
-		float height;                 // 0C
-		std::uint32_t triangleFlags;  // 10
-		std::int8_t traversalFlags;   // 14
+		std::uint16_t vertices[3];     // 00
+		std::uint16_t triangles[3];    // 06
+		float         height;          // 0C
+		std::uint32_t triangleFlags;   // 10
+		std::int8_t   traversalFlags;  // 14
 	};
 	static_assert(sizeof(BSNavmeshTriangle) == 0x18);
 
@@ -46,7 +46,7 @@ namespace RE
 		// members
 		std::uint32_t otherMeshID;  // 0
 		std::uint16_t triangle;     // 4
-		std::int8_t edgeIndex;      // 6
+		std::int8_t   edgeIndex;    // 6
 	};
 	static_assert(sizeof(BSNavmeshTriangleEdgePortal) == 0x8);
 
@@ -54,8 +54,8 @@ namespace RE
 	{
 	public:
 		// members
-		stl::enumeration<EDGE_EXTRA_INFO_TYPE, std::int32_t> type;  // 0
-		BSNavmeshTriangleEdgePortal portal;                         // 4
+		REX::EnumSet<EDGE_EXTRA_INFO_TYPE, std::int32_t> type;    // 0
+		BSNavmeshTriangleEdgePortal                      portal;  // 4
 	};
 	static_assert(sizeof(BSNavmeshEdgeExtraInfo) == 0xC);
 
@@ -63,8 +63,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSTSmartPointer<BSPathingDoor> door;  // 00
-		std::uint16_t owningTriangleIndex;    // 08
+		BSTSmartPointer<BSPathingDoor> door;                 // 00
+		std::uint16_t                  owningTriangleIndex;  // 08
 	};
 	static_assert(sizeof(BSNavmeshTriangleDoorPortal) == 0x10);
 
@@ -72,8 +72,8 @@ namespace RE
 	{
 	public:
 		// members
-		BSTSmartPointer<BSPathingDoor> door;  // 00
-		std::uint16_t iriangleIndex;          // 08
+		BSTSmartPointer<BSPathingDoor> door;           // 00
+		std::uint16_t                  iriangleIndex;  // 08
 	};
 	static_assert(sizeof(BSNavmeshClosedDoorInfo) == 0x10);
 
@@ -97,12 +97,12 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t gridSize;             // 00
-		float columnSectionLen;             // 04
-		float rowSectionLen;                // 08
-		NiPoint3 gridBoundsMin;             // 0C
-		NiPoint3 gridBoundsMax;             // 18
-		BSTArray<std::uint16_t>* gridData;  // 28
+		std::uint32_t            gridSize;          // 00
+		float                    columnSectionLen;  // 04
+		float                    rowSectionLen;     // 08
+		NiPoint3                 gridBoundsMin;     // 0C
+		NiPoint3                 gridBoundsMax;     // 18
+		BSTArray<std::uint16_t>* gridData;          // 28
 	};
 	static_assert(sizeof(BSNavmeshGrid) == 0x30);
 
@@ -110,7 +110,7 @@ namespace RE
 	{
 	public:
 		// members
-		NiPoint3 position;            // 00
+		NiPoint3      position;       // 00
 		std::uint16_t triangleIndex;  // 0C
 		std::uint32_t flags;          // 10
 	};
@@ -127,10 +127,10 @@ namespace RE
 		{
 		public:
 			// members
-			std::uint16_t triIndex;     // 0
-			std::uint16_t adjTriIndex;  // 2
-			std::int32_t edgeIndex;     // 4
-			std::int32_t adjEdgeIndex;  // 8
+			std::uint16_t triIndex;      // 0
+			std::uint16_t adjTriIndex;   // 2
+			std::int32_t  edgeIndex;     // 4
+			std::int32_t  adjEdgeIndex;  // 8
 		};
 		static_assert(sizeof(DisabledLink) == 0xC);
 
@@ -140,24 +140,24 @@ namespace RE
 		virtual std::uint32_t QNavmeshID() const = 0;  // 01
 
 		// members
-		BSTArray<BSNavmeshVertex> vertices;                                                  // 010
-		BSTArray<BSNavmeshTriangle> triangles;                                               // 028
-		BSTArray<BSNavmeshEdgeExtraInfo> extraEdgeInfo;                                      // 040
-		BSTArray<BSNavmeshTriangleDoorPortal> doorPortals;                                   // 058
-		BSTArray<BSNavmeshClosedDoorInfo> closedDoors;                                       // 070
-		BSTArray<BSNavmeshCoverEdge> coverArray;                                             // 088
-		BSTHashMap<std::uint16_t, std::uint16_t> coverMap;                                   // 0A0
-		BSNavmeshGrid meshGrid;                                                              // 0D0
-		BSTArray<NiPointer<BSNavmeshObstacleUndoData>> obstacles;                            // 100
+		BSTArray<BSNavmeshVertex>                                    vertices;               // 010
+		BSTArray<BSNavmeshTriangle>                                  triangles;              // 028
+		BSTArray<BSNavmeshEdgeExtraInfo>                             extraEdgeInfo;          // 040
+		BSTArray<BSNavmeshTriangleDoorPortal>                        doorPortals;            // 058
+		BSTArray<BSNavmeshClosedDoorInfo>                            closedDoors;            // 070
+		BSTArray<BSNavmeshCoverEdge>                                 coverArray;             // 088
+		BSTHashMap<std::uint16_t, std::uint16_t>                     coverMap;               // 0A0
+		BSNavmeshGrid                                                meshGrid;               // 0D0
+		BSTArray<NiPointer<BSNavmeshObstacleUndoData>>               obstacles;              // 100
 		BSTHashMap<std::uint16_t, NiPointer<BSNavmeshObstacleData>>* triangleToObstacleMap;  // 118
-		BSTArray<std::uint16_t> obstaclePOVs;                                                // 120
-		BSTHashMap<std::uint32_t, BSTArray<std::uint16_t>*> precuts;                         // 138
-		BSTSet<std::uint32_t> activePrecuts;                                                 // 168
-		BSTHashMap<std::uint32_t, std::uint32_t> portalSwaps;                                // 198
-		BSTArray<BSNavmesh::DisabledLink> disabledLinks;                                     // 1C8
-		BSTSmartPointer<BSPathingCell> parentCell;                                           // 1E0
-		BSNavmeshInfo* navmeshInfo;                                                          // 1E8
-		BSTArray<BSNavmeshWaypoint> waypoints;                                               // 1F0
+		BSTArray<std::uint16_t>                                      obstaclePOVs;           // 120
+		BSTHashMap<std::uint32_t, BSTArray<std::uint16_t>*>          precuts;                // 138
+		BSTSet<std::uint32_t>                                        activePrecuts;          // 168
+		BSTHashMap<std::uint32_t, std::uint32_t>                     portalSwaps;            // 198
+		BSTArray<BSNavmesh::DisabledLink>                            disabledLinks;          // 1C8
+		BSTSmartPointer<BSPathingCell>                               parentCell;             // 1E0
+		BSNavmeshInfo*                                               navmeshInfo;            // 1E8
+		BSTArray<BSNavmeshWaypoint>                                  waypoints;              // 1F0
 	};
 	static_assert(sizeof(BSNavmesh) == 0x208);
 

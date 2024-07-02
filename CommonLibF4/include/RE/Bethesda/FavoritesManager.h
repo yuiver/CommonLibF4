@@ -42,25 +42,25 @@ namespace RE
 
 		[[nodiscard]] static FavoritesManager* GetSingleton()
 		{
-			REL::Relocation<FavoritesManager**> singleton{ REL::ID(198281) };
+			static REL::Relocation<FavoritesManager**> singleton{ REL::ID(198281) };
 			return *singleton;
 		}
 
 		[[nodiscard]] bool IsComponentFavorite(const TESBoundObject* a_component)
 		{
 			using func_t = decltype(&FavoritesManager::IsComponentFavorite);
-			REL::Relocation<func_t> func{ REL::ID(352046) };
+			static REL::Relocation<func_t> func{ REL::ID(352046) };
 			return func(this, a_component);
 		}
 
 		// members
-		TESBoundObject* storedFavTypes[12];                                    // 090
-		NiPointer<QueuedFile> bufferedFavGeometries[12];                       // 0F0
-		BSTSet<const BGSConstructibleObject*> favoriteMods;                    // 150
-		BSTHashMap<const TESBoundObject*, std::uint32_t> favoritedComponents;  // 180
-		BSTSmallArray<std::int32_t, 12> weaponLoadedAmmo;                      // 1B0
-		BSTValueEventSink<QuickContainerStateEvent> quickContainerMode;        // 1F0
-		bool allowStimpakUse;                                                  // 2C8
+		TESBoundObject*                                  storedFavTypes[12];         // 090
+		NiPointer<QueuedFile>                            bufferedFavGeometries[12];  // 0F0
+		BSTSet<const BGSConstructibleObject*>            favoriteMods;               // 150
+		BSTHashMap<const TESBoundObject*, std::uint32_t> favoritedComponents;        // 180
+		BSTSmallArray<std::int32_t, 12>                  weaponLoadedAmmo;           // 1B0
+		BSTValueEventSink<QuickContainerStateEvent>      quickContainerMode;         // 1F0
+		bool                                             allowStimpakUse;            // 2C8
 	};
 	static_assert(sizeof(FavoritesManager) == 0x2D0);
 }

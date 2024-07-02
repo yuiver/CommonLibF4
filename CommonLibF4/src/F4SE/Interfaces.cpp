@@ -3,6 +3,8 @@
 #include "F4SE/API.h"
 #include "F4SE/Logger.h"
 
+#include "REX/W32/KERNEL32.h"
+
 namespace F4SE
 {
 	bool MessagingInterface::RegisterListener(EventCallback* a_handler, stl::zstring a_sender) const
@@ -120,15 +122,10 @@ namespace F4SE
 
 	bool SerializationInterface::GetNextRecordInfo(std::uint32_t& a_type, std::uint32_t& a_version, std::uint32_t& a_length) const
 	{
-		const auto success =
-			GetProxy().GetNextRecordInfo(
-				std::addressof(a_type),
-				std::addressof(a_version),
-				std::addressof(a_length));
-		if (!success) {
-			log::warn("failed to get next record info"sv);
-		}
-		return success;
+		return GetProxy().GetNextRecordInfo(
+			std::addressof(a_type),
+			std::addressof(a_version),
+			std::addressof(a_length));
 	}
 
 	std::uint32_t SerializationInterface::ReadRecordData(void* a_buf, std::uint32_t a_length) const
@@ -174,5 +171,10 @@ namespace F4SE
 			log::warn("failed to allocate from local pool"sv);
 		}
 		return mem;
+	}
+
+	const PluginVersionData* PluginVersionData::GetSingleton() noexcept
+	{
+		return reinterpret_cast<const PluginVersionData*>(REX::W32::GetProcAddress(REX::W32::GetCurrentModule(), "F4SEPlugin_Version"));
 	}
 }

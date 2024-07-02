@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 
 namespace RE
 {
@@ -11,7 +11,7 @@ namespace RE
 		NiPoint3 center;  // 00
 		union
 		{
-			float fRadius;
+			float        fRadius;
 			std::int32_t iRadius{ 0 };
 		};  // 0C
 	};

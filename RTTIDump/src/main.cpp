@@ -1,6 +1,6 @@
 [[nodiscard]] auto& get_iddb()
 {
-	static REL::IDDatabase::Offset2ID iddb;
+	static REL::Offset2ID iddb;
 	return iddb;
 }
 
@@ -25,14 +25,14 @@ public:
 		_vtables = virtual_tables({ cols.data(), cols.size() });
 	}
 
-	[[nodiscard]] reference operator[](std::size_t a_idx) noexcept { return _vtables[a_idx]; }
+	[[nodiscard]] reference       operator[](std::size_t a_idx) noexcept { return _vtables[a_idx]; }
 	[[nodiscard]] const_reference operator[](std::size_t a_idx) const noexcept { return _vtables[a_idx]; }
 
-	[[nodiscard]] iterator begin() noexcept { return _vtables.begin(); }
+	[[nodiscard]] iterator       begin() noexcept { return _vtables.begin(); }
 	[[nodiscard]] const_iterator begin() const noexcept { return _vtables.begin(); }
 	[[nodiscard]] const_iterator cbegin() const noexcept { return _vtables.cbegin(); }
 
-	[[nodiscard]] iterator end() noexcept { return _vtables.end(); }
+	[[nodiscard]] iterator       end() noexcept { return _vtables.end(); }
 	[[nodiscard]] const_iterator end() const noexcept { return _vtables.end(); }
 	[[nodiscard]] const_iterator cend() const noexcept { return _vtables.cend(); }
 
@@ -41,7 +41,7 @@ public:
 private:
 	[[nodiscard]] static const RE::RTTI::TypeDescriptor* type_descriptor(std::string_view a_name)
 	{
-		const auto segment = REL::Module::get().segment(REL::Segment::data);
+		const auto      segment = REL::Module::get().segment(REL::Segment::data);
 		const std::span haystack{ segment.pointer<const char>(), segment.size() };
 
 		std::boyer_moore_horspool_searcher searcher(a_name.cbegin(), a_name.cend());
@@ -59,8 +59,8 @@ private:
 		assert(a_typeDesc != nullptr);
 
 		const auto& mod = REL::Module::get();
-		const auto typeDesc = reinterpret_cast<std::uintptr_t>(a_typeDesc);
-		const auto rva = static_cast<std::uint32_t>(typeDesc - mod.base());
+		const auto  typeDesc = reinterpret_cast<std::uintptr_t>(a_typeDesc);
+		const auto  rva = static_cast<std::uint32_t>(typeDesc - mod.base());
 
 		const auto segment = mod.segment(REL::Segment::rdata);
 		const auto base = segment.pointer<const std::byte>();
@@ -128,20 +128,20 @@ private:
 {
 	static const std::array expressions{
 		std::make_pair(
-			srell::regex{ R"regex((`anonymous namespace'|[ &'*\-`]){1})regex"s, srell::regex::ECMAScript },
-			std::function{ [](std::string& a_name, const srell::ssub_match& a_match) {
+			std::regex{ R"regex((`anonymous namespace'|[ &'*\-`]){1})regex"s, std::regex::ECMAScript },
+			std::function{ [](std::string& a_name, const std::ssub_match& a_match) {
 				a_name.erase(a_match.first, a_match.second);
 			} }),
 		std::make_pair(
-			srell::regex{ R"regex(([(),:<>]){1})regex"s, srell::regex::ECMAScript },
-			std::function{ [](std::string& a_name, const srell::ssub_match& a_match) {
+			std::regex{ R"regex(([(),:<>]){1})regex"s, std::regex::ECMAScript },
+			std::function{ [](std::string& a_name, const std::ssub_match& a_match) {
 				a_name.replace(a_match.first, a_match.second, "_"sv);
 			} }),
 	};
 
-	srell::smatch matches;
+	std::smatch matches;
 	for (const auto& [expr, callback] : expressions) {
-		while (srell::regex_search(a_name, matches, expr)) {
+		while (std::regex_search(a_name, matches, expr)) {
 			for (std::size_t i = 1; i < matches.size(); ++i) {
 				callback(a_name, matches[static_cast<int>(i)]);
 			}
@@ -156,21 +156,21 @@ private:
 	assert(a_typeDesc != nullptr);
 
 	std::array<char, 0x1000> buf;
-	const auto len =
-		WinAPI::UnDecorateSymbolName(
+	const auto               len =
+		REX::W32::UnDecorateSymbolName(
 			a_typeDesc->mangled_name() + 1,
 			buf.data(),
 			static_cast<std::uint32_t>(buf.size()),
-			(WinAPI::UNDNAME_NO_MS_KEYWORDS) |
-				(WinAPI::UNDNAME_NO_FUNCTION_RETURNS) |
-				(WinAPI::UNDNAME_NO_ALLOCATION_MODEL) |
-				(WinAPI::UNDNAME_NO_ALLOCATION_LANGUAGE) |
-				(WinAPI::UNDNAME_NO_THISTYPE) |
-				(WinAPI::UNDNAME_NO_ACCESS_SPECIFIERS) |
-				(WinAPI::UNDNAME_NO_THROW_SIGNATURES) |
-				(WinAPI::UNDNAME_NO_RETURN_UDT_MODEL) |
-				(WinAPI::UNDNAME_NAME_ONLY) |
-				(WinAPI::UNDNAME_NO_ARGUMENTS) |
+			(REX::W32::UNDNAME_NO_MS_KEYWORDS) |
+				(REX::W32::UNDNAME_NO_FUNCTION_RETURNS) |
+				(REX::W32::UNDNAME_NO_ALLOCATION_MODEL) |
+				(REX::W32::UNDNAME_NO_ALLOCATION_LANGUAGE) |
+				(REX::W32::UNDNAME_NO_THISTYPE) |
+				(REX::W32::UNDNAME_NO_ACCESS_SPECIFIERS) |
+				(REX::W32::UNDNAME_NO_THROW_SIGNATURES) |
+				(REX::W32::UNDNAME_NO_RETURN_UDT_MODEL) |
+				(REX::W32::UNDNAME_NAME_ONLY) |
+				(REX::W32::UNDNAME_NO_ARGUMENTS) |
 				static_cast<std::uint32_t>(0x8000));  // Disable enum/class/struct/union prefix
 
 	if (len != 0) {
@@ -192,29 +192,23 @@ private:
 void dump_rtti()
 {
 	std::vector<std::tuple<std::string, std::uint64_t, std::vector<std::uint64_t>>> results;  // [ demangled name, rtti id, vtable ids ]
-	logger::debug("Dumping RTTI...");
-	VTable typeInfo(".?AVtype_info@@"sv);
+
+	VTable      typeInfo(".?AVtype_info@@"sv);
 	const auto& mod = REL::Module::get();
-	const auto baseAddr = mod.base();
-	const auto data = mod.segment(REL::Segment::data);
-	const auto beg = data.pointer<const std::uintptr_t>();
-	const auto end = reinterpret_cast<const std::uintptr_t*>(data.address() + data.size());
-#ifndef FALLOUTVR
+	const auto  baseAddr = mod.base();
+	const auto  data = mod.segment(REL::Segment::data);
+	const auto  beg = data.pointer<const std::uintptr_t>();
+	const auto  end = reinterpret_cast<const std::uintptr_t*>(data.address() + data.size());
 	const auto& iddb = get_iddb();
 #endif
 	for (auto iter = beg; iter < end; ++iter) {
 		if (*iter == typeInfo[0].address()) {
 			const auto typeDescriptor = reinterpret_cast<const RE::RTTI::TypeDescriptor*>(iter);
 			try {
-				auto name = decode_name(typeDescriptor);
-#ifndef FALLOUTVR
+				auto       name = decode_name(typeDescriptor);
 				const auto rid = iddb(reinterpret_cast<std::uintptr_t>(iter) - baseAddr);
 
-#else
-				const auto offset = reinterpret_cast<std::uintptr_t>(iter) - baseAddr;
-#endif
-
-				VTable vtable{ typeDescriptor };
+				VTable                     vtable{ typeDescriptor };
 				std::vector<std::uint64_t> vids(vtable.size());
 				std::transform(
 					vtable.begin(),
@@ -260,8 +254,8 @@ void dump_rtti()
 		results.end());
 
 	constexpr std::array toRemove{
-		static_cast<std::uint64_t>(25921),   // float
-		static_cast<std::uint64_t>(950502),  // unsigned int
+		static_cast<std::uint64_t>(2769189),  // float
+		static_cast<std::uint64_t>(2769187),  // unsigned int
 	};
 	results.erase(
 		std::remove_if(
@@ -273,14 +267,14 @@ void dump_rtti()
 		results.end());
 
 	std::ofstream file;
-	const auto openf = [&](std::string_view a_name) {
-		file.open(a_name.data() + "_IDs.h"s);
-		file << "#pragma once\n"sv
-			 << "\n"sv
-			 << "namespace RE\n"sv
-			 << "{\n"sv
-			 << "\tnamespace "sv << a_name << "\n"sv
-			 << "\t{\n"sv;
+	const auto    openf = [&](std::string_view a_name) {
+        file.open(a_name.data() + "_IDs.h"s);
+        file << "#pragma once\n"sv
+             << "\n"sv
+             << "namespace RE\n"sv
+             << "{\n"sv
+             << "\tnamespace "sv << a_name << "\n"sv
+             << "\t{\n"sv;
 	};
 	const auto closef = [&]() {
 		file << "\t}\n"sv
@@ -333,27 +327,26 @@ void dump_nirtti()
 {
 	{
 		// fix a dumb fuckup
-		REL::Relocation<RE::NiRTTI*> rtti{ REL::ID(221529) };
+		REL::Relocation<RE::NiRTTI*> rtti{ REL::ID(2690507) };
 		rtti->name = "BGSStaticCollection::RootFacade";
 	}
 
 	constexpr std::array seeds = {
-		17735,    // NiObject
-		1352616,  // NiCullingProcess
-		31936,    // BSFaceGenMorphData
-		1482971,  // BSTempEffect
-		1123991,  // bhkCharacterProxy
-		858091,   // bhkCharacterRigidBody
-		933986,   // bhkNPCollisionObject
-		56458,    // bhkNPCollisionObjectBase
-		1372534,  // bhkNPCollisionObjectUnlinked
-		495124,   // bhkNPCollisionProxyObject
-		1325961,  // bhkPhysicsSystem
-		182826,   // bhkRagdollSystem
-		1359461,  // bhkWorld
-		34089,    // bhkWorldM
+		2703473,  // NiObject
+		2703545,  // NiCullingProcess
+		2692702,  // BSFaceGenMorphData
+		2693100,  // BSTempEffect
+		2707081,  // bhkCharacterProxy
+		2707083,  // bhkCharacterRigidBody
+		2704798,  // bhkNPCollisionObject
+		2704796,  // bhkNPCollisionObjectBase
+		2704799,  // bhkNPCollisionObjectUnlinked
+		2704797,  // bhkNPCollisionProxyObject
+		2704800,  // bhkPhysicsSystem
+		2704801,  // bhkRagdollSystem
+		2704769,  // bhkWorld
+		2704838,  // bhkWorldM
 	};
-	logger::debug("Dumping NiRTTI...");
 	std::unordered_set<std::uintptr_t> results;
 	results.reserve(seeds.size());
 	for (const auto& seed : seeds) {
@@ -361,11 +354,11 @@ void dump_nirtti()
 	}
 
 	const auto& mod = REL::Module::get();
-	const auto base = mod.base();
-	const auto segment = mod.segment(REL::Segment::data);
-	const auto beg = segment.pointer<const std::uintptr_t>();
-	const auto end = reinterpret_cast<const std::uintptr_t*>(segment.address() + segment.size());
-	bool found = false;
+	const auto  base = mod.base();
+	const auto  segment = mod.segment(REL::Segment::data);
+	const auto  beg = segment.pointer<const std::uintptr_t>();
+	const auto  end = reinterpret_cast<const std::uintptr_t*>(segment.address() + segment.size());
+	bool        found = false;
 	do {
 		found = false;
 		for (auto iter = beg; iter < end; ++iter) {
@@ -379,9 +372,7 @@ void dump_nirtti()
 	} while (found);
 
 	std::vector<std::pair<std::string, std::uint64_t>> toPrint;
-#ifndef FALLOUTVR
-	const auto& iddb = get_iddb();
-#endif
+	const auto&                                        iddb = get_iddb();
 	for (const auto& result : results) {
 		const auto rtti = reinterpret_cast<const RE::NiRTTI*>(result);
 		try {
@@ -440,53 +431,7 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 	}
 }
 
-extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a_f4se, F4SE::PluginInfo* a_info)
-{
-#ifndef NDEBUG
-	auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
-#else
-	auto path = logger::log_directory();
-	if (!path) {
-		return false;
-	}
-
-	*path /= "RTTIDump.log"sv;
-	auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
-#endif
-
-	auto log = std::make_shared<spdlog::logger>("global log", std::move(sink));
-
-#ifndef NDEBUG
-	log->set_level(spdlog::level::trace);
-#else
-	log->set_level(spdlog::level::trace);
-	log->flush_on(spdlog::level::trace);
-#endif
-
-	spdlog::set_default_logger(std::move(log));
-	spdlog::set_pattern("%g(%#): [%^%l%$] %v");
-
-	a_info->infoVersion = F4SE::PluginInfo::kVersion;
-	a_info->name = "ExampleProject";
-	a_info->version = 1;
-
-	if (a_f4se->IsEditor()) {
-		logger::critical("loaded in editor");
-		return false;
-	}
-
-	const auto ver = a_f4se->RuntimeVersion();
-	if (/*ver < F4SE::RUNTIME_1_10_130*/ false) {  // todo
-		logger::critical("unsupported runtime v{}", ver.string());
-		return false;
-	}
-
-	logger::info("RTTIDump Loaded!");
-
-	return true;
-}
-
-extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f4se)
+F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
 {
 	F4SE::Init(a_f4se);
 
@@ -495,3 +440,16 @@ extern "C" DLLEXPORT bool F4SEAPI F4SEPlugin_Load(const F4SE::LoadInterface* a_f
 
 	return true;
 }
+
+F4SE_EXPORT constinit auto F4SEPlugin_Version = []() noexcept {
+	F4SE::PluginVersionData data{};
+
+	data.PluginName("rttidump");
+	data.UsesAddressLibrary(true);
+	data.UsesSigScanning(false);
+	data.IsLayoutDependent(true);
+	data.HasNoStructUse(false);
+	data.CompatibleVersions({ F4SE::RUNTIME_LATEST });
+
+	return data;
+}();

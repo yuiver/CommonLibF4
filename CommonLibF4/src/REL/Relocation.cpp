@@ -1,111 +1,35 @@
 #include "REL/Relocation.h"
 
+#include "REX/W32/KERNEL32.h"
+
 namespace REL
 {
-	namespace detail
+	void safe_write(std::uintptr_t a_dst, const void* a_src, std::size_t a_count)
 	{
-		bool memory_map::open(stl::zwstring a_name, std::size_t a_size)
-		{
-			close();
-
-			_mapping = WinAPI::OpenFileMapping(
-				WinAPI::FILE_MAP_READ | WinAPI::FILE_MAP_WRITE,
-				false,
-				a_name.data());
-			if (!_mapping) {
-				close();
-				return false;
-			}
-
-			_view = WinAPI::MapViewOfFile(
-				_mapping,
-				WinAPI::FILE_MAP_READ | WinAPI::FILE_MAP_WRITE,
-				0,
-				0,
-				a_size);
-			if (!_view) {
-				close();
-				return false;
-			}
-
-			return true;
+		std::uint32_t old{ 0 };
+		bool          success = REX::W32::VirtualProtect(
+            reinterpret_cast<void*>(a_dst), a_count, REX::W32::PAGE_EXECUTE_READWRITE, std::addressof(old));
+		if (success) {
+			std::memcpy(reinterpret_cast<void*>(a_dst), a_src, a_count);
+			success = REX::W32::VirtualProtect(
+				reinterpret_cast<void*>(a_dst), a_count, old, std::addressof(old));
 		}
 
-		bool memory_map::create(stl::zwstring a_name, std::size_t a_size)
-		{
-			close();
-
-			WinAPI::ULARGE_INTEGER bytes;
-			bytes.quadPart = a_size;
-
-			_mapping = WinAPI::OpenFileMapping(
-				WinAPI::FILE_MAP_READ | WinAPI::FILE_MAP_WRITE,
-				false,
-				a_name.data());
-			if (!_mapping) {
-				_mapping = WinAPI::CreateFileMapping(
-					WinAPI::INVALID_HANDLE_VALUE,
-					nullptr,
-					WinAPI::PAGE_READWRITE,
-					bytes.highPart,
-					bytes.lowPart,
-					a_name.data());
-				if (!_mapping) {
-					return false;
-				}
-			}
-
-			_view = WinAPI::MapViewOfFile(
-				_mapping,
-				WinAPI::FILE_MAP_READ | WinAPI::FILE_MAP_WRITE,
-				0,
-				0,
-				bytes.quadPart);
-			if (!_view) {
-				return false;
-			}
-
-			return true;
-		}
-
-		void memory_map::close()
-		{
-			if (_view) {
-				WinAPI::UnmapViewOfFile(static_cast<const void*>(_view));
-				_view = nullptr;
-			}
-
-			if (_mapping) {
-				WinAPI::CloseHandle(_mapping);
-				_mapping = nullptr;
-			}
-		}
+		assert(success);
 	}
 
-	Module Module::_instance;
-
-	void Module::load_segments()
+	void safe_fill(std::uintptr_t a_dst, std::uint8_t a_value, std::size_t a_count)
 	{
-		auto dosHeader = reinterpret_cast<const WinAPI::IMAGE_DOS_HEADER*>(_base);
-		auto ntHeader = stl::adjust_pointer<WinAPI::IMAGE_NT_HEADERS64>(dosHeader, dosHeader->lfanew);
-		const auto* sections = WinAPI::IMAGE_FIRST_SECTION(ntHeader);
-		const auto size = std::min<std::size_t>(ntHeader->fileHeader.numberOfSections, _segments.size());
-		for (std::size_t i = 0; i < size; ++i) {
-			const auto& section = sections[i];
-			const auto it = std::find_if(
-				SEGMENTS.begin(),
-				SEGMENTS.end(),
-				[&](auto&& a_elem) {
-					constexpr auto size = std::extent_v<decltype(section.name)>;
-					const auto len = (std::min)(a_elem.first.size(), size);
-					return std::memcmp(a_elem.first.data(), section.name, len) == 0 &&
-				           (section.characteristics & a_elem.second) == a_elem.second;
-				});
-			if (it != SEGMENTS.end()) {
-				const auto idx = static_cast<std::size_t>(std::distance(SEGMENTS.begin(), it));
-				_segments[idx] = Segment{ _base, _base + section.virtualAddress, section.misc.virtualSize };
-			}
+		std::uint32_t old{ 0 };
+		bool          success = REX::W32::VirtualProtect(
+            reinterpret_cast<void*>(a_dst), a_count, REX::W32::PAGE_EXECUTE_READWRITE, std::addressof(old));
+		if (success) {
+			std::fill_n(reinterpret_cast<std::uint8_t*>(a_dst), a_count, a_value);
+			success = REX::W32::VirtualProtect(
+				reinterpret_cast<void*>(a_dst), a_count, old, std::addressof(old));
 		}
+
+		assert(success);
 	}
 
 	void Module::clear()

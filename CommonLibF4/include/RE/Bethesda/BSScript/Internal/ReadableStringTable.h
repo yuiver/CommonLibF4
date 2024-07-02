@@ -30,7 +30,7 @@ namespace RE
 				{
 				public:
 					// members
-					const char* originalData;       // 00
+					const char*   originalData;     // 00
 					BSFixedString convertedString;  // 08
 				};
 				static_assert(sizeof(StringEntry) == 0x10);
@@ -39,16 +39,16 @@ namespace RE
 				{
 				public:
 					// members
-					char buffer[0x1000];    // 0000
-					char* curr;             // 1000
-					const char* const end;  // 1008
+					char              buffer[0x1000];  // 0000
+					char*             curr;            // 1000
+					const char* const end;             // 1008
 				};
 				static_assert(sizeof(StringTableScrapPage) == 0x1010);
 
 				// members
 				msvc::unique_ptr<BSTObjectArena<StringTableScrapPage, BSTObjectArenaScrapAlloc, 1>> scrapPages;  // 00
-				msvc::unique_ptr<BSScrapArray<StringEntry>> entries;                                             // 08
-				stl::enumeration<StringIndexSize, std::int32_t> indexSize;                                       // 10
+				msvc::unique_ptr<BSScrapArray<StringEntry>>                                         entries;     // 08
+				REX::EnumSet<StringIndexSize, std::int32_t>                                         indexSize;   // 10
 			};
 			static_assert(sizeof(ReadableStringTable) == 0x18);
 		}

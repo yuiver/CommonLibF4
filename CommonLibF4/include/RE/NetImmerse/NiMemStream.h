@@ -15,11 +15,11 @@ namespace RE
 		enum class OpenMode;
 
 		// members
-		void* buffer;                 // 10
+		void*       buffer;           // 10
 		std::size_t pos;              // 18
 		std::size_t bufferAllocSize;  // 20
 		std::size_t currentFilePos;   // 28
-		bool good;                    // 30
+		bool        good;             // 30
 	};
 	static_assert(sizeof(NiMemStream) == 0x38);
 }

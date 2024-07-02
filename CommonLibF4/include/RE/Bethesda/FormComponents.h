@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/Bethesda/BSContainer.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSStringT.h"
 #include "RE/Bethesda/BSTArray.h"
@@ -8,7 +9,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/MemoryManager.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiRefObject.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
@@ -69,12 +70,6 @@ namespace RE
 		class Items;
 	}
 
-	enum class ACTOR_VALUE_MODIFIER
-	{
-		Perm,
-		Temp,
-		Damage
-	};
 	enum class ENUM_FORM_ID;
 	enum class IO_TASK_PRIORITY;
 
@@ -142,10 +137,17 @@ namespace RE
 		union SharedVal
 		{
 			std::uint32_t i;
-			float f;
+			float         f;
 		};
 		static_assert(sizeof(SharedVal) == 0x4);
 	}
+
+	enum class ACTOR_VALUE_MODIFIER
+	{
+		kPermanent,
+		kTemporary,
+		kDamage
+	};
 
 	class __declspec(novtable) ActorValueOwner
 	{
@@ -156,16 +158,16 @@ namespace RE
 		virtual ~ActorValueOwner() = default;  // 00
 
 		// add
-		virtual float GetActorValue([[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                                                                        // 01
-		virtual float GetPermanentActorValue([[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                                                               // 02
-		virtual float GetBaseActorValue([[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                                                                    // 03
-		virtual void SetBaseActorValue([[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_value) { return; }                                                // 04
-		virtual void ModBaseActorValue([[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_delta) { return; }                                                // 05
-		virtual void ModActorValue([[maybe_unused]] ACTOR_VALUE_MODIFIER a_modifier, [[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_delta) { return; }  // 06
-		virtual float GetModifier([[maybe_unused]] ACTOR_VALUE_MODIFIER a_modifier, [[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                        // 07
-		virtual void RestoreActorValue([[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_amount) { return; }                                               // 08
-		virtual void SetActorValue(const ActorValueInfo& a_info, float a_value) { SetBaseActorValue(a_info, a_value); }                                                          // 09
-		virtual bool GetIsPlayerOwner() const { return false; }                                                                                                                  // 0A
+		virtual float GetActorValue([[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                                                                         // 01
+		virtual float GetPermanentActorValue([[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                                                                // 02
+		virtual float GetBaseActorValue([[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                                                                     // 03
+		virtual void  SetBaseActorValue([[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_value) { return; }                                                // 04
+		virtual void  ModBaseActorValue([[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_delta) { return; }                                                // 05
+		virtual void  ModActorValue([[maybe_unused]] ACTOR_VALUE_MODIFIER a_modifier, [[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_delta) { return; }  // 06
+		virtual float GetModifier([[maybe_unused]] ACTOR_VALUE_MODIFIER a_modifier, [[maybe_unused]] const ActorValueInfo& a_info) const { return 0.0F; }                         // 07
+		virtual void  RestoreActorValue([[maybe_unused]] const ActorValueInfo& a_info, [[maybe_unused]] float a_amount) { return; }                                               // 08
+		virtual void  SetActorValue(const ActorValueInfo& a_info, float a_value) { SetBaseActorValue(a_info, a_value); }                                                          // 09
+		virtual bool  GetIsPlayerOwner() const { return false; }                                                                                                                  // 0A
 	};
 	static_assert(sizeof(ActorValueOwner) == 0x8);
 
@@ -174,7 +176,7 @@ namespace RE
 	public:
 		// members
 		std::uint32_t colorValues[7];  // 00
-		float fresnelPower;            // 1C
+		float         fresnelPower;    // 1C
 	};
 	static_assert(sizeof(BGSDirectionalAmbientLightingColors) == 0x20);
 
@@ -213,9 +215,9 @@ namespace RE
 		virtual ~BSIAudioEffectChain() = default;  // 00
 
 		// add
-		virtual std::uint32_t QEffectCount() const = 0;                                        // 01
-		virtual char const* GetDebugID() const = 0;                                            // 02
-		virtual void ForEachEffectImpl(const BSIAudioEffectVisitorBase& a_visitor) const = 0;  // 03
+		virtual std::uint32_t QEffectCount() const = 0;                                                 // 01
+		virtual char const*   GetDebugID() const = 0;                                                   // 02
+		virtual void          ForEachEffectImpl(const BSIAudioEffectVisitorBase& a_visitor) const = 0;  // 03
 	};
 	static_assert(sizeof(BSIAudioEffectChain) == 0x8);
 
@@ -230,19 +232,19 @@ namespace RE
 		virtual ~BSIMusicTrack() = default;  // 00
 
 		// add
-		virtual void DoUpdate() = 0;                                                                // 01
-		virtual void DoPlay() = 0;                                                                  // 02
-		virtual void DoPause() = 0;                                                                 // 03
-		virtual void DoFinish(bool a_immediate, float a_fadeTime) = 0;                              // 04
-		virtual float GetDurationImpl() const = 0;                                                  // 05
-		virtual std::uint32_t GetType() const = 0;                                                  // 06
-		virtual bool TestCanPlay() const { return true; }                                           // 07
-		virtual MUSIC_STATUS GetMusicStatus() const { return *trackStatus; }                        // 08
-		virtual void DoSetDuckingAttenuation([[maybe_unused]] std::uint16_t a_ducking) { return; }  // 09
-		virtual void DoClearDucking() { return; }                                                   // 0A
+		virtual void          DoUpdate() = 0;                                                                // 01
+		virtual void          DoPlay() = 0;                                                                  // 02
+		virtual void          DoPause() = 0;                                                                 // 03
+		virtual void          DoFinish(bool a_immediate, float a_fadeTime) = 0;                              // 04
+		virtual float         GetDurationImpl() const = 0;                                                   // 05
+		virtual std::uint32_t GetType() const = 0;                                                           // 06
+		virtual bool          TestCanPlay() const { return true; }                                           // 07
+		virtual MUSIC_STATUS  GetMusicStatus() const { return *trackStatus; }                                // 08
+		virtual void          DoSetDuckingAttenuation([[maybe_unused]] std::uint16_t a_ducking) { return; }  // 09
+		virtual void          DoClearDucking() { return; }                                                   // 0A
 
 		// members
-		stl::enumeration<MUSIC_STATUS, std::int32_t> trackStatus;  // 08
+		REX::EnumSet<MUSIC_STATUS, std::int32_t> trackStatus;  // 08
 	};
 	static_assert(sizeof(BSIMusicTrack) == 0x10);
 
@@ -264,15 +266,15 @@ namespace RE
 		virtual ~BSIMusicType();  // 07
 
 		// members
-		std::uint32_t flags;                                                     // 08
-		std::int8_t priority;                                                    // 0C
-		std::int8_t padding;                                                     // 0D
-		std::uint16_t ducksOtherMusicBy;                                         // 0E
-		float fadeTime;                                                          // 10
-		std::uint32_t currentTrackIndex;                                         // 14
-		BSTArray<std::uint32_t> trackHistory;                                    // 18
-		BSTArray<BSIMusicTrack*> tracks;                                         // 30
-		stl::enumeration<BSIMusicTrack::MUSIC_STATUS, std::int32_t> typeStatus;  // 48
+		std::uint32_t                                           flags;              // 08
+		std::int8_t                                             priority;           // 0C
+		std::int8_t                                             padding;            // 0D
+		std::uint16_t                                           ducksOtherMusicBy;  // 0E
+		float                                                   fadeTime;           // 10
+		std::uint32_t                                           currentTrackIndex;  // 14
+		BSTArray<std::uint32_t>                                 trackHistory;       // 18
+		BSTArray<BSIMusicTrack*>                                tracks;             // 30
+		REX::EnumSet<BSIMusicTrack::MUSIC_STATUS, std::int32_t> typeStatus;         // 48
 	};
 	static_assert(sizeof(BSIMusicType) == 0x50);
 
@@ -285,15 +287,15 @@ namespace RE
 		// add
 		virtual std::int32_t DoGetRoomLevel() const = 0;        // 00
 		virtual std::int32_t DoGetRoomHFLevel() const = 0;      // 01
-		virtual float DoGetDecayTime() const = 0;               // 02
-		virtual float DoGetDecayHFRatio() const = 0;            // 03
+		virtual float        DoGetDecayTime() const = 0;        // 02
+		virtual float        DoGetDecayHFRatio() const = 0;     // 03
 		virtual std::int32_t DoGetReflectionLevel() const = 0;  // 04
-		virtual float DoGetReflectionDelay() const = 0;         // 05
+		virtual float        DoGetReflectionDelay() const = 0;  // 05
 		virtual std::int32_t DoGetReverbLevel() const = 0;      // 06
-		virtual float DoGetReverbDelay() const = 0;             // 07
-		virtual float DoGetDiffusion() const = 0;               // 08
-		virtual float DoGetDensity() const = 0;                 // 09
-		virtual float DoGetHFReference() const = 0;             // 0A
+		virtual float        DoGetReverbDelay() const = 0;      // 07
+		virtual float        DoGetDiffusion() const = 0;        // 08
+		virtual float        DoGetDensity() const = 0;          // 09
+		virtual float        DoGetHFReference() const = 0;      // 0A
 	};
 	static_assert(sizeof(BSIReverbType) == 0x8);
 
@@ -306,21 +308,21 @@ namespace RE
 		virtual ~BSISoundCategory() = default;  // 00
 
 		// add
-		virtual bool Matches(BSISoundCategory* a_toCheck, bool a_exclusive) const = 0;                                 // 01
-		virtual float GetCategoryVolume() const = 0;                                                                   // 02
-		virtual void SetCategoryVolume(float a_newVolume) = 0;                                                         // 03
-		virtual float GetCategoryFrequency() const = 0;                                                                // 04
-		virtual void SetCategoryFrequency(float a_newFreq) = 0;                                                        // 05
-		virtual std::uint16_t GetCategoryAttenuation(BSISoundCategoryUtils::FadeType a_type) const = 0;                // 06
-		virtual void SetCategoryAttenuation(BSISoundCategoryUtils::FadeType a_type, std::uint16_t a_attenuation) = 0;  // 07
-		virtual bool CategoryPaused() const = 0;                                                                       // 08
-		virtual void SetCategoryPaused(bool a_paused, bool a_exclusive) = 0;                                           // 09
-		virtual bool CategoryMute() const = 0;                                                                         // 0A
-		virtual void SetCategoryMute(bool a_mute, bool a_exclusive) = 0;                                               // 0B
-		virtual float GetMinFrequencyMult() const = 0;                                                                 // 0C
-		virtual bool GetBlockSpeedChange() const = 0;                                                                  // 0D
-		virtual bool GetSkipOPMOverrides() const = 0;                                                                  // 0E
-		virtual const char* GetDebugID() const = 0;                                                                    // 0F
+		virtual bool          Matches(BSISoundCategory* a_toCheck, bool a_exclusive) const = 0;                                 // 01
+		virtual float         GetCategoryVolume() const = 0;                                                                    // 02
+		virtual void          SetCategoryVolume(float a_newVolume) = 0;                                                         // 03
+		virtual float         GetCategoryFrequency() const = 0;                                                                 // 04
+		virtual void          SetCategoryFrequency(float a_newFreq) = 0;                                                        // 05
+		virtual std::uint16_t GetCategoryAttenuation(BSISoundCategoryUtils::FadeType a_type) const = 0;                         // 06
+		virtual void          SetCategoryAttenuation(BSISoundCategoryUtils::FadeType a_type, std::uint16_t a_attenuation) = 0;  // 07
+		virtual bool          CategoryPaused() const = 0;                                                                       // 08
+		virtual void          SetCategoryPaused(bool a_paused, bool a_exclusive) = 0;                                           // 09
+		virtual bool          CategoryMute() const = 0;                                                                         // 0A
+		virtual void          SetCategoryMute(bool a_mute, bool a_exclusive) = 0;                                               // 0B
+		virtual float         GetMinFrequencyMult() const = 0;                                                                  // 0C
+		virtual bool          GetBlockSpeedChange() const = 0;                                                                  // 0D
+		virtual bool          GetSkipOPMOverrides() const = 0;                                                                  // 0E
+		virtual const char*   GetDebugID() const = 0;                                                                           // 0F
 	};
 	static_assert(sizeof(BSISoundCategory) == 0x8);
 
@@ -354,21 +356,21 @@ namespace RE
 		virtual ~BSISoundOutputModel() = default;  // 00
 
 		// add
-		virtual bool DoGetUsesHRTF() const = 0;                                                                               // 01
-		virtual bool DoGetHasSpeakerBias() const = 0;                                                                         // 02
-		virtual bool DoGetSpeakerBias(std::uint32_t a_srcChannels, std::uint32_t a_channel, float (&a_levels)[8]) const = 0;  // 03
-		virtual bool DoGetAttenuatesWithDistance() const = 0;                                                                 // 04
-		virtual bool DoGetUseDoppler() const = 0;                                                                             // 05
-		virtual bool DoGetUseSoSDelay() const = 0;                                                                            // 06
-		virtual bool DoGetAudibility(float a_distance) const = 0;                                                             // 07
-		virtual std::uint32_t DoGetSupportedInputChannels() const = 0;                                                        // 08
-		virtual const BSIAttenuationCharacteristics* DoGetAttenuation() const = 0;                                            // 09
-		virtual float DoGetReverbSendLevel() const = 0;                                                                       // 0A
-		virtual bool DoGetSupportsMonitor(std::uint32_t a_monitorID) const = 0;                                               // 0B
-		virtual std::uint16_t DoGetStaticAttenuation() const = 0;                                                             // 0C
-		virtual const BSIAudioEffectChain* DoGetEffectChain() const = 0;                                                      // 0D
-		virtual const char* DoGetDebugID() const = 0;                                                                         // 0E
-		virtual bool DoGetTryPlayThroughController() const = 0;                                                               // 0F
+		virtual bool                                 DoGetUsesHRTF() const = 0;                                                                               // 01
+		virtual bool                                 DoGetHasSpeakerBias() const = 0;                                                                         // 02
+		virtual bool                                 DoGetSpeakerBias(std::uint32_t a_srcChannels, std::uint32_t a_channel, float (&a_levels)[8]) const = 0;  // 03
+		virtual bool                                 DoGetAttenuatesWithDistance() const = 0;                                                                 // 04
+		virtual bool                                 DoGetUseDoppler() const = 0;                                                                             // 05
+		virtual bool                                 DoGetUseSoSDelay() const = 0;                                                                            // 06
+		virtual bool                                 DoGetAudibility(float a_distance) const = 0;                                                             // 07
+		virtual std::uint32_t                        DoGetSupportedInputChannels() const = 0;                                                                 // 08
+		virtual const BSIAttenuationCharacteristics* DoGetAttenuation() const = 0;                                                                            // 09
+		virtual float                                DoGetReverbSendLevel() const = 0;                                                                        // 0A
+		virtual bool                                 DoGetSupportsMonitor(std::uint32_t a_monitorID) const = 0;                                               // 0B
+		virtual std::uint16_t                        DoGetStaticAttenuation() const = 0;                                                                      // 0C
+		virtual const BSIAudioEffectChain*           DoGetEffectChain() const = 0;                                                                            // 0D
+		virtual const char*                          DoGetDebugID() const = 0;                                                                                // 0E
+		virtual bool                                 DoGetTryPlayThroughController() const = 0;                                                               // 0F
 	};
 	static_assert(sizeof(BSISoundOutputModel) == 0x8);
 
@@ -382,16 +384,16 @@ namespace RE
 		{
 		public:
 			// members
-			float falloffScale;       // 00
-			float falloffBias;        // 04
-			float noiseUVScale;       // 08
-			float materialUVScale;    // 0C
-			NiPoint3 projectionDir;   // 10
-			float normalDampener;     // 1C
-			float red;                // 20
-			float green;              // 24
-			float blue;               // 28
-			std::int32_t singlePass;  // 2C
+			float        falloffScale;     // 00
+			float        falloffBias;      // 04
+			float        noiseUVScale;     // 08
+			float        materialUVScale;  // 0C
+			NiPoint3     projectionDir;    // 10
+			float        normalDampener;   // 1C
+			float        red;              // 20
+			float        green;            // 24
+			float        blue;             // 28
+			std::int32_t singlePass;       // 2C
 		};
 		static_assert(sizeof(DIRECTIONAL_DATA) == 0x30);
 
@@ -401,8 +403,8 @@ namespace RE
 		virtual void EnsureLoaded() { return; }  // 01
 
 		// members
-		DIRECTIONAL_DATA directionalData;          // 08
-		BSTArray<NiPointer<NiProperty>> property;  // 38
+		DIRECTIONAL_DATA                directionalData;  // 08
+		BSTArray<NiPointer<NiProperty>> property;         // 38
 	};
 	static_assert(sizeof(BSMaterialObject) == 0x50);
 
@@ -410,34 +412,34 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t ambient;                                                 // 00
-		std::uint32_t directional;                                             // 04
-		std::uint32_t fogColorNear;                                            // 08
-		float fogNear;                                                         // 0C
-		float fogFar;                                                          // 10
-		std::uint32_t directionalXY;                                           // 14
-		std::uint32_t directionalZ;                                            // 18
-		float directionalFade;                                                 // 1C
-		float clipDist;                                                        // 20
-		float fogPower;                                                        // 24
+		std::uint32_t                       ambient;                           // 00
+		std::uint32_t                       directional;                       // 04
+		std::uint32_t                       fogColorNear;                      // 08
+		float                               fogNear;                           // 0C
+		float                               fogFar;                            // 10
+		std::uint32_t                       directionalXY;                     // 14
+		std::uint32_t                       directionalZ;                      // 18
+		float                               directionalFade;                   // 1C
+		float                               clipDist;                          // 20
+		float                               fogPower;                          // 24
 		BGSDirectionalAmbientLightingColors directionalAmbientLightingColors;  // 28
-		std::uint32_t fogColorFar;                                             // 48
-		float fogClamp;                                                        // 4C
-		float lightFadeStart;                                                  // 50
-		float lightFadeEnd;                                                    // 54
-		std::uint32_t lightingTemplateInheritanceFlags;                        // 58
-		float fogHeightMid;                                                    // 5C
-		float fogHeightRange;                                                  // 60
-		std::uint32_t fogColorHighNear;                                        // 64
-		std::uint32_t fogColorHighFar;                                         // 68
-		float fogHighDensityScale;                                             // 6C
-		float fogNearColorScale;                                               // 70
-		float fogFarColorScale;                                                // 74
-		float fogHighNearColorScale;                                           // 78
-		float fogHighFarColorScale;                                            // 7C
-		float fogFarHeightMid;                                                 // 80
-		float fogFarHeightRange;                                               // 84
-		std::uint32_t interiorOffset;                                          // 88
+		std::uint32_t                       fogColorFar;                       // 48
+		float                               fogClamp;                          // 4C
+		float                               lightFadeStart;                    // 50
+		float                               lightFadeEnd;                      // 54
+		std::uint32_t                       lightingTemplateInheritanceFlags;  // 58
+		float                               fogHeightMid;                      // 5C
+		float                               fogHeightRange;                    // 60
+		std::uint32_t                       fogColorHighNear;                  // 64
+		std::uint32_t                       fogColorHighFar;                   // 68
+		float                               fogHighDensityScale;               // 6C
+		float                               fogNearColorScale;                 // 70
+		float                               fogFarColorScale;                  // 74
+		float                               fogHighNearColorScale;             // 78
+		float                               fogHighFarColorScale;              // 7C
+		float                               fogFarHeightMid;                   // 80
+		float                               fogFarHeightRange;                 // 84
+		std::uint32_t                       interiorOffset;                    // 88
 	};
 	static_assert(sizeof(INTERIOR_DATA) == 0x8C);
 
@@ -478,24 +480,24 @@ namespace RE
 		virtual ~TBO_InstanceData() = default;  // 00
 
 		// add
-		virtual BGSKeywordForm* GetKeywordData() const { return nullptr; }                          // 01
-		virtual void DeleteKeywordData() { return; }                                                // 02
-		virtual void CreateKeywordData() { return; }                                                // 03
-		virtual BGSBlockBashData* GetBlockBashData() const { return nullptr; }                      // 04
-		virtual void DeleteBlockBashData() { return; }                                              // 05
-		virtual void CreateBlockBashData() { return; }                                              // 06
-		virtual BSTArray<EnchantmentItem*>* GetEnchantmentArray() const { return nullptr; }         // 07
-		virtual void DeleteEnchantmentArray() { return; }                                           // 08
-		virtual void CreateEnchantmentArray() { return; }                                           // 09
-		virtual BSTArray<BGSMaterialSwap*>* GetMaterialSwapArray() const { return nullptr; }        // 0A
-		virtual void DeleteMaterialSwapArray() { return; }                                          // 0B
-		virtual void CreateMaterialSwapArray() { return; }                                          // 0C
-		virtual float GetWeight() const { return -1.0F; }                                           // 0D
-		virtual std::int32_t GetValue() const { return -1; }                                        // 0E
-		virtual std::uint32_t GetHealth() const { return 0; }                                       // 0F
-		virtual float GetColorRemappingIndex() const { return std::numeric_limits<float>::max(); }  // 10
-		virtual void PostAttach3D(NiAVObject* a_obj3D, TESObjectREFR* a_ref) const;                 // 11
-		virtual void PostApplyMods(const TESBoundObject*) { return; }                               // 12
+		virtual BGSKeywordForm*             GetKeywordData() const { return nullptr; }                                    // 01
+		virtual void                        DeleteKeywordData() { return; }                                               // 02
+		virtual void                        CreateKeywordData() { return; }                                               // 03
+		virtual BGSBlockBashData*           GetBlockBashData() const { return nullptr; }                                  // 04
+		virtual void                        DeleteBlockBashData() { return; }                                             // 05
+		virtual void                        CreateBlockBashData() { return; }                                             // 06
+		virtual BSTArray<EnchantmentItem*>* GetEnchantmentArray() const { return nullptr; }                               // 07
+		virtual void                        DeleteEnchantmentArray() { return; }                                          // 08
+		virtual void                        CreateEnchantmentArray() { return; }                                          // 09
+		virtual BSTArray<BGSMaterialSwap*>* GetMaterialSwapArray() const { return nullptr; }                              // 0A
+		virtual void                        DeleteMaterialSwapArray() { return; }                                         // 0B
+		virtual void                        CreateMaterialSwapArray() { return; }                                         // 0C
+		virtual float                       GetWeight() const { return -1.0F; }                                           // 0D
+		virtual std::int32_t                GetValue() const { return -1; }                                               // 0E
+		virtual std::uint32_t               GetHealth() const { return 0; }                                               // 0F
+		virtual float                       GetColorRemappingIndex() const { return std::numeric_limits<float>::max(); }  // 10
+		virtual void                        PostAttach3D(NiAVObject* a_obj3D, TESObjectREFR* a_ref) const;                // 11
+		virtual void                        PostApplyMods(const TESBoundObject*) { return; }                              // 12
 	};
 	static_assert(sizeof(TBO_InstanceData) == 0x10);
 
@@ -510,12 +512,12 @@ namespace RE
 		F4_HEAP_REDEFINE_NEW(BaseFormComponent);
 
 		// add
-		virtual std::uint32_t GetFormComponentType() const { return 0; }                                                       // 01
-		virtual void InitializeDataComponent() = 0;                                                                            // 02
-		virtual void ClearDataComponent() = 0;                                                                                 // 03
-		virtual void InitComponent() { return; }                                                                               // 04
-		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy, [[maybe_unused]] TESForm* a_owner) { return; }  // 05
-		virtual void CopyComponent([[maybe_unused]] BaseFormComponent* a_copy) { return; }                                     // 06
+		virtual std::uint32_t GetFormComponentType() const { return 0; }                                                                // 01
+		virtual void          InitializeDataComponent() = 0;                                                                            // 02
+		virtual void          ClearDataComponent() = 0;                                                                                 // 03
+		virtual void          InitComponent() { return; }                                                                               // 04
+		virtual void          CopyComponent([[maybe_unused]] BaseFormComponent* a_copy) { return; }                                     // 06
+		virtual void          CopyComponent([[maybe_unused]] BaseFormComponent* a_copy, [[maybe_unused]] TESForm* a_owner) { return; }  // 05
 	};
 	static_assert(sizeof(BaseFormComponent) == 0x8);
 
@@ -532,9 +534,9 @@ namespace RE
 		void CopyComponent(BaseFormComponent*) override;  // 06
 
 		// add
-		virtual std::uint32_t GetMaxAllowedSize() { return 0; }                     // 07
-		virtual const char* GetAsNormalFile(BSStringT<char>& a_outFilename) const;  // 08
-		virtual const char* GetDefaultPath() const { return "Textures\\"; }         // 09
+		virtual std::uint32_t GetMaxAllowedSize() { return 0; }                       // 07
+		virtual const char*   GetAsNormalFile(BSStringT<char>& a_outFilename) const;  // 08
+		virtual const char*   GetDefaultPath() const { return "Textures\\"; }         // 09
 
 		// members
 		BSFixedString textureName;  // 08
@@ -585,8 +587,8 @@ namespace RE
 
 	namespace detail
 	{
-		[[nodiscard]] BGSKeyword* BGSKeywordGetTypedKeywordByIndex(KeywordType a_type, std::uint16_t a_index);
-		[[nodiscard]] uint16_t BGSKeywordGetIndexForTypedKeyword(BGSKeyword* a_keyword, KeywordType a_type);
+		[[nodiscard]] BGSKeyword*   BGSKeywordGetTypedKeywordByIndex(KeywordType a_type, std::uint16_t a_index);
+		[[nodiscard]] std::uint16_t BGSKeywordGetIndexForTypedKeyword(BGSKeyword* a_keyword, KeywordType a_type);
 	}
 
 	template <KeywordType TYPE>
@@ -596,7 +598,7 @@ namespace RE
 		void AddKeyword(BGSKeyword* a_keyword)
 		{
 			if (a_keyword && !HasKeyword(a_keyword)) {
-				MemoryManager& mm = MemoryManager::GetSingleton();
+				MemoryManager&              mm = MemoryManager::GetSingleton();
 				BGSTypedKeywordValue<TYPE>* newArray = (BGSTypedKeywordValue<TYPE>*)mm.Allocate(2 * (size + 1), 0, false);
 				for (int i = 0; i < size; ++i) {
 					newArray[i] = array[i];
@@ -623,7 +625,7 @@ namespace RE
 
 		// members
 		BGSTypedKeywordValue<TYPE>* array;  // 00
-		std::uint32_t size;                 // 08
+		std::uint32_t               size;   // 08
 	};
 
 	class __declspec(novtable) BGSAttachParentArray :
@@ -636,16 +638,16 @@ namespace RE
 
 		// override (BaseFormComponent)
 		std::uint32_t GetFormComponentType() const override { return 'APPA'; }  // 01
-		void InitializeDataComponent() override { return; }                     // 02
-		void ClearDataComponent() override;                                     // 03
-		void CopyComponent(BaseFormComponent*) override { return; }             // 06
-		void CopyComponent(BaseFormComponent*, TESForm*) override;              // 05
+		void          InitializeDataComponent() override { return; }            // 02
+		void          ClearDataComponent() override;                            // 03
+		void          CopyComponent(BaseFormComponent*) override { return; }    // 06
+		void          CopyComponent(BaseFormComponent*, TESForm*) override;     // 05
 
-		void SetParentGroupNumber(BGSKeyword* keyword, uint32_t i)
+		void SetParentGroupNumber(BGSKeyword* a_parent, std::uint32_t a_groupID)
 		{
 			using func_t = decltype(&BGSAttachParentArray::SetParentGroupNumber);
-			REL::Relocation<func_t> func{ REL::ID(1412266) };
-			return func(this, keyword, i);
+			static REL::Relocation<func_t> func{ REL::ID(1412266) };
+			return func(this, a_parent, a_groupID);
 		}
 	};
 	static_assert(sizeof(BGSAttachParentArray) == 0x18);
@@ -654,17 +656,17 @@ namespace RE
 	{
 	public:
 		// members
-		float damageMult;            // 00
-		float attackChance;          // 04
-		SpellItem* attackSpell;      // 08
-		std::uint32_t flags;         // 10
-		float attackAngle;           // 14
-		float strikeAngle;           // 18
-		std::int32_t staggerOffset;  // 1C
-		BGSKeyword* attackType;      // 20
-		float knockdown;             // 28
-		float recoveryTime;          // 2C
-		float actionPointsMult;      // 30
+		float         damageMult;        // 00
+		float         attackChance;      // 04
+		SpellItem*    attackSpell;       // 08
+		std::uint32_t flags;             // 10
+		float         attackAngle;       // 14
+		float         strikeAngle;       // 18
+		std::int32_t  staggerOffset;     // 1C
+		BGSKeyword*   attackType;        // 20
+		float         knockdown;         // 28
+		float         recoveryTime;      // 2C
+		float         actionPointsMult;  // 30
 	};
 	static_assert(sizeof(AttackData) == 0x38);
 
@@ -677,7 +679,7 @@ namespace RE
 
 		// members
 		BSFixedString event;              // 10
-		AttackData data;                  // 18
+		AttackData    data;               // 18
 		BGSEquipSlot* weaponEquipSlot;    // 50
 		BGSEquipSlot* requiredEquipSlot;  // 58
 	};
@@ -691,8 +693,8 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSAttackDataMap };
 
 		// members
-		BSTHashMap<BSFixedString, NiPointer<BGSAttackData>> attackDataMap;  // 10
-		TESRace* defaultDataRace;                                           // 40
+		BSTHashMap<BSFixedString, NiPointer<BGSAttackData>> attackDataMap;    // 10
+		TESRace*                                            defaultDataRace;  // 40
 	};
 	static_assert(sizeof(BGSAttackDataMap) == 0x48);
 
@@ -739,7 +741,7 @@ namespace RE
 
 		// members
 		BGSImpactDataSet* blockBashImpactDataSet;  // 08
-		BGSMaterialType* altBlockMaterialType;     // 10
+		BGSMaterialType*  altBlockMaterialType;    // 10
 	};
 	static_assert(sizeof(BGSBlockBashData) == 0x18);
 
@@ -759,15 +761,15 @@ namespace RE
 	{
 	public:
 		// members
-		std::int8_t modelDamageStage;            // 00
-		std::int8_t healthPercentage;            // 01
-		std::int8_t flags;                       // 02
-		std::uint32_t selfDamagePerSecond;       // 04
-		BGSExplosion* explosion;                 // 08
-		BGSDebris* debris;                       // 10
-		std::uint32_t debrisCount;               // 18
-		BGSModelMaterialSwap* replacementModel;  // 20
-		BSFixedString sequenceName;              // 28
+		std::int8_t           modelDamageStage;     // 00
+		std::int8_t           healthPercentage;     // 01
+		std::int8_t           flags;                // 02
+		std::uint32_t         selfDamagePerSecond;  // 04
+		BGSExplosion*         explosion;            // 08
+		BGSDebris*            debris;               // 10
+		std::uint32_t         debrisCount;          // 18
+		BGSModelMaterialSwap* replacementModel;     // 20
+		BSFixedString         sequenceName;         // 28
 	};
 	static_assert(sizeof(DestructibleObjectStage) == 0x30);
 
@@ -775,13 +777,13 @@ namespace RE
 	{
 	public:
 		// members
-		std::uint32_t health;                                                         // 00
-		std::int8_t numStages;                                                        // 04
-		std::int8_t flags;                                                            // 05
-		DestructibleObjectStage** stagesArray;                                        // 08
-		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;  // 10
-		volatile std::int32_t replacementModelRefCount;                               // 18
-		NiPointer<QueuedFile> preloadedReplacementModels;                             // 20
+		std::uint32_t                                                   health;                      // 00
+		std::int8_t                                                     numStages;                   // 04
+		std::int8_t                                                     flags;                       // 05
+		DestructibleObjectStage**                                       stagesArray;                 // 08
+		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* damageTypes;                 // 10
+		volatile std::int32_t                                           replacementModelRefCount;    // 18
+		NiPointer<QueuedFile>                                           preloadedReplacementModels;  // 20
 	};
 	static_assert(sizeof(DestructibleObjectData) == 0x28);
 
@@ -806,7 +808,7 @@ namespace RE
 
 		// add
 		[[nodiscard]] virtual BGSEquipSlot* GetEquipSlot([[maybe_unused]] const TBO_InstanceData* a_data) const { return equipSlot; }  // 06
-		virtual void SetEquipSlot(BGSEquipSlot* a_slot) { equipSlot = a_slot; }                                                        // 07
+		virtual void                        SetEquipSlot(BGSEquipSlot* a_slot) { equipSlot = a_slot; }                                 // 07
 
 		// members
 		BGSEquipSlot* equipSlot;  // 08
@@ -845,10 +847,10 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSIdleCollection };
 
 		// members
-		std::int8_t idleFlags;    // 08
-		std::int8_t idleCount;    // 09
-		TESIdleForm** idleArray;  // 10
-		float timerCheckForIdle;  // 18
+		std::int8_t   idleFlags;          // 08
+		std::int8_t   idleCount;          // 09
+		TESIdleForm** idleArray;          // 10
+		float         timerCheckForIdle;  // 18
 	};
 	static_assert(sizeof(BGSIdleCollection) == 0x20);
 
@@ -899,16 +901,31 @@ namespace RE
 		// add
 		virtual BGSKeyword* GetDefaultKeyword() const { return nullptr; }  // 07
 
+		void CopyKeywords(const std::vector<RE::BGSKeyword*>& a_copiedData);
+
 		void AddKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::AddKeyword);
-			REL::Relocation<func_t> func{ REL::ID(762999) };
+			static REL::Relocation<func_t> func{ REL::ID(2192766) };
 			return func(this, a_keyword);
 		}
 
+		bool AddKeywords(const std::vector<BGSKeyword*>& a_keywords);
+
 		[[nodiscard]] bool ContainsKeywordString(std::string_view a_editorID) const;
-		[[nodiscard]] bool HasKeywordID(std::uint32_t a_formID) const;
+		[[nodiscard]] bool HasKeywordID(TESFormID a_formID) const;
 		[[nodiscard]] bool HasKeywordString(std::string_view a_editorID) const;
+
+		void ForEachKeyword(std::function<BSContainer::ForEachResult(BGSKeyword*)> a_callback) const
+		{
+			if (keywords) {
+				for (std::uint32_t idx = 0; idx < numKeywords; ++idx) {
+					if (keywords[idx] && a_callback(keywords[idx]) == BSContainer::ForEachResult::kStop) {
+						return;
+					}
+				}
+			}
+		}
 
 		[[nodiscard]] std::optional<BGSKeyword*> GetKeywordAt(std::uint32_t a_idx) const
 		{
@@ -933,15 +950,17 @@ namespace RE
 
 		[[nodiscard]] std::uint32_t GetNumKeywords() const { return numKeywords; };
 
-		void RemoveKeyword(BGSKeyword* kwd)
+		void RemoveKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::RemoveKeyword);
-			REL::Relocation<func_t> func{ REL::ID(921694) };
-			return func(this, kwd);
+			static REL::Relocation<func_t> func{ REL::ID(921694) };
+			return func(this, a_keyword);
 		}
 
+		bool RemoveKeywords(const std::vector<BGSKeyword*>& a_keywords);
+
 		// members
-		BGSKeyword** keywords;      // 10
+		BGSKeyword**  keywords;     // 10
 		std::uint32_t numKeywords;  // 18
 	};
 	static_assert(sizeof(BGSKeywordForm) == 0x20);
@@ -971,7 +990,7 @@ namespace RE
 		void CopyComponent(BaseFormComponent*) override;  // 06
 
 		[[nodiscard]] const BSFixedString& GetMessageIconTextureName() const noexcept { return icon.textureName; }
-		void SetMessageIconTextureName(BSFixedString a_texture) { icon.textureName = std::move(a_texture); }
+		void                               SetMessageIconTextureName(BSFixedString a_texture) { icon.textureName = std::move(a_texture); }
 
 		// members
 		TESIcon icon;  // 08
@@ -1017,7 +1036,7 @@ namespace RE
 		F4_HEAP_REDEFINE_NEW(PerkRankData);
 
 		// members
-		BGSPerk* perk;            // 00
+		BGSPerk*    perk;         // 00
 		std::int8_t currentRank;  // 08
 	};
 	static_assert(sizeof(PerkRankData) == 0x10);
@@ -1043,14 +1062,14 @@ namespace RE
 		void AllocatePerkRankArray(std::uint32_t a_count)
 		{
 			using func_t = decltype(&BGSPerkRankArray::AllocatePerkRankArray);
-			REL::Relocation<func_t> func{ REL::ID(888419) };
+			static REL::Relocation<func_t> func{ REL::ID(888419) };
 			return func(this, a_count);
 		}
 
 		void ClearPerks(bool a_removeFormUser)
 		{
 			using func_t = decltype(&BGSPerkRankArray::ClearPerks);
-			REL::Relocation<func_t> func{ REL::ID(1247917) };
+			static REL::Relocation<func_t> func{ REL::ID(1247917) };
 			return func(this, a_removeFormUser);
 		}
 
@@ -1093,12 +1112,12 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSPreviewTransform };
 
 		// override (BaseFormComponent)
-		std::uint32_t GetFormComponentType() const override { return 'NRTP'; }  // 01
-		void InitializeDataComponent() override { transform = nullptr; }        // 02
-		void ClearDataComponent() override { return; }                          // 03
-		void InitComponent() override;                                          // 04
-		void CopyComponent(BaseFormComponent*) override { return; }             // 06
-		void CopyComponent(BaseFormComponent*, TESForm*) override;              // 05
+		std::uint32_t GetFormComponentType() const override { return 'NRTP'; }     // 01
+		void          InitializeDataComponent() override { transform = nullptr; }  // 02
+		void          ClearDataComponent() override { return; }                    // 03
+		void          InitComponent() override;                                    // 04
+		void          CopyComponent(BaseFormComponent*) override { return; }       // 06
+		void          CopyComponent(BaseFormComponent*, TESForm*) override;        // 05
 
 		// members
 		BGSTransform* transform;  // 08
@@ -1138,11 +1157,11 @@ namespace RE
 
 		// override (BaseFormComponent)
 		std::uint32_t GetFormComponentType() const override { return 'CTAC'; }  // 01
-		void InitializeDataComponent() override { return; }                     // 02
-		void ClearDataComponent() override;                                     // 03
-		void InitComponent() override;                                          // 04
-		void CopyComponent(BaseFormComponent*) override { return; }             // 06
-		void CopyComponent(BaseFormComponent*, TESForm*) override;              // 05
+		void          InitializeDataComponent() override { return; }            // 02
+		void          ClearDataComponent() override;                            // 03
+		void          InitComponent() override;                                 // 04
+		void          CopyComponent(BaseFormComponent*) override { return; }    // 06
+		void          CopyComponent(BaseFormComponent*, TESForm*) override;     // 05
 	};
 	static_assert(sizeof(BGSSoundTagComponent) == 0x8);
 
@@ -1158,9 +1177,9 @@ namespace RE
 
 			F4_HEAP_REDEFINE_NEW(Conditional);
 
-			TESGlobal* ownerGlobal;
+			TESGlobal*   ownerGlobal;
 			std::int32_t ownerRank;
-			void* u;
+			void*        u;
 		};
 		static_assert(sizeof(Conditional) == 0x8);
 
@@ -1178,9 +1197,9 @@ namespace RE
 		F4_HEAP_REDEFINE_NEW(ContainerItemExtra);
 
 		// members
-		TESForm* ownerForm;       // 00
+		TESForm*    ownerForm;    // 00
 		Conditional conditional;  // 08
-		float healthMult;         // 10
+		float       healthMult;   // 10
 	};
 	static_assert(sizeof(ContainerItemExtra) == 0x18);
 
@@ -1202,8 +1221,8 @@ namespace RE
 		F4_HEAP_REDEFINE_NEW(ContainerObject);
 
 		// members
-		std::int32_t count;             // 00
-		TESBoundObject* obj;            // 08
+		std::int32_t        count;      // 00
+		TESBoundObject*     obj;        // 08
 		ContainerItemExtra* itemExtra;  // 10
 	};
 	static_assert(sizeof(ContainerObject) == 0x18);
@@ -1214,6 +1233,20 @@ namespace RE
 	public:
 		static constexpr auto RTTI{ RTTI::TESContainer };
 		static constexpr auto VTABLE{ VTABLE::TESContainer };
+
+		void CopyObjectList(const std::vector<ContainerObject*>& a_copiedData)
+		{
+			const auto oldData = containerObjects;
+
+			const auto newSize = a_copiedData.size();
+			const auto newData = calloc<ContainerObject*>(newSize);
+			std::ranges::copy(a_copiedData, newData);
+
+			numContainerObjects = static_cast<std::uint32_t>(newSize);
+			containerObjects = newData;
+
+			free(oldData);
+		}
 
 		void ForEachContainerObject(std::function<bool(ContainerObject&)> a_fn) const
 		{
@@ -1239,27 +1272,38 @@ namespace RE
 			}
 			if (!added) {
 				std::vector<ContainerObject*> copiedData{ containerObjects, containerObjects + numContainerObjects };
-				const auto newObj = new ContainerObject(a_object, a_count, a_owner);
+				const auto                    newObj = new ContainerObject(a_object, a_count, a_owner);
 				copiedData.push_back(newObj);
-
-				const auto oldData = containerObjects;
-
-				const auto newSize = copiedData.size();
-				const auto newData = calloc<ContainerObject*>(newSize);
-				std::ranges::copy(copiedData, newData);
-
-				numContainerObjects = static_cast<std::uint32_t>(newSize);
-				containerObjects = newData;
-				free(oldData);
-
+				CopyObjectList(copiedData);
 				return true;
 			}
 			return added;
 		}
 
+		bool AddObjectsToContainer(std::map<TESBoundObject*, std::int32_t>& a_objects, TESForm* a_owner)
+		{
+			for (std::uint32_t i = 0; i < numContainerObjects; ++i) {
+				if (const auto entry = containerObjects[i]; entry && entry->obj) {
+					if (auto it = a_objects.find(entry->obj); it != a_objects.end()) {
+						entry->count += it->second;
+						a_objects.erase(it);
+					}
+				}
+			}
+			if (!a_objects.empty()) {
+				std::vector<ContainerObject*> copiedData{ containerObjects, containerObjects + numContainerObjects };
+				for (auto& [object, count] : a_objects) {
+					const auto newObj = new ContainerObject(object, count, a_owner);
+					copiedData.push_back(newObj);
+				}
+				CopyObjectList(copiedData);
+			}
+			return true;
+		}
+
 		// members
-		ContainerObject** containerObjects;  // 08
-		std::uint32_t numContainerObjects;   // 10
+		ContainerObject** containerObjects;     // 08
+		std::uint32_t     numContainerObjects;  // 10
 	};
 	static_assert(sizeof(TESContainer) == 0x18);
 
@@ -1269,14 +1313,14 @@ namespace RE
 		void GetDescription(BSStringT<char>& a_out, const TESForm* a_form) const
 		{
 			using func_t = decltype(&BGSLocalizedStringDL::GetDescription);
-			REL::Relocation<func_t> func{ REL::ID(523613) };
+			static REL::Relocation<func_t> func{ REL::ID(523613) };
 			return func(this, a_out, a_form);
 		}
 
 		[[nodiscard]] BGSLocalizedStrings::ScrapStringBuffer GetText(TESFile& a_file) const
 		{
 			using func_t = decltype(&BGSLocalizedStringDL::GetText);
-			REL::Relocation<func_t> func{ REL::ID(472297) };
+			static REL::Relocation<func_t> func{ REL::ID(472297) };
 			return func(this, a_file);
 		}
 
@@ -1305,13 +1349,13 @@ namespace RE
 		void GetDescription(BSStringT<char>& a_outString, const TESForm* a_form = nullptr)
 		{
 			using func_t = decltype(&TESDescription::GetDescription);
-			REL::Relocation<func_t> func{ REL::ID(523613) };
+			static REL::Relocation<func_t> func{ REL::ID(523613) };
 			return func(this, a_outString, a_form);
 		}
 
 		// members
-		std::uint32_t fileOffset;              // 08
-		std::uint32_t chunkOffset;             // 0C
+		std::uint32_t        fileOffset;       // 08
+		std::uint32_t        chunkOffset;      // 0C
 		BGSLocalizedStringDL descriptionText;  // 10
 	};
 	static_assert(sizeof(TESDescription) == 0x18);
@@ -1325,15 +1369,15 @@ namespace RE
 
 		virtual MagicSystem::CastingType GetCastingType() const { return *castingType; }  // 07
 
-		[[nodiscard]] std::uint16_t GetBaseCharge() const noexcept { return amountOfEnchantment; }
+		[[nodiscard]] std::uint16_t    GetBaseCharge() const noexcept { return amountOfEnchantment; }
 		[[nodiscard]] EnchantmentItem* GetBaseEnchanting() const noexcept { return formEnchanting; }
-		void SetBaseCharge(std::uint16_t a_amount) noexcept { amountOfEnchantment = a_amount; }
-		void SetBaseEnchanting(EnchantmentItem* a_ench) noexcept { formEnchanting = a_ench; }
+		void                           SetBaseCharge(std::uint16_t a_amount) noexcept { amountOfEnchantment = a_amount; }
+		void                           SetBaseEnchanting(EnchantmentItem* a_ench) noexcept { formEnchanting = a_ench; }
 
 		// members
-		EnchantmentItem* formEnchanting;                                        // 08
-		stl::enumeration<MagicSystem::CastingType, std::uint16_t> castingType;  // 10
-		std::uint16_t amountOfEnchantment;                                      // 12
+		EnchantmentItem*                                      formEnchanting;       // 08
+		REX::EnumSet<MagicSystem::CastingType, std::uint16_t> castingType;          // 10
+		std::uint16_t                                         amountOfEnchantment;  // 12
 	};
 	static_assert(sizeof(TESEnchantableForm) == 0x18);
 
@@ -1346,14 +1390,14 @@ namespace RE
 
 		// add
 		virtual std::uint32_t GetFullNameLength() const { return fullName.length(); }  // 07
-		virtual const char* GetFullName() const { return fullName.c_str(); }           // 08
+		virtual const char*   GetFullName() const { return fullName.c_str(); }         // 08
 
 		[[nodiscard]] static std::string_view GetFullName(const TESForm& a_form, bool a_strict = false);
 
 		[[nodiscard]] static auto GetSparseFullNameMap()
 			-> BSTHashMap<const TESForm*, BGSLocalizedString>&
 		{
-			REL::Relocation<BSTHashMap<const TESForm*, BGSLocalizedString>*> sparseFullNameMap{ REL::ID(226372), -0x8 };
+			static REL::Relocation<BSTHashMap<const TESForm*, BGSLocalizedString>*> sparseFullNameMap{ REL::ID(2661402), -0x8 };
 			return *sparseFullNameMap;
 		}
 
@@ -1379,7 +1423,7 @@ namespace RE
 		[[nodiscard]] static std::uint32_t GetFormHealth(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = decltype(&TESHealthForm::GetFormHealth);
-			REL::Relocation<func_t> func{ REL::ID(1515099) };
+			static REL::Relocation<func_t> func{ REL::ID(1515099) };
 			return func(a_form, a_data);
 		}
 
@@ -1401,20 +1445,20 @@ namespace RE
 		void CopyComponent(BaseFormComponent*) override;  // 06
 
 		// add
-		virtual const char* GetModel() const { return model.c_str(); }              // 07
-		virtual void SetModel(const char* a_model) { model = a_model; }             // 08
-		virtual BGSModelMaterialSwap* GetAsModelMaterialSwap() { return nullptr; }  // 09
+		virtual const char*           GetModel() const { return model.c_str(); }          // 07
+		virtual void                  SetModel(const char* a_model) { model = a_model; }  // 08
+		virtual BGSModelMaterialSwap* GetAsModelMaterialSwap() { return nullptr; }        // 09
 
 		// members
-		BSFixedString model;          // 08
-		BSResource::ID* textures;     // 10
-		BSResource::ID* materials;    // 18
-		std::uint32_t* addons;        // 20
-		std::int8_t numTextures;      // 28
-		std::int8_t numTexturesSRGB;  // 29
-		std::int8_t numAddons;        // 2A
-		std::int8_t numMaterials;     // 2B
-		std::int8_t flags;            // 2C
+		BSFixedString   model;            // 08
+		BSResource::ID* textures;         // 10
+		BSResource::ID* materials;        // 18
+		std::uint32_t*  addons;           // 20
+		std::int8_t     numTextures;      // 28
+		std::int8_t     numTexturesSRGB;  // 29
+		std::int8_t     numAddons;        // 2A
+		std::int8_t     numMaterials;     // 2B
+		std::int8_t     flags;            // 2C
 	};
 	static_assert(sizeof(TESModel) == 0x30);
 
@@ -1435,8 +1479,8 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::BGSModelMaterialSwap };
 
 		// members
-		BGSMaterialSwap* swapForm;  // 30
-		float colorRemappingIndex;  // 38
+		BGSMaterialSwap* swapForm;             // 30
+		float            colorRemappingIndex;  // 38
 	};
 	static_assert(sizeof(BGSModelMaterialSwap) == 0x40);
 
@@ -1504,14 +1548,14 @@ namespace RE
 		};
 
 		// members
-		stl::enumeration<Flag, std::uint32_t> actorBaseFlags;                 // 00
-		std::int16_t xpValueOffset;                                           // 04
-		std::uint16_t level;                                                  // 06
-		std::uint16_t calcLevelMin;                                           // 08
-		std::uint16_t calcLevelMax;                                           // 0A
-		std::uint16_t baseDisposition;                                        // 0C
-		stl::enumeration<TEMPLATE_USE_FLAG, std::uint16_t> templateUseFlags;  // 0E
-		std::int16_t bleedoutOverride;                                        // 10
+		REX::EnumSet<Flag, std::uint32_t>              actorBaseFlags;    // 00
+		std::int16_t                                   xpValueOffset;     // 04
+		std::uint16_t                                  level;             // 06
+		std::uint16_t                                  calcLevelMin;      // 08
+		std::uint16_t                                  calcLevelMax;      // 0A
+		std::uint16_t                                  baseDisposition;   // 0C
+		REX::EnumSet<TEMPLATE_USE_FLAG, std::uint16_t> templateUseFlags;  // 0E
+		std::int16_t                                   bleedoutOverride;  // 10
 	};
 	static_assert(sizeof(ACTOR_BASE_DATA) == 0x14);
 
@@ -1540,13 +1584,13 @@ namespace RE
 		[[nodiscard]] constexpr bool Bleeds() const noexcept { return actorData.actorBaseFlags.none(ACTOR_BASE_DATA::Flag::kDoesntBleed); }
 		[[nodiscard]] constexpr bool IsEssential() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kEssential); }
 		[[nodiscard]] constexpr bool IsFemale() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kFemale); }
-		[[nodiscard]] inline bool IsGhost() const { return GetIsGhost(); }
+		[[nodiscard]] inline bool    IsGhost() const { return GetIsGhost(); }
 		[[nodiscard]] constexpr bool IsPreset() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kIsChargenFacePreset); }
 		[[nodiscard]] constexpr bool IsProtected() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kProtected); }
 		[[nodiscard]] constexpr bool IsSimpleActor() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kSimpleActor); }
 		[[nodiscard]] constexpr bool IsSummonable() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kSummonable); }
 		[[nodiscard]] constexpr bool IsUnique() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kUnique); }
-		[[nodiscard]] inline bool IsInvulnerable() const { return GetInvulnerable(); }
+		[[nodiscard]] inline bool    IsInvulnerable() const { return GetInvulnerable(); }
 		[[nodiscard]] constexpr bool HasAutoCalcStats() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kAutoCalcStats); }
 		[[nodiscard]] constexpr bool HasBleedoutOverride() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kBleedoutOverride); }
 		[[nodiscard]] constexpr bool HasPCLevelMult() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kPCLevelMult); }
@@ -1554,16 +1598,23 @@ namespace RE
 		[[nodiscard]] constexpr bool UsesOppositeGenderAnims() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kOppositeGenderanims); }
 		[[nodiscard]] constexpr bool UsesTemplate() const noexcept { return actorData.actorBaseFlags.all(ACTOR_BASE_DATA::Flag::kUsesTemplate); }
 
+		std::uint16_t GetLevel() const
+		{
+			using func_t = decltype(&TESActorBaseData::GetLevel);
+			static REL::Relocation<func_t> func{ REL::ID(2192891) };
+			return func(this);
+		}
+
 		// members
-		ACTOR_BASE_DATA actorData;        // 08
-		std::int32_t changeFlags;         // 1C
-		TESLevItem* deathItem;            // 20
-		BGSVoiceType* voiceType;          // 28
-		TESForm* baseTemplateForm;        // 30
-		TESForm** templateForms;          // 38
-		TESGlobal* legendChance;          // 40
-		TESForm* legendTemplate;          // 48
-		BSTArray<FACTION_RANK> factions;  // 50
+		ACTOR_BASE_DATA        actorData;         // 08
+		std::int32_t           changeFlags;       // 1C
+		TESLevItem*            deathItem;         // 20
+		BGSVoiceType*          voiceType;         // 28
+		TESForm*               baseTemplateForm;  // 30
+		TESForm**              templateForms;     // 38
+		TESGlobal*             legendChance;      // 40
+		TESForm*               legendTemplate;    // 48
+		BSTArray<FACTION_RANK> factions;          // 50
 	};
 	static_assert(sizeof(TESActorBaseData) == 0x68);
 
@@ -1612,10 +1663,10 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESBipedModelForm };
 
 		// members
-		BGSModelMaterialSwap worldModel[2];  // 008
-		TESIcon inventoryIcon[2];            // 088
-		BGSMessageIcon messageIcon[2];       // 0A8
-		TESModelRDT constraintTemplate;      // 0D8
+		BGSModelMaterialSwap worldModel[2];       // 008
+		TESIcon              inventoryIcon[2];    // 088
+		BGSMessageIcon       messageIcon[2];      // 0A8
+		TESModelRDT          constraintTemplate;  // 0D8
 	};
 	static_assert(sizeof(TESBipedModelForm) == 0x108);
 
@@ -1631,15 +1682,39 @@ namespace RE
 	};
 	static_assert(sizeof(TESImageSpaceModifiableForm) == 0x10);
 
+	struct INSTANCE_FILTER
+	{
+	public:
+		// members
+		std::uint32_t                                      levelOverride;     // 00
+		std::uint8_t                                       tierStartLevel;    // 04
+		std::uint8_t                                       altLevelsPerTier;  // 05
+		bool                                               epic;              // 06
+		BSScrapArray<BSTTuple<BGSKeyword*, std::uint32_t>> keywordChances;    // 08
+	};
+	static_assert(sizeof(INSTANCE_FILTER) == 0x28);
+
+	struct CALCED_OBJECT
+	{
+	public:
+		// members
+		TESBoundObject*    object;          // 00
+		const char*        overrideName;    // 08
+		std::int32_t       count;           // 10
+		ContainerItemExtra itemExtra;       // 18
+		INSTANCE_FILTER    instanceFilter;  // 30
+	};
+	static_assert(sizeof(CALCED_OBJECT) == 0x58);
+
 	struct LEVELED_OBJECT
 	{
 	public:
 		// members
-		TESForm* form;                  // 00
-		ContainerItemExtra* itemExtra;  // 08
-		std::uint16_t count;            // 10
-		std::uint16_t level;            // 12
-		std::int8_t chanceNone;         // 14
+		TESForm*            form;        // 00
+		ContainerItemExtra* itemExtra;   // 08
+		std::uint16_t       count;       // 10
+		std::uint16_t       level;       // 12
+		std::int8_t         chanceNone;  // 14
 	};
 	static_assert(sizeof(LEVELED_OBJECT) == 0x18);
 
@@ -1650,24 +1725,53 @@ namespace RE
 		static constexpr auto RTTI{ RTTI::TESLeveledList };
 		static constexpr auto VTABLE{ VTABLE::TESLeveledList };
 
-		// add
-		virtual std::int8_t GetChanceNone();                                   // 07
-		virtual bool GetMultCalc();                                            // 08
-		virtual std::int32_t GetMaxLevelDifference() { return 0; }             // 09
-		virtual const char* GetOverrideName() { return nullptr; }              // 0A
-		virtual bool GetCanContainFormsOfType(ENUM_FORM_ID a_type) const = 0;  // 0B
+		enum class LeveledListAllBelowForce
+		{
+			kNever = -1,
+			kDefault = 0,
+			kAlways = 1,
+			kShiftUp = 2,
+		};
 
-		LEVELED_OBJECT* AddLeveledObject(uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
+		// add
+		virtual std::int8_t  GetChanceNone();                                          // 07
+		virtual bool         GetMultCalc();                                            // 08
+		virtual std::int32_t GetMaxLevelDifference() { return 0; }                     // 09
+		virtual const char*  GetOverrideName() { return nullptr; }                     // 0A
+		virtual bool         GetCanContainFormsOfType(ENUM_FORM_ID a_type) const = 0;  // 0B
+
+		LEVELED_OBJECT* AddLeveledObject(std::uint16_t a_level, uint16_t a_count, int8_t a_chanceNone, TESForm* a_item, ContainerItemExtra* a_itemExtra)
 		{
 			using func_t = decltype(&TESLeveledList::AddLeveledObject);
-			REL::Relocation<func_t> func{ REL::ID(1163308) };
+			static REL::Relocation<func_t> func{ REL::ID(1163308) };
 			return func(this, a_level, a_count, a_chanceNone, a_item, a_itemExtra);
+		}
+
+		void CalculateCurrentFormList(
+			std::uint16_t                a_level,
+			std::uint16_t                a_count,
+			BSScrapArray<CALCED_OBJECT>& a_outCont,
+			LeveledListAllBelowForce     a_allBelowForce = LeveledListAllBelowForce::kDefault,
+			bool                         a_clampToPlayer = false,
+			INSTANCE_FILTER*             a_instanceFilter = nullptr,
+			const char*                  a_overrideName = nullptr)
+		{
+			using func_t = decltype(&TESLeveledList::CalculateCurrentFormList);
+			static REL::Relocation<func_t> func{ REL::ID(2193259) };
+			return func(this, a_level, a_count, a_outCont, a_allBelowForce, a_clampToPlayer, a_instanceFilter, a_overrideName);
+		}
+
+		void CalculateCurrentFormListForRef(TESObjectREFR* a_ref, BSScrapArray<CALCED_OBJECT>& a_outCont, bool a_legendary)
+		{
+			using func_t = decltype(&TESLeveledList::CalculateCurrentFormListForRef);
+			static REL::Relocation<func_t> func{ REL::ID(2193260) };
+			return func(this, a_ref, a_outCont, a_legendary);
 		}
 
 		bool GetUseAll()
 		{
 			using func_t = decltype(&TESLeveledList::GetUseAll);
-			REL::Relocation<func_t> func{ REL::ID(233875) };
+			static REL::Relocation<func_t> func{ REL::ID(233875) };
 			return func(this);
 		}
 
@@ -1679,15 +1783,15 @@ namespace RE
 		}
 
 		// members
-		TESGlobal* chanceGlobal;                                                         // 08
-		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* keywordChances;  // 10
-		LEVELED_OBJECT* leveledLists;                                                    // 18
-		LEVELED_OBJECT** scriptAddedLists;                                               // 20
-		std::int8_t scriptListCount;                                                     // 28
-		std::int8_t baseListCount;                                                       // 29
-		std::int8_t chanceNone;                                                          // 2A
-		std::int8_t llFlags;                                                             // 2B
-		std::int8_t maxUseAllCount;                                                      // 2C
+		TESGlobal*                                                      chanceGlobal;      // 08
+		BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* keywordChances;    // 10
+		LEVELED_OBJECT*                                                 leveledLists;      // 18
+		LEVELED_OBJECT**                                                scriptAddedLists;  // 20
+		std::int8_t                                                     scriptListCount;   // 28
+		std::int8_t                                                     baseListCount;     // 29
+		std::int8_t                                                     chanceNone;        // 2A
+		std::int8_t                                                     llFlags;           // 2B
+		std::int8_t                                                     maxUseAllCount;    // 2C
 	};
 	static_assert(sizeof(TESLeveledList) == 0x30);
 
@@ -1708,9 +1812,9 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESProduceForm };
 
 		// members
-		BGSSoundDescriptorForm* harvestSound;  // 08
-		TESBoundObject* produceItem;           // 10
-		std::int8_t produceChance[4];          // 18
+		BGSSoundDescriptorForm* harvestSound;      // 08
+		TESBoundObject*         produceItem;       // 10
+		std::int8_t             produceChance[4];  // 18
 	};
 	static_assert(sizeof(TESProduceForm) == 0x20);
 
@@ -1729,7 +1833,7 @@ namespace RE
 		}
 
 		[[nodiscard]] TESRace* GetFormRace() const noexcept { return formRace; }
-		void SetFormRace(TESRace* a_race) noexcept { formRace = a_race; }
+		void                   SetFormRace(TESRace* a_race) noexcept { formRace = a_race; }
 
 		// members
 		TESRace* formRace;  // 08
@@ -1748,8 +1852,8 @@ namespace RE
 	{
 	public:
 		// members
-		TESForm* form;                 // 00
-		std::int32_t reaction;         // 08
+		TESForm*       form;           // 00
+		std::int32_t   reaction;       // 08
 		FIGHT_REACTION fightReaction;  // 0C
 	};
 	static_assert(sizeof(GROUP_REACTION) == 0x10);
@@ -1762,8 +1866,8 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::TESReactionForm };
 
 		// members
-		BSSimpleList<GROUP_REACTION*> reactionList;  // 08
-		std::int8_t groupFormType;                   // 18
+		BSSimpleList<GROUP_REACTION*> reactionList;   // 08
+		std::int8_t                   groupFormType;  // 18
 	};
 	static_assert(sizeof(TESReactionForm) == 0x20);
 
@@ -1777,10 +1881,10 @@ namespace RE
 		virtual ~TESRegionList();  // 00
 
 		// members
-		bool ownsRegionMemory;  // 18
-		std::uint8_t pad19;     // 19
-		std::uint16_t pad1A;    // 1A
-		std::uint32_t pad1C;    // 1C
+		bool          ownsRegionMemory;  // 18
+		std::uint8_t  pad19;             // 19
+		std::uint16_t pad1A;             // 1A
+		std::uint32_t pad1C;             // 1C
 	};
 	static_assert(sizeof(TESRegionList) == 0x20);
 
@@ -1806,10 +1910,102 @@ namespace RE
 
 			F4_HEAP_REDEFINE_NEW(SpellData);
 
+			void CopySpellList(const std::vector<TESLevSpell*>& a_copiedData)
+			{
+				const auto oldData = levSpells;
+
+				const auto newSize = a_copiedData.size();
+				const auto newData = calloc<TESLevSpell*>(newSize);
+				std::ranges::copy(a_copiedData, newData);
+
+				numLevSpells = static_cast<std::uint32_t>(newSize);
+				levSpells = newData;
+
+				free(oldData);
+			}
+
+			void CopySpellList(const std::vector<SpellItem*>& a_copiedData)
+			{
+				const auto oldData = spells;
+
+				const auto newSize = a_copiedData.size();
+				const auto newData = calloc<SpellItem*>(newSize);
+				std::ranges::copy(a_copiedData, newData);
+
+				numSpells = static_cast<std::uint32_t>(newSize);
+				spells = newData;
+
+				free(oldData);
+			}
+
+			bool AddLevSpells(const std::vector<TESLevSpell*>& a_levSpells)
+			{
+				std::vector<TESLevSpell*> copiedData{ levSpells, levSpells + numLevSpells };
+				std::ranges::remove_copy_if(a_levSpells, std::back_inserter(copiedData), [&](auto& spell) {
+					return std::ranges::find(copiedData, spell) != copiedData.end();
+				});
+				CopySpellList(copiedData);
+				return true;
+			}
+
+			bool AddSpells(const std::vector<SpellItem*>& a_spells)
+			{
+				std::vector<SpellItem*> copiedData{ spells, spells + numSpells };
+				std::ranges::remove_copy_if(a_spells, std::back_inserter(copiedData), [&](auto& spell) {
+					return std::ranges::find(copiedData, spell) != copiedData.end();
+				});
+				CopySpellList(copiedData);
+				return true;
+			}
+
+			std::optional<std::uint32_t> GetIndex(const SpellItem* a_spell) const
+			{
+				if (spells) {
+					for (std::uint32_t i = 0; i < numSpells; i++) {
+						if (spells[i] == a_spell) {
+							return i;
+						}
+					}
+				}
+				return std::nullopt;
+			}
+
+			std::optional<std::uint32_t> GetIndex(const TESLevSpell* a_levSpell) const
+			{
+				if (levSpells) {
+					for (std::uint32_t i = 0; i < numLevSpells; i++) {
+						if (levSpells[i] == a_levSpell) {
+							return i;
+						}
+					}
+				}
+				return std::nullopt;
+			}
+
+			bool RemoveLevSpells(const std::vector<TESLevSpell*>& a_levSpells)
+			{
+				std::vector<TESLevSpell*> copiedData{ levSpells, levSpells + numLevSpells };
+				if (std::erase_if(copiedData, [&](auto& spell) { return std::ranges::find(a_levSpells, spell) != a_levSpells.end(); }) > 0) {
+					CopySpellList(copiedData);
+					return true;
+				}
+				return false;
+			}
+
+			bool RemoveSpells(const std::vector<SpellItem*>& a_spells)
+			{
+				std::vector<SpellItem*> copiedData{ spells, spells + numSpells };
+				if (std::erase_if(copiedData, [&](auto& spell) { return std::ranges::find(a_spells, spell) != a_spells.end(); }) > 0) {
+					CopySpellList(copiedData);
+					return true;
+				}
+				return false;
+			}
+
 			// members
-			SpellItem** spells;          // 00
+			SpellItem**   spells;        // 00
 			TESLevSpell** levSpells;     // 08
-			TESShout** shouts;           // 10
+			TESShout**    shouts;        // 10
 			std::uint32_t numSpells;     // 18
 			std::uint32_t numLevSpells;  // 1C
 			std::uint32_t numShouts;     // 20
@@ -1819,7 +2015,7 @@ namespace RE
 		bool AddSpell(TESForm* a_spell)
 		{
 			using func_t = decltype(&TESSpellList::AddSpell);
-			REL::Relocation<func_t> func{ REL::ID(1312083) };
+			static REL::Relocation<func_t> func{ REL::ID(1312083) };
 			return func(this, a_spell);
 		}
 
@@ -1850,12 +2046,12 @@ namespace RE
 		[[nodiscard]] static std::uint32_t GetFormValue(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = std::int32_t (*)(const TESForm*, const TBO_InstanceData*);
-			REL::Relocation<func_t> func{ REL::ID(885783) };
+			static REL::Relocation<func_t> func{ REL::ID(885783) };
 			return func(a_form, a_data);
 		}
 
 		[[nodiscard]] std::int32_t GetFormValue() const noexcept { return value; }
-		static void SetFormValue(TESForm& a_form, std::int32_t a_value);
+		static void                SetFormValue(TESForm& a_form, std::int32_t a_value);
 
 		// members
 		std::int32_t value;  // 08
@@ -1872,12 +2068,12 @@ namespace RE
 		[[nodiscard]] static float GetFormWeight(const TESForm* a_form, const TBO_InstanceData* a_data)
 		{
 			using func_t = float (*)(const TESForm*, const TBO_InstanceData*);
-			REL::Relocation<func_t> func{ REL::ID(1321341) };
+			static REL::Relocation<func_t> func{ REL::ID(1321341) };
 			return func(a_form, a_data);
 		}
 
 		[[nodiscard]] float GetFormWeight() const noexcept { return weight; }
-		void SetFormWeight(float a_weight) noexcept { weight = a_weight; }
+		void                SetFormWeight(float a_weight) noexcept { weight = a_weight; }
 
 		// members
 		float weight;  // 08

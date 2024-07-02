@@ -6,7 +6,9 @@
 #include "RE/Bethesda/BGSInventoryItem.h"
 #include "RE/Bethesda/BSFixedString.h"
 #include "RE/Bethesda/BSInputEventUser.h"
+#include "RE/Bethesda/BSModelDB.h"
 #include "RE/Bethesda/BSPointerHandle.h"
+#include "RE/Bethesda/BSResource.h"
 #include "RE/Bethesda/BSSoundHandle.h"
 #include "RE/Bethesda/BSStorage.h"
 #include "RE/Bethesda/BSTArray.h"
@@ -18,6 +20,7 @@
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Bethesda/BSTTuple.h"
 #include "RE/Bethesda/Events.h"
+#include "RE/Bethesda/ImageSpaceData.h"
 #include "RE/Bethesda/InventoryUserUIUtils.h"
 #include "RE/Bethesda/SWFToCodeFunctionHandler.h"
 #include "RE/Bethesda/SendHUDMessage.h"
@@ -28,8 +31,7 @@
 #include "RE/Bethesda/UserEvents.h"
 #include "RE/NetImmerse/NiColor.h"
 #include "RE/NetImmerse/NiMatrix3.h"
-#include "RE/NetImmerse/NiPoint2.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiQuaternion.h"
 #include "RE/NetImmerse/NiRect.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
@@ -52,6 +54,7 @@ namespace RE
 	class BSGFxShaderFXTarget;
 	class ExamineMenu;
 	class ExtraDataList;
+	class HUDComponentBase;
 	class MenuOpenCloseEvent;
 	class MessageBoxData;
 	class NiAVObject;
@@ -68,12 +71,14 @@ namespace RE
 	struct IdleInputEvent;
 	struct InvInterfaceStateChangeEvent;
 	struct LoadedInventoryModel;
+	struct ProcessObjectsLocal;
 	struct PickRefUpdateEvent;
 	struct PipboyValueChangedEvent;
-	struct UIAdvanceMenusFunctionCompleteEvent;
+	struct QueueSurvivalBumpDownMessage;
+	struct RequestHUDModesEvent;
 	struct RevertPlayerCharacterEvent;
 	struct SaveLoadMessageTypeEvent;
-	struct QueueSurvivalBumpDownMessage;
+	struct UIAdvanceMenusFunctionCompleteEvent;
 
 	enum class HUDColorTypes
 	{
@@ -174,13 +179,13 @@ namespace RE
 
 		[[nodiscard]] static FlatScreenModel* GetSingleton()
 		{
-			REL::Relocation<FlatScreenModel**> singleton{ REL::ID(847741) };
+			static REL::Relocation<FlatScreenModel**> singleton{ REL::ID(847741) };
 			return *singleton;
 		}
 
 		// members
 		BSFixedString customRendererName;  // 10
-		void* model;                       // 18 - TODO
+		void*         model;               // 18 - TODO
 	};
 	static_assert(sizeof(FlatScreenModel) == 0x20);
 
@@ -193,10 +198,19 @@ namespace RE
 		public BSTEventSink<QueueSurvivalBumpDownMessage>
 	{
 	public:
+		static constexpr auto RTTI{ RTTI::GameUIModel };
+		static constexpr auto VTABLE{ VTABLE::GameUIModel };
+
+		[[nodiscard]] static GameUIModel* GetSingleton()
+		{
+			static REL::Relocation<GameUIModel**> singleton{ REL::ID(17419) };
+			return *singleton;
+		}
+
 		void UpdateDataModels()
 		{
 			using func_t = decltype(&GameUIModel::UpdateDataModels);
-			REL::Relocation<func_t> func{ REL::ID(1269653) };
+			static REL::Relocation<func_t> func{ REL::ID(1269653) };
 			return func(this);
 		}
 	};
@@ -230,7 +244,7 @@ namespace RE
 		bool ShouldHandleEvent(const InputEvent* a_event) override  // 01
 		{
 			using func_t = decltype(&IMenu::ShouldHandleEvent);
-			REL::Relocation<func_t> func{ REL::ID(1241790) };
+			static REL::Relocation<func_t> func{ REL::ID(1241790) };
 			return func(this, a_event);
 		}
 
@@ -282,7 +296,7 @@ namespace RE
 		virtual bool PassesRenderConditionText(MENU_RENDER_CONTEXT a_reason, const BSFixedString& a_customRendererName) const  // 07
 		{
 			using func_t = decltype(&IMenu::PassesRenderConditionText);
-			REL::Relocation<func_t> func{ REL::ID(937304) };
+			static REL::Relocation<func_t> func{ REL::ID(937304) };
 			return func(this, a_reason, a_customRendererName);
 		}
 
@@ -334,7 +348,7 @@ namespace RE
 		void OnSetSafeRect()
 		{
 			using func_t = decltype(&IMenu::OnSetSafeRect);
-			REL::Relocation<func_t> func{ REL::ID(964859) };
+			static REL::Relocation<func_t> func{ REL::ID(964859) };
 			return func(this);
 		}
 
@@ -343,14 +357,14 @@ namespace RE
 		UI_MESSAGE_RESULTS ProcessScaleformEvent(Scaleform::GFx::Movie* a_movie, const IUIMessageData* a_data)
 		{
 			using func_t = decltype(&IMenu::ProcessScaleformEvent);
-			REL::Relocation<func_t> func{ REL::ID(150211) };
+			static REL::Relocation<func_t> func{ REL::ID(150211) };
 			return func(this, a_movie, a_data);
 		}
 
 		void RefreshPlatform()
 		{
 			using func_t = decltype(&IMenu::RefreshPlatform);
-			REL::Relocation<func_t> func{ REL::ID(1071829) };
+			static REL::Relocation<func_t> func{ REL::ID(1071829) };
 			return func(this);
 		}
 
@@ -376,18 +390,18 @@ namespace RE
 		[[nodiscard]] bool UsesCursor() const noexcept { return menuFlags.all(UI_MENU_FLAGS::kUsesCursor); }
 
 		// members
-		Scaleform::GFx::Value menuObj;                                                                                     // 20
-		Scaleform::Ptr<Scaleform::GFx::Movie> uiMovie;                                                                     // 40
-		BSFixedString customRendererName;                                                                                  // 48
-		BSFixedString menuName;                                                                                            // 50
-		stl::enumeration<UI_MENU_FLAGS, std::uint32_t> menuFlags;                                                          // 58
-		BSTAtomicValue<std::uint32_t> advanceWithoutRenderCount{ 0 };                                                      // 5C
-		bool passesTopMenuTest{ true };                                                                                    // 60
-		bool menuCanBeVisible{ true };                                                                                     // 61
-		bool hasQuadsForCumstomRenderer{ false };                                                                          // 62
-		bool hasDoneFirstAdvanceMovie{ false };                                                                            // 63
-		stl::enumeration<UI_DEPTH_PRIORITY, std::uint8_t> depthPriority{ UI_DEPTH_PRIORITY::kStandard };                   // 64
-		stl::enumeration<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
+		Scaleform::GFx::Value                                    menuObj;                                              // 20
+		Scaleform::Ptr<Scaleform::GFx::Movie>                    uiMovie;                                              // 40
+		BSFixedString                                            customRendererName;                                   // 48
+		BSFixedString                                            menuName;                                             // 50
+		REX::EnumSet<UI_MENU_FLAGS, std::uint32_t>               menuFlags;                                            // 58
+		BSTAtomicValue<std::uint32_t>                            advanceWithoutRenderCount{ 0 };                       // 5C
+		bool                                                     passesTopMenuTest{ true };                            // 60
+		bool                                                     menuCanBeVisible{ true };                             // 61
+		bool                                                     hasQuadsForCumstomRenderer{ false };                  // 62
+		bool                                                     hasDoneFirstAdvanceMovie{ false };                    // 63
+		UI_DEPTH_PRIORITY                                        depthPriority{ UI_DEPTH_PRIORITY::kStandard };        // 64
+		REX::EnumSet<UserEvents::INPUT_CONTEXT_ID, std::int32_t> inputContext{ UserEvents::INPUT_CONTEXT_ID::kNone };  // 68
 	};
 	static_assert(sizeof(IMenu) == 0x70);
 
@@ -418,8 +432,8 @@ namespace RE
 		// members
 		Scaleform::GFx::Value flashTarget;                 // 10
 		Scaleform::GFx::Value originalFunctionDefinition;  // 30
-		BSFixedStringCS funcName;                          // 50
-		BSGFxFunctionBase* owner;                          // 58
+		BSFixedStringCS       funcName;                    // 50
+		BSGFxFunctionBase*    owner;                       // 58
 	};
 	static_assert(sizeof(BSGFxFunctionHandler) == 0x60);
 
@@ -435,9 +449,9 @@ namespace RE
 		virtual void CallFlashFunction(const Scaleform::GFx::FunctionHandler::Params&) = 0;
 
 		// members
-		Scaleform::Ptr<BSGFxFunctionHandler> handler;  // 08
-		BSFixedStringCS funcName;                      // 10
-		UsesBSGFXFunctionHandler* owner;               // 18
+		Scaleform::Ptr<BSGFxFunctionHandler> handler;   // 08
+		BSFixedStringCS                      funcName;  // 10
+		UsesBSGFXFunctionHandler*            owner;     // 18
 	};
 	static_assert(sizeof(BSGFxFunctionBase) == 0x20);
 
@@ -475,14 +489,14 @@ namespace RE
 		Scaleform::GFx::Value* AcquireFlashObjectByMemberName(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember)
 		{
 			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByMemberName);
-			REL::Relocation<func_t> func{ REL::ID(1172680) };
+			static REL::Relocation<func_t> func{ REL::ID(2287014) };
 			return func(this, a_flashObject, a_relativePathToMember);
 		}
 
 		Scaleform::GFx::Value* AcquireFlashObjectByPath(const Scaleform::GFx::Movie& a_parentMovie, const char* a_absolutePathToMember)
 		{
 			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByPath);
-			REL::Relocation<func_t> func{ REL::ID(1065592) };
+			static REL::Relocation<func_t> func{ REL::ID(1065592) };
 			return func(this, a_parentMovie, a_absolutePathToMember);
 		}
 	};
@@ -532,13 +546,13 @@ namespace RE
 		void RemoveChild(const BSGFxDisplayObject& a_child) const
 		{
 			using func_t = decltype(&BSGFxDisplayObject::RemoveChild);
-			REL::Relocation<func_t> func{ REL::ID(1229383) };
+			static REL::Relocation<func_t> func{ REL::ID(2287327) };
 			return func(this, a_child);
 		}
 
 		// members
 		const BSGFxDisplayObject* parentDisplayObject{ nullptr };  // 40
-		InitialDisplayState initialState;                          // 48
+		InitialDisplayState       initialState;                    // 48
 
 	private:
 		void ctor_shared()
@@ -601,7 +615,7 @@ namespace RE
 		virtual BSEventNotifyControl ProcessEvent(const ApplyColorUpdateEvent& a_event, BSTEventSource<ApplyColorUpdateEvent>* a_source) override  // 01
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::ProcessEvent);
-			REL::Relocation<func_t> func{ REL::ID(848563) };
+			static REL::Relocation<func_t> func{ REL::ID(848563) };
 			return func(this, a_event, a_source);
 		}
 
@@ -609,35 +623,35 @@ namespace RE
 		virtual void AppendShaderFXInfos(BSTArray<UIShaderFXInfo>& a_colorFXInfo, BSTArray<UIShaderFXInfo>& a_backgroundFXInfo)  // 02
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::AppendShaderFXInfos);
-			REL::Relocation<func_t> func{ REL::ID(544646) };
+			static REL::Relocation<func_t> func{ REL::ID(2287021) };
 			return func(this, a_colorFXInfo, a_backgroundFXInfo);
 		}
 
 		void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
 		{
 			using func_t = void (BSGFxShaderFXTarget::*)(const NiColor&, float);
-			REL::Relocation<func_t> func{ REL::ID(1487925) };
+			static REL::Relocation<func_t> func{ REL::ID(2287028) };
 			func(this, a_color, a_brightness);
 		}
 
 		void CreateAndSetFiltersToColor(std::uint8_t a_r, std::uint8_t a_g, std::uint8_t a_b, float a_brightness)
 		{
 			using func_t = void (BSGFxShaderFXTarget::*)(std::uint8_t, std::uint8_t, std::uint8_t, float);
-			REL::Relocation<func_t> func{ REL::ID(783104) };
+			static REL::Relocation<func_t> func{ REL::ID(783104) };
 			func(this, a_r, a_g, a_b, a_brightness);
 		}
 
 		void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::CreateAndSetFiltersToHUD);
-			REL::Relocation<func_t> func{ REL::ID(876001) };
+			static REL::Relocation<func_t> func{ REL::ID(2287027) };
 			func(this, a_colorType, a_scale);
 		}
 
 		void EnableShadedBackground(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::EnableShadedBackground);
-			REL::Relocation<func_t> func{ REL::ID(278402) };
+			static REL::Relocation<func_t> func{ REL::ID(2287022) };
 			func(this, a_colorType, a_scale);
 		}
 
@@ -648,10 +662,10 @@ namespace RE
 		}
 
 		// members
-		UIShaderColors shaderFX;                                             // 58
-		BSTArray<BSGFxShaderFXTarget*> shaderFXObjects;                      // 90
-		stl::enumeration<HUDColorTypes, std::uint32_t> HUDColorType;         // A8
-		stl::enumeration<HUDColorTypes, std::uint32_t> backgroundColorType;  // AC
+		UIShaderColors                             shaderFX;             // 58
+		BSTArray<BSGFxShaderFXTarget*>             shaderFXObjects;      // 90
+		REX::EnumSet<HUDColorTypes, std::uint32_t> HUDColorType;         // A8
+		REX::EnumSet<HUDColorTypes, std::uint32_t> backgroundColorType;  // AC
 
 	private:
 		void ctor_shared()
@@ -682,9 +696,9 @@ namespace RE
 		static constexpr auto VTABLE{ VTABLE::ButtonHintBar };
 
 		// members
-		Scaleform::GFx::Value sourceButtons;  // B0
-		bool redirectToButtonBarMenu;         // D0
-		bool isTopButtonBar;                  // D1
+		Scaleform::GFx::Value sourceButtons;            // B0
+		bool                  redirectToButtonBarMenu;  // D0
+		bool                  isTopButtonBar;           // D1
 	};
 	static_assert(sizeof(ButtonHintBar) == 0xD8);
 
@@ -706,14 +720,14 @@ namespace RE
 		virtual void SetIsTopButtonBar(bool a_isTopButtonBar) override  // 08
 		{
 			using func_t = decltype(&GameMenuBase::SetIsTopButtonBar);
-			REL::Relocation<func_t> func{ REL::ID(1367353) };
+			static REL::Relocation<func_t> func{ REL::ID(1367353) };
 			return func(this, a_isTopButtonBar);
 		}
 
 		virtual void OnMenuDisplayStateChanged() override  // 0A
 		{
 			using func_t = decltype(&GameMenuBase::OnMenuDisplayStateChanged);
-			REL::Relocation<func_t> func{ REL::ID(1274450) };
+			static REL::Relocation<func_t> func{ REL::ID(1274450) };
 			return func(this);
 		}
 
@@ -736,21 +750,21 @@ namespace RE
 		virtual bool CacheShaderFXQuadsForRenderer_Impl() override  // 10
 		{
 			using func_t = decltype(&GameMenuBase::CacheShaderFXQuadsForRenderer_Impl);
-			REL::Relocation<func_t> func{ REL::ID(863029) };
+			static REL::Relocation<func_t> func{ REL::ID(863029) };
 			return func(this);
 		}
 
 		virtual void TransferCachedShaderFXQuadsForRenderer(const BSFixedString& a_rendererName) override  // 11
 		{
 			using func_t = decltype(&GameMenuBase::TransferCachedShaderFXQuadsForRenderer);
-			REL::Relocation<func_t> func{ REL::ID(65166) };
+			static REL::Relocation<func_t> func{ REL::ID(65166) };
 			return func(this, a_rendererName);
 		}
 
 		virtual void SetViewportRect(const NiRect<float>& a_viewportRect) override  // 12
 		{
 			using func_t = decltype(&GameMenuBase::SetViewportRect);
-			REL::Relocation<func_t> func{ REL::ID(1554334) };
+			static REL::Relocation<func_t> func{ REL::ID(1554334) };
 			return func(this, a_viewportRect);
 		}
 
@@ -758,25 +772,25 @@ namespace RE
 		virtual void AppendShaderFXInfos(BSTAlignedArray<UIShaderFXInfo>& a_colorFXInfos, BSTAlignedArray<UIShaderFXInfo>& a_backgroundFXInfos) const  // 13
 		{
 			using func_t = decltype(&GameMenuBase::AppendShaderFXInfos);
-			REL::Relocation<func_t> func{ REL::ID(583584) };
+			static REL::Relocation<func_t> func{ REL::ID(583584) };
 			return func(this, a_colorFXInfos, a_backgroundFXInfos);
 		}
 
 		void SetUpButtonBar(BSGFxShaderFXTarget& a_parentObject, const char* a_buttonBarPath, HUDColorTypes a_colorType)
 		{
 			using func_t = decltype(&GameMenuBase::SetUpButtonBar);
-			REL::Relocation<func_t> func{ REL::ID(531584) };
+			static REL::Relocation<func_t> func{ REL::ID(531584) };
 			func(this, a_parentObject, a_buttonBarPath, a_colorType);
 		}
 
 		// members
-		BSTArray<BSGFxShaderFXTarget*> shaderFXObjects;           // 70
-		msvc::unique_ptr<BSGFxShaderFXTarget> filterHolder;       // 88
-		msvc::unique_ptr<ButtonHintBar> buttonHintBar;            // 90
-		BSTAlignedArray<UIShaderFXInfo> cachedColorFXInfos;       // 98
-		BSTAlignedArray<UIShaderFXInfo> cachedBackgroundFXInfos;  // B0
-		BSReadWriteLock cachedQuadsLock;                          // C8
-		BSTOptional<HUDModeType> menuHUDMode{ std::nullopt };     // D0
+		BSTArray<BSGFxShaderFXTarget*>        shaderFXObjects;              // 70
+		msvc::unique_ptr<BSGFxShaderFXTarget> filterHolder;                 // 88
+		msvc::unique_ptr<ButtonHintBar>       buttonHintBar;                // 90
+		BSTAlignedArray<UIShaderFXInfo>       cachedColorFXInfos;           // 98
+		BSTAlignedArray<UIShaderFXInfo>       cachedBackgroundFXInfos;      // B0
+		BSReadWriteLock                       cachedQuadsLock;              // C8
+		BSTOptional<HUDModeType>              menuHUDMode{ std::nullopt };  // D0
 	};
 	static_assert(sizeof(GameMenuBase) == 0xE0);
 
@@ -802,31 +816,31 @@ namespace RE
 		static void ExecuteCommand(const char* a_command)
 		{
 			using func_t = decltype(&Console::ExecuteCommand);
-			REL::Relocation<func_t> func{ REL::ID(1061864) };
+			static REL::Relocation<func_t> func{ REL::ID(2248537) };
 			return func(a_command);
 		}
 
 		[[nodiscard]] static decltype(auto) GetCurrentPickIndex()
 		{
-			REL::Relocation<std::int32_t*> currentPickIndex{ REL::ID(1407033) };
+			static REL::Relocation<std::int32_t*> currentPickIndex{ REL::ID(2701382) };
 			return *currentPickIndex;
 		}
 
 		[[nodiscard]] static decltype(auto) GetPickRef()
 		{
-			REL::Relocation<ObjectRefHandle*> ref{ REL::ID(170742) };
+			static REL::Relocation<ObjectRefHandle*> ref{ REL::ID(170742) };
 			return *ref;
 		}
 
 		[[nodiscard]] static decltype(auto) GetPickRefs()
 		{
-			REL::Relocation<BSTArray<ObjectRefHandle>*> pickRefs{ REL::ID(875116) };
+			static REL::Relocation<BSTArray<ObjectRefHandle>*> pickRefs{ REL::ID(875116) };
 			return *pickRefs;
 		}
 
 		[[nodiscard]] static ObjectRefHandle GetCurrentPickREFR()
 		{
-			const auto idx = GetCurrentPickIndex();
+			const auto  idx = GetCurrentPickIndex();
 			const auto& refs = GetPickRefs();
 			return 0 <= idx && static_cast<std::size_t>(idx) < refs.size() ?
 			           refs[static_cast<std::size_t>(idx)] :
@@ -836,30 +850,55 @@ namespace RE
 		void SetCurrentPickREFR(stl::not_null<ObjectRefHandle*> a_refr)
 		{
 			using func_t = decltype(&Console::SetCurrentPickREFR);
-			REL::Relocation<func_t> func{ REL::ID(79066) };
+			static REL::Relocation<func_t> func{ REL::ID(2248551) };
 			return func(this, a_refr);
 		}
 
 		// members
 		Rumble::AutoRumblePause* rumbleLock;  // E0
-		bool minimized;                       // E8
+		bool                     minimized;   // E8
 	};
 	static_assert(sizeof(Console) == 0xF0);
+
+	struct __declspec(novtable) HUDMenu :
+		public GameMenuBase,                         // 000
+		public BSTEventSink<UserEventEnabledEvent>,  // 0E0
+		public BSTEventSink<RequestHUDModesEvent>    // 0E8
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::HUDMenu };
+		static constexpr auto VTABLE{ VTABLE::HUDMenu };
+		static constexpr auto MENU_NAME{ "HUDMenu"sv };
+
+		enum class ShowMenuState
+		{
+			kConstructed = 0,
+			kShown,
+			kHidden,
+			kReshowOnDestructor
+		};
+
+		// members
+		BSTSmallArray<msvc::unique_ptr<HUDComponentBase>, 32> hudObjects;        // 0F0
+		BSTArray<HUDModeType>                                 hudModes;          // 200
+		REX::EnumSet<ShowMenuState, std::uint32_t>            hudShowMenuState;  // 218
+	};
+	static_assert(sizeof(HUDMenu) == 0x220);
 
 	struct BaseLoadedInventoryModel
 	{
 	public:
 		// members
-		CreatedObjPtr<TESForm> itemBase;  // 00
-		TESBoundObject* modelObj;         // 08
-		NiPointer<NiAVObject> model;      // 10
-		NiPoint2 panMinima;               // 18
-		NiPoint2 panMaxima;               // 20
-		float initialDistance;            // 28
-		float boundRadius;                // 2C
-		float horizontalBound;            // 30
-		float verticalBound;              // 34
-		float verticalBoundOffset;        // 38
+		CreatedObjPtr<TESForm> itemBase;             // 00
+		TESBoundObject*        modelObj;             // 08
+		NiPointer<NiAVObject>  model;                // 10
+		NiPoint2               panMinima;            // 18
+		NiPoint2               panMaxima;            // 20
+		float                  initialDistance;      // 28
+		float                  boundRadius;          // 2C
+		float                  horizontalBound;      // 30
+		float                  verticalBound;        // 34
+		float                  verticalBoundOffset;  // 38
 	};
 	static_assert(sizeof(BaseLoadedInventoryModel) == 0x40);
 
@@ -868,11 +907,11 @@ namespace RE
 	{
 	public:
 		// members
-		float itemRotation;         // 40
-		std::uint32_t uniqueIndex;  // 44
-		std::uint16_t column;       // 48
-		std::uint16_t index;        // 4A
-		std::uint16_t row;          // 4C
+		float         itemRotation;  // 40
+		std::uint32_t uniqueIndex;   // 44
+		std::uint16_t column;        // 48
+		std::uint16_t index;         // 4A
+		std::uint16_t row;           // 4C
 	};
 	static_assert(sizeof(DisplayItemModel) == 0x50);
 
@@ -891,87 +930,87 @@ namespace RE
 		void Begin3D()
 		{
 			using func_t = decltype(&Inventory3DManager::Begin3D);
-			REL::Relocation<func_t> func{ REL::ID(662659) };
+			static REL::Relocation<func_t> func{ REL::ID(662659) };
 			return func(this);
 		}
 
 		void ClearModel()
 		{
 			using func_t = decltype(&Inventory3DManager::ClearModel);
-			REL::Relocation<func_t> func{ REL::ID(63218) };
+			static REL::Relocation<func_t> func{ REL::ID(63218) };
 			return func(this);
 		}
 
 		void DisableRendering(const BSFixedString& a_userID)
 		{
 			using func_t = decltype(&Inventory3DManager::DisableRendering);
-			REL::Relocation<func_t> func{ REL::ID(255893) };
+			static REL::Relocation<func_t> func{ REL::ID(255893) };
 			return func(this, a_userID);
 		}
 
 		void EnableRendering(const BSFixedString& a_userID)
 		{
 			using func_t = decltype(&Inventory3DManager::EnableRendering);
-			REL::Relocation<func_t> func{ REL::ID(176578) };
+			static REL::Relocation<func_t> func{ REL::ID(176578) };
 			return func(this, a_userID);
 		}
 
 		void End3D()
 		{
 			using func_t = decltype(&Inventory3DManager::End3D);
-			REL::Relocation<func_t> func{ REL::ID(1512675) };
+			static REL::Relocation<func_t> func{ REL::ID(1512675) };
 			return func(this);
 		}
 
 		void SetModelScale(float a_scale)
 		{
 			using func_t = decltype(&Inventory3DManager::SetModelScale);
-			REL::Relocation<func_t> func{ REL::ID(1319701) };
+			static REL::Relocation<func_t> func{ REL::ID(1319701) };
 			return func(this, a_scale);
 		}
 
 		void SetModelScreenPosition(const NiPoint3& a_position, bool a_screenCoords)
 		{
 			using func_t = decltype(&Inventory3DManager::SetModelScreenPosition);
-			REL::Relocation<func_t> func{ REL::ID(2967) };
+			static REL::Relocation<func_t> func{ REL::ID(2967) };
 			return func(this, a_position, a_screenCoords);
 		}
 
 		// members
-		bool useBoundForScale: 1;                                                // 010:0
-		bool startedZoomThisFrame: 1;                                            // 010:1
-		bool useStoredModelPosition: 1;                                          // 010:2
-		bool rotating: 1;                                                        // 010:3
-		bool modelPositionInScreenCoords: 1;                                     // 010:4
-		bool centerOnBoundCenter: 1;                                             // 010:5
-		NiPoint3 modelPosition;                                                  // 014
-		float modelScale;                                                        // 020
-		alignas(0x10) BSTArray<LoadedInventoryModel> loadedModels;               // 030
-		NiPoint3 initialPosition;                                                // 048
-		NiPoint3 storedPostion;                                                  // 054
-		NiMatrix3 initialRotation;                                               // 060
-		NiQuaternion storedRotation;                                             // 090
-		NiPoint2 previousInput;                                                  // 0A0
-		NiPointer<nsInventory3DManager::NewInventoryMenuItemLoadTask> loadTask;  // 0A8
-		TESObjectREFR* tempRef;                                                  // 0B0
-		BSTSmartPointer<ExtraDataList> originalExtra;                            // 0B8
-		BSFixedString str3DRendererName;                                         // 0C0
-		BGSInventoryItem queuedDisplayItem;                                      // 0C8
-		std::uint32_t itemExtraIndex;                                            // 0D8
-		TESForm* itemBase;                                                       // 0E0
-		std::int8_t disableInputUserCount;                                       // 0E8
-		BSTSet<BSFixedString> disableRendererUsers;                              // 0F0
-		float storedXRotation;                                                   // 120
-		float zoomDirection;                                                     // 124
-		float zoomProgress;                                                      // 128
-		float minZoomModifier;                                                   // 12C
-		float maxZoomModifier;                                                   // 130
-		std::uint32_t hightlightedPart;                                          // 134
-		bool queueShowItem;                                                      // 138
-		bool mouseRotation;                                                      // 139
-		bool prevUsesCursorFlag;                                                 // 13A
-		bool prevUpdateUsesCursorFlag;                                           // 13B
-		bool addedLightsToScene;                                                 // 13C
+		bool     useBoundForScale: 1;                                                            // 010:0
+		bool     startedZoomThisFrame: 1;                                                        // 010:1
+		bool     useStoredModelPosition: 1;                                                      // 010:2
+		bool     rotating: 1;                                                                    // 010:3
+		bool     modelPositionInScreenCoords: 1;                                                 // 010:4
+		bool     centerOnBoundCenter: 1;                                                         // 010:5
+		NiPoint3 modelPosition;                                                                  // 014
+		float    modelScale;                                                                     // 020
+		alignas(0x10) BSTArray<LoadedInventoryModel> loadedModels;                               // 030
+		NiPoint3                                                      initialPosition;           // 048
+		NiPoint3                                                      storedPostion;             // 054
+		NiMatrix3                                                     initialRotation;           // 060
+		NiQuaternion                                                  storedRotation;            // 090
+		NiPoint2                                                      previousInput;             // 0A0
+		NiPointer<nsInventory3DManager::NewInventoryMenuItemLoadTask> loadTask;                  // 0A8
+		TESObjectREFR*                                                tempRef;                   // 0B0
+		BSTSmartPointer<ExtraDataList>                                originalExtra;             // 0B8
+		BSFixedString                                                 str3DRendererName;         // 0C0
+		BGSInventoryItem                                              queuedDisplayItem;         // 0C8
+		std::uint32_t                                                 itemExtraIndex;            // 0D8
+		TESForm*                                                      itemBase;                  // 0E0
+		std::int8_t                                                   disableInputUserCount;     // 0E8
+		BSTSet<BSFixedString>                                         disableRendererUsers;      // 0F0
+		float                                                         storedXRotation;           // 120
+		float                                                         zoomDirection;             // 124
+		float                                                         zoomProgress;              // 128
+		float                                                         minZoomModifier;           // 12C
+		float                                                         maxZoomModifier;           // 130
+		std::uint32_t                                                 hightlightedPart;          // 134
+		bool                                                          queueShowItem;             // 138
+		bool                                                          mouseRotation;             // 139
+		bool                                                          prevUsesCursorFlag;        // 13A
+		bool                                                          prevUpdateUsesCursorFlag;  // 13B
+		bool                                                          addedLightsToScene;        // 13C
 	};
 	static_assert(sizeof(Inventory3DManager) == 0x140);
 
@@ -1039,48 +1078,48 @@ namespace RE
 		public:
 			BSTAlignedArray<UIShaderFXInfo> cachedColorFXInfos;       // 00
 			BSTAlignedArray<UIShaderFXInfo> cachedBackgroundFXInfos;  // 18
-			BSReadWriteLock cachedQuadsLock;                          // 30
+			BSReadWriteLock                 cachedQuadsLock;          // 30
 		};
 		static_assert(sizeof(IconBG) == 0x38);
 
 		void CheckAndSetItemForPlacement()
 		{
 			using func_t = decltype(&WorkshopMenu::CheckAndSetItemForPlacement);
-			REL::Relocation<func_t> func{ REL::ID(1541862) };
+			static REL::Relocation<func_t> func{ REL::ID(1541862) };
 			return func(this);
 		}
 
 		void UpdateButtonText()
 		{
 			using func_t = decltype(&WorkshopMenu::UpdateButtonText);
-			REL::Relocation<func_t> func{ REL::ID(1089189) };
+			static REL::Relocation<func_t> func{ REL::ID(1089189) };
 			return func(this);
 		}
 
 		// members
-		BSTArray<NiPoint3> item3DPositions[4];                                                                          // 100
-		BSTArray<BSTTuple<DisplayItemModel, TESObjectREFR*>> displayItemModels;                                         // 160
-		IconBG iconBG;                                                                                                  // 178
-		Inventory3DManager inv3DModelManager;                                                                           // 1B0
-		BSTArray<BSTTuple<NiPointer<nsInventory3DManager::NewInventoryMenuItemLoadTask>, NiPoint3>> loadTasks;          // 2F0
-		BSTInterpolator<float, EaseOutInterpolator, GetCurrentPositionFunctor> upDownGlassAnimationInterpolator;        // 308
-		BSTInterpolator<float, EaseOutInterpolator, GetCurrentPositionFunctor> leftRightGlassAnimationInterpolator[4];  // 320
-		BSTSmartPointer<WorkshopMenuGeometry> displayGeometry;                                                          // 380
-		BSFixedString dpadInput;                                                                                        // 388
-		BGSListForm includeList;                                                                                        // 390
-		BGSListForm excludeList;                                                                                        // 3D8
-		long double lastBudget;                                                                                         // 420
-		std::uint16_t topMenuCount;                                                                                     // 428
-		bool inputAdjustMode;                                                                                           // 42A
-		bool verticalAdjustment;                                                                                        // 42B
-		bool disableAdjustOnThumbEvent;                                                                                 // 42C
-		bool initialized;                                                                                               // 42D
-		bool inEditMode;                                                                                                // 42E
-		bool electricalDevice;                                                                                          // 42F
-		bool useMovementAsDirectional;                                                                                  // 430
-		bool motionBlurActive;                                                                                          // 431
-		bool exitDebounce;                                                                                              // 432
-		msvc::unique_ptr<FXWorkshopMenu> workshopMenuBase;                                                              // 438
+		BSTArray<NiPoint3>                                                                          item3DPositions[4];                      // 100
+		BSTArray<BSTTuple<DisplayItemModel, TESObjectREFR*>>                                        displayItemModels;                       // 160
+		IconBG                                                                                      iconBG;                                  // 178
+		Inventory3DManager                                                                          inv3DModelManager;                       // 1B0
+		BSTArray<BSTTuple<NiPointer<nsInventory3DManager::NewInventoryMenuItemLoadTask>, NiPoint3>> loadTasks;                               // 2F0
+		BSTInterpolator<float, EaseOutInterpolator, GetCurrentPositionFunctor>                      upDownGlassAnimationInterpolator;        // 308
+		BSTInterpolator<float, EaseOutInterpolator, GetCurrentPositionFunctor>                      leftRightGlassAnimationInterpolator[4];  // 320
+		BSTSmartPointer<WorkshopMenuGeometry>                                                       displayGeometry;                         // 380
+		BSFixedString                                                                               dpadInput;                               // 388
+		BGSListForm                                                                                 includeList;                             // 390
+		BGSListForm                                                                                 excludeList;                             // 3D8
+		long double                                                                                 lastBudget;                              // 420
+		std::uint16_t                                                                               topMenuCount;                            // 428
+		bool                                                                                        inputAdjustMode;                         // 42A
+		bool                                                                                        verticalAdjustment;                      // 42B
+		bool                                                                                        disableAdjustOnThumbEvent;               // 42C
+		bool                                                                                        initialized;                             // 42D
+		bool                                                                                        inEditMode;                              // 42E
+		bool                                                                                        electricalDevice;                        // 42F
+		bool                                                                                        useMovementAsDirectional;                // 430
+		bool                                                                                        motionBlurActive;                        // 431
+		bool                                                                                        exitDebounce;                            // 432
+		msvc::unique_ptr<FXWorkshopMenu>                                                            workshopMenuBase;                        // 438
 	};
 	static_assert(sizeof(WorkshopMenu) == 0x440);
 
@@ -1095,7 +1134,7 @@ namespace RE
 		BSEventNotifyControl ProcessEvent(const PipboyValueChangedEvent& a_event, BSTEventSource<PipboyValueChangedEvent>* a_source) override
 		{
 			using func_t = decltype(&PipboySubMenu::ProcessEvent);
-			REL::Relocation<func_t> func{ REL::ID(893703) };
+			static REL::Relocation<func_t> func{ REL::ID(893703) };
 			return func(this, a_event, a_source);
 		}
 
@@ -1119,7 +1158,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyStatsMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(332518) };
+			static REL::Relocation<func_t> func{ REL::ID(332518) };
 			return func(this);
 		}
 
@@ -1139,7 +1178,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboySpecialMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(1426810) };
+			static REL::Relocation<func_t> func{ REL::ID(1426810) };
 			return func(this);
 		}
 	};
@@ -1156,7 +1195,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyPerksMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(783380) };
+			static REL::Relocation<func_t> func{ REL::ID(783380) };
 			return func(this);
 		}
 	};
@@ -1173,7 +1212,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyInventoryMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(762897) };
+			static REL::Relocation<func_t> func{ REL::ID(762897) };
 			return func(this);
 		}
 	};
@@ -1190,7 +1229,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyQuestMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(1495929) };
+			static REL::Relocation<func_t> func{ REL::ID(1495929) };
 			return func(this);
 		}
 	};
@@ -1207,7 +1246,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyWorkshopMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(1370368) };
+			static REL::Relocation<func_t> func{ REL::ID(1370368) };
 			return func(this);
 		}
 	};
@@ -1224,7 +1263,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyLogMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(672256) };
+			static REL::Relocation<func_t> func{ REL::ID(672256) };
 			return func(this);
 		}
 	};
@@ -1235,8 +1274,8 @@ namespace RE
 	public:
 		// members
 		NiPointer<NiTexture> gamebryoTexture;  // 00
-		std::uint32_t renderTarget;            // 08
-		BSFixedString texturePath;             // 10
+		std::uint32_t        renderTarget;     // 08
+		BSFixedString        texturePath;      // 10
 	};
 	static_assert(sizeof(BSScaleformExternalTexture) == 0x18);
 
@@ -1251,18 +1290,18 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyMapMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(92696) };
+			static REL::Relocation<func_t> func{ REL::ID(92696) };
 			return func(this);
 		}
 
 		// members
-		BSScaleformExternalTexture worldMapTexture;  // 18
-		Scaleform::GFx::Value mapPageObj;            // 30
-		std::uint32_t centeredQuestMarkerID;         // 50
-		std::uint32_t centeredMapMarkerID;           // 54
-		std::uint32_t queuedFastTravelId;            // 58
-		bool mapTexturesSentToMenu;                  // 5C
-		bool requestedDelayedLocalMapRender;         // 5D
+		BSScaleformExternalTexture worldMapTexture;                 // 18
+		Scaleform::GFx::Value      mapPageObj;                      // 30
+		std::uint32_t              centeredQuestMarkerID;           // 50
+		std::uint32_t              centeredMapMarkerID;             // 54
+		std::uint32_t              queuedFastTravelId;              // 58
+		bool                       mapTexturesSentToMenu;           // 5C
+		bool                       requestedDelayedLocalMapRender;  // 5D
 	};
 	static_assert(sizeof(PipboyMapMenu) == 0x60);
 
@@ -1277,7 +1316,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyRadioMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(713423) };
+			static REL::Relocation<func_t> func{ REL::ID(713423) };
 			return func(this);
 		}
 
@@ -1296,7 +1335,7 @@ namespace RE
 		void UpdateData() override
 		{
 			using func_t = decltype(&PipboyPlayerInfoMenu::UpdateData);
-			REL::Relocation<func_t> func{ REL::ID(426990) };
+			static REL::Relocation<func_t> func{ REL::ID(426990) };
 			return func(this);
 		}
 	};
@@ -1313,22 +1352,22 @@ namespace RE
 		static constexpr auto MENU_NAME{ "PipboyMenu"sv };
 
 		// members
-		Scaleform::GFx::Value dataObj;           // 0F0
-		PipboyStatsMenu statsMenuObj;            // 110
-		PipboySpecialMenu specialMenuObj;        // 130
-		PipboyPerksMenu perksMenuObj;            // 148
-		PipboyInventoryMenu inventoryMenuObj;    // 160
-		PipboyQuestMenu questMenuObj;            // 178
-		PipboyWorkshopMenu workshopMenuObj;      // 190
-		PipboyLogMenu logMenuObj;                // 1A8
-		PipboyMapMenu mapMenuObj;                // 1C0
-		PipboyRadioMenu radioMenuObj;            // 220
-		PipboyPlayerInfoMenu playerInfoMenuObj;  // 240
-		std::int8_t disableInputCounter;         // 258
-		bool pipboyCursorEnabled;                // 259
-		bool showingModalMessage;                // 25A
-		bool pipboyHiddenByAnotherMenu;          // 25B
-		bool performFastTravelCheck;             // 25C
+		Scaleform::GFx::Value dataObj;                    // 0F0
+		PipboyStatsMenu       statsMenuObj;               // 110
+		PipboySpecialMenu     specialMenuObj;             // 130
+		PipboyPerksMenu       perksMenuObj;               // 148
+		PipboyInventoryMenu   inventoryMenuObj;           // 160
+		PipboyQuestMenu       questMenuObj;               // 178
+		PipboyWorkshopMenu    workshopMenuObj;            // 190
+		PipboyLogMenu         logMenuObj;                 // 1A8
+		PipboyMapMenu         mapMenuObj;                 // 1C0
+		PipboyRadioMenu       radioMenuObj;               // 220
+		PipboyPlayerInfoMenu  playerInfoMenuObj;          // 240
+		std::int8_t           disableInputCounter;        // 258
+		bool                  pipboyCursorEnabled;        // 259
+		bool                  showingModalMessage;        // 25A
+		bool                  pipboyHiddenByAnotherMenu;  // 25B
+		bool                  performFastTravelCheck;     // 25C
 	};
 	static_assert(sizeof(PipboyMenu) == 0x260);
 
@@ -1360,7 +1399,7 @@ namespace RE
 	{
 	public:
 		// members
-		InventoryInterface::Handle invHandle;       // 00
+		InventoryInterface::Handle     invHandle;   // 00
 		BSTSmallArray<std::uint8_t, 4> stackIndex;  // 08
 	};
 	static_assert(sizeof(InventoryUserUIInterfaceEntry) == 0x20);
@@ -1370,9 +1409,9 @@ namespace RE
 	{
 	public:
 		// members
-		ObjectRefHandle inventoryRef;                            // 58
+		ObjectRefHandle                         inventoryRef;    // 58
 		BSTArray<InventoryUserUIInterfaceEntry> stackedEntries;  // 60
-		bool entriesInvalid;                                     // 78
+		bool                                    entriesInvalid;  // 78
 	};
 	static_assert(sizeof(InventoryUserUIInterface) == 0x80);
 
@@ -1413,7 +1452,7 @@ namespace RE
 			void IncrementSort()
 			{
 				using func_t = decltype(&ItemSorter::IncrementSort);
-				REL::Relocation<func_t> func{ REL::ID(1307263) };
+				static REL::Relocation<func_t> func{ REL::ID(1307263) };
 				return func(this);
 			}
 
@@ -1423,8 +1462,8 @@ namespace RE
 			}
 
 			// members
-			stl::enumeration<SORT_ON_FIELD, std::uint32_t> currentSort[14];  // 00
-			std::uint32_t currentTab;                                        // 38
+			REX::EnumSet<SORT_ON_FIELD, std::uint32_t> currentSort[14];  // 00
+			std::uint32_t                              currentTab;       // 38
 		};
 		static_assert(sizeof(ItemSorter) == 0x3C);
 
@@ -1435,19 +1474,19 @@ namespace RE
 		virtual void PreDisplay() override;                                           // 05
 
 		// add
-		virtual void ConfirmInvestment() { return; }                                                                                                                          // 14
-		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) = 0;                                                              // 15
-		virtual bool GetDisplayBarterValues() { return false; }                                                                                                               // 16
-		virtual bool GetCanEquipItem([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return false; }                                       // 17
-		virtual bool GetIsItemEquipped([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return false; }                                     // 18
-		virtual void ToggleItemEquipped([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return; }                                          // 19
-		virtual std::uint32_t GetItemValue(std::uint32_t a_itemIndex, bool a_inContainer);                                                                                    // 1A
-		virtual const InventoryUserUIInterfaceEntry* GetInventoryItemByListIndex(bool a_inContainer, std::uint32_t a_index);                                                  // 1B
-		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) = 0;                     // 1C
-		virtual void SetMenuSuppressed(bool a_suppressed);                                                                                                                    // 1D
-		virtual void UpdateEncumbranceAndCaps(bool a_inContainer, std::int32_t a_capsDifferential);                                                                           // 1E
-		virtual void UpdateItemPickpocketInfo([[maybe_unused]] std::int32_t a_index, [[maybe_unused]] bool a_inContainer, [[maybe_unused]] std::int32_t a_count) { return; }  // 1F
-		virtual void UpdateList(bool a_inContainer) = 0;                                                                                                                      // 20
+		virtual void                                 ConfirmInvestment() { return; }                                                                                                                          // 14
+		virtual void                                 DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) = 0;                                                              // 15
+		virtual bool                                 GetDisplayBarterValues() { return false; }                                                                                                               // 16
+		virtual bool                                 GetCanEquipItem([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return false; }                                       // 17
+		virtual bool                                 GetIsItemEquipped([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return false; }                                     // 18
+		virtual void                                 ToggleItemEquipped([[maybe_unused]] std::uint32_t a_itemIndex, [[maybe_unused]] bool a_inContainer) { return; }                                          // 19
+		virtual std::uint32_t                        GetItemValue(std::uint32_t a_itemIndex, bool a_inContainer);                                                                                             // 1A
+		virtual const InventoryUserUIInterfaceEntry* GetInventoryItemByListIndex(bool a_inContainer, std::uint32_t a_index);                                                                                  // 1B
+		virtual void                                 PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) = 0;                     // 1C
+		virtual void                                 SetMenuSuppressed(bool a_suppressed);                                                                                                                    // 1D
+		virtual void                                 UpdateEncumbranceAndCaps(bool a_inContainer, std::int32_t a_capsDifferential);                                                                           // 1E
+		virtual void                                 UpdateItemPickpocketInfo([[maybe_unused]] std::int32_t a_index, [[maybe_unused]] bool a_inContainer, [[maybe_unused]] std::int32_t a_count) { return; }  // 1F
+		virtual void                                 UpdateList(bool a_inContainer) = 0;                                                                                                                      // 20
 
 		void SetMessageBoxMode(bool a_messageBoxMode)
 		{
@@ -1457,26 +1496,26 @@ namespace RE
 		}
 
 		// members
-		ItemSorter containerItemSorter;                                       // 0F0
-		ItemSorter playerItemSorter;                                          // 12C
-		msvc::unique_ptr<BSGFxShaderFXTarget> playerBracketBackground_mc;     // 168
-		msvc::unique_ptr<BSGFxShaderFXTarget> containerBracketBackground_mc;  // 170
-		msvc::unique_ptr<BSGFxShaderFXTarget> containerList_mc;               // 178
-		msvc::unique_ptr<BSGFxShaderFXTarget> playerInventory_mc;             // 180
-		msvc::unique_ptr<BSGFxShaderFXTarget> containerInventory_mc;          // 188
-		msvc::unique_ptr<BSGFxShaderFXTarget> itemCard_mc;                    // 190
-		msvc::unique_ptr<FXQuantityMenu> quantityMenu_mc;                     // 198
-		InventoryUserUIInterface playerInv;                                   // 1A0
-		InventoryUserUIInterface containerInv;                                // 220
-		Inventory3DManager inv3DModelManager;                                 // 2A0
-		BSTArray<const TESBoundObject*> partialPlayerUpdateList;              // 3E0
-		BSTArray<const TESBoundObject*> partialContainerUpdateList;           // 3F8
-		stl::enumeration<ContainerMenuMode, std::uint32_t> menuMode;          // 410
-		Rumble::AutoRumblePause autoRumblePause;                              // 414
-		DisableHeavyItemsFunc disableHeavyFunc;                               // 418
-		ObjectRefHandle containerRef;                                         // 428
-		bool suppressed;                                                      // 42C
-		bool menuOpening;                                                     // 42D
+		ItemSorter                                     containerItemSorter;            // 0F0
+		ItemSorter                                     playerItemSorter;               // 12C
+		msvc::unique_ptr<BSGFxShaderFXTarget>          playerBracketBackground_mc;     // 168
+		msvc::unique_ptr<BSGFxShaderFXTarget>          containerBracketBackground_mc;  // 170
+		msvc::unique_ptr<BSGFxShaderFXTarget>          containerList_mc;               // 178
+		msvc::unique_ptr<BSGFxShaderFXTarget>          playerInventory_mc;             // 180
+		msvc::unique_ptr<BSGFxShaderFXTarget>          containerInventory_mc;          // 188
+		msvc::unique_ptr<BSGFxShaderFXTarget>          itemCard_mc;                    // 190
+		msvc::unique_ptr<FXQuantityMenu>               quantityMenu_mc;                // 198
+		InventoryUserUIInterface                       playerInv;                      // 1A0
+		InventoryUserUIInterface                       containerInv;                   // 220
+		Inventory3DManager                             inv3DModelManager;              // 2A0
+		BSTArray<const TESBoundObject*>                partialPlayerUpdateList;        // 3E0
+		BSTArray<const TESBoundObject*>                partialContainerUpdateList;     // 3F8
+		REX::EnumSet<ContainerMenuMode, std::uint32_t> menuMode;                       // 410
+		Rumble::AutoRumblePause                        autoRumblePause;                // 414
+		DisableHeavyItemsFunc                          disableHeavyFunc;               // 418
+		ObjectRefHandle                                containerRef;                   // 428
+		bool                                           suppressed;                     // 42C
+		bool                                           menuOpening;                    // 42D
 	};
 	static_assert(sizeof(ContainerMenuBase) == 0x430);
 
@@ -1489,31 +1528,51 @@ namespace RE
 		static constexpr auto MENU_NAME{ "ContainerMenu"sv };
 
 		// override
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                                                               // 03
-		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
-		virtual bool GetCanEquipItem(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                   // 17
-		virtual bool GetIsItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                 // 18
-		virtual void ToggleItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                // 19
-		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 22
-		virtual void UpdateItemPickpocketInfo(std::int32_t a_index, bool a_inContainer, std::int32_t a_count) override;                                         // 25
-		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 26
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                                                                             // 03
+		virtual void               DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
+		virtual bool               GetCanEquipItem(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                   // 17
+		virtual bool               GetIsItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                 // 18
+		virtual void               ToggleItemEquipped(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                // 19
+		virtual void               PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 22
+		virtual void               UpdateItemPickpocketInfo(std::int32_t a_index, bool a_inContainer, std::int32_t a_count) override;                                         // 25
+		virtual void               UpdateList(bool a_inContainer) override;                                                                                                   // 26
 
 		void TakeAllItems()
 		{
 			using func_t = decltype(&ContainerMenu::TakeAllItems);
-			REL::Relocation<func_t> func{ REL::ID(1323703) };
+			static REL::Relocation<func_t> func{ REL::ID(1323703) };
 			return func(this);
 		}
 
 		// members
-		msvc::unique_ptr<BSGFxShaderFXTarget> pickpocketInfo_mc;  // 430
-		std::uint32_t valueStolenFromContainer;                   // 438
-		bool containerAccessed;                                   // 43C
-		bool addedTempItems;                                      // 43D
-		bool plantedExplosiveWeapon;                              // 43E
-		bool containerIsAnimatingOpen;                            // 43F
+		msvc::unique_ptr<BSGFxShaderFXTarget> pickpocketInfo_mc;         // 430
+		std::uint32_t                         valueStolenFromContainer;  // 438
+		bool                                  containerAccessed;         // 43C
+		bool                                  addedTempItems;            // 43D
+		bool                                  plantedExplosiveWeapon;    // 43E
+		bool                                  containerIsAnimatingOpen;  // 43F
 	};
 	static_assert(sizeof(ContainerMenu) == 0x440);
+
+	class __declspec(novtable) DialogueMenu :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::DialogueMenu };
+		static constexpr auto VTABLE{ VTABLE::DialogueMenu };
+		static constexpr auto MENU_NAME{ "DialogueMenu"sv };
+
+		// Members
+		msvc::unique_ptr<BSGFxShaderFXTarget>                   dialogueButtonOBJs[4];
+		msvc::unique_ptr<BSGFxShaderFXTarget>                   speechChallengeAnimObj;
+		BSTValueEventSink<HUDPerkVaultBoySwfDisplayEvent>       CurrentVBPerk;
+		BSTValueEventSource<ShowingDialogueSpeechChallengeAnim> ShowingSpeechChallenge;
+		BSTSmartPointer<BSInputEnableLayer>                     inputLayer;
+		UserEvents::INPUT_CONTEXT_ID                            CurrentContext;
+		bool                                                    IsLookingAtPlayer;
+		bool                                                    AreButtonsShown;
+	};
+	static_assert(sizeof(DialogueMenu) == 0x168);
 
 	class __declspec(novtable) BarterMenuTentativeInventoryUIInterface :
 		public InventoryUserUIInterface  // 00
@@ -1535,53 +1594,53 @@ namespace RE
 		public:
 			// members
 			BSTHashMap<std::uint32_t, std::int32_t> stackQuantityMap;  // 00
-			std::uint32_t capsOwedByPlayer;                            // 30
+			std::uint32_t                           capsOwedByPlayer;  // 30
 		};
 		static_assert(sizeof(ItemBarterData) == 0x38);
 
 		// override
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                                                               // 03
-		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;                                                                           // 0F
-		virtual void ConfirmInvestment() override;                                                                                                              // 14
-		virtual void DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
-		virtual bool GetDisplayBarterValues() override;                                                                                                         // 16
-		virtual std::uint32_t GetItemValue(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                             // 1A
-		virtual const InventoryUserUIInterfaceEntry* GetInventoryItemByListIndex(bool a_inContainer, std::uint32_t a_index) override;                           // 1B
-		virtual void PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 1C
-		virtual void SetMenuSuppressed(bool a_suppressed) override;                                                                                             // 1D
-		virtual void UpdateEncumbranceAndCaps(bool a_inContainer, std::int32_t a_capsDifferential) override;                                                    // 1E
-		virtual void UpdateList(bool a_inContainer) override;                                                                                                   // 20
+		virtual UI_MESSAGE_RESULTS                   ProcessMessage(UIMessage& a_message) override;                                                                                             // 03
+		virtual bool                                 OnButtonEventRelease(const BSFixedString& a_eventName) override;                                                                           // 0F
+		virtual void                                 ConfirmInvestment() override;                                                                                                              // 14
+		virtual void                                 DoItemTransfer(std::uint32_t a_itemIndex, std::uint32_t a_count, bool a_fromContainer) override;                                           // 15
+		virtual bool                                 GetDisplayBarterValues() override;                                                                                                         // 16
+		virtual std::uint32_t                        GetItemValue(std::uint32_t a_itemIndex, bool a_inContainer) override;                                                                      // 1A
+		virtual const InventoryUserUIInterfaceEntry* GetInventoryItemByListIndex(bool a_inContainer, std::uint32_t a_index) override;                                                           // 1B
+		virtual void                                 PopulateMenuObj(ObjectRefHandle a_inventoryRef, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_menuObj) override;  // 1C
+		virtual void                                 SetMenuSuppressed(bool a_suppressed) override;                                                                                             // 1D
+		virtual void                                 UpdateEncumbranceAndCaps(bool a_inContainer, std::int32_t a_capsDifferential) override;                                                    // 1E
+		virtual void                                 UpdateList(bool a_inContainer) override;                                                                                                   // 20
 
 		void ClearTradingData()
 		{
 			using func_t = decltype(&BarterMenu::ClearTradingData);
-			REL::Relocation<func_t> func{ REL::ID(1112285) };
+			static REL::Relocation<func_t> func{ REL::ID(1112285) };
 			return func(this);
 		}
 
 		void CompleteTrade()
 		{
 			using func_t = decltype(&BarterMenu::CompleteTrade);
-			REL::Relocation<func_t> func{ REL::ID(379932) };
+			static REL::Relocation<func_t> func{ REL::ID(379932) };
 			return func(this);
 		}
 
 		[[nodiscard]] std::int64_t GetCapsOwedByPlayer()
 		{
 			using func_t = decltype(&BarterMenu::GetCapsOwedByPlayer);
-			REL::Relocation<func_t> func{ REL::ID(672405) };
+			static REL::Relocation<func_t> func{ REL::ID(672405) };
 			return func(this);
 		}
 
 		// members
-		BSTHashMap<InventoryInterface::Handle*, ItemBarterData*> barteredItems;  // 430
-		msvc::unique_ptr<BSGFxShaderFXTarget> capsTransferInfo_mc;               // 460
-		msvc::unique_ptr<BSGFxShaderFXTarget> capsTransferBackground_mc;         // 468
-		ObjectRefHandle vendorChestRef;                                          // 470
-		ObjectRefHandle vendorActor;                                             // 474
-		BarterMenuTentativeInventoryUIInterface playerTentativeInv;              // 478
-		BarterMenuTentativeInventoryUIInterface containerTentativeInv;           // 4F8
-		bool confirmingTrade;                                                    // 578
+		BSTHashMap<InventoryInterface::Handle*, ItemBarterData*> barteredItems;              // 430
+		msvc::unique_ptr<BSGFxShaderFXTarget>                    capsTransferInfo_mc;        // 460
+		msvc::unique_ptr<BSGFxShaderFXTarget>                    capsTransferBackground_mc;  // 468
+		ObjectRefHandle                                          vendorChestRef;             // 470
+		ObjectRefHandle                                          vendorActor;                // 474
+		BarterMenuTentativeInventoryUIInterface                  playerTentativeInv;         // 478
+		BarterMenuTentativeInventoryUIInterface                  containerTentativeInv;      // 4F8
+		bool                                                     confirmingTrade;            // 578
 	};
 	static_assert(sizeof(BarterMenu) == 0x580);
 
@@ -1595,14 +1654,14 @@ namespace RE
 		static constexpr auto MENU_NAME{ "MessageBoxMenu"sv };
 
 		// override
-		virtual void Call(const Params&) override;                       // 01
-		virtual void MapCodeObjectFunctions() override;                  // 02
+		virtual void               Call(const Params&) override;         // 01
+		virtual void               MapCodeObjectFunctions() override;    // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage&) override;  // 03
 
 		void ShowMessage()
 		{
 			using func_t = decltype(&MessageBoxMenu::ShowMessage);
-			REL::Relocation<func_t> func{ REL::ID(442479) };
+			static REL::Relocation<func_t> func{ REL::ID(442479) };
 			return func(this);
 		}
 
@@ -1631,16 +1690,16 @@ namespace RE
 			InitParams();
 
 			// members
-			ObjectRefHandle workbenchFurniture;             // 00
-			ObjectRefHandle inventorySource;                // 04
-			InventoryInterface::Handle item{ 0xFFFFFFFF };  // 08
-			NiPointer<Actor> actor{ nullptr };              // 10
-			std::uint32_t stack{ 0 };                       // 18
-			bool inspectMode{ true };                       // 1C
-			bool inspectingSingleItem{ false };             // 1D
-			bool inspectingFeaturedItem{ false };           // 1E
-			bool showFeaturedItemMessage{ false };          // 1F
-			bool botCompanion{ false };                     // 20
+			ObjectRefHandle            workbenchFurniture;                // 00
+			ObjectRefHandle            inventorySource;                   // 04
+			InventoryInterface::Handle item{ 0xFFFFFFFF };                // 08
+			NiPointer<Actor>           actor{ nullptr };                  // 10
+			std::uint32_t              stack{ 0 };                        // 18
+			bool                       inspectMode{ true };               // 1C
+			bool                       inspectingSingleItem{ false };     // 1D
+			bool                       inspectingFeaturedItem{ false };   // 1E
+			bool                       showFeaturedItemMessage{ false };  // 1F
+			bool                       botCompanion{ false };             // 20
 		};
 		static_assert(sizeof(InitParams) == 0x28);
 
@@ -1651,13 +1710,13 @@ namespace RE
 			union
 			{
 				BGSMod::Attachment::Mod* mod;
-				TESBoundObject* object;
+				TESBoundObject*          object;
 			};                                                                              // 00
-			const BGSConstructibleObject* recipe;                                           // 08
+			const BGSConstructibleObject*                                   recipe;         // 08
 			BSTArray<BSTTuple<TESForm*, BGSTypedFormValuePair::SharedVal>>* requiredItems;  // 10
-			BSTArray<BSTTuple<BGSPerk*, std::uint32_t>> requiredPerks;                      // 18
-			std::uint8_t rank;                                                              // 30
-			std::uint8_t index;                                                             // 31
+			BSTArray<BSTTuple<BGSPerk*, std::uint32_t>>                     requiredPerks;  // 18
+			std::uint8_t                                                    rank;           // 30
+			std::uint8_t                                                    index;          // 31
 		};
 		static_assert(sizeof(ModChoiceData) == 0x38);
 
@@ -1676,37 +1735,37 @@ namespace RE
 		virtual void OnButtonEvent(const ButtonEvent*) override;          // 08
 
 		// add
-		virtual void OnHideMenu();                                 // 14
-		virtual void UpdateMenu();                                 // 15
-		virtual void BuildCanceled();                              // 16
-		virtual void BuildConfirmed(bool a_ownerIsWorkbench) = 0;  // 17
-		virtual bool GetWorkbenchHasInventory();                   // 18
-		virtual const ModChoiceData* QCurrentModChoiceData();      // 19
-		virtual void ShowBuildFailureMessage();                    // 1A
-		virtual bool TryCreate() = 0;                              // 1B
+		virtual void                 OnHideMenu();                                 // 14
+		virtual void                 UpdateMenu();                                 // 15
+		virtual void                 BuildCanceled();                              // 16
+		virtual void                 BuildConfirmed(bool a_ownerIsWorkbench) = 0;  // 17
+		virtual bool                 GetWorkbenchHasInventory();                   // 18
+		virtual const ModChoiceData* QCurrentModChoiceData();                      // 19
+		virtual void                 ShowBuildFailureMessage();                    // 1A
+		virtual bool                 TryCreate() = 0;                              // 1B
 
 		// members
-		NiPointer<TESObjectREFR> sharedContainerRef;                   // 0E0
-		NiPointer<TESObjectREFR> workbenchContainerRef;                // 0E8
-		BSTArray<NiPointer<TESObjectREFR>> sharedContainers;           // 0F0
-		Inventory3DManager inv3DModelManager;                          // 110
-		BGSInventoryList optimizedAutoBuildInv;                        // 250
-		BSTArray<ModChoiceData> modChoiceArray;                        // 2D0
-		std::uint32_t modChoiceIndex;                                  // 2E8
-		std::uint32_t lastModChoiceIndex;                              // 2EC
-		bool repairing;                                                // 2F0
-		bool queueHide;                                                // 2F1
-		bool hiding;                                                   // 2F2
-		bool VATSWasEnabled;                                           // 2F3
-		NiPointer<TESObjectREFR> workbenchRef;                         // 2F8
-		BSTSmartPointer<ExtraDataList> recipeExtraDataList;            // 300
-		NiPointer<NiNode> item3DGeometry;                              // 308
-		BSTArray<TESForm*> queuedCraftingComponents;                   // 310
-		std::uint64_t soundTimer;                                      // 328
-		stl::enumeration<HighlightMode, std::uint32_t> highlightMode;  // 330
-		Rumble::AutoRumblePause autoRumblePause;                       // 334
-		bool initialized;                                              // 335
-		bool soundsQueued;                                             // 336
+		NiPointer<TESObjectREFR>                   sharedContainerRef;        // 0E0
+		NiPointer<TESObjectREFR>                   workbenchContainerRef;     // 0E8
+		BSTArray<NiPointer<TESObjectREFR>>         sharedContainers;          // 0F0
+		Inventory3DManager                         inv3DModelManager;         // 110
+		BGSInventoryList                           optimizedAutoBuildInv;     // 250
+		BSTArray<ModChoiceData>                    modChoiceArray;            // 2D0
+		std::uint32_t                              modChoiceIndex;            // 2E8
+		std::uint32_t                              lastModChoiceIndex;        // 2EC
+		bool                                       repairing;                 // 2F0
+		bool                                       queueHide;                 // 2F1
+		bool                                       hiding;                    // 2F2
+		bool                                       VATSWasEnabled;            // 2F3
+		NiPointer<TESObjectREFR>                   workbenchRef;              // 2F8
+		BSTSmartPointer<ExtraDataList>             recipeExtraDataList;       // 300
+		NiPointer<NiNode>                          item3DGeometry;            // 308
+		BSTArray<TESForm*>                         queuedCraftingComponents;  // 310
+		std::uint64_t                              soundTimer;                // 328
+		REX::EnumSet<HighlightMode, std::uint32_t> highlightMode;             // 330
+		Rumble::AutoRumblePause                    autoRumblePause;           // 334
+		bool                                       initialized;               // 335
+		bool                                       soundsQueued;              // 336
 	};
 	static_assert(sizeof(WorkbenchMenuBase) == 0x340);
 
@@ -1769,10 +1828,10 @@ namespace RE
 			F4_HEAP_REDEFINE_NEW(InitData);
 
 			// members
-			BSFixedString confirmQuestion;                                                      // 08
-			BSFixedStringCS buttonLabel;                                                        // 10
-			stl::enumeration<CONFIRM_TYPE, std::int32_t> confirmType{ CONFIRM_TYPE::kSimple };  // 18
-			bool hasCancelButton{ true };                                                       // 1C
+			BSFixedString                            confirmQuestion;                       // 08
+			BSFixedStringCS                          buttonLabel;                           // 10
+			REX::EnumSet<CONFIRM_TYPE, std::int32_t> confirmType{ CONFIRM_TYPE::kSimple };  // 18
+			bool                                     hasCancelButton{ true };               // 1C
 		};
 		static_assert(sizeof(InitData) == 0x20);
 
@@ -1796,8 +1855,8 @@ namespace RE
 			F4_HEAP_REDEFINE_NEW(InitDataScrap);
 
 			// members
-			BSFixedStringCS scrapSourceName;                                  // 20
-			BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrapResults;  // 28
+			BSFixedStringCS                                    scrapSourceName;  // 20
+			BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrapResults;     // 28
 		};
 		static_assert(sizeof(InitDataScrap) == 0x40);
 
@@ -1847,21 +1906,21 @@ namespace RE
 		public:
 			// members
 			BSTArray<BSTTuple<BGSComponent*, std::uint8_t>> components;  // 00
-			TESObjectMISC* a_object;                                     // 18
-			std::uint32_t a_index;                                       // 20
+			TESObjectMISC*                                  a_object;    // 18
+			std::uint32_t                                   a_index;     // 20
 		};
 		static_assert(sizeof(ComponentBuilderFunctor) == 0x28);
 
 		virtual ~ExamineMenu();  // 00
 
 		// override (WorkbenchMenuBase)
-		virtual void Call(const Params&) override;                                    // 01
-		virtual void MapCodeObjectFunctions() override;                               // 02
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;     // 03
-		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;  // 04
-		virtual void OnHideMenu() override;                                           // 14
-		virtual void BuildConfirmed(bool a_ownerIsWorkbench) override;                // 17
-		virtual bool TryCreate() override;                                            // 1B
+		virtual void               Call(const Params&) override;                                    // 01
+		virtual void               MapCodeObjectFunctions() override;                               // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                   // 03
+		virtual void               AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;  // 04
+		virtual void               OnHideMenu() override;                                           // 14
+		virtual void               BuildConfirmed(bool a_ownerIsWorkbench) override;                // 17
+		virtual bool               TryCreate() override;                                            // 1B
 
 		// override (BSInputEventUser)
 		virtual bool ShouldHandleEvent(const InputEvent*) override;       // 01
@@ -1870,117 +1929,191 @@ namespace RE
 		virtual void OnButtonEvent(const ButtonEvent*) override;          // 08
 
 		// add
-		virtual EQUIP_TYPE GetInventoryEntryEquipState(const InventoryUserUIInterfaceEntry& a_entry);                                                    // 1C
-		virtual void ShowCurrent3D();                                                                                                                    // 1D
-		virtual TESBoundObject* GetCurrentObj();                                                                                                         // 1E
-		virtual void FindWeaponMods(TESBoundObject* a_object, Scaleform::GFx::Value& a_modList);                                                         // 1F
-		virtual void BuildPossibleModList(TESBoundObject* a_object);                                                                                     // 20
-		virtual void SwitchMod(std::int32_t a_index, Scaleform::GFx::Value& a_entryList);                                                                // 21
-		virtual void NextItemPart();                                                                                                                     // 22
-		virtual void PreviousItemPart();                                                                                                                 // 23
-		virtual void AttachModToPreview(bool a_storeModelPosition);                                                                                      // 24
-		virtual BGSObjectInstanceExtra* GetInitialObjectInstanceExtra();                                                                                 // 25
-		virtual BGSObjectInstanceExtra* GetObjectInstanceExtra();                                                                                        // 26
-		virtual const ExtraDataList* GetItemExtraDataList();                                                                                             // 27
-		virtual void HighlightWeaponPart();                                                                                                              // 28
-		virtual void ResetHighlight();                                                                                                                   // 29
-		virtual void CreateModdedInventoryItem();                                                                                                        // 2A
-		virtual void RevertToInventoryItem();                                                                                                            // 2B
-		virtual const char* GetCurrentName();                                                                                                            // 2C
-		virtual void RenameCurrent(const char* a_newName);                                                                                               // 2D
-		virtual void UpdateItemCard(bool a_compare);                                                                                                     // 2E
-		virtual void UpdateItemList(std::int32_t a_indexToSelect);                                                                                       // 2F
-		virtual const char* GetBuildConfirmButtonLabel();                                                                                                // 30
-		virtual void GetBuildConfirmQuestion(char* a_buffer, std::uint32_t a_bufferLength);                                                              // 31
-		virtual bool GetCanRepairSelectedItem();                                                                                                         // 32
-		virtual NiAVObject* GetCurrent3D();                                                                                                              // 33
-		virtual bool GetCurrent3DLoaded();                                                                                                               // 34
-		virtual bool GetIsValidInventoryItem(const BGSInventoryItem& a_item, std::uint32_t a_stackID);                                                   // 35
-		virtual const char* GetMenuName();                                                                                                               // 36
-		virtual void OnSwitchBaseItem();                                                                                                                 // 37
-		virtual void PopulateInventoryItemObj(ObjectRefHandle a_owner, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_itemObj);  // 38
-		virtual void RegisterMenuComponents(const Scaleform::GFx::FunctionHandler::Params& a_params);                                                    // 39
-		virtual void RepairSelectedItem();                                                                                                               // 3A
-		virtual void SetFilter();                                                                                                                        // 3B
-		virtual void SetMouseRotation(bool a_rotation);                                                                                                  // 3C
-		virtual void ToggleItemEquipped();                                                                                                               // 3D
-		virtual void UpdateModSlotList();                                                                                                                // 3E
-		virtual void UpdateModChoiceList();                                                                                                              // 3F
-		virtual const char* GetRankSuffix(std::uint32_t a_rank);                                                                                         // 40
-		virtual bool QIgnoreRank();                                                                                                                      // 41
-		virtual bool ShouldInitToFirstMod();                                                                                                             // 42
-		virtual void SetDataForConditionCheck();                                                                                                         // 43
-		virtual bool AddLooseModToModChoiceArray(BGSMod::Attachment::Mod* a_mod, std::uint8_t a_rank);                                                   // 44
-		virtual bool ShouldShowModSlot(const BGSKeyword* a_keyword);                                                                                     // 45
+		virtual EQUIP_TYPE              GetInventoryEntryEquipState(const InventoryUserUIInterfaceEntry& a_entry);                                                          // 1C
+		virtual void                    ShowCurrent3D();                                                                                                                    // 1D
+		virtual TESBoundObject*         GetCurrentObj();                                                                                                                    // 1E
+		virtual void                    FindWeaponMods(TESBoundObject* a_object, Scaleform::GFx::Value& a_modList);                                                         // 1F
+		virtual void                    BuildPossibleModList(TESBoundObject* a_object);                                                                                     // 20
+		virtual void                    SwitchMod(std::int32_t a_index, Scaleform::GFx::Value& a_entryList);                                                                // 21
+		virtual void                    NextItemPart();                                                                                                                     // 22
+		virtual void                    PreviousItemPart();                                                                                                                 // 23
+		virtual void                    AttachModToPreview(bool a_storeModelPosition);                                                                                      // 24
+		virtual BGSObjectInstanceExtra* GetInitialObjectInstanceExtra();                                                                                                    // 25
+		virtual BGSObjectInstanceExtra* GetObjectInstanceExtra();                                                                                                           // 26
+		virtual const ExtraDataList*    GetItemExtraDataList();                                                                                                             // 27
+		virtual void                    HighlightWeaponPart();                                                                                                              // 28
+		virtual void                    ResetHighlight();                                                                                                                   // 29
+		virtual void                    CreateModdedInventoryItem();                                                                                                        // 2A
+		virtual void                    RevertToInventoryItem();                                                                                                            // 2B
+		virtual const char*             GetCurrentName();                                                                                                                   // 2C
+		virtual void                    RenameCurrent(const char* a_newName);                                                                                               // 2D
+		virtual void                    UpdateItemCard(bool a_compare);                                                                                                     // 2E
+		virtual void                    UpdateItemList(std::int32_t a_indexToSelect);                                                                                       // 2F
+		virtual const char*             GetBuildConfirmButtonLabel();                                                                                                       // 30
+		virtual void                    GetBuildConfirmQuestion(char* a_buffer, std::uint32_t a_bufferLength);                                                              // 31
+		virtual bool                    GetCanRepairSelectedItem();                                                                                                         // 32
+		virtual NiAVObject*             GetCurrent3D();                                                                                                                     // 33
+		virtual bool                    GetCurrent3DLoaded();                                                                                                               // 34
+		virtual bool                    GetIsValidInventoryItem(const BGSInventoryItem& a_item, std::uint32_t a_stackID);                                                   // 35
+		virtual const char*             GetMenuName();                                                                                                                      // 36
+		virtual void                    OnSwitchBaseItem();                                                                                                                 // 37
+		virtual void                    PopulateInventoryItemObj(ObjectRefHandle a_owner, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_itemObj);  // 38
+		virtual void                    RegisterMenuComponents(const Scaleform::GFx::FunctionHandler::Params& a_params);                                                    // 39
+		virtual void                    RepairSelectedItem();                                                                                                               // 3A
+		virtual void                    SetFilter();                                                                                                                        // 3B
+		virtual void                    SetMouseRotation(bool a_rotation);                                                                                                  // 3C
+		virtual void                    ToggleItemEquipped();                                                                                                               // 3D
+		virtual void                    UpdateModSlotList();                                                                                                                // 3E
+		virtual void                    UpdateModChoiceList();                                                                                                              // 3F
+		virtual const char*             GetRankSuffix(std::uint32_t a_rank);                                                                                                // 40
+		virtual bool                    QIgnoreRank();                                                                                                                      // 41
+		virtual bool                    ShouldInitToFirstMod();                                                                                                             // 42
+		virtual void                    SetDataForConditionCheck();                                                                                                         // 43
+		virtual bool                    AddLooseModToModChoiceArray(BGSMod::Attachment::Mod* a_mod, std::uint8_t a_rank);                                                   // 44
+		virtual bool                    ShouldShowModSlot(const BGSKeyword* a_keyword);                                                                                     // 45
 
 		void BuildWeaponScrappingArray()
 		{
 			using func_t = decltype(&ExamineMenu::BuildWeaponScrappingArray);
-			REL::Relocation<func_t> func{ REL::ID(646841) };
+			static REL::Relocation<func_t> func{ REL::ID(646841) };
 			return func(this);
 		}
 
 		[[nodiscard]] std::uint32_t GetSelectedIndex()
 		{
 			using func_t = decltype(&ExamineMenu::GetSelectedIndex);
-			REL::Relocation<func_t> func{ REL::ID(776503) };
+			static REL::Relocation<func_t> func{ REL::ID(776503) };
 			return func(this);
 		}
 
 		void ShowConfirmMenu(ExamineConfirmMenu::InitData* a_data, ExamineConfirmMenu::ICallback* a_callback)
 		{
 			using func_t = decltype(&ExamineMenu::ShowConfirmMenu);
-			REL::Relocation<func_t> func{ REL::ID(443081) };
+			static REL::Relocation<func_t> func{ REL::ID(443081) };
 			return func(this, a_data, a_callback);
 		}
 
 		// members
-		ComponentBuilderFunctor componentFunctor;                              // 340
-		stl::enumeration<INSPECT_MODE_STATE, std::uint32_t> inspectModeState;  // 368
-		ObjectRefHandle inventorySource;                                       // 36C
-		InventoryUserUIInterface invInterface;                                 // 370
-		InventoryInterface::Handle modItem;                                    // 3F0
-		std::uint32_t modStack;                                                // 3F4
-		BSTHashMap<std::uint32_t, std::uint32_t> scrappableItemsMap;           // 3F8
-		BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrappingArray;     // 420
-		BSTArray<BSTTuple<NiAVObject*, BGSKeyword const*>> slotObjects;        // 440
-		BSTSmartPointer<ExtraDataList> extraDataList;                          // 458
-		std::uint32_t slotObjectIndex;                                         // 460
-		Scaleform::GFx::Value buttonAnimBase;                                  // 468
-		Scaleform::GFx::Value itemList;                                        // 488
-		Scaleform::GFx::Value itemNameTextField;                               // 4A8
-		Scaleform::GFx::Value itemInfoList;                                    // 4C8
-		Scaleform::GFx::Value modChoiceList;                                   // 4E8
-		Scaleform::GFx::Value modSlotList;                                     // 508
-		Scaleform::GFx::Value currentModsList;                                 // 528
-		BGSInventoryItem moddedInventoryItem;                                  // 548
-		bool queueItemHighlight;                                               // 558
-		float zoomDistance;                                                    // 55C
-		float lastFrameDelta;                                                  // 560
-		float menuCursorLeftPct;                                               // 564
-		float menuCursorRightPct;                                              // 568
-		float menuCursorTopPct;                                                // 56C
-		float menuCursorBottomPct;                                             // 570
-		BSTArray<BGSComponent*> queuedSoundArray;                              // 578
-		std::byte attachPointSource3D[0x598 - 0x590];                          // 590 - TODO
-		const BGSMod::Attachment::Mod* nullMod;                                // 598
-		Scaleform::GFx::Value requirementsList;                                // 5A0
-		Scaleform::GFx::Value itemSelectList;                                  // 5C0
-		const BGSKeyword* keyword;                                             // 5E0
-		bool queueChangeCameraPosition;                                        // 5E8
-		bool returnToInspect;                                                  // 5E9
-		bool highlightStoredItem;                                              // 5EA
-		bool textEntry;                                                        // 5EB
-		bool virtualKeyboardPendingEvt;                                        // 5EC
-		bool inspectMode;                                                      // 5ED
-		bool inspectingSingleItem;                                             // 5EE
-		bool inspectingFeaturedItem;                                           // 5EF
-		bool showFeaturedItemMessage;                                          // 5F0
-		char renameItemTo[260];                                                // 5F1
-		char renameItemCancelState[260];                                       // 6F5
-		BSTSmartPointer<BSInputEnableLayer> inputLayer;                        // 800
+		ComponentBuilderFunctor                            componentFunctor;                    // 340
+		REX::EnumSet<INSPECT_MODE_STATE, std::uint32_t>    inspectModeState;                    // 368
+		ObjectRefHandle                                    inventorySource;                     // 36C
+		InventoryUserUIInterface                           invInterface;                        // 370
+		InventoryInterface::Handle                         modItem;                             // 3F0
+		std::uint32_t                                      modStack;                            // 3F4
+		BSTHashMap<std::uint32_t, std::uint32_t>           scrappableItemsMap;                  // 3F8
+		BSTArray<BSTTuple<TESBoundObject*, std::uint32_t>> scrappingArray;                      // 420
+		BSTArray<BSTTuple<NiAVObject*, BGSKeyword const*>> slotObjects;                         // 440
+		BSTSmartPointer<ExtraDataList>                     extraDataList;                       // 458
+		std::uint32_t                                      slotObjectIndex;                     // 460
+		Scaleform::GFx::Value                              buttonAnimBase;                      // 468
+		Scaleform::GFx::Value                              itemList;                            // 488
+		Scaleform::GFx::Value                              itemNameTextField;                   // 4A8
+		Scaleform::GFx::Value                              itemInfoList;                        // 4C8
+		Scaleform::GFx::Value                              modChoiceList;                       // 4E8
+		Scaleform::GFx::Value                              modSlotList;                         // 508
+		Scaleform::GFx::Value                              currentModsList;                     // 528
+		BGSInventoryItem                                   moddedInventoryItem;                 // 548
+		bool                                               queueItemHighlight;                  // 558
+		float                                              zoomDistance;                        // 55C
+		float                                              lastFrameDelta;                      // 560
+		float                                              menuCursorLeftPct;                   // 564
+		float                                              menuCursorRightPct;                  // 568
+		float                                              menuCursorTopPct;                    // 56C
+		float                                              menuCursorBottomPct;                 // 570
+		BSTArray<BGSComponent*>                            queuedSoundArray;                    // 578
+		std::byte                                          attachPointSource3D[0x598 - 0x590];  // 590 - TODO
+		const BGSMod::Attachment::Mod*                     nullMod;                             // 598
+		Scaleform::GFx::Value                              requirementsList;                    // 5A0
+		Scaleform::GFx::Value                              itemSelectList;                      // 5C0
+		const BGSKeyword*                                  keyword;                             // 5E0
+		bool                                               queueChangeCameraPosition;           // 5E8
+		bool                                               returnToInspect;                     // 5E9
+		bool                                               highlightStoredItem;                 // 5EA
+		bool                                               textEntry;                           // 5EB
+		bool                                               virtualKeyboardPendingEvt;           // 5EC
+		bool                                               inspectMode;                         // 5ED
+		bool                                               inspectingSingleItem;                // 5EE
+		bool                                               inspectingFeaturedItem;              // 5EF
+		bool                                               showFeaturedItemMessage;             // 5F0
+		char                                               renameItemTo[260];                   // 5F1
+		char                                               renameItemCancelState[260];          // 6F5
+		BSTSmartPointer<BSInputEnableLayer>                inputLayer;                          // 800
 	};
 	static_assert(sizeof(ExamineMenu) == 0x810);
+
+	class __declspec(novtable) LoadingMenu :
+		public GameMenuBase  // 00
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::LoadingMenu };
+		static constexpr auto VTABLE{ VTABLE::LoadingMenu };
+		static constexpr auto MENU_NAME{ "LoadingMenu"sv };
+
+		virtual ~LoadingMenu();  // 00
+
+		// override (GameMenuBase)
+		virtual void               Call(const Params&) override;                                     // 01
+		virtual void               MapCodeObjectFunctions() override;                                // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                    // 03
+		virtual void               AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
+		virtual bool               OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+
+		// override (BSInputEventUser)
+		virtual bool ShouldHandleEvent(const InputEvent*) override;       // 01
+		virtual void OnThumbstickEvent(const ThumbstickEvent*) override;  // 04
+		virtual void OnButtonEvent(const ButtonEvent*) override;          // 08
+
+		// members
+		BGSLocation*             loadLocation;                      // 0E0
+		TESLoadScreen*           artScreen;                         // 0E8
+		std::byte                upgrader[0x10];                    // 0F0 - TODO
+		BSTArray<TESLoadScreen*> validScreens;                      // 100
+		ModelDBHandle            foregroundModel;                   // 118
+		NiAVObject*              zoomTarget;                        // 120
+		ImageSpaceLUTData        LUT;                               // 128
+		std::uint32_t            numNonDefaultScreens;              // 198
+		float                    modelAggregateRotation;            // 19C
+		float                    modelMinAggregateRotation;         // 1A0
+		float                    modelMaxAggregateRotation;         // 1A4
+		float                    frameTimeDelta;                    // 1A8
+		float                    currentZoom;                       // 1AC
+		float                    minZoom;                           // 1B0
+		float                    maxZoom;                           // 1B4
+		float                    horizontalBound;                   // 1B8
+		float                    verticalBound;                     // 1BC
+		float                    verticalBoundOffset;               // 1BC
+		alignas(0x10) NiMatrix3 initialRotation;                    // 1D0
+		NiPoint2                    calcedPanMaxima;                // 200
+		NiPoint2                    calcedPanMinima;                // 208
+		std::uint64_t               lastAdvanceMovieTime;           // 210
+		std::uint64_t               lastUserInteractTime;           // 218
+		std::uint64_t               lastPanTime;                    // 220
+		std::uint64_t               lastRotationTime;               // 228
+		std::uint64_t               lastZoomTime;                   // 230
+		BSSoundHandle               rotationSoundLoop;              // 238
+		BSSoundHandle               zoomSoundLoop;                  // 240
+		const BGSModelMaterialSwap* modelMaterialSwap;              // 248
+		NiPoint3                    modelInitialRotation;           // 250
+		NiPoint3                    modelTranslationOffset;         // 25C
+		float                       modelScale;                     // 268
+		std::uint32_t               numFrames;                      // 26C
+		bool                        loadingIntoInterior;            // 270
+		bool                        menuAdded;                      // 271
+		bool                        leftButtonDown;                 // 272
+		bool                        rightButtonDown;                // 273
+		bool                        allowRotation;                  // 274
+		bool                        autoRotate;                     // 275
+		bool                        autoRotateInvert;               // 276
+		bool                        holoMode;                       // 277
+		bool                        loadScreenShown;                // 278
+		bool                        leftStickReady;                 // 279
+		bool                        rightStickReady;                // 27A
+		bool                        leftStickWasPreviouslyActive;   // 27B
+		bool                        rightStickWasPreviouslyActive;  // 27C
+		bool                        modelRequested;                 // 27D
+		bool                        PCKeysDebounced;                // 27E
+	};
+	static_assert(sizeof(LoadingMenu) == 0x280);
 
 	class __declspec(novtable) LockpickingMenu :
 		public GameMenuBase  // 00
@@ -1993,9 +2126,9 @@ namespace RE
 		virtual ~LockpickingMenu();  // 00
 
 		// override (GameMenuBase)
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;      // 03
-		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
-		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                    // 03
+		virtual void               AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
+		virtual bool               OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
 
 		// override (BSInputEventUser)
 		virtual bool ShouldHandleEvent(const InputEvent*) override;       // 01
@@ -2006,44 +2139,44 @@ namespace RE
 		static void OpenLockpickingMenu(TESObjectREFR* a_lockedRef)
 		{
 			using func_t = decltype(&LockpickingMenu::OpenLockpickingMenu);
-			REL::Relocation<func_t> func{ REL::ID(129892) };
+			static REL::Relocation<func_t> func{ REL::ID(129892) };
 			return func(a_lockedRef);
 		}
 
 		// members
-		NiMatrix3 origPickRotate;              // 0E0
-		NiPoint3 origPickTranslate;            // 110
-		NiControllerManager* lockAnimManager;  // 120
-		NiControllerSequence* lockIntroAnim;   // 128
-		NiControllerSequence* lockRotateAnim;  // 130
-		NiControllerManager* pickAnimManager;  // 138
-		NiControllerSequence* pickIntroAnim;   // 140
-		NiControllerSequence* pickBendAnim;    // 148
-		NiControllerSequence* pickBreakAnim;   // 150
-		NiControllerSequence* currPickAnim;    // 158
-		NiControllerSequence* currLockAnim;    // 160
-		void* lockModel;                       // 168
-		void* pickModel;                       // 170
-		NiPointer<NiNode> lockRoot;            // 178
-		float currPickAnimElapsedSecs;         // 180
-		float currLockAnimElapsedSecs;         // 184
-		float pickAngle;                       // 188
-		float lockAngle;                       // 18C
-		float lockDamagePickAngle;             // 190
-		float pickBreakSecs;                   // 194
-		BSSoundHandle pickTensionSound;        // 198
-		float sweetSpotCenter;                 // 1A0
-		float sweetSpotLength;                 // 1A4
-		float partialPickLength;               // 1A8
-		std::uint32_t picksBroken;             // 1AC
-		bool modelsInit;                       // 1B0
-		bool animating;                        // 1B1
-		bool turningLock;                      // 1B2
-		bool menuCleanedUp;                    // 1B3
-		bool tutorialMenuOpening;              // 1B4
-		bool crimeDetected;                    // 1B5
-		bool VATSWasEnabled;                   // 1B6
-		bool VATSDepthTestMask;                // 1B7
+		NiMatrix3             origPickRotate;           // 0E0
+		NiPoint3              origPickTranslate;        // 110
+		NiControllerManager*  lockAnimManager;          // 120
+		NiControllerSequence* lockIntroAnim;            // 128
+		NiControllerSequence* lockRotateAnim;           // 130
+		NiControllerManager*  pickAnimManager;          // 138
+		NiControllerSequence* pickIntroAnim;            // 140
+		NiControllerSequence* pickBendAnim;             // 148
+		NiControllerSequence* pickBreakAnim;            // 150
+		NiControllerSequence* currPickAnim;             // 158
+		NiControllerSequence* currLockAnim;             // 160
+		void*                 lockModel;                // 168
+		void*                 pickModel;                // 170
+		NiPointer<NiNode>     lockRoot;                 // 178
+		float                 currPickAnimElapsedSecs;  // 180
+		float                 currLockAnimElapsedSecs;  // 184
+		float                 pickAngle;                // 188
+		float                 lockAngle;                // 18C
+		float                 lockDamagePickAngle;      // 190
+		float                 pickBreakSecs;            // 194
+		BSSoundHandle         pickTensionSound;         // 198
+		float                 sweetSpotCenter;          // 1A0
+		float                 sweetSpotLength;          // 1A4
+		float                 partialPickLength;        // 1A8
+		std::uint32_t         picksBroken;              // 1AC
+		bool                  modelsInit;               // 1B0
+		bool                  animating;                // 1B1
+		bool                  turningLock;              // 1B2
+		bool                  menuCleanedUp;            // 1B3
+		bool                  tutorialMenuOpening;      // 1B4
+		bool                  crimeDetected;            // 1B5
+		bool                  VATSWasEnabled;           // 1B6
+		bool                  VATSDepthTestMask;        // 1B7
 	};
 	static_assert(sizeof(LockpickingMenu) == 0x1C0);
 
@@ -2058,22 +2191,22 @@ namespace RE
 		virtual ~SitWaitMenu();  // 00
 
 		// override (GameMenuBase)
-		virtual void Call(const Params&) override;                                                               // 01
-		virtual void MapCodeObjectFunctions() override;                                                          // 02
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                // 03
-		virtual void OnMenuStackChanged(const BSFixedString& a_topMenuName, bool a_passesTopMenuTest) override;  // 09
+		virtual void               Call(const Params&) override;                                                               // 01
+		virtual void               MapCodeObjectFunctions() override;                                                          // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                                              // 03
+		virtual void               OnMenuStackChanged(const BSFixedString& a_topMenuName, bool a_passesTopMenuTest) override;  // 09
 
 		static void OnEnterFurniture(ObjectRefHandle a_handle)
 		{
 			using func_t = decltype(&SitWaitMenu::OnEnterFurniture);
-			REL::Relocation<func_t> func{ REL::ID(562238) };
+			static REL::Relocation<func_t> func{ REL::ID(562238) };
 			return func(a_handle);
 		}
 
 		static void OnExitFurniture()
 		{
 			using func_t = decltype(&SitWaitMenu::OnExitFurniture);
-			REL::Relocation<func_t> func{ REL::ID(454795) };
+			static REL::Relocation<func_t> func{ REL::ID(454795) };
 			return func();
 		}
 
@@ -2094,10 +2227,10 @@ namespace RE
 			virtual ~IEventCallback();  // 00
 
 			// add
-			virtual void operator()() = 0;                  // 01
-			virtual bool Save(BSStorage& a_storage);        // 02
-			virtual const BSFixedString* GetType() = 0;     // 03
-			virtual bool Load(const BSStorage& a_storage);  // 04
+			virtual void                 operator()() = 0;                  // 01
+			virtual bool                 Save(BSStorage& a_storage);        // 02
+			virtual const BSFixedString* GetType() = 0;                     // 03
+			virtual bool                 Load(const BSStorage& a_storage);  // 04
 		};
 		static_assert(sizeof(IEventCallback) == 0x10);
 	}
@@ -2126,7 +2259,7 @@ namespace RE
 		{
 		public:
 			// members
-			const void* menuItem;         // 00 - BGSTerminal::MenuItem*
+			const void*        menuItem;  // 00 - BGSTerminal::MenuItem*
 			const BGSTerminal* terminal;  // 08
 		};
 		static_assert(sizeof(ListItem) == 0x10);
@@ -2134,33 +2267,33 @@ namespace RE
 		virtual ~TerminalMenu();  // 00
 
 		// override (GameMenuBase)
-		virtual void Call(const Params&) override;                                     // 01
-		virtual void MapCodeObjectFunctions() override;                                // 02
-		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;      // 03
-		virtual void AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
-		virtual bool CanHandleWhenDisabled(const ButtonEvent* a_event) override;       // 0E
-		virtual bool OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
+		virtual void               Call(const Params&) override;                                     // 01
+		virtual void               MapCodeObjectFunctions() override;                                // 02
+		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                    // 03
+		virtual void               AdvanceMovie(float a_timeDelta, std::uint64_t a_time) override;   // 04
+		virtual bool               CanHandleWhenDisabled(const ButtonEvent* a_event) override;       // 0E
+		virtual bool               OnButtonEventRelease(const BSFixedString& a_eventName) override;  // 0F
 
 		// override (BSInputEventUser)
 		virtual bool ShouldHandleEvent(const InputEvent* a_event) override;  // 01
 		virtual void OnButtonEvent(const ButtonEvent* a_event) override;     // 08
 
 		// members
-		Scaleform::GFx::Value menuElements[6];                                           // 0E0
-		BSTArray<ListItem> menuItemList;                                                 // 1A0
-		BSTArray<NiPointer<NiAVObject>> culledObjects;                                   // 1B8
-		BSTArray<BGSTerminal*> history;                                                  // 1D0
-		BSTHashMap<void*, std::uint32_t> lastSelectionMap;                               // 1E8
+		Scaleform::GFx::Value                               menuElements[6];             // 0E0
+		BSTArray<ListItem>                                  menuItemList;                // 1A0
+		BSTArray<NiPointer<NiAVObject>>                     culledObjects;               // 1B8
+		BSTArray<BGSTerminal*>                              history;                     // 1D0
+		BSTHashMap<void*, std::uint32_t>                    lastSelectionMap;            // 1E8
 		BSTSmartPointer<REFREventCallbacks::IEventCallback> terminalRunResultsCallback;  // 218
-		BSScaleformExternalTexture displayImage;                                         // 220
-		BSSoundHandle charScrollLoop;                                                    // 238
-		stl::enumeration<Mode, std::uint32_t> mode;                                      // 240
-		std::uint64_t soundMark;                                                         // 248
-		std::uint64_t responseTextTimeout;                                               // 250
-		std::uint64_t loginTextTimeout;                                                  // 258
-		bool autoEjectHolotapeOnExit;                                                    // 260
-		bool cancelPressRegistered;                                                      // 261
-		bool autoLoadHolotape;                                                           // 262
+		BSScaleformExternalTexture                          displayImage;                // 220
+		BSSoundHandle                                       charScrollLoop;              // 238
+		REX::EnumSet<Mode, std::uint32_t>                   mode;                        // 240
+		std::uint64_t                                       soundMark;                   // 248
+		std::uint64_t                                       responseTextTimeout;         // 250
+		std::uint64_t                                       loginTextTimeout;            // 258
+		bool                                                autoEjectHolotapeOnExit;     // 260
+		bool                                                cancelPressRegistered;       // 261
+		bool                                                autoLoadHolotape;            // 262
 	};
 	static_assert(sizeof(TerminalMenu) == 0x268);
 
@@ -2175,8 +2308,8 @@ namespace RE
 		virtual ~TerminalMenuButtons();  // 00
 
 		// override (GameMenuBase)
-		virtual void Call(const Params&) override;                                 // 01
-		virtual void MapCodeObjectFunctions() override;                            // 02
+		virtual void               Call(const Params&) override;                   // 01
+		virtual void               MapCodeObjectFunctions() override;              // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 03
 	};
 	static_assert(sizeof(TerminalMenuButtons) == 0xE0);
@@ -2212,21 +2345,21 @@ namespace RE
 		static void ShowHolotapeInPipboy(const BSFixedString& a_holotapePath)
 		{
 			using func_t = decltype(&HolotapeMenu::ShowHolotapeInPipboy);
-			REL::Relocation<func_t> func{ REL::ID(217953) };
+			static REL::Relocation<func_t> func{ REL::ID(217953) };
 			return func(a_holotapePath);
 		}
 
 		static void ShowHolotapeInTerminal(const BSFixedString& a_holotapePath)
 		{
 			using func_t = decltype(&HolotapeMenu::ShowHolotapeInTerminal);
-			REL::Relocation<func_t> func{ REL::ID(390509) };
+			static REL::Relocation<func_t> func{ REL::ID(390509) };
 			return func(a_holotapePath);
 		}
 
 		// members
 		BSTArray<BSSoundHandle> registeredSounds;  // 0E8
-		bool useOwnCursor;                         // 100
-		bool isMinigame;                           // 101
+		bool                    useOwnCursor;      // 100
+		bool                    isMinigame;        // 101
 	};
 	static_assert(sizeof(HolotapeMenu) == 0x108);
 
@@ -2275,35 +2408,35 @@ namespace RE
 		virtual ~PowerArmorModMenu();  // 00
 
 		// override (ExamineMenu)
-		virtual void PreDisplay() override;
-		virtual void BuildCanceled() override;                                                                                                                    // 16
-		virtual void BuildConfirmed(bool a_ownerIsWorkbench) override;                                                                                            // 17
-		virtual bool GetWorkbenchHasInventory() override;                                                                                                         // 18
-		virtual const ModChoiceData* QCurrentModChoiceData() override;                                                                                            // 19
-		virtual void ShowBuildFailureMessage() override;                                                                                                          // 1A
-		virtual EQUIP_TYPE GetInventoryEntryEquipState(const InventoryUserUIInterfaceEntry& a_entry) override;                                                    // 1C
-		virtual void ShowCurrent3D() override;                                                                                                                    // 1D
-		virtual void HighlightWeaponPart() override;                                                                                                              // 28
-		virtual void ResetHighlight() override;                                                                                                                   // 29
-		virtual void CreateModdedInventoryItem() override;                                                                                                        // 2A
-		virtual const char* GetBuildConfirmButtonLabel() override;                                                                                                // 30
-		virtual void GetBuildConfirmQuestion(char* a_buffer, std::uint32_t a_bufferLength) override;                                                              // 31
-		virtual bool GetCanRepairSelectedItem() override;                                                                                                         // 32
-		virtual NiAVObject* GetCurrent3D() override;                                                                                                              // 33
-		virtual bool GetCurrent3DLoaded() override;                                                                                                               // 34
-		virtual bool GetIsValidInventoryItem(const BGSInventoryItem& a_item, std::uint32_t a_stackID) override;                                                   // 35
-		virtual const char* GetMenuName() override;                                                                                                               // 36
-		virtual void OnSwitchBaseItem() override;                                                                                                                 // 37
-		virtual void PopulateInventoryItemObj(ObjectRefHandle a_owner, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_itemObj) override;  // 38
-		virtual void RegisterMenuComponents(const Scaleform::GFx::FunctionHandler::Params& a_params) override;                                                    // 39
-		virtual void RepairSelectedItem() override;                                                                                                               // 3A
-		virtual void SetFilter() override;                                                                                                                        // 3B
-		virtual void ToggleItemEquipped() override;                                                                                                               // 3D
-		virtual void UpdateModChoiceList() override;                                                                                                              // 3F
+		virtual void                 PreDisplay() override;
+		virtual void                 BuildCanceled() override;                                                                                                                    // 16
+		virtual void                 BuildConfirmed(bool a_ownerIsWorkbench) override;                                                                                            // 17
+		virtual bool                 GetWorkbenchHasInventory() override;                                                                                                         // 18
+		virtual const ModChoiceData* QCurrentModChoiceData() override;                                                                                                            // 19
+		virtual void                 ShowBuildFailureMessage() override;                                                                                                          // 1A
+		virtual EQUIP_TYPE           GetInventoryEntryEquipState(const InventoryUserUIInterfaceEntry& a_entry) override;                                                          // 1C
+		virtual void                 ShowCurrent3D() override;                                                                                                                    // 1D
+		virtual void                 HighlightWeaponPart() override;                                                                                                              // 28
+		virtual void                 ResetHighlight() override;                                                                                                                   // 29
+		virtual void                 CreateModdedInventoryItem() override;                                                                                                        // 2A
+		virtual const char*          GetBuildConfirmButtonLabel() override;                                                                                                       // 30
+		virtual void                 GetBuildConfirmQuestion(char* a_buffer, std::uint32_t a_bufferLength) override;                                                              // 31
+		virtual bool                 GetCanRepairSelectedItem() override;                                                                                                         // 32
+		virtual NiAVObject*          GetCurrent3D() override;                                                                                                                     // 33
+		virtual bool                 GetCurrent3DLoaded() override;                                                                                                               // 34
+		virtual bool                 GetIsValidInventoryItem(const BGSInventoryItem& a_item, std::uint32_t a_stackID) override;                                                   // 35
+		virtual const char*          GetMenuName() override;                                                                                                                      // 36
+		virtual void                 OnSwitchBaseItem() override;                                                                                                                 // 37
+		virtual void                 PopulateInventoryItemObj(ObjectRefHandle a_owner, const InventoryUserUIInterfaceEntry& a_entry, Scaleform::GFx::Value& a_itemObj) override;  // 38
+		virtual void                 RegisterMenuComponents(const Scaleform::GFx::FunctionHandler::Params& a_params) override;                                                    // 39
+		virtual void                 RepairSelectedItem() override;                                                                                                               // 3A
+		virtual void                 SetFilter() override;                                                                                                                        // 3B
+		virtual void                 ToggleItemEquipped() override;                                                                                                               // 3D
+		virtual void                 UpdateModChoiceList() override;                                                                                                              // 3F
 
 		// members
-		WorkbenchMenuBase::ModChoiceData repairData;  // 810
-		bool queuePreviewedPieceAttatch;              // 848
+		WorkbenchMenuBase::ModChoiceData repairData;                  // 810
+		bool                             queuePreviewedPieceAttatch;  // 848
 	};
 	static_assert(sizeof(PowerArmorModMenu) == 0x850);
 }

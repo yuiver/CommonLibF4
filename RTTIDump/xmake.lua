@@ -1,4 +1,4 @@
-target("RTTIDump")
+target("commonlibf4-rttidump")
     -- set build kind
     set_kind("shared")
 
@@ -6,13 +6,13 @@ target("RTTIDump")
     set_default(false)
 
     -- set build group
-    set_group("plugins")
+    set_group("commonlibf4/plugin")
 
     -- add dependencies
-    add_deps("CommonLibF4")
+    add_deps("commonlibf4")
 
     -- add packages
-    add_packages("spdlog", "srell")
+    add_packages("spdlog")
 
     -- add source files
     add_files("src/**.cpp")
@@ -21,4 +21,4 @@ target("RTTIDump")
     add_includedirs("src")
 
     -- set precompiled header
-    set_pcxxheader("src/PCH.h")
+    set_pcxxheader("src/pch.h")

@@ -55,46 +55,46 @@ namespace RE
 			return 0;
 		}
 
+		F4_HEAP_REDEFINE_ALIGNED_NEW(NiAlphaProperty);
+
 		void SetDestBlendMode(AlphaFunction f)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetDestBlendMode);
-			REL::Relocation<func_t> func{ REL::ID(725249) };
+			static REL::Relocation<func_t> func{ REL::ID(725249) };
 			return func(this, f);
 		}
 
 		void SetSrcBlendMode(AlphaFunction f)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetSrcBlendMode);
-			REL::Relocation<func_t> func{ REL::ID(976961) };
+			static REL::Relocation<func_t> func{ REL::ID(976961) };
 			return func(this, f);
 		}
 
 		void SetTestMode(TestFunction f)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetTestMode);
-			REL::Relocation<func_t> func{ REL::ID(976961), 0x20 };
+			static REL::Relocation<func_t> func{ REL::ID(976961), 0x20 };
 			return func(this, f);
 		}
 
 		void SetAlphaBlending(bool b)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetAlphaBlending);
-			REL::Relocation<func_t> func{ REL::ID(645586) };
+			static REL::Relocation<func_t> func{ REL::ID(645586) };
 			return func(this, b);
 		}
 
 		void SetAlphaTesting(bool b)
 		{
 			using func_t = decltype(&NiAlphaProperty::SetAlphaTesting);
-			REL::Relocation<func_t> func{ REL::ID(645586), 0x20 };
+			static REL::Relocation<func_t> func{ REL::ID(645586), 0x20 };
 			return func(this, b);
 		}
 
 		// members
-		NiTFlags<std::uint16_t, NiProperty> flags;  // 28
-		std::int8_t alphaTestRef;                   // 2A
-
-		F4_HEAP_REDEFINE_ALIGNED_NEW(NiAlphaProperty);
+		NiTFlags<std::uint16_t, NiProperty> flags;         // 28
+		std::int8_t                         alphaTestRef;  // 2A
 	};
 	static_assert(sizeof(NiAlphaProperty) == 0x30);
 }

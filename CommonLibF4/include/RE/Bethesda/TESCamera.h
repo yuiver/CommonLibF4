@@ -9,8 +9,7 @@
 #include "RE/Bethesda/BSTSingleton.h"
 #include "RE/Bethesda/BSTSmartPointer.h"
 #include "RE/Havok/hkRefPtr.h"
-#include "RE/NetImmerse/NiPoint2.h"
-#include "RE/NetImmerse/NiPoint3.h"
+#include "RE/NetImmerse/NiPoint.h"
 #include "RE/NetImmerse/NiQuaternion.h"
 #include "RE/NetImmerse/NiSmartPointer.h"
 
@@ -30,7 +29,7 @@ namespace RE
 
 	struct CameraStates
 	{
-		enum CameraState : unsigned
+		enum CameraState : std::uint32_t
 		{
 			kFirstPerson,
 			kAutoVanity,
@@ -51,14 +50,13 @@ namespace RE
 	};
 	using CameraState = CameraStates::CameraState;
 
-	class TESCameraState :
+	class __declspec(novtable) TESCameraState :
 		public BSIntrusiveRefCounted,  // 10
 		public BSInputEventUser        // 00
 	{
 	public:
-		static constexpr auto RTTI{ RTTI::TESCamera };
-		static constexpr auto VTABLE{ VTABLE::TESCamera };
-		static constexpr auto STATE{ CameraStates::k3rdPerson };
+		static constexpr auto RTTI{ RTTI::TESCameraState };
+		static constexpr auto VTABLE{ VTABLE::TESCameraState };
 
 		virtual ~TESCameraState();  // 00
 
@@ -73,17 +71,36 @@ namespace RE
 		virtual void Revert([[maybe_unused]] BGSLoadFormBuffer* a_loadGameBuffer) { return; }    // 10
 
 		// members
-		TESCamera* camera;                                // 18
-		stl::enumeration<CameraState, std::uint32_t> id;  // 20
+		TESCamera*                               camera;  // 18
+		REX::EnumSet<CameraState, std::uint32_t> id;      // 20
 	};
 	static_assert(sizeof(TESCameraState) == 0x28);
+
+	class __declspec(novtable) FreeCameraState :
+		public TESCameraState
+	{
+	public:
+		static constexpr auto RTTI{ RTTI::FreeCameraState };
+		static constexpr auto VTABLE{ VTABLE::FreeCameraState };
+		static constexpr auto STATE{ CameraStates::kFree };
+
+		NiPoint3         translation;
+		BSTPoint2<float> rotation;
+		BSTPoint2<float> upDown;
+		BSTPoint2<float> leftThumbstick;
+		BSTPoint2<float> rightThumbstick;
+		std::int16_t     worldZDirection;
+		bool             runInput;
+		bool             lockToZPlane;
+	};
+	static_assert(sizeof(FreeCameraState) == 0x58);
 
 	class __declspec(novtable) ThirdPersonState :
 		public TESCameraState  // 000
 	{
 	public:
-		static constexpr auto RTTI{ RTTI::TESCamera };
-		static constexpr auto VTABLE{ VTABLE::TESCamera };
+		static constexpr auto RTTI{ RTTI::ThirdPersonState };
+		static constexpr auto VTABLE{ VTABLE::ThirdPersonState };
 		static constexpr auto STATE{ CameraStates::k3rdPerson };
 
 		// add
@@ -94,47 +111,47 @@ namespace RE
 		virtual void HandleLookInput(const NiPoint2& a_input);                         // 15
 
 		// members
-		NiQuaternion rotation;               // 028
-		NiQuaternion animationRotation;      // 038
-		NiPoint3 translation;                // 048
-		NiPoint3 preCollisionTranslation;    // 054
-		NiPoint3 targetShoulderOffset;       // 060
-		NiPoint3 currentShoulderOffset;      // 06C
-		NiPoint3 animationTranslation;       // 078
-		NiPoint3 lastTranslation;            // 084
-		NiPoint3 rootOffset;                 // 090
-		NiPoint3 sideOffsetCollisionBlend;   // 09C
-		NiPoint3 nearestHit;                 // 0A8
-		NiPoint3 nearestHitDir;              // 0B4
-		NiPoint2 freeRotation;               // 0C0
-		BSFixedString animatedBoneName;      // 0C8
-		NiAVObject* thirdPersonCameraObj;    // 0D0
-		NiNode* thirdPersonFOVControl;       // 0D8
-		NiPointer<NiAVObject> animatedBone;  // 0E0
-		float targetZoomOffset;              // 0E8
-		float currentZoomOffset;             // 0EC
-		float targetYaw;                     // 0F0
-		float currentYaw;                    // 0F4
-		float cameraHeightAdjust;            // 0F8
-		float savedZoomOffset;               // 0FC
-		float pitchZoomOffset;               // 100
-		float zoomChange;                    // 104
-		NiPoint2 startTogglePOVFreeRot;      // 108
-		float collisionRecoveryFactor;       // 110
-		float savedCollisionPercent;         // 114
-		float animationBlend;                // 118
-		float animationBlendDirection;       // 11C
-		float searchDistanceBlend;           // 120
-		float searchLastCameraYaw;           // 124
-		bool freeRotationEnabled;            // 128
-		bool zoomingInto1st;                 // 129
-		bool show3rdPersonModel;             // 12A
-		bool preserveRotation;               // 12B
-		bool animatorMode;                   // 12C
-		bool applyOffsets;                   // 12D
-		bool togglePOVPressRegistered;       // 12E
-		bool wasUsingScreenSpaceLastFrame;   // 12F
-		bool ironSights;                     // 130
+		NiQuaternion          rotation;                      // 028
+		NiQuaternion          animationRotation;             // 038
+		NiPoint3              translation;                   // 048
+		NiPoint3              preCollisionTranslation;       // 054
+		NiPoint3              targetShoulderOffset;          // 060
+		NiPoint3              currentShoulderOffset;         // 06C
+		NiPoint3              animationTranslation;          // 078
+		NiPoint3              lastTranslation;               // 084
+		NiPoint3              rootOffset;                    // 090
+		NiPoint3              sideOffsetCollisionBlend;      // 09C
+		NiPoint3              nearestHit;                    // 0A8
+		NiPoint3              nearestHitDir;                 // 0B4
+		NiPoint2              freeRotation;                  // 0C0
+		BSFixedString         animatedBoneName;              // 0C8
+		NiAVObject*           thirdPersonCameraObj;          // 0D0
+		NiNode*               thirdPersonFOVControl;         // 0D8
+		NiPointer<NiAVObject> animatedBone;                  // 0E0
+		float                 targetZoomOffset;              // 0E8
+		float                 currentZoomOffset;             // 0EC
+		float                 targetYaw;                     // 0F0
+		float                 currentYaw;                    // 0F4
+		float                 cameraHeightAdjust;            // 0F8
+		float                 savedZoomOffset;               // 0FC
+		float                 pitchZoomOffset;               // 100
+		float                 zoomChange;                    // 104
+		NiPoint2              startTogglePOVFreeRot;         // 108
+		float                 collisionRecoveryFactor;       // 110
+		float                 savedCollisionPercent;         // 114
+		float                 animationBlend;                // 118
+		float                 animationBlendDirection;       // 11C
+		float                 searchDistanceBlend;           // 120
+		float                 searchLastCameraYaw;           // 124
+		bool                  freeRotationEnabled;           // 128
+		bool                  zoomingInto1st;                // 129
+		bool                  show3rdPersonModel;            // 12A
+		bool                  preserveRotation;              // 12B
+		bool                  animatorMode;                  // 12C
+		bool                  applyOffsets;                  // 12D
+		bool                  togglePOVPressRegistered;      // 12E
+		bool                  wasUsingScreenSpaceLastFrame;  // 12F
+		bool                  ironSights;                    // 130
 	};
 	static_assert(sizeof(ThirdPersonState) == 0x138);
 
@@ -152,12 +169,12 @@ namespace RE
 		virtual void Update();                                            // 03
 
 		// members
-		BSTPoint2<float> rotationInput;                // 08
-		BSTPoint3<float> translationInput;             // 10
-		float zoomInput;                               // 1C
-		NiPointer<NiNode> cameraRoot;                  // 20
-		BSTSmartPointer<TESCameraState> currentState;  // 28
-		bool enabled;                                  // 30
+		BSTPoint2<float>                rotationInput;     // 08
+		BSTPoint3<float>                translationInput;  // 10
+		float                           zoomInput;         // 1C
+		NiPointer<NiNode>               cameraRoot;        // 20
+		BSTSmartPointer<TESCameraState> currentState;      // 28
+		bool                            enabled;           // 30
 	};
 	static_assert(sizeof(TESCamera) == 0x38);
 
@@ -170,12 +187,12 @@ namespace RE
 		public BSTSingletonSDM<PlayerCamera>          // 060
 	{
 	public:
-		static constexpr auto RTTI{ RTTI::TESCamera };
-		static constexpr auto VTABLE{ VTABLE::TESCamera };
+		static constexpr auto RTTI{ RTTI::PlayerCamera };
+		static constexpr auto VTABLE{ VTABLE::PlayerCamera };
 
 		[[nodiscard]] static PlayerCamera* GetSingleton()
 		{
-			REL::Relocation<PlayerCamera**> singleton{ REL::ID(1171980) };
+			static REL::Relocation<PlayerCamera**> singleton{ REL::ID(2688801) };
 			return *singleton;
 		}
 
@@ -194,76 +211,90 @@ namespace RE
 		TESCameraState* PopState()
 		{
 			using func_t = decltype(&PlayerCamera::PopState);
-			REL::Relocation<func_t> func{ REL::ID(120998) };
+			static REL::Relocation<func_t> func{ REL::ID(2248424) };
 			return func(this);
 		}
 
 		TESCameraState* PushState(CameraState a_state)
 		{
 			using func_t = decltype(&PlayerCamera::PushState);
-			REL::Relocation<func_t> func{ REL::ID(746523) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this, a_state);
+		}
+
+		void ToggleFreeCameraMode(bool a_freezeTime)
+		{
+			using func_t = decltype(&PlayerCamera::ToggleFreeCameraMode);
+			static REL::Relocation<func_t> func{ REL::ID(2248368) };
+			return func(this, a_freezeTime);
 		}
 
 		void SetState(TESCameraState* a_newstate) const
 		{
 			using func_t = decltype(&PlayerCamera::SetState);
-			REL::Relocation<func_t> func{ REL::ID(858847) };
+			static REL::Relocation<func_t> func{ REL::ID(2214742) };
 			return func(this, a_newstate);
 		}
 
 		void StartFurnitureMode(TESObjectREFR* a_furniture)
 		{
 			using func_t = decltype(&PlayerCamera::StartFurnitureMode);
-			REL::Relocation<func_t> func{ REL::ID(10202) };
+			static REL::Relocation<func_t> func{ REL::ID(0) };
 			return func(this, a_furniture);
 		}
 
 		void StartPipboyMode(bool a_forcePipboyModeCamera)
 		{
 			using func_t = decltype(&PlayerCamera::StartPipboyMode);
-			REL::Relocation<func_t> func{ REL::ID(998069) };
+			static REL::Relocation<func_t> func{ REL::ID(2248358) };
 			return func(this, a_forcePipboyModeCamera);
 		}
 
 		void StopPipboyMode()
 		{
 			using func_t = decltype(&PlayerCamera::StopPipboyMode);
-			REL::Relocation<func_t> func{ REL::ID(811954) };
+			static REL::Relocation<func_t> func{ REL::ID(2248359) };
 			return func(this);
 		}
 
+		bool QCameraEquals(CameraState a_state)
+		{
+			using func_t = decltype(&PlayerCamera::QCameraEquals);
+			static REL::Relocation<func_t> func{ REL::ID(2248421) };
+			return func(this, a_state);
+		}
+
 		// members
-		ActorHandle cameraTarget;                                                               // 064
-		BSTSmallArray<BSTSmartPointer<TESCameraState>, CameraStates::kTotal> tempReturnStates;  // 068
-		BSTSmartPointer<TESCameraState> cameraStates[CameraStates::kTotal];                     // 0E0
-		hknpBodyId cameraBodyID;                                                                // 148
-		hkRefPtr<hknpShape> cameraShape;                                                        // 150
-		hkRefPtr<hknpBSWorld> physicsWorld;                                                     // 158
-		ActorHandle savedCollidedActor;                                                         // 160
-		ObjectRefHandle collisionIgnoredReference;                                              // 164
-		float worldFOV;                                                                         // 168
-		float firstPersonFOV;                                                                   // 16C
-		float fovAdjustCurrent;                                                                 // 170
-		float fovAdjustTarget;                                                                  // 174
-		float fovAdjustPerSec;                                                                  // 178
-		float fovAnimatorAdjust;                                                                // 17C
-		float collisionDistPercent;                                                             // 180
-		float curPlayerVisible;                                                                 // 184
-		NiPoint3 bufferedCameraPos;                                                             // 188
-		float heading;                                                                          // 194
-		float timeInPitchZero;                                                                  // 198
-		float originalPitchToZero;                                                              // 19C
-		std::uint32_t furnitureCollisionGroup;                                                  // 1A0
-		bool allowAutoVanityMode;                                                               // 1A4
-		bool bowZoomedIn;                                                                       // 1A5
-		bool freeRotationReady;                                                                 // 1A6
-		bool cameraPosBuffered;                                                                 // 1A7
-		bool zeroOutPitch;                                                                      // 1A8
-		bool adjustFOV;                                                                         // 1A9
-		bool trailerCameraMode;                                                                 // 1AA
-		bool pipboyMode;                                                                        // 1AB
-		bool savedFadeOutCloseActors;                                                           // 1AC
+		ActorHandle                                                          cameraTarget;                        // 064
+		BSTSmallArray<BSTSmartPointer<TESCameraState>, CameraStates::kTotal> tempReturnStates;                    // 068
+		BSTSmartPointer<TESCameraState>                                      cameraStates[CameraStates::kTotal];  // 0E0
+		hknpBodyId                                                           cameraBodyID;                        // 148
+		hkRefPtr<hknpShape>                                                  cameraShape;                         // 150
+		hkRefPtr<hknpBSWorld>                                                physicsWorld;                        // 158
+		ActorHandle                                                          savedCollidedActor;                  // 160
+		ObjectRefHandle                                                      collisionIgnoredReference;           // 164
+		float                                                                worldFOV;                            // 168
+		float                                                                firstPersonFOV;                      // 16C
+		float                                                                fovAdjustCurrent;                    // 170
+		float                                                                fovAdjustTarget;                     // 174
+		float                                                                fovAdjustPerSec;                     // 178
+		float                                                                fovAnimatorAdjust;                   // 17C
+		float                                                                collisionDistPercent;                // 180
+		float                                                                curPlayerVisible;                    // 184
+		NiPoint3                                                             bufferedCameraPos;                   // 188
+		float                                                                heading;                             // 194
+		float                                                                timeInPitchZero;                     // 198
+		float                                                                originalPitchToZero;                 // 19C
+		std::uint32_t                                                        furnitureCollisionGroup;             // 1A0
+		bool                                                                 allowAutoVanityMode;                 // 1A4
+		bool                                                                 bowZoomedIn;                         // 1A5
+		bool                                                                 freeRotationReady;                   // 1A6
+		bool                                                                 cameraPosBuffered;                   // 1A7
+		bool                                                                 zeroOutPitch;                        // 1A8
+		bool                                                                 adjustFOV;                           // 1A9
+		bool                                                                 trailerCameraMode;                   // 1AA
+		bool                                                                 pipboyMode;                          // 1AB
+		bool                                                                 savedFadeOutCloseActors;             // 1AC
 	};
 	static_assert(sizeof(PlayerCamera) == 0x1B0);
 }

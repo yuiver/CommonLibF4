@@ -118,11 +118,11 @@ namespace RE
 
 	private:
 		// members
-		BSSpinLock _lock;                                         // 00
+		BSSpinLock                          _lock;                // 00
 		BSTArray<BSTEventSink<event_type>*> _sinks;               // 08
 		BSTArray<BSTEventSink<event_type>*> _pendingRegisters;    // 20
 		BSTArray<BSTEventSink<event_type>*> _pendingUnregisters;  // 38
-		std::int8_t _notifying{ 0 };                              // 50
+		std::int8_t                         _notifying{ 0 };      // 50
 	};
 	static_assert(sizeof(BSTEventSource<void*>) == 0x58);
 
@@ -146,7 +146,7 @@ namespace RE
 		public:
 			// members
 			BSTOptional<typename T::value_type> optionalValue;  // 00
-			bool eventReceived;                                 // ??
+			bool                                eventReceived;  // ??
 		};
 
 		// override (BSTEventSink<T>)
@@ -154,7 +154,7 @@ namespace RE
 
 		// members
 		BSTEventValueData eventDataStruct;  // 08
-		BSSpinLock dataLock;                // ??
+		BSSpinLock        dataLock;         // ??
 	};
 
 	template <class T>
@@ -176,14 +176,14 @@ namespace RE
 		BSEventNotifyControl ProcessEvent(const event_type& a_event, BSTEventSource<event_type>*) override  // 01
 		{
 			BSAutoLock l{ dataLock };
-			T event;
+			T          event;
 			event.optionalValue = optionalValue;
 			a_event.valueEventSink.ProcessEvent(event, nullptr);
 		}
 
 		// members
 		BSTOptional<typename T::value_type> optionalValue;  // ??
-		BSSpinLock dataLock;                                // ??
+		BSSpinLock                          dataLock;       // ??
 	};
 
 	class BSTGlobalEvent :
@@ -231,7 +231,7 @@ namespace RE
 
 		[[nodiscard]] static BSTGlobalEvent* GetSingleton()
 		{
-			REL::Relocation<BSTGlobalEvent**> singleton{ REL::ID(1424022) };
+			static REL::Relocation<BSTGlobalEvent**> singleton{ REL::ID(2688814) };
 			return *singleton;
 		}
 

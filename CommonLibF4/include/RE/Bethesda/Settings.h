@@ -9,12 +9,12 @@ namespace RE
 {
 	union SETTING_VALUE
 	{
-		std::int8_t c;
-		bool b;
-		float f;
-		std::uint8_t h;
-		std::int32_t i;
-		char* s;
+		std::int8_t   c;
+		bool          b;
+		float         f;
+		std::uint8_t  h;
+		std::int32_t  i;
+		char*         s;
 		std::uint32_t u;
 		std::uint32_t r;
 		std::uint32_t a;
@@ -249,7 +249,7 @@ namespace RE
 	private:
 		// members
 		SETTING_VALUE _value;  // 08
-		const char* _key;      // 10
+		const char*   _key;    // 10
 	};
 	static_assert(sizeof(Setting) == 0x18);
 
@@ -290,8 +290,8 @@ namespace RE
 		virtual bool ReadSettings() { return handle != nullptr; }           // 09
 
 		// members
-		char settingFile[260];  // 008
-		void* handle;           // 110
+		char  settingFile[260];  // 008
+		void* handle;            // 110
 	};
 
 	extern template class SettingCollection<Setting>;
@@ -345,22 +345,21 @@ namespace RE
 		[[nodiscard]] static void InitCollection()
 		{
 			using func_t = decltype(&GameSettingCollection::InitCollection);
-			REL::Relocation<func_t> func{ REL::ID(948832) };
+			static REL::Relocation<func_t> func{ REL::ID(2188690) };
 			return func();
 		}
 
 		[[nodiscard]] static GameSettingCollection* GetSingleton()
 		{
-			REL::Relocation<GameSettingCollection**> singleton{ REL::ID(8308) };
+			static REL::Relocation<GameSettingCollection**> singleton{ REL::ID(2690301) };
 			return *singleton;
 		}
 
-		Setting* GetSetting(const char* a_name)
+		[[nodiscard]] Setting* GetSetting(std::string_view a_name)
 		{
 			auto it = settings.find(a_name);
 			return it != settings.end() ? it->second : nullptr;
 		}
-
 	};
 	static_assert(sizeof(GameSettingCollection) == 0x138);
 
@@ -373,7 +372,7 @@ namespace RE
 
 		[[nodiscard]] static INISettingCollection* GetSingleton()
 		{
-			REL::Relocation<INISettingCollection**> singleton{ REL::ID(791183) };
+			static REL::Relocation<INISettingCollection**> singleton{ REL::ID(2704108) };
 			return *singleton;
 		}
 
@@ -398,9 +397,22 @@ namespace RE
 
 		[[nodiscard]] static INIPrefSettingCollection* GetSingleton()
 		{
-			REL::Relocation<INIPrefSettingCollection**> singleton{ REL::ID(767844) };
+			static REL::Relocation<INIPrefSettingCollection**> singleton{ REL::ID(2703234) };
 			return *singleton;
 		}
 	};
 	static_assert(sizeof(INIPrefSettingCollection) == 0x128);
+
+	inline Setting* GetINISetting(std::string_view a_name)
+	{
+		Setting* setting = nullptr;
+
+		auto iniPrefs = INIPrefSettingCollection::GetSingleton();
+		setting = iniPrefs ? iniPrefs->GetSetting(a_name) : nullptr;
+		if (!setting) {
+			auto ini = INISettingCollection::GetSingleton();
+			setting = ini ? ini->GetSetting(a_name) : nullptr;
+		}
+		return setting;
+	}
 }

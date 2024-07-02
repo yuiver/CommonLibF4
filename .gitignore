@@ -1,17 +1,15 @@
-/build*
-/vsxmake*
-/.xmake
+# dot folders
+.idea*/
+.vs*/
+.vscode/
+.xmake/
+
+# folders
+build*/
+cmake-build*/
+out*/
+vs*/
+
+# files
+*.zip
 CMakeUserPresets.json
-.DS_Store
-vcpkg*
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-/out*
-/.vs*
-*/CmakeFiles
-CMakefiles
-CmakeCache.txt

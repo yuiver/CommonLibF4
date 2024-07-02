@@ -21,11 +21,11 @@ namespace RE
 		}
 
 		// override (hknpCollisionQueryCollector)
-		void Reset() override;                                // 01
-		void AddHit(const hknpCollisionResult&) override;     // 02
-		bool HasHit() const override;                         // 03
-		std::int32_t GetNumHits() const override;             // 04
-		const hknpCollisionResult* GetHits() const override;  // 05
+		void                       Reset() override;                             // 01
+		void                       AddHit(const hknpCollisionResult&) override;  // 02
+		bool                       HasHit() const override;                      // 03
+		std::int32_t               GetNumHits() const override;                  // 04
+		const hknpCollisionResult* GetHits() const override;                     // 05
 
 		// members
 		hkInplaceArray<hknpCollisionResult, 10> hits;  // 020

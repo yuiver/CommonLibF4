@@ -16,10 +16,10 @@ namespace RE::Movement
 	{
 	public:
 		// members
-		BSFixedString typeName;  // 00
-		MaxSpeeds defaultData;   // 08
-		float floatHeight;       // 78
-		float flightAngleGain;   // 7C
+		BSFixedString typeName;         // 00
+		MaxSpeeds     defaultData;      // 08
+		float         floatHeight;      // 78
+		float         flightAngleGain;  // 7C
 	};
 	static_assert(sizeof(TypeData) == 0x80);
 }

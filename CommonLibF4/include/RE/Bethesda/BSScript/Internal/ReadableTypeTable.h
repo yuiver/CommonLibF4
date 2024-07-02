@@ -18,7 +18,7 @@ namespace RE
 				{
 				public:
 					// members
-					BSFixedString parentType;                      // 08
+					BSFixedString               parentType;        // 08
 					BSScrapArray<std::uint32_t> variableIndicies;  // 10
 				};
 				static_assert(sizeof(SaveTypeInfo) == 0x30);

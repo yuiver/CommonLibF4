@@ -35,7 +35,8 @@ namespace RE
 
 			template <class V>
 			iterator_base(const iterator_base<V>& a_rhs)  //
-				requires(std::convertible_to<typename iterator_base<V>::reference, reference>) :
+				requires(std::convertible_to<typename iterator_base<V>::reference, reference>)
+				:
 				_pos(a_rhs._pos),
 				_head(a_rhs._head),
 				_tail(a_rhs._tail)
@@ -166,27 +167,27 @@ namespace RE
 
 		[[nodiscard]] const_pointer data() const noexcept { return _data; }
 
-		[[nodiscard]] iterator begin() noexcept { return make_iterator<iterator>(0); }
+		[[nodiscard]] iterator       begin() noexcept { return make_iterator<iterator>(0); }
 		[[nodiscard]] const_iterator begin() const noexcept { return make_iterator<const_iterator>(0); }
 		[[nodiscard]] const_iterator cbegin() const noexcept { return make_iterator<const_iterator>(0); }
 
-		[[nodiscard]] iterator end() noexcept { return make_iterator<iterator>(_capacity); }
+		[[nodiscard]] iterator       end() noexcept { return make_iterator<iterator>(_capacity); }
 		[[nodiscard]] const_iterator end() const noexcept { return make_iterator<const_iterator>(_capacity); }
 		[[nodiscard]] const_iterator cend() const noexcept { return make_iterator<const_iterator>(_capacity); }
 
-		[[nodiscard]] bool empty() const noexcept { return size() == 0; }
+		[[nodiscard]] bool      empty() const noexcept { return size() == 0; }
 		[[nodiscard]] size_type size() const noexcept { return _size; }
 		[[nodiscard]] size_type capacity() const noexcept { return _capacity; }
 
 	private:
-		template <class T>
-		[[nodiscard]] T make_iterator(size_type a_pos) const noexcept
+		template <class U>
+		[[nodiscard]] U make_iterator(size_type a_pos) const noexcept
 		{
-			return T(_data + a_pos, _data, _data + _capacity);
+			return U(_data + a_pos, _data, _data + _capacity);
 		}
 
 		// members
-		pointer _data{ nullptr };    // 08
+		pointer   _data{ nullptr };  // 08
 		size_type _capacity{ 0 };    // 10
 		size_type _freeIdx{ 0 };     // 12
 		size_type _size{ 0 };        // 14

@@ -13,27 +13,8 @@
       "host": true
     },
     "args",
-    "boost-stl-interfaces",
-    "fmt",
-    "frozen",
-    "nowide",
-    "rapidcsv",
-    "rsm-binary-io",
     "rsm-mmio",
     "spdlog",
-    "srell",
     "xbyak"
-  ],
-  "builtin-baseline":"4cfabe769eaceb209ea37267e8c50c43b86a4a7b",
-  "features": {
-    "tests": {
-      "description": "Build tests for CommonLibF4.",
-      "dependencies": [
-        "catch2"
-      ]
-    }
-  },
-  "default-features": [
-    "tests"
   ]
 }

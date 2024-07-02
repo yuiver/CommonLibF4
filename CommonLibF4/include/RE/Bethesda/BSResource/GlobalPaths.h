@@ -17,13 +17,13 @@ namespace RE::BSResource
 
 		[[nodiscard]] static GlobalPaths* GetSingleton()
 		{
-			REL::Relocation<GlobalPaths**> singleton{ REL::ID(210868) };
+			static REL::Relocation<GlobalPaths**> singleton{ REL::ID(210868) };
 			return *singleton;
 		}
 
 		// members
-		BSTArray<BSFixedString> names;  // 18
-		Location* rootLocation;         // 30
+		BSTArray<BSFixedString> names;         // 18
+		Location*               rootLocation;  // 30
 	};
 	static_assert(sizeof(GlobalPaths) == 0x38);
 }
