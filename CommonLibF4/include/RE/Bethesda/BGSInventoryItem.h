@@ -148,35 +148,35 @@ namespace RE
 		[[nodiscard]] const char* GetDisplayFullName(std::uint32_t a_stackID)
 		{
 			using func_t = decltype(&BGSInventoryItem::GetDisplayFullName);
-			static REL::Relocation<func_t> func{ REL::ID(2194079) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(277641, 2194079) };
 			return func(this, a_stackID);
 		}
 
 		[[nodiscard]] TBO_InstanceData* GetInstanceData(std::uint32_t a_stackID)
 		{
 			using func_t = decltype(&BGSInventoryItem::GetInstanceData);
-			static REL::Relocation<func_t> func{ REL::ID(2194072) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(491493, 2194072) };
 			return func(this, a_stackID);
 		}
 
 		[[nodiscard]] std::int32_t GetInventoryValue(std::uint32_t a_stackID, bool a_scale) const
 		{
 			using func_t = decltype(&BGSInventoryItem::GetInventoryValue);
-			static REL::Relocation<func_t> func{ REL::ID(2194099) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(430292, 2194099) };
 			return func(this, a_stackID, a_scale);
 		}
 
 		bool GetStackCount()
 		{
 			using func_t = decltype(&BGSInventoryItem::GetStackCount);
-			REL::Relocation<func_t> func{ REL::ID(82050) };
+			static REL::Relocation<func_t> func{ REL::ID(82050) };
 			return func(this);
 		}
 
 		bool IsQuestObject(std::int32_t a_stackIterations)
 		{
 			using func_t = decltype(&BGSInventoryItem::IsQuestObject);
-			REL::Relocation<func_t> func{ REL::ID(823447) };
+			static REL::Relocation<func_t> func{ REL::ID(823447) };
 			return func(this, a_stackIterations);
 		}
 
@@ -197,7 +197,7 @@ namespace RE
 		virtual void WriteDataImpl(TESBoundObject& a_baseObj, BGSInventoryItem::Stack& a_stack) override  // 01
 		{
 			using func_t = decltype(&ApplyChangesFunctor::WriteDataImpl);
-			static REL::Relocation<func_t> func{ REL::ID(2223194) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1291190, 2223194) };
 			return func(this, a_baseObj, a_stack);
 		}
 

@@ -192,7 +192,7 @@ private:
 void dump_rtti()
 {
 	std::vector<std::tuple<std::string, std::uint64_t, std::vector<std::uint64_t>>> results;  // [ demangled name, rtti id, vtable ids ]
-
+	logger::debug("Dumping RTTI...");
 	VTable      typeInfo(".?AVtype_info@@"sv);
 	const auto& mod = REL::Module::get();
 	const auto  baseAddr = mod.base();
@@ -200,42 +200,29 @@ void dump_rtti()
 	const auto  beg = data.pointer<const std::uintptr_t>();
 	const auto  end = reinterpret_cast<const std::uintptr_t*>(data.address() + data.size());
 	const auto& iddb = get_iddb();
-#endif
 	for (auto iter = beg; iter < end; ++iter) {
 		if (*iter == typeInfo[0].address()) {
 			const auto typeDescriptor = reinterpret_cast<const RE::RTTI::TypeDescriptor*>(iter);
 			try {
-				auto       name = decode_name(typeDescriptor);
-				const auto rid = iddb(reinterpret_cast<std::uintptr_t>(iter) - baseAddr);
-
+				auto                       name = decode_name(typeDescriptor);
+				const auto                 rid = iddb(reinterpret_cast<std::uintptr_t>(iter) - baseAddr);
+				const auto                 offset = reinterpret_cast<std::uintptr_t>(iter) - baseAddr;
 				VTable                     vtable{ typeDescriptor };
 				std::vector<std::uint64_t> vids(vtable.size());
 				std::transform(
 					vtable.begin(),
 					vtable.end(),
 					vids.begin(),
-					[&](auto&& a_elem) { return
-#ifndef FALLOUTVR
-											 iddb(
-#endif
-												 a_elem.offset()
-#ifndef FALLOUTVR
-											 )
-#endif
-												 ; });
+					[&](auto&& a_elem) { return iddb(a_elem.offset()); });
 
 				results.emplace_back(sanitize_name(std::move(name)),
-#ifndef FALLOUTVR
-					rid,
-#else
-					offset,
-#endif
+					!REL::Module::IsVR() ? rid : offset,
 					std::move(vids));
-#ifndef FALLOUTVR
-				logger::debug("{} (id: {}) (address: {:16X})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter));
-#else
-				logger::debug("{} (id: {}) (address: {:16X}) (offset: {:16x})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter), offset);
-#endif
+				if (!REL::Module::IsVR())
+					logger::debug("{} (id: {}) (address: {:16X})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter));
+				else
+					logger::debug("{} (id: {}) (address: {:16X}) (offset: {:16x})"sv, std::get<0>(results.back()), std::get<1>(results.back()), reinterpret_cast<std::uintptr_t>(iter), offset);
+
 			} catch (const std::exception&) {
 				logger::error("{}", decode_name(typeDescriptor));
 				continue;
@@ -253,9 +240,9 @@ void dump_rtti()
 			}),
 		results.end());
 
-	constexpr std::array toRemove{
-		static_cast<std::uint64_t>(2769189),  // float
-		static_cast<std::uint64_t>(2769187),  // unsigned int
+	std::array toRemove{
+		static_cast<std::uint64_t>(REL::Relocate(25921, 2769189)),   // float
+		static_cast<std::uint64_t>(REL::Relocate(950502, 2769187)),  // unsigned int
 	};
 	results.erase(
 		std::remove_if(
@@ -285,37 +272,42 @@ void dump_rtti()
 	openf("RTTI"sv);
 	for (const auto& [name, rid, vids] : results) {
 		(void)vids;
-#ifndef FALLOUTVR
-		file << "\t\tinline constexpr REL::ID "sv << name << "{ "sv << rid << " };\n"sv;
-#else
-		file << "\t\tinline constexpr REL::Offset "sv << name << "{ 0x"sv << std::hex << rid << " };\n"sv;
-#endif
+		if (!REL::Module::IsVR())
+			file << "\t\tinline constexpr REL::ID "sv << name << "{ "sv << rid << " };\n"sv;
+		else
+			file << "\t\tinline constexpr REL::Offset "sv << name << "{ 0x"sv << std::hex << rid << " };\n"sv;
 	}
 	closef();
 
 	openf("VTABLE"sv);
-#ifndef FALLOUTVR
 	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::ID("sv << a_vid << ")"sv; };
-#else
-	const auto printVID = [&](std::uint64_t a_vid) { file << "REL::Offset(0x"sv << std::hex << a_vid << ")"sv; };
-#endif
+	const auto printVIDVR = [&](std::uint64_t a_vid) { file << "REL::Offset(0x"sv << std::hex << a_vid << ")"sv; };
 	for (const auto& [name, rid, vids] : results) {
 		(void)rid;
 		const std::span svids{ vids.data(), vids.size() };
 		if (!svids.empty()) {
-#ifndef FALLOUTVR
-			file << "\t\tinline constexpr std::array<REL::ID, "sv
-#else
-			file << "\t\tinline constexpr std::array<REL::Offset, "sv
-#endif
-				 << vids.size()
-				 << "> "sv
-				 << name
-				 << "{ "sv;
-			printVID(svids.front());
+			if (!REL::Module::IsVR())
+				file << "\t\tinline constexpr std::array<REL::ID, "sv
+					 << vids.size()
+					 << "> "sv
+					 << name
+					 << "{ "sv;
+			else
+				file << "\t\tinline constexpr std::array<REL::Offset, "sv
+					 << vids.size()
+					 << "> "sv
+					 << name
+					 << "{ "sv;
+			if (!REL::Module::IsVR())
+				printVID(svids.front());
+			else
+				printVIDVR(svids.front());
 			for (const auto vid : svids.subspan(1)) {
 				file << ", "sv;
-				printVID(vid);
+				if (!REL::Module::IsVR())
+					printVID(vid);
+				else
+					printVIDVR(vid);
 			}
 			file << " };\n"sv;
 		}
@@ -327,26 +319,27 @@ void dump_nirtti()
 {
 	{
 		// fix a dumb fuckup
-		REL::Relocation<RE::NiRTTI*> rtti{ REL::ID(2690507) };
+		REL::Relocation<RE::NiRTTI*> rtti{ REL::RelocationID(221529, 2690507) };
 		rtti->name = "BGSStaticCollection::RootFacade";
 	}
 
-	constexpr std::array seeds = {
-		2703473,  // NiObject
-		2703545,  // NiCullingProcess
-		2692702,  // BSFaceGenMorphData
-		2693100,  // BSTempEffect
-		2707081,  // bhkCharacterProxy
-		2707083,  // bhkCharacterRigidBody
-		2704798,  // bhkNPCollisionObject
-		2704796,  // bhkNPCollisionObjectBase
-		2704799,  // bhkNPCollisionObjectUnlinked
-		2704797,  // bhkNPCollisionProxyObject
-		2704800,  // bhkPhysicsSystem
-		2704801,  // bhkRagdollSystem
-		2704769,  // bhkWorld
-		2704838,  // bhkWorldM
+	std::array seeds = {
+		REL::Relocate(17735, 2703473),    // NiObject
+		REL::Relocate(1352616, 2703545),  // NiCullingProcess
+		REL::Relocate(31936, 2692702),    // BSFaceGenMorphData
+		REL::Relocate(1482971, 2693100),  // BSTempEffect
+		REL::Relocate(1123991, 2707081),  // bhkCharacterProxy
+		REL::Relocate(858091, 2707083),   // bhkCharacterRigidBody
+		REL::Relocate(933986, 2704798),   // bhkNPCollisionObject
+		REL::Relocate(56458, 2704796),    // bhkNPCollisionObjectBase
+		REL::Relocate(1372534, 2704799),  // bhkNPCollisionObjectUnlinked
+		REL::Relocate(495124, 2704797),   // bhkNPCollisionProxyObject
+		REL::Relocate(1325961, 2704800),  // bhkPhysicsSystem
+		REL::Relocate(182826, 2704801),   // bhkRagdollSystem
+		REL::Relocate(1359461, 2704769),  // bhkWorld
+		REL::Relocate(34089, 2704838),    // bhkWorldM
 	};
+	logger::debug("Dumping NiRTTI...");
 	std::unordered_set<std::uintptr_t> results;
 	results.reserve(seeds.size());
 	for (const auto& seed : seeds) {
@@ -377,13 +370,13 @@ void dump_nirtti()
 		const auto rtti = reinterpret_cast<const RE::NiRTTI*>(result);
 		try {
 			const auto offset = result - base;
-#ifndef FALLOUTVR
 			const auto id = iddb(offset);
-			toPrint.emplace_back(sanitize_name(rtti->GetName()), id);
-#else
-			logger::debug("{} (offset: {:16x})"sv, rtti->GetName(), offset);
-			toPrint.emplace_back(sanitize_name(rtti->GetName()), offset);
-#endif
+			if (!REL::Module::IsVR())
+				toPrint.emplace_back(sanitize_name(rtti->GetName()), id);
+			else {
+				logger::debug("{} (offset: {:16x})"sv, rtti->GetName(), offset);
+				toPrint.emplace_back(sanitize_name(rtti->GetName()), offset);
+			}
 
 		} catch (const std::exception&) {
 			spdlog::error(rtti->GetName());
@@ -404,11 +397,10 @@ void dump_nirtti()
 		   << "\tnamespace Ni_RTTI\n"sv
 		   << "\t{\n"sv;
 	for (const auto& elem : toPrint) {
-#ifndef FALLOUTVR
-		output << "\t\tinline constexpr REL::ID "sv << elem.first << "{ "sv << elem.second << " };\n"sv;
-#else
-		output << "\t\tinline constexpr REL::Offset "sv << elem.first << "{ 0x"sv << std::hex << elem.second << " };\n"sv;
-#endif
+		if (!REL::Module::IsVR())
+			output << "\t\tinline constexpr REL::ID "sv << elem.first << "{ "sv << elem.second << " };\n"sv;
+		else
+			output << "\t\tinline constexpr REL::Offset "sv << elem.first << "{ 0x"sv << std::hex << elem.second << " };\n"sv;
 	}
 	output << "\t}\n"sv
 		   << "}\n"sv;
@@ -437,6 +429,28 @@ F4SE_PLUGIN_LOAD(const F4SE::LoadInterface* a_f4se)
 
 	auto messaging = F4SE::GetMessagingInterface();
 	messaging->RegisterListener(MessageHandler);
+
+	return true;
+}
+F4SE_EXPORT bool F4SEAPI F4SEPlugin_Query(const F4SE::QueryInterface* a_f4se, F4SE::PluginInfo* a_info)
+{
+	a_info->infoVersion = F4SE::PluginInfo::kVersion;
+	a_info->name = "rttidump";
+	a_info->version = 1;
+
+	if (a_f4se->IsEditor()) {
+		logger::critical("loaded in editor");
+		return false;
+	}
+
+	const auto ver = a_f4se->RuntimeVersion();
+	if ((REL::Module::IsF4() && ver < F4SE::RUNTIME_1_10_163) ||
+		(REL::Module::IsVR() && ver < F4SE::RUNTIME_LATEST_VR)) {
+		logger::critical("unsupported runtime v{}", ver.string());
+		return false;
+	}
+
+	logger::info("RTTIDump Loaded!");
 
 	return true;
 }

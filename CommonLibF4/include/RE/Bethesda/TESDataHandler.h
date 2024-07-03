@@ -65,28 +65,28 @@ namespace RE
 	public:
 		[[nodiscard]] static TESDataHandler* GetSingleton()
 		{
-			static REL::Relocation<TESDataHandler**> singleton{ REL::ID(2688883) };
+			static REL::Relocation<TESDataHandler**> singleton{ REL::RelocationID(711558, 2688883) };
 			return *singleton;
 		}
 
 		[[nodiscard]] bool AddFormToDataHandler(TESForm* a_form)
 		{
 			using func_t = decltype(&TESDataHandler::AddFormToDataHandler);
-			static REL::Relocation<func_t> func{ REL::ID(2192271) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(350112, 2192271) };
 			return func(this, a_form);
 		}
 
 		[[nodiscard]] bool CheckModsLoaded(bool a_everModded)
 		{
 			using func_t = decltype(&TESDataHandler::CheckModsLoaded);
-			static REL::Relocation<func_t> func{ REL::ID(2192323) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1432894, 2192323) };
 			return func(this, a_everModded);
 		}
 
 		[[nodiscard]] ObjectRefHandle CreateReferenceAtLocation(NEW_REFR_DATA& a_data)
 		{
 			using func_t = decltype(&TESDataHandler::CreateReferenceAtLocation);
-			static REL::Relocation<func_t> func{ REL::ID(500304) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(500304, 500304) };
 			return func(this, a_data);
 		}
 
@@ -234,10 +234,10 @@ namespace RE
 			return mod ? std::make_optional(mod->smallFileCompileIndex) : std::nullopt;
 		}
 
-		bool IsFormIDInuse(TESFormID a_formID)
+		bool IsFormIDInUse(std::uint32_t a_formID)
 		{
-			using func_t = decltype(&TESDataHandler::IsFormIDInuse);
-			static REL::Relocation<func_t> func{ REL::ID(2192351) };
+			using func_t = decltype(&TESDataHandler::IsFormIDInUse);
+			static REL::Relocation<func_t> func{ REL::RelocationID(1448838, 2192351) };
 			return func(this, a_formID);
 		}
 

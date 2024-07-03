@@ -906,7 +906,7 @@ namespace RE
 		void AddKeyword(BGSKeyword* a_keyword)
 		{
 			using func_t = decltype(&BGSKeywordForm::AddKeyword);
-			static REL::Relocation<func_t> func{ REL::ID(2192766) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(762999, 2192766) };
 			return func(this, a_keyword);
 		}
 
@@ -1397,7 +1397,7 @@ namespace RE
 		[[nodiscard]] static auto GetSparseFullNameMap()
 			-> BSTHashMap<const TESForm*, BGSLocalizedString>&
 		{
-			static REL::Relocation<BSTHashMap<const TESForm*, BGSLocalizedString>*> sparseFullNameMap{ REL::ID(2661402), -0x8 };
+			static REL::Relocation<BSTHashMap<const TESForm*, BGSLocalizedString>*> sparseFullNameMap{ REL::RelocationID(226372, 2661402), -0x8 };
 			return *sparseFullNameMap;
 		}
 
@@ -1601,7 +1601,7 @@ namespace RE
 		std::uint16_t GetLevel() const
 		{
 			using func_t = decltype(&TESActorBaseData::GetLevel);
-			static REL::Relocation<func_t> func{ REL::ID(2192891) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(151866, 2192891) };
 			return func(this);
 		}
 
@@ -1757,14 +1757,14 @@ namespace RE
 			const char*                  a_overrideName = nullptr)
 		{
 			using func_t = decltype(&TESLeveledList::CalculateCurrentFormList);
-			static REL::Relocation<func_t> func{ REL::ID(2193259) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(507405, 2193259) };
 			return func(this, a_level, a_count, a_outCont, a_allBelowForce, a_clampToPlayer, a_instanceFilter, a_overrideName);
 		}
 
 		void CalculateCurrentFormListForRef(TESObjectREFR* a_ref, BSScrapArray<CALCED_OBJECT>& a_outCont, bool a_legendary)
 		{
 			using func_t = decltype(&TESLeveledList::CalculateCurrentFormListForRef);
-			static REL::Relocation<func_t> func{ REL::ID(2193260) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(507405, 2193260) };
 			return func(this, a_ref, a_outCont, a_legendary);
 		}
 
@@ -1778,7 +1778,7 @@ namespace RE
 		void RemoveAllScriptAddedLeveledObjects()
 		{
 			using func_t = decltype(&TESLeveledList::RemoveAllScriptAddedLeveledObjects);
-			REL::Relocation<func_t> func{ REL::ID(1500052) };
+			static REL::Relocation<func_t> func{ REL::ID(1500052) };
 			return func(this);
 		}
 

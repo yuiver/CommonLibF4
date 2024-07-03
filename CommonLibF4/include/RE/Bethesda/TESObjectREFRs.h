@@ -369,7 +369,7 @@ namespace RE
 		void BuildFromContainer(const TESContainer* a_container)
 		{
 			using func_t = decltype(&BGSInventoryList::BuildFromContainer);
-			static REL::Relocation<func_t> func{ REL::ID(2194158) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(551792, 2194158) };
 			return func(this, a_container);
 		}
 
@@ -682,7 +682,7 @@ namespace RE
 		void AddKeyword(BGSKeyword* kwd)
 		{
 			using func_t = decltype(&TESObjectREFR::AddKeyword);
-			static REL::Relocation<func_t> func{ REL::ID(2200860) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(640674, 2200860) };
 			return func(this, kwd);
 		}
 
@@ -743,14 +743,14 @@ namespace RE
 		[[nodiscard]] BGSLocation* GetCurrentLocation() const
 		{
 			using func_t = decltype(&TESObjectREFR::GetCurrentLocation);
-			static REL::Relocation<func_t> func{ REL::ID(2201163) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1135470, 2201163) };
 			return func(this);
 		}
 
 		[[nodiscard]] const char* GetDisplayFullName()
 		{
 			using func_t = decltype(&TESObjectREFR::GetDisplayFullName);
-			static REL::Relocation<func_t> func{ REL::ID(2201126) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1212056, 2201126) };
 			return func(this);
 		}
 
@@ -783,7 +783,7 @@ namespace RE
 		[[nodiscard]] ObjectRefHandle GetHandle()
 		{
 			using func_t = decltype(&TESObjectREFR::GetHandle);
-			static REL::Relocation<func_t> func{ REL::ID(2201196) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1573130, 2201196) };
 			return func(this);
 		}
 
@@ -846,14 +846,14 @@ namespace RE
 		[[nodiscard]] bool IsLeveledCreature()
 		{
 			using func_t = decltype(&TESObjectREFR::IsLeveledCreature);
-			static REL::Relocation<func_t> func{ REL::ID(2202655) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1341859, 2202655) };
 			return func(this);
 		}
 
 		float GetRelevantWaterHeight()
 		{
 			using func_t = decltype(&TESObjectREFR::GetRelevantWaterHeight);
-			REL::Relocation<func_t> func{ REL::ID(6866) };
+			static REL::Relocation<func_t> func{ REL::ID(6866) };
 			return func(this);
 		}
 
@@ -939,6 +939,13 @@ namespace RE
 			using func_t = decltype(&TESObjectREFR::SetScale);
 			static REL::Relocation<func_t> func{ REL::ID(817930) };
 			return func(this, scale);
+		}
+
+		void UpdateDynamicNavmesh(bool a_active)
+		{
+			using func_t = decltype(&RE::TESObjectREFR::UpdateDynamicNavmesh);
+			static REL::Relocation<func_t> func{ REL::ID(1518094) };
+			return func(this, a_active);
 		}
 
 		// members

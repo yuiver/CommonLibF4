@@ -18,8 +18,6 @@ namespace RE
 			func(this);
 		}
 
-		F4_HEAP_REDEFINE_NEW(bhkPickData);
-
 		void SetStartEnd(const NiPoint3& start, const NiPoint3& end)
 		{
 			using func_t = decltype(&bhkPickData::SetStartEnd);
@@ -101,6 +99,7 @@ namespace RE
 		__int16              field_DC;
 		char                 field_DE;
 		char                 field_DF;
+		F4_HEAP_REDEFINE_NEW(bhkPickData);
 	};
 	static_assert(sizeof(bhkPickData) == 0xE0);
 };

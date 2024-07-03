@@ -26,14 +26,14 @@ namespace RE
 		void lock(const char* a_id = nullptr)
 		{
 			using func_t = decltype(&BSSpinLock::lock);
-			static REL::Relocation<func_t> func{ REL::ID(2192245) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1425657, 2192245) };
 			return func(this, a_id);
 		}
 
 		[[nodiscard]] bool try_lock()
 		{
 			using func_t = decltype(&BSSpinLock::try_lock);
-			static REL::Relocation<func_t> func{ REL::ID(2267902) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(267930, 2267902) };
 			return func(this);
 		}
 
@@ -62,28 +62,28 @@ namespace RE
 		void lock_read()
 		{
 			using func_t = decltype(&BSReadWriteLock::lock_read);
-			static REL::Relocation<func_t> func{ REL::ID(2267897) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1573164, 2267897) };
 			return func(this);
 		}
 
 		void lock_write()
 		{
 			using func_t = decltype(&BSReadWriteLock::lock_write);
-			static REL::Relocation<func_t> func{ REL::ID(2267898) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(336186, 2267898) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool try_lock_read()
 		{
 			using func_t = decltype(&BSReadWriteLock::try_lock_read);
-			static REL::Relocation<func_t> func{ REL::ID(2267901) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1372435, 2267901) };
 			return func(this);
 		}
 
 		[[nodiscard]] bool try_lock_write()
 		{
 			using func_t = decltype(&BSReadWriteLock::try_lock_write);
-			static REL::Relocation<func_t> func{ REL::ID(2267902) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1279453, 2267902) };
 			return func(this);
 		}
 

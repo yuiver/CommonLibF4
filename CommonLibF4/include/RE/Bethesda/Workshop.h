@@ -200,21 +200,21 @@ namespace RE
 		[[nodiscard]] inline TESObjectREFR* FindNearestValidWorkshop(const TESObjectREFR& a_refr)
 		{
 			using func_t = decltype(&Workshop::FindNearestValidWorkshop);
-			static REL::Relocation<func_t> func{ REL::ID(2194970) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(905705, 2194970) };
 			return func(a_refr);
 		}
 
 		[[nodiscard]] inline bool FreeBuild()
 		{
 			using func_t = decltype(&Workshop::FreeBuild);
-			static REL::Relocation<func_t> func{ REL::ID(2194924) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1583365, 2194924) };
 			return func();
 		}
 
 		[[nodiscard]] inline WorkshopMenuNode* GetSelectedWorkshopMenuNode(std::uint32_t a_row, std::uint32_t& a_column)
 		{
 			using func_t = decltype(&Workshop::GetSelectedWorkshopMenuNode);
-			static REL::Relocation<func_t> func{ REL::ID(2195024) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(763948, 2195024) };
 			return func(a_row, a_column);
 		}
 
@@ -235,7 +235,7 @@ namespace RE
 		inline bool IsWorkshopItem(const TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&IsWorkshopItem);
-			REL::Relocation<func_t> func{ REL::ID(1386903) };
+			static REL::Relocation<func_t> func{ REL::ID(1386903) };
 			return func(a_refr);
 		}
 

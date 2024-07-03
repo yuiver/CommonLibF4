@@ -491,21 +491,21 @@ namespace RE
 		static bool AttachModToReference(TESObjectREFR& a_ref, BGSMod::Attachment::Mod& a_mod, std::uint8_t a_attachIndex, std::uint8_t a_rank)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AttachModToReference);
-			static REL::Relocation<func_t> func{ REL::ID(2189033) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(3303, 2189033) };
 			return func(a_ref, a_mod, a_attachIndex, a_rank);
 		}
 
 		bool HasMod(const BGSMod::Attachment::Mod& a_mod)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::HasMod);
-			static REL::Relocation<func_t> func{ REL::ID(2189026) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(963890, 2189026) };
 			return func(this, a_mod);
 		}
 
 		void AddMod(const BGSMod::Attachment::Mod& a_newMod, std::uint8_t a_attachIndex, std::uint8_t a_rank, bool a_removeInvalidMods)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::AddMod);
-			static REL::Relocation<func_t> func{ REL::ID(2189025) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1191757, 2189025) };
 			return func(this, a_newMod, a_attachIndex, a_rank, a_removeInvalidMods);
 		}
 
@@ -516,14 +516,14 @@ namespace RE
 		std::uint32_t RemoveInvalidMods(const BGSAttachParentArray* a_baseObjectParents)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::RemoveInvalidMods);
-			static REL::Relocation<func_t> func{ REL::ID(2189028) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1548060, 2189028) };
 			return func(this, a_baseObjectParents);
 		}
 
 		std::uint32_t RemoveMod(const BGSMod::Attachment::Mod* a_mod, std::uint8_t a_attachIndex)
 		{
 			using func_t = decltype(&BGSObjectInstanceExtra::RemoveMod);
-			static REL::Relocation<func_t> func{ REL::ID(2189027) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1136607, 2189027) };
 			return func(this, a_mod, a_attachIndex);
 		}
 
@@ -936,7 +936,7 @@ namespace RE
 		stl::observer<TBO_InstanceData*> CreateInstanceData(TESBoundObject* a_object, bool a_generateName)
 		{
 			using func_t = decltype(&ExtraDataList::CreateInstanceData);
-			static REL::Relocation<func_t> func{ REL::ID(2190185) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1280130, 2190185) };
 			return func(this, a_object, a_generateName);
 		}
 
@@ -955,7 +955,7 @@ namespace RE
 		[[nodiscard]] BGSMod::Attachment::Mod* GetLegendaryMod()
 		{
 			using func_t = decltype(&ExtraDataList::GetLegendaryMod);
-			static REL::Relocation<func_t> func{ REL::ID(2190180) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(178075, 2190180) };
 			return func(this);
 		}
 
@@ -986,77 +986,77 @@ namespace RE
 		bool SetBendableSplineInfo(float* a_thickness, float* a_slack, NiPoint3* a_halfExtents = nullptr, bool* a_detachedEnd = nullptr)
 		{
 			using func_t = decltype(&ExtraDataList::SetBendableSplineInfo);
-			static REL::Relocation<func_t> func{ REL::ID(2190623) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(894306, 2190623) };
 			return func(this, a_thickness, a_slack, a_halfExtents, a_detachedEnd);
 		}
 
 		void SetDisplayNameFromInstanceData(BGSObjectInstanceExtra* a_instExtra, TESBoundObject* a_object, const BSTSmartPointer<TBO_InstanceData>& a_data)
 		{
 			using func_t = decltype(&ExtraDataList::SetDisplayNameFromInstanceData);
-			static REL::Relocation<func_t> func{ REL::ID(2190179) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(457340, 2190179) };
 			return func(this, a_instExtra, a_object, a_data);
 		}
 
 		void SetOverrideName(const char* a_name)
 		{
 			using func_t = decltype(&ExtraDataList::SetOverrideName);
-			static REL::Relocation<func_t> func{ REL::ID(2190167) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(222303, 2190167) };
 			return func(this, a_name);
 		}
 
 		void SetStartingWorldOrCell(TESForm* a_form)
 		{
 			using func_t = decltype(&ExtraDataList::SetStartingWorldOrCell);
-			static REL::Relocation<func_t> func{ REL::ID(2191213) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(603621, 2191213) };
 			return func(this, a_form);
 		}
 
-		float GetHealthPerc()
+		float GetHealthPercent()
 		{
-			using func_t = decltype(&ExtraDataList::GetHealthPerc);
-			static REL::Relocation<func_t> func{ REL::ID(2190226) };
+			using func_t = decltype(&ExtraDataList::GetHealthPercent);
+			static REL::Relocation<func_t> func{ REL::RelocationID(196530, 2190226) };
 			return func(this);
 		}
 
-		void SetHealthPerc(float a_healthPerc)
+		void SetHealthPercent(float a_healthPerc)
 		{
-			using func_t = decltype(&ExtraDataList::SetHealthPerc);
-			static REL::Relocation<func_t> func{ REL::ID(2190124) };
+			using func_t = decltype(&ExtraDataList::SetHealthPercent);
+			static REL::Relocation<func_t> func{ REL::RelocationID(1208294, 2190124) };
 			return func(this, a_healthPerc);
 		}
 
 		bool ClearFavorite()
 		{
 			using func_t = decltype(&ExtraDataList::ClearFavorite);
-			static REL::Relocation<func_t> func{ REL::ID(2190191) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(254434, 2190191) };
 			return func(this);
 		}
 
 		bool IsFavorite()
 		{
 			using func_t = decltype(&ExtraDataList::IsFavorite);
-			static REL::Relocation<func_t> func{ REL::ID(2190189) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(786568, 2190189) };
 			return func(this);
 		}
 
 		float GetScale()
 		{
 			using func_t = decltype(&ExtraDataList::GetScale);
-			REL::Relocation<func_t> func{ REL::ID(1499172) };
+			static REL::Relocation<func_t> func{ REL::ID(1499172) };
 			return func(this);
 		}
 
 		float GetCurrentCharge()
 		{
 			using func_t = decltype(&ExtraDataList::GetCurrentCharge);
-			REL::Relocation<func_t> func{ REL::ID(980329) };
+			static REL::Relocation<func_t> func{ REL::ID(980329) };
 			return func(this);
 		}
 
 		void SetCurrentCharge(float a_charge)
 		{
 			using func_t = decltype(&ExtraDataList::SetCurrentCharge);
-			REL::Relocation<func_t> func{ REL::ID(648722) };
+			static REL::Relocation<func_t> func{ REL::ID(648722) };
 			return func(this, a_charge);
 		}
 

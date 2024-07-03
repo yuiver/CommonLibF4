@@ -13,8 +13,17 @@
       "host": true
     },
     "args",
+    "rapidcsv",
     "rsm-mmio",
     "spdlog",
     "xbyak"
-  ]
+  ],
+  "builtin-baseline": "4cfabe769eaceb209ea37267e8c50c43b86a4a7b",
+  "features": {
+    "tests": {
+      "description": "Build tests for CommonLibF4.",
+      "dependencies": ["catch2"]
+    }
+  },
+  "default-features": ["tests"]
 }

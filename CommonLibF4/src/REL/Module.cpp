@@ -13,16 +13,26 @@ namespace REL
 				static_cast<std::uint32_t>(_filename.size()));
 		};
 
+		auto  sz = _filename.size();
+		void* handle = nullptr;
 		_filename.resize(getFilename());
-		if (const auto result = getFilename();
-			result != _filename.size() - 1 ||
-			result == 0) {
-			_filename = L"Fallout4.exe"sv;
+		if (_filename.empty() || _filename.size() != sz) {
+			for (auto& runtime : RUNTIMES) {
+				_filename = runtime;
+				handle = REX::W32::GetModuleHandleW(_filename.c_str());
+				if (handle) {
+					break;
+				}
+			}
 		}
-
-		auto handle = REX::W32::GetModuleHandleW(_filename.c_str());
-		if (handle == nullptr) {
-			stl::report_and_fail("failed to obtain module handle"sv);
+		_filePath = _filename;
+		if (!handle) {
+			stl::report_and_fail(
+				std::format(
+					"Failed to obtain module handle for: \"{0}\"."
+					"You have likely renamed the executable to something unexpected. "
+					"Renaming the executable back to \"{0}\" may resolve the issue."sv,
+					stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
 		}
 
 		_base = reinterpret_cast<std::uintptr_t>(handle);
@@ -37,11 +47,22 @@ namespace REL
 		const auto version = GetFileVersion(_filename);
 		if (version) {
 			_version = *version;
-		} else {
-			stl::report_and_fail("failed to obtain file version"sv);
+			switch (_version[1]) {
+			case 2:  // search for 2 in 1.2.72.0
+				_runtime = Runtime::VR;
+				break;
+			default:
+				_runtime = (_version[2] > 163) ? Runtime::NG : Runtime::F4;
+			}
+			return;
 		}
+		stl::report_and_error(
+			std::format(
+				"Failed to obtain file version info for: {}\n"
+				"Please contact the author of this script extender plugin for further assistance."sv,
+				stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
 	}
-
+#undef IMAGE_FIRST_SECTION
 	void Module::load_segments()
 	{
 		const auto dosHeader = reinterpret_cast<const REX::W32::IMAGE_DOS_HEADER*>(_base);

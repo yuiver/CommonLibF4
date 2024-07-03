@@ -201,7 +201,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			static REL::Relocation<EventSource_t**> singleton{ REL::ID(2696196) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::RelocationID(696410, 2696196) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -400,7 +400,7 @@ namespace RE
 	public:
 		[[nodiscard]] static EventSource_t* GetEventSource()
 		{
-			static REL::Relocation<EventSource_t**> singleton{ REL::ID(2696280) };
+			static REL::Relocation<EventSource_t**> singleton{ REL::RelocationID(1140080, 2696280) };
 			if (!*singleton) {
 				*singleton = new EventSource_t(&BSTGlobalEvent::GetSingleton()->eventSourceSDMKiller);
 			}
@@ -582,7 +582,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESDeathEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESDeathEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(2201833) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1465690, 2201833) };
 			return func();
 		}
 
@@ -598,7 +598,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESEnterSneakingEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESEnterSneakingEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(2201837) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(0, 2201837) };
 			return func();
 		}
 
@@ -610,6 +610,13 @@ namespace RE
 	struct TESEquipEvent
 	{
 	public:
+		[[nodiscard]] static BSTEventSource<TESEquipEvent>* GetEventSource()
+		{
+			using func_t = decltype(&TESEquipEvent::GetEventSource);
+			static REL::Relocation<func_t> func{ REL::ID(485633) };
+			return func();
+		}
+
 		// members
 		NiPointer<TESObjectREFR> actor;         // 00
 		std::uint32_t            baseObject;    // 08
@@ -625,7 +632,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESFormDeleteEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESFormDeleteEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(2201842) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(0, 2201842) };
 			return func();
 		}
 
@@ -646,7 +653,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESFurnitureEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESFurnitureEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(2201844) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(678665, 2201844) };
 			return func();
 		}
 
@@ -737,7 +744,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESHitEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESHitEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(1411899) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(989868, 1411899) };
 			return func();
 		}
 
@@ -758,7 +765,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESMagicEffectApplyEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESMagicEffectApplyEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(1327824) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1481228, 1327824) };
 			return func();
 		}
 
@@ -775,7 +782,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESObjectLoadedEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESObjectLoadedEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(2201853) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(416662, 2201853) };
 			return func();
 		}
 
@@ -790,7 +797,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESSwitchRaceCompleteEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESSwitchRaceCompleteEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::ID(2201874) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(0, 2201874) };
 			return func();
 		}
 
@@ -865,7 +872,7 @@ namespace RE
 	public:
 		[[nodiscard]] static TESInitScriptEventSource* GetSingleton()
 		{
-			static REL::Relocation<TESInitScriptEventSource*> singleton{ REL::ID(2691330) };
+			static REL::Relocation<TESInitScriptEventSource*> singleton{ REL::RelocationID(485633, 2691330) };
 			return singleton.get();
 		}
 	};

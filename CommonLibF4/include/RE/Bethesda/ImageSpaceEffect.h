@@ -117,7 +117,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(2713225) };
+		inline static REL::Relocation<bool*> bDisable{ REL::RelocationID(372489, 2713225) };
 
 		// members
 		ImageSpaceTexture buffer[3];  // B0
@@ -141,7 +141,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(2713237) };
+		inline static REL::Relocation<bool*> bDisable{ REL::RelocationID(1523708, 2713237) };
 
 		// members
 		float*            data;       // B0
@@ -201,7 +201,7 @@ namespace RE
 		virtual bool IsActive() override;                                                           // 08
 		virtual bool UpdateParams(ImageSpaceEffectParam* a_param) override;                         // 09
 
-		inline static REL::Relocation<bool*> bDisable{ REL::ID(2713225) };
+		inline static REL::Relocation<bool*> bDisable{ REL::RelocationID(1500590, 2713225) };
 	};
 	static_assert(sizeof(ImageSpaceEffectRadialBlur) == 0xB0);
 

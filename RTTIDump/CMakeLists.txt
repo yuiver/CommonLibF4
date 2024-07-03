@@ -4,12 +4,12 @@ add_project(
 	PROJECT RTTIDump
 	VERSION 1.0.0
 	INCLUDE_DIRECTORIES
-	src
+		src
 	GROUPED_FILES
-	"src/main.cpp"
-	"src/PCH.h"
+		"src/main.cpp"
+		"src/PCH.h"
 	PRECOMPILED_HEADERS
-	"src/PCH.h"
+		"src/PCH.h"
 )
 
 if(NOT TARGET CommonLibF4)
@@ -21,8 +21,8 @@ find_package(spdlog REQUIRED CONFIG)
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
-	CommonLibF4::CommonLibF4
-	spdlog::spdlog
+		CommonLibF4::CommonLibF4
+		spdlog::spdlog
 )
 
 copy_files(

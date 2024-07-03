@@ -48,7 +48,7 @@ namespace RE
 		}
 
 		[[nodiscard]] explicit operator bool() const noexcept { return has_value(); }
-		[[nodiscard]] bool     has_value() const noexcept { return _handle != 0; }
+		[[nodiscard]] bool has_value() const noexcept { return _handle != 0; }
 
 		[[nodiscard]] value_type value() const noexcept { return _handle; }
 
@@ -76,7 +76,8 @@ namespace RE
 
 		template <class Y>
 		BSPointerHandle(BSPointerHandle<Y, Handle> a_rhs) noexcept  //
-			requires(std::convertible_to<Y*, T*>) :
+			requires(std::convertible_to<Y*, T*>)
+			:
 			_handle(a_rhs._handle)
 		{}
 
@@ -161,21 +162,21 @@ namespace RE
 		static BSPointerHandle<T> CreateHandle(T* a_ptr)
 		{
 			using func_t = decltype(&BSPointerHandleManagerInterface<T, Manager>::CreateHandle);
-			static REL::Relocation<func_t> func{ REL::ID(2188375) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(224532, 2188375) };
 			return func(a_ptr);
 		}
 
 		static BSPointerHandle<T> GetHandle(T* a_ptr)
 		{
 			using func_t = decltype(&BSPointerHandleManagerInterface<T, Manager>::GetHandle);
-			static REL::Relocation<func_t> func{ REL::ID(2188676) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(901626, 2188676) };
 			return func(a_ptr);
 		}
 
 		static bool GetSmartPointer(const BSPointerHandle<T>& a_handle, NiPointer<T>& a_smartPointerOut)
 		{
 			using func_t = decltype(&BSPointerHandleManagerInterface<T, Manager>::GetSmartPointer);
-			static REL::Relocation<func_t> func{ REL::ID(2188681) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(967277, 2188681) };
 			return func(a_handle, a_smartPointerOut);
 		}
 	};

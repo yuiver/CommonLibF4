@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.21)
 
 option(F4SE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
-option(FALLOUT_SUPPORT_F4 "Enable support for Fallout 4 in the dynamic runtime feature." ON)
-option(FALLOUT_SUPPORT_VR "Enable support for Fallout 4 VR in the dynamic runtime feature." ON)
+option(ENABLE_FALLOUT_F4 "Enable support for Fallout 4 in the dynamic runtime feature." ON)
+option(ENABLE_FALLOUT_NG "Enable support for Nextgen Update Fallout 4 in the dynamic runtime feature." ON)
+option(ENABLE_FALLOUT_VR "Enable support for Fallout 4 VR in the dynamic runtime feature." ON)
 option(BUILD_TESTS "Enable building of the unit tests." OFF)
 message("Options:")
 message("\tEnable Xbyak: ${F4SE_SUPPORT_XBYAK}")
-message("\tEnable Fallout 4: ${FALLOUT_SUPPORT_F4}")
-message("\tEnable Fallout 4 VR: ${FALLOUT_SUPPORT_VR}")
+message("\tEnable Fallout 4: ${ENABLE_FALLOUT_F4}")
+message("\tEnable Nextgen Fallout 4: ${ENABLE_FALLOUT_NG}")
+message("\tEnable Fallout 4 VR: ${ENABLE_FALLOUT_VR}")
 message("\tBuild Tests: ${BUILD_TESTS}")
 
-if(NOT FALLOUT_SUPPORT_F4 AND NOT FALLOUT_SUPPORT_VR)
+if(NOT ENABLE_FALLOUT_F4 AND NOT ENABLE_FALLOUT_NG AND NOT ENABLE_FALLOUT_VR)
 	message(FATAL_ERROR "At least one Fallout runtime must be supported by the COMMONLIBF4 build.")
 endif()
 
@@ -27,6 +29,7 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(FATAL_ERROR "in-source builds are not allowed")
 endif()
 
+find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
 find_package(mmio REQUIRED CONFIG)
 find_package(spdlog REQUIRED CONFIG)
 find_package(mmio REQUIRED CONFIG)
@@ -61,8 +64,9 @@ target_compile_definitions(
 	WINVER=0x0601 # windows 7, minimum supported version by fallout 4
 	_WIN32_WINNT=0x0601
 	"$<$<BOOL:${F4SE_SUPPORT_XBYAK}>:F4SE_SUPPORT_XBYAK=1>"
-	"$<$<BOOL:${FALLOUT_SUPPORT_F4}>:FALLOUT_SUPPORT_F4=1>"
-	"$<$<BOOL:${FALLOUT_SUPPORT_VR}>:FALLOUT_SUPPORT_VR=1>"
+	"$<$<BOOL:${ENABLE_FALLOUT_F4}>:ENABLE_FALLOUT_F4=1>"
+	"$<$<BOOL:${ENABLE_FALLOUT_NG}>:ENABLE_FALLOUT_NG=1>"
+	"$<$<BOOL:${ENABLE_FALLOUT_VR}>:ENABLE_FALLOUT_VR=1>"
 )
 
 target_compile_features(

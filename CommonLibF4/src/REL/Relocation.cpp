@@ -31,24 +31,4 @@ namespace REL
 
 		assert(success);
 	}
-
-	void Module::clear()
-	{
-		if (_injectedModule) {
-			WinAPI::FreeLibrary(_injectedModule);
-			_injectedModule = nullptr;
-		}
-		_base = 0;
-		_filename.clear();
-		_filePath.clear();
-		_runtime = Runtime::F4;
-		_version = { 0, 0, 0, 0 };
-		for (auto& segment : _segments) {
-			segment = {};
-		}
-		IDDatabase::_instance.clear();
-		IDDatabase::_initialized = false;
-	}
-
-	IDDatabase IDDatabase::_instance;
 }

@@ -43,14 +43,14 @@ namespace RE
 			[[nodiscard]] std::size_t GetHandle() const
 			{
 				using func_t = decltype(&Object::GetHandle);
-				static REL::Relocation<func_t> func{ REL::ID(2314431) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(1452752, 2314431) };
 				return func(this);
 			}
 
 			void IncRef() const
 			{
 				using func_t = decltype(&Object::IncRef);
-				static REL::Relocation<func_t> func{ REL::ID(2314436) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(461710, 2314436) };
 				return func(this);
 			}
 

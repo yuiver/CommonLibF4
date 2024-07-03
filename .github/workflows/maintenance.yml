@@ -1,6 +1,6 @@
 name: maintenance
 
-on: [push]
+on: [push, pull_request_target, workflow_dispatch]
 
 jobs:
   maintenance:
@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - uses: actions/setup-python@v2
         with:

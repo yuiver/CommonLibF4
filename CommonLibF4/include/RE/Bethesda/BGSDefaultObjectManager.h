@@ -489,7 +489,7 @@ namespace RE
 
 		[[nodiscard]] static BSTArray<BGSDefaultObject*>* GetSingleton()
 		{
-			static REL::Relocation<BSTArray<BGSDefaultObject*>**> singleton{ REL::ID(2690473) };
+			static REL::Relocation<BSTArray<BGSDefaultObject*>**> singleton{ REL::RelocationID(561749, 2690473) };
 			return *singleton;
 		}
 
@@ -508,7 +508,7 @@ namespace RE
 		BGSDefaultObject* ctor(const char* a_name, ENUM_FORM_ID a_formType, const char* a_description)
 		{
 			using func_t = decltype(&BGSDefaultObject::ctor);
-			static REL::Relocation<func_t> func{ REL::ID(2197003) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1144014, 2197003) };
 			return func(this, a_name, a_formType, a_description);
 		}
 	};

@@ -21,7 +21,7 @@ namespace RE
 		[[nodiscard]] inline bool ActorInPowerArmor(const Actor& a_actor)
 		{
 			using func_t = decltype(&ActorInPowerArmor);
-			static REL::Relocation<func_t> func{ REL::ID(2219437) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1176757, 2219437) };
 			return func(a_actor);
 		}
 

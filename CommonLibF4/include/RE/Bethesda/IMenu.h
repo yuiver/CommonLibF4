@@ -489,7 +489,7 @@ namespace RE
 		Scaleform::GFx::Value* AcquireFlashObjectByMemberName(const Scaleform::GFx::Value& a_flashObject, const char* a_relativePathToMember)
 		{
 			using func_t = decltype(&BSGFxObject::AcquireFlashObjectByMemberName);
-			static REL::Relocation<func_t> func{ REL::ID(2287014) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1172680, 2287014) };
 			return func(this, a_flashObject, a_relativePathToMember);
 		}
 
@@ -546,7 +546,7 @@ namespace RE
 		void RemoveChild(const BSGFxDisplayObject& a_child) const
 		{
 			using func_t = decltype(&BSGFxDisplayObject::RemoveChild);
-			static REL::Relocation<func_t> func{ REL::ID(2287327) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1229383, 2287327) };
 			return func(this, a_child);
 		}
 
@@ -623,14 +623,14 @@ namespace RE
 		virtual void AppendShaderFXInfos(BSTArray<UIShaderFXInfo>& a_colorFXInfo, BSTArray<UIShaderFXInfo>& a_backgroundFXInfo)  // 02
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::AppendShaderFXInfos);
-			static REL::Relocation<func_t> func{ REL::ID(2287021) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(544646, 2287021) };
 			return func(this, a_colorFXInfo, a_backgroundFXInfo);
 		}
 
 		void CreateAndSetFiltersToColor(const NiColor& a_color, float a_brightness)
 		{
 			using func_t = void (BSGFxShaderFXTarget::*)(const NiColor&, float);
-			static REL::Relocation<func_t> func{ REL::ID(2287028) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1487925, 2287028) };
 			func(this, a_color, a_brightness);
 		}
 
@@ -644,14 +644,14 @@ namespace RE
 		void CreateAndSetFiltersToHUD(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::CreateAndSetFiltersToHUD);
-			static REL::Relocation<func_t> func{ REL::ID(2287027) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(876001, 2287027) };
 			func(this, a_colorType, a_scale);
 		}
 
 		void EnableShadedBackground(HUDColorTypes a_colorType, float a_scale = 1.0)
 		{
 			using func_t = decltype(&BSGFxShaderFXTarget::EnableShadedBackground);
-			static REL::Relocation<func_t> func{ REL::ID(2287022) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(278402, 2287022) };
 			func(this, a_colorType, a_scale);
 		}
 
@@ -816,13 +816,13 @@ namespace RE
 		static void ExecuteCommand(const char* a_command)
 		{
 			using func_t = decltype(&Console::ExecuteCommand);
-			static REL::Relocation<func_t> func{ REL::ID(2248537) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1061864, 2248537) };
 			return func(a_command);
 		}
 
 		[[nodiscard]] static decltype(auto) GetCurrentPickIndex()
 		{
-			static REL::Relocation<std::int32_t*> currentPickIndex{ REL::ID(2701382) };
+			static REL::Relocation<std::int32_t*> currentPickIndex{ REL::RelocationID(1407033, 2701382) };
 			return *currentPickIndex;
 		}
 
@@ -850,7 +850,7 @@ namespace RE
 		void SetCurrentPickREFR(stl::not_null<ObjectRefHandle*> a_refr)
 		{
 			using func_t = decltype(&Console::SetCurrentPickREFR);
-			static REL::Relocation<func_t> func{ REL::ID(2248551) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(79066, 2248551) };
 			return func(this, a_refr);
 		}
 

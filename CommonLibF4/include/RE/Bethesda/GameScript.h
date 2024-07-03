@@ -146,7 +146,7 @@ namespace RE
 			BSScript::ErrorLogger::Severity a_severity = BSScript::ErrorLogger::Severity::kError)
 		{
 			using func_t = decltype(&LogFormError);
-			static REL::Relocation<func_t> func{ REL::ID(2251028) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1081933, 2251028) };
 			return func(a_obj, a_error, a_vm, a_stackID, a_severity);
 		}
 
@@ -259,21 +259,21 @@ namespace RE
 			void DropSaveLoadRemapData()
 			{
 				using func_t = decltype(&HandlePolicy::DropSaveLoadRemapData);
-				static REL::Relocation<func_t> func{ REL::ID(2249995) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(647657, 2249995) };
 				return func(this);
 			}
 
 			void GetInventoryObjFromHandle(std::uint64_t a_cobj, TESObjectREFR*& a_container, std::uint16_t& a_uniqueID, TESObjectREFR*& a_inWorldREFR)
 			{
 				using func_t = decltype(&HandlePolicy::GetInventoryObjFromHandle);
-				static REL::Relocation<func_t> func{ REL::ID(2249989) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(66597, 2249989) };
 				return func(this, a_cobj, a_container, a_uniqueID, a_inWorldREFR);
 			}
 
 			void UpdatePersistence()
 			{
 				using func_t = decltype(&HandlePolicy::UpdatePersistence);
-				static REL::Relocation<func_t> func{ REL::ID(2249991) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(11020, 2249991) };
 				return func(this);
 			}
 
@@ -322,7 +322,7 @@ namespace RE
 			void EndSaveLoad()
 			{
 				using func_t = decltype(&ObjectBindPolicy::EndSaveLoad);
-				static REL::Relocation<func_t> func{ REL::ID(2250482) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(1558837, 2250482) };
 				return func(this);
 			}
 
@@ -494,7 +494,7 @@ namespace RE
 
 		[[nodiscard]] static GameVM* GetSingleton()
 		{
-			static REL::Relocation<GameVM**> singleton{ REL::ID(2689134) };
+			static REL::Relocation<GameVM**> singleton{ REL::RelocationID(996227, 2689134) };
 			return *singleton;
 		}
 
@@ -503,14 +503,14 @@ namespace RE
 		bool QueuePostRenderCall(const BSTSmartPointer<GameScript::DelayFunctor>& a_functor)
 		{
 			using func_t = decltype(&GameVM::QueuePostRenderCall);
-			static REL::Relocation<func_t> func{ REL::ID(2251314) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(34412, 2251314) };
 			return func(this, a_functor);
 		}
 
 		void RegisterForAllGameEvents()
 		{
 			using func_t = decltype(&GameVM::RegisterForAllGameEvents);
-			static REL::Relocation<func_t> func{ REL::ID(2251353) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(680454, 2251353) };
 			return func(this);
 		}
 

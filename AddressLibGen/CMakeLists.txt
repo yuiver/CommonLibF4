@@ -3,7 +3,7 @@ add_project(
 	PROJECT AddressLibGen
 	VERSION 1.0.0
 	INCLUDE_DIRECTORIES
-	src
+		src
 	GROUPED_FILES
-	"src/main.cpp"
+		"src/main.cpp"
 )

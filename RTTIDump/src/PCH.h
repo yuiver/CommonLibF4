@@ -21,5 +21,4 @@
 
 namespace logger = F4SE::log;
 namespace stl = F4SE::stl;
-namespace WinAPI = F4SE::WinAPI;
 using namespace std::literals;

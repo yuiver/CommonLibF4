@@ -191,7 +191,7 @@ namespace RE
 		void ForceUpdate()
 		{
 			using func_t = decltype(&DynamicNavmesh::ForceUpdate);
-			REL::Relocation<func_t> func{ REL::ID(854653) };
+			static REL::Relocation<func_t> func{ REL::ID(854653) };
 			return func(this);
 		}
 	};

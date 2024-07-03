@@ -1,6 +1,5 @@
 #include "REL/IDDB.h"
 #include "REL/Module.h"
-#include "REL/Version.h"
 
 #include "REX/W32/BCRYPT.h"
 
@@ -78,7 +77,7 @@ namespace REL
 	IDDB::IDDB()
 	{
 		const auto version = Module::get().version();
-		const auto path = std::format("Data/F4SE/Plugins/version-{}.bin", version.string("-"sv));
+		const auto path = std::format("Data/F4SE/Plugins/version-{}.{}", version.string("-"sv), Module::IsVR() ? "csv"sv : "bin"sv);
 		if (!_mmap.open(path)) {
 			stl::report_and_fail(std::format("failed to open: {}", path));
 		}
@@ -101,13 +100,21 @@ namespace REL
 			}
 		}
 
-		_id2offset = std::span{
-			reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
-			*reinterpret_cast<const std::uint64_t*>(_mmap.data())
-		};
+#ifdef ENABLE_FALLOUT_VR
+		if (!Module::IsVR()) {
+#endif
+			_id2offset = std::span{
+				reinterpret_cast<const mapping_t*>(_mmap.data() + sizeof(std::uint64_t)),
+				*reinterpret_cast<const std::uint64_t*>(_mmap.data())
+			};
+#ifdef ENABLE_FALLOUT_VR
+		} else {
+			load_csv(path, version, true);
+		}
+#endif
 	}
 
-	std::size_t IDDB::id2offset(std::uint64_t a_id) const
+	[[nodiscard]] std::size_t IDDB::id2offset(std::uint64_t a_id) const
 	{
 		if (_id2offset.empty()) {
 			stl::report_and_fail("data is empty"sv);
@@ -115,18 +122,96 @@ namespace REL
 
 		const mapping_t elem{ a_id, 0 };
 		const auto      it = std::lower_bound(
-				 _id2offset.begin(),
-				 _id2offset.end(),
-				 elem,
-				 [](auto&& a_lhs, auto&& a_rhs) {
+            _id2offset.begin(),
+            _id2offset.end(),
+            elem,
+            [](auto&& a_lhs, auto&& a_rhs) {
                 return a_lhs.id < a_rhs.id;
             });
+		bool failed = false;
 		if (it == _id2offset.end()) {
+			failed = true;
+		} else if FALLOUT_REL_VR_CONSTEXPR (Module::IsVR()) {
+			if (it->id != a_id) {
+				failed = true;
+			}
+		}
+		if (failed) {
 			const auto version = Module::get().version();
-			const auto str = std::format("id {} not found!\ngame version: {}"sv, a_id, version.string());
+			const auto str = std::format(
+					"Failed to find the id within the address library: {}\n"
+					"This means this script extender plugin is incompatible with the address "
+					"library for this version of the game, and thus does not support it."
+					"Game version: {}"sv,
+					a_id, version.string());
 			stl::report_and_fail(str);
 		}
 
 		return static_cast<std::size_t>(it->offset);
 	}
+
+#ifdef ENABLE_FALLOUT_VR
+	bool IDDB::load_csv(std::string a_filename, Version, bool a_failOnError)
+	{
+		if (_id2offset.size())
+			return true;
+		if (!std::filesystem::exists(a_filename)) {
+			return stl::report_and_error(
+				std::format("Required VR Address Library file {} does not exist"sv, a_filename),
+				a_failOnError);
+		}
+
+		rapidcsv::Document in(a_filename);
+		std::size_t        id, address_count;
+		std::string        version, offset;
+		address_count = in.GetCell<std::size_t>(0, 0);
+		version = in.GetCell<std::string>(1, 0);
+		_vrAddressLibraryVersion = Version(version);
+		static std::vector<mapping_t> tempVector{};
+		if (in.GetRowCount() > address_count + 1) {
+			return stl::report_and_error(
+				std::format("VR Address Library {} tried to exceed {} allocated entries."sv,
+					version, address_count),
+				a_failOnError);
+		} else if (in.GetRowCount() < address_count + 1) {
+			return stl::report_and_error(
+				std::format(
+					"VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv,
+					version, in.GetRowCount() - 1, address_count),
+				a_failOnError);
+		}
+		std::size_t index = 1;
+		for (; index < in.GetRowCount(); ++index) {
+			id = in.GetCell<std::size_t>(0, index);
+			offset = in.GetCell<std::string>(1, index);
+			const mapping_t elem = { id, static_cast<std::uint64_t>(std::stoul(offset, nullptr, 16)) };
+			tempVector.push_back(elem);
+		}
+		std::sort(
+			tempVector.begin(),
+			tempVector.end(),
+			[](auto&& a_lhs, auto&& a_rhs) {
+				return a_lhs.id < a_rhs.id;
+			});
+		_id2offset = std::span(tempVector);
+		return true;
+	}
+
+	bool IDDB::IsVRAddressLibraryAtLeastVersion(const char* a_minimalVRAddressLibVersion, bool a_reportAndFail) const
+	{
+		const auto minimalVersion = REL::Version(a_minimalVRAddressLibVersion);
+
+		if (minimalVersion <= _vrAddressLibraryVersion) {
+			return true;
+		}
+
+		if (!a_reportAndFail) {
+			return false;
+		}
+
+		stl::report_and_fail(
+			std::format("You need version: {} of VR Address Library for F4SEVR, you have version: {}"sv,
+				minimalVersion, _vrAddressLibraryVersion));
+	}
+#endif
 }

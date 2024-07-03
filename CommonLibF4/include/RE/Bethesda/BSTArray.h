@@ -373,7 +373,7 @@ namespace RE
 		[[nodiscard]] constexpr size_type size() const noexcept { return _size; }
 		[[nodiscard]] constexpr size_type max_size() const noexcept { return std::numeric_limits<size_type>::max(); }
 
-		[[nodiscard]] constexpr bool empty() const noexcept { size() == 0; }
+		[[nodiscard]] constexpr bool empty() const noexcept { return size() == 0; }
 
 		void reserve(size_type a_capacity)
 		{
@@ -439,7 +439,7 @@ namespace RE
 
 		template <class... Args>
 		iterator emplace(const_iterator a_pos, Args&&... a_args)  //
-			requires(std::constructible_from<value_type, Args && ...>)
+			requires(std::constructible_from<value_type, Args&&...>)
 		{
 			const auto pos = static_cast<size_type>(std::distance(cbegin(), a_pos));
 			if (pos < size()) {
@@ -481,8 +481,7 @@ namespace RE
 		}
 
 		template <class... Args>
-		reference emplace_back(Args&&... a_args)
-			requires(std::constructible_from<value_type, Args && ...>)
+		reference emplace_back(Args&&... a_args) requires(std::constructible_from<value_type, Args&&...>)
 		{
 			return *emplace(end(), std::forward<Args>(a_args)...);
 		}

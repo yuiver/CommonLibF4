@@ -39,7 +39,7 @@ namespace RE
 		[[nodiscard]] inline double CalculateAimModelWobble(Actor* a_actor)
 		{
 			using func_t = decltype(&CombatFormulas::CalculateAimModelWobble);
-			REL::Relocation<func_t> func{ REL::ID(211411) };
+			static REL::Relocation<func_t> func{ REL::ID(211411) };
 			return func(a_actor);
 		}
 	}

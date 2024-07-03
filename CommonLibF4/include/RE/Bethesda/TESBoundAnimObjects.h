@@ -207,20 +207,20 @@ namespace RE
 	{
 	public:
 		// members
-		std::int32_t  time;                       // 00
-		std::uint32_t radius;                     // 04
-		std::uint32_t color;                      // 08
-		std::uint32_t flags;                      // 0C
-		float         fallOffExponent;            // 10
-		float         fov;                        // 14
-		float         nearDistance;               // 18
-		float         flickerPeriodRecip;         // 1C
-		float         flickerIntensityAmplitude;  // 20
-		float         flickerMovementAmplitude;   // 24
-		float         attenConstant;              // 28
-		float         attenScalar;                // 2C
-		float         attenExponent;              // 30
-		float         godrayNearClipDistance;     // 34
+		std::int32_t                                 time;                       // 00
+		std::uint32_t                                radius;                     // 04
+		ColorStruct                                  color;                      // 08
+		REX::EnumSet<TES_LIGHT_FLAGS, std::uint32_t> flags;                      // 0C
+		float                                        fallOffExponent;            // 10
+		float                                        fov;                        // 14
+		float                                        nearDistance;               // 18
+		float                                        flickerPeriodRecip;         // 1C
+		float                                        flickerIntensityAmplitude;  // 20
+		float                                        flickerMovementAmplitude;   // 24
+		float                                        attenConstant;              // 28
+		float                                        attenScalar;                // 2C
+		float                                        attenExponent;              // 30
+		float                                        godrayNearClipDistance;     // 34
 	};
 	static_assert(sizeof(OBJ_LIGH) == 0x38);
 
@@ -317,7 +317,7 @@ namespace RE
 		[[nodiscard]] TESContainer* GetContainer()
 		{
 			using func_t = decltype(&TESFurniture::GetContainer);
-			static REL::Relocation<func_t> func{ REL::ID(2198043) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1049933, 2198043) };
 			return func(this);
 		}
 
@@ -492,7 +492,7 @@ namespace RE
 		[[nodiscard]] SEX GetSex() noexcept
 		{
 			using func_t = decltype(&TESNPC::GetSex);
-			static REL::Relocation<func_t> func{ REL::ID(2207107) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1257181, 2207107) };
 			return func(this);
 		}
 
@@ -523,7 +523,7 @@ namespace RE
 		float GetFacialBoneMorphIntensity()
 		{
 			using func_t = decltype(&TESNPC::GetFacialBoneMorphIntensity);
-			static REL::Relocation<func_t> func{ REL::ID(2207416) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(272217, 2207416) };
 			return func(this);
 		}
 
@@ -621,21 +621,21 @@ namespace RE
 		LOCK_LEVEL GetHackDifficultyLockLevel(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::GetHackDifficultyLockLevel);
-			static REL::Relocation<func_t> func{ REL::ID(2197777) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(537273, 2197777) };
 			return func(this, a_refr);
 		}
 
 		static bool IsTerminalRefInUse(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::IsTerminalRefInUse);
-			static REL::Relocation<func_t> func{ REL::ID(2197779) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1093565, 2197779) };
 			return func(a_refr);
 		}
 
 		static void Show(TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&BGSTerminal::Show);
-			static REL::Relocation<func_t> func{ REL::ID(2197776) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1069012, 2197776) };
 			return func(a_refr);
 		}
 

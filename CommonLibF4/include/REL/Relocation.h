@@ -62,127 +62,6 @@
 	REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER(&, ##__VA_ARGS__) \
 	REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER(&&, ##__VA_ARGS__)
 
-#if defined(FALLOUT_SUPPORT_F4) && (FALLOUT_SUPPORT_VR)
-/**
- * Defined to indicate that this build supports both VR and non-VR runtimes.
- */
-#	define FALLOUT_SUPPORT_CROSS 1
-#endif
-
-#if !defined(FALLOUT_SUPPORT_F4) && !defined(FALLOUT_SUPPORT_VR)
-/**
- * A macro which defines a modifier for expressions that vary by FALLOUT Address Library IDs.
- *
- * <p>
- * Currently defined as <code>constexpr</code> since this build only targets one family of Address Library.
- * </p>
- */
-#	define FALLOUT_ADDR constexpr
-#else
-/**
- * A macro which defines a modifier for expressions that vary by FALLOUT address library IDs.
- *
- * <p>
- * Currently defined as <code>inline</code> to support multiple Address Library ID families dynamically.
- * </p>
- */
-#	define FALLOUT_ADDR inline
-#endif
-
-#if !defined(FALLOUT_SUPPORT_F4) || (!defined(FALLOUT_SUPPORT_F4) && !defined(FALLOUT_SUPPORT_VR)) || !defined(FALLOUT_SUPPORT_VR)
-/**
- * A macro which defines a modifier for expressions that vary by the specific FALLOUT runtime.
- *
- * <p>
- * Currently defined as <code>constexpr</code> since this build is for only a single runtime.
- * </p>
- */
-#	define FALLOUT_REL constexpr
-
-/**
- * A macro which defines a modifier for expressions which may be <code>constexpr</code> when using selective targeting.
- *
- * <p>
- * Currently defined as <code>constexpr</code> since this build is for only a single runtime.
- * </p>
- */
-#	define FALLOUT_REL_CONSTEXPR constexpr
-#else
-/**
- * A macro which defines a modifier for expressions that vary by the specific FALLOUT runtime.
- *
- * <p>
- * Currently defined as <code>inline</code> to support multiple runtimes dynamically.
- * </p>
- */
-#	define FALLOUT_REL inline
-
-/**
- * A macro which defines a modifier for expressions which may be <code>constexpr</code> when using selective targeting.
- *
- * <p>
- * Currently defined as empty to support multiple runtimes.
- * </p>
- */
-#	define FALLOUT_REL_CONSTEXPR
-#endif
-
-#ifndef FALLOUT_SUPPORT_CROSS
-/**
- * A macro which defines a modifier for expressions that vary between FALLOUT 4 and FALLOUT VR.
- *
- * <p>
- * Currently defined as <code>constexpr</code> since this build is only for VR or non-VR.
- * </p>
- */
-#	define FALLOUT_REL_VR constexpr
-
-/**
- * A macro which defines a modifier for expressions which may be <code>constexpr</code> when using selectively VR or non-VR.
- *
- * <p>
- * Currently defined as <code>constexpr</code> since this build is only for VR or non-VR.
- * </p>
- */
-#	define FALLOUT_REL_VR_CONSTEXPR constexpr
-
-/**
- * A macro which defines a modifier for functions which may be <code>virtual</code> when using selectively VR or non-VR.
- *
- * <p>
- * Currently defined as <code>virtual</code> since this build is only for VR or non-VR.
- * </p>
- */
-#	define FALLOUT_REL_VR_VIRTUAL virtual
-#else
-/**
- * A macro which defines a modifier for expressions that vary between FALLOUT SE/AE and FALLOUT VR.
- *
- * <p>
- * Currently defined as <code>inline</code> since this build is for both VR and non-VR.
- * </p>
- */
-#	define FALLOUT_REL_VR inline
-
-/**
- * A macro which defines a modifier for expressions which may be <code>constexpr</code> when using selectively VR or non-VR.
- *
- * <p>
- * Currently defined as empty since this build is for both VR and non-VR.
- * </p>
- */
-#	define FALLOUT_REL_VR_CONSTEXPR
-
-/**
- * A macro which defines a modifier for functions which may be <code>virtual</code> when using selectively VR or non-VR.
- *
- * <p>
- * Currently defined as empty since this build is for both VR and non-VR.
- * </p>
- */
-#	define FALLOUT_REL_VR_VIRTUAL
-#endif
-
 namespace REL
 {
 	template <class>
@@ -390,7 +269,7 @@ namespace REL
 		explicit Relocation(Offset a_offset) :
 			_impl{ a_offset.address() } {}
 
-		explicit Relocation(Offset2 a_offset) :
+		explicit Relocation(VariantOffset a_offset) :
 			_impl{ a_offset.address() } {}
 
 		explicit Relocation(ID a_id) :
@@ -402,19 +281,19 @@ namespace REL
 		explicit Relocation(ID a_id, Offset a_offset) :
 			_impl{ a_id.address() + a_offset.offset() } {}
 
-		explicit Relocation(ID a_id, Offset2 a_offset) :
+		explicit Relocation(ID a_id, VariantOffset a_offset) :
 			_impl{ a_id.address() + a_offset.offset() } {}
 
-		explicit Relocation(ID2 a_id) :
+		explicit Relocation(RelocationID a_id) :
 			_impl{ a_id.address() } {}
 
-		explicit Relocation(ID2 a_id, std::ptrdiff_t a_offset) :
+		explicit Relocation(RelocationID a_id, std::ptrdiff_t a_offset) :
 			_impl{ a_id.address() + a_offset } {}
 
-		explicit Relocation(ID2 a_id, Offset a_offset) :
+		explicit Relocation(RelocationID a_id, Offset a_offset) :
 			_impl{ a_id.address() + a_offset.offset() } {}
 
-		explicit Relocation(ID2 a_id, Offset2 a_offset) :
+		explicit Relocation(RelocationID a_id, VariantOffset a_offset) :
 			_impl{ a_id.address() + a_offset.offset() } {}
 
 		constexpr Relocation& operator=(std::uintptr_t a_address) noexcept
@@ -429,7 +308,7 @@ namespace REL
 			return *this;
 		}
 
-		Relocation& operator=(Offset2 a_offset)
+		Relocation& operator=(VariantOffset a_offset)
 		{
 			_impl = a_offset.address();
 			return *this;
@@ -441,7 +320,7 @@ namespace REL
 			return *this;
 		}
 
-		Relocation& operator=(ID2 a_id)
+		Relocation& operator=(VariantID a_id)
 		{
 			_impl = a_id.address();
 			return *this;
@@ -564,193 +443,6 @@ namespace REL
 		std::uintptr_t _impl{ 0 };
 	};
 
-	namespace detail
-	{
-		namespace characters
-		{
-			[[nodiscard]] constexpr bool hexadecimal(char a_ch) noexcept
-			{
-				return ('0' <= a_ch && a_ch <= '9') ||
-				       ('A' <= a_ch && a_ch <= 'F') ||
-				       ('a' <= a_ch && a_ch <= 'f');
-			}
-
-			[[nodiscard]] constexpr bool space(char a_ch) noexcept
-			{
-				return a_ch == ' ';
-			}
-
-			[[nodiscard]] constexpr bool wildcard(char a_ch) noexcept
-			{
-				return a_ch == '?';
-			}
-		}
-
-		namespace rules
-		{
-			namespace detail
-			{
-				[[nodiscard]] constexpr std::byte hexacharacters_to_hexadecimal(char a_hi, char a_lo) noexcept
-				{
-					constexpr auto lut = []() noexcept {
-						std::array<std::uint8_t, (std::numeric_limits<unsigned char>::max)() + 1> a = {};
-
-						const auto iterate = [&](std::uint8_t a_iFirst, unsigned char a_cFirst,
-												 unsigned char a_cLast) noexcept {
-							for (; a_cFirst <= a_cLast; ++a_cFirst, ++a_iFirst) {
-								a[a_cFirst] = a_iFirst;
-							}
-						};
-
-						iterate(0, '0', '9');
-						iterate(0xA, 'A', 'F');
-						iterate(0xa, 'a', 'f');
-
-						return a;
-					}();
-
-					return static_cast<std::byte>(
-						lut[static_cast<unsigned char>(a_hi)] * 0x10u +
-						lut[static_cast<unsigned char>(a_lo)]);
-				}
-			}
-
-			template <char HI, char LO>
-			class Hexadecimal
-			{
-			public:
-				[[nodiscard]] static constexpr bool match(std::byte a_byte) noexcept
-				{
-					constexpr auto expected = detail::hexacharacters_to_hexadecimal(HI, LO);
-					return a_byte == expected;
-				}
-			};
-
-			static_assert(Hexadecimal<'5', '7'>::match(std::byte{ 0x57 }));
-			static_assert(Hexadecimal<'6', '5'>::match(std::byte{ 0x65 }));
-			static_assert(Hexadecimal<'B', 'D'>::match(std::byte{ 0xBD }));
-			static_assert(Hexadecimal<'1', 'C'>::match(std::byte{ 0x1C }));
-			static_assert(Hexadecimal<'F', '2'>::match(std::byte{ 0xF2 }));
-			static_assert(Hexadecimal<'9', 'f'>::match(std::byte{ 0x9f }));
-
-			static_assert(!Hexadecimal<'D', '4'>::match(std::byte{ 0xF8 }));
-			static_assert(!Hexadecimal<'6', '7'>::match(std::byte{ 0xAA }));
-			static_assert(!Hexadecimal<'7', '8'>::match(std::byte{ 0xE3 }));
-			static_assert(!Hexadecimal<'6', 'E'>::match(std::byte{ 0x61 }));
-
-			class Wildcard
-			{
-			public:
-				[[nodiscard]] static constexpr bool match(std::byte) noexcept
-				{
-					return true;
-				}
-			};
-
-			static_assert(Wildcard::match(std::byte{ 0xB9 }));
-			static_assert(Wildcard::match(std::byte{ 0x96 }));
-			static_assert(Wildcard::match(std::byte{ 0x35 }));
-			static_assert(Wildcard::match(std::byte{ 0xE4 }));
-
-			template <char, char>
-			void rule_for() noexcept;
-
-			template <char C1, char C2>
-			Hexadecimal<C1, C2>
-				rule_for() noexcept
-				requires(characters::hexadecimal(C1) && characters::hexadecimal(C2));
-
-			template <char C1, char C2>
-			Wildcard rule_for() noexcept
-				requires(characters::wildcard(C1) && characters::wildcard(C2));
-		}
-
-		template <class... Rules>
-		class PatternMatcher
-		{
-		public:
-			static_assert(sizeof...(Rules) >= 1, "must provide at least 1 rule for the pattern matcher");
-
-			[[nodiscard]] constexpr bool match(std::span<const std::byte, sizeof...(Rules)> a_bytes) const noexcept
-			{
-				std::size_t i = 0;
-				return (Rules::match(a_bytes[i++]) && ...);
-			}
-
-			[[nodiscard]] bool match(std::uintptr_t a_address) const noexcept
-			{
-				return this->match(*reinterpret_cast<const std::byte(*)[sizeof...(Rules)]>(a_address));
-			}
-
-			void match_or_fail(std::uintptr_t a_address,
-				F4SE::stl::source_location    a_loc = F4SE::stl::source_location::current()) const noexcept
-			{
-				if (!this->match(a_address)) {
-					const auto version = Module::get().version();
-					stl::report_and_fail(
-						std::format(
-							"A pattern has failed to match.\n"
-							"This means the plugin is incompatible with the current version of the game ({}.{}.{}). "
-							"Head to the mod page of this plugin to see if an update is available."sv,
-							version[0],
-							version[1],
-							version[2]),
-						a_loc);
-				}
-			}
-		};
-
-		void consteval_error(const char* a_error);
-
-		template <stl::nttp::string S, class... Rules>
-		[[nodiscard]] constexpr auto do_make_pattern() noexcept
-		{
-			if constexpr (S.length() == 0) {
-				return PatternMatcher<Rules...>();
-			} else if constexpr (S.length() == 1) {
-				constexpr char c = S[0];
-				if constexpr (characters::hexadecimal(c) || characters::wildcard(c)) {
-					consteval_error(
-						"the given pattern has an unpaired rule (rules are required to be written in pairs of 2)");
-				} else {
-					consteval_error("the given pattern has trailing characters at the end (which is not allowed)");
-				}
-			} else {
-				using rule_t = decltype(rules::rule_for<S[0], S[1]>());
-				if constexpr (std::same_as<rule_t, void>) {
-					consteval_error("the given pattern failed to match any known rules");
-				} else {
-					if constexpr (S.length() <= 3) {
-						return do_make_pattern<S.template substr<2>(), Rules..., rule_t>();
-					} else if constexpr (characters::space(S.value_at(2))) {
-						return do_make_pattern<S.template substr<3>(), Rules..., rule_t>();
-					} else {
-						consteval_error("a space character is required to split byte patterns");
-					}
-				}
-			}
-		}
-
-		template <class... Bytes>
-		[[nodiscard]] consteval auto make_byte_array(Bytes... a_bytes) noexcept
-			-> std::array<std::byte, sizeof...(Bytes)>
-		{
-			static_assert((std::integral<Bytes> && ...), "all bytes must be an integral type");
-			return { static_cast<std::byte>(a_bytes)... };
-		}
-	}
-
-	template <stl::nttp::string S>
-	[[nodiscard]] constexpr auto make_pattern() noexcept
-	{
-		return detail::do_make_pattern<S>();
-	}
-
-	static_assert(make_pattern<"40 10 F2 ??">().match(
-		detail::make_byte_array(0x40, 0x10, 0xF2, 0x41)));
-	static_assert(make_pattern<"B8 D0 ?? ?? D4 6E">().match(
-		detail::make_byte_array(0xB8, 0xD0, 0x35, 0x2A, 0xD4, 0x6E)));
-
 	/**
      * Return the correct value of two choices between VR and F4 versions of FALLOUT.
      *
@@ -762,17 +454,24 @@ namespace REL
      * </p>
      *
      * @tparam T the type of value to return.
-     * @param a_f4AndVR the value to use for SE and VR.
+     * @param a_f4AndVR the value to use for F4 and VR.
+	 * @param a_ng the value to use for NG.
      * @return Either <code>a_f4AndVR</code> if the current runtime is FALLOUT SE or VR, or <code>a_ae</code> if the runtime is AE.
      */
 	template <class T>
-	[[nodiscard]] FALLOUT_ADDR T Relocate([[maybe_unused]] T&& a_f4AndVR) noexcept
+	[[nodiscard]] FALLOUT_ADDR T Relocate([[maybe_unused]] T&& a_f4AndVR, [[maybe_unused]] T&& a_ng) noexcept
 	{
-		a_f4AndVR;
+#ifndef ENABLE_FALLOUT_NG
+		return a_f4AndVR;
+#elif !defined(ENABLE_FALLOUT_F4) && !defined(ENABLE_FALLOUT_VR)
+		return a_ng;
+#else
+		return Module::IsNG() ? a_ng : a_f4AndVR;
+#endif
 	}
 
 	/**
-     * Return the correct value of two choices between F4 and VR versions of FALLOUT.
+     * Return the correct value of two choices between original, NG and VR versions of FALLOUT.
      *
      * <p>
      * This is commonly used to select between relative offsets within a function, when hooking a call instruction.
@@ -783,18 +482,26 @@ namespace REL
      *
      * @tparam T the type of value to return.
      * @param a_f4 the value to use for F4.
+     * @param a_ng the value to use for NG.
      * @param a_vr the value to use for VR.
      * @return Either <code>a_f4</code> if the current runtime is F4, or <code>a_vr</code> if the runtime is VR
      */
 	template <class T>
-	[[nodiscard]] FALLOUT_REL T Relocate([[maybe_unused]] T a_f4, [[maybe_unused]] T a_vr) noexcept
+	[[nodiscard]] FALLOUT_REL T Relocate(
+		[[maybe_unused]] T a_f4,
+		[[maybe_unused]] T a_ng,
+		[[maybe_unused]] T a_vr) noexcept
 	{
-#if !defined(FALLOUT_SUPPORT_VR)
-		return a_f4;
-#elif !defined(FALLOUT_SUPPORT_F4)
+#if !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_VR)
+		return a_se;
+#elif !defined(ENABLE_FALLOUT_F4) && !defined(ENABLE_FALLOUT_VR)
+		return a_ae;
+#elif !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_F4)
 		return a_vr;
 #else
 		switch (Module::get().GetRuntime()) {
+		case Module::Runtime::NG:
+			return a_ng;
 		case Module::Runtime::VR:
 			return a_vr;
 		default:
@@ -860,157 +567,122 @@ namespace REL
 	}
 
 	/**
-     * Invokes a virtual function in a cross-platform way where the vtable structure is variant across AE/SE and VR runtimes.
-     *
-     * <p>
-     * Some classes in FALLOUT VR add new virtual functions in the middle of the vtable structure, which makes it ABI-incompatible with F4.
-     * A naive virtual function call, therefore, cannot work across all runtimes without the plugin being recompiled specifically for VR.
-     * This call works with types which have variant vtables to allow a non-virtual function definition to be created in the virtual function's
-     * place, and to have that call dynamically lookup the correct function based on the vtable structure expected in the current runtime.
-     * </p>
-     *
-     * @tparam Fn the type of the function being called.
-     * @tparam Args the types of the arguments being passed.
-     * @param a_f4tableOffset the offset from the <code>this</code> pointer to the vtable with the virtual function in F4.
-     * @param a_vrVtableIndex the offset from the <code>this</code> pointer to the vtable with the virtual function in VR.
-     * @param a_f4tableIndex the index of the function in the class' vtable in F4.
-     * @param a_vrVtableIndex the index of the function in the class' vtable in VR.
-     * @param a_f4lf the <code>this</code> argument for the call.
-     * @param a_args the remaining arguments for the call, if any.
-     * @return The result of the function call.
-     */
+	 * Invokes a virtual function in a cross-platform way where the vtable structure is variant across AE/SE and VR runtimes.
+	 *
+	 * <p>
+	 * Some classes in Fallout VR add new virtual functions in the middle of the vtable structure, which makes it ABI-incompatible with AE/SE.
+	 * A naive virtual function call, therefore, cannot work across all runtimes without the plugin being recompiled specifically for VR.
+	 * This call works with types which have variant vtables to allow a non-virtual function definition to be created in the virtual function's
+	 * place, and to have that call dynamically lookup the correct function based on the vtable structure expected in the current runtime.
+	 * </p>
+	 *
+	 * @tparam Fn the type of the function being called.
+	 * @tparam Args the types of the arguments being passed.
+	 * @param a_f4AndNGVtableOffset the offset from the <code>this</code> pointer to the vtable with the virtual function in SE/AE.
+	 * @param a_vrVtableIndex the offset from the <code>this</code> pointer to the vtable with the virtual function in VR.
+	 * @param a_f4AndNGVtableIndex the index of the function in the class' vtable in F4 and NG.
+	 * @param a_vrVtableIndex the index of the function in the class' vtable in VR.
+	 * @param a_self the <code>this</code> argument for the call.
+	 * @param a_args the remaining arguments for the call, if any.
+	 * @return The result of the function call.
+	 */
 	template <class Fn, class... Args>
 	[[nodiscard]] inline typename detail::RelocateVirtualHelper<Fn>::return_type RelocateVirtual(
-		[[maybe_unused]] std::ptrdiff_t a_f4tableOffset, [[maybe_unused]] std::ptrdiff_t a_vrVtableOffset,
-		[[maybe_unused]] std::ptrdiff_t a_f4tableIndex, [[maybe_unused]] std::ptrdiff_t a_vrVtableIndex,
-		typename detail::RelocateVirtualHelper<Fn>::this_type* a_f4lf, Args&&... a_args)
+		[[maybe_unused]] std::ptrdiff_t                        a_f4AndNGVtableOffset,
+		[[maybe_unused]] std::ptrdiff_t                        a_vrVtableOffset,
+		[[maybe_unused]] std::ptrdiff_t                        a_f4AndNGVtableIndex,
+		[[maybe_unused]] std::ptrdiff_t                        a_vrVtableIndex,
+		typename detail::RelocateVirtualHelper<Fn>::this_type* a_self, Args&&... a_args)
 	{
 		return (*reinterpret_cast<typename detail::RelocateVirtualHelper<Fn>::function_type**>(
-			*reinterpret_cast<const uintptr_t*>(reinterpret_cast<uintptr_t>(a_f4lf) +
-#if !defined(FALLOUT_SUPPORT_VR)
-												a_f4tableOffset) +
-			a_f4tableIndex
-#elif !defined(FALLOUT_SUPPORT_F4)
+			*reinterpret_cast<const uintptr_t*>(reinterpret_cast<uintptr_t>(a_self) +
+#ifndef ENABLE_FALLOUT_VR
+												a_f4AndNGVtableOffset) +
+			a_f4AndNGVtableIndex
+#elif !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_F4)
 												a_vrVtableOffset) +
 			a_vrVtableIndex
 #else
-												(Module::IsVR() ? a_vrVtableOffset : a_f4tableOffset)) +
-			(Module::IsVR() ? a_vrVtableIndex : a_f4tableIndex)
+												(Module::IsVR() ? a_vrVtableOffset : a_f4AndNGVtableOffset)) +
+			(Module::IsVR() ? a_vrVtableIndex : a_f4AndNGVtableIndex)
 #endif
-				* sizeof(uintptr_t)))(a_f4lf, std::forward<Args>(a_args)...);
+				* sizeof(uintptr_t)))(a_self, std::forward<Args>(a_args)...);
 	}
 
 	/**
-     * Invokes a virtual function in a cross-platform way where the vtable structure is variant across AE/SE and VR runtimes.
-     *
-     * <p>
-     * Some classes in FALLOUT VR add new virtual functions in the middle of the vtable structure, which makes it ABI-incompatible with F4.
-     * A naive virtual function call, therefore, cannot work across all runtimes without the plugin being recompiled specifically for VR.
-     * This call works with types which have variant vtables to allow a non-virtual function definition to be created in the virtual function's
-     * place, and to have that call dynamically lookup the correct function based on the vtable structure expected in the current runtime.
-     * </p>
-     *
-     * <p>
-     * This call assumes the vtable to be used is the one at offset 0, i.e. it invokes a virtual function either on the first parent class
-     * or the current class.
-     * </p>
-     *
-     * @tparam Fn the type of the function being called.
-     * @tparam Args the types of the arguments being passed.
-     * @param a_f4tableIndex the index of the function in the class' vtable in F4.
-     * @param a_vrVtableIndex the index of the function in the class' vtable in VR.
-     * @param a_f4lf the <code>this</code> argument for the call.
-     * @param a_args the remaining arguments for the call, if any.
-     * @return The result of the function call.
-     */
+	 * Invokes a virtual function in a cross-platform way where the vtable structure is variant across AE/SE and VR runtimes.
+	 *
+	 * <p>
+	 * Some classes in Fallout VR add new virtual functions in the middle of the vtable structure, which makes it ABI-incompatible with AE/SE.
+	 * A naive virtual function call, therefore, cannot work across all runtimes without the plugin being recompiled specifically for VR.
+	 * This call works with types which have variant vtables to allow a non-virtual function definition to be created in the virtual function's
+	 * place, and to have that call dynamically lookup the correct function based on the vtable structure expected in the current runtime.
+	 * </p>
+	 *
+	 * <p>
+	 * This call assumes the vtable to be used is the one at offset 0, i.e. it invokes a virtual function either on the first parent class
+	 * or the current class.
+	 * </p>
+	 *
+	 * @tparam Fn the type of the function being called.
+	 * @tparam Args the types of the arguments being passed.
+	 * @param a_f4AndNGVtableIndex the index of the function in the class' vtable in F4 and NG.
+	 * @param a_vrVtableIndex the index of the function in the class' vtable in VR.
+	 * @param a_self the <code>this</code> argument for the call.
+	 * @param a_args the remaining arguments for the call, if any.
+	 * @return The result of the function call.
+	 */
 	template <class Fn, class... Args>
 	[[nodiscard]] inline typename detail::RelocateVirtualHelper<Fn>::return_type RelocateVirtual(
-		std::ptrdiff_t a_f4tableIndex, std::ptrdiff_t a_vrVtableIndex,
-		typename detail::RelocateVirtualHelper<Fn>::this_type* a_f4lf, Args&&... a_args)
+		std::ptrdiff_t                                         a_f4AndNGVtableIndex,
+		std::ptrdiff_t                                         a_vrVtableIndex,
+		typename detail::RelocateVirtualHelper<Fn>::this_type* a_self, Args&&... a_args)
 	{
-		return RelocateVirtual<Fn, Args...>(0, 0, a_f4tableIndex, a_vrVtableIndex, a_f4lf,
-			std::forward<Args>(a_args)...);
+		return RelocateVirtual<Fn, Args...>(0, 0, a_f4AndNGVtableIndex, a_vrVtableIndex, a_self, std::forward<Args>(a_args)...);
 	}
 
 	/**
-     * Gets a member variable in a cross-platform way, using runtime-specific memory offsets.
-     *
-     * <p>
-     * This function handles the variant memory structures used in FALLOUT VR as compared to versions of SE.
-     * It allows a memory offset relative to the object's base address for SE (and AE) and a separate one for
-     * VR. This simplifies the process of creating functions to get member variables that are at different
-     * offsets in different runtimes from a single build.
-     * </p>
-     *
-     * @tparam T the type of the member being accessed.
-     * @tparam This the type of the target object that has the member.
-     * @param a_f4lf the target object that has the member.
-     * @param a_f4 the memory offset of the member in FALLOUT F4.
-     * @param a_vr the memory offset of the member in FALLOUT VR.
-     * @return A reference to the member.
-     */
+	 * Gets a member variable in a cross-platform way, using runtime-specific memory offsets.
+	 *
+	 * <p>
+	 * This function handles the variant memory structures used in Fallout VR as compared to versions of SE.
+	 * It allows a memory offset relative to the object's base address for SE (and AE) and a separate one for
+	 * VR. This simplifies the process of creating functions to get member variables that are at different
+	 * offsets in different runtimes from a single build.
+	 * </p>
+	 *
+	 * @tparam T the type of the member being accessed.
+	 * @tparam This the type of the target object that has the member.
+	 * @param a_self the target object that has the member.
+	 * @param a_f4AndNG the memory offset of the member in Fallout F4 and NG.
+	 * @param a_vr the memory offset of the member in Fallout VR.
+	 * @return A reference to the member.
+	 */
 	template <class T, class This>
-	[[nodiscard]] inline T& RelocateMember(This* a_f4lf, std::ptrdiff_t a_f4, std::ptrdiff_t a_vr)
+	[[nodiscard]] inline T& RelocateMember(This* a_self, std::ptrdiff_t a_f4AndNG, std::ptrdiff_t a_vr)
 	{
-		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_f4lf) + Relocate(a_f4, a_vr));
+		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_self) + Relocate(a_f4AndNG, a_f4AndNG, a_vr));
 	}
 
 	template <class T, class This>
-	[[nodiscard]] inline T& RelocateMember(This* a_f4lf, std::ptrdiff_t offset)
+	[[nodiscard]] inline T& RelocateMember(This* a_self, std::ptrdiff_t offset)
 	{
-		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_f4lf) + offset);
+		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_self) + offset);
 	}
 
 	template <class T, class This>
-	[[nodiscard]] inline T& RelocateMemberIf(bool condition, This* a_f4lf, std::ptrdiff_t a, std::ptrdiff_t b)
+	[[nodiscard]] inline T& RelocateMemberIf(bool condition, This* a_self, std::ptrdiff_t a, std::ptrdiff_t b)
 	{
-		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_f4lf) + (condition ? a : b));
+		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_self) + (condition ? a : b));
 	}
 
 	template <class T, class This>
-	[[nodiscard]] inline T& RelocateMemberIfNewer(Version v, This* a_f4lf, std::ptrdiff_t older, std::ptrdiff_t newer)
+	[[nodiscard]] inline T& RelocateMemberIfNewer(Version v, This* a_self, std::ptrdiff_t older, std::ptrdiff_t newer)
 	{
-		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_f4lf) +
+		return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(a_self) +
 									 (REL::Module::get().version().compare(v) == std::strong_ordering::less ? older : newer));
 	}
 }
-
-namespace std
-{
-	[[nodiscard]] inline std::string to_string(REL::Version a_version)
-	{
-		return a_version.string("."sv);
-	}
-
-#ifdef __cpp_lib_format
-
-	template <class CharT>
-	struct formatter<REL::Version, CharT> : formatter<std::string, CharT>
-	{
-		template <class FormatContext>
-		auto format(const REL::Version& a_version, FormatContext& a_ctx)
-		{
-			return formatter<std::string, CharT>::format(to_string(a_version), a_ctx);
-		}
-	};
-
-#endif
-}
-
-#ifdef FMT_VERSION
-namespace fmt
-{
-	template <class CharT>
-	struct formatter<REL::Version, CharT> : formatter<std::string, CharT>
-	{
-		template <class FormatContext>
-		auto format(const REL::Version& a_version, FormatContext& a_ctx)
-		{
-			return formatter<std::string, CharT>::format(std::to_string(a_version), a_ctx);
-		}
-	};
-}
-#endif
 
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE
 #undef REL_MAKE_MEMBER_FUNCTION_NON_POD_TYPE_HELPER
