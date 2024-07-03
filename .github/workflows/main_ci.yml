@@ -21,6 +21,11 @@ jobs:
           - release
         compiler:
           - msvc
+        version:
+          - all
+          - flat
+          - vr
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,5 +47,5 @@ jobs:
         uses: lukka/run-cmake@v10.0
         with:
           cmakeListsTxtPath: ${{ github.workspace }}/main/CMakeLists.txt
-          configurePreset: build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg
-          buildPreset: ${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg
+          configurePreset: build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.version }}
+          buildPreset: ${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.version }}
