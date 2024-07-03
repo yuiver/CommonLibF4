@@ -14,7 +14,6 @@
 #	undef MEM_RESERVE
 #	undef PAGE_EXECUTE_READWRITE
 #endif
-#undef max
 
 namespace F4SE
 {

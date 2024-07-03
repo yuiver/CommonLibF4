@@ -410,7 +410,7 @@ void MessageHandler(F4SE::MessagingInterface::Message* a_message)
 {
 	logger::trace("Message type {} was dispatched!", a_message->type);
 	switch (a_message->type) {
-	case F4SE::MessagingInterface::kGameLoaded:
+	case F4SE::MessagingInterface::kGameDataReady:
 		try {
 			dump_rtti();
 			dump_nirtti();

@@ -62,7 +62,7 @@ namespace REL
 				"Please contact the author of this script extender plugin for further assistance."sv,
 				stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
 	}
-#undef IMAGE_FIRST_SECTION
+
 	void Module::load_segments()
 	{
 		const auto dosHeader = reinterpret_cast<const REX::W32::IMAGE_DOS_HEADER*>(_base);
