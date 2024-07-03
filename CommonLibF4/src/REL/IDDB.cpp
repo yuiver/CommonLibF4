@@ -83,7 +83,7 @@ namespace REL
 		}
 
 		if (version == Version{ 1, 10, 980 }) {
-			const auto sha = SHA512({ _mmap });
+			const auto sha = SHA512({ _mmap.data(), _mmap.size() });
 			if (!sha) {
 				stl::report_and_fail(std::format("failed to hash: {}", path));
 			}
