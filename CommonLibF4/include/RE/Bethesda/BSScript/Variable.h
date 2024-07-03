@@ -214,7 +214,8 @@ namespace RE
 					v(nullptr)
 				{}
 
-				V(V&& a_rhs) noexcept :
+				V(V&& a_rhs)
+				noexcept :
 					v(std::exchange(a_rhs.v, nullptr))
 				{}
 
