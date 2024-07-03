@@ -122,10 +122,10 @@ namespace REL
 
 		const mapping_t elem{ a_id, 0 };
 		const auto      it = std::lower_bound(
-				 _id2offset.begin(),
-				 _id2offset.end(),
-				 elem,
-				 [](auto&& a_lhs, auto&& a_rhs) {
+            _id2offset.begin(),
+            _id2offset.end(),
+            elem,
+            [](auto&& a_lhs, auto&& a_rhs) {
                 return a_lhs.id < a_rhs.id;
             });
 		bool failed = false;
@@ -142,7 +142,7 @@ namespace REL
 				"Failed to find the id within the address library: {}\n"
 				"This means this script extender plugin is incompatible with the address "
 				"library for this version of the game, and thus does not support it."
-				"Game version: {}"sv,
+				"\nGame version: {}"sv,
 				a_id, version.string());
 			stl::report_and_fail(str);
 		}
