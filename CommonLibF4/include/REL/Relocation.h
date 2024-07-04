@@ -481,9 +481,9 @@ namespace REL
 		[[maybe_unused]] T a_vr) noexcept
 	{
 #if !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_VR)
-		return a_se;
+		return a_f4;
 #elif !defined(ENABLE_FALLOUT_F4) && !defined(ENABLE_FALLOUT_VR)
-		return a_ae;
+		return a_ng;
 #elif !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_F4)
 		return a_vr;
 #else
