@@ -126,7 +126,7 @@ namespace F4SE
 		[[nodiscard]] REL::Version     F4SEVersion() const noexcept { return MakeVersion(GetProxy().f4seVersion); }
 		[[nodiscard]] PluginHandle     GetPluginHandle() const { return GetProxy().GetPluginHandle(); }
 		[[nodiscard]] std::uint32_t    GetReleaseIndex() const { return GetProxy().GetReleaseIndex(); }
-		[[nodiscard]] std::string_view GetSaveFolderName() const { return (F4SEVersion() >= REL::Version(0, 7, 1, 0)) ? GetProxy().GetSaveFolderName() : (REL::Module::IsVR() ? "Fallout4VR"sv : "Fallout4"sv); }
+		[[nodiscard]] std::string_view GetSaveFolderName() const { return (F4SEVersion() >= REL::Version(0, 7, 1, 0) && GetProxy().GetSaveFolderName() && !GetProxy().GetSaveFolderName()[0]) ? GetProxy().GetSaveFolderName() : (REL::Module::IsVR() ? "Fallout4VR"sv : "Fallout4"sv); }
 		[[nodiscard]] bool             IsEditor() const noexcept { return GetProxy().isEditor != 0; }
 		[[nodiscard]] REL::Version     RuntimeVersion() const noexcept { return MakeVersion(GetProxy().runtimeVersion); }
 	};
