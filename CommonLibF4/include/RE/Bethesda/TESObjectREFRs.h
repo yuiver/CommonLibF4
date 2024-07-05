@@ -944,7 +944,7 @@ namespace RE
 		void UpdateDynamicNavmesh(bool a_active)
 		{
 			using func_t = decltype(&RE::TESObjectREFR::UpdateDynamicNavmesh);
-			static REL::Relocation<func_t> func{ REL::ID(1518094) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1518094, 2201206) };
 			return func(this, a_active);
 		}
 

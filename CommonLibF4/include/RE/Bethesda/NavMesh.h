@@ -184,14 +184,14 @@ namespace RE
 	public:
 		static DynamicNavmesh* GetSingleton()
 		{
-			REL::Relocation<DynamicNavmesh**> singleton{ REL::ID(908540) };
+			REL::Relocation<DynamicNavmesh**> singleton{ REL::RelocationID(908540, 2690147) };
 			return *singleton;
 		}
 
 		void ForceUpdate()
 		{
 			using func_t = decltype(&DynamicNavmesh::ForceUpdate);
-			static REL::Relocation<func_t> func{ REL::ID(854653) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(854653, 2301428) };
 			return func(this);
 		}
 	};

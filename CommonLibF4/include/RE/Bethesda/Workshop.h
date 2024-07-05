@@ -235,7 +235,7 @@ namespace RE
 		inline bool IsWorkshopItem(const TESObjectREFR* a_refr)
 		{
 			using func_t = decltype(&IsWorkshopItem);
-			static REL::Relocation<func_t> func{ REL::ID(1386903) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1386903, 2194912) };
 			return func(a_refr);
 		}
 

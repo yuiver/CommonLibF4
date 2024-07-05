@@ -716,7 +716,7 @@ namespace RE
 		static void AddCompileIndex(std::uint32_t& a_id, TESFile* a_file)
 		{
 			using func_t = decltype(&TESForm::AddCompileIndex);
-			static REL::Relocation<func_t> func{ REL::ID(1315637) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1315637, 2193152) };
 			return func(a_id, a_file);
 		}
 
@@ -1520,7 +1520,7 @@ namespace RE
 		[[nodiscard]] BGSEncounterZone* GetEncounterZone() const
 		{
 			using func_t = decltype(&TESObjectCELL::GetEncounterZone);
-			static REL::Relocation<func_t> func{ REL::ID(1414637) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1414637, 2200242) };
 			return func(this);
 		}
 
