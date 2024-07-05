@@ -182,7 +182,7 @@ namespace RE
 			[[nodiscard]] static CellAttachDetachEventSourceSingleton& GetSingleton()
 			{
 				using func_t = decltype(&CellAttachDetachEventSourceSingleton::GetSingleton);
-				static REL::Relocation<func_t> func{ REL::ID(862142) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(862142, 2192250) };
 				return func();
 			}
 

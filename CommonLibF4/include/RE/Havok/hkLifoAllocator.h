@@ -63,7 +63,7 @@ namespace RE
 			hkMemoryAllocator* a_internalAllocator)
 		{
 			using func_t = decltype(&hkLifoAllocator::Init);
-			static REL::Relocation<func_t> func{ REL::ID(1417289) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1417289, 2256187) };
 			return func(this, a_slabAllocator, a_largeAllocator, a_internalAllocator);
 		}
 
