@@ -63,9 +63,47 @@ namespace RE
 		public BSTSingletonSDM<TESDataHandler>            // 0058
 	{
 	public:
-		[[nodiscard]] static TESDataHandler* GetSingleton()
+		struct RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT                                  \
+	BSTArray<std::uint32_t> releasedFormIDArray;   /* 0FF0 */ \
+	bool                    masterSave;            /* 1008 */ \
+	bool                    blockSave;             /* 1009 */ \
+	bool                    saveLoadGame;          /* 100A */ \
+	bool                    autoSaving;            /* 100B */ \
+	bool                    exportingPlugin;       /* 100C */ \
+	bool                    clearingData;          /* 100D */ \
+	bool                    hasDesiredFiles;       /* 100E */ \
+	bool                    checkingModels;        /* 100F */ \
+	bool                    loadingFiles;          /* 1010 */ \
+	bool                    dontRemoveIDs;         /* 1011 */ \
+	char                    gameSettingsLoadState; /* 1012*/
+            RUNTIME_DATA_CONTENT
+		};
+
+		struct VR_MOD_DATA
+		{
+#define VR_MOD_DATA_CONTENT                    \
+	std::uint32_t loadedModCount;   /* 0FC0 */ \
+	std::uint32_t pad14;            /* 0FC4 */ \
+	TESFile*      loadedMods[0xFF]; /* 0FC8 */
+            VR_MOD_DATA_CONTENT
+		};
+
+		inline static RE::TESFileCollection* VRcompiledFileCollection = nullptr;  // used by FalloutVRESL to store pointer to VR version
+
+		[[nodiscard]] static TESDataHandler* GetSingleton(bool a_VRESL = true)
 		{
 			static REL::Relocation<TESDataHandler**> singleton{ REL::RelocationID(711558, 2688883) };
+			if (REL::Module::IsVR() && a_VRESL && !VRcompiledFileCollection) {
+				const auto VRhandle = REX::W32::GetModuleHandleW(L"falloutvresl");
+				if (VRhandle != NULL) {
+					const auto GetCompiledFileCollection = reinterpret_cast<const RE::TESFileCollection* (*)()>(REX::W32::GetProcAddress(VRhandle, "GetCompiledFileCollectionExtern"));
+					if (GetCompiledFileCollection != nullptr) {
+						TESDataHandler::VRcompiledFileCollection = const_cast<RE::TESFileCollection*>(GetCompiledFileCollection());
+					}
+				}
+			}
 			return *singleton;
 		}
 
@@ -107,11 +145,15 @@ namespace RE
 				return 0;
 			}
 
-			TESFormID formID = file->compileIndex << 24;
-			formID += file->smallFileCompileIndex << 12;
-			formID += a_rawFormID;
-
-			return formID;
+			if (REL::Module::IsVR() && !VRcompiledFileCollection) {
+				// Use FalloutVR lookup logic, ignore light plugin index which doesn't exist in VR
+				return (a_rawFormID & 0xFFFFFF) | (file->compileIndex << 24);
+			} else {
+				TESFormID formID = file->compileIndex << 24;
+				formID += file->smallFileCompileIndex << 12;
+				formID += a_rawFormID;
+				return formID;
+			}
 		}
 
 		TESForm* LookupForm(TESFormID a_rawFormID, std::string_view a_modName)
@@ -147,19 +189,10 @@ namespace RE
 
 		const std::pair<TESFile*, bool> LookupLoadedFile(std::string_view a_fileName)
 		{
-			std::pair<TESFile*, bool> result;
-			for (auto fullFile : compiledFileCollection.files) {
-				if (a_fileName.size() == strlen(fullFile->filename) &&
-					_strnicmp(fullFile->filename, a_fileName.data(), a_fileName.size()) == 0) {
-					return { fullFile, true };
-				}
-			}
-			for (auto smallFile : compiledFileCollection.smallFiles) {
-				if (a_fileName.size() == strlen(smallFile->filename) &&
-					_strnicmp(smallFile->filename, a_fileName.data(), a_fileName.size()) == 0) {
-					return { smallFile, false };
-				}
-			}
+			if (auto fullFile = LookupLoadedModByName(a_fileName))
+				return { const_cast<TESFile*>(fullFile), true };
+			if (auto smallFile = LookupLoadedLightModByName(a_fileName))
+				return { const_cast<TESFile*>(smallFile), false };
 			return { nullptr, false };
 		}
 
@@ -182,10 +215,21 @@ namespace RE
 
 		const TESFile* LookupLoadedModByName(std::string_view a_modName)
 		{
-			for (auto& file : compiledFileCollection.files) {
-				if (a_modName.size() == strlen(file->filename) &&
-					_strnicmp(file->filename, a_modName.data(), a_modName.size()) == 0) {
-					return file;
+			auto pCompiledFileCollection = GetCompiledFileCollection();
+			if (pCompiledFileCollection) {
+				for (auto& file : pCompiledFileCollection->files) {
+					if (a_modName.size() == strlen(file->filename) &&
+						_strnicmp(file->filename, a_modName.data(), a_modName.size()) == 0) {
+						return file;
+					}
+				}
+			} else if (auto pLoadedMods = GetVRModData()) {  // In VR so only have files loadedMods
+				for (uint32_t i = 0; i < pLoadedMods->loadedModCount; i++) {
+					auto& file = pLoadedMods->loadedMods[i];
+					if (a_modName.size() == strlen(file->filename) &&
+						_strnicmp(file->filename, a_modName.data(), a_modName.size()) == 0) {
+						return file;
+					}
 				}
 			}
 			return nullptr;
@@ -193,9 +237,19 @@ namespace RE
 
 		const TESFile* LookupLoadedModByIndex(std::uint8_t a_index)
 		{
-			for (auto& file : compiledFileCollection.files) {
-				if (file->compileIndex == a_index) {
-					return file;
+			auto pCompiledFileCollection = GetCompiledFileCollection();
+			if (pCompiledFileCollection) {
+				for (auto& file : pCompiledFileCollection->files) {
+					if (file->compileIndex == a_index) {
+						return file;
+					}
+				}
+			} else if (auto pLoadedMods = GetVRModData()) {  // In VR so only have files loadedMods
+				for (uint32_t i = 0; i < pLoadedMods->loadedModCount; i++) {
+					auto& file = pLoadedMods->loadedMods[i];
+					if (file->compileIndex == a_index) {
+						return file;
+					}
 				}
 			}
 			return nullptr;
@@ -209,10 +263,13 @@ namespace RE
 
 		const TESFile* LookupLoadedLightModByName(std::string_view a_modName)
 		{
-			for (auto& smallFile : compiledFileCollection.smallFiles) {
-				if (a_modName.size() == strlen(smallFile->filename) &&
-					_strnicmp(smallFile->filename, a_modName.data(), a_modName.size()) == 0) {
-					return smallFile;
+			auto pCompiledFileCollection = GetCompiledFileCollection();
+			if (pCompiledFileCollection) {
+				for (auto& smallFile : pCompiledFileCollection->smallFiles) {
+					if (a_modName.size() == strlen(smallFile->filename) &&
+						_strnicmp(smallFile->filename, a_modName.data(), a_modName.size()) == 0) {
+						return smallFile;
+					}
 				}
 			}
 			return nullptr;
@@ -220,9 +277,12 @@ namespace RE
 
 		const TESFile* LookupLoadedLightModByIndex(std::uint16_t a_index)
 		{
-			for (auto& smallFile : compiledFileCollection.smallFiles) {
-				if (smallFile->smallFileCompileIndex == a_index) {
-					return smallFile;
+			auto pCompiledFileCollection = GetCompiledFileCollection();
+			if (pCompiledFileCollection) {
+				for (auto& smallFile : pCompiledFileCollection->smallFiles) {
+					if (smallFile->smallFileCompileIndex == a_index) {
+						return smallFile;
+					}
 				}
 			}
 			return nullptr;
@@ -241,6 +301,59 @@ namespace RE
 			return func(this, a_formID);
 		}
 
+		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
+		{
+			return REL::RelocateMember<RUNTIME_DATA>(this, 0x0FF0, 0x0FF0);
+		}
+
+		[[nodiscard]] inline const RUNTIME_DATA GetRuntimeData() const noexcept
+		{
+			return REL::RelocateMember<RUNTIME_DATA>(this, 0x0FF0, 0x0FF0);
+		}
+
+		[[nodiscard]] inline VR_MOD_DATA* GetVRModData() noexcept
+		{
+			if FALLOUT_REL_CONSTEXPR (REL::Module::IsVR()) {
+				return &REL::RelocateMember<VR_MOD_DATA>(this, 0, 0xFC0);
+			}
+			return nullptr;
+		}
+
+		[[nodiscard]] inline const VR_MOD_DATA* GetVRModData() const noexcept
+		{
+			if FALLOUT_REL_CONSTEXPR (REL::Module::IsVR()) {
+				return &REL::RelocateMember<VR_MOD_DATA>(this, 0, 0xFC0);
+			}
+			return nullptr;
+		}
+		[[nodiscard]] inline TESFileCollection* GetCompiledFileCollection() noexcept
+		{
+			if FALLOUT_REL_CONSTEXPR (REL::Module::IsVR()) {
+				return VRcompiledFileCollection;
+			} else {
+				return &REL::RelocateMember<TESFileCollection>(this, 0xFC0, 0);
+			}
+		}
+
+		[[nodiscard]] inline const TESFileCollection* GetCompiledFileCollection() const noexcept
+		{
+			if FALLOUT_REL_CONSTEXPR (REL::Module::IsVR()) {
+				return VRcompiledFileCollection;
+			} else {
+				return REL::RelocateMember<TESFileCollection*>(this, 0xFC0, 0);
+			}
+		}
+
+		[[nodiscard]] inline TESRegionDataManager* GetRegionDataManager() noexcept
+		{
+			return REL::RelocateMember<TESRegionDataManager*>(this, 0x1018, 0x17E8);
+		}
+
+		[[nodiscard]] inline const TESRegionDataManager* GetRegionDataManager() const noexcept
+		{
+			return REL::RelocateMember<TESRegionDataManager*>(this, 0x1018, 0x17E8);
+		}
+
 		// members
 		TESObjectList*                    objectList;                                            // 0060
 		BSTArray<TESForm*>                formArrays[std::to_underlying(ENUM_FORM_ID::kTotal)];  // 0068
@@ -251,20 +364,28 @@ namespace RE
 		std::uint32_t                     nextID;                                                // 0FA0
 		TESFile*                          activeFile;                                            // 0FA8
 		BSSimpleList<TESFile*>            files;                                                 // 0FB0
-		TESFileCollection                 compiledFileCollection;                                // 0FC0
-		BSTArray<std::uint32_t>           releasedFormIDArray;                                   // 0FF0
-		bool                              masterSave;                                            // 1008
-		bool                              blockSave;                                             // 1009
-		bool                              saveLoadGame;                                          // 100A
-		bool                              autoSaving;                                            // 100B
-		bool                              exportingPlugin;                                       // 100C
-		bool                              clearingData;                                          // 100D
-		bool                              hasDesiredFiles;                                       // 100E
-		bool                              checkingModels;                                        // 100F
-		bool                              loadingFiles;                                          // 1010
-		bool                              dontRemoveIDs;                                         // 1011
-		char                              gameSettingsLoadState;                                 // 1012
-		TESRegionDataManager*             regionDataManager;                                     // 1018
+#if !defined(ENABLE_FALLOUT_VR)
+		TESFileCollection compiledFileCollection;  // 0FC0
+		RUNTIME_DATA_CONTENT
+		TESRegionDataManager* regionDataManager;  // 1018, VR 17E8
+#elif !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_F4)
+		VR_MOD_DATA_CONTENT
+		RUNTIME_DATA_CONTENT
+		TESRegionDataManager* regionDataManager;  // 1018, VR 17E8
+#endif
 	};
+#if !defined(ENABLE_FALLOUT_VR)
 	static_assert(sizeof(TESDataHandler) == 0x1020);
+	static_assert(offsetof(TESDataHandler, regionDataManager) == 0x1018);
+	static_assert(offsetof(TESDataHandler, compiledFileCollection) == 0xFC0);
+#elif !defined(ENABLE_FALLOUT_NG) && !defined(ENABLE_FALLOUT_F4)
+	static_assert(sizeof(TESDataHandler) == 0x17F0);
+	static_assert(offsetof(TESDataHandler, regionDataManager) == 0x17E8);
+	static_assert(offsetof(TESDataHandler, loadedModCount) == 0xFC0);
+	static_assert(offsetof(TESDataHandler, loadedMods) == 0xFC8);
+#else
+	static_assert(sizeof(TESDataHandler) == 0xFC0);
+#endif
 }
+#undef RUNTIME_DATA_CONTENT
+#undef VR_MOD_DATA_CONTENT
