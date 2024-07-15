@@ -632,7 +632,7 @@ namespace RE
 		[[nodiscard]] static BSTEventSource<TESFormDeleteEvent>* GetEventSource()
 		{
 			using func_t = decltype(&TESFormDeleteEvent::GetEventSource);
-			static REL::Relocation<func_t> func{ REL::RelocationID(0, 2201842) };
+			static REL::Relocation<func_t> func{ REL::RelocationID(1396562, 2201842) };
 			return func();
 		}
 
