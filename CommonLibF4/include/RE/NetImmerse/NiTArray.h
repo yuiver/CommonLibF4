@@ -35,7 +35,8 @@ namespace RE
 
 			template <class V>
 			iterator_base(const iterator_base<V>& a_rhs)  //
-				requires(std::convertible_to<typename iterator_base<V>::reference, reference>) :
+				requires(std::convertible_to<typename iterator_base<V>::reference, reference>)
+				:
 				_pos(a_rhs._pos),
 				_head(a_rhs._head),
 				_tail(a_rhs._tail)
@@ -88,7 +89,7 @@ namespace RE
 			iterator_base operator++(int) noexcept
 			{
 				iterator_base tmp{ *this };
-							  operator++();
+				operator++();
 				return tmp;
 			}
 
@@ -104,7 +105,7 @@ namespace RE
 			iterator_base operator--(int) noexcept
 			{
 				iterator_base tmp{ *this };
-							  operator--();
+				operator--();
 				return tmp;
 			}
 

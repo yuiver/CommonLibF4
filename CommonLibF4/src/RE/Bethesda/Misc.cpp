@@ -1,5 +1,5 @@
-#include "RE/Bethesda/Actor.h"
 #include "RE/Bethesda/Misc.h"
+#include "RE/Bethesda/Actor.h"
 #include "RE/Bethesda/TESObjectREFRs.h"
 
 namespace RE

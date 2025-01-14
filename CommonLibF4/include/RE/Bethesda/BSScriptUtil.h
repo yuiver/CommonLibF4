@@ -294,13 +294,12 @@ namespace RE::BSScript
 				std::true_type> &&
 			std::is_default_constructible_v<T> &&
 			((array<typename T::value_type> || wrapper<typename T::value_type>)) &&  //
-			requires(T a_nullable)
-		{
-			// clang-format off
+			requires(T a_nullable) {
+				// clang-format off
 			static_cast<bool>(a_nullable);
 			{ *static_cast<T&&>(a_nullable) } -> decays_to<typename T::value_type>;
-			// clang-format on
-		};
+				// clang-format on
+			};
 
 		template <class T>
 		concept valid_self =
@@ -537,8 +536,8 @@ namespace RE::BSScript
 
 			const auto& handles = vm->GetObjectHandlePolicy();
 			const auto  handle = handles.GetHandleForObject(
-				 GetVMTypeID<T>(),
-				 const_cast<const void*>(
+                GetVMTypeID<T>(),
+                const_cast<const void*>(
                     static_cast<const volatile void*>(a_val)));
 			if (handle == handles.EmptyHandle()) {
 				return false;
@@ -1132,7 +1131,8 @@ namespace RE::BSScript
 		template <class Fn>
 		NativeFunction(std::string_view a_object, std::string_view a_function, Fn a_func, bool a_isLatent)  //
 			requires(detail::invocable_r<Fn, R, S, Args...> ||
-					 detail::invocable_r<Fn, R, IVirtualMachine&, std::uint32_t, S, Args...>) :
+						detail::invocable_r<Fn, R, IVirtualMachine&, std::uint32_t, S, Args...>)
+			:
 			super(a_object, a_function, sizeof...(Args), detail::static_tag<S>, a_isLatent),
 			_stub(std::move(a_func))
 		{
@@ -1235,11 +1235,9 @@ namespace RE::BSScript
 			constexpr auto         size = sizeof...(a_args);
 			auto                   args = std::make_tuple(std::forward<Args>(a_args)...);
 			BSScrapArray<Variable> result{ size };
-			[&]<std::size_t... p>(std::index_sequence<p...>)
-			{
+			[&]<std::size_t... p>(std::index_sequence<p...>) {
 				((BSScript::PackVariable(result.at(p), std::get<p>(args))), ...);
-			}
-			(std::make_index_sequence<size>{});
+			}(std::make_index_sequence<size>{});
 			return result;
 		}
 	}

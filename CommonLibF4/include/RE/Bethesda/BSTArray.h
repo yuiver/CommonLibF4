@@ -439,7 +439,7 @@ namespace RE
 
 		template <class... Args>
 		iterator emplace(const_iterator a_pos, Args&&... a_args)  //
-			requires(std::constructible_from<value_type, Args&&...>)
+			requires(std::constructible_from<value_type, Args && ...>)
 		{
 			const auto pos = static_cast<size_type>(std::distance(cbegin(), a_pos));
 			if (pos < size()) {
@@ -481,7 +481,8 @@ namespace RE
 		}
 
 		template <class... Args>
-		reference emplace_back(Args&&... a_args) requires(std::constructible_from<value_type, Args&&...>)
+		reference emplace_back(Args&&... a_args)
+			requires(std::constructible_from<value_type, Args && ...>)
 		{
 			return *emplace(end(), std::forward<Args>(a_args)...);
 		}
