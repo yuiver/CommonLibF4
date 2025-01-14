@@ -189,6 +189,7 @@
 #include "RE/Bethesda/MenuCursor.h"
 #include "RE/Bethesda/MenuTopicManager.h"
 #include "RE/Bethesda/MessageMenuManager.h"
+#include "RE/Bethesda/Misc.h"
 #include "RE/Bethesda/Movement.h"
 #include "RE/Bethesda/NavMesh.h"
 #include "RE/Bethesda/NavMeshInfoMap.h"

@@ -195,6 +195,7 @@ set(SOURCES
 	include/RE/Bethesda/MenuCursor.h
 	include/RE/Bethesda/MenuTopicManager.h
 	include/RE/Bethesda/MessageMenuManager.h
+	include/RE/Bethesda/Misc.h
 	include/RE/Bethesda/Movement.h
 	include/RE/Bethesda/NavMesh.h
 	include/RE/Bethesda/NavMeshInfoMap.h
@@ -430,6 +431,7 @@ set(SOURCES
 	src/RE/Bethesda/FormComponents.cpp
 	src/RE/Bethesda/IMenu.cpp
 	src/RE/Bethesda/MenuCursor.cpp
+	src/RE/Bethesda/Misc.cpp
 	src/RE/Bethesda/PlayerCharacter.cpp
 	src/RE/Bethesda/TESBoundAnimObjects.cpp
 	src/RE/Bethesda/TESForms.cpp

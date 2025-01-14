@@ -29,7 +29,6 @@ namespace RE
 	enum class PACKAGE_OBJECT_TYPE;
 	enum class POWER_ATTACK_TYPE;
 	enum class RESET_3D_FLAGS;
-	enum class SIT_SLEEP_STATE;
 
 	template <class>
 	class AnimationStanceFireLocationData;
@@ -159,6 +158,23 @@ namespace RE
 		kDismountActor = 42,
 		kClearMountPosition = 43,
 		kClearPowerArmorExit = 44,
+	};
+
+	enum class SIT_SLEEP_STATE : std::uint32_t
+	{
+		kNormal = 0,
+		kWantToSit = 1,
+		kWaitingForSitAnim = 2,
+
+		kIsSitting = 3,
+		kRidingMount = static_cast<std::underlying_type_t<SIT_SLEEP_STATE>>(kIsSitting),
+
+		kWantToStand = 4,
+
+		kWantToSleep = 5,
+		kWaitingForSleepAnim = 6,
+		kIsSleeping = 7,
+		kWantToWake = 8
 	};
 
 	struct MiddleLowProcessData

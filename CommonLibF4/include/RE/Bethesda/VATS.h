@@ -79,7 +79,7 @@ namespace RE
 		bool                                        firstAttackFired;         // CB
 		bool                                        readyForShutdown;         // CC
 		bool                                        wantsStranger;            // CD
-		BSSpinLock                                  spinLock;                 // D0
+		BSSpinLock                                  spinLock;                 // D0 VR f8
 	};
 	static_assert(sizeof(VATS) == 0xD8);
 }

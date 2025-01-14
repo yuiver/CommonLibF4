@@ -48,7 +48,7 @@ namespace RE
 		}
 
 		[[nodiscard]] explicit operator bool() const noexcept { return has_value(); }
-		[[nodiscard]] bool     has_value() const noexcept { return _handle != 0; }
+		[[nodiscard]] bool has_value() const noexcept { return _handle != 0; }
 
 		[[nodiscard]] value_type value() const noexcept { return _handle; }
 
@@ -76,7 +76,8 @@ namespace RE
 
 		template <class Y>
 		BSPointerHandle(BSPointerHandle<Y, Handle> a_rhs) noexcept  //
-			requires(std::convertible_to<Y*, T*>) :
+			requires(std::convertible_to<Y*, T*>)
+			:
 			_handle(a_rhs._handle)
 		{}
 
