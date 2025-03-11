@@ -5,9 +5,32 @@ option("f4se_xbyak", function()
     add_defines("F4SE_SUPPORT_XBYAK=1")
 end)
 
+-- define options
+option("fallout_f4")
+    set_default(true)
+    set_description("Enable runtime support for Fallout 4")
+    add_defines("ENABLE_FALLOUT_F4=1")
+option_end()
+
+option("fallout_f4ng")
+    set_default(true)
+    set_description("Enable runtime support for Fallout 4 NG")
+    add_defines("ENABLE_FALLOUT_NG=1")
+option_end()
+
+option("fallout_f4vr")
+    set_default(true)
+    set_description("Enable runtime support for Fallout 4 VR")
+    add_defines("ENABLE_FALLOUT_VR=1")
+option_end()
+
 -- require packages
 if has_config("f4se_xbyak") then
     add_requires("xbyak")
+end
+
+if has_config("fallout_f4vr") then
+    add_requires("rapidcsv")
 end
 
 -- define targets
@@ -23,12 +46,16 @@ target("commonlibf4-ng", function()
     -- add packages
     add_packages("rsm-binary-io", "rsm-mmio", "spdlog", { public = true })
 
+    if has_config("fallout_f4vr") then
+        add_packages("rapidcsv", { public = true })
+    end
+
     if has_config("f4se_xbyak") then
-        add_packages("xbyak")
+        add_packages("xbyak", { public = true })
     end
 
     -- add options
-    add_options("f4se_xbyak", { public = true })
+    add_options("f4se_xbyak", "fallout_f4", "fallout_f4ng", "fallout_f4vr", { public = true })
 
     -- add system links
     add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version")
