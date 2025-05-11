@@ -1267,6 +1267,13 @@ namespace RE
 			return func(this, a_perk);
 		}
 
+		BGSObjectInstance* GetEquippedItem(BGSObjectInstance* a_result, BGSEquipIndex a_equipIndex)
+		{
+			using func_t = decltype(&Actor::GetEquippedItem);
+			static REL::Relocation<func_t> func{ REL::ID(2231089) };
+			return func(this, a_result, a_equipIndex);
+		}
+
 		int32_t RequestDetectionLevel(Actor* a_target, DETECTION_PRIORITY a_priority = DETECTION_PRIORITY::kNormal)
 		{
 			using func_t = decltype(&Actor::RequestDetectionLevel);
